@@ -16,18 +16,12 @@ def file(rel):
         raise SystemExit(f"missing merged file: {rel}")
     return p
 
-
-def replace(rel, old, new, count=1):
-    p = file(rel)
-    text = p.read_text(encoding="utf-8")
-    found = text.count(old)
-    if found != count:
-        raise SystemExit(f"source drift in {rel}: expected {count}, found {found}: {old[:150]!r}")
-    p.write_text(text.replace(old, new, count), encoding="utf-8")
-
-# New pure-Java/LWJGL child project. It compiles against the tiny parent API but
-# is not a Forge mod and is never exposed to ModLauncher's module layer.
-replace("settings.gradle", "include('forge')", "include('forge')\ninclude('vulkan-backend')")
+# The backend source is kept outside Forge's normal main source set, but compiled
+# by a dedicated pure-Java source set inside the Forge project. This avoids HMT's
+# root subprojects{} block applying Architectury Loom to a fake backend project.
+unused_backend_build = root / "vulkan-backend/build.gradle"
+if unused_backend_build.is_file():
+    unused_backend_build.unlink()
 
 forge = file("forge/build.gradle")
 text = forge.read_text(encoding="utf-8")
@@ -37,9 +31,38 @@ if marker in text:
 text += '''
 
 // HariMultiThread Ultimate isolated backend packaging
-// The backend JAR is an inert resource inside the Forge mod. VkRuntime extracts
-// and child-loads it only when the GPU subsystem initializes.
-def harimtVulkanBackendJar = project(':vulkan-backend').tasks.named('jar')
+// A dedicated pure-Java source set compiles the child-loaded backend against
+// the tiny common-side API + LWJGL. It is NOT a Forge mod/source set and is never
+// placed on ModLauncher's module path.
+sourceSets {
+    harimtVulkanBackend {
+        java.srcDir file('../vulkan-backend/src/main/java')
+    }
+}
+
+dependencies {
+    harimtVulkanBackendCompileOnly project(':common')
+    harimtVulkanBackendImplementation 'org.lwjgl:lwjgl:3.3.1'
+    harimtVulkanBackendImplementation 'org.lwjgl:lwjgl-vulkan:3.3.1'
+}
+
+tasks.named('compileHarimtVulkanBackendJava') {
+    options.encoding = 'UTF-8'
+    options.release = 17
+}
+
+def harimtVulkanBackendJar = tasks.register('harimtVulkanBackendJar', Jar) {
+    archiveBaseName.set('harimt-vulkan-backend')
+    archiveVersion.set('3.3.1')
+    from sourceSets.harimtVulkanBackend.output
+    manifest {
+        attributes(
+                'Implementation-Title': 'HariMultiThread Ultimate Vulkan Backend',
+                'Implementation-Version': '3.3.1'
+        )
+    }
+}
+
 tasks.named('processResources') {
     dependsOn harimtVulkanBackendJar
     from(harimtVulkanBackendJar.flatMap { it.archiveFile }) {
