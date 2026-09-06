@@ -163,6 +163,22 @@ backend_replace(
                     .pCommandBuffers(stack.pointers(commandBuffer.address()));
             check(vkQueueSubmit(queue, submits, fence), "vkQueueSubmit");
 ''')
+backend_replace(
+'''                writes.get(i)
+                        .sType(VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET)
+                        .dstSet(descriptorSet)
+                        .dstBinding(i)
+                        .descriptorType(VK_DESCRIPTOR_TYPE_STORAGE_BUFFER)
+                        .pBufferInfo(VkDescriptorBufferInfo.create(infos.get(i).address(), 1));
+''',
+'''                writes.get(i)
+                        .sType(VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET)
+                        .dstSet(descriptorSet)
+                        .dstBinding(i)
+                        .descriptorCount(1)
+                        .descriptorType(VK_DESCRIPTOR_TYPE_STORAGE_BUFFER)
+                        .pBufferInfo(VkDescriptorBufferInfo.create(infos.get(i).address(), 1));
+''')
 backend.write_text(backend_text, encoding="utf-8")
 
 # Fail closed if any parent source still references the deleted reflection stack.
