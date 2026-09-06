@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Predicate;
 import net.minecraft.resources.ResourceKey;
@@ -27,23 +27,18 @@ import org.slf4j.LoggerFactory;
 /**
  * Real integration point for the Vulkan collision broad phase.
  *
- * Async LivingEntity#pushEntities calls are deferred until after all entity
- * workers finish. At that point entity positions are stable. Vulkan computes
- * exact overlapping AABB pairs for all live entities in the level. We then
- * replay the original vanilla pushEntities method on the server thread. During
- * that replay only its exact bounding-box entity query is served from the GPU
- * pair map. All predicates and the remainder of vanilla push/cramming logic are
- * still executed by vanilla code.
- *
- * If Vulkan is unavailable, a dispatch fails, output overflows, or a query does
- * not exactly match the deferred-push shape, the context returns null and
- * ServerLevel falls straight through to its normal vanilla entity lookup.
+ * Async LivingEntity#pushEntities calls are always deferred until after all
+ * entity workers finish. That makes the vanilla crowding/push phase safe even
+ * when Vulkan is disabled, unavailable, or circuit-broken. At the barrier,
+ * Vulkan may provide a conservative broad-phase candidate map; otherwise the
+ * original vanilla query runs unchanged on the server thread.
  */
 public final class GpuPushBatch {
     private static final Logger LOGGER = LoggerFactory.getLogger("HariMT/GpuPushBatch");
     private static final Map<ResourceKey<Level>, ConcurrentLinkedQueue<LivingEntity>> DEFERRED =
             new ConcurrentHashMap<>();
     private static final ThreadLocal<QueryContext> ACTIVE_QUERY = new ThreadLocal<>();
+    private static final AtomicBoolean LOGGED_GPU_ACTIVE = new AtomicBoolean(false);
 
     private static final LongAdder GPU_BATCHES = new LongAdder();
     private static final LongAdder VANILLA_FALLBACK_BATCHES = new LongAdder();
@@ -56,8 +51,7 @@ public final class GpuPushBatch {
         if (entity == null || entity.level().isClientSide()) return false;
         if (!(entity.level() instanceof ServerLevel)) return false;
         if (!ParallelProcessor.isServerExecutionThread()) return false;
-        if (AsyncConfig.disabled.getValue() || !AsyncConfig.enableGpuCollision.getValue()) return false;
-        return GpuEntityModule.isGpuAvailable();
+        return !AsyncConfig.disabled.getValue();
     }
 
     public static void defer(LivingEntity entity) {
@@ -70,7 +64,6 @@ public final class GpuPushBatch {
         ConcurrentLinkedQueue<LivingEntity> queue = DEFERRED.get(world.dimension());
         if (queue == null || queue.isEmpty()) return;
 
-        // Identity semantics are intentional: entities are mutable runtime objects.
         Set<LivingEntity> unique = Collections.newSetFromMap(new IdentityHashMap<>());
         LivingEntity entity;
         while ((entity = queue.poll()) != null) {
@@ -84,6 +77,10 @@ public final class GpuPushBatch {
         if (context != null) {
             ACTIVE_QUERY.set(context);
             GPU_BATCHES.increment();
+            if (LOGGED_GPU_ACTIVE.compareAndSet(false, true)) {
+                LOGGER.info("Vulkan push broad-phase is active: first verified batch produced {} candidate pairs",
+                        context.pairCount);
+            }
         } else {
             VANILLA_FALLBACK_BATCHES.increment();
         }
@@ -126,7 +123,7 @@ public final class GpuPushBatch {
             List<Entity> bList = candidates.get(b);
             if (bList != null) bList.add(a);
         }
-        return new QueryContext(world, candidates);
+        return new QueryContext(world, candidates, pairs.size());
     }
 
     /**
@@ -140,13 +137,13 @@ public final class GpuPushBatch {
         List<Entity> candidates = context.candidates.get(source);
         if (candidates == null) return null;
 
-        // LivingEntity#pushEntities uses its current bounding box exactly. Any
-        // different query shape is outside the GPU proof and must use vanilla.
         if (!sameBox(box, source.getBoundingBox())) return null;
 
         List<Entity> result = new ArrayList<>(candidates.size());
         for (Entity candidate : candidates) {
             if (candidate == null || candidate == source || candidate.isRemoved()) continue;
+            // GPU broad phase is deliberately conservative; vanilla double-precision
+            // AABBs remain the authoritative narrow phase.
             if (!candidate.getBoundingBox().intersects(box)) continue;
             if (predicate == null || predicate.test(candidate)) result.add(candidate);
         }
@@ -173,15 +170,18 @@ public final class GpuPushBatch {
     public static void clear() {
         DEFERRED.clear();
         ACTIVE_QUERY.remove();
+        LOGGED_GPU_ACTIVE.set(false);
     }
 
     private static final class QueryContext {
         private final ServerLevel world;
         private final IdentityHashMap<Entity, List<Entity>> candidates;
+        private final int pairCount;
 
-        private QueryContext(ServerLevel world, IdentityHashMap<Entity, List<Entity>> candidates) {
+        private QueryContext(ServerLevel world, IdentityHashMap<Entity, List<Entity>> candidates, int pairCount) {
             this.world = world;
             this.candidates = candidates;
+            this.pairCount = pairCount;
         }
     }
 }
