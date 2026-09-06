@@ -1,0 +1,85 @@
+#version 450
+
+// One invocation owns one entity; tiles amortize global-memory reads.
+layout(local_size_x = 64) in;
+
+// 16 bytes. Must match VkComputePipeline.PUSH_SIZE and dispatcher pushData.
+layout(push_constant) uniform PushConstants {
+    int entityCount;
+    int maxPairs;
+    float rangeLimitSq; // 0.0 = disabled; correctness-first default
+    int reserved;
+};
+
+// Five input SSBOs.
+layout(std430, binding = 0) readonly buffer PosX    { float posX[]; };
+layout(std430, binding = 1) readonly buffer PosY    { float posY[]; };
+layout(std430, binding = 2) readonly buffer PosZ    { float posZ[]; };
+layout(std430, binding = 3) readonly buffer HalfW   { float halfWidths[]; };
+layout(std430, binding = 4) readonly buffer Heights { float heights[]; };
+
+// Three output SSBOs. Total descriptor bindings = 8 (0..7).
+layout(std430, binding = 5) writeonly buffer PairsA   { int pairsA[]; };
+layout(std430, binding = 6) writeonly buffer PairsB   { int pairsB[]; };
+layout(std430, binding = 7) coherent buffer PairCount { int pairCounter; };
+
+shared float shPosX[64];
+shared float shPosY[64];
+shared float shPosZ[64];
+shared float shHalfW[64];
+shared float shHeight[64];
+
+void main() {
+    uint gid = gl_GlobalInvocationID.x;
+    if (gid >= uint(entityCount)) return;
+
+    float myX = posX[gid];
+    float myY = posY[gid];
+    float myZ = posZ[gid];
+    float myHW = halfWidths[gid];
+    float myH = heights[gid];
+
+    uint tileCount = (uint(entityCount) + 63u) / 64u;
+    for (uint tile = 0u; tile < tileCount; ++tile) {
+        uint localIdx = gl_LocalInvocationID.x;
+        uint entityId = tile * 64u + localIdx;
+
+        if (entityId < uint(entityCount)) {
+            shPosX[localIdx] = posX[entityId];
+            shPosY[localIdx] = posY[entityId];
+            shPosZ[localIdx] = posZ[entityId];
+            shHalfW[localIdx] = halfWidths[entityId];
+            shHeight[localIdx] = heights[entityId];
+        }
+        barrier();
+
+        uint tileElemCount = min(64u, uint(entityCount) - tile * 64u);
+        for (uint j = 0u; j < tileElemCount; ++j) {
+            uint jId = tile * 64u + j;
+            if (gid >= jId) continue; // self + duplicate suppression
+
+            if (rangeLimitSq > 0.0) {
+                float dx = myX - shPosX[j];
+                float dy = (myY + myH * 0.5) - (shPosY[j] + shHeight[j] * 0.5);
+                float dz = myZ - shPosZ[j];
+                if (dx * dx + dy * dy + dz * dz > rangeLimitSq) continue;
+            }
+
+            // Exact AABB overlap for Minecraft's x/z-centered, y-bottom position model.
+            float extentXZ = myHW + shHalfW[j];
+            bool overlapsX = abs(myX - shPosX[j]) < extentXZ;
+            bool overlapsZ = abs(myZ - shPosZ[j]) < extentXZ;
+            bool overlapsY = myY < (shPosY[j] + shHeight[j])
+                          && (myY + myH) > shPosY[j];
+
+            if (overlapsX && overlapsY && overlapsZ) {
+                int slot = atomicAdd(pairCounter, 1);
+                if (slot < maxPairs) {
+                    pairsA[slot] = int(gid);
+                    pairsB[slot] = int(jId);
+                }
+            }
+        }
+        barrier();
+    }
+}
