@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from pathlib import Path
+import subprocess
 import sys
 
 if len(sys.argv) != 2:
@@ -60,4 +61,13 @@ replace(
 )
 
 parallel.write_text(text, encoding="utf-8")
+
+# This is the final deterministic source stage in CI. Run the independent spawn
+# lock convergence after apply_spawn_interop has produced its supported interface
+# overwrite, so all entity-operation callers can share one per-dimension monitor.
+spawn_lock = Path(__file__).with_name("apply_spawn_lock.py")
+if not spawn_lock.is_file():
+    raise SystemExit(f"missing spawn-lock hardening stage: {spawn_lock}")
+subprocess.run([sys.executable, str(spawn_lock), str(root)], check=True)
+
 print("HariMultiThread Ultimate mixed sync/async world-batch push barrier applied successfully")
