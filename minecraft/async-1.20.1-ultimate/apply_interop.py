@@ -52,7 +52,7 @@ replace(
                 }
                 if (!pumped) Thread.onSpinWait();''',
 '''                boolean pumped = waitWorld != null && waitWorld.getChunkSource().pollTask();
-                if (!pumped) LockSupport.parkNanos(25_000L);'''
+                if (!pumped) java.util.concurrent.locks.LockSupport.parkNanos(25_000L);'''
 )
 replace(
     parallel,
