@@ -359,8 +359,17 @@ if entity_text.count("getPassengersField()") < 4 or entity_text.count("setPassen
     raise SystemExit("EntityMixin passenger accessor routing incomplete")
 
 attribute_text = file(attribute_mixin).read_text(encoding="utf-8")
-if "ResourceLocation" in attribute_text or "ConcurrentHashMap" in attribute_text:
-    raise SystemExit("newer-version AttributeInstance collection shape remains")
+# CFR's header comment names classes from the decompiled input. Inspect only live
+# imports/types/constructors so comments cannot trip this production-shape guard.
+for stale in (
+    "import net.minecraft.resources.ResourceLocation;",
+    "import java.util.concurrent.ConcurrentHashMap;",
+    "Map<ResourceLocation, AttributeModifier>",
+    "Map<AttributeModifier.Operation, Map<ResourceLocation, AttributeModifier>>",
+    "new ConcurrentHashMap<",
+):
+    if stale in attribute_text:
+        raise SystemExit(f"newer-version AttributeInstance collection shape remains: {stale}")
 for expected in (
     "private Map<UUID, AttributeModifier> modifierById;",
     "private Set<AttributeModifier> permanentModifiers;",
