@@ -18,6 +18,8 @@ FATAL_PATTERNS = (
     "VK_ERROR_DEVICE_LOST",
     "A fatal error has been detected by the Java Runtime Environment",
     "Failed to start the minecraft server",
+    "GPU VERIFICATION FAILED",
+    "Vulkan backend initialization failed",
 )
 
 
@@ -78,8 +80,9 @@ def run_server(server_dir: Path, log_path: Path, phase: int) -> None:
             send("time set noon")
             send("kill @e[tag=harimt_qa]")
 
-            # 48 fully-overlapping vanilla mobs = 1,128 possible pairs, safely below
-            # the 16,384-pair GPU output limit while decisively exercising broad phase.
+            # 48 fully-overlapping vanilla mobs = 1,128 initial possible pairs,
+            # safely below the 16,384-pair output limit while exercising the
+            # actual async LivingEntity -> deferred push -> Vulkan path.
             summon = (
                 'execute in minecraft:overworld run summon minecraft:cow 0.5 200 0.5 '
                 '{Tags:["harimt_qa"],NoGravity:1b,PersistenceRequired:1b,Invulnerable:1b}'
@@ -88,6 +91,9 @@ def run_server(server_dir: Path, log_path: Path, phase: int) -> None:
                 send(summon)
 
             wait_for("Vulkan push broad-phase is active:", 60)
+            wait_for("Vulkan push broad-phase sustained: 10 consecutive verified batches completed", 60)
+            send("async gpu test")
+            wait_for("Live GPU Verification PASS", 45)
             send("async gpu")
 
             # Live-disable Vulkan; deferred vanilla push replay must continue.
@@ -110,9 +116,12 @@ def run_server(server_dir: Path, log_path: Path, phase: int) -> None:
             send('execute if entity @e[tag=harimt_qa] run say HMT_QA_RESTART_ENTITIES_PRESENT')
             wait_for("HMT_QA_RESTART_ENTITIES_PRESENT", 20)
 
-            # Re-enable Vulkan live and prove a fresh post-restart dispatch works.
+            # Re-enable Vulkan live and prove repeated command-buffer reuse after restart.
             send("async gpu toggle")
             wait_for("Vulkan push broad-phase is active:", 60)
+            wait_for("Vulkan push broad-phase sustained: 10 consecutive verified batches completed", 60)
+            send("async gpu test")
+            wait_for("Live GPU Verification PASS", 45)
             send("async gpu")
             send("save-all flush")
             time.sleep(2.0)
@@ -166,7 +175,7 @@ def main() -> int:
 
     run_server(server_dir, evidence_dir / "packaged-server-gpu-and-fallback.log", phase=1)
     run_server(server_dir, evidence_dir / "packaged-server-restart.log", phase=2)
-    print("[HMT-QA] packaged Forge GPU/fallback/restart runtime gate PASSED", flush=True)
+    print("[HMT-QA] packaged Forge sustained-GPU/fallback/save/restart gate PASSED", flush=True)
     return 0
 
 
