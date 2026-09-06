@@ -13,8 +13,8 @@ if not build.is_file():
 text = build.read_text(encoding="utf-8")
 
 # Fail closed on upstream/source drift. This layer owns production Forge Mixin
-# discovery and refmap generation; silently stacking a second configuration can
-# create duplicate AP arguments or a manifest which differs from the tested JAR.
+# discovery, refmap generation, and the ordering which contributes AP-generated
+# hard-reference mappings to ForgeGradle's reobfuscation tasks.
 for owned in (
     "'MixinConfigs'",
     '"MixinConfigs"',
@@ -23,6 +23,8 @@ for owned in (
     "org.spongepowered:mixingradle:",
     "org.spongepowered:mixin:${mixin_version}:processor",
     'add sourceSets.main, "${mod_id}.refmap.json"',
+    "configureReobfTaskForReobfJar",
+    "configureReobfTaskForReobfJarJar",
 ):
     if owned in text:
         raise SystemExit(f"source drift: Forge build already contains production Mixin packaging token: {owned}")
@@ -66,7 +68,17 @@ reobf_marker = "// FG6 automatically creates the reobfJar task for SRG reobfusca
 if text.count(reobf_marker) != 1:
     raise SystemExit("source drift: expected exactly one Forge reobfJar marker")
 manifest_block = '''// Production ModLauncher Mixin discovery.\ntasks.named('jar').configure {\n    manifest {\n        attributes([\n            'MixinConfigs': 'harimt.common.mixins.json,harimt.forge.mixins.json'\n        ])\n    }\n}\n\n'''
-text = text.replace(reobf_marker, manifest_block + reobf_marker, 1)
+
+# MixinGradle 0.7 creates configureReobfTaskForReobf* tasks which read the
+# AP-generated compileJava-mappings.tsrg. With ForgeGradle 6 Gradle may schedule
+# those configuration tasks before compileJava; MixinGradle then sees no file
+# and silently skips the hard-reference mappings. The resulting production JAR
+# keeps Mojmap @Shadow field names and crashes against Forge's SRG runtime.
+# Force the established ordering: compile first, then contribute mappings, then
+# let reobfJar/reobfJarJar consume them. This repairs all generated hard refs at
+# the pipeline boundary instead of adding per-field aliases.
+reobf_order_block = '''// Ensure Mixin AP hard-reference mappings exist before reobf configuration.\nafterEvaluate {\n    tasks.configureReobfTaskForReobfJar.mustRunAfter(tasks.compileJava)\n    tasks.configureReobfTaskForReobfJarJar.mustRunAfter(tasks.compileJava)\n}\n\n'''
+text = text.replace(reobf_marker, manifest_block + reobf_order_block + reobf_marker, 1)
 
 build.write_text(text, encoding="utf-8")
-print("HariMultiThread production Mixin plugin/refmap/manifest packaging applied successfully")
+print("HariMultiThread production Mixin plugin/refmap/manifest/reobf ordering applied successfully")
