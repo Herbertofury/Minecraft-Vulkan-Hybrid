@@ -126,6 +126,32 @@ backend_replace(
 ''')
 backend_replace(".apiVersion(VK_API_VERSION_1_1);", ".apiVersion(VK_API_VERSION_1_0);")
 backend_replace(
+'''            vkCmdDispatch(commandBuffer, (count + 63) / 64, 1, 1);
+            check(vkEndCommandBuffer(commandBuffer), "vkEndCommandBuffer");
+''',
+'''            vkCmdDispatch(commandBuffer, (count + 63) / 64, 1, 1);
+
+            // The fence synchronizes command completion, but device shader writes
+            // still need to be made available to the host memory domain before the
+            // mapped pair counter/output arrays are read. HOST_COHERENT removes
+            // flush/invalidate requirements; it does not replace this device->host
+            // availability dependency.
+            VkMemoryBarrier.Buffer hostReadBarrier = VkMemoryBarrier.calloc(1, stack);
+            hostReadBarrier.get(0)
+                    .sType(VK_STRUCTURE_TYPE_MEMORY_BARRIER)
+                    .srcAccessMask(VK_ACCESS_SHADER_WRITE_BIT)
+                    .dstAccessMask(VK_ACCESS_HOST_READ_BIT);
+            vkCmdPipelineBarrier(
+                    commandBuffer,
+                    VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
+                    VK_PIPELINE_STAGE_HOST_BIT,
+                    0,
+                    hostReadBarrier,
+                    null,
+                    null);
+            check(vkEndCommandBuffer(commandBuffer), "vkEndCommandBuffer");
+''')
+backend_replace(
 '''            VkSubmitInfo submit = VkSubmitInfo.calloc(stack)
                     .sType(VK_STRUCTURE_TYPE_SUBMIT_INFO)
                     .pCommandBuffers(stack.pointers(commandBuffer.address()));
