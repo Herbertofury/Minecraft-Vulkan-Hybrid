@@ -13,11 +13,12 @@ if not build.is_file():
 text = build.read_text(encoding="utf-8")
 
 # Fail closed on upstream/source drift. This layer owns production Forge Mixin
-# discovery AND refmap generation; silently stacking a second configuration can
+# discovery and refmap generation; silently stacking a second configuration can
 # create duplicate AP arguments or a manifest which differs from the tested JAR.
 for owned in (
     "'MixinConfigs'",
     '"MixinConfigs"',
+    "id 'org.spongepowered.mixin'",
     "apply plugin: 'org.spongepowered.mixin'",
     "org.spongepowered:mixingradle:",
     "org.spongepowered:mixin:${mixin_version}:processor",
@@ -26,26 +27,20 @@ for owned in (
     if owned in text:
         raise SystemExit(f"source drift: Forge build already contains production Mixin packaging token: {owned}")
 
-# ForgeGradle 6 does not generate a Mixin refmap merely because the config JSON
-# names one. MixinGradle wires the Mixin AP to the Forge compile task and adds
-# the generated refmap to compiler outputs. Use the standard FG3+ MixinGradle
-# line, with the Sponge repository scoped to buildscript resolution only.
-plugins_marker = "plugins {\n"
-if text.count(plugins_marker) != 1:
-    raise SystemExit("source drift: expected exactly one Forge plugins block")
-
-buildscript = '''buildscript {\n    repositories {\n        maven { url = 'https://repo.spongepowered.org/repository/maven-public' }\n        mavenCentral()\n    }\n    dependencies {\n        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'\n    }\n}\n\n'''
-text = text.replace(plugins_marker, buildscript + plugins_marker, 1)
-
-plugins_close_marker = "}\n\njava.toolchain.languageVersion = JavaLanguageVersion.of(java_version)"
-if text.count(plugins_close_marker) != 1:
-    raise SystemExit("source drift: Forge plugins/toolchain boundary changed")
+# This multiloader uses exclusive repositories in settings.pluginManagement,
+# so project-level buildscript.repositories are forbidden by Gradle 8.11. Use
+# the official plugins-DSL form of MixinGradle instead. The settings file already
+# exposes Gradle Plugin Portal plus Sponge's plugin repository.
+forge_plugin = "    id 'net.minecraftforge.gradle'\n"
+if text.count(forge_plugin) != 1:
+    raise SystemExit("source drift: expected exactly one ForgeGradle plugin line")
 text = text.replace(
-    plugins_close_marker,
-    "}\n\napply plugin: 'org.spongepowered.mixin'\n\njava.toolchain.languageVersion = JavaLanguageVersion.of(java_version)",
+    forge_plugin,
+    forge_plugin + "    id 'org.spongepowered.mixin' version '0.7.+'\n",
     1,
 )
 
+# The Mixin annotation processor owns obfuscation mapping/refmap generation.
 ap_marker = '    implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixinextras_version}"))\n'
 if text.count(ap_marker) != 1:
     raise SystemExit("source drift: expected one MixinExtras annotation-processor dependency")
@@ -55,10 +50,13 @@ text = text.replace(
     1,
 )
 
+# MixinGradle wires the AP to Forge's main Java compile and adds the generated
+# refmap to compiler outputs. multiloader-loader feeds common Java into the same
+# compileJava task, so this one refmap covers both common and Forge mixins.
 repositories_marker = "}\n\nrepositories {"
 if text.count(repositories_marker) != 1:
     raise SystemExit("source drift: expected one minecraft/repositories boundary")
-refmap_block = '''}\n\n// Production Forge refmap generation. Common Java is merged into this compile\n// task by multiloader-loader, so the main Forge source set is the authoritative\n// AP output for both common and Forge mixins in the final reobfuscated JAR.\nmixin {\n    add sourceSets.main, "${mod_id}.refmap.json"\n}\n\nrepositories {'''
+refmap_block = '''}\n\n// Production Forge refmap generation.\nmixin {\n    add sourceSets.main, "${mod_id}.refmap.json"\n}\n\nrepositories {\n    maven { name = 'Sponge'; url = 'https://repo.spongepowered.org/repository/maven-public' }'''
 text = text.replace(repositories_marker, refmap_block, 1)
 
 # ForgeGradle dev runs pass --mixin.config explicitly, but production
@@ -71,4 +69,4 @@ manifest_block = '''// Production ModLauncher Mixin discovery.\ntasks.named('jar
 text = text.replace(reobf_marker, manifest_block + reobf_marker, 1)
 
 build.write_text(text, encoding="utf-8")
-print("HariMultiThread production Mixin manifest + Forge refmap generation applied successfully")
+print("HariMultiThread production Mixin plugin/refmap/manifest packaging applied successfully")
