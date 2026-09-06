@@ -62,12 +62,17 @@ replace(
 
 parallel.write_text(text, encoding="utf-8")
 
-# This is the final deterministic source stage in CI. Run the independent spawn
-# lock convergence after apply_spawn_interop has produced its supported interface
-# overwrite, so all entity-operation callers can share one per-dimension monitor.
+# Final deterministic source convergence after the upstream spawn rewrite: one
+# real per-dimension entity-operation monitor, then remove the only known same-
+# target @Unique field-name collision before Mixin transforms vanilla classes.
 spawn_lock = Path(__file__).with_name("apply_spawn_lock.py")
 if not spawn_lock.is_file():
     raise SystemExit(f"missing spawn-lock hardening stage: {spawn_lock}")
 subprocess.run([sys.executable, str(spawn_lock), str(root)], check=True)
+
+unique_locks = Path(__file__).with_name("apply_unique_lock_names.py")
+if not unique_locks.is_file():
+    raise SystemExit(f"missing unique-lock hardening stage: {unique_locks}")
+subprocess.run([sys.executable, str(unique_locks), str(root)], check=True)
 
 print("HariMultiThread Ultimate mixed sync/async world-batch push barrier applied successfully")
