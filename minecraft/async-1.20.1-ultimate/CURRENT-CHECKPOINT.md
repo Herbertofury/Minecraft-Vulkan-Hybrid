@@ -5,48 +5,41 @@ Branch: `async-1.20.1-ultimate`
 Pinned upstream: `JustHari01/HariMultiThread@f381611c2d71a85192e2028f9e30c03823a6482b`
 Target: Minecraft 1.20.1 / Forge 47.4.23 / Java 17
 
-## Objective
+## Current root cause
 
-Ship the strongest practical Forge 1.20.1 async/entity performance fork without content loss, arbitrary caps, silent collision loss, unsafe fire-and-forget work, or a mandatory Vulkan dependency. Vulkan broad phase is an optional accelerator with complete vanilla/CPU fallback and circuit-breaker isolation.
+The runtime-only diagnostic proved the packaged JAR boots, HMT initializes, entities tick, and the isolated Vulkan backend initializes, but HMT's core mixins were never prepared in production. The packaged JAR contains the mixin classes/config JSON/refmap and mods.toml mixin entries, but `META-INF/MANIFEST.MF` had an empty `MixinConfigs:` attribute. ForgeGradle dev runs hid this because `forge/build.gradle` passes `--mixin.config=harimt.common.mixins.json,harimt.forge.mixins.json` to runClient/runServer.
 
-## Verified lineage already preserved
+Production Forge 1.20.1 discovers these configs from the JAR manifest. The fix is therefore packaging-level, not another scheduler, collision, or fixture change.
 
-- Canonical source base is HariMultiThread commit `f381611c2d71a85192e2028f9e30c03823a6482b`.
-- Earlier hardened Forge build passed Java 17 compile, SPIR-V compilation, JAR-content gates, and Forge 47.4.23 static packaging.
-- Noxviola stable C2ME + SAFE-INTEROP DimThread pairing was inspected from the exact Drive bundle; HMT barrier pumping was narrowed to the current `ServerLevel` to avoid cross-dimension queue execution.
-- Ender Dragon forced synchronous; default worker count reserves one logical CPU; spawn/random-tick fire-and-forget work removed; same-tick barriers used; SpawnState serialized without replacing vanilla collection identities; PalettedContainer save/read locking added; tracked-entity removal hardened.
-- Vulkan descriptor/shader ABI repaired, real SPIR-V build gate added, runtime AABB bounds used, pair overflow fails to full fallback instead of truncating, truthful GPU health/telemetry added, deferred vanilla push replay preserves vanilla narrow-phase semantics.
-- Vulkan implementation moved behind an isolated compile-checked backend/runtime architecture to avoid exposing conflicting LWJGL-Vulkan modules through Forge JarJar.
+## Diagnostic receipts
 
-## Latest causal failure and repair
+Runtime diagnostic run: `34050580939` (SUCCESS), job `101533345630`.
+Artifact: `async-runtime-diagnostic-evidence`, id `9994427633`, digest `sha256:af6ecc11484d5be50605f05791d384eee9c271d952138444884d2427787362bb`.
 
-Previous authoritative build head `d22d7ff53312c026fba53ede8c2401899076cfe1` failed at `:common:compileJava` because `CrashGuard.execute(...)` was ambiguous between its `Callable<T>` and `Runnable` overloads in `GpuCollisionDispatcher`.
+Exact reused packaged JAR came from failed native run `34049938122`.
+Diagnostic results:
+- real Forge 47.4.23 server booted;
+- HMT full async mode initialized with three worker threads;
+- isolated Vulkan backend initialized on llvmpipe;
+- `/async stats` reported about 86–87% entities async;
+- test cow's Fire counter changed from 199s to 131s over about three seconds, proving entity tick execution;
+- no GpuPush/Vulkan push markers;
+- verbose Mixin log prepared MixinExtras but never prepared `harimt.common.mixins.json` or `harimt.forge.mixins.json`;
+- final packaged manifest contained `MixinConfigs:` with no values.
 
-Repair committed in `407c5b1a25a52e947b31eedef6a03ba585d89496`: the Vulkan compute lambda is explicitly typed as `Callable<VulkanCollisionBackend.Result>` before calling CrashGuard. CrashGuard behavior itself was not weakened or changed.
+## Preserved implementation state
 
-## Anti-stall CI change
+All previously accepted hardening remains: work stealing/affinity/circuit breaker, one logical CPU reserved, Dragon sync, EntitySection snapshots, SpawnState serialization, same-tick spawn/random-tick barriers, scheduled-LevelChunk spawn interop, PalettedContainer locking, c2me/c2meforge + DimThread interop, lifecycle cleanup, isolated compile-checked Vulkan backend, repaired 9-SSBO/16-byte shader ABI, convergent final workgroup barriers, shared-dispatch serialization, mixed sync/async world-batch push deferral, complete vanilla fallback, adaptive no-cap pair capacity with learned high-water reuse, and 192-cow/18,336-pair native stress fixture.
 
-Commit `c99db965fd7d4e3d94918c397924098a3a7fc9bf` removed the duplicate FINAL and RELEASE workflows from the active development branch so a normal branch push launches one authoritative development workflow instead of three heavyweight copies. Those workflows remain recoverable from Git history (`d22d7ff53312c026fba53ede8c2401899076cfe1`) and the full release/native-client workflow will be restored only at convergence.
+## Next authoritative build
 
-## Acceptance ledger
+The next atomic branch commit must:
+1. add deterministic `apply_mixin_packaging.py`;
+2. apply it last after `apply_world_batch.py`;
+3. restore exactly one push-triggered development workflow;
+4. remove the temporary runtime diagnostic workflow;
+5. fail closed unless the reobfuscated final JAR manifest contains exactly `MixinConfigs: harimt.common.mixins.json,harimt.forge.mixins.json`;
+6. require both mixin JSON files, `harimt.refmap.json`, and `LivingEntityPushMixin.class` in the final JAR;
+7. run the existing packaged Forge dense Vulkan/fallback/save/restart gate.
 
-- [x] Preserve upstream source lineage and GPL attribution.
-- [x] Forge 1.20.1 / Java 17 target.
-- [x] Current Forge target 47.4.23.
-- [x] Real Vulkan shader compilation and packaged SPIR-V gate.
-- [x] No silent GPU collision-pair truncation.
-- [x] Vulkan unavailable/failure => complete vanilla/CPU fallback.
-- [x] Deferred crowd push retains vanilla narrow-phase/push logic.
-- [x] C2ME/DimThread dimension-local barrier interop hardening.
-- [x] Spawn/random-tick same-tick barriers; no fire-and-forget bleed.
-- [x] Dragon synchronous and one logical CPU reserved by default.
-- [x] Lifecycle cleanup for integrated-server restart.
-- [ ] Fresh compile of the isolated Vulkan backend after Callable repair.
-- [ ] Packaged Forge 47.4.23 dedicated-server runtime proof.
-- [ ] Sustained Vulkan dispatch + live fallback + save/restart proof.
-- [ ] Real Forge client/integrated-server proof.
-- [ ] Final JAR/source/evidence hashes and publication to GitHub release + Google Drive.
-
-## Exact next action
-
-Use the single development workflow triggered by this checkpoint commit. If it fails, fetch the first failing job once, patch the earliest causal owner, and checkpoint. If it passes the packaged Forge server/runtime gates, restore the one-time native client/release workflow from Git history and run it once for final release proof and publication.
+If that full dev gate passes, refresh the single final RELEASE workflow with the same production mixin packaging layer/gates, add the packaging fix to release notes, switch dev CI back to manual-only, and run exactly one final native server + real client/integrated-server release workflow.
