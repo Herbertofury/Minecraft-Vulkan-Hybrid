@@ -74,7 +74,13 @@ public final class GpuCollisionDispatcher {
         }
     }
 
-    public Optional<List<CollisionPair>> computeGpuOnly(List<Entity> entities) {
+    /**
+     * One dispatcher owns one set of reusable AABB arrays and one Vulkan backend.
+     * DimThread may tick multiple dimensions concurrently, so the entire extract ->
+     * dispatch -> pair-map transaction must be serialized, not only the backend
+     * command buffer. This prevents one dimension overwriting another's upload data.
+     */
+    public synchronized Optional<List<CollisionPair>> computeGpuOnly(List<Entity> entities) {
         if (entities == null || entities.size() < 16 || !isOperational()) return Optional.empty();
         ensureCapacity(entities.size());
         extractBounds(entities);
