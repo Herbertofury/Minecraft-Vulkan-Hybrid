@@ -39,6 +39,7 @@ public final class GpuPushBatch {
             new ConcurrentHashMap<>();
     private static final ThreadLocal<QueryContext> ACTIVE_QUERY = new ThreadLocal<>();
     private static final AtomicBoolean LOGGED_GPU_ACTIVE = new AtomicBoolean(false);
+    private static final AtomicBoolean LOGGED_FALLBACK_ACTIVE = new AtomicBoolean(false);
 
     private static final LongAdder GPU_BATCHES = new LongAdder();
     private static final LongAdder VANILLA_FALLBACK_BATCHES = new LongAdder();
@@ -77,12 +78,24 @@ public final class GpuPushBatch {
         if (context != null) {
             ACTIVE_QUERY.set(context);
             GPU_BATCHES.increment();
+            LOGGED_FALLBACK_ACTIVE.set(false);
             if (LOGGED_GPU_ACTIVE.compareAndSet(false, true)) {
                 LOGGER.info("Vulkan push broad-phase is active: first verified batch produced {} candidate pairs",
                         context.pairCount);
             }
         } else {
             VANILLA_FALLBACK_BATCHES.increment();
+            if (LOGGED_FALLBACK_ACTIVE.compareAndSet(false, true)) {
+                String reason;
+                if (!AsyncConfig.enableGpuCollision.getValue()) {
+                    reason = "GPU collision is disabled";
+                } else if (!GpuEntityModule.isGpuAvailable()) {
+                    reason = "Vulkan collision pipeline is unavailable";
+                } else {
+                    reason = "GPU result was unavailable/incomplete";
+                }
+                LOGGER.info("Vanilla push replay fallback is active: {}", reason);
+            }
         }
 
         try {
@@ -171,6 +184,7 @@ public final class GpuPushBatch {
         DEFERRED.clear();
         ACTIVE_QUERY.remove();
         LOGGED_GPU_ACTIVE.set(false);
+        LOGGED_FALLBACK_ACTIVE.set(false);
     }
 
     private static final class QueryContext {
