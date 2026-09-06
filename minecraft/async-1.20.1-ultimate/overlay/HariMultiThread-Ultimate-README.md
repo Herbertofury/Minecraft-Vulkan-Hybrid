@@ -25,11 +25,13 @@ This release additionally hardens the parts that were unsafe or incomplete in th
 - snapshots `EntitySection` reads under a short lock to prevent collision-query CMEs/deadlocks;
 - serializes vanilla `NaturalSpawner.SpawnState` mutation rather than replacing vanilla collection identities;
 - keeps parallel spawn/random-tick work inside the same server tick instead of fire-and-forget jobs leaking into later ticks;
+- queues each async spawn task with the exact `LevelChunk` already supplied by vanilla, avoiding worker-side chunk relookup;
 - protects `PalettedContainer` mutation/serialization with a read/write lock to avoid save-time palette races;
 - synchronizes tracked-entity removal broadcasts to avoid persistent client ghost entities;
 - cleans worker/GPU/deferred state on server shutdown so integrated-server restarts start cleanly;
 - recognizes both `c2me` and `c2meforge` for C2ME interop;
-- pumps chunk tasks only for the current dimension while waiting on HMT workers, avoiding cross-dimension queue execution under DimThread.
+- pumps chunk tasks only for the current dimension while waiting on HMT workers, avoiding cross-dimension queue execution under DimThread;
+- packages production Forge Mixin discovery plus a generated `harimt.refmap.json`, so the same mixins proven in development attach correctly in the reobfuscated JAR.
 
 ## Vulkan collision acceleration
 
@@ -37,15 +39,16 @@ The original HMT Vulkan code computed broad-phase pairs but did not actually con
 
 HariMultiThread Ultimate turns this into a real, fail-safe acceleration path:
 
-1. `LivingEntity.pushEntities()` invoked by HMT entity workers is deferred until the HMT worker barrier.
-2. Entity positions are stable at that point.
-3. Vulkan receives the entities' **actual runtime AABBs**, outward-rounded when converted to float so the GPU broad phase can produce false positives but not precision-induced false negatives.
-4. Vulkan produces candidate overlapping pairs.
-5. The original vanilla `LivingEntity.pushEntities()` method is replayed on the server thread.
-6. Only its exact bounding-box entity lookup may consume the GPU candidate map.
-7. Vanilla predicate checks, double-precision AABB intersection, cramming rules, Forge behavior, and `doPush` remain authoritative.
+1. HMT marks a dimension's entity batch active before synchronous fallback entities and async workers begin ticking.
+2. Every `LivingEntity.pushEntities()` call in that active batch is deferred, including calls from entities intentionally kept synchronous.
+3. HMT waits for every entity worker before replay begins, so entity positions are stable.
+4. Vulkan receives the live entities' **actual runtime AABBs**, outward-rounded when converted to float so the GPU broad phase can produce conservative false positives but not precision-induced false negatives.
+5. Vulkan produces candidate overlapping pairs.
+6. The original vanilla `LivingEntity.pushEntities()` calls are replayed on the stable dimension/server thread in their queued call-count order.
+7. Only the exact bounding-box entity lookup may consume the GPU candidate map.
+8. Vanilla predicate checks, double-precision AABB intersection, cramming rules, Forge behavior, and `doPush` remain authoritative.
 
-If Vulkan is disabled, unavailable, circuit-broken, overflows its output buffer, or otherwise cannot return a complete result, the same deferred vanilla push method runs with the normal vanilla entity query. **GPU failure never becomes missing collision physics.**
+If Vulkan is disabled, unavailable, circuit-broken, overflows a probe, or otherwise cannot return a complete result, the same deferred vanilla push call runs with the normal vanilla entity query. **GPU failure never becomes missing collision physics.** Dense output capacity is adaptive and reused after a larger high-water mark is learned; a resize event is optimization telemetry, while exact GPU-vs-CPU verification is the correctness authority.
 
 The JAR contains a build-compiled `collision_broadphase.comp.spv`; CI fails if it is absent or invalid.
 
@@ -68,8 +71,9 @@ Vanilla push replay fallback is active: ...
 HMT's existing `/async` command tree remains available. Useful commands include:
 
 - `/async stats` — asynchronous entity tick statistics;
-- `/async gpu` — Vulkan/device/collision status;
+- `/async gpu` — Vulkan/device/collision status and telemetry;
 - `/async gpu toggle` — live enable/disable of GPU collision acceleration;
+- `/async gpu test` — compares live Vulkan candidates with an exact double-precision CPU AABB reference and fails safe on any false negative;
 - `/async config` — configuration controls exposed by HMT.
 
 ## Compatibility philosophy
@@ -92,18 +96,24 @@ This mod primarily targets **server/integrated-server MSPT/TPS/entity CPU work**
 
 ## Verification
 
-The release workflow is designed to require more than compilation:
+The release workflow requires more than compilation:
 
 - deterministic reconstruction from the pinned HMT source commit;
 - source-drift checks before patch application;
 - Forge 47.4.23 / Java 17 build;
+- production Mixin manifest + refmap checks in the reobfuscated JAR;
 - GLSL → SPIR-V compilation and packaged-shader verification;
 - JAR-content and license/identity gates;
 - packaged Forge dedicated-server launch;
 - dense overlapping-mob Vulkan dispatch proof;
+- sustained verified GPU batches plus live `/async gpu test` with zero false negatives;
 - live GPU-off vanilla fallback proof;
 - palette mutation + `save-all flush`;
 - clean stop and restart of the same world;
-- persisted entity proof and fresh post-restart Vulkan dispatch.
+- persisted entity proof and fresh post-restart Vulkan verifier;
+- real Forge client under Xvfb/Mesa loading the saved QA world through Quick Play;
+- actual render-thread and integrated-server Vulkan evidence;
+- an actual Minecraft-window screenshot;
+- clean client/integrated-server shutdown.
 
 A release is not described as verified until those applicable runtime gates pass.

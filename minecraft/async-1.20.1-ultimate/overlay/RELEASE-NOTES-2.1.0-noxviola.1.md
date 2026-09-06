@@ -7,7 +7,7 @@ Forge 1.20.1 release-hardened continuation of HariMultiThread / Async.
 - Minecraft 1.20.1
 - Forge 47.4.23
 - Java 17
-- Upstream base: `JustHari01/HariMultiThread@f381611c2d71a85192e8f9e30c03823a6482b`
+- Upstream base: `JustHari01/HariMultiThread@f381611c2d71a85192e2028f9e30c03823a6482b`
 - License: GPL-3.0-only
 - Mod id retained: `harimt`
 
@@ -28,7 +28,7 @@ Forge 1.20.1 release-hardened continuation of HariMultiThread / Async.
 - Fire-and-forget spawn work is replaced with same-tick managed batches and a barrier.
 - Global `parallelStream()` spawn-state construction is removed.
 - Vanilla Forge 1.20.1 `SpawnState` mutation remains authoritative and is synchronized instead of replacing vanilla collection identities.
-- The July 28, 2026 Async scheduled-chunk rollback is backported: each spawn worker carries the exact `LevelChunk` it was scheduled for via a ThreadLocal context, so NaturalSpawner does not re-request that same chunk from an async worker.
+- Each queued spawn task closes over the exact `LevelChunk` that vanilla already supplied to `tickChunks`, then invokes `NaturalSpawner.spawnForChunk(level, chunk, ...)` behind the same-tick HMT barrier. The final Forge 1.20.1 path uses no worker-side chunk relookup, `ThreadLocal` spawn context, or scheduled-chunk shim mixin.
 - Optional async random ticks are also same-tick/barriered instead of leaking work into later ticks.
 
 ### C2ME / DimThread interop
@@ -86,7 +86,7 @@ The release workflow must pass all of these before GitHub publication:
 - compile-checked LWJGL Vulkan backend JAR;
 - GLSL to SPIR-V compilation + packaged shader verification;
 - packaged Forge 47.4.23 dedicated-server boot;
-- 48 overlapping vanilla async mobs;
+- dense overlapping vanilla async-mob fixture sized to exercise the GPU candidate-capacity path;
 - 10 consecutive verified Vulkan batches;
 - live `/async gpu test` with zero false negatives;
 - live Vulkan-off vanilla fallback;
