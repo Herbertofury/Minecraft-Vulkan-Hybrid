@@ -320,6 +320,108 @@ replace(
     }'''
 )
 
+# LivingEntityMixin also carried newer-version effect state plus two decompiled
+# protected-method shadows. The packaged Forge server proved the first one
+# (`onEffectUpdated`) cannot bind at SRG runtime. Vanilla 1.20.1 keys activeEffects
+# by MobEffect (not Holder<MobEffect>). Reuse the already-registered
+# LivingEntityPushInvoker as the mapped access bridge for the private effect map
+# and protected update/removal callbacks, preserving HMT's existing lock and
+# vanilla 1.20.1 tick/remove/update order.
+living_accessor = "common/src/main/java/com/axalotl/async/common/mixin/accessor/LivingEntityPushInvoker.java"
+replace(
+    living_accessor,
+'''import net.minecraft.world.entity.LivingEntity;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Invoker;''',
+'''import java.util.Map;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Accessor;
+import org.spongepowered.asm.mixin.gen.Invoker;'''
+)
+replace(
+    living_accessor,
+'''    @Invoker("pushEntities")
+    void harimt$invokePushEntities();
+}''',
+'''    @Invoker("pushEntities")
+    void harimt$invokePushEntities();
+
+    @Accessor("activeEffects")
+    Map<MobEffect, MobEffectInstance> harimt$getActiveEffects();
+
+    @Invoker("onEffectUpdated")
+    void harimt$invokeOnEffectUpdated(MobEffectInstance effect, boolean forced, Entity source);
+
+    @Invoker("onEffectRemoved")
+    void harimt$invokeOnEffectRemoved(MobEffectInstance effect);
+}'''
+)
+
+living_mixin = "common/src/main/java/com/axalotl/async/common/mixin/entity/LivingEntityMixin.java"
+replace(
+    living_mixin,
+'''import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;''',
+'''import com.axalotl.async.common.mixin.accessor.LivingEntityPushInvoker;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;'''
+)
+replace(living_mixin, "import java.util.concurrent.ConcurrentHashMap;\n", "")
+replace(living_mixin, "import net.minecraft.core.Holder;\n", "")
+replace(living_mixin, "import org.spongepowered.asm.mixin.Shadow;\n", "")
+replace(
+    living_mixin,
+'''public abstract class LivingEntityMixin
+extends Entity {
+    @Shadow
+    private final Map<Holder<MobEffect>, MobEffectInstance> activeEffects = new ConcurrentHashMap<Holder<MobEffect>, MobEffectInstance>();
+    @Unique
+    private static final Object async$lock = new Object();
+
+    @Shadow
+    protected abstract void onEffectUpdated(MobEffectInstance var1, boolean var2, Entity var3);
+
+    @Shadow
+    protected abstract void onEffectRemoved(MobEffectInstance var1);''',
+'''public abstract class LivingEntityMixin
+extends Entity {
+    @Unique
+    private static final Object async$lock = new Object();'''
+)
+replace(
+    living_mixin,
+'''                ArrayList<Holder<MobEffect>> effectsToTick = new ArrayList<Holder<MobEffect>>(this.activeEffects.keySet());
+                for (Holder holder : effectsToTick) {
+                    MobEffectInstance mobeffectinstance = this.activeEffects.get(holder);
+                    if (mobeffectinstance == null) continue;
+                    if (!mobeffectinstance.tick((LivingEntity)(Object)this, () -> this.onEffectUpdated(mobeffectinstance, true, null))) {
+                        this.activeEffects.remove(holder);
+                        this.onEffectRemoved(mobeffectinstance);
+                        continue;
+                    }
+                    if (mobeffectinstance.getDuration() % 600 != 0) continue;
+                    this.onEffectUpdated(mobeffectinstance, false, null);
+                }''',
+'''                LivingEntityPushInvoker effects = (LivingEntityPushInvoker)(Object)this;
+                Map<MobEffect, MobEffectInstance> activeEffects = effects.harimt$getActiveEffects();
+                ArrayList<MobEffect> effectsToTick = new ArrayList<MobEffect>(activeEffects.keySet());
+                for (MobEffect effect : effectsToTick) {
+                    MobEffectInstance mobeffectinstance = activeEffects.get(effect);
+                    if (mobeffectinstance == null) continue;
+                    if (!mobeffectinstance.tick((LivingEntity)(Object)this, () -> effects.harimt$invokeOnEffectUpdated(mobeffectinstance, true, null))) {
+                        activeEffects.remove(effect);
+                        effects.harimt$invokeOnEffectRemoved(mobeffectinstance);
+                        continue;
+                    }
+                    if (mobeffectinstance.getDuration() % 600 != 0) continue;
+                    effects.harimt$invokeOnEffectUpdated(mobeffectinstance, false, null);
+                }'''
+)
+
 # Negative/positive assertions so future HMT source changes cannot silently drop
 # the rollback semantics or reintroduce AP-invalid / production-unmapped members.
 server_text = file(server_chunk).read_text(encoding="utf-8")
@@ -378,5 +480,34 @@ for expected in (
 ):
     if expected not in attribute_text:
         raise SystemExit(f"Forge 1.20.1 AttributeInstance hardening missing: {expected}")
+
+living_accessor_text = file(living_accessor).read_text(encoding="utf-8")
+for expected in (
+    '@Accessor("activeEffects")',
+    '@Invoker("onEffectUpdated")',
+    '@Invoker("onEffectRemoved")',
+):
+    if living_accessor_text.count(expected) != 1:
+        raise SystemExit(f"LivingEntity mapped effect bridge missing/duplicated: {expected}")
+living_text = file(living_mixin).read_text(encoding="utf-8")
+for stale in (
+    "import net.minecraft.core.Holder;",
+    "import java.util.concurrent.ConcurrentHashMap;",
+    "Map<Holder<MobEffect>, MobEffectInstance>",
+    "this.activeEffects",
+    "this.onEffectUpdated",
+    "this.onEffectRemoved",
+):
+    if stale in living_text:
+        raise SystemExit(f"newer-version/unmapped LivingEntity effect path remains: {stale}")
+if "\n    @Shadow\n" in living_text:
+    raise SystemExit("production-unmapped LivingEntityMixin @Shadow member remains")
+for expected in (
+    "Map<MobEffect, MobEffectInstance> activeEffects = effects.harimt$getActiveEffects();",
+    "effects.harimt$invokeOnEffectUpdated(mobeffectinstance, true, null)",
+    "effects.harimt$invokeOnEffectRemoved(mobeffectinstance)",
+):
+    if expected not in living_text:
+        raise SystemExit(f"Forge 1.20.1 LivingEntity effect hardening missing: {expected}")
 
 print("Latest Async scheduled-chunk spawn interop + AP-safe production Mixin shadow hardening applied successfully")
