@@ -63,8 +63,9 @@ replace(
 parallel.write_text(text, encoding="utf-8")
 
 # Final deterministic source convergence after the upstream spawn rewrite: one
-# real per-dimension entity-operation monitor, then remove the only known same-
-# target @Unique field-name collision before Mixin transforms vanilla classes.
+# real per-dimension entity-operation monitor, remove the only known same-target
+# @Unique field-name collision, then discard the later-version scheduled-chunk
+# redirect shim which does not exist in Minecraft/Forge 1.20.1's spawn bytecode.
 spawn_lock = Path(__file__).with_name("apply_spawn_lock.py")
 if not spawn_lock.is_file():
     raise SystemExit(f"missing spawn-lock hardening stage: {spawn_lock}")
@@ -74,5 +75,10 @@ unique_locks = Path(__file__).with_name("apply_unique_lock_names.py")
 if not unique_locks.is_file():
     raise SystemExit(f"missing unique-lock hardening stage: {unique_locks}")
 subprocess.run([sys.executable, str(unique_locks), str(root)], check=True)
+
+spawn_1201 = Path(__file__).with_name("apply_spawn_1201.py")
+if not spawn_1201.is_file():
+    raise SystemExit(f"missing Forge 1.20.1 spawn adaptation stage: {spawn_1201}")
+subprocess.run([sys.executable, str(spawn_1201), str(root)], check=True)
 
 print("HariMultiThread Ultimate mixed sync/async world-batch push barrier applied successfully")
