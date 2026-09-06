@@ -80,25 +80,32 @@ def run_server(server_dir: Path, log_path: Path, phase: int) -> None:
             send("time set noon")
             send("kill @e[tag=harimt_qa]")
 
-            # 48 fully-overlapping vanilla mobs = 1,128 initial possible pairs,
-            # safely below the 16,384-pair output limit while exercising the
-            # actual async LivingEntity -> deferred push -> Vulkan path.
+            # Build a 1x2-block interior collision cage. The walls prevent crowd
+            # pushing from dispersing the test population while leaving the mobs in
+            # valid air blocks. 192 fully-overlapping cows have 18,336 true pairs,
+            # deliberately above the old 16,384 output probe size.
+            send("fill 0 199 0 2 202 2 minecraft:stone hollow")
             summon = (
-                'execute in minecraft:overworld run summon minecraft:cow 0.5 200 0.5 '
-                '{Tags:["harimt_qa"],NoGravity:1b,PersistenceRequired:1b,Invulnerable:1b}'
+                'execute in minecraft:overworld run summon minecraft:cow 1.5 200 1.5 '
+                '{Tags:["harimt_qa"],NoAI:1b,NoGravity:1b,Silent:1b,'
+                'PersistenceRequired:1b,Invulnerable:1b}'
             )
-            for _ in range(48):
+            for _ in range(192):
                 send(summon)
 
-            wait_for("Vulkan push broad-phase is active:", 60)
-            wait_for("Vulkan push broad-phase sustained: 10 consecutive verified batches completed", 60)
+            # First prove the real deferred-push Vulkan path activates, then prove
+            # the dense scene grows the output capacity once instead of capping or
+            # paying an overflow probe every subsequent tick.
+            wait_for("Vulkan push broad-phase is active:", 90)
+            wait_for("Vulkan broad-phase learned pair capacity", 90)
+            wait_for("Vulkan push broad-phase sustained: 10 consecutive verified batches completed", 90)
             send("async gpu test")
-            wait_for("Live GPU Verification PASS", 45)
+            wait_for("Live GPU Verification PASS", 60)
             send("async gpu")
 
             # Live-disable Vulkan; deferred vanilla push replay must continue.
             send("async gpu toggle")
-            wait_for("Vanilla push replay fallback is active: GPU collision is disabled", 45)
+            wait_for("Vanilla push replay fallback is active: GPU collision is disabled", 60)
 
             send('execute if entity @e[tag=harimt_qa] run say HMT_QA_ENTITIES_PRESENT')
             wait_for("HMT_QA_ENTITIES_PRESENT", 20)
@@ -112,16 +119,18 @@ def run_server(server_dir: Path, log_path: Path, phase: int) -> None:
         else:
             # GPU-disable state and entities must survive restart; this also verifies
             # that server shutdown cleared only runtime references, not world state.
-            wait_for("Vanilla push replay fallback is active: GPU collision is disabled", 60)
+            wait_for("Vanilla push replay fallback is active: GPU collision is disabled", 90)
             send('execute if entity @e[tag=harimt_qa] run say HMT_QA_RESTART_ENTITIES_PRESENT')
             wait_for("HMT_QA_RESTART_ENTITIES_PRESENT", 20)
 
-            # Re-enable Vulkan live and prove repeated command-buffer reuse after restart.
+            # Re-enable Vulkan live and prove capacity learning + repeated command-
+            # buffer reuse again after a full JVM/server restart.
             send("async gpu toggle")
-            wait_for("Vulkan push broad-phase is active:", 60)
-            wait_for("Vulkan push broad-phase sustained: 10 consecutive verified batches completed", 60)
+            wait_for("Vulkan push broad-phase is active:", 90)
+            wait_for("Vulkan broad-phase learned pair capacity", 90)
+            wait_for("Vulkan push broad-phase sustained: 10 consecutive verified batches completed", 90)
             send("async gpu test")
-            wait_for("Live GPU Verification PASS", 45)
+            wait_for("Live GPU Verification PASS", 60)
             send("async gpu")
             send("save-all flush")
             time.sleep(2.0)
@@ -175,7 +184,7 @@ def main() -> int:
 
     run_server(server_dir, evidence_dir / "packaged-server-gpu-and-fallback.log", phase=1)
     run_server(server_dir, evidence_dir / "packaged-server-restart.log", phase=2)
-    print("[HMT-QA] packaged Forge sustained-GPU/fallback/save/restart gate PASSED", flush=True)
+    print("[HMT-QA] packaged Forge dense-pair/adaptive-capacity/sustained-GPU/fallback/save/restart gate PASSED", flush=True)
     return 0
 
 
