@@ -8,15 +8,15 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * Defers only the entity-push/crowding phase of async LivingEntity ticks.
- * Movement, AI, attacks, effects, and every other part of the entity tick still
- * run in their original location. The exact vanilla pushEntities method is
- * replayed on the server thread after the async worker barrier.
+ * Defers only LivingEntity's crowding/push phase while a mixed sync/async world
+ * entity batch is active. Movement, AI, attacks, effects, and every other tick
+ * phase stay in their original locations. Each original pushEntities invocation
+ * is replayed after all entity workers converge on the stable dimension thread.
  */
 @Mixin(value = LivingEntity.class, priority = 1002)
 public abstract class LivingEntityPushMixin {
     @Inject(method = "pushEntities", at = @At("HEAD"), cancellable = true)
-    private void harimt$deferAsyncPushes(CallbackInfo ci) {
+    private void harimt$deferBatchPushes(CallbackInfo ci) {
         LivingEntity self = (LivingEntity) (Object) this;
         if (GpuPushBatch.shouldDefer(self)) {
             GpuPushBatch.defer(self);

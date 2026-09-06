@@ -1,15 +1,11 @@
 package com.axalotl.async.common.gpu;
 
-import com.axalotl.async.common.ParallelProcessor;
 import com.axalotl.async.common.config.AsyncConfig;
 import com.axalotl.async.common.mixin.accessor.LivingEntityPushInvoker;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -26,19 +22,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Real integration point for the Vulkan collision broad phase.
+ * Stable post-barrier integration point for the optional Vulkan collision broad phase.
  *
- * Async LivingEntity#pushEntities calls are always deferred until after all
- * entity workers finish. That makes the vanilla crowding/push phase safe even
- * when Vulkan is disabled, unavailable, or circuit-broken. At the barrier,
- * Vulkan may provide a conservative broad-phase candidate map; otherwise the
- * original vanilla query runs unchanged on the server thread.
+ * When a ServerLevel contains any asynchronously ticking entities, the complete
+ * mixed sync/async entity batch is marked active before workers are dispatched.
+ * Every LivingEntity#pushEntities invocation in that active batch is queued,
+ * including calls made by synchronous fallback entities on the dimension thread.
+ * After every worker has joined, the batch is ended and the exact vanilla
+ * pushEntities method is replayed. Vulkan may replace only its broad-phase entity
+ * lookup; all vanilla predicates, double-precision AABB checks, cramming rules,
+ * Forge hooks and doPush calls remain authoritative.
  */
 public final class GpuPushBatch {
     private static final Logger LOGGER = LoggerFactory.getLogger("HariMT/GpuPushBatch");
-    private static final Map<ResourceKey<Level>, ConcurrentLinkedQueue<LivingEntity>> DEFERRED =
+
+    private static final ConcurrentHashMap<ResourceKey<Level>, AtomicInteger> ACTIVE_BATCH_DEPTHS =
+            new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<ResourceKey<Level>, ConcurrentLinkedQueue<LivingEntity>> DEFERRED =
             new ConcurrentHashMap<>();
     private static final ThreadLocal<QueryContext> ACTIVE_QUERY = new ThreadLocal<>();
+
     private static final AtomicBoolean LOGGED_GPU_ACTIVE = new AtomicBoolean(false);
     private static final AtomicBoolean LOGGED_GPU_SUSTAINED = new AtomicBoolean(false);
     private static final AtomicBoolean LOGGED_FALLBACK_ACTIVE = new AtomicBoolean(false);
@@ -51,32 +54,60 @@ public final class GpuPushBatch {
 
     private GpuPushBatch() {}
 
+    public static void beginBatch(ServerLevel world) {
+        if (world == null) return;
+        ACTIVE_BATCH_DEPTHS.compute(world.dimension(), (key, depth) -> {
+            if (depth == null) return new AtomicInteger(1);
+            depth.incrementAndGet();
+            return depth;
+        });
+    }
+
+    public static void endBatch(ServerLevel world) {
+        if (world == null) return;
+        ACTIVE_BATCH_DEPTHS.computeIfPresent(world.dimension(), (key, depth) ->
+                depth.decrementAndGet() <= 0 ? null : depth);
+    }
+
+    public static boolean isBatchActive(ServerLevel world) {
+        if (world == null) return false;
+        AtomicInteger depth = ACTIVE_BATCH_DEPTHS.get(world.dimension());
+        return depth != null && depth.get() > 0;
+    }
+
     public static boolean shouldDefer(LivingEntity entity) {
         if (entity == null || entity.level().isClientSide()) return false;
-        if (!(entity.level() instanceof ServerLevel)) return false;
-        if (!ParallelProcessor.isServerExecutionThread()) return false;
-        return !AsyncConfig.disabled.getValue();
+        if (!(entity.level() instanceof ServerLevel level)) return false;
+        return !AsyncConfig.disabled.getValue() && isBatchActive(level);
     }
 
     public static void defer(LivingEntity entity) {
         if (!(entity.level() instanceof ServerLevel level)) return;
+        // Preserve every vanilla invocation. Do not deduplicate: a mod may legally
+        // call pushEntities more than once in a tick, and each call must replay.
         DEFERRED.computeIfAbsent(level.dimension(), ignored -> new ConcurrentLinkedQueue<>()).add(entity);
     }
 
-    /** Flushes one dimension's deferred push work on the server thread. */
+    /** Flushes one dimension's deferred vanilla push calls after its batch barrier. */
     public static void flush(ServerLevel world) {
+        if (world == null) return;
+        if (isBatchActive(world)) {
+            LOGGER.error("Refusing to replay deferred pushes while the entity batch is still active for {}",
+                    world.dimension().location());
+            return;
+        }
+
         ConcurrentLinkedQueue<LivingEntity> queue = DEFERRED.get(world.dimension());
         if (queue == null || queue.isEmpty()) return;
 
-        Set<LivingEntity> unique = Collections.newSetFromMap(new IdentityHashMap<>());
+        List<LivingEntity> deferred = new ArrayList<>();
         LivingEntity entity;
         while ((entity = queue.poll()) != null) {
-            if (!entity.isRemoved() && entity.level() == world) unique.add(entity);
+            if (!entity.isRemoved() && entity.level() == world) deferred.add(entity);
         }
         if (queue.isEmpty()) DEFERRED.remove(world.dimension(), queue);
-        if (unique.isEmpty()) return;
+        if (deferred.isEmpty()) return;
 
-        List<LivingEntity> deferred = new ArrayList<>(unique);
         QueryContext context = buildGpuContext(world, deferred);
         if (context != null) {
             ACTIVE_QUERY.set(context);
@@ -190,6 +221,7 @@ public final class GpuPushBatch {
     }
 
     public static void clear() {
+        ACTIVE_BATCH_DEPTHS.clear();
         DEFERRED.clear();
         ACTIVE_QUERY.remove();
         LOGGED_GPU_ACTIVE.set(false);
