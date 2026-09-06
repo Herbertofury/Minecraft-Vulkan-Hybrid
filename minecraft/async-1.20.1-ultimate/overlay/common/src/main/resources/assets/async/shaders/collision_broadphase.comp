@@ -32,17 +32,17 @@ shared float shMaxZ[64];
 
 void main() {
     uint gid = gl_GlobalInvocationID.x;
-    bool active = gid < uint(entityCount);
+    bool laneActive = gid < uint(entityCount);
 
     // Never return before a workgroup barrier. The final dispatched workgroup is
     // normally only partially occupied when entityCount is not divisible by 64;
     // inactive lanes still have to execute every barrier for Vulkan convergence.
-    float myMinX = active ? minX[gid] : 0.0;
-    float myMinY = active ? minY[gid] : 0.0;
-    float myMinZ = active ? minZ[gid] : 0.0;
-    float myMaxX = active ? maxX[gid] : 0.0;
-    float myMaxY = active ? maxY[gid] : 0.0;
-    float myMaxZ = active ? maxZ[gid] : 0.0;
+    float myMinX = laneActive ? minX[gid] : 0.0;
+    float myMinY = laneActive ? minY[gid] : 0.0;
+    float myMinZ = laneActive ? minZ[gid] : 0.0;
+    float myMaxX = laneActive ? maxX[gid] : 0.0;
+    float myMaxY = laneActive ? maxY[gid] : 0.0;
+    float myMaxZ = laneActive ? maxZ[gid] : 0.0;
 
     uint tileCount = (uint(entityCount) + 63u) / 64u;
     for (uint tile = 0u; tile < tileCount; ++tile) {
@@ -59,7 +59,7 @@ void main() {
         }
         barrier();
 
-        if (active) {
+        if (laneActive) {
             uint tileElemCount = min(64u, uint(entityCount) - tile * 64u);
             for (uint j = 0u; j < tileElemCount; ++j) {
                 uint jId = tile * 64u + j;
