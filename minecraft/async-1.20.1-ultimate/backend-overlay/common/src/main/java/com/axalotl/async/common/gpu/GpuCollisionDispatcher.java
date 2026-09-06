@@ -20,7 +20,7 @@ import java.util.concurrent.Callable;
 public final class GpuCollisionDispatcher {
     private static final Logger LOGGER = LoggerFactory.getLogger("HariMT/GpuCollision");
     private static final int INITIAL_ENTITY_CAPACITY = 512;
-    // This is only the first allocation size, never a collision-content cap.
+    // This is only the initial high-water hint, never a collision-content cap.
     private static final int INITIAL_COLLISION_PAIR_CAPACITY = 16_384;
     private static final String SHADER = "/assets/async/shaders/collision_broadphase.comp.spv";
 
@@ -37,6 +37,9 @@ public final class GpuCollisionDispatcher {
     private float[] maxZ = new float[INITIAL_ENTITY_CAPACITY];
     private Entity[] entityIndexMap = new Entity[INITIAL_ENTITY_CAPACITY];
     private int capacity = INITIAL_ENTITY_CAPACITY;
+    // Learned high-water mark. Once a dense scene proves it needs a larger output
+    // buffer, later ticks start there instead of paying an overflow probe forever.
+    private int preferredPairCapacity = INITIAL_COLLISION_PAIR_CAPACITY;
 
     private volatile long gpuCollisionCount;
     private volatile long cpuFallbackCount;
@@ -87,17 +90,17 @@ public final class GpuCollisionDispatcher {
         ensureCapacity(entities.size());
         extractBounds(entities);
         final int count = entities.size();
+        final long maxPossiblePairs = ((long) count * (count - 1L)) / 2L;
         VulkanCollisionBackend current = backend;
         if (current == null) return Optional.empty();
 
-        int pairCapacity = INITIAL_COLLISION_PAIR_CAPACITY;
+        int pairCapacity = capacityForCurrentPopulation(maxPossiblePairs);
         VulkanCollisionBackend.Result result = executeGpu(current, count, pairCapacity);
         if (result == null || !current.isOperational()) return Optional.empty();
 
         if (result.overflow()) {
             overflowRetryCount++;
             int requiredPairs = result.pairCount();
-            long maxPossiblePairs = ((long) count * (count - 1L)) / 2L;
             if (requiredPairs <= pairCapacity || requiredPairs < 0 || (long) requiredPairs > maxPossiblePairs) {
                 overflowFallbackCount++;
                 LOGGER.warn("Vulkan broad-phase reported invalid overflow count {} for {} entities; using vanilla fallback",
@@ -105,14 +108,18 @@ public final class GpuCollisionDispatcher {
                 return Optional.empty();
             }
 
-            // Re-run the identical frozen AABB snapshot with exactly enough output
-            // capacity. Dense farms therefore grow the buffer instead of hitting an
-            // arbitrary 16k-pair performance ceiling.
-            result = executeGpu(current, count, requiredPairs);
+            int retryCapacity = learnPairCapacity(requiredPairs, maxPossiblePairs);
+            LOGGER.info("Vulkan broad-phase learned pair capacity {} -> {} after counting {} pairs; future dense batches skip the probe retry",
+                    pairCapacity, retryCapacity, requiredPairs);
+
+            // Re-run the identical frozen AABB snapshot with the learned high-water
+            // capacity. Dense farms therefore pay adaptation once instead of hitting
+            // an arbitrary cap or double-dispatching every tick.
+            result = executeGpu(current, count, retryCapacity);
             if (result == null || !current.isOperational() || result.overflow()) {
                 overflowFallbackCount++;
                 LOGGER.warn("Vulkan broad-phase adaptive overflow retry failed at {} pairs; using vanilla fallback",
-                        requiredPairs);
+                        retryCapacity);
                 return Optional.empty();
             }
         }
@@ -143,6 +150,22 @@ public final class GpuCollisionDispatcher {
         }
         gpuCollisionCount++;
         return Optional.of(pairs);
+    }
+
+    private int capacityForCurrentPopulation(long maxPossiblePairs) {
+        long boundedMaximum = Math.min(maxPossiblePairs, Integer.MAX_VALUE);
+        return (int) Math.max(1L, Math.min((long) preferredPairCapacity, boundedMaximum));
+    }
+
+    private int learnPairCapacity(int requiredPairs, long maxPossiblePairs) {
+        int learned = preferredPairCapacity;
+        while (learned < requiredPairs && learned <= Integer.MAX_VALUE / 2) {
+            learned <<= 1;
+        }
+        if (learned < requiredPairs) learned = requiredPairs;
+        if (learned > preferredPairCapacity) preferredPairCapacity = learned;
+        long boundedMaximum = Math.min(maxPossiblePairs, Integer.MAX_VALUE);
+        return (int) Math.max((long) requiredPairs, Math.min((long) preferredPairCapacity, boundedMaximum));
     }
 
     private VulkanCollisionBackend.Result executeGpu(VulkanCollisionBackend current, int count, int maxPairs) {
@@ -255,5 +278,6 @@ public final class GpuCollisionDispatcher {
     public long getCpuFallbackCount() { return cpuFallbackCount; }
     public long getOverflowRetryCount() { return overflowRetryCount; }
     public long getOverflowFallbackCount() { return overflowFallbackCount; }
+    public int getPreferredPairCapacity() { return preferredPairCapacity; }
     public CrashGuard.CrashGuardStats getCrashGuardStats() { return crashGuard.getStats(); }
 }
