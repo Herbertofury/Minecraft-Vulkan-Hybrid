@@ -17,6 +17,9 @@ public interface VulkanCollisionBackend {
     /** True after a Vulkan device-loss result or equivalent fatal GPU state. */
     boolean isDeviceLost();
 
+    /** Human-readable last initialization/dispatch failure, or an empty string. */
+    String lastError();
+
     String deviceName();
 
     int maxWorkGroupInvocations();
