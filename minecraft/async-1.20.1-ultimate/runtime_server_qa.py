@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import queue
 import subprocess
 import sys
@@ -22,10 +23,24 @@ FATAL_PATTERNS = (
     "Vulkan backend initialization failed",
 )
 
+# In this CI lane Vulkan is expected to be available through Mesa/lavapipe. These
+# are valid fallback messages in normal production use, but they are immediate QA
+# failures here because the point of this harness is to execute the real GPU path.
+EXPECTED_VULKAN_FAILURE_PATTERNS = (
+    "GPU Entity Module unavailable",
+    "Vulkan backend unavailable; vanilla collision fallback active",
+)
+
 
 def run_server(server_dir: Path, log_path: Path, phase: int) -> None:
     lines: list[str] = []
     events: queue.Queue[str] = queue.Queue()
+
+    env = os.environ.copy()
+    cpu_vulkan_opt = "-Dharimt.vulkan.allowCpuDevice=true"
+    existing_java_opts = env.get("JDK_JAVA_OPTIONS", "").strip()
+    if cpu_vulkan_opt not in existing_java_opts.split():
+        env["JDK_JAVA_OPTIONS"] = f"{existing_java_opts} {cpu_vulkan_opt}".strip()
 
     proc = subprocess.Popen(
         ["bash", "run.sh", "nogui"],
@@ -35,6 +50,7 @@ def run_server(server_dir: Path, log_path: Path, phase: int) -> None:
         stderr=subprocess.STDOUT,
         text=True,
         bufsize=1,
+        env=env,
     )
     assert proc.stdout is not None
     assert proc.stdin is not None
@@ -65,6 +81,11 @@ def run_server(server_dir: Path, log_path: Path, phase: int) -> None:
                 line = events.get(timeout=remaining)
             except queue.Empty:
                 continue
+            for pattern in FATAL_PATTERNS + EXPECTED_VULKAN_FAILURE_PATTERNS:
+                if pattern in line:
+                    raise RuntimeError(
+                        f"runtime failed while waiting for {text!r}: observed {pattern!r}"
+                    )
             if text in line:
                 print(f"[HMT-QA] marker: {text}", flush=True)
                 return
