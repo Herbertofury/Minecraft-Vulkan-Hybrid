@@ -69,6 +69,26 @@ replace(
 # The helper has one remaining barrier call after the entity-tick call above was patched.
 replace(parallel, "        waitForFutures(futures);", "        waitForFutures(futures, waitWorld);", count=1)
 
+# The upstream post-batch hook still polls every dimension after each ServerLevel
+# entity tick. That defeats the dimension-scoped wait fix above: with DimThread,
+# one dimension worker can execute another dimension's chunk task after the HMT
+# barrier. Keep the hook, but scope it to the ServerLevel that just completed.
+replace(
+    parallel,
+'''    public static void postEntityTick() {
+        if (server != null) {
+            for (ServerLevel world : server.getAllLevels()) {
+                world.getChunkSource().pollTask();
+            }
+        }
+    }''',
+'''    public static void postEntityTick(ServerLevel world) {
+        if (world != null) {
+            world.getChunkSource().pollTask();
+        }
+    }'''
+)
+
 # Exact callers that know their dimension pass it; createState has no ServerLevel
 # parameter, so its immutable result-building batch does not pump chunk tasks.
 replace(
@@ -82,6 +102,11 @@ replace(
     "ParallelProcessor.forEachParallel(this.getLevel(), toDespawnCheck, Entity::checkDespawn);"
 )
 replace(
+    "common/src/main/java/com/axalotl/async/common/mixin/world/ServerLevelMixin.java",
+    "ParallelProcessor.postEntityTick();",
+    "ParallelProcessor.postEntityTick(this.getLevel());"
+)
+replace(
     "common/src/main/java/com/axalotl/async/common/mixin/server/ServerChunkCacheMixin.java",
     "ParallelProcessor.forEachParallel(chunks, chunk -> {",
     "ParallelProcessor.forEachParallel(this.level, chunks, chunk -> {"
@@ -91,5 +116,10 @@ replace(
     "ParallelProcessor.forEachParallel(tasks, Runnable::run);",
     "ParallelProcessor.forEachParallel(this.level, tasks, Runnable::run);"
 )
+
+# Fail closed if another cross-dimension task-pump loop is introduced into the
+# core processor later; stats/commands may enumerate worlds, the tick engine may not.
+if "server.getAllLevels()" in file(parallel).read_text(encoding="utf-8"):
+    raise SystemExit("interop invariant failed: ParallelProcessor still pumps all ServerLevels")
 
 print("HariMultiThread Ultimate C2ME/DimThread interop hardening applied successfully")
