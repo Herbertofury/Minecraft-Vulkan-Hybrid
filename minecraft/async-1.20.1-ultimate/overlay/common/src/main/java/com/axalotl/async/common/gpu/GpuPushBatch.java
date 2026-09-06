@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Predicate;
 import net.minecraft.resources.ResourceKey;
@@ -39,7 +40,9 @@ public final class GpuPushBatch {
             new ConcurrentHashMap<>();
     private static final ThreadLocal<QueryContext> ACTIVE_QUERY = new ThreadLocal<>();
     private static final AtomicBoolean LOGGED_GPU_ACTIVE = new AtomicBoolean(false);
+    private static final AtomicBoolean LOGGED_GPU_SUSTAINED = new AtomicBoolean(false);
     private static final AtomicBoolean LOGGED_FALLBACK_ACTIVE = new AtomicBoolean(false);
+    private static final AtomicInteger CONSECUTIVE_GPU_BATCHES = new AtomicInteger();
 
     private static final LongAdder GPU_BATCHES = new LongAdder();
     private static final LongAdder VANILLA_FALLBACK_BATCHES = new LongAdder();
@@ -79,12 +82,17 @@ public final class GpuPushBatch {
             ACTIVE_QUERY.set(context);
             GPU_BATCHES.increment();
             LOGGED_FALLBACK_ACTIVE.set(false);
+            int consecutive = CONSECUTIVE_GPU_BATCHES.incrementAndGet();
             if (LOGGED_GPU_ACTIVE.compareAndSet(false, true)) {
                 LOGGER.info("Vulkan push broad-phase is active: first verified batch produced {} candidate pairs",
                         context.pairCount);
             }
+            if (consecutive >= 10 && LOGGED_GPU_SUSTAINED.compareAndSet(false, true)) {
+                LOGGER.info("Vulkan push broad-phase sustained: 10 consecutive verified batches completed");
+            }
         } else {
             VANILLA_FALLBACK_BATCHES.increment();
+            CONSECUTIVE_GPU_BATCHES.set(0);
             if (LOGGED_FALLBACK_ACTIVE.compareAndSet(false, true)) {
                 String reason;
                 if (!AsyncConfig.enableGpuCollision.getValue()) {
@@ -175,6 +183,7 @@ public final class GpuPushBatch {
     public static long getGpuBatches() { return GPU_BATCHES.sum(); }
     public static long getVanillaFallbackBatches() { return VANILLA_FALLBACK_BATCHES.sum(); }
     public static long getGpuPairs() { return GPU_PAIRS.sum(); }
+    public static int getConsecutiveGpuBatches() { return CONSECUTIVE_GPU_BATCHES.get(); }
     public static double getAverageGpuMillis() {
         long batches = GPU_BATCHES.sum();
         return batches == 0 ? 0.0 : (GPU_NANOS.sum() / 1_000_000.0) / batches;
@@ -184,7 +193,9 @@ public final class GpuPushBatch {
         DEFERRED.clear();
         ACTIVE_QUERY.remove();
         LOGGED_GPU_ACTIVE.set(false);
+        LOGGED_GPU_SUSTAINED.set(false);
         LOGGED_FALLBACK_ACTIVE.set(false);
+        CONSECUTIVE_GPU_BATCHES.set(0);
     }
 
     private static final class QueryContext {
