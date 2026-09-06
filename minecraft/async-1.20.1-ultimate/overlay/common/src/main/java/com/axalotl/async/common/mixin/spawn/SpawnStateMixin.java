@@ -12,9 +12,9 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import org.spongepowered.asm.mixin.Mixin;
 
 /**
- * Preserve vanilla SpawnState behavior while making its mutable counters and
- * potential calculator safe when chunk spawn work is executed in parallel.
- * This replaces HMT's hand-reimplemented afterSpawn hook.
+ * Preserve vanilla Forge 1.20.1 SpawnState behavior while serializing access to
+ * its mutable mob counters, PotentialCalculator, LocalMobCapCalculator, and
+ * last-check cache during parallel chunk spawning.
  */
 @Mixin(NaturalSpawner.SpawnState.class)
 public class SpawnStateMixin {
@@ -33,16 +33,9 @@ public class SpawnStateMixin {
         }
     }
 
-    @WrapMethod(method = "canSpawnForCategoryGlobal")
-    private boolean harimt$canSpawnForCategoryGlobal(MobCategory category, Operation<Boolean> original) {
-        synchronized (this) {
-            return original.call(category);
-        }
-    }
-
-    @WrapMethod(method = "canSpawnForCategoryLocal")
-    private boolean harimt$canSpawnForCategoryLocal(MobCategory category, ChunkPos pos,
-                                                     Operation<Boolean> original) {
+    @WrapMethod(method = "canSpawnForCategory")
+    private boolean harimt$canSpawnForCategory(MobCategory category, ChunkPos pos,
+                                                Operation<Boolean> original) {
         synchronized (this) {
             return original.call(category, pos);
         }
