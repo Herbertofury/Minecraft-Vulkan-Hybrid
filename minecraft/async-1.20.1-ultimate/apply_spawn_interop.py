@@ -110,8 +110,12 @@ if mixins_text.count('"spawn.NaturalSpawnerScheduledChunkMixin"') != 1:
     raise SystemExit("scheduled-chunk NaturalSpawner mixin registration missing/duplicated")
 
 accessor_text = file(server_level_accessor).read_text(encoding="utf-8")
-if "@Inject" in accessor_text or "CallbackInfo" in accessor_text:
-    raise SystemExit("AP-invalid injector remains in ServerLevelAccessorMixin")
+# CFR's file-header comment still names classes it could not load, so search for
+# live Java syntax instead of bare words which can appear only inside comments.
+if "import org.spongepowered.asm.mixin.injection.Inject;" in accessor_text:
+    raise SystemExit("AP-invalid Inject import remains in ServerLevelAccessorMixin")
+if "@Inject(" in accessor_text or "CallbackInfo ci" in accessor_text:
+    raise SystemExit("AP-invalid injector handler remains in ServerLevelAccessorMixin")
 if accessor_text.count("@Overwrite") != 1:
     raise SystemExit("ServerLevelAccessorMixin must contain exactly one supported @Overwrite")
 if "default void addFreshEntityWithPassengers(Entity entity)" not in accessor_text:
