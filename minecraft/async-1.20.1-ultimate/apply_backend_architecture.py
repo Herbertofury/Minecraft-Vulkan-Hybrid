@@ -94,6 +94,51 @@ for src in overlay.rglob("*"):
     dst.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(src, dst)
 
+# Tighten the isolated backend against LWJGL 3.3.1's generated API. These edits
+# are intentionally performed after overlay copying so they cannot be masked by
+# an older source snapshot in the release overlay.
+backend = file("vulkan-backend/src/main/java/com/axalotl/async/vulkanruntime/LwjglVulkanBackend.java")
+backend_text = backend.read_text(encoding="utf-8")
+
+def backend_replace(old, new, count=1):
+    global backend_text
+    found = backend_text.count(old)
+    if found != count:
+        raise SystemExit(f"backend source drift: expected {count}, found {found}: {old[:150]!r}")
+    backend_text = backend_text.replace(old, new, count)
+
+backend_replace(
+'''            // VK auto-loads the system Vulkan loader unless explicit-init was requested.
+            try {
+                VK.getFunctionProvider();
+            } catch (IllegalStateException notInitialized) {
+                VK.create();
+            }
+''',
+'''            // VK.getFunctionProvider() may be null after VK.destroy(), while
+            // explicit-init configurations can throw before create(). Handle both
+            // so integrated-server stop/start recreates the Vulkan loader cleanly.
+            try {
+                if (VK.getFunctionProvider() == null) VK.create();
+            } catch (IllegalStateException notInitialized) {
+                VK.create();
+            }
+''')
+backend_replace(".apiVersion(VK_API_VERSION_1_1);", ".apiVersion(VK_API_VERSION_1_0);")
+backend_replace(
+'''            VkSubmitInfo submit = VkSubmitInfo.calloc(stack)
+                    .sType(VK_STRUCTURE_TYPE_SUBMIT_INFO)
+                    .pCommandBuffers(stack.pointers(commandBuffer.address()));
+            check(vkQueueSubmit(queue, submit, fence), "vkQueueSubmit");
+''',
+'''            VkSubmitInfo.Buffer submits = VkSubmitInfo.calloc(1, stack);
+            submits.get(0)
+                    .sType(VK_STRUCTURE_TYPE_SUBMIT_INFO)
+                    .pCommandBuffers(stack.pointers(commandBuffer.address()));
+            check(vkQueueSubmit(queue, submits, fence), "vkQueueSubmit");
+''')
+backend.write_text(backend_text, encoding="utf-8")
+
 # Fail closed if any parent source still references the deleted reflection stack.
 for p in (root / "common/src/main/java").rglob("*.java"):
     text = p.read_text(encoding="utf-8")
