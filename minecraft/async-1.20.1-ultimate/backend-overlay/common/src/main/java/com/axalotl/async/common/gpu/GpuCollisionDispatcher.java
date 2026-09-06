@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Callable;
 
 /** Parent-side collision dispatcher. All LWJGL/Vulkan work lives in the isolated backend JAR. */
 public final class GpuCollisionDispatcher {
@@ -81,9 +82,9 @@ public final class GpuCollisionDispatcher {
         VulkanCollisionBackend current = backend;
         if (current == null) return Optional.empty();
 
-        VulkanCollisionBackend.Result result = crashGuard.execute(
-                () -> current.compute(minX, minY, minZ, maxX, maxY, maxZ, count, MAX_COLLISION_PAIRS),
-                null);
+        Callable<VulkanCollisionBackend.Result> compute =
+                () -> current.compute(minX, minY, minZ, maxX, maxY, maxZ, count, MAX_COLLISION_PAIRS);
+        VulkanCollisionBackend.Result result = crashGuard.execute(compute, null);
         if (result == null || !current.isOperational()) return Optional.empty();
         if (result.overflow()) {
             overflowFallbackCount++;
