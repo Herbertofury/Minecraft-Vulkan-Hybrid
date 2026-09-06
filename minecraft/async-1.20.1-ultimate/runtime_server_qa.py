@@ -129,7 +129,7 @@ def run_server(server_dir: Path, log_path: Path, phase: int) -> None:
             send("fill 0 199 0 2 202 2 minecraft:stone hollow")
             summon = (
                 'execute in minecraft:overworld run summon minecraft:cow 1.5 200 1.5 '
-                '{Tags:["harimt_qa"],NoAI:1b,NoGravity:1b,Silent:1b,'
+                '{Tags:["harimt_qa"],NoGravity:1b,Silent:1b,'
                 'PersistenceRequired:1b,Invulnerable:1b}'
             )
             for _ in range(192):
