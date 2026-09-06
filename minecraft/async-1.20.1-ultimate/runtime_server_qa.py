@@ -71,7 +71,24 @@ def run_server(server_dir: Path, log_path: Path, phase: int) -> None:
         proc.stdin.write(command + "\n")
         proc.stdin.flush()
 
+    def inspect_line(line: str, waiting_for: str) -> None:
+        for pattern in FATAL_PATTERNS + EXPECTED_VULKAN_FAILURE_PATTERNS:
+            if pattern in line:
+                raise RuntimeError(
+                    f"runtime failed while waiting for {waiting_for!r}: observed {pattern!r}"
+                )
+
     def wait_for(text: str, timeout: float) -> None:
+        # Queue reads are destructive, but QA events are not ordered relative to
+        # command submission/ticks. Always consult the durable in-memory log first
+        # so a marker consumed by an earlier wait remains observable later.
+        snapshot = list(lines)
+        for line in snapshot:
+            inspect_line(line, text)
+            if text in line:
+                print(f"[HMT-QA] marker (recorded): {text}", flush=True)
+                return
+
         deadline = time.monotonic() + timeout
         while time.monotonic() < deadline:
             if proc.poll() is not None and events.empty():
@@ -80,12 +97,16 @@ def run_server(server_dir: Path, log_path: Path, phase: int) -> None:
             try:
                 line = events.get(timeout=remaining)
             except queue.Empty:
+                # A different wait may have consumed the queue event immediately
+                # before this call; re-check the durable log instead of timing out.
+                snapshot = list(lines)
+                for recorded in snapshot:
+                    inspect_line(recorded, text)
+                    if text in recorded:
+                        print(f"[HMT-QA] marker (recorded): {text}", flush=True)
+                        return
                 continue
-            for pattern in FATAL_PATTERNS + EXPECTED_VULKAN_FAILURE_PATTERNS:
-                if pattern in line:
-                    raise RuntimeError(
-                        f"runtime failed while waiting for {text!r}: observed {pattern!r}"
-                    )
+            inspect_line(line, text)
             if text in line:
                 print(f"[HMT-QA] marker: {text}", flush=True)
                 return
@@ -114,9 +135,8 @@ def run_server(server_dir: Path, log_path: Path, phase: int) -> None:
             for _ in range(192):
                 send(summon)
 
-            # First prove the real deferred-push Vulkan path activates, then prove
-            # the dense scene grows the output capacity once instead of capping or
-            # paying an overflow probe every subsequent tick.
+            # Both markers may occur while the summon burst is still being
+            # processed; wait_for is intentionally order-independent.
             wait_for("Vulkan push broad-phase is active:", 90)
             wait_for("Vulkan broad-phase learned pair capacity", 90)
             wait_for("Vulkan push broad-phase sustained: 10 consecutive verified batches completed", 90)
@@ -145,7 +165,8 @@ def run_server(server_dir: Path, log_path: Path, phase: int) -> None:
             wait_for("HMT_QA_RESTART_ENTITIES_PRESENT", 20)
 
             # Re-enable Vulkan live and prove capacity learning + repeated command-
-            # buffer reuse again after a full JVM/server restart.
+            # buffer reuse again after a full JVM/server restart. These markers can
+            # race with one another, so the durable-log wait is required here too.
             send("async gpu toggle")
             wait_for("Vulkan push broad-phase is active:", 90)
             wait_for("Vulkan broad-phase learned pair capacity", 90)
