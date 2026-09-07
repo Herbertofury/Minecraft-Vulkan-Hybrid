@@ -44,12 +44,23 @@ public final class VulkanLoaderOwnershipProbe {
         System.setProperty("harimt.vulkan.allowCpuDevice", "true");
         byte[] spirv = Files.readAllBytes(Path.of(args[0]));
 
-        // External owner acquires LWJGL's process-global Vulkan function provider.
-        VK.create();
-        Object externalProvider = VK.getFunctionProvider();
+        // Referencing VK may auto-initialize the global provider unless LWJGL was
+        // launched in explicit-init mode. Adopt that provider when present; only
+        // create it ourselves when it is genuinely absent.
+        Object externalProvider;
+        try {
+            externalProvider = VK.getFunctionProvider();
+        } catch (IllegalStateException notInitialized) {
+            externalProvider = null;
+        }
+        if (externalProvider == null) {
+            VK.create();
+            externalProvider = VK.getFunctionProvider();
+        }
         if (externalProvider == null) {
             throw new AssertionError("external Vulkan provider was not created");
         }
+        System.out.println("VULKAN_EXTERNAL_PROVIDER_READY");
 
         try {
             LwjglVulkanBackend first = new LwjglVulkanBackend();
@@ -76,8 +87,8 @@ public final class VulkanLoaderOwnershipProbe {
             System.out.println("VULKAN_BACKEND_RESTART_WITH_SHARED_PROVIDER_PASS");
             System.out.println("VULKAN_LOADER_OWNERSHIP_PASS");
         } finally {
-            // The standalone probe itself is the external owner, so it alone may
-            // release the process-global provider at process exit.
+            // The standalone probe process is the simulated external owner, so it
+            // alone may release the process-global provider at process exit.
             VK.destroy();
         }
     }
