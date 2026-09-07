@@ -24,6 +24,12 @@ def replace_exact(path: Path, old: str, new: str, count: int = 1) -> None:
 properties = root / "gradle.properties"
 replace_exact(properties, "forge_version=47.4.16", "forge_version=47.4.23")
 
+# ForgeGradle 6 run configurations are not reliable in a multi-project build with
+# Gradle configuration-on-demand enabled. Upstream enables it globally, which can
+# leave the declared minecraft.runs.client configuration without its runClient task
+# in a fresh Gradle invocation. Release/native QA needs deterministic run tasks.
+replace_exact(properties, "org.gradle.configureondemand=true", "org.gradle.configureondemand=false")
+
 # Upstream exposes enableGpuCollision in the common config and /async gpu toggle
 # calls PlatformUtils.saveConfig(), but the Forge bridge never mirrored that value
 # into ForgeConfigSpec. The setting therefore silently returned to its default on
@@ -54,4 +60,4 @@ replace_exact(
     "                enableGpuCollisionLocal.set(enableGpuCollision.getValue());\n",
 )
 
-print("Forge target updated to 1.20.1-47.4.23 with persistent GPU collision config")
+print("Forge target updated to 1.20.1-47.4.23 with deterministic client runs and persistent GPU collision config")
