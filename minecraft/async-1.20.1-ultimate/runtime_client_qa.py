@@ -5,7 +5,6 @@ import argparse
 import os
 import queue
 import shutil
-import signal
 import subprocess
 import sys
 import threading
@@ -111,7 +110,23 @@ def main() -> int:
         thread = threading.Thread(target=reader, name="harimt-client-qa-reader", daemon=True)
         thread.start()
 
+        def inspect_line(line: str, waiting_for: str) -> None:
+            for pattern in FATAL_PATTERNS:
+                if pattern in line:
+                    raise RuntimeError(
+                        f"client/runtime failed while waiting for {waiting_for!r}: observed {pattern!r}"
+                    )
+
         def wait_for(text: str, timeout: float) -> None:
+            # Marker waits are order-independent. A previous wait may consume a
+            # queue event just before the next marker wait begins, so always scan
+            # the durable console transcript as well as new queue events.
+            for recorded in list(lines):
+                inspect_line(recorded, text)
+                if text in recorded:
+                    print(f"[HMT-CLIENT-QA] marker (recorded): {text}", flush=True)
+                    return
+
             deadline = time.monotonic() + timeout
             while time.monotonic() < deadline:
                 if proc is not None and proc.poll() is not None and events.empty():
@@ -120,7 +135,13 @@ def main() -> int:
                 try:
                     line = events.get(timeout=remaining)
                 except queue.Empty:
+                    for recorded in list(lines):
+                        inspect_line(recorded, text)
+                        if text in recorded:
+                            print(f"[HMT-CLIENT-QA] marker (recorded): {text}", flush=True)
+                            return
                     continue
+                inspect_line(line, text)
                 if text in line:
                     print(f"[HMT-CLIENT-QA] marker: {text}", flush=True)
                     return
@@ -132,10 +153,32 @@ def main() -> int:
         wait_for("Vulkan push broad-phase is active:", 180)
         wait_for("Vulkan push broad-phase sustained: 10 consecutive verified batches completed", 90)
 
-        # Capture the actual Xvfb Minecraft window. No generated imagery is used.
+        # Resolve the actual visible Minecraft X11 window once, then use the same
+        # window both for visual evidence and for the clean close. Capturing the
+        # Xvfb root desktop is not sufficient proof that Minecraft rendered.
+        windows = subprocess.run(
+            ["xdotool", "search", "--onlyvisible", "--name", "Minecraft"],
+            env=env,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            timeout=10,
+        )
+        ids = [line.strip() for line in windows.stdout.splitlines() if line.strip()]
+        if not ids:
+            raise RuntimeError("visible Minecraft X11 window not found")
+        window_id = ids[-1]
+        subprocess.run(
+            ["xdotool", "windowactivate", "--sync", window_id],
+            env=env,
+            check=True,
+            timeout=15,
+        )
+
+        # Capture the actual Minecraft window. No generated imagery is used.
         screenshot = evidence / "forge-client-integrated-server.png"
         subprocess.run(
-            ["import", "-display", display, "-window", "root", str(screenshot)],
+            ["import", "-display", display, "-window", window_id, str(screenshot)],
             env=env,
             check=True,
             stdout=subprocess.DEVNULL,
@@ -149,19 +192,9 @@ def main() -> int:
 
         # Close the actual Minecraft window rather than killing Gradle. This gives
         # the integrated server its normal save/shutdown path.
-        windows = subprocess.run(
-            ["xdotool", "search", "--name", "Minecraft"],
-            env=env,
-            text=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.DEVNULL,
-            timeout=10,
-        )
-        ids = [line.strip() for line in windows.stdout.splitlines() if line.strip()]
-        if not ids:
-            raise RuntimeError("Minecraft X11 window not found for clean close")
         subprocess.run(
-            ["xdotool", "windowactivate", "--sync", ids[-1], "key", "--clearmodifiers", "alt+F4"],
+            ["xdotool", "windowactivate", "--sync", window_id,
+             "key", "--clearmodifiers", "alt+F4"],
             env=env,
             check=True,
             timeout=15,
