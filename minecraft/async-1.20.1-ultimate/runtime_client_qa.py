@@ -78,12 +78,31 @@ def main() -> int:
         text=True,
         env=env,
     )
+    wm: subprocess.Popen[str] | None = None
+    wm_log = None
     proc: subprocess.Popen[str] | None = None
     lines: list[str] = []
     events: queue.Queue[str] = queue.Queue()
 
     try:
         wait_x(display)
+
+        # Xvfb provides an X server, not a window manager. windowactivate and a
+        # normal Alt+F4 close depend on EWMH/WM behavior, so use a tiny real WM
+        # rather than treating those operations as flaky CI timing problems.
+        if shutil.which("openbox") is None:
+            raise RuntimeError("openbox is required for native client window QA")
+        wm_log = (evidence / "openbox.log").open("w", encoding="utf-8")
+        wm = subprocess.Popen(
+            ["openbox", "--sm-disable"],
+            stdout=wm_log,
+            stderr=subprocess.STDOUT,
+            text=True,
+            env=env,
+        )
+        time.sleep(0.75)
+        if wm.poll() is not None:
+            raise RuntimeError("Openbox exited before Forge client launch")
 
         cmd = [
             "./gradlew", "--no-daemon", ":forge:runClient",
@@ -191,7 +210,7 @@ def main() -> int:
         (evidence / "forge-client-screenshot-identify.txt").write_text(identify, encoding="utf-8")
 
         # Close the actual Minecraft window rather than killing Gradle. This gives
-        # the integrated server its normal save/shutdown path.
+        # the integrated server its normal save/shutdown path through the WM.
         subprocess.run(
             ["xdotool", "windowactivate", "--sync", window_id,
              "key", "--clearmodifiers", "alt+F4"],
@@ -226,6 +245,15 @@ def main() -> int:
             except subprocess.TimeoutExpired:
                 proc.kill()
                 proc.wait(timeout=10)
+        if wm is not None and wm.poll() is None:
+            wm.terminate()
+            try:
+                wm.wait(timeout=10)
+            except subprocess.TimeoutExpired:
+                wm.kill()
+                wm.wait(timeout=5)
+        if wm_log is not None:
+            wm_log.close()
         if xvfb.poll() is None:
             xvfb.terminate()
             try:
