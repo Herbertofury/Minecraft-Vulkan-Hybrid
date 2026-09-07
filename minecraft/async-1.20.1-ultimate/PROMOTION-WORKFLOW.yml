@@ -38,7 +38,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends \
             glslang-tools mesa-vulkan-drivers vulkan-tools \
-            xvfb xdotool x11-utils imagemagick libgl1-mesa-dri zip
+            xvfb openbox xdotool x11-utils imagemagick libgl1-mesa-dri zip
 
       - name: Clean accidental upstream build state
         shell: bash
@@ -100,6 +100,8 @@ jobs:
           grep -F 'harimtVulkanBackend' upstream/forge/build.gradle
           grep -F 'compile-checked isolated LWJGL' upstream/common/src/main/java/com/axalotl/async/common/gpu/GpuEntityModule.java
           ! grep -R -F 'Class.forName("org.lwjgl.vulkan' upstream/common/src/main/java
+          grep -F '.descriptorCount(1)' upstream/vulkan-backend/src/main/java/com/axalotl/async/vulkanruntime/LwjglVulkanBackend.java
+          grep -F 'VK_PIPELINE_STAGE_HOST_BIT' upstream/vulkan-backend/src/main/java/com/axalotl/async/vulkanruntime/LwjglVulkanBackend.java
           grep -F "'MixinConfigs': 'harimt.common.mixins.json,harimt.forge.mixins.json'" upstream/forge/build.gradle
 
       - name: Compile and validate Vulkan shader
@@ -152,6 +154,9 @@ jobs:
           jar tf "$jarfile" | grep -Fx 'META-INF/harimt-libs/lwjgl-3.3.1-natives-windows.jar'
           unzip -p "$jarfile" META-INF/harimt-libs/harimt-vulkan-backend-3.3.1.jar > /tmp/harimt-vulkan-backend.jar
           jar tf /tmp/harimt-vulkan-backend.jar | grep -Fx 'com/axalotl/async/vulkanruntime/LwjglVulkanBackend.class'
+          javap -classpath /tmp/harimt-vulkan-backend.jar -c -p com.axalotl.async.vulkanruntime.LwjglVulkanBackend > /tmp/LwjglVulkanBackend.javap.txt
+          grep -F 'descriptorCount' /tmp/LwjglVulkanBackend.javap.txt
+          grep -F 'vkCmdPipelineBarrier' /tmp/LwjglVulkanBackend.javap.txt
           if unzip -p "$jarfile" META-INF/jarjar/metadata.json 2>/dev/null | grep -Fq 'lwjgl-vulkan'; then
             echo 'lwjgl-vulkan must not be exposed as a Forge JarJar module' >&2
             exit 1
