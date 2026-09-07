@@ -44,6 +44,8 @@
 - Kept vanilla selectors, cramming, Forge logic, `doPush`, and double-precision AABB checks authoritative.
 - Switched GPU inputs to actual runtime entity AABBs with conservative outward float rounding.
 - Corrected the shader/pipeline descriptor ABI to nine SSBO bindings.
+- Fixed zero-length Vulkan descriptor updates by explicitly setting `descriptorCount(1)` on every `VkWriteDescriptorSet`; without it all nine SSBO writes were effectively ignored and the GPU returned an empty candidate set despite successful dispatches.
+- Added an explicit compute-shader-write → host-read memory barrier before reading the persistently mapped pair counter/output buffers.
 - Corrected the push-constant ABI to 16 bytes.
 - Added mandatory GLSL → SPIR-V compilation in CI and packaged `.spv` verification.
 - Removed the invalid raw-GLSL-as-SPIR-V fallback.
