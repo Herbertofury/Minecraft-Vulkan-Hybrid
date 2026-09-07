@@ -31,6 +31,7 @@ This release additionally hardens the parts that were unsafe or incomplete in th
 - cleans worker/GPU/deferred state on server shutdown so integrated-server restarts start cleanly;
 - recognizes both `c2me` and `c2meforge` for C2ME interop;
 - pumps chunk tasks only for the current dimension while waiting on HMT workers, avoiding cross-dimension queue execution under DimThread;
+- persists the Forge `enableGpuCollision` operator setting through the same config lifecycle as the other HMT settings, so `/async gpu toggle` survives a clean JVM restart;
 - packages production Forge Mixin discovery plus a generated `harimt.refmap.json`, so the same mixins proven in development attach correctly in the reobfuscated JAR.
 
 ## Vulkan collision acceleration
@@ -72,7 +73,7 @@ HMT's existing `/async` command tree remains available. Useful commands include:
 
 - `/async stats` — asynchronous entity tick statistics;
 - `/async gpu` — Vulkan/device/collision status and telemetry;
-- `/async gpu toggle` — live enable/disable of GPU collision acceleration;
+- `/async gpu toggle` — live enable/disable of GPU collision acceleration; on Forge the choice is saved and restored after restart;
 - `/async gpu test` — compares live Vulkan candidates with an exact double-precision CPU AABB reference and fails safe on any false negative;
 - `/async config` — configuration controls exposed by HMT.
 
@@ -108,6 +109,7 @@ The release workflow requires more than compilation:
 - dense overlapping-mob Vulkan dispatch proof;
 - sustained verified GPU batches plus live `/async gpu test` with zero false negatives;
 - live GPU-off vanilla fallback proof;
+- persisted GPU-disabled config state across a clean Forge JVM restart;
 - palette mutation + `save-all flush`;
 - clean stop and restart of the same world;
 - persisted entity proof and fresh post-restart Vulkan verifier;
