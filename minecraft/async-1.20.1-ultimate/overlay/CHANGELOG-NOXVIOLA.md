@@ -10,6 +10,7 @@
 - Added deterministic source overlay/hardening scripts and source-drift gates.
 - Added production Forge Mixin discovery through the final JAR manifest and generated `harimt.refmap.json` so reobfuscated runtime attachment matches development behavior.
 - Hardened ForgeGradle/MixinGradle ordering so annotation-processor hard-reference mappings are available to both `reobfJar` and `reobfJarJar`.
+- Fixed Forge persistence for `enableGpuCollision`: `/async gpu toggle` already called the platform save hook, but the Forge config bridge never defined/loaded/saved that common setting, so it silently returned to its default after a JVM restart.
 
 ### Entity ticking
 
@@ -68,6 +69,7 @@ Release workflow gates include:
 - dense overlapping-mob Vulkan broad-phase proof;
 - sustained verified Vulkan batches plus live exact GPU-vs-CPU verification;
 - live Vulkan disable → vanilla fallback proof;
+- persisted `enableGpuCollision` state across a clean JVM restart;
 - palette mutation and forced world save;
 - clean stop/restart of the same world;
 - persisted-entity proof and fresh post-restart Vulkan verification;
