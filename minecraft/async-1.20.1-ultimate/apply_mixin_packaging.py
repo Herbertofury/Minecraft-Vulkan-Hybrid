@@ -29,6 +29,19 @@ for owned in (
     if owned in text:
         raise SystemExit(f"source drift: Forge build already contains production Mixin packaging token: {owned}")
 
+# Upstream ForgeGradle run configs inject one comma-joined --mixin.config value
+# into client and server. ModLauncher/Mixin treats that dev-run value as one
+# literal resource name, so it cannot coexist with MixinGradle's correct
+# per-config run arguments. Remove exactly the two pinned-upstream occurrences
+# before letting MixinGradle own run registration and production manifest output.
+legacy_run_arg = '            args "--mixin.config=${mod_id}.common.mixins.json,${mod_id}.forge.mixins.json"\n'
+legacy_count = text.count(legacy_run_arg)
+if legacy_count != 2:
+    raise SystemExit(
+        f"source drift: expected exactly two legacy combined Mixin run args, found {legacy_count}"
+    )
+text = text.replace(legacy_run_arg, "", 2)
+
 # This multiloader uses exclusive repositories in settings.pluginManagement,
 # so project-level buildscript.repositories are forbidden by Gradle 8.11. Use
 # the official plugins-DSL form of MixinGradle instead. The settings file already
@@ -57,9 +70,7 @@ text = text.replace(
 # compileJava task, so this one refmap covers both common and Forge mixins.
 # Register each config through MixinGradle as well: ForgeGradle dev runs then get
 # one --mixin.config argument per resource, while MixinGradle contributes the
-# production MixinConfigs manifest attribute itself. Do not hand-write a combined
-# manifest entry into the dev launch, where ModLauncher can treat it as one literal
-# resource name instead of two configuration resources.
+# production MixinConfigs manifest attribute itself.
 repositories_marker = "}\n\nrepositories {"
 if text.count(repositories_marker) != 1:
     raise SystemExit("source drift: expected one minecraft/repositories boundary")
