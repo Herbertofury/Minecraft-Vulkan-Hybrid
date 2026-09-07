@@ -115,9 +115,9 @@ backend_replace(
                 VK.create();
             }
 ''',
-'''            // VK.getFunctionProvider() may be null after VK.destroy(), while
-            // explicit-init configurations can throw before create(). Handle both
-            // so integrated-server stop/start recreates the Vulkan loader cleanly.
+'''            // VK.getFunctionProvider() may be null when nobody else has loaded
+            // LWJGL's process-global Vulkan function provider yet. Initialize it
+            // lazily, but never claim exclusive ownership of that global provider.
             try {
                 if (VK.getFunctionProvider() == null) VK.create();
             } catch (IllegalStateException notInitialized) {
@@ -178,6 +178,14 @@ backend_replace(
                         .descriptorCount(1)
                         .descriptorType(VK_DESCRIPTOR_TYPE_STORAGE_BUFFER)
                         .pBufferInfo(VkDescriptorBufferInfo.create(infos.get(i).address(), 1));
+''')
+backend_replace(
+'''        try { VK.destroy(); } catch (Throwable ignored) { }
+''',
+'''        // VK is a process-global LWJGL loader and may be owned by Minecraft or
+        // another Vulkan-using mod. We destroy only HMT's VkInstance/VkDevice and
+        // leave the shared function provider alive. The process will release it
+        // naturally, and HMT can create a new instance after integrated-server stop.
 ''')
 backend.write_text(backend_text, encoding="utf-8")
 
