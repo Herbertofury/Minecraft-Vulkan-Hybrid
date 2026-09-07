@@ -9,6 +9,7 @@ import subprocess
 import sys
 import threading
 import time
+import traceback
 from pathlib import Path
 
 FATAL_PATTERNS = (
@@ -231,12 +232,11 @@ def main() -> int:
         if "Vulkan push broad-phase sustained: 10 consecutive verified batches completed" not in joined:
             raise RuntimeError("sustained integrated-server Vulkan proof missing")
 
-        log_path = forge_run / "logs" / "latest.log"
-        if log_path.is_file():
-            shutil.copy2(log_path, evidence / "forge-client-latest.log")
-        (evidence / "forge-client-console.log").write_text(joined, encoding="utf-8")
         print("[HMT-CLIENT-QA] real Forge client + integrated-server Vulkan gate PASSED", flush=True)
         return 0
+    except Exception:
+        (evidence / "harness-error.txt").write_text(traceback.format_exc(), encoding="utf-8")
+        raise
     finally:
         if proc is not None and proc.poll() is None:
             proc.terminate()
@@ -261,6 +261,14 @@ def main() -> int:
             except subprocess.TimeoutExpired:
                 xvfb.kill()
                 xvfb.wait(timeout=5)
+
+        # Evidence must survive both passing and failing client gates. The Actions
+        # job log endpoint is not guaranteed to be available to continuation tools,
+        # so persist the subprocess transcript and Minecraft log after cleanup.
+        (evidence / "forge-client-console.log").write_text("".join(lines), encoding="utf-8")
+        log_path = forge_run / "logs" / "latest.log"
+        if log_path.is_file():
+            shutil.copy2(log_path, evidence / "forge-client-latest.log")
 
 
 if __name__ == "__main__":
