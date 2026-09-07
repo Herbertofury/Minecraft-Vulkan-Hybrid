@@ -74,7 +74,7 @@ HMT can tick synchronous fallback entities while async entity workers are still 
 ## Operator QoL
 
 - `/async gpu` reports the real backend/device, dispatch count, last dispatch time, deferred GPU batches, vanilla fallbacks, pair count and circuit-breaker state.
-- `/async gpu toggle` switches acceleration live while preserving vanilla replay.
+- `/async gpu toggle` switches acceleration live while preserving vanilla replay, and its Forge setting is persisted through the normal config save path so the choice survives a clean JVM restart.
 - `/async gpu test` is no longer a synthetic CPU benchmark mislabeled as GPU. It compares live-world Vulkan candidates against an exact double-precision CPU AABB reference for up to 512 entities.
 - Conservative GPU extras are allowed; a single missing true pair is a correctness failure and automatically disables GPU acceleration + persists the setting.
 
@@ -92,6 +92,7 @@ The release workflow must pass all of these before GitHub publication:
 - 10 consecutive verified Vulkan batches;
 - live `/async gpu test` with zero false negatives;
 - live Vulkan-off vanilla fallback;
+- persisted GPU-disabled state across a clean Forge JVM restart;
 - palette mutation + `save-all flush`;
 - clean stop and restart of the same world;
 - persisted-entity proof;
