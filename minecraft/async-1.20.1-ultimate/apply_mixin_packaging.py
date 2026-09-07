@@ -55,19 +55,20 @@ text = text.replace(
 # MixinGradle wires the AP to Forge's main Java compile and adds the generated
 # refmap to compiler outputs. multiloader-loader feeds common Java into the same
 # compileJava task, so this one refmap covers both common and Forge mixins.
+# Register each config through MixinGradle as well: ForgeGradle dev runs then get
+# one --mixin.config argument per resource, while MixinGradle contributes the
+# production MixinConfigs manifest attribute itself. Do not hand-write a combined
+# manifest entry into the dev launch, where ModLauncher can treat it as one literal
+# resource name instead of two configuration resources.
 repositories_marker = "}\n\nrepositories {"
 if text.count(repositories_marker) != 1:
     raise SystemExit("source drift: expected one minecraft/repositories boundary")
-refmap_block = '''}\n\n// Production Forge refmap generation.\nmixin {\n    add sourceSets.main, "${mod_id}.refmap.json"\n}\n\nrepositories {\n    maven { name = 'Sponge'; url = 'https://repo.spongepowered.org/repository/maven-public' }'''
+refmap_block = '''}\n\n// Production Forge refmap + Mixin config registration.\nmixin {\n    add sourceSets.main, "${mod_id}.refmap.json"\n    config 'harimt.common.mixins.json'\n    config 'harimt.forge.mixins.json'\n}\n// Expected production JAR manifest contribution from MixinGradle:\n// 'MixinConfigs': 'harimt.common.mixins.json,harimt.forge.mixins.json'\n\nrepositories {\n    maven { name = 'Sponge'; url = 'https://repo.spongepowered.org/repository/maven-public' }'''
 text = text.replace(repositories_marker, refmap_block, 1)
 
-# ForgeGradle dev runs pass --mixin.config explicitly, but production
-# ModLauncher discovers core Mixin configs from the JAR manifest. Keep an
-# explicit value on the real jar task and verify the reobfuscated output in CI.
 reobf_marker = "// FG6 automatically creates the reobfJar task for SRG reobfuscation\njar.finalizedBy('reobfJar')"
 if text.count(reobf_marker) != 1:
     raise SystemExit("source drift: expected exactly one Forge reobfJar marker")
-manifest_block = '''// Production ModLauncher Mixin discovery.\ntasks.named('jar').configure {\n    manifest {\n        attributes([\n            'MixinConfigs': 'harimt.common.mixins.json,harimt.forge.mixins.json'\n        ])\n    }\n}\n\n'''
 
 # MixinGradle 0.7 creates configureReobfTaskForReobf* tasks which read the
 # AP-generated compileJava-mappings.tsrg. With ForgeGradle 6 Gradle may schedule
@@ -78,7 +79,7 @@ manifest_block = '''// Production ModLauncher Mixin discovery.\ntasks.named('jar
 # let reobfJar/reobfJarJar consume them. This repairs all generated hard refs at
 # the pipeline boundary instead of adding per-field aliases.
 reobf_order_block = '''// Ensure Mixin AP hard-reference mappings exist before reobf configuration.\nafterEvaluate {\n    tasks.configureReobfTaskForReobfJar.mustRunAfter(tasks.compileJava)\n    tasks.configureReobfTaskForReobfJarJar.mustRunAfter(tasks.compileJava)\n}\n\n'''
-text = text.replace(reobf_marker, manifest_block + reobf_order_block + reobf_marker, 1)
+text = text.replace(reobf_marker, reobf_order_block + reobf_marker, 1)
 
 build.write_text(text, encoding="utf-8")
-print("HariMultiThread production Mixin plugin/refmap/manifest/reobf ordering applied successfully")
+print("HariMultiThread production Mixin plugin/refmap/config/reobf ordering applied successfully")
