@@ -54,6 +54,8 @@ This release replaces that path instead of layering more reflection on top of it
 - Hardware Vulkan devices are preferred automatically; software/CPU Vulkan is opt-in and is enabled only in CI to exercise the compute path under Mesa.
 - GPU input is the entities' actual runtime AABBs, outward-rounded during float conversion so precision narrowing can create conservative extras but cannot remove a true overlap.
 - The shader uses nine SSBO bindings, 16-byte push constants and uniform workgroup barriers even in a partial final workgroup.
+- Every storage-buffer `VkWriteDescriptorSet` now explicitly sets `descriptorCount(1)`. The prior zero-initialized count made all nine descriptor updates zero-length, allowing apparently successful dispatches to return an empty candidate set.
+- A compute-shader-write → host-read memory barrier makes GPU pair-counter/output writes available before the persistently mapped buffers are read on the CPU.
 - Every dispatch resets/re-records the command buffer, submits behind a fence and has a bounded timeout.
 - Output overflow, device loss, invalid indices, initialization failure or any incomplete result causes a complete vanilla fallback; collision physics are never silently truncated.
 
@@ -86,7 +88,7 @@ The release workflow must pass all of these before GitHub publication:
 - compile-checked LWJGL Vulkan backend JAR;
 - GLSL to SPIR-V compilation + packaged shader verification;
 - packaged Forge 47.4.23 dedicated-server boot;
-- dense overlapping vanilla async-mob fixture sized to exercise the GPU candidate-capacity path;
+- dense overlapping vanilla async-mob fixture with exact Vulkan-vs-CPU candidate verification;
 - 10 consecutive verified Vulkan batches;
 - live `/async gpu test` with zero false negatives;
 - live Vulkan-off vanilla fallback;
