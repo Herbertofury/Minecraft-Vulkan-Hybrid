@@ -14,24 +14,19 @@ import time
 from pathlib import Path
 
 FATAL_PATTERNS = (
-    "MixinApplyError",
-    "InvalidMixinException",
-    "InjectionError",
-    "Exception in server tick loop",
-    "OutOfMemoryError",
-    "VK_ERROR_DEVICE_LOST",
+    "MixinApplyError", "InvalidMixinException", "InjectionError",
+    "Exception in server tick loop", "OutOfMemoryError", "VK_ERROR_DEVICE_LOST",
     "A fatal error has been detected by the Java Runtime Environment",
-    "Failed to start the minecraft server",
-    "GPU VERIFICATION FAILED",
+    "Failed to start the minecraft server", "GPU VERIFICATION FAILED",
     "Vulkan backend initialization failed",
 )
-
 MSPT_RE = re.compile(r"MSPT:\s*([0-9]+(?:\.[0-9]+)?)ms")
 ENTITIES_RE = re.compile(r"Entities:\s*([0-9]+)")
 LAST_DISPATCH_RE = re.compile(r"Last dispatch:\s*([0-9]+(?:\.[0-9]+)?) ms")
 GPU_BATCHES_RE = re.compile(r"Deferred push GPU batches:\s*([0-9]+)")
 PAIR_RE = re.compile(r"Candidate pairs:\s*([0-9]+)")
 FAR_MARKER_COUNT = 512
+FAR_LIVING_COUNT = 512
 
 
 def percentile(values: list[float], p: float) -> float:
@@ -70,29 +65,16 @@ class ServerHarness:
     def start(self) -> None:
         env = os.environ.copy()
         opts = env.get("JDK_JAVA_OPTIONS", "").strip()
-        required = (
-            "-Dharimt.vulkan.allowCpuDevice=true",
-            "-Xms3G",
-            "-Xmx3G",
-            "-XX:+AlwaysPreTouch",
-        )
-        for opt in required:
+        for opt in ("-Dharimt.vulkan.allowCpuDevice=true", "-Xms3G", "-Xmx3G", "-XX:+AlwaysPreTouch"):
             if opt not in opts.split():
                 opts = f"{opts} {opt}".strip()
         env["JDK_JAVA_OPTIONS"] = opts
-
         self.proc = subprocess.Popen(
-            ["bash", "run.sh", "nogui"],
-            cwd=self.server_dir,
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-            bufsize=1,
-            env=env,
+            ["bash", "run.sh", "nogui"], cwd=self.server_dir,
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+            text=True, bufsize=1, env=env,
         )
-        assert self.proc.stdout is not None
-        assert self.proc.stdin is not None
+        assert self.proc.stdout is not None and self.proc.stdin is not None
 
         def reader() -> None:
             assert self.proc is not None and self.proc.stdout is not None
@@ -209,10 +191,7 @@ def prepare_common(h: ServerHarness) -> None:
     h.send("gamerule maxEntityCramming 0")
     h.send("difficulty normal")
     h.send("forceload add 0 0")
-    # Two distant chunks kept active only to hold low-cost marker entities. They
-    # are unrelated to the local cow collisions and therefore expose the old
-    # dimension-wide GPU upload/compare overhead without adding renderer work.
-    h.send("forceload add 512 512 527 543")
+    h.send("forceload add 512 512 543 543")
     h.send("time set noon")
     h.send("kill @e[tag=harimt_perf]")
     h.send("kill @e[tag=harimt_noise]")
@@ -221,49 +200,51 @@ def prepare_common(h: ServerHarness) -> None:
     time.sleep(2.0)
 
 
+def cow_nbt(tag: str) -> str:
+    return ('{Tags:["' + tag + '"],NoAI:1b,NoGravity:1b,Silent:1b,'
+            'PersistenceRequired:1b,Invulnerable:1b}')
+
+
 def summon_spread(h: ServerHarness) -> None:
-    # 256 live cows in one entity section, one per block. Their AABBs do not
-    # initially intersect. This exercises ordinary EntitySection/query overhead.
     for x in range(16):
         for z in range(16):
-            h.send(
-                f'execute in minecraft:overworld run summon minecraft:cow {x + 0.5:.1f} 199 {z + 0.5:.1f} '
-                '{Tags:["harimt_perf"],NoAI:1b,NoGravity:1b,Silent:1b,'
-                'PersistenceRequired:1b,Invulnerable:1b}'
-            )
+            h.send(f'execute in minecraft:overworld run summon minecraft:cow {x + 0.5:.1f} 199 {z + 0.5:.1f} {cow_nbt("harimt_perf")}')
 
 
 def summon_dense(h: ServerHarness) -> None:
-    # Same entity count, same dimension/chunk, all overlapping. This stresses the
-    # deferred push replay and Vulkan broad phase through the production path.
     for _ in range(256):
-        h.send(
-            'execute in minecraft:overworld run summon minecraft:cow 8.5 199 8.5 '
-            '{Tags:["harimt_perf"],NoAI:1b,NoGravity:1b,Silent:1b,'
-            'PersistenceRequired:1b,Invulnerable:1b}'
-        )
+        h.send(f'execute in minecraft:overworld run summon minecraft:cow 8.5 199 8.5 {cow_nbt("harimt_perf")}')
 
 
 def summon_far_markers(h: ServerHarness) -> None:
-    # Base Entity markers have no AI/rendering and are distributed one per block
-    # hundreds of blocks from the collision workload. The verified baseline still
-    # uploads every one to Vulkan because it scans world.getAllEntities(); the
-    # spatial candidate must exclude them while preserving exact local results.
     created = 0
     for x in range(512, 528):
         for z in range(512, 544):
-            h.send(
-                f'execute in minecraft:overworld run summon minecraft:marker {x + 0.5:.1f} 199 {z + 0.5:.1f} '
-                '{Tags:["harimt_noise"]}'
-            )
+            h.send(f'execute in minecraft:overworld run summon minecraft:marker {x + 0.5:.1f} 199 {z + 0.5:.1f} {{Tags:["harimt_noise"]}}')
             created += 1
     if created != FAR_MARKER_COUNT:
         raise RuntimeError(f"expected {FAR_MARKER_COUNT} far markers, created {created}")
 
 
-def summon_dense_with_noise(h: ServerHarness) -> None:
+def summon_far_living_farms(h: ServerHarness) -> None:
+    # Two distant 256-cow farms in two different 16^3 sections. They are true
+    # LivingEntities, so unlike marker noise they also generate deferred push work.
+    # A global GPU batch compares all three farms against one another; section-local
+    # batching performs three independent exact-conservative neighborhoods.
+    for _ in range(256):
+        h.send(f'execute in minecraft:overworld run summon minecraft:cow 520.5 199 520.5 {cow_nbt("harimt_noise")}')
+    for _ in range(256):
+        h.send(f'execute in minecraft:overworld run summon minecraft:cow 536.5 199 520.5 {cow_nbt("harimt_noise")}')
+
+
+def summon_dense_with_markers(h: ServerHarness) -> None:
     summon_dense(h)
     summon_far_markers(h)
+
+
+def summon_dense_with_living_farms(h: ServerHarness) -> None:
+    summon_dense(h)
+    summon_far_living_farms(h)
 
 
 def run_scenario(h: ServerHarness, name: str, summon, require_initial_sustained: bool = False) -> dict[str, object]:
@@ -274,13 +255,7 @@ def run_scenario(h: ServerHarness, name: str, summon, require_initial_sustained:
     marker_start = len(h.lines)
     summon(h)
     if require_initial_sustained:
-        h.wait_for_text(
-            "Vulkan push broad-phase sustained: 10 consecutive verified batches completed",
-            120,
-            marker_start,
-        )
-    # Long enough to fill MinecraftServer's moving average with the scenario and
-    # let HotSpot compile the hot paths. The exact same warm-up is used for A/B.
+        h.wait_for_text("Vulkan push broad-phase sustained: 10 consecutive verified batches completed", 120, marker_start)
     time.sleep(20.0)
     mspt, entity_counts = h.collect_stats()
     gpu = h.collect_gpu_status()
@@ -312,6 +287,7 @@ def main() -> int:
         "benchmark": "HariMultiThread Ultimate real Forge 47.4.23 entity workload",
         "java": 17,
         "far_marker_count": FAR_MARKER_COUNT,
+        "far_living_count": FAR_LIVING_COUNT,
         "workloads": [],
     }
     try:
@@ -319,14 +295,11 @@ def main() -> int:
         prepare_common(h)
         workloads = result["workloads"]
         assert isinstance(workloads, list)
-        workloads.append(run_scenario(
-            h, "spread-256-single-section", summon_spread, require_initial_sustained=True))
+        workloads.append(run_scenario(h, "spread-256-single-section", summon_spread, True))
         workloads.append(run_scenario(h, "dense-256-vulkan-push", summon_dense))
-        workloads.append(run_scenario(
-            h, "dense-256-plus-512-far-markers", summon_dense_with_noise))
+        workloads.append(run_scenario(h, "dense-256-plus-512-far-markers", summon_dense_with_markers))
+        workloads.append(run_scenario(h, "three-distant-dense-256-cow-farms", summon_dense_with_living_farms))
 
-        # The live verifier caps its input at 512 entities. Remove far background
-        # noise so it verifies the exact dense local collision population directly.
         h.send("kill @e[tag=harimt_noise]")
         time.sleep(2.0)
         start = h.send("async gpu test")
@@ -337,9 +310,7 @@ def main() -> int:
         h.stop()
 
     (evidence_dir / "benchmark.json").write_text(
-        json.dumps(result, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
+        json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps(result, indent=2, sort_keys=True), flush=True)
     return 0
 
