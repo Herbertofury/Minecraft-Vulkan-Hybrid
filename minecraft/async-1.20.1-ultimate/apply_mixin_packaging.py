@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from pathlib import Path
+import subprocess
 import sys
 
 if len(sys.argv) != 2:
@@ -94,3 +95,13 @@ text = text.replace(reobf_marker, reobf_order_block + reobf_marker, 1)
 
 build.write_text(text, encoding="utf-8")
 print("HariMultiThread production Mixin plugin/refmap/config/reobf ordering applied successfully")
+
+# The final transformed source must remain compatible with Noxviola's established
+# performance stack. Run this immediately after the last deterministic source
+# transform so renderer/GL separation, conservative modded-entity threading,
+# C2ME/DimThread locality, and private Vulkan packaging are release-blocking.
+audit = Path(__file__).with_name("performance_stack_compatibility_audit.py")
+report = Path.cwd() / "evidence/compatibility/HariMultiThread-Ultimate-Noxviola-Performance-Stack-Compatibility.md"
+if not audit.is_file():
+    raise SystemExit(f"missing performance-stack compatibility audit: {audit}")
+subprocess.run([sys.executable, str(audit), str(root), str(report)], check=True)
