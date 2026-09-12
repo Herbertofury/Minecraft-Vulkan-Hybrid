@@ -40,8 +40,10 @@ new = '''        // Only entities intersecting the conservative union of deferre
                     Math.max(queryBounds.maxZ, box.maxZ));
         }
 
+        // Cast null to Entity so Java selects Level#getEntities(Entity, AABB,
+        // Predicate) rather than the EntityTypeTest overload.
         List<Entity> collisionPopulation = world.getEntities(
-                null,
+                (Entity) null,
                 queryBounds,
                 current -> current != null && !current.isRemoved() && current.isAlive());
         if (collisionPopulation.size() < 16) return null;
