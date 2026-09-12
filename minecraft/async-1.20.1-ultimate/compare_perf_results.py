@@ -6,8 +6,10 @@ import json
 from pathlib import Path
 
 NOISE = "dense-256-plus-512-far-markers"
+LIVING = "three-distant-dense-256-cow-farms"
 DENSE = "dense-256-vulkan-push"
 SPREAD = "spread-256-single-section"
+REQUIRED = {SPREAD, DENSE, NOISE, LIVING}
 
 
 def load(path: Path) -> dict:
@@ -19,9 +21,7 @@ def workloads(doc: dict) -> dict[str, dict]:
 
 
 def pct_change(before: float, after: float) -> float:
-    if before == 0:
-        return 0.0
-    return (after - before) * 100.0 / before
+    return 0.0 if before == 0 else (after - before) * 100.0 / before
 
 
 def metric(entry: dict, name: str) -> float:
@@ -37,7 +37,7 @@ def main() -> int:
 
     base = workloads(load(args.baseline))
     cand = workloads(load(args.candidate))
-    missing = {SPREAD, DENSE, NOISE} - set(base) | ({SPREAD, DENSE, NOISE} - set(cand))
+    missing = (REQUIRED - set(base)) | (REQUIRED - set(cand))
     if missing:
         raise SystemExit(f"benchmark workload(s) missing: {sorted(missing)}")
 
@@ -49,13 +49,11 @@ def main() -> int:
         if not passed:
             report["pass"] = False
 
-    for name in (SPREAD, DENSE, NOISE):
+    for name in (SPREAD, DENSE, NOISE, LIVING):
         b = base[name]
         c = cand[name]
-        b_med = metric(b, "median")
-        c_med = metric(c, "median")
-        b_mean = metric(b, "mean")
-        c_mean = metric(c, "mean")
+        b_med, c_med = metric(b, "median"), metric(c, "median")
+        b_mean, c_mean = metric(b, "mean"), metric(c, "mean")
         report["workloads"][name] = {  # type: ignore[index]
             "baseline_median_mspt": b_med,
             "candidate_median_mspt": c_med,
@@ -69,48 +67,47 @@ def main() -> int:
             "candidate_last_gpu_dispatch_ms": c.get("gpu", {}).get("last_dispatch_ms"),
         }
 
-    # No-regression gates on the ordinary workloads. A 5% band accounts for the
-    # unavoidable noise of sequential real JVM/server runs on a shared CI host.
+    # Shared-host real JVM runs are noisy, so ordinary workloads get a narrow 5%
+    # guard band. The candidate must never buy a headline win by slowing the common
+    # single-neighborhood cases beyond that band.
     for name in (SPREAD, DENSE):
-        b_med = metric(base[name], "median")
-        c_med = metric(cand[name], "median")
+        b_med, c_med = metric(base[name], "median"), metric(cand[name], "median")
         add_gate(
             f"{name}: median MSPT no-regression",
             c_med <= b_med * 1.05,
             f"baseline={b_med:.3f} ms candidate={c_med:.3f} ms change={pct_change(b_med, c_med):+.2f}%",
         )
 
-    # The optimization exists specifically to stop far unrelated entities from
-    # inflating the local push broad phase. Require an actual game-loop improvement,
-    # not merely a synthetic dispatch reduction.
-    b_noise_med = metric(base[NOISE], "median")
-    c_noise_med = metric(cand[NOISE], "median")
-    b_noise_mean = metric(base[NOISE], "mean")
-    c_noise_mean = metric(cand[NOISE], "mean")
-    add_gate(
-        "far-noise workload: >=10% median MSPT gain",
-        c_noise_med <= b_noise_med * 0.90,
-        f"baseline={b_noise_med:.3f} ms candidate={c_noise_med:.3f} ms gain={-pct_change(b_noise_med, c_noise_med):.2f}%",
-    )
-    add_gate(
-        "far-noise workload: >=8% mean MSPT gain",
-        c_noise_mean <= b_noise_mean * 0.92,
-        f"baseline={b_noise_mean:.3f} ms candidate={c_noise_mean:.3f} ms gain={-pct_change(b_noise_mean, c_noise_mean):.2f}%",
-    )
-
-    b_dispatch = base[NOISE].get("gpu", {}).get("last_dispatch_ms")
-    c_dispatch = cand[NOISE].get("gpu", {}).get("last_dispatch_ms")
-    if b_dispatch is None or c_dispatch is None:
-        add_gate("far-noise workload: Vulkan dispatch telemetry present", False,
-                 f"baseline={b_dispatch!r} candidate={c_dispatch!r}")
-    else:
-        b_dispatch = float(b_dispatch)
-        c_dispatch = float(c_dispatch)
+    def improvement_gates(name: str, label: str, median_gain: float, mean_gain: float, dispatch_gain: float) -> None:
+        b_med, c_med = metric(base[name], "median"), metric(cand[name], "median")
+        b_mean, c_mean = metric(base[name], "mean"), metric(cand[name], "mean")
         add_gate(
-            "far-noise workload: >=35% Vulkan dispatch gain",
-            c_dispatch <= b_dispatch * 0.65,
-            f"baseline={b_dispatch:.3f} ms candidate={c_dispatch:.3f} ms gain={-pct_change(b_dispatch, c_dispatch):.2f}%",
+            f"{label}: >={median_gain:.0f}% median MSPT gain",
+            c_med <= b_med * (1.0 - median_gain / 100.0),
+            f"baseline={b_med:.3f} ms candidate={c_med:.3f} ms gain={-pct_change(b_med, c_med):.2f}%",
         )
+        add_gate(
+            f"{label}: >={mean_gain:.0f}% mean MSPT gain",
+            c_mean <= b_mean * (1.0 - mean_gain / 100.0),
+            f"baseline={b_mean:.3f} ms candidate={c_mean:.3f} ms gain={-pct_change(b_mean, c_mean):.2f}%",
+        )
+        b_dispatch = base[name].get("gpu", {}).get("last_dispatch_ms")
+        c_dispatch = cand[name].get("gpu", {}).get("last_dispatch_ms")
+        if b_dispatch is None or c_dispatch is None:
+            add_gate(f"{label}: Vulkan dispatch telemetry present", False,
+                     f"baseline={b_dispatch!r} candidate={c_dispatch!r}")
+        else:
+            b_dispatch, c_dispatch = float(b_dispatch), float(c_dispatch)
+            add_gate(
+                f"{label}: >={dispatch_gain:.0f}% Vulkan dispatch gain",
+                c_dispatch <= b_dispatch * (1.0 - dispatch_gain / 100.0),
+                f"baseline={b_dispatch:.3f} ms candidate={c_dispatch:.3f} ms gain={-pct_change(b_dispatch, c_dispatch):.2f}%",
+            )
+
+    improvement_gates(NOISE, "far-marker workload", 10.0, 8.0, 35.0)
+    # This is the stronger real-world test: three independent dense living mob
+    # neighborhoods. Require an actual game-loop win as well as a GPU win.
+    improvement_gates(LIVING, "three-distant-mob-farms workload", 5.0, 3.0, 25.0)
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
