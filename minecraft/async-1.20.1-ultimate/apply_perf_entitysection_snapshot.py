@@ -14,10 +14,12 @@ text = path.read_text(encoding="utf-8")
 old_field = '''    @Unique private final Object async$storageLock = new Object();
 '''
 new_field = '''    @Unique private final Object async$storageLock = new Object();
-    // Query readers consume a stable point-in-time view without allocating/copying
-    // the entire section on every spatial query. Writers publish a fresh list while
-    // holding the same storage lock used by the verified thread-safety layer.
+    // Membership writes stay O(1). Query readers reuse an immutable point-in-time
+    // list until the membership version changes, so a burst of add/remove events
+    // causes at most one copy on the next query rather than one copy per mutation.
     @Unique private volatile List<T> async$storageSnapshot = List.of();
+    @Unique private volatile long async$storageVersion;
+    @Unique private volatile long async$snapshotVersion = -1L;
 '''
 if text.count(old_field) != 1:
     raise SystemExit("source drift: storage lock field not found exactly once")
@@ -30,7 +32,8 @@ old_init = '''    private void async$init(Class<?> clazz, Visibility status, Cal
 new_init = '''    private void async$init(Class<?> clazz, Visibility status, CallbackInfo ci) {
         async$atomicStatus.set(status != null ? status : Visibility.HIDDEN);
         synchronized (async$storageLock) {
-            async$publishStorageSnapshot();
+            async$storageSnapshot = new ArrayList<>(storage);
+            async$snapshotVersion = async$storageVersion;
         }
     }
 '''
@@ -56,7 +59,7 @@ new_mutators = '''    @Overwrite
     public void add(T entity) {
         synchronized (async$storageLock) {
             storage.add(entity);
-            async$publishStorageSnapshot();
+            ++async$storageVersion;
         }
     }
 
@@ -64,7 +67,7 @@ new_mutators = '''    @Overwrite
     public boolean remove(T entity) {
         synchronized (async$storageLock) {
             boolean removed = storage.remove(entity);
-            if (removed) async$publishStorageSnapshot();
+            if (removed) ++async$storageVersion;
             return removed;
         }
     }
@@ -96,7 +99,7 @@ old_stream = '''    @WrapMethod(method = "getEntities()Ljava/util/stream/Stream;
 '''
 new_stream = '''    @WrapMethod(method = "getEntities()Ljava/util/stream/Stream;")
     private Stream<T> async$snapshotEntities(Operation<Stream<T>> original) {
-        return async$storageSnapshot.stream().filter(Objects::nonNull);
+        return async$getStorageSnapshot().stream().filter(Objects::nonNull);
     }
 '''
 if text.count(old_stream) != 1:
@@ -109,7 +112,7 @@ old_typed = '''        List<T> snapshot;
         }
         for (T entity : snapshot) {
 '''
-new_typed = '''        List<T> snapshot = async$storageSnapshot;
+new_typed = '''        List<T> snapshot = async$getStorageSnapshot();
         for (T entity : snapshot) {
 '''
 if text.count(old_typed) != 1:
@@ -120,11 +123,18 @@ helper_anchor = '''    @Overwrite
     public Visibility getStatus() {
 '''
 helper = '''    @Unique
-    private void async$publishStorageSnapshot() {
-        // ArrayList is never mutated after this volatile publication; readers may
-        // safely finish iterating an older snapshot while a writer publishes a new
-        // one. This preserves the prior point-in-time query snapshot semantics.
-        async$storageSnapshot = new ArrayList<>(storage);
+    private List<T> async$getStorageSnapshot() {
+        long currentVersion = async$storageVersion;
+        List<T> snapshot = async$storageSnapshot;
+        if (async$snapshotVersion == currentVersion) return snapshot;
+
+        synchronized (async$storageLock) {
+            if (async$snapshotVersion != async$storageVersion) {
+                async$storageSnapshot = new ArrayList<>(storage);
+                async$snapshotVersion = async$storageVersion;
+            }
+            return async$storageSnapshot;
+        }
     }
 
 '''
@@ -134,16 +144,24 @@ text = text.replace(helper_anchor, helper + helper_anchor, 1)
 
 required = (
     "volatile List<T> async$storageSnapshot = List.of()",
-    "async$publishStorageSnapshot();",
-    "List<T> snapshot = async$storageSnapshot;",
-    "return async$storageSnapshot.stream()",
+    "volatile long async$storageVersion",
+    "volatile long async$snapshotVersion = -1L",
+    "++async$storageVersion",
+    "List<T> snapshot = async$getStorageSnapshot();",
+    "return async$getStorageSnapshot().stream()",
+    "if (async$snapshotVersion == currentVersion) return snapshot;",
     "synchronized (async$storageLock) {\n            return storage.isEmpty();",
 )
 for needle in required:
     if needle not in text:
-        raise SystemExit(f"snapshot-on-write invariant missing: {needle}")
+        raise SystemExit(f"lazy snapshot invariant missing: {needle}")
+
+# The only surviving storage copy must be the lazy refresh (plus constructor
+# initialization), never one copy per query and never one copy per mutation.
 if "snapshot = new ArrayList<>(storage);" in text:
     raise SystemExit("copy-on-query EntitySection allocation survived performance patch")
+if "async$publishStorageSnapshot" in text:
+    raise SystemExit("eager snapshot-on-write helper survived lazy performance patch")
 
 path.write_text(text, encoding="utf-8")
-print("HariMultiThread Ultimate EntitySection snapshot-on-write optimization applied")
+print("HariMultiThread Ultimate EntitySection lazy versioned snapshot optimization applied")
