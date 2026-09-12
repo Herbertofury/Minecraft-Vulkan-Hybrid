@@ -14,8 +14,8 @@ text = path.read_text(encoding="utf-8")
 old_field = '''    @Unique private final Object async$storageLock = new Object();
 '''
 new_field = '''    @Unique private final Object async$storageLock = new Object();
-    // Readers consume a stable point-in-time view without allocating/copying the
-    // entire section on every spatial query. Writers publish a fresh list while
+    // Query readers consume a stable point-in-time view without allocating/copying
+    // the entire section on every spatial query. Writers publish a fresh list while
     // holding the same storage lock used by the verified thread-safety layer.
     @Unique private volatile List<T> async$storageSnapshot = List.of();
 '''
@@ -51,13 +51,6 @@ old_mutators = '''    @Overwrite
             return storage.remove(entity);
         }
     }
-
-    @Overwrite
-    public boolean isEmpty() {
-        synchronized (async$storageLock) {
-            return storage.isEmpty();
-        }
-    }
 '''
 new_mutators = '''    @Overwrite
     public void add(T entity) {
@@ -75,15 +68,22 @@ new_mutators = '''    @Overwrite
             return removed;
         }
     }
-
-    @Overwrite
-    public boolean isEmpty() {
-        return async$storageSnapshot.isEmpty();
-    }
 '''
 if text.count(old_mutators) != 1:
     raise SystemExit("source drift: EntitySection mutator block not found exactly once")
 text = text.replace(old_mutators, new_mutators, 1)
+
+# Deliberately leave isEmpty() exactly as the verified locked implementation. It
+# participates in section lifecycle decisions and is not the allocation hotspot.
+old_empty = '''    @Overwrite
+    public boolean isEmpty() {
+        synchronized (async$storageLock) {
+            return storage.isEmpty();
+        }
+    }
+'''
+if text.count(old_empty) != 1:
+    raise SystemExit("source drift: verified locked isEmpty implementation missing")
 
 old_stream = '''    @WrapMethod(method = "getEntities()Ljava/util/stream/Stream;")
     private Stream<T> async$snapshotEntities(Operation<Stream<T>> original) {
@@ -123,7 +123,7 @@ helper = '''    @Unique
     private void async$publishStorageSnapshot() {
         // ArrayList is never mutated after this volatile publication; readers may
         // safely finish iterating an older snapshot while a writer publishes a new
-        // one. This preserves the prior point-in-time snapshot semantics.
+        // one. This preserves the prior point-in-time query snapshot semantics.
         async$storageSnapshot = new ArrayList<>(storage);
     }
 
@@ -137,6 +137,7 @@ required = (
     "async$publishStorageSnapshot();",
     "List<T> snapshot = async$storageSnapshot;",
     "return async$storageSnapshot.stream()",
+    "synchronized (async$storageLock) {\n            return storage.isEmpty();",
 )
 for needle in required:
     if needle not in text:
