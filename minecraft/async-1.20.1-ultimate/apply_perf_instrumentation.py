@@ -24,8 +24,10 @@ def replace_once(path: Path, old: str, new: str, label: str) -> None:
 
 # Benchmark-only telemetry. This layer is applied identically to baseline and
 # candidate after every production transform, so it cannot create an A/B code
-# asymmetry in the measured hot path. It logs only when explicit benchmark
-# commands are issued, after the timed workload has already run.
+# asymmetry in the measured hot path. It emits only when explicit benchmark
+# commands are issued, after the timed workload has already run. Use direct
+# stdout rather than the logger so the external dedicated-server harness can
+# deterministically observe each marker through the process pipe.
 stats = file("common/src/main/java/com/axalotl/async/common/commands/StatsCommand.java")
 replace_once(
     stats,
@@ -33,9 +35,10 @@ replace_once(
     }
 
     private static void showEntityStats''',
-'''        org.slf4j.LoggerFactory.getLogger("HariMT/Perf").info(
-                "HMT_PERF_STATS mspt={} entities={} asyncEntities={}",
-                mspt, totalEntities, asyncEntities);
+'''        System.out.println(
+                "HMT_PERF_STATS mspt=" + mspt
+                        + " entities=" + totalEntities
+                        + " asyncEntities=" + asyncEntities);
         source.sendSuccess(() -> message, false);
     }
 
@@ -51,9 +54,10 @@ replace_once(
 
     /**
      * Compares the live GPU candidate set''',
-'''        org.slf4j.LoggerFactory.getLogger("HariMT/Perf").info(
-                "HMT_PERF_GPU lastDispatchMs={} gpuBatches={} candidatePairs={}",
-                d.getLastDispatchMillis(), GpuPushBatch.getGpuBatches(), GpuPushBatch.getGpuPairs());
+'''        System.out.println(
+                "HMT_PERF_GPU lastDispatchMs=" + d.getLastDispatchMillis()
+                        + " gpuBatches=" + GpuPushBatch.getGpuBatches()
+                        + " candidatePairs=" + GpuPushBatch.getGpuPairs());
         source.sendSuccess(() -> message, false);
     }
 
@@ -70,8 +74,7 @@ replace_once(
 '''        if (!missing.isEmpty()) {
             AsyncConfig.enableGpuCollision.setValue(false);
             PlatformUtils.saveConfig();
-            org.slf4j.LoggerFactory.getLogger("HariMT/Perf").error(
-                    "HMT_PERF_GPU_VERIFY FAIL missingPairs={}", missing.size());
+            System.out.println("HMT_PERF_GPU_VERIFY FAIL missingPairs=" + missing.size());
             source.sendFailure(AsyncCommand.prefix.copy().append(''',
     "GpuCommand verifier failure telemetry",
 )
@@ -82,9 +85,12 @@ replace_once(
         source.sendSuccess(() -> AsyncCommand.prefix.copy()''',
 '''        double gpuMs = d.getLastDispatchMillis();
         double cpuMs = cpuNanos / 1_000_000.0;
-        org.slf4j.LoggerFactory.getLogger("HariMT/Perf").info(
-                "HMT_PERF_GPU_VERIFY PASS exactPairs={} gpuCandidates={} extras={} gpuDispatchMs={} cpuReferenceMs={}",
-                exact.size(), gpu.size(), extras.size(), gpuMs, cpuMs);
+        System.out.println(
+                "HMT_PERF_GPU_VERIFY PASS exactPairs=" + exact.size()
+                        + " gpuCandidates=" + gpu.size()
+                        + " extras=" + extras.size()
+                        + " gpuDispatchMs=" + gpuMs
+                        + " cpuReferenceMs=" + cpuMs);
         source.sendSuccess(() -> AsyncCommand.prefix.copy()''',
     "GpuCommand verifier pass telemetry",
 )
@@ -98,4 +104,4 @@ for path, markers in (
         if text.count(marker) != 1:
             raise SystemExit(f"telemetry invariant failed for {path.name}: {marker}")
 
-print("HariMultiThread Ultimate symmetric performance telemetry applied")
+print("HariMultiThread Ultimate symmetric direct-stdout performance telemetry applied")
