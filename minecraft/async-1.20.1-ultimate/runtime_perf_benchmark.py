@@ -23,14 +23,17 @@ FATAL_PATTERNS = (
     "A fatal error has been detected by the Java Runtime Environment",
     "Failed to start the minecraft server",
     "GPU VERIFICATION FAILED",
+    "HMT_PERF_GPU_VERIFY FAIL",
     "Vulkan backend initialization failed",
 )
 
-MSPT_RE = re.compile(r"MSPT:\s*([0-9]+(?:\.[0-9]+)?)ms")
-ENTITIES_RE = re.compile(r"Entities:\s*([0-9]+)")
-LAST_DISPATCH_RE = re.compile(r"Last dispatch:\s*([0-9]+(?:\.[0-9]+)?) ms")
-GPU_BATCHES_RE = re.compile(r"Deferred push GPU batches:\s*([0-9]+)")
-PAIR_RE = re.compile(r"Candidate pairs:\s*([0-9]+)")
+STATS_RE = re.compile(
+    r"HMT_PERF_STATS mspt=([0-9]+(?:\.[0-9]+)?) entities=([0-9]+) asyncEntities=([0-9]+)"
+)
+GPU_STATUS_RE = re.compile(
+    r"HMT_PERF_GPU lastDispatchMs=([0-9]+(?:\.[0-9]+)?) gpuBatches=([0-9]+) candidatePairs=([0-9]+)"
+)
+GPU_VERIFY_PASS = "HMT_PERF_GPU_VERIFY PASS"
 FAR_MARKER_COUNT = 512
 
 
@@ -156,32 +159,26 @@ class ServerHarness:
         entity_counts: list[int] = []
         for i in range(count):
             start = self.send("async stats")
-            m = self.wait_for_regex(MSPT_RE, 20, start)
-            mspt.append(float(m.group(1)))
-            try:
-                e = self.wait_for_regex(ENTITIES_RE, 5, start)
-                entity_counts.append(int(e.group(1)))
-            except TimeoutError:
-                pass
-            print(f"[HMT-PERF] sample {i + 1}/{count}: {mspt[-1]:.3f} MSPT", flush=True)
+            match = self.wait_for_regex(STATS_RE, 20, start)
+            mspt.append(float(match.group(1)))
+            entity_counts.append(int(match.group(2)))
+            print(
+                f"[HMT-PERF] sample {i + 1}/{count}: {mspt[-1]:.3f} MSPT, "
+                f"entities={entity_counts[-1]}, async={match.group(3)}",
+                flush=True,
+            )
             if i + 1 < count:
                 time.sleep(interval)
         return mspt, entity_counts
 
     def collect_gpu_status(self) -> dict[str, float | int]:
         start = self.send("async gpu")
-        result: dict[str, float | int] = {}
-        for key, regex, cast in (
-            ("last_dispatch_ms", LAST_DISPATCH_RE, float),
-            ("gpu_batches", GPU_BATCHES_RE, int),
-            ("candidate_pairs", PAIR_RE, int),
-        ):
-            try:
-                match = self.wait_for_regex(regex, 8, start)
-                result[key] = cast(match.group(1))
-            except TimeoutError:
-                pass
-        return result
+        match = self.wait_for_regex(GPU_STATUS_RE, 20, start)
+        return {
+            "last_dispatch_ms": float(match.group(1)),
+            "gpu_batches": int(match.group(2)),
+            "candidate_pairs": int(match.group(3)),
+        }
 
     def stop(self) -> None:
         if self.proc is None:
@@ -209,9 +206,8 @@ def prepare_common(h: ServerHarness) -> None:
     h.send("gamerule maxEntityCramming 0")
     h.send("difficulty normal")
     h.send("forceload add 0 0")
-    # Two distant chunks kept active only to hold low-cost marker entities. They
-    # are unrelated to the local cow collisions and therefore expose the old
-    # dimension-wide GPU upload/compare overhead without adding renderer work.
+    # Distant loaded chunks hold low-cost marker entities. They are unrelated to
+    # local cow collisions and expose the old dimension-wide GPU population scan.
     h.send("forceload add 512 512 527 543")
     h.send("time set noon")
     h.send("kill @e[tag=harimt_perf]")
@@ -245,10 +241,9 @@ def summon_dense(h: ServerHarness) -> None:
 
 
 def summon_far_markers(h: ServerHarness) -> None:
-    # Base Entity markers have no AI/rendering and are distributed one per block
-    # hundreds of blocks from the collision workload. The verified baseline still
-    # uploads every one to Vulkan because it scans world.getAllEntities(); the
-    # spatial candidate must exclude them while preserving exact local results.
+    # Markers have no AI/rendering and are distributed hundreds of blocks from the
+    # collision workload. Baseline uploads them all via world.getAllEntities(); the
+    # spatial candidate should exclude them without changing local collisions.
     created = 0
     for x in range(512, 528):
         for z in range(512, 544):
@@ -279,8 +274,7 @@ def run_scenario(h: ServerHarness, name: str, summon, require_initial_sustained:
             120,
             marker_start,
         )
-    # Long enough to fill MinecraftServer's moving average with the scenario and
-    # let HotSpot compile the hot paths. The exact same warm-up is used for A/B.
+    # Same warm-up and sampling window for both A/B variants.
     time.sleep(20.0)
     mspt, entity_counts = h.collect_stats()
     gpu = h.collect_gpu_status()
@@ -325,12 +319,12 @@ def main() -> int:
         workloads.append(run_scenario(
             h, "dense-256-plus-512-far-markers", summon_dense_with_noise))
 
-        # The live verifier caps its input at 512 entities. Remove far background
-        # noise so it verifies the exact dense local collision population directly.
+        # The verifier caps its input at 512 entities. Remove far background noise
+        # so it checks the exact dense local collision population directly.
         h.send("kill @e[tag=harimt_noise]")
         time.sleep(2.0)
         start = h.send("async gpu test")
-        h.wait_for_text("Live GPU Verification PASS", 60, start)
+        h.wait_for_text(GPU_VERIFY_PASS, 60, start)
         h.send("save-all flush")
         time.sleep(2.0)
     finally:
