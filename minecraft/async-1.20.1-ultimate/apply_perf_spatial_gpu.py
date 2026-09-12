@@ -64,7 +64,7 @@ new_method = '''    private static QueryContext buildGpuContext(ServerLevel worl
             // AABB must also intersect this union, so impossible distant entities
             // are removed without changing authoritative collision semantics.
             List<Entity> collisionPopulation = world.getEntities(
-                    null,
+                    (Entity) null,
                     queryBounds,
                     current -> current != null && !current.isRemoved() && current.isAlive());
             if (collisionPopulation.size() < MIN_GPU_GROUP_SOURCES) continue;
@@ -155,6 +155,7 @@ required = (
     "MIN_GPU_GROUP_SOURCES = 16",
     "Map<SectionKey, List<LivingEntity>> sourceGroups",
     "world.getEntities(",
+    "(Entity) null",
     "SectionKey.of(source)",
     "if (groupSources.size() < MIN_GPU_GROUP_SOURCES) continue;",
     "if (!usedGpu) return null;",
