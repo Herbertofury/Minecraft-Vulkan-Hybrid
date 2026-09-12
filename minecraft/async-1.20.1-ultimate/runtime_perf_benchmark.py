@@ -19,6 +19,9 @@ FATAL_PATTERNS = (
     "A fatal error has been detected by the Java Runtime Environment",
     "Failed to start the minecraft server", "GPU VERIFICATION FAILED",
     "Vulkan backend initialization failed",
+    # Benchmark commands are part of the acceptance contract. A malformed setup
+    # command must fail immediately instead of silently benchmarking the wrong game.
+    "Incorrect argument for command", "Unknown or incomplete command",
 )
 MSPT_RE = re.compile(r"MSPT:\s*([0-9]+(?:\.[0-9]+)?)ms")
 ENTITIES_RE = re.compile(r"Entities:\s*([0-9]+)")
@@ -133,6 +136,15 @@ class ServerHarness:
             time.sleep(0.05)
         raise TimeoutError(f"timed out waiting for /{pattern.pattern}/")
 
+    def barrier(self, label: str, timeout: float = 30.0) -> None:
+        # Commands written to the dedicated-server console are executed in order.
+        # A unique say marker therefore proves every setup/summon command before it
+        # has actually executed before warm-up/timing begins.
+        safe = re.sub(r"[^A-Za-z0-9_]", "_", label)
+        marker = f"HMT_PERF_BARRIER_{safe}_{len(self.lines)}"
+        start = self.send(f"say {marker}")
+        self.wait_for_text(marker, timeout, start)
+
     def collect_stats(self, count: int = 7, interval: float = 6.0) -> tuple[list[float], list[int]]:
         mspt: list[float] = []
         entity_counts: list[int] = []
@@ -187,8 +199,12 @@ class ServerHarness:
 
 
 def prepare_common(h: ServerHarness) -> None:
-    h.send("gamerule doMobSpawning false")
-    h.send("gamerule maxEntityCramming 0")
+    start = h.send("gamerule doMobSpawning false")
+    h.wait_for_text("Gamerule doMobSpawning is now set to: false", 10, start)
+    # Java 1.20.1 rejects zero for this integer gamerule. A very high legal value
+    # prevents the intentionally dense cow piles from being killed by cramming.
+    start = h.send("gamerule maxEntityCramming 1000000")
+    h.wait_for_text("Gamerule maxEntityCramming is now set to: 1000000", 10, start)
     h.send("difficulty normal")
     h.send("forceload add 0 0")
     h.send("forceload add 512 512 543 543")
@@ -197,6 +213,7 @@ def prepare_common(h: ServerHarness) -> None:
     h.send("kill @e[tag=harimt_noise]")
     h.send("fill 0 198 0 15 198 15 minecraft:stone")
     h.send("fill 0 199 0 15 203 15 minecraft:air")
+    h.barrier("common_setup")
     time.sleep(2.0)
 
 
@@ -251,11 +268,16 @@ def run_scenario(h: ServerHarness, name: str, summon, require_initial_sustained:
     print(f"[HMT-PERF] preparing scenario={name}", flush=True)
     h.send("kill @e[tag=harimt_perf]")
     h.send("kill @e[tag=harimt_noise]")
-    time.sleep(3.0)
+    h.barrier(f"cleanup_{name}")
+    time.sleep(2.0)
+
     marker_start = len(h.lines)
     summon(h)
+    h.barrier(f"spawn_{name}", timeout=90.0)
     if require_initial_sustained:
         h.wait_for_text("Vulkan push broad-phase sustained: 10 consecutive verified batches completed", 120, marker_start)
+
+    # Fill the server rolling MSPT window and let HotSpot compile the hot paths.
     time.sleep(20.0)
     mspt, entity_counts = h.collect_stats()
     gpu = h.collect_gpu_status()
@@ -301,10 +323,12 @@ def main() -> int:
         workloads.append(run_scenario(h, "three-distant-dense-256-cow-farms", summon_dense_with_living_farms))
 
         h.send("kill @e[tag=harimt_noise]")
+        h.barrier("pre_live_gpu_verify")
         time.sleep(2.0)
         start = h.send("async gpu test")
         h.wait_for_text("Live GPU Verification PASS", 60, start)
         h.send("save-all flush")
+        h.barrier("final_save")
         time.sleep(2.0)
     finally:
         h.stop()
