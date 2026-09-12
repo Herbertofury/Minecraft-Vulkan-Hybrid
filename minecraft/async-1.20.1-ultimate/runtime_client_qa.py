@@ -9,6 +9,7 @@ import subprocess
 import sys
 import threading
 import time
+import traceback
 from pathlib import Path
 
 FATAL_PATTERNS = (
@@ -24,17 +25,71 @@ FATAL_PATTERNS = (
     "GLFW error",
 )
 
+MIN_RENDER_WIDTH = 800
+MIN_RENDER_HEIGHT = 450
+MIN_RENDER_COLORS = 64
+MIN_GRAY_STDDEV = 0.050
+RENDER_READY_TIMEOUT = 60.0
+
 
 def wait_x(display: str, timeout: float = 20.0) -> None:
     deadline = time.monotonic() + timeout
     env = os.environ.copy()
     env["DISPLAY"] = display
     while time.monotonic() < deadline:
-        if subprocess.run(["xdpyinfo"], env=env, stdout=subprocess.DEVNULL,
-                          stderr=subprocess.DEVNULL).returncode == 0:
+        if subprocess.run(
+            ["xdpyinfo"],
+            env=env,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        ).returncode == 0:
             return
         time.sleep(0.2)
     raise TimeoutError(f"Xvfb {display} did not become ready")
+
+
+def image_metrics(path: Path, env: dict[str, str]) -> tuple[int, int, int, float]:
+    geometry = subprocess.check_output(
+        ["identify", "-format", "%w %h %k", str(path)],
+        text=True,
+        env=env,
+        timeout=10,
+    ).strip().split()
+    if len(geometry) != 3:
+        raise RuntimeError(f"unexpected ImageMagick identify output for {path}: {geometry!r}")
+    width, height, colors = map(int, geometry)
+
+    convert = shutil.which("magick") or shutil.which("convert")
+    if convert is None:
+        raise RuntimeError("ImageMagick magick/convert is required for screenshot readiness QA")
+    cmd = [convert, str(path), "-colorspace", "Gray", "-format", "%[fx:standard_deviation]", "info:"]
+    stddev = float(
+        subprocess.check_output(
+            cmd,
+            text=True,
+            env=env,
+            stderr=subprocess.DEVNULL,
+            timeout=10,
+        ).strip()
+    )
+    return width, height, colors, stddev
+
+
+def rendered_world_ready(path: Path, env: dict[str, str]) -> tuple[bool, str]:
+    if not path.is_file():
+        return False, "capture missing"
+    width, height, colors, stddev = image_metrics(path, env)
+    ready = (
+        width >= MIN_RENDER_WIDTH
+        and height >= MIN_RENDER_HEIGHT
+        and colors >= MIN_RENDER_COLORS
+        and stddev >= MIN_GRAY_STDDEV
+    )
+    reason = (
+        f"{width}x{height}, colors={colors}, grayStdDev={stddev:.6f}, "
+        f"bytes={path.stat().st_size}"
+    )
+    return ready, reason
 
 
 def main() -> int:
@@ -61,15 +116,18 @@ def main() -> int:
 
     display = ":99"
     env = os.environ.copy()
-    env.update({
-        "DISPLAY": display,
-        "LIBGL_ALWAYS_SOFTWARE": "1",
-        "ALSOFT_DRIVERS": "null",
-        # Mesa/lavapipe is a CPU Vulkan device in CI. Real user hardware does not
-        # need this opt-in and will prefer discrete/integrated GPUs automatically.
-        "JAVA_TOOL_OPTIONS": (env.get("JAVA_TOOL_OPTIONS", "")
-                              + " -Dharimt.vulkan.allowCpuDevice=true").strip(),
-    })
+    env.update(
+        {
+            "DISPLAY": display,
+            "LIBGL_ALWAYS_SOFTWARE": "1",
+            "ALSOFT_DRIVERS": "null",
+            # Mesa/lavapipe is a CPU Vulkan device in CI. Real user hardware does not
+            # need this opt-in and will prefer discrete/integrated GPUs automatically.
+            "JAVA_TOOL_OPTIONS": (
+                env.get("JAVA_TOOL_OPTIONS", "") + " -Dharimt.vulkan.allowCpuDevice=true"
+            ).strip(),
+        }
+    )
 
     xvfb = subprocess.Popen(
         ["Xvfb", display, "-screen", "0", "1280x720x24", "-nolisten", "tcp"],
@@ -87,9 +145,6 @@ def main() -> int:
     try:
         wait_x(display)
 
-        # Xvfb provides an X server, not a window manager. windowactivate and a
-        # normal Alt+F4 close depend on EWMH/WM behavior, so use a tiny real WM
-        # rather than treating those operations as flaky CI timing problems.
         if shutil.which("openbox") is None:
             raise RuntimeError("openbox is required for native client window QA")
         wm_log = (evidence / "openbox.log").open("w", encoding="utf-8")
@@ -105,7 +160,9 @@ def main() -> int:
             raise RuntimeError("Openbox exited before Forge client launch")
 
         cmd = [
-            "./gradlew", "--no-daemon", ":forge:runClient",
+            "./gradlew",
+            "--no-daemon",
+            ":forge:runClient",
             "--args=--width 1280 --height 720 --quickPlaySingleplayer HMT-QA",
         ]
         proc = subprocess.Popen(
@@ -126,7 +183,11 @@ def main() -> int:
                 lines.append(line)
                 events.put(line)
 
-        thread = threading.Thread(target=reader, name="harimt-client-qa-reader", daemon=True)
+        thread = threading.Thread(
+            target=reader,
+            name="harimt-client-qa-reader",
+            daemon=True,
+        )
         thread.start()
 
         def inspect_line(line: str, waiting_for: str) -> None:
@@ -166,15 +227,17 @@ def main() -> int:
                     return
             raise TimeoutError(f"timed out waiting for client marker: {text}")
 
-        # Render-thread evidence proves this is the real client classpath, not a
-        # headless server masquerading as client QA.
+        # These markers prove the real client, successful local login and sustained
+        # Vulkan work. A joined player does not by itself prove that the client has
+        # left the Loading terrain screen, so visual readiness is checked separately.
         wait_for("[Render thread/INFO]", 240)
+        wait_for(" joined the game", 180)
         wait_for("Vulkan push broad-phase is active:", 180)
-        wait_for("Vulkan push broad-phase sustained: 10 consecutive verified batches completed", 90)
+        wait_for(
+            "Vulkan push broad-phase sustained: 10 consecutive verified batches completed",
+            90,
+        )
 
-        # Resolve the actual visible Minecraft X11 window once, then use the same
-        # window both for visual evidence and for the clean close. Capturing the
-        # Xvfb root desktop is not sufficient proof that Minecraft rendered.
         windows = subprocess.run(
             ["xdotool", "search", "--onlyvisible", "--name", "Minecraft"],
             env=env,
@@ -194,26 +257,71 @@ def main() -> int:
             timeout=15,
         )
 
-        # Capture the actual Minecraft window. No generated imagery is used.
+        # Capture only after the actual Minecraft window becomes visually complex
+        # enough to be a rendered world. The previous gate incorrectly used PNG
+        # byte size and captured the 9-color 'Loading terrain...' screen. The new
+        # gate retries the real window until dimensions, palette diversity and
+        # grayscale variance prove a rendered frame. It does not OCR or synthesize
+        # imagery and therefore remains independent of localized UI text.
         screenshot = evidence / "forge-client-integrated-server.png"
-        subprocess.run(
-            ["import", "-display", display, "-window", window_id, str(screenshot)],
-            env=env,
-            check=True,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            timeout=20,
+        candidate = evidence / "forge-client-integrated-server-candidate.png"
+        metrics_log: list[str] = []
+        render_deadline = time.monotonic() + RENDER_READY_TIMEOUT
+        attempt = 0
+        while time.monotonic() < render_deadline:
+            attempt += 1
+            if proc.poll() is not None:
+                raise RuntimeError("Forge client exited before a rendered-world frame was captured")
+            subprocess.run(
+                ["import", "-display", display, "-window", window_id, str(candidate)],
+                env=env,
+                check=True,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                timeout=20,
+            )
+            ready, metric_text = rendered_world_ready(candidate, env)
+            entry = f"attempt={attempt} ready={str(ready).lower()} {metric_text}"
+            metrics_log.append(entry)
+            print(f"[HMT-CLIENT-QA] rendered-world probe: {entry}", flush=True)
+            if ready:
+                candidate.replace(screenshot)
+                break
+            time.sleep(1.0)
+        else:
+            if candidate.is_file():
+                shutil.copy2(candidate, evidence / "forge-client-last-unready-frame.png")
+            raise TimeoutError(
+                "client joined and sustained Vulkan work but never produced a rendered-world frame"
+            )
+        candidate.unlink(missing_ok=True)
+        (evidence / "forge-client-render-readiness.txt").write_text(
+            "\n".join(metrics_log) + "\n",
+            encoding="utf-8",
         )
-        if not screenshot.is_file() or screenshot.stat().st_size < 10_000:
-            raise RuntimeError("client screenshot was missing or implausibly small")
-        identify = subprocess.check_output(["identify", str(screenshot)], text=True, env=env)
-        (evidence / "forge-client-screenshot-identify.txt").write_text(identify, encoding="utf-8")
+        identify = subprocess.check_output(
+            ["identify", str(screenshot)],
+            text=True,
+            env=env,
+        )
+        (evidence / "forge-client-screenshot-identify.txt").write_text(
+            identify,
+            encoding="utf-8",
+        )
 
-        # Close the actual Minecraft window rather than killing Gradle. This gives
-        # the integrated server its normal save/shutdown path through the WM.
+        # Keep the rendered world alive briefly after acceptance so client-side
+        # render/event work has time to execute before the clean close.
+        time.sleep(3.0)
         subprocess.run(
-            ["xdotool", "windowactivate", "--sync", window_id,
-             "key", "--clearmodifiers", "alt+F4"],
+            [
+                "xdotool",
+                "windowactivate",
+                "--sync",
+                window_id,
+                "key",
+                "--clearmodifiers",
+                "alt+F4",
+            ],
             env=env,
             check=True,
             timeout=15,
@@ -228,15 +336,25 @@ def main() -> int:
         bad = [pattern for pattern in FATAL_PATTERNS if pattern in joined]
         if bad:
             raise RuntimeError(f"fatal client/runtime markers found: {bad}")
-        if "Vulkan push broad-phase sustained: 10 consecutive verified batches completed" not in joined:
+        if " joined the game" not in joined:
+            raise RuntimeError("integrated player join proof missing")
+        if (
+            "Vulkan push broad-phase sustained: 10 consecutive verified batches completed"
+            not in joined
+        ):
             raise RuntimeError("sustained integrated-server Vulkan proof missing")
 
-        log_path = forge_run / "logs" / "latest.log"
-        if log_path.is_file():
-            shutil.copy2(log_path, evidence / "forge-client-latest.log")
-        (evidence / "forge-client-console.log").write_text(joined, encoding="utf-8")
-        print("[HMT-CLIENT-QA] real Forge client + integrated-server Vulkan gate PASSED", flush=True)
+        print(
+            "[HMT-CLIENT-QA] real Forge client + integrated-server rendered-world/Vulkan gate PASSED",
+            flush=True,
+        )
         return 0
+    except Exception:
+        (evidence / "harness-error.txt").write_text(
+            traceback.format_exc(),
+            encoding="utf-8",
+        )
+        raise
     finally:
         if proc is not None and proc.poll() is None:
             proc.terminate()
@@ -261,6 +379,16 @@ def main() -> int:
             except subprocess.TimeoutExpired:
                 xvfb.kill()
                 xvfb.wait(timeout=5)
+
+        # Preserve evidence on success and failure so the first causal boundary is
+        # always recoverable without rerunning a heavyweight native client gate.
+        (evidence / "forge-client-console.log").write_text(
+            "".join(lines),
+            encoding="utf-8",
+        )
+        log_path = forge_run / "logs" / "latest.log"
+        if log_path.is_file():
+            shutil.copy2(log_path, evidence / "forge-client-latest.log")
 
 
 if __name__ == "__main__":
