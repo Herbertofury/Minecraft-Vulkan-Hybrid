@@ -206,6 +206,8 @@ def prepare_common(h: ServerHarness) -> None:
     h.send("gamerule maxEntityCramming 0")
     h.send("difficulty normal")
     h.send("forceload add 0 0")
+    # Distant loaded chunks hold low-cost marker entities. They are unrelated to
+    # local cow collisions and expose the old dimension-wide GPU population scan.
     h.send("forceload add 512 512 527 543")
     h.send("time set noon")
     h.send("kill @e[tag=harimt_perf]")
@@ -216,6 +218,8 @@ def prepare_common(h: ServerHarness) -> None:
 
 
 def summon_spread(h: ServerHarness) -> None:
+    # 256 live cows in one entity section, one per block. Their AABBs do not
+    # initially intersect. This exercises ordinary EntitySection/query overhead.
     for x in range(16):
         for z in range(16):
             h.send(
@@ -226,6 +230,8 @@ def summon_spread(h: ServerHarness) -> None:
 
 
 def summon_dense(h: ServerHarness) -> None:
+    # Same entity count, same dimension/chunk, all overlapping. This stresses the
+    # deferred push replay and Vulkan broad phase through the production path.
     for _ in range(256):
         h.send(
             'execute in minecraft:overworld run summon minecraft:cow 8.5 199 8.5 '
@@ -235,6 +241,9 @@ def summon_dense(h: ServerHarness) -> None:
 
 
 def summon_far_markers(h: ServerHarness) -> None:
+    # Markers have no AI/rendering and are distributed hundreds of blocks from the
+    # collision workload. Baseline uploads them all via world.getAllEntities(); the
+    # spatial candidate should exclude them without changing local collisions.
     created = 0
     for x in range(512, 528):
         for z in range(512, 544):
@@ -259,11 +268,15 @@ def run_scenario(h: ServerHarness, name: str, summon, require_initial_sustained:
     time.sleep(3.0)
     summon(h)
     if require_initial_sustained:
+        # This milestone is intentionally logged only once per process. It can
+        # fire during common setup before the first scenario's summons, so scan
+        # all captured server output rather than waiting only from this scenario.
         h.wait_for_text(
             "Vulkan push broad-phase sustained: 10 consecutive verified batches completed",
             120,
             0,
         )
+    # Same warm-up and sampling window for both A/B variants.
     time.sleep(20.0)
     mspt, entity_counts = h.collect_stats()
     gpu = h.collect_gpu_status()
@@ -308,6 +321,8 @@ def main() -> int:
         workloads.append(run_scenario(
             h, "dense-256-plus-512-far-markers", summon_dense_with_noise))
 
+        # The verifier caps its input at 512 entities. Remove far background noise
+        # so it checks the exact dense local collision population directly.
         h.send("kill @e[tag=harimt_noise]")
         time.sleep(2.0)
         start = h.send("async gpu test")
