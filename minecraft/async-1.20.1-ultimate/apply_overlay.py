@@ -38,7 +38,7 @@ def replace_between(rel, start_marker, end_marker, replacement):
     p.write_text(text[:start] + replacement + text[end:], encoding="utf-8")
 
 # Release identity / license truthfulness
-replace("gradle.properties", "version=2.0", "version=2.1.0-noxviola.1")
+replace("gradle.properties", "version=2.0", "version=2.1.1-noxviola.1")
 replace("gradle.properties", "mod_name=HariMultiThread", "mod_name=HariMultiThread Ultimate")
 replace("gradle.properties", "license=CC0-1.0", "license=GPL-3.0-only")
 replace("gradle.properties",
