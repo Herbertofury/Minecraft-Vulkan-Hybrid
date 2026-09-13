@@ -31,6 +31,28 @@ def replace_once(path: Path, old: str, new: str, label: str) -> None:
 stats = file("common/src/main/java/com/axalotl/async/common/commands/StatsCommand.java")
 replace_once(
     stats,
+'''        int totalEntities = 0;
+        int asyncEntities = 0;
+        for (ServerLevel world : server.getAllLevels()) {''',
+'''        int totalEntities = 0;
+        int asyncEntities = 0;
+        int perfTagged = 0;
+        int noiseTagged = 0;
+        for (ServerLevel world : server.getAllLevels()) {''',
+    "StatsCommand tagged population counters",
+)
+replace_once(
+    stats,
+'''                if (!entity.isAlive()) continue;
+                ++totalEntities;''',
+'''                if (!entity.isAlive()) continue;
+                if (entity.getTags().contains("harimt_perf")) ++perfTagged;
+                if (entity.getTags().contains("harimt_noise")) ++noiseTagged;
+                ++totalEntities;''',
+    "StatsCommand tagged population sampling",
+)
+replace_once(
+    stats,
 '''        source.sendSuccess(() -> message, false);
     }
 
@@ -38,7 +60,9 @@ replace_once(
 '''        System.out.println(
                 "HMT_PERF_STATS mspt=" + mspt
                         + " entities=" + totalEntities
-                        + " asyncEntities=" + asyncEntities);
+                        + " asyncEntities=" + asyncEntities
+                        + " perfTagged=" + perfTagged
+                        + " noiseTagged=" + noiseTagged);
         source.sendSuccess(() -> message, false);
     }
 
@@ -96,7 +120,7 @@ replace_once(
 )
 
 for path, markers in (
-    (stats, ("HMT_PERF_STATS",)),
+    (stats, ("HMT_PERF_STATS", "perfTagged=", "noiseTagged=")),
     (gpu, ("HMT_PERF_GPU lastDispatchMs", "HMT_PERF_GPU_VERIFY PASS", "HMT_PERF_GPU_VERIFY FAIL")),
 ):
     text = path.read_text(encoding="utf-8")
