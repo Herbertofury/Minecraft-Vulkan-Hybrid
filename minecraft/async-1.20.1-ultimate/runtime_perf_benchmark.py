@@ -266,13 +266,15 @@ def run_scenario(h: ServerHarness, name: str, summon, require_initial_sustained:
     h.send("kill @e[tag=harimt_perf]")
     h.send("kill @e[tag=harimt_noise]")
     time.sleep(3.0)
-    marker_start = len(h.lines)
     summon(h)
     if require_initial_sustained:
+        # This milestone is intentionally logged only once per process. It can
+        # fire during common setup before the first scenario's summons, so scan
+        # all captured server output rather than waiting only from this scenario.
         h.wait_for_text(
             "Vulkan push broad-phase sustained: 10 consecutive verified batches completed",
             120,
-            marker_start,
+            0,
         )
     # Same warm-up and sampling window for both A/B variants.
     time.sleep(20.0)
