@@ -45,15 +45,32 @@ if s0.count('bool laneActive = gid < uint(entityCount);') != 1:
 # Alternate backends remain correctness-first: source-restricted dispatch is an
 # optional acceleration and defaults to the released all-pairs implementation.
 i = i0
-old = '''    Result compute(\n            float[] minX, float[] minY, float[] minZ,\n            float[] maxX, float[] maxY, float[] maxZ,\n            int count, int maxPairs);\n'''
-new = old + '''\n    default Result computeSourcePairs(\n            float[] minX, float[] minY, float[] minZ,\n            float[] maxX, float[] maxY, float[] maxZ,\n            int count, int sourceCount, int maxPairs) {\n        if (sourceCount < 0 || sourceCount > count) throw new IllegalArgumentException("Invalid source count");\n        return compute(minX, minY, minZ, maxX, maxY, maxZ, count, maxPairs);\n    }\n'''
+old = '''    Result compute(
+            float[] minX, float[] minY, float[] minZ,
+            float[] maxX, float[] maxY, float[] maxZ,
+            int count, int maxPairs);
+'''
+new = old + '''
+    default Result computeSourcePairs(
+            float[] minX, float[] minY, float[] minZ,
+            float[] maxX, float[] maxY, float[] maxZ,
+            int count, int sourceCount, int maxPairs) {
+        if (sourceCount < 0 || sourceCount > count) throw new IllegalArgumentException("Invalid source count");
+        return compute(minX, minY, minZ, maxX, maxY, maxZ, count, maxPairs);
+    }
+'''
 i = once(i, old, new, 'interface compute')
 
 # Keep released compute() and dispatch() byte-for-byte unchanged. The mixed-only
 # entry points are cloned from those proven methods and specialize only the
 # source-count validation plus the number of dispatched workgroups.
 b = b0
-compute_sig = '''    @Override\n    public synchronized Result compute(\n            float[] minX, float[] minY, float[] minZ,\n            float[] maxX, float[] maxY, float[] maxZ,\n            int count, int maxPairs) {\n'''
+compute_sig = '''    @Override
+    public synchronized Result compute(
+            float[] minX, float[] minY, float[] minZ,
+            float[] maxX, float[] maxY, float[] maxZ,
+            int count, int maxPairs) {
+'''
 compute_start = b.find(compute_sig)
 if compute_start < 0:
     raise SystemExit('backend compute signature drift')
@@ -97,13 +114,20 @@ source_dispatch = once(
     'backend source dispatch groups')
 b = b[:dispatch_end] + '\n\n' + source_dispatch + b[dispatch_end:]
 
-# Preserve computeGpuOnly() and executeGpu() byte-for-byte for all-source scenes.
-# Mixed scenes reuse GpuPushBatch's already-required identity candidate map as
-# the source membership set and allocate only the reordered population list.
+# Preserve computeGpuOnly() and executeGpu() byte-for-byte. Mixed scenes use a
+# separate source-restricted path. The caller below routes normal all-source
+# scenes straight to the released method so they do not pay the source scan.
 d = once(
     d0,
-    '''import java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.List;\n''',
-    '''import java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.IdentityHashMap;\nimport java.util.List;\n''',
+    '''import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+''',
+    '''import java.util.ArrayList;
+import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.List;
+''',
     'dispatcher imports')
 method_sig = '    public synchronized Optional<List<CollisionPair>> computeGpuOnly(List<Entity> entities) {\n'
 method_start = d.find(method_sig)
@@ -132,41 +156,115 @@ restricted_method = restricted_method.replace(
 if restricted_method.count('executeGpuSourcePairs(') != 2:
     raise SystemExit('dispatcher restricted dispatch drift')
 
-source_entry = '''\n\n    public synchronized Optional<List<CollisionPair>> computeGpuOnlyForSources(\n            List<Entity> entities, IdentityHashMap<Entity, ?> sources) {\n        if (entities == null || sources == null || sources.isEmpty()) return Optional.empty();\n\n        // Fast path: spatial population contains only deferred sources. Minecraft's\n        // entity query yields each live entity once, so equal cardinality plus\n        // identity membership proves set equality without another temporary map.\n        if (entities.size() == sources.size()) {\n            for (Entity entity : entities) {\n                if (entity == null || !sources.containsKey(entity)) return Optional.empty();\n            }\n            return computeGpuOnly(entities);\n        }\n\n        List<Entity> ordered = new ArrayList<>(entities.size());\n        int sourceCount = 0;\n        for (Entity entity : entities) {\n            if (entity != null && sources.containsKey(entity)) {\n                ordered.add(entity);\n                sourceCount++;\n            }\n        }\n        if (sourceCount != sources.size() || sourceCount <= 0 || sourceCount >= entities.size()) {\n            return Optional.empty();\n        }\n        for (Entity entity : entities) {\n            if (entity != null && !sources.containsKey(entity)) ordered.add(entity);\n        }\n        if (ordered.size() != entities.size()) return Optional.empty();\n        return computeGpuOnlyRestricted(ordered, sourceCount);\n    }\n\n'''
+source_entry = '''
+
+    public synchronized Optional<List<CollisionPair>> computeGpuOnlyForSources(
+            List<Entity> entities, IdentityHashMap<Entity, ?> sources) {
+        if (entities == null || sources == null || sources.isEmpty()) return Optional.empty();
+
+        // Defensive fallback for alternate callers. Equal cardinality is routed
+        // directly by GpuPushBatch, but retaining this baseline-safe path keeps
+        // the API correct if another caller reaches it.
+        if (entities.size() == sources.size()) return computeGpuOnly(entities);
+
+        List<Entity> ordered = new ArrayList<>(entities.size());
+        int sourceCount = 0;
+        for (Entity entity : entities) {
+            if (entity != null && sources.containsKey(entity)) {
+                ordered.add(entity);
+                sourceCount++;
+            }
+        }
+        if (sourceCount != sources.size() || sourceCount <= 0 || sourceCount >= entities.size()) {
+            return Optional.empty();
+        }
+        for (Entity entity : entities) {
+            if (entity != null && !sources.containsKey(entity)) ordered.add(entity);
+        }
+        if (ordered.size() != entities.size()) return Optional.empty();
+        return computeGpuOnlyRestricted(ordered, sourceCount);
+    }
+
+'''
 d = d[:method_end] + source_entry + restricted_method + d[method_end:]
 
-execute_sig = '''    private VulkanCollisionBackend.Result executeGpu(VulkanCollisionBackend current, int count, int maxPairs) {\n        Callable<VulkanCollisionBackend.Result> compute =\n                () -> current.compute(minX, minY, minZ, maxX, maxY, maxZ, count, maxPairs);\n        return crashGuard.execute(compute, null);\n    }\n'''
+execute_sig = '''    private VulkanCollisionBackend.Result executeGpu(VulkanCollisionBackend current, int count, int maxPairs) {
+        Callable<VulkanCollisionBackend.Result> compute =
+                () -> current.compute(minX, minY, minZ, maxX, maxY, maxZ, count, maxPairs);
+        return crashGuard.execute(compute, null);
+    }
+'''
 execute_pos = d.find(execute_sig)
 if execute_pos < 0:
     raise SystemExit('dispatcher executeGpu drift')
 execute_end = execute_pos + len(execute_sig)
-source_execute = '''\n\n    private VulkanCollisionBackend.Result executeGpuSourcePairs(\n            VulkanCollisionBackend current, int count, int sourceCount, int maxPairs) {\n        Callable<VulkanCollisionBackend.Result> compute =\n                () -> current.computeSourcePairs(minX, minY, minZ, maxX, maxY, maxZ, count, sourceCount, maxPairs);\n        return crashGuard.execute(compute, null);\n    }\n'''
+source_execute = '''
+
+    private VulkanCollisionBackend.Result executeGpuSourcePairs(
+            VulkanCollisionBackend current, int count, int sourceCount, int maxPairs) {
+        Callable<VulkanCollisionBackend.Result> compute =
+                () -> current.computeSourcePairs(minX, minY, minZ, maxX, maxY, maxZ, count, sourceCount, maxPairs);
+        return crashGuard.execute(compute, null);
+    }
+'''
 d = d[:execute_end] + source_execute + d[execute_end:]
 
-# Reuse the candidate map that released replay already needs. Moving its creation
-# ahead of dispatch removes the old candidate's two temporary IdentityHashMaps.
+# Mixed scenes need source identity before dispatch; normal scenes do not. Build
+# the candidate map before GPU work only when there are extra spatial entities.
+# For all-source/equal-cardinality scenes, call released computeGpuOnly() first
+# and create the replay map afterwards exactly like 2.1.1. Because all-pairs is
+# conservative, an equal-cardinality false positive cannot lose a collision.
 p = p0
-old = '''        long started = System.nanoTime();\n        Optional<List<GpuCollisionDispatcher.CollisionPair>> maybePairs =\n                GpuEntityModule.getCollisionDispatcher().computeGpuOnly(collisionPopulation);\n        GPU_NANOS.add(System.nanoTime() - started);\n        if (maybePairs.isEmpty()) return null;\n\n        IdentityHashMap<Entity, List<Entity>> candidates = new IdentityHashMap<>();\n        for (LivingEntity source : deferred) candidates.put(source, new ArrayList<>());\n'''
-new = '''        IdentityHashMap<Entity, List<Entity>> candidates = new IdentityHashMap<>();\n        for (LivingEntity source : deferred) candidates.put(source, new ArrayList<>());\n\n        long started = System.nanoTime();\n        Optional<List<GpuCollisionDispatcher.CollisionPair>> maybePairs =\n                GpuEntityModule.getCollisionDispatcher().computeGpuOnlyForSources(collisionPopulation, candidates);\n        GPU_NANOS.add(System.nanoTime() - started);\n        if (maybePairs.isEmpty()) return null;\n'''
-p = once(p, old, new, 'push source membership reuse')
+old = '''        long started = System.nanoTime();
+        Optional<List<GpuCollisionDispatcher.CollisionPair>> maybePairs =
+                GpuEntityModule.getCollisionDispatcher().computeGpuOnly(collisionPopulation);
+        GPU_NANOS.add(System.nanoTime() - started);
+        if (maybePairs.isEmpty()) return null;
+
+        IdentityHashMap<Entity, List<Entity>> candidates = new IdentityHashMap<>();
+        for (LivingEntity source : deferred) candidates.put(source, new ArrayList<>());
+'''
+new = '''        boolean releasedAllPairs = collisionPopulation.size() == deferred.size();
+        IdentityHashMap<Entity, List<Entity>> candidates = null;
+        if (!releasedAllPairs) {
+            candidates = new IdentityHashMap<>();
+            for (LivingEntity source : deferred) candidates.put(source, new ArrayList<>());
+        }
+
+        long started = System.nanoTime();
+        Optional<List<GpuCollisionDispatcher.CollisionPair>> maybePairs = releasedAllPairs
+                ? GpuEntityModule.getCollisionDispatcher().computeGpuOnly(collisionPopulation)
+                : GpuEntityModule.getCollisionDispatcher().computeGpuOnlyForSources(collisionPopulation, candidates);
+        GPU_NANOS.add(System.nanoTime() - started);
+        if (maybePairs.isEmpty()) return null;
+
+        if (releasedAllPairs) {
+            candidates = new IdentityHashMap<>();
+            for (LivingEntity source : deferred) candidates.put(source, new ArrayList<>());
+        }
+'''
+p = once(p, old, new, 'push caller fastpath')
 
 # Invariants before commit-to-disk.
 joined = '\n'.join((d, p, b))
 for bad in ('CandidateBatch', 'computeGpuCandidates(', 'ensureHostPairCapacity(', 'BatchState', 'AtomicIntegerArray nextIndex'):
     if bad in joined:
         raise SystemExit(f'rejected experiment leaked: {bad}')
-for mark in ('return computeGpuOnly(entities);', 'computeGpuOnlyRestricted(ordered, sourceCount)', 'executeGpuSourcePairs('):
+for mark in ('if (entities.size() == sources.size()) return computeGpuOnly(entities);',
+             'computeGpuOnlyRestricted(ordered, sourceCount)', 'executeGpuSourcePairs('):
     if mark not in d:
         raise SystemExit(f'missing dispatcher invariant: {mark}')
 for mark in ('public synchronized Result computeSourcePairs(', 'private void dispatchSourcePairs(',
              'vkCmdDispatch(commandBuffer, (sourceCount + 63) / 64, 1, 1);'):
     if mark not in b:
         raise SystemExit(f'missing backend invariant: {mark}')
-if 'computeGpuOnlyForSources(collisionPopulation, candidates)' not in p:
-    raise SystemExit('push source-membership invariant missing')
+for mark in ('boolean releasedAllPairs = collisionPopulation.size() == deferred.size();',
+             '? GpuEntityModule.getCollisionDispatcher().computeGpuOnly(collisionPopulation)',
+             ': GpuEntityModule.getCollisionDispatcher().computeGpuOnlyForSources(collisionPopulation, candidates)'):
+    if mark not in p:
+        raise SystemExit(f'missing caller fastpath invariant: {mark}')
 if 'CollisionPair pair : pairs' not in p:
     raise SystemExit('released CollisionPair replay missing')
-# Prove the original shader is untouched by this transform.
 if s0.count('bool laneActive = gid < uint(entityCount);') != 1:
     raise SystemExit('released shader invariant missing')
 
@@ -175,4 +273,4 @@ I.write_text(i, encoding='utf-8')
 B.write_text(b, encoding='utf-8')
 D.write_text(d, encoding='utf-8')
 P.write_text(p, encoding='utf-8')
-print('source-pairs fastpath candidate applied')
+print('source-pairs caller-fastpath candidate applied')
