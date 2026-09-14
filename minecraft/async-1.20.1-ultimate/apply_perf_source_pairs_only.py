@@ -115,8 +115,9 @@ source_dispatch = once(
 b = b[:dispatch_end] + '\n\n' + source_dispatch + b[dispatch_end:]
 
 # Preserve computeGpuOnly() and executeGpu() byte-for-byte. Mixed scenes use a
-# separate source-restricted path. The caller below routes normal all-source
-# scenes straight to the released method so they do not pay the source scan.
+# separate source-restricted path. Ordinary populations stay on the released
+# path unless the non-source local population is large enough to amortize the
+# reorder/map cost.
 d = once(
     d0,
     '''import java.util.ArrayList;
@@ -209,11 +210,10 @@ source_execute = '''
 '''
 d = d[:execute_end] + source_execute + d[execute_end:]
 
-# Mixed scenes need source identity before dispatch; normal scenes do not. Build
-# the candidate map before GPU work only when there are extra spatial entities.
-# For all-source/equal-cardinality scenes, call released computeGpuOnly() first
-# and create the replay map afterwards exactly like 2.1.1. Because all-pairs is
-# conservative, an equal-cardinality false positive cannot lose a collision.
+# Restrict only when non-source locals are at least as numerous as sources.
+# This preserves the large 512-local-nonsource win while keeping incidental
+# populations on the released all-pairs path. All-pairs remains conservative
+# and correctness-safe, so this heuristic only chooses the faster implementation.
 p = p0
 old = '''        long started = System.nanoTime();
         Optional<List<GpuCollisionDispatcher.CollisionPair>> maybePairs =
@@ -224,26 +224,27 @@ old = '''        long started = System.nanoTime();
         IdentityHashMap<Entity, List<Entity>> candidates = new IdentityHashMap<>();
         for (LivingEntity source : deferred) candidates.put(source, new ArrayList<>());
 '''
-new = '''        boolean releasedAllPairs = collisionPopulation.size() == deferred.size();
+new = '''        int nonSourceCount = Math.max(0, collisionPopulation.size() - deferred.size());
+        boolean sourceRestrictionPays = nonSourceCount >= deferred.size();
         IdentityHashMap<Entity, List<Entity>> candidates = null;
-        if (!releasedAllPairs) {
+        if (sourceRestrictionPays) {
             candidates = new IdentityHashMap<>();
             for (LivingEntity source : deferred) candidates.put(source, new ArrayList<>());
         }
 
         long started = System.nanoTime();
-        Optional<List<GpuCollisionDispatcher.CollisionPair>> maybePairs = releasedAllPairs
-                ? GpuEntityModule.getCollisionDispatcher().computeGpuOnly(collisionPopulation)
-                : GpuEntityModule.getCollisionDispatcher().computeGpuOnlyForSources(collisionPopulation, candidates);
+        Optional<List<GpuCollisionDispatcher.CollisionPair>> maybePairs = sourceRestrictionPays
+                ? GpuEntityModule.getCollisionDispatcher().computeGpuOnlyForSources(collisionPopulation, candidates)
+                : GpuEntityModule.getCollisionDispatcher().computeGpuOnly(collisionPopulation);
         GPU_NANOS.add(System.nanoTime() - started);
         if (maybePairs.isEmpty()) return null;
 
-        if (releasedAllPairs) {
+        if (!sourceRestrictionPays) {
             candidates = new IdentityHashMap<>();
             for (LivingEntity source : deferred) candidates.put(source, new ArrayList<>());
         }
 '''
-p = once(p, old, new, 'push caller fastpath')
+p = once(p, old, new, 'push proportional threshold')
 
 # Invariants before commit-to-disk.
 joined = '\n'.join((d, p, b))
@@ -258,11 +259,12 @@ for mark in ('public synchronized Result computeSourcePairs(', 'private void dis
              'vkCmdDispatch(commandBuffer, (sourceCount + 63) / 64, 1, 1);'):
     if mark not in b:
         raise SystemExit(f'missing backend invariant: {mark}')
-for mark in ('boolean releasedAllPairs = collisionPopulation.size() == deferred.size();',
-             '? GpuEntityModule.getCollisionDispatcher().computeGpuOnly(collisionPopulation)',
-             ': GpuEntityModule.getCollisionDispatcher().computeGpuOnlyForSources(collisionPopulation, candidates)'):
+for mark in ('int nonSourceCount = Math.max(0, collisionPopulation.size() - deferred.size());',
+             'boolean sourceRestrictionPays = nonSourceCount >= deferred.size();',
+             '? GpuEntityModule.getCollisionDispatcher().computeGpuOnlyForSources(collisionPopulation, candidates)',
+             ': GpuEntityModule.getCollisionDispatcher().computeGpuOnly(collisionPopulation)'):
     if mark not in p:
-        raise SystemExit(f'missing caller fastpath invariant: {mark}')
+        raise SystemExit(f'missing proportional-threshold invariant: {mark}')
 if 'CollisionPair pair : pairs' not in p:
     raise SystemExit('released CollisionPair replay missing')
 if s0.count('bool laneActive = gid < uint(entityCount);') != 1:
@@ -273,4 +275,4 @@ I.write_text(i, encoding='utf-8')
 B.write_text(b, encoding='utf-8')
 D.write_text(d, encoding='utf-8')
 P.write_text(p, encoding='utf-8')
-print('source-pairs caller-fastpath candidate applied')
+print('source-pairs proportional-threshold candidate applied')
