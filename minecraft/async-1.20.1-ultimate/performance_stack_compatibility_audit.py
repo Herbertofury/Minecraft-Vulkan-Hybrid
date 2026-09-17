@@ -30,8 +30,9 @@ def main() -> int:
     mixins_path = root / "common/src/main/resources/harimt.common.mixins.json"
     forge_mixins_path = root / "forge/src/main/resources/harimt.forge.mixins.json"
     forge_build_path = root / "forge/build.gradle"
+    plugin_path = root / "common/src/main/java/com/axalotl/async/common/mixin/utils/SynchronisePlugin.java"
 
-    for path in (parallel_path, common_path, mixins_path, forge_mixins_path, forge_build_path):
+    for path in (parallel_path, common_path, mixins_path, forge_mixins_path, forge_build_path, plugin_path):
         if not path.is_file():
             failures.append(f"missing required transformed source file: {path.relative_to(root)}")
 
@@ -41,6 +42,7 @@ def main() -> int:
     parallel = parallel_path.read_text(encoding="utf-8")
     common = common_path.read_text(encoding="utf-8")
     forge_build = forge_build_path.read_text(encoding="utf-8")
+    plugin = plugin_path.read_text(encoding="utf-8")
 
     # Conservative modded-entity policy: third-party entities remain synchronous
     # unless they explicitly opt into HariMT's AsyncCompatible contract. Players
@@ -58,6 +60,23 @@ def main() -> int:
     need(common, 'PlatformUtils.isModLoaded("c2meforge")', "C2ME Forge detection", failures)
     need(parallel, "waitWorld.getChunkSource().pollTask()", "dimension-local barrier pumping", failures)
     forbid(parallel, "for (ServerLevel lvl : server.getAllLevels())", "cross-dimension barrier loop", failures)
+
+    # Minecraft 26.3 provider precedence: invasive renderer/shader/chunk ownership
+    # must be explicit so Hari can coexist instead of competing for the same path.
+    need(common, "public static boolean NOISIUM", "Noisium provider detection", failures)
+    need(common, 'PlatformUtils.isModLoaded("noisium")', "Noisium mod id", failures)
+    need(common, "public static boolean EXTERNAL_TERRAIN_RENDERER", "terrain renderer provider flag", failures)
+    need(common, 'PlatformUtils.isModLoaded("embeddium")', "Embeddium terrain ownership", failures)
+    need(common, 'PlatformUtils.isModLoaded("rubidium")', "Rubidium terrain ownership", failures)
+    need(common, 'PlatformUtils.isModLoaded("sodium")', "Sodium terrain ownership", failures)
+    need(common, "MultiDrawIndirect terrain lane delegated", "26.3 MDI delegation log", failures)
+    need(common, "public static boolean EXTERNAL_SHADER_PIPELINE", "shader provider flag", failures)
+    need(common, 'PlatformUtils.isModLoaded("oculus")', "Oculus shader ownership", failures)
+    need(common, 'PlatformUtils.isModLoaded("iris")', "Iris shader ownership", failures)
+    need(common, "OIT/ShaderC client lanes delegated", "26.3 OIT/ShaderC delegation log", failures)
+    need(plugin, 'mixinClassName.endsWith(".world.NoiseChunkCache2DMixin")',
+         "26.3 density-cache ownership gate", failures)
+    need(plugin, "return !AsyncCommon.HARICHUNK;", "C2ME/HariChunk worldgen ownership yield", failures)
 
     # Client/render performance mods must own their renderer/GL state. HariMT's
     # common + Forge layers are server/entity scheduling code; the optional GPU
@@ -104,7 +123,7 @@ def main() -> int:
         f"Overall: **{status}**",
         "",
         "This gate runs against the fully transformed HariMultiThread Ultimate source used for the release build.",
-        "It verifies architectural separation and the explicit threading contracts that matter for the active Noxviola performance stack.",
+        "It verifies architectural separation and the explicit threading/provider contracts that matter for the active Noxviola performance stack.",
         "",
         "| Stack component | Result | Reason |",
         "|---|---|---|",
@@ -112,7 +131,10 @@ def main() -> int:
         "| ImmediatelyFast Noxviola patch | PASS | HariMT does not touch RenderSystem/LevelRenderer/GameRenderer or OpenGL batching state. |",
         "| GPUTape Noxviola patch | PASS | HariMT does not own OpenGL framebuffer cleanup/state; its optional accelerator is isolated Vulkan compute. |",
         "| BadOptimizations Noxviola patch | PASS | No client renderer-cache or EntityType renderer path is modified by HariMT. |",
-        "| C2ME Forge + DimThread SAFE-INTEROP | PASS | C2ME Forge is detected and HariMT barrier pumping is restricted to the current ServerLevel; cross-dimension getAllLevels pumping is forbidden. |",
+        "| Embeddium / Rubidium / Sodium | PASS (provider precedence) | These renderers own terrain submission. Hari delegates the Minecraft 26.3 MultiDrawIndirect terrain lane and installs no competing LevelRenderer/OpenGL hook. |",
+        "| Oculus / Iris | PASS (provider precedence) | Shader providers own transparency/shader compilation. Hari delegates the 26.3 OIT/ShaderC lanes and does not replace their pipeline. |",
+        "| Noisium | PASS (additive) | Noisium keeps its generator/section fast paths; Hari's narrow result-preserving Cache2D fill lane does not replace the chunk scheduler. |",
+        "| C2ME Forge / HariChunk + DimThread SAFE-INTEROP | PASS | The 26.3 Cache2D mixin is disabled when HariChunk/C2ME owns chunk generation, and barrier pumping is restricted to the current ServerLevel. |",
         "| Physics Mod / Uranus | PASS (conservative) | Third-party entity namespaces stay synchronous unless they explicitly implement HariMT AsyncCompatible; HariMT has no client GL/render ownership. |",
         "| Curios / ApothicCurios | PASS (conservative) | ServerPlayer is always synchronous and third-party entity types default to synchronous ticking, avoiding async capability mutation on the common high-risk paths. |",
         "| Potatoptimize Forge parity-safe defaults | PASS | HariMT does not alter Potatoptimize's enabled safe-default targets; HariMT client/render overlap is absent and its C2ME/DimThread path is separately guarded. |",
@@ -123,6 +145,9 @@ def main() -> int:
         "- `ServerPlayer` and `EnderDragon` remain synchronous.",
         "- C2ME/DimThread wait pumping is dimension-local.",
         "- HariMT common/Forge source contains no client renderer, GUI, Blaze3D, OpenGL, Entity Culling, ImmediatelyFast, GPUTape or BadOptimizations hooks.",
+        "- Minecraft 26.3 terrain MDI is delegated to Embeddium/Rubidium/Sodium when present.",
+        "- Minecraft 26.3 OIT/ShaderC is delegated to Oculus/Iris when present.",
+        "- The result-preserving 26.3 Cache2D fill mixin yields to HariChunk/C2ME ownership.",
         "- Vulkan is packaged as a private isolated backend rather than exposed as a Forge JarJar LWJGL module.",
         "",
     ]
