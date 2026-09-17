@@ -35,7 +35,10 @@ jobs:
         shell: bash
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends glslang-tools patch zip
+          sudo apt-get install -y --no-install-recommends \
+            glslang-tools patch zip rsync curl \
+            mesa-vulkan-drivers vulkan-tools \
+            xvfb openbox xdotool x11-utils imagemagick libgl1-mesa-dri
           chmod +x upstream/gradlew
 
       - name: Verify canonical upstream identity
@@ -97,9 +100,15 @@ jobs:
           grep -F 'enableMc263StructureLocateCache' upstream/common/src/main/java/com/axalotl/async/common/config/AsyncConfig.java
           grep -F 'enableMc263NonCreatingRegionReads' upstream/common/src/main/java/com/axalotl/async/common/config/AsyncConfig.java
 
-      - name: Validate OpenGL compute shader
+      - name: Validate GPU shaders and compile production SPIR-V
         shell: bash
-        run: glslangValidator -S comp upstream/forge/src/main/resources/assets/harimt/shaders/hari_terrain_indirect.glsl
+        run: |
+          set -euo pipefail
+          glslangValidator -S comp upstream/forge/src/main/resources/assets/harimt/shaders/hari_terrain_indirect.glsl
+          shader=upstream/common/src/main/resources/assets/async/shaders/collision_broadphase.comp
+          glslangValidator -V "$shader" -o "${shader}.spv"
+          test "$(xxd -p -l 4 "${shader}.spv")" = '03022307'
+          vulkaninfo --summary > vulkaninfo-summary.txt
 
       - name: Compile and build Forge 1.20.1
         shell: bash
@@ -110,21 +119,85 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mapfile -t jars < <(find upstream/forge/build/libs -maxdepth 1 -type f -name '*.jar' ! -name '*sources*' ! -name '*dev*' ! -name 'harimt-vulkan-backend*' | sort)
-          test "${#jars[@]}" -ge 1
-          jarfile="${jars[0]}"
-          basename "$jarfile" | grep -F '2.3.0-noxviola.1'
+          jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.3.0-noxviola.1-all.jar' | sort | head -n1)"
+          test -f "$jarfile"
+          echo "$jarfile" > RELEASE_JAR_PATH.txt
           jar tf "$jarfile" | grep -Fx 'harimt.common.mixins.json'
           jar tf "$jarfile" | grep -Fx 'harimt.forge.mixins.json'
           jar tf "$jarfile" | grep -Fx 'harimt.gpu.mixins.json'
+          jar tf "$jarfile" | grep -Fx 'harimt.refmap.json'
           jar tf "$jarfile" | grep -Fx 'assets/harimt/shaders/hari_terrain_indirect.glsl'
+          jar tf "$jarfile" | grep -Fx 'assets/async/shaders/collision_broadphase.comp.spv'
           jar tf "$jarfile" | grep -Fx 'com/axalotl/async/forge/client/hari263/render/HariTerrainRenderer.class'
-          manifest="$(unzip -p "$jarfile" META-INF/MANIFEST.MF | tr -d '\r')"
-          printf '%s\n' "$manifest" | grep -F 'harimt.gpu.mixins.json'
+          manifest="$(unzip -p "$jarfile" META-INF/MANIFEST.MF | tr -d '\r' | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n //g')"
+          printf '%s\n' "$manifest" | grep -Fx 'MixinConfigs: harimt.common.mixins.json,harimt.forge.mixins.json,harimt.gpu.mixins.json'
+          unzip -t "$jarfile" | grep -F 'No errors detected'
           mkdir -p ci-out
           cp "$jarfile" ci-out/HariMultiThread-Ultimate-1.20.1-2.3.0-noxviola.1.jar
           (cd upstream && git diff --binary) > ci-out/UPSTREAM-TO-2.3.0.patch
+          cp vulkaninfo-summary.txt ci-out/
           sha256sum ci-out/* > ci-out/SHA256SUMS.txt
+
+      - name: Install real Forge 47.4.23 server template
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/runtime/server evidence/runtime/mc263 evidence/runtime/client
+          curl -fL --retry 3 'https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.23/forge-1.20.1-47.4.23-installer.jar' -o forge-installer.jar
+          rm -rf forge-template qa-server qa-server-mc263
+          mkdir forge-template
+          (cd forge-template && java -jar ../forge-installer.jar --installServer > ../evidence/runtime/server/forge-server-install.log 2>&1)
+          test -f forge-template/run.sh
+          chmod +x forge-template/run.sh
+          for name in qa-server qa-server-mc263; do
+            cp -a forge-template "$name"
+            mkdir -p "$name/mods"
+            cp "$(cat RELEASE_JAR_PATH.txt)" "$name/mods/HariMultiThread-Ultimate.jar"
+            printf 'eula=true\n' > "$name/eula.txt"
+            cat > "$name/server.properties" <<'EOF'
+          online-mode=false
+          level-name=world
+          level-seed=8675309
+          spawn-protection=0
+          view-distance=4
+          simulation-distance=4
+          motd=HariMultiThread Ultimate 2.3.0 GPU Terrain QA
+          EOF
+          done
+
+      - name: Dedicated-server no-regression gate
+        shell: bash
+        run: python3 minecraft/async-1.20.1-ultimate/runtime_server_qa.py qa-server evidence/runtime/server
+
+      - name: Minecraft 26.3 behavior and worldgen no-regression gate
+        shell: bash
+        run: python3 minecraft/async-1.20.1-ultimate/runtime_mc263_qa.py qa-server-mc263 evidence/runtime/mc263
+
+      - name: Install Embeddium into native client QA instance
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p upstream/forge/run/mods
+          embeddium="$(find "$HOME/.gradle/caches" -type f -name '*.jar' -path '*curse.maven*embeddium-908741*5681725*' 2>/dev/null | head -n1 || true)"
+          if [ -z "$embeddium" ]; then
+            curl -fL --retry 3 'https://www.cursemaven.com/curse/maven/embeddium-908741/5681725/embeddium-908741-5681725.jar' -o upstream/forge/run/mods/Embeddium.jar
+          else
+            cp "$embeddium" upstream/forge/run/mods/Embeddium.jar
+          fi
+          test -s upstream/forge/run/mods/Embeddium.jar
+          sha256sum upstream/forge/run/mods/Embeddium.jar | tee evidence/runtime/client/embeddium-sha256.txt
+
+      - name: Real Forge client rendered-world GPU terrain gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/runtime_client_qa.py upstream qa-server/world evidence/runtime/client
+          grep -F 'Hari 26.3 render bridge: provider=HARI_GPU_INDIRECT' evidence/runtime/client/forge-client-console.log
+          grep -F 'Hari GPU terrain initialized:' evidence/runtime/client/forge-client-console.log
+          ! grep -F 'Hari GPU terrain failed' evidence/runtime/client/forge-client-console.log
+          ! grep -E 'MixinApplyError|InvalidMixinException|InjectionError' evidence/runtime/client/forge-client-console.log
+          cp -a evidence ci-out/
+          sha256sum ci-out/HariMultiThread-Ultimate-1.20.1-2.3.0-noxviola.1.jar ci-out/UPSTREAM-TO-2.3.0.patch > ci-out/SHA256SUMS.txt
 
       - name: Upload compile checkpoint
         uses: actions/upload-artifact@v4
