@@ -52,6 +52,7 @@ jobs:
           python3 minecraft/async-1.20.1-ultimate/apply_spatial_gpu.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_mc263_backports.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_mc263_worldgen_cache.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_provider_precedence.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_mixin_packaging.py upstream
           git -C upstream diff --check
 
@@ -67,6 +68,11 @@ jobs:
           grep -F 'HARIMT$MC263_MAX_STORAGE_MISSES' upstream/common/src/main/java/com/axalotl/async/common/mixin/world/StructureCheckMixin.java
           grep -F 'fillAllDirectly' upstream/common/src/main/java/com/axalotl/async/common/mixin/world/NoiseChunkCache2DMixin.java
           grep -F 'return !AsyncCommon.HARICHUNK' upstream/common/src/main/java/com/axalotl/async/common/mixin/utils/SynchronisePlugin.java
+          grep -F 'public static boolean NOISIUM' upstream/common/src/main/java/com/axalotl/async/common/AsyncCommon.java
+          grep -F 'public static boolean EXTERNAL_TERRAIN_RENDERER' upstream/common/src/main/java/com/axalotl/async/common/AsyncCommon.java
+          grep -F 'public static boolean EXTERNAL_SHADER_PIPELINE' upstream/common/src/main/java/com/axalotl/async/common/AsyncCommon.java
+          grep -F 'MultiDrawIndirect terrain lane delegated' upstream/common/src/main/java/com/axalotl/async/common/AsyncCommon.java
+          grep -F 'OIT/ShaderC client lanes delegated' upstream/common/src/main/java/com/axalotl/async/common/AsyncCommon.java
 
       - name: Compile and build Forge 1.20.1
         shell: bash
