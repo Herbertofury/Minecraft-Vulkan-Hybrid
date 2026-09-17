@@ -97,6 +97,12 @@ def run_server(server_dir: Path, evidence_dir: Path) -> None:
             time.sleep(0.05)
         raise TimeoutError(f"timed out waiting for regex: {pattern.pattern}")
 
+    def overworld_region_files() -> set[str]:
+        region_dir = server_dir / "world" / "region"
+        if not region_dir.is_dir():
+            return set()
+        return {path.name for path in region_dir.glob("r.*.*.mca") if path.is_file()}
+
     metrics: dict[str, object] = {}
     try:
         wait_for_text("Done (", 180)
@@ -110,6 +116,28 @@ def run_server(server_dir: Path, evidence_dir: Path) -> None:
         )
         for marker in expected_startup:
             wait_for_text(marker, 30)
+
+        # MC-311323 / 26.3 regression proof: a locate through ungenerated terrain
+        # must not create empty .mca files merely to discover that regions do not
+        # exist. Snapshot after normal spawn startup, run the frequency-heavy
+        # pillager-outpost locate, then require the region-file set to be unchanged.
+        region_files_before = overworld_region_files()
+        outpost_start = len(lines)
+        send("locate structure minecraft:pillager_outpost")
+        outpost_match, _ = wait_for_regex(LOCATE_PATTERN, 120, outpost_start)
+        outpost_pos = (int(outpost_match.group(1)), int(outpost_match.group(2)))
+        time.sleep(0.25)
+        region_files_after = overworld_region_files()
+        new_region_files = sorted(region_files_after - region_files_before)
+        metrics["pillager_outpost_locate_position_xz"] = list(outpost_pos)
+        metrics["region_files_before_locate"] = len(region_files_before)
+        metrics["region_files_after_locate"] = len(region_files_after)
+        metrics["new_region_files_created_by_locate"] = new_region_files
+        if new_region_files:
+            raise RuntimeError(
+                "MC26.3 non-creating locate failed; new region files appeared: "
+                + ", ".join(new_region_files)
+            )
 
         send("gamerule doMobSpawning false")
         send("forceload add 0 0")
@@ -150,9 +178,9 @@ def run_server(server_dir: Path, evidence_dir: Path) -> None:
         metrics["structure_locate_first_seconds"] = round(t1 - t0, 6)
         metrics["structure_locate_second_seconds"] = round(t3 - t2, 6)
 
-        # Force genuinely fresh, distant terrain through NoiseChunk Cache2D and
-        # then put a command behind it on the server thread. This is an execution
-        # gate, not a noisy CI speed threshold.
+        # Force genuinely fresh, distant terrain through the production worldgen
+        # path and then put a command behind it on the server thread. This is an
+        # execution gate, not a noisy CI speed threshold.
         chunk_start = len(lines)
         send("forceload add 16384 16384 16447 16447")
         send("say HMT_MC263_CHUNKGEN_PASS")
@@ -193,7 +221,7 @@ def run_server(server_dir: Path, evidence_dir: Path) -> None:
     if "HMT_MC263_CHUNKGEN_PASS" not in joined:
         raise RuntimeError("fresh chunk-generation marker missing")
 
-    print("[HMT-MC263-QA] persistent-idle/locate/chunkgen/provider-precedence gate PASSED", flush=True)
+    print("[HMT-MC263-QA] region-read/persistent-idle/locate/chunkgen/provider-precedence gate PASSED", flush=True)
 
 
 def main() -> int:
