@@ -1,0 +1,142 @@
+name: Hari 1.20.1 Ultimate 2.3.0 GPU Terrain Compile
+
+on:
+  push:
+    branches: [async-1.20.1-ultimate-2.3.0-gpu-terrain-20260917]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compile-forge:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - name: Checkout project harness
+        uses: actions/checkout@v4
+
+      - name: Checkout canonical HariMultiThread source
+        uses: actions/checkout@v4
+        with:
+          repository: JustHari01/HariMultiThread
+          ref: f381611c2d71a85192e2028f9e30c03823a6482b
+          path: upstream
+          fetch-depth: 1
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Install validation tools
+        shell: bash
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends glslang-tools patch zip
+          chmod +x upstream/gradlew
+
+      - name: Verify canonical upstream identity
+        shell: bash
+        run: test "$(git -C upstream rev-parse HEAD)" = "f381611c2d71a85192e2028f9e30c03823a6482b"
+
+      - name: Reconstruct certified 2.2.0 base
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/apply_overlay.py upstream minecraft/async-1.20.1-ultimate/overlay
+          python3 minecraft/async-1.20.1-ultimate/apply_hardening.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_lifecycle.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_platform.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_interop.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_lwjgl_runtime.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_backend_architecture.py upstream minecraft/async-1.20.1-ultimate/backend-overlay
+          python3 minecraft/async-1.20.1-ultimate/apply_spawn_interop.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_world_batch.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_spatial_gpu.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_backports.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_worldgen_cache.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_provider_precedence.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_diagnostics.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_release_identity.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mixin_packaging.py upstream
+          grep -F 'version=2.2.0-noxviola.1' upstream/gradle.properties
+
+      - name: Apply deterministic 2.3.0 GPU terrain layer
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_gpu_terrain.py upstream
+          git -C upstream diff --check
+
+      - name: Verify no-regression and provider invariants
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -F 'version=2.3.0-noxviola.1' upstream/gradle.properties
+          grep -F 'forge_version=47.4.23' upstream/gradle.properties
+          grep -F 'enableGpuDrivenTerrain", true' upstream/common/src/main/java/com/axalotl/async/common/config/AsyncConfig.java
+          grep -F 'enableGpuTerrainRegionCache", true' upstream/common/src/main/java/com/axalotl/async/common/config/AsyncConfig.java
+          grep -F '"required": true' upstream/forge/src/main/resources/harimt.forge.mixins.json
+          grep -F '"required": false' upstream/forge/src/main/resources/harimt.gpu.mixins.json
+          grep -F 'HariForgeMixinPlugin' upstream/forge/src/main/resources/harimt.gpu.mixins.json
+          grep -F 'NVIDIA_NVIDIUM' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/HariRenderState.java
+          grep -F 'EXTERNAL_ALLOYIUM' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/HariRenderState.java
+          grep -F 'HARI_GPU_INDIRECT' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/HariRenderState.java
+          grep -F 'curse.maven:embeddium-908741:5681725' upstream/forge/build.gradle
+          grep -F 'forge_mixins=[harimt.common.mixins.json,harimt.forge.mixins.json,harimt.gpu.mixins.json]' upstream/gradle.properties
+          test -f upstream/ATTRIBUTION-MC263-GPU-TERRAIN.md
+          test -f upstream/forge/src/main/resources/assets/harimt/shaders/hari_terrain_indirect.glsl
+          grep -F 'glMultiDrawElementsIndirect' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/render/HariTerrainRenderer.java
+          grep -F 'GL43C.glDispatchCompute' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/compute/ComputePipeline.java
+          grep -F 'enableMc263PersistentMobIdle' upstream/common/src/main/java/com/axalotl/async/common/config/AsyncConfig.java
+          grep -F 'enableMc263StructureLocateCache' upstream/common/src/main/java/com/axalotl/async/common/config/AsyncConfig.java
+          grep -F 'enableMc263NonCreatingRegionReads' upstream/common/src/main/java/com/axalotl/async/common/config/AsyncConfig.java
+
+      - name: Validate OpenGL compute shader
+        shell: bash
+        run: glslangValidator -S comp upstream/forge/src/main/resources/assets/harimt/shaders/hari_terrain_indirect.glsl
+
+      - name: Compile and build Forge 1.20.1
+        shell: bash
+        working-directory: upstream
+        run: ./gradlew --no-daemon clean :forge:harimtVulkanBackendJar :forge:build --stacktrace
+
+      - name: Verify production JAR packaging
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t jars < <(find upstream/forge/build/libs -maxdepth 1 -type f -name '*.jar' ! -name '*sources*' ! -name '*dev*' ! -name 'harimt-vulkan-backend*' | sort)
+          test "${#jars[@]}" -ge 1
+          jarfile="${jars[0]}"
+          basename "$jarfile" | grep -F '2.3.0-noxviola.1'
+          jar tf "$jarfile" | grep -Fx 'harimt.common.mixins.json'
+          jar tf "$jarfile" | grep -Fx 'harimt.forge.mixins.json'
+          jar tf "$jarfile" | grep -Fx 'harimt.gpu.mixins.json'
+          jar tf "$jarfile" | grep -Fx 'assets/harimt/shaders/hari_terrain_indirect.glsl'
+          jar tf "$jarfile" | grep -Fx 'com/axalotl/async/forge/client/hari263/render/HariTerrainRenderer.class'
+          manifest="$(unzip -p "$jarfile" META-INF/MANIFEST.MF | tr -d '\r')"
+          printf '%s\n' "$manifest" | grep -F 'harimt.gpu.mixins.json'
+          mkdir -p ci-out
+          cp "$jarfile" ci-out/HariMultiThread-Ultimate-1.20.1-2.3.0-noxviola.1.jar
+          (cd upstream && git diff --binary) > ci-out/UPSTREAM-TO-2.3.0.patch
+          sha256sum ci-out/* > ci-out/SHA256SUMS.txt
+
+      - name: Upload compile checkpoint
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-Ultimate-1.20.1-2.3.0-GPU-TERRAIN-COMPILE
+          path: ci-out/
+          if-no-files-found: error
+
+      - name: Upload Gradle failure logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-2.3.0-compile-failure
+          path: |
+            upstream/forge/build/
+            upstream/.gradle/
+          if-no-files-found: warn
