@@ -41,6 +41,8 @@ jobs:
             evidence-unpacked/PERFORMANCE-ACCEPTANCE-2.2.0-noxviola.1.md
           cp minecraft/async-1.20.1-ultimate/MC263-CHUNKGEN-AB-COMPARISON.json \
             evidence-unpacked/MC263-CHUNKGEN-AB-COMPARISON.json
+          cp minecraft/async-1.20.1-ultimate/HariMultiThread-Ultimate-MC263-Performance-Stack-Compatibility.md \
+            evidence-unpacked/HariMultiThread-Ultimate-MC263-Performance-Stack-Compatibility.md
 
           (cd evidence-unpacked && zip -qr "../repair/$evidence_name" .)
 
@@ -78,6 +80,8 @@ jobs:
           grep -F "$new_hash" verify/SHA256SUMS.txt
           unzip -p "verify/$evidence_name" MC-26.3-BACKPORT-MATRIX.md | grep -F '| Chunk-generation performance / density-cache redesign | Implemented experimental subset | **OFF** |'
           unzip -p "verify/$evidence_name" PERFORMANCE-ACCEPTANCE-2.2.0-noxviola.1.md | grep -F 'defaults OFF'
+          unzip -p "verify/$evidence_name" HariMultiThread-Ultimate-MC263-Performance-Stack-Compatibility.md | grep -F 'Overall: **PASS**'
+          unzip -p "verify/$evidence_name" HariMultiThread-Ultimate-MC263-Performance-Stack-Compatibility.md | grep -F 'Embeddium / Rubidium / Sodium | PASS (provider precedence)'
 
       - name: Upload repaired release evidence proof
         uses: actions/upload-artifact@v4
