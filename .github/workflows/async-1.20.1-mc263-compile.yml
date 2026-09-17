@@ -11,7 +11,7 @@ permissions:
 jobs:
   compile-forge:
     runs-on: ubuntu-22.04
-    timeout-minutes: 45
+    timeout-minutes: 70
     steps:
       - name: Checkout project harness
         uses: actions/checkout@v4
@@ -88,6 +88,7 @@ jobs:
           mapfile -t jars < <(find upstream/forge/build/libs -maxdepth 1 -type f -name '*.jar' ! -name '*sources*' ! -name '*dev*' ! -name 'harimt-vulkan-backend*' | sort)
           test "${#jars[@]}" -ge 1
           jarfile="${jars[0]}"
+          echo "$jarfile" > RELEASE_JAR_PATH.txt
           jar tf "$jarfile" | grep -Fx 'com/axalotl/async/common/mixin/world/StructureCheckMixin.class'
           jar tf "$jarfile" | grep -Fx 'com/axalotl/async/common/mixin/world/NoiseChunkCache2DMixin.class'
           jar tf "$jarfile" | grep -Fx 'com/axalotl/async/common/mixin/entity/MobMixin.class'
@@ -96,3 +97,46 @@ jobs:
           jar tf "$jarfile" | grep -Fx 'harimt.refmap.json'
           unzip -p "$jarfile" harimt.common.mixins.json | grep -F 'world.StructureCheckMixin'
           unzip -p "$jarfile" harimt.common.mixins.json | grep -F 'world.NoiseChunkCache2DMixin'
+
+      - name: Install real Forge 47.4.23 dedicated server
+        shell: bash
+        run: |
+          mkdir -p qa-server evidence/runtime/mc263
+          curl -fL --retry 3 \
+            'https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.23/forge-1.20.1-47.4.23-installer.jar' \
+            -o forge-1.20.1-47.4.23-installer.jar
+          (
+            cd qa-server
+            java -jar ../forge-1.20.1-47.4.23-installer.jar --installServer \
+              > ../evidence/runtime/mc263/forge-server-install.log 2>&1
+          )
+          test -f qa-server/run.sh
+          chmod +x qa-server/run.sh
+          mkdir -p qa-server/mods
+          cp "$(cat RELEASE_JAR_PATH.txt)" qa-server/mods/HariMultiThread-Ultimate-MC263.jar
+          printf 'eula=true\n' > qa-server/eula.txt
+          cat > qa-server/server.properties <<'SERVER_EOF'
+          online-mode=false
+          level-name=world
+          level-seed=8675309
+          spawn-protection=0
+          view-distance=4
+          simulation-distance=4
+          motd=HariMultiThread Minecraft 26.3 Backport QA
+          SERVER_EOF
+
+      - name: Real Forge 26.3 behavior gate
+        shell: bash
+        run: |
+          python3 minecraft/async-1.20.1-ultimate/runtime_mc263_qa.py \
+            qa-server evidence/runtime/mc263
+
+      - name: Upload 26.3 build and runtime evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hari-1.20.1-mc263-${{ github.sha }}
+          path: |
+            upstream/forge/build/libs/*.jar
+            evidence/runtime/mc263/
+          if-no-files-found: warn
