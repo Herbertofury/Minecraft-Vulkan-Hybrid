@@ -58,8 +58,10 @@ jobs:
           python3 minecraft/async-1.20.1-ultimate/apply_spatial_gpu.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_mc263_backports.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_mc263_worldgen_cache.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_region_read.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_mc263_provider_precedence.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_mc263_diagnostics.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_region_diagnostics.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_mc263_release_identity.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_mixin_packaging.py upstream
           grep -F 'version=2.2.0-noxviola.1' upstream/gradle.properties
