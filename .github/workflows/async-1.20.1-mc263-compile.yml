@@ -53,6 +53,7 @@ jobs:
           python3 minecraft/async-1.20.1-ultimate/apply_mc263_backports.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_mc263_worldgen_cache.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_mc263_provider_precedence.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_diagnostics.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_mixin_packaging.py upstream
           git -C upstream diff --check
 
@@ -73,6 +74,8 @@ jobs:
           grep -F 'public static boolean EXTERNAL_SHADER_PIPELINE' upstream/common/src/main/java/com/axalotl/async/common/AsyncCommon.java
           grep -F 'MultiDrawIndirect terrain lane delegated' upstream/common/src/main/java/com/axalotl/async/common/AsyncCommon.java
           grep -F 'OIT/ShaderC client lanes delegated' upstream/common/src/main/java/com/axalotl/async/common/AsyncCommon.java
+          grep -F 'Mc263Command.registerMc263(main)' upstream/common/src/main/java/com/axalotl/async/common/commands/AsyncCommand.java
+          grep -F 'HMT_MC263_IDLE_PASS' upstream/common/src/main/java/com/axalotl/async/common/commands/Mc263Command.java
 
       - name: Compile and build Forge 1.20.1
         shell: bash
@@ -88,6 +91,7 @@ jobs:
           jar tf "$jarfile" | grep -Fx 'com/axalotl/async/common/mixin/world/StructureCheckMixin.class'
           jar tf "$jarfile" | grep -Fx 'com/axalotl/async/common/mixin/world/NoiseChunkCache2DMixin.class'
           jar tf "$jarfile" | grep -Fx 'com/axalotl/async/common/mixin/entity/MobMixin.class'
+          jar tf "$jarfile" | grep -Fx 'com/axalotl/async/common/commands/Mc263Command.class'
           jar tf "$jarfile" | grep -Fx 'harimt.common.mixins.json'
           jar tf "$jarfile" | grep -Fx 'harimt.refmap.json'
           unzip -p "$jarfile" harimt.common.mixins.json | grep -F 'world.StructureCheckMixin'
