@@ -51,6 +51,7 @@ jobs:
           python3 minecraft/async-1.20.1-ultimate/apply_world_batch.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_spatial_gpu.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_mc263_backports.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_worldgen_cache.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_mixin_packaging.py upstream
           git -C upstream diff --check
 
@@ -59,9 +60,13 @@ jobs:
         run: |
           grep -F 'enableMc263PersistentMobIdle' upstream/common/src/main/java/com/axalotl/async/common/config/AsyncConfig.java
           grep -F 'enableMc263StructureLocateCache' upstream/common/src/main/java/com/axalotl/async/common/config/AsyncConfig.java
+          grep -F 'enableMc263DensityCacheFill' upstream/common/src/main/java/com/axalotl/async/common/config/AsyncConfig.java
           grep -F 'harimt$mc263NoActionTimeBeforeDespawn' upstream/common/src/main/java/com/axalotl/async/common/mixin/entity/MobMixin.java
           grep -F 'world.StructureCheckMixin' upstream/common/src/main/resources/harimt.common.mixins.json
+          grep -F 'world.NoiseChunkCache2DMixin' upstream/common/src/main/resources/harimt.common.mixins.json
           grep -F 'HARIMT$MC263_MAX_STORAGE_MISSES' upstream/common/src/main/java/com/axalotl/async/common/mixin/world/StructureCheckMixin.java
+          grep -F 'fillAllDirectly' upstream/common/src/main/java/com/axalotl/async/common/mixin/world/NoiseChunkCache2DMixin.java
+          grep -F 'return !AsyncCommon.HARICHUNK' upstream/common/src/main/java/com/axalotl/async/common/mixin/utils/SynchronisePlugin.java
 
       - name: Compile and build Forge 1.20.1
         shell: bash
@@ -75,7 +80,9 @@ jobs:
           test "${#jars[@]}" -ge 1
           jarfile="${jars[0]}"
           jar tf "$jarfile" | grep -Fx 'com/axalotl/async/common/mixin/world/StructureCheckMixin.class'
+          jar tf "$jarfile" | grep -Fx 'com/axalotl/async/common/mixin/world/NoiseChunkCache2DMixin.class'
           jar tf "$jarfile" | grep -Fx 'com/axalotl/async/common/mixin/entity/MobMixin.class'
           jar tf "$jarfile" | grep -Fx 'harimt.common.mixins.json'
           jar tf "$jarfile" | grep -Fx 'harimt.refmap.json'
           unzip -p "$jarfile" harimt.common.mixins.json | grep -F 'world.StructureCheckMixin'
+          unzip -p "$jarfile" harimt.common.mixins.json | grep -F 'world.NoiseChunkCache2DMixin'
