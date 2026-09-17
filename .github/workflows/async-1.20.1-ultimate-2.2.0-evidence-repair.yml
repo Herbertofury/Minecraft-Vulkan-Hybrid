@@ -1,0 +1,87 @@
+name: Hari 1.20.1 Ultimate 2.2.0 Evidence Repair
+
+on:
+  push:
+    branches: [async-1.20.1-ultimate-mc263-release-evidence-fix-20260917]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  repair-release-evidence:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout corrected release evidence sources
+        uses: actions/checkout@v4
+
+      - name: Repair published evidence bundle and checksums
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag='harimt-ultimate-1.20.1-2.2.0-noxviola.1'
+          evidence_name='HariMultiThread-Ultimate-1.20.1-2.2.0-noxviola.1-EVIDENCE.zip'
+
+          gh release view "$tag" >/dev/null
+          rm -rf repair evidence-unpacked verify
+          mkdir -p repair evidence-unpacked verify
+
+          gh release download "$tag" \
+            --pattern "$evidence_name" \
+            --pattern 'SHA256SUMS.txt' \
+            --dir repair
+
+          unzip -q "repair/$evidence_name" -d evidence-unpacked
+          cp minecraft/async-1.20.1-ultimate/MC-26.3-BACKPORT-MATRIX.md \
+            evidence-unpacked/MC-26.3-BACKPORT-MATRIX.md
+          cp minecraft/async-1.20.1-ultimate/PERFORMANCE-ACCEPTANCE-2.2.0-noxviola.1.md \
+            evidence-unpacked/PERFORMANCE-ACCEPTANCE-2.2.0-noxviola.1.md
+          cp minecraft/async-1.20.1-ultimate/MC263-CHUNKGEN-AB-COMPARISON.json \
+            evidence-unpacked/MC263-CHUNKGEN-AB-COMPARISON.json
+
+          (cd evidence-unpacked && zip -qr "../repair/$evidence_name" .)
+
+          new_hash="$(sha256sum "repair/$evidence_name" | awk '{print $1}')"
+          python3 - "$new_hash" "repair/SHA256SUMS.txt" "$evidence_name" <<'PY'
+          import pathlib, sys
+          digest, sums_path, evidence_name = sys.argv[1:]
+          path = pathlib.Path(sums_path)
+          lines = path.read_text(encoding='utf-8').splitlines()
+          replaced = False
+          out = []
+          for line in lines:
+              if line.rstrip().endswith('  ' + 'release/' + evidence_name) or line.rstrip().endswith('  ' + evidence_name):
+                  prefix_name = line.split('  ', 1)[1]
+                  out.append(f"{digest}  {prefix_name}")
+                  replaced = True
+              else:
+                  out.append(line)
+          if not replaced:
+              raise SystemExit('evidence checksum line not found')
+          path.write_text('\n'.join(out) + '\n', encoding='utf-8')
+          PY
+
+          gh release upload "$tag" --clobber \
+            "repair/$evidence_name" \
+            repair/SHA256SUMS.txt
+          gh release edit "$tag" \
+            --notes-file minecraft/async-1.20.1-ultimate/overlay/RELEASE-NOTES-2.2.0-noxviola.1.md
+
+          gh release download "$tag" \
+            --pattern "$evidence_name" \
+            --pattern 'SHA256SUMS.txt' \
+            --dir verify
+          test "$(sha256sum "verify/$evidence_name" | awk '{print $1}')" = "$new_hash"
+          grep -F "$new_hash" verify/SHA256SUMS.txt
+          unzip -p "verify/$evidence_name" MC-26.3-BACKPORT-MATRIX.md | grep -F '| Chunk-generation performance / density-cache redesign | Implemented experimental subset | **OFF** |'
+          unzip -p "verify/$evidence_name" PERFORMANCE-ACCEPTANCE-2.2.0-noxviola.1.md | grep -F 'defaults OFF'
+
+      - name: Upload repaired release evidence proof
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-2.2.0-release-evidence-repair
+          path: verify/
+          if-no-files-found: error
