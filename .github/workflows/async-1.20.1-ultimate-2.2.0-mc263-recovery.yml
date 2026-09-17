@@ -1,0 +1,226 @@
+name: Hari 1.20.1 Ultimate 2.2.0 MC26.3 Recovery
+
+on:
+  push:
+    branches: [async-1.20.1-ultimate-mc263-release-recovery-20260917]
+  workflow_dispatch:
+
+concurrency:
+  group: hari-mc263-2.2.0-release-recovery
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  build-test-publish:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - name: Checkout project harness
+        uses: actions/checkout@v4
+
+      - name: Checkout pinned Hari source
+        uses: actions/checkout@v4
+        with:
+          repository: JustHari01/HariMultiThread
+          ref: f381611c2d71a85192e2028f9e30c03823a6482b
+          path: upstream
+          fetch-depth: 1
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Pin Gradle 8.11.1 independently of wrapper download
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11.1'
+          cache-disabled: true
+
+      - name: Install native QA tools
+        shell: bash
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            glslang-tools mesa-vulkan-drivers vulkan-tools \
+            xvfb openbox xdotool x11-utils imagemagick libgl1-mesa-dri zip rsync
+
+      - name: Apply deterministic production reconstruction
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf upstream/**/bin upstream/**/build upstream/**/.gradle upstream/buildSrc/.gradle upstream/buildSrc/build || true
+          test "$(git -C upstream rev-parse HEAD)" = 'f381611c2d71a85192e2028f9e30c03823a6482b'
+          git -C upstream rev-parse HEAD > UPSTREAM_SHA.txt
+          python3 minecraft/async-1.20.1-ultimate/apply_overlay.py upstream minecraft/async-1.20.1-ultimate/overlay
+          python3 minecraft/async-1.20.1-ultimate/apply_hardening.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_lifecycle.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_platform.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_interop.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_lwjgl_runtime.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_backend_architecture.py upstream minecraft/async-1.20.1-ultimate/backend-overlay
+          python3 minecraft/async-1.20.1-ultimate/apply_spawn_interop.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_world_batch.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_spatial_gpu.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_backports.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_worldgen_cache.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_provider_precedence.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_diagnostics.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_release_identity.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mixin_packaging.py upstream
+          git -C upstream diff --check
+          grep -F 'version=2.2.0-noxviola.1' upstream/gradle.properties
+          grep -F 'enableMc263DensityCacheFill", false' upstream/common/src/main/java/com/axalotl/async/common/config/AsyncConfig.java
+          grep -F 'HMT_MC263_IDLE_PASS' upstream/common/src/main/java/com/axalotl/async/common/commands/Mc263Command.java
+          grep -F 'world.StructureCheckMixin' upstream/common/src/main/resources/harimt.common.mixins.json
+          grep -F 'world.NoiseChunkCache2DMixin' upstream/common/src/main/resources/harimt.common.mixins.json
+
+      - name: Compile and validate production SPIR-V
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/runtime/server evidence/runtime/mc263 evidence/runtime/client
+          shader=upstream/common/src/main/resources/assets/async/shaders/collision_broadphase.comp
+          glslangValidator -V "$shader" -o "${shader}.spv"
+          test "$(xxd -p -l 4 "${shader}.spv")" = '03022307'
+          vulkaninfo --summary | tee evidence/runtime/server/vulkaninfo-summary.txt
+          java -version 2> evidence/java-version.txt
+          gradle --version > evidence/gradle-version.txt
+          lscpu > evidence/lscpu.txt
+
+      - name: Build Forge release through pinned Gradle
+        shell: bash
+        working-directory: upstream
+        env:
+          GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.vfs.watch=false
+        run: gradle --no-daemon --no-parallel --stacktrace :forge:harimtVulkanBackendJar :forge:build
+
+      - name: Verify release JAR packaging
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t jars < <(find upstream/forge/build/libs -maxdepth 1 -type f -name '*.jar' ! -name '*sources*' ! -name '*dev*' ! -name 'harimt-vulkan-backend*' | sort)
+          test "${#jars[@]}" -ge 1
+          jarfile="${jars[0]}"
+          basename "$jarfile" | grep -F '2.2.0-noxviola.1'
+          echo "$jarfile" > RELEASE_JAR_PATH.txt
+          jar tf "$jarfile" | grep -Fx 'harimt.common.mixins.json'
+          jar tf "$jarfile" | grep -Fx 'harimt.forge.mixins.json'
+          jar tf "$jarfile" | grep -Fx 'harimt.refmap.json'
+          jar tf "$jarfile" | grep -Fx 'assets/async/shaders/collision_broadphase.comp.spv'
+          jar tf "$jarfile" | grep -Fx 'com/axalotl/async/common/mixin/world/StructureCheckMixin.class'
+          jar tf "$jarfile" | grep -Fx 'com/axalotl/async/common/mixin/world/NoiseChunkCache2DMixin.class'
+          jar tf "$jarfile" | grep -Fx 'com/axalotl/async/common/commands/Mc263Command.class'
+          jar tf "$jarfile" | grep -Fx 'META-INF/harimt-libs/harimt-vulkan-backend-3.3.1.jar'
+          unzip -p "$jarfile" META-INF/mods.toml | grep -F 'HariMultiThread Ultimate'
+          unzip -p "$jarfile" META-INF/MANIFEST.MF | tr -d '\r' | grep -Fx 'MixinConfigs: harimt.common.mixins.json,harimt.forge.mixins.json'
+
+      - name: Install real Forge 47.4.23 server template
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 'https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.23/forge-1.20.1-47.4.23-installer.jar' -o forge-installer.jar
+          mkdir forge-template
+          (cd forge-template && java -jar ../forge-installer.jar --installServer > ../evidence/runtime/server/forge-server-install.log 2>&1)
+          test -f forge-template/run.sh
+          chmod +x forge-template/run.sh
+          for name in qa-server qa-server-mc263; do
+            cp -a forge-template "$name"
+            mkdir -p "$name/mods"
+            cp "$(cat RELEASE_JAR_PATH.txt)" "$name/mods/HariMultiThread-Ultimate.jar"
+            printf 'eula=true\n' > "$name/eula.txt"
+            cat > "$name/server.properties" <<'EOF'
+          online-mode=false
+          level-name=world
+          level-seed=8675309
+          spawn-protection=0
+          view-distance=4
+          simulation-distance=4
+          motd=HariMultiThread Ultimate 2.2.0 Recovery QA
+          EOF
+          done
+
+      - name: Packaged Forge Vulkan, fallback, save and restart gate
+        shell: bash
+        run: python3 minecraft/async-1.20.1-ultimate/runtime_server_qa.py qa-server evidence/runtime/server
+
+      - name: Packaged Minecraft 26.3 behavior/worldgen gate
+        shell: bash
+        run: python3 minecraft/async-1.20.1-ultimate/runtime_mc263_qa.py qa-server-mc263 evidence/runtime/mc263
+
+      - name: Real Forge client and integrated-server rendered-world gate
+        shell: bash
+        run: python3 minecraft/async-1.20.1-ultimate/runtime_client_qa.py upstream qa-server/world evidence/runtime/client
+
+      - name: Package corrected canonical release
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf release merged-source
+          mkdir -p release merged-source
+          cp UPSTREAM_SHA.txt evidence/
+          cp RELEASE_JAR_PATH.txt evidence/
+          cp minecraft/async-1.20.1-ultimate/PERFORMANCE-ACCEPTANCE-2.2.0-noxviola.1.md evidence/
+          cp minecraft/async-1.20.1-ultimate/PERFORMANCE-ACCEPTANCE-2.2.0-noxviola.1.md release/
+          cp minecraft/async-1.20.1-ultimate/MC-26.3-BACKPORT-MATRIX.md evidence/
+          cp minecraft/async-1.20.1-ultimate/MC263-CHUNKGEN-AB-COMPARISON.json evidence/
+          (cd upstream && git diff --binary) > evidence/UPSTREAM-TO-ULTIMATE.patch
+          (cd upstream && git status --porcelain=v1) > evidence/upstream-status.txt
+          cp "$(cat RELEASE_JAR_PATH.txt)" release/HariMultiThread-Ultimate-1.20.1-2.2.0-noxviola.1.jar
+          rsync -a --exclude='.git/' --exclude='.gradle/' --exclude='**/build/' --exclude='**/bin/' upstream/ merged-source/
+          (cd merged-source && zip -qr ../release/HariMultiThread-Ultimate-1.20.1-2.2.0-noxviola.1-SOURCE.zip .)
+          (cd evidence && zip -qr ../release/HariMultiThread-Ultimate-1.20.1-2.2.0-noxviola.1-EVIDENCE.zip .)
+          sha256sum \
+            release/HariMultiThread-Ultimate-1.20.1-2.2.0-noxviola.1.jar \
+            release/HariMultiThread-Ultimate-1.20.1-2.2.0-noxviola.1-SOURCE.zip \
+            release/HariMultiThread-Ultimate-1.20.1-2.2.0-noxviola.1-EVIDENCE.zip \
+            release/PERFORMANCE-ACCEPTANCE-2.2.0-noxviola.1.md \
+            > release/SHA256SUMS.txt
+          grep -F '| Chunk-generation performance / density-cache redesign | Implemented experimental subset | **OFF** |' evidence/MC-26.3-BACKPORT-MATRIX.md
+          cat release/SHA256SUMS.txt
+
+      - name: Upload corrected release bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-Ultimate-1.20.1-2.2.0-RECOVERY-RELEASE-bundle
+          path: release/
+          if-no-files-found: error
+
+      - name: Create or repair GitHub release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag='harimt-ultimate-1.20.1-2.2.0-noxviola.1'
+          title='HariMultiThread Ultimate 2.2.0-noxviola.1 — Forge 1.20.1 + Minecraft 26.3 Backports'
+          assets=(
+            release/HariMultiThread-Ultimate-1.20.1-2.2.0-noxviola.1.jar
+            release/HariMultiThread-Ultimate-1.20.1-2.2.0-noxviola.1-SOURCE.zip
+            release/HariMultiThread-Ultimate-1.20.1-2.2.0-noxviola.1-EVIDENCE.zip
+            release/PERFORMANCE-ACCEPTANCE-2.2.0-noxviola.1.md
+            release/SHA256SUMS.txt
+          )
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" --clobber "${assets[@]}"
+            gh release edit "$tag" --title "$title" --notes-file minecraft/async-1.20.1-ultimate/overlay/RELEASE-NOTES-2.2.0-noxviola.1.md
+          else
+            gh release create "$tag" --target "$GITHUB_SHA" --title "$title" \
+              --notes-file minecraft/async-1.20.1-ultimate/overlay/RELEASE-NOTES-2.2.0-noxviola.1.md \
+              "${assets[@]}"
+          fi
+
+      - name: Verify published assets
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag='harimt-ultimate-1.20.1-2.2.0-noxviola.1'
+          rm -rf verify-release
+          mkdir verify-release
+          gh release download "$tag" --pattern 'SHA256SUMS.txt' --pattern 'HariMultiThread-Ultimate-1.20.1-2.2.0-noxviola.1-EVIDENCE.zip' --dir verify-release
+          unzip -p verify-release/HariMultiThread-Ultimate-1.20.1-2.2.0-noxviola.1-EVIDENCE.zip MC-26.3-BACKPORT-MATRIX.md | grep -F '| Chunk-generation performance / density-cache redesign | Implemented experimental subset | **OFF** |'
