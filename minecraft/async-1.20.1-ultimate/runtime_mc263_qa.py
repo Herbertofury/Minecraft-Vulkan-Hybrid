@@ -101,14 +101,15 @@ def run_server(server_dir: Path, evidence_dir: Path) -> None:
     try:
         wait_for_text("Done (", 180)
 
-        joined_startup = "".join(lines)
+        # Hari's Forge setup callback can legally run immediately after Minecraft
+        # emits its Done marker. Wait for the actual compatibility messages rather
+        # than snapshotting stdout at Done and racing the server-start callback.
         expected_startup = (
             "Terrain renderer: vanilla 1.20.1 owner (Hari core remains renderer-neutral)",
             "Shader pipeline: vanilla 1.20.1 owner (Hari core does not force OIT/ShaderC)",
         )
-        missing = [marker for marker in expected_startup if marker not in joined_startup]
-        if missing:
-            raise RuntimeError(f"26.3 provider-precedence startup markers missing: {missing}")
+        for marker in expected_startup:
+            wait_for_text(marker, 30)
 
         send("gamerule doMobSpawning false")
         send("forceload add 0 0")
