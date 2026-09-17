@@ -159,8 +159,17 @@ def main() -> int:
         if wm.poll() is not None:
             raise RuntimeError("Openbox exited before Forge client launch")
 
+        # The recovery/release lane pins Gradle 8.11.1 through the official
+        # setup-gradle action specifically to avoid re-entering a stalled wrapper
+        # download path. Prefer that installed executable when present; retain the
+        # repository wrapper as the portable fallback for local/legacy QA lanes.
+        gradle_executable = os.environ.get("HARIMT_GRADLE_EXECUTABLE")
+        if not gradle_executable:
+            gradle_executable = shutil.which("gradle") or "./gradlew"
+        print(f"[HMT-CLIENT-QA] Gradle launcher: {gradle_executable}", flush=True)
+
         cmd = [
-            "./gradlew",
+            gradle_executable,
             "--no-daemon",
             ":forge:runClient",
             "--args=--width 1280 --height 720 --quickPlaySingleplayer HMT-QA",
