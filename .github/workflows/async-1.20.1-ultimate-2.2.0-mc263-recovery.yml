@@ -67,16 +67,28 @@ jobs:
           python3 minecraft/async-1.20.1-ultimate/apply_spatial_gpu.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_mc263_backports.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_mc263_worldgen_cache.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_region_read.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_mc263_provider_precedence.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_mc263_diagnostics.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_region_diagnostics.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_mc263_release_identity.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_mixin_packaging.py upstream
           git -C upstream diff --check
           grep -F 'version=2.2.0-noxviola.1' upstream/gradle.properties
           grep -F 'enableMc263DensityCacheFill", false' upstream/common/src/main/java/com/axalotl/async/common/config/AsyncConfig.java
+          grep -F 'enableMc263NonCreatingRegionReads", true' upstream/common/src/main/java/com/axalotl/async/common/config/AsyncConfig.java
           grep -F 'HMT_MC263_IDLE_PASS' upstream/common/src/main/java/com/axalotl/async/common/commands/Mc263Command.java
+          grep -F 'Non-creating region reads' upstream/common/src/main/java/com/axalotl/async/common/commands/Mc263Command.java
           grep -F 'world.StructureCheckMixin' upstream/common/src/main/resources/harimt.common.mixins.json
+          grep -F 'world.RegionFileStorageMixin' upstream/common/src/main/resources/harimt.common.mixins.json
           grep -F 'world.NoiseChunkCache2DMixin' upstream/common/src/main/resources/harimt.common.mixins.json
+
+      - name: Enforce final Noxviola provider ownership audit
+        shell: bash
+        run: |
+          python3 minecraft/async-1.20.1-ultimate/performance_stack_compatibility_audit.py \
+            upstream evidence/HariMultiThread-Ultimate-MC263-Performance-Stack-Compatibility.md
+          grep -F 'Overall: **PASS**' evidence/HariMultiThread-Ultimate-MC263-Performance-Stack-Compatibility.md
 
       - name: Compile and validate production SPIR-V
         shell: bash
@@ -112,6 +124,7 @@ jobs:
           jar tf "$jarfile" | grep -Fx 'harimt.refmap.json'
           jar tf "$jarfile" | grep -Fx 'assets/async/shaders/collision_broadphase.comp.spv'
           jar tf "$jarfile" | grep -Fx 'com/axalotl/async/common/mixin/world/StructureCheckMixin.class'
+          jar tf "$jarfile" | grep -Fx 'com/axalotl/async/common/mixin/world/RegionFileStorageMixin.class'
           jar tf "$jarfile" | grep -Fx 'com/axalotl/async/common/mixin/world/NoiseChunkCache2DMixin.class'
           jar tf "$jarfile" | grep -Fx 'com/axalotl/async/common/commands/Mc263Command.class'
           jar tf "$jarfile" | grep -Fx 'META-INF/harimt-libs/harimt-vulkan-backend-3.3.1.jar'
@@ -147,7 +160,7 @@ jobs:
         shell: bash
         run: python3 minecraft/async-1.20.1-ultimate/runtime_server_qa.py qa-server evidence/runtime/server
 
-      - name: Packaged Minecraft 26.3 behavior/worldgen gate
+      - name: Packaged Minecraft 26.3 behavior/worldgen/region-read gate
         shell: bash
         run: python3 minecraft/async-1.20.1-ultimate/runtime_mc263_qa.py qa-server-mc263 evidence/runtime/mc263
 
@@ -167,6 +180,7 @@ jobs:
           cp minecraft/async-1.20.1-ultimate/PERFORMANCE-ACCEPTANCE-2.2.0-noxviola.1.md release/
           cp minecraft/async-1.20.1-ultimate/MC-26.3-BACKPORT-MATRIX.md evidence/
           cp minecraft/async-1.20.1-ultimate/MC263-CHUNKGEN-AB-COMPARISON.json evidence/
+          cp evidence/HariMultiThread-Ultimate-MC263-Performance-Stack-Compatibility.md release/
           (cd upstream && git diff --binary) > evidence/UPSTREAM-TO-ULTIMATE.patch
           (cd upstream && git status --porcelain=v1) > evidence/upstream-status.txt
           cp "$(cat RELEASE_JAR_PATH.txt)" release/HariMultiThread-Ultimate-1.20.1-2.2.0-noxviola.1.jar
@@ -178,6 +192,7 @@ jobs:
             release/HariMultiThread-Ultimate-1.20.1-2.2.0-noxviola.1-SOURCE.zip \
             release/HariMultiThread-Ultimate-1.20.1-2.2.0-noxviola.1-EVIDENCE.zip \
             release/PERFORMANCE-ACCEPTANCE-2.2.0-noxviola.1.md \
+            release/HariMultiThread-Ultimate-MC263-Performance-Stack-Compatibility.md \
             > release/SHA256SUMS.txt
           grep -F '| Chunk-generation performance / density-cache redesign | Implemented experimental subset | **OFF** |' evidence/MC-26.3-BACKPORT-MATRIX.md
           cat release/SHA256SUMS.txt
@@ -202,6 +217,7 @@ jobs:
             release/HariMultiThread-Ultimate-1.20.1-2.2.0-noxviola.1-SOURCE.zip
             release/HariMultiThread-Ultimate-1.20.1-2.2.0-noxviola.1-EVIDENCE.zip
             release/PERFORMANCE-ACCEPTANCE-2.2.0-noxviola.1.md
+            release/HariMultiThread-Ultimate-MC263-Performance-Stack-Compatibility.md
             release/SHA256SUMS.txt
           )
           if gh release view "$tag" >/dev/null 2>&1; then
@@ -222,5 +238,11 @@ jobs:
           tag='harimt-ultimate-1.20.1-2.2.0-noxviola.1'
           rm -rf verify-release
           mkdir verify-release
-          gh release download "$tag" --pattern 'SHA256SUMS.txt' --pattern 'HariMultiThread-Ultimate-1.20.1-2.2.0-noxviola.1-EVIDENCE.zip' --dir verify-release
+          gh release download "$tag" \
+            --pattern 'SHA256SUMS.txt' \
+            --pattern 'HariMultiThread-Ultimate-1.20.1-2.2.0-noxviola.1-EVIDENCE.zip' \
+            --pattern 'HariMultiThread-Ultimate-MC263-Performance-Stack-Compatibility.md' \
+            --dir verify-release
           unzip -p verify-release/HariMultiThread-Ultimate-1.20.1-2.2.0-noxviola.1-EVIDENCE.zip MC-26.3-BACKPORT-MATRIX.md | grep -F '| Chunk-generation performance / density-cache redesign | Implemented experimental subset | **OFF** |'
+          unzip -p verify-release/HariMultiThread-Ultimate-1.20.1-2.2.0-noxviola.1-EVIDENCE.zip HariMultiThread-Ultimate-MC263-Performance-Stack-Compatibility.md | grep -F 'Overall: **PASS**'
+          grep -F 'Overall: **PASS**' verify-release/HariMultiThread-Ultimate-MC263-Performance-Stack-Compatibility.md
