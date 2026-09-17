@@ -23,11 +23,11 @@ Hari adds a bounded, thread-safe cache for chunks whose structure metadata looku
 
 Cache entries are invalidated when structure data or references are recorded. This does not add, remove or relocate structures and does not change world format.
 
-### Chunk-generation density-cache fast path
+### Experimental chunk-generation density-cache fast path
 
-Hari contains a narrow 1.20.1-safe backport of the cache-aware portion of 26.3's density-function/cache redesign. It keeps 1.20.1 **double-precision** density evaluation and routes `NoiseChunk.Cache2D` bulk fills through the existing X/Z cache rather than bypassing it.
+Hari contains a narrow 1.20.1 backport experiment based on the cache-aware part of 26.3's density-function/cache redesign. It keeps 1.20.1 **double-precision** density evaluation and can route `NoiseChunk.Cache2D` bulk fills through the existing X/Z cache rather than bypassing it.
 
-The final release default is determined by a real Forge ABBA benchmark using identical seed/chunk coordinates with exact sampled terrain hashes. If the optimization does not show a measured gain without terrain changes, the feature remains available but defaults off. See `PERFORMANCE-ACCEPTANCE-2.2.0-noxviola.1.md` in the release.
+It is **OFF by default in 2.2.0**. In the real Forge ABBA lab, the candidate median was about **0.42% slower** while the mean was about **0.86% faster**, which did not meet the >=1% median-gain promotion rule. The initial cross-JVM numeric block-state hash was also not accepted as terrain-parity proof because baseline A1 and A2 themselves produced different numeric-ID hashes. Keeping this lane disabled preserves the accepted 1.20.1 world-generation path by default while leaving the experiment available for controlled testing. See `PERFORMANCE-ACCEPTANCE-2.2.0-noxviola.1.md` in the release.
 
 ## 26.3 technology provider precedence
 
