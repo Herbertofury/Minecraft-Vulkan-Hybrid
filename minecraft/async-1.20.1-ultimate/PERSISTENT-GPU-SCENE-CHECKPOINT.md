@@ -16,3 +16,5 @@ Parity constraints:
 - provider precedence and fail-closed fallback from 2.3 remain unchanged.
 
 Next gate: reconstruct certified 2.3, apply this layer, validate GLSL, compile Forge 47.4.23 with Embeddium 0.3.31 API, then run the native rendered-client gate before any performance claim.
+
+Native acceptance instrumentation: `-Dharimt.gpuTerrainCpuThreshold=1` may be used only by QA to force the persistent dispatch path. Runtime acceptance requires `Hari persistent GPU scene active:` plus a rendered-world screenshot and no fail-closed marker. Normal installs continue to use the configured/default threshold.
