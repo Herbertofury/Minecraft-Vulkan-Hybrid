@@ -126,6 +126,18 @@ jobs:
           jar tf "$jarfile" | grep -Fx 'com/axalotl/async/forge/client/hari263/render/PersistentRegionSceneCache.class'
           jar tf "$jarfile" | grep -Fx 'com/axalotl/async/forge/mixin/client/embeddium/SectionStorageGenerationAccess.class'
 
+      - name: Restore verified production SPIR-V into ForgeGradle client source runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          jarfile='compiled/HariMultiThread-Ultimate-1.20.1-2.3.0-noxviola.1-persistent-scene.jar'
+          shader='upstream/common/src/main/resources/assets/async/shaders/collision_broadphase.comp.spv'
+          mkdir -p "$(dirname "$shader")"
+          unzip -p "$jarfile" assets/async/shaders/collision_broadphase.comp.spv > "$shader"
+          test -s "$shader"
+          test "$(xxd -p -l 4 "$shader")" = '03022307'
+          cmp "$shader" <(unzip -p "$jarfile" assets/async/shaders/collision_broadphase.comp.spv)
+
       - name: Install real Forge 47.4.23 server fixture
         shell: bash
         run: |
