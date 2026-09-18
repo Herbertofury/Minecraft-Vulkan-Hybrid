@@ -5,3 +5,5 @@ compile_artifact_id=10540688463
 compile_artifact_digest=sha256:c5090cd516b6c9c3a573c677e0f067b9162a37ff757a932f356cb12f5056a4b0
 required_marker=Hari persistent GPU scene active:
 qa_threshold_override=1
+native_retry=2
+reason=normalize ci-out manifest transport prefix only

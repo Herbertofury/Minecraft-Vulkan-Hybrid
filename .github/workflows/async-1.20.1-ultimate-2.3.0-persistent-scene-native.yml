@@ -117,7 +117,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          (cd compiled && sha256sum -c SHA256SUMS.txt)
+          # Compile workflow generated the manifest from repository root, so
+          # artifact entries carry a harmless ci-out/ prefix. Normalize that
+          # transport prefix only; file hashes remain the compiler-produced values.
+          (cd compiled && sed 's#  ci-out/#  #' SHA256SUMS.txt | sha256sum -c -)
           jarfile='compiled/HariMultiThread-Ultimate-1.20.1-2.3.0-noxviola.1-persistent-scene.jar'
           test -s "$jarfile"
           jar tf "$jarfile" | grep -Fx 'com/axalotl/async/forge/client/hari263/render/PersistentRegionSceneCache.class'
