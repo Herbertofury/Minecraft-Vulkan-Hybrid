@@ -1,0 +1,127 @@
+name: Hari 1.20.1 Ultimate 2.3.0 Persistent GPU Scene Compile
+
+on:
+  push:
+    branches: [async-1.20.1-ultimate-2.3.0-persistent-scene-20260918]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compile-persistent-scene:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - name: Checkout project harness
+        uses: actions/checkout@v4
+
+      - name: Checkout canonical HariMultiThread source
+        uses: actions/checkout@v4
+        with:
+          repository: JustHari01/HariMultiThread
+          ref: f381611c2d71a85192e2028f9e30c03823a6482b
+          path: upstream
+          fetch-depth: 1
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Install validation tools
+        shell: bash
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends glslang-tools patch zip
+          chmod +x upstream/gradlew
+
+      - name: Reconstruct certified 2.2.0 base
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/apply_overlay.py upstream minecraft/async-1.20.1-ultimate/overlay
+          python3 minecraft/async-1.20.1-ultimate/apply_hardening.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_lifecycle.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_platform.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_interop.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_lwjgl_runtime.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_backend_architecture.py upstream minecraft/async-1.20.1-ultimate/backend-overlay
+          python3 minecraft/async-1.20.1-ultimate/apply_spawn_interop.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_world_batch.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_spatial_gpu.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_backports.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_worldgen_cache.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_region_read.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_provider_precedence.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_diagnostics.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_region_diagnostics.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_release_identity.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mixin_packaging.py upstream
+          grep -F 'version=2.2.0-noxviola.1' upstream/gradle.properties
+
+      - name: Reconstruct certified 2.3 GPU terrain base
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_gpu_terrain.py upstream
+          grep -F 'version=2.3.0-noxviola.1' upstream/gradle.properties
+          grep -F 'HARI_GPU_INDIRECT' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/HariRenderState.java
+
+      - name: Apply persistent GPU scene child layer
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/apply_persistent_gpu_scene.py upstream
+          git -C upstream diff --check
+          grep -F 'enableGpuTerrainPersistentScene' upstream/common/src/main/java/com/axalotl/async/common/config/AsyncConfig.java
+          grep -F 'useBlockFaceCulling' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/render/HariTerrainRenderer.java
+          grep -F 'preparePersistent' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/render/HariTerrainRenderer.java
+          grep -F 'SectionStorageGenerationAccess' upstream/forge/src/main/java/com/axalotl/async/forge/mixin/client/embeddium/MixinSectionRenderDataStorage.java
+          grep -F 'BYTES = 64' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/meshlet/MeshletHeader.java
+
+      - name: Validate persistent-scene compute shader
+        shell: bash
+        run: |
+          set -euo pipefail
+          glslangValidator -S comp upstream/forge/src/main/resources/assets/harimt/shaders/hari_terrain_indirect.glsl
+
+      - name: Compile and build Forge 1.20.1
+        shell: bash
+        working-directory: upstream
+        run: ./gradlew --no-daemon clean :forge:harimtVulkanBackendJar :forge:build --stacktrace
+
+      - name: Verify packaged persistent-scene classes
+        shell: bash
+        run: |
+          set -euo pipefail
+          jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.3.0-noxviola.1-all.jar' | sort | head -n1)"
+          test -f "$jarfile"
+          jar tf "$jarfile" | grep -Fx 'com/axalotl/async/forge/client/hari263/render/PersistentRegionSceneCache.class'
+          jar tf "$jarfile" | grep -Fx 'com/axalotl/async/forge/mixin/client/embeddium/SectionStorageGenerationAccess.class'
+          jar tf "$jarfile" | grep -Fx 'assets/harimt/shaders/hari_terrain_indirect.glsl'
+          unzip -t "$jarfile" | grep -F 'No errors detected'
+          mkdir -p ci-out
+          cp "$jarfile" ci-out/HariMultiThread-Ultimate-1.20.1-2.3.0-noxviola.1-persistent-scene.jar
+          cp minecraft/async-1.20.1-ultimate/PERSISTENT-GPU-SCENE-CHECKPOINT.md ci-out/
+          (cd upstream && git diff --binary) > ci-out/UPSTREAM-TO-2.3.0-PERSISTENT-SCENE.patch
+          sha256sum ci-out/* > ci-out/SHA256SUMS.txt
+
+      - name: Upload persistent-scene compile checkpoint
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-Ultimate-1.20.1-2.3.0-PERSISTENT-SCENE-COMPILE
+          path: ci-out/
+          if-no-files-found: error
+
+      - name: Upload Gradle failure logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-2.3.0-persistent-scene-compile-failure
+          path: |
+            upstream/forge/build/
+            upstream/.gradle/
+          if-no-files-found: warn
