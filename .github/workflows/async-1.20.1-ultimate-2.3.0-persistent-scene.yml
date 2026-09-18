@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/async-1.20.1-ultimate-2.3.0-persistent-scene.yml'
       - 'minecraft/async-1.20.1-ultimate/apply_persistent_gpu_scene.py'
+      - 'minecraft/async-1.20.1-ultimate/apply_persistent_mixin_namespace_fix.py'
       - 'minecraft/async-1.20.1-ultimate/persistent_gpu_scene_patch/**'
       - 'minecraft/async-1.20.1-ultimate/PERSISTENT-GPU-SCENE-CHECKPOINT.md'
   workflow_dispatch:
@@ -80,7 +81,10 @@ jobs:
         run: |
           set -euo pipefail
           python3 minecraft/async-1.20.1-ultimate/apply_persistent_gpu_scene.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_persistent_mixin_namespace_fix.py upstream
           git -C upstream diff --check
+          test ! -e upstream/forge/src/main/java/com/axalotl/async/forge/mixin/client/embeddium/SectionStorageGenerationAccess.java
+          test -f upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/render/SectionStorageGenerationAccess.java
           grep -F 'enableGpuTerrainPersistentScene' upstream/common/src/main/java/com/axalotl/async/common/config/AsyncConfig.java
           grep -F 'useBlockFaceCulling' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/render/HariTerrainRenderer.java
           grep -F 'preparePersistent' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/render/HariTerrainRenderer.java
@@ -108,7 +112,8 @@ jobs:
           jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.3.0-noxviola.1-all.jar' | sort | head -n1)"
           test -f "$jarfile"
           jar tf "$jarfile" | grep -Fx 'com/axalotl/async/forge/client/hari263/render/PersistentRegionSceneCache.class'
-          jar tf "$jarfile" | grep -Fx 'com/axalotl/async/forge/mixin/client/embeddium/SectionStorageGenerationAccess.class'
+          jar tf "$jarfile" | grep -Fx 'com/axalotl/async/forge/client/hari263/render/SectionStorageGenerationAccess.class'
+          ! jar tf "$jarfile" | grep -Fx 'com/axalotl/async/forge/mixin/client/embeddium/SectionStorageGenerationAccess.class'
           jar tf "$jarfile" | grep -Fx 'assets/harimt/shaders/hari_terrain_indirect.glsl'
           jar tf "$jarfile" | grep -Fx 'assets/async/shaders/collision_broadphase.comp.spv'
           unzip -p "$jarfile" assets/async/shaders/collision_broadphase.comp.spv | xxd -p -l 4 | grep -Fx '03022307'
