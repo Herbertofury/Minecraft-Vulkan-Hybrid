@@ -138,6 +138,13 @@ jobs:
           cp vulkaninfo-summary.txt ci-out/
           sha256sum ci-out/* > ci-out/SHA256SUMS.txt
 
+      - name: Upload compiled 2.3 checkpoint before runtime QA
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-Ultimate-1.20.1-2.3.0-COMPILED-CHECKPOINT
+          path: ci-out/
+          if-no-files-found: error
+
       - name: Install real Forge 47.4.23 server template
         shell: bash
         run: |
@@ -173,19 +180,35 @@ jobs:
         shell: bash
         run: python3 minecraft/async-1.20.1-ultimate/runtime_mc263_qa.py qa-server-mc263 evidence/runtime/mc263
 
-      - name: Install Embeddium into native client QA instance
+      - name: Configure deobfuscated Embeddium for ForgeGradle client QA
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p upstream/forge/run/mods
-          embeddium="$(find "$HOME/.gradle/caches" -type f -name '*.jar' -path '*curse.maven*embeddium-908741*5681725*' 2>/dev/null | head -n1 || true)"
-          if [ -z "$embeddium" ]; then
-            curl -fL --retry 3 'https://www.cursemaven.com/curse/maven/embeddium-908741/5681725/embeddium-908741-5681725.jar' -o upstream/forge/run/mods/Embeddium.jar
-          else
-            cp "$embeddium" upstream/forge/run/mods/Embeddium.jar
-          fi
-          test -s upstream/forge/run/mods/Embeddium.jar
-          sha256sum upstream/forge/run/mods/Embeddium.jar | tee evidence/runtime/client/embeddium-sha256.txt
+          # ForgeGradle userdev runs mapped Minecraft. A production SRG mod jar
+          # copied directly into run/mods is not valid here; fg.deobf must remap it.
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path("upstream/forge/build.gradle")
+          s = p.read_text(encoding="utf-8")
+          dep = 'curse.maven:embeddium-908741:5681725'
+          if dep not in s:
+              raise SystemExit("Embeddium dependency missing from reconstructed build.gradle")
+          s2 = s.replace(
+              'compileOnly fg.deobf("curse.maven:embeddium-908741:5681725")',
+              'implementation fg.deobf("curse.maven:embeddium-908741:5681725")'
+          )
+          if s2 == s:
+              s2 = s.replace(
+                  "compileOnly fg.deobf('curse.maven:embeddium-908741:5681725')",
+                  "implementation fg.deobf('curse.maven:embeddium-908741:5681725')"
+              )
+          if s2 == s:
+              raise SystemExit("Expected compileOnly Embeddium declaration not found")
+          p.write_text(s2, encoding="utf-8")
+          PY
+          rm -f upstream/forge/run/mods/Embeddium*.jar upstream/forge/run/mods/embeddium*.jar
+          grep -F 'implementation fg.deobf("curse.maven:embeddium-908741:5681725")' upstream/forge/build.gradle \
+            || grep -F "implementation fg.deobf('curse.maven:embeddium-908741:5681725')" upstream/forge/build.gradle
 
       - name: Real Forge client rendered-world GPU terrain gate
         shell: bash
