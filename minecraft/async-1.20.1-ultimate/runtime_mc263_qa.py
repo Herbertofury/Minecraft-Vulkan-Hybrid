@@ -111,7 +111,10 @@ def run_server(server_dir: Path, evidence_dir: Path) -> None:
         # emits its Done marker. Wait for the actual compatibility messages rather
         # than snapshotting stdout at Done and racing the server-start callback.
         expected_startup = (
-            "Terrain renderer: vanilla 1.20.1 owner (Hari core remains renderer-neutral)",
+            # Dedicated servers must still keep the renderer on vanilla. The suffix
+            # changed in 2.3 because Hari now has a client-only GPU terrain lane,
+            # so gate on the ownership invariant rather than stale wording.
+            "Terrain renderer: vanilla 1.20.1 owner",
             "Shader pipeline: vanilla 1.20.1 owner (Hari core does not force OIT/ShaderC)",
         )
         for marker in expected_startup:
