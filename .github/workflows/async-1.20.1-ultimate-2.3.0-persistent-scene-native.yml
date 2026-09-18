@@ -1,0 +1,201 @@
+name: Hari 1.20.1 Ultimate 2.3.0 Persistent GPU Scene Native QA
+
+on:
+  push:
+    branches: [async-1.20.1-ultimate-2.3.0-persistent-scene-20260918]
+    paths:
+      - 'minecraft/async-1.20.1-ultimate/PERSISTENT-NATIVE-QA-TRIGGER.txt'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  native-persistent-scene:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      JAVA_TOOL_OPTIONS: -Dharimt.gpuTerrainCpuThreshold=1
+    steps:
+      - name: Checkout project harness
+        uses: actions/checkout@v4
+
+      - name: Checkout canonical HariMultiThread source
+        uses: actions/checkout@v4
+        with:
+          repository: JustHari01/HariMultiThread
+          ref: f381611c2d71a85192e2028f9e30c03823a6482b
+          path: upstream
+          fetch-depth: 1
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Install native QA tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            patch curl zip mesa-vulkan-drivers vulkan-tools \
+            xvfb openbox xdotool x11-utils imagemagick libgl1-mesa-dri
+          chmod +x upstream/gradlew
+
+      - name: Reconstruct certified 2.2.0 base
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/apply_overlay.py upstream minecraft/async-1.20.1-ultimate/overlay
+          python3 minecraft/async-1.20.1-ultimate/apply_hardening.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_lifecycle.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_platform.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_interop.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_lwjgl_runtime.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_backend_architecture.py upstream minecraft/async-1.20.1-ultimate/backend-overlay
+          python3 minecraft/async-1.20.1-ultimate/apply_spawn_interop.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_world_batch.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_spatial_gpu.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_backports.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_worldgen_cache.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_region_read.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_provider_precedence.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_diagnostics.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_region_diagnostics.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_release_identity.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mixin_packaging.py upstream
+
+      - name: Reconstruct 2.3 GPU terrain plus persistent scene
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_gpu_terrain.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_persistent_gpu_scene.py upstream
+          git -C upstream diff --check
+          grep -F 'harimt.gpuTerrainCpuThreshold' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/compute/ComputePipeline.java
+          grep -F 'Hari persistent GPU scene active:' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/render/HariTerrainRenderer.java
+
+      - name: Configure deobfuscated Embeddium for ForgeGradle client QA
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('upstream/forge/build.gradle')
+          s = p.read_text(encoding='utf-8')
+          dep = 'curse.maven:embeddium-908741:5681725'
+          if dep not in s:
+              raise SystemExit('Embeddium dependency missing from reconstructed build.gradle')
+          s2 = s.replace(
+              'compileOnly fg.deobf("curse.maven:embeddium-908741:5681725")',
+              'implementation fg.deobf("curse.maven:embeddium-908741:5681725")'
+          )
+          if s2 == s:
+              s2 = s.replace(
+                  "compileOnly fg.deobf('curse.maven:embeddium-908741:5681725')",
+                  "implementation fg.deobf('curse.maven:embeddium-908741:5681725')"
+              )
+          if s2 == s:
+              raise SystemExit('Expected compileOnly Embeddium declaration not found')
+          p.write_text(s2, encoding='utf-8')
+          PY
+          rm -f upstream/forge/run/mods/Embeddium*.jar upstream/forge/run/mods/embeddium*.jar || true
+
+      - name: Download exact compiled persistent-scene checkpoint
+        uses: actions/download-artifact@v4
+        with:
+          name: HariMultiThread-Ultimate-1.20.1-2.3.0-PERSISTENT-SCENE-COMPILE
+          path: compiled
+          repository: Herbertofury/ProjectDump
+          run-id: 35330795167
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify downloaded compile checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          (cd compiled && sha256sum -c SHA256SUMS.txt)
+          jarfile='compiled/HariMultiThread-Ultimate-1.20.1-2.3.0-noxviola.1-persistent-scene.jar'
+          test -s "$jarfile"
+          jar tf "$jarfile" | grep -Fx 'com/axalotl/async/forge/client/hari263/render/PersistentRegionSceneCache.class'
+          jar tf "$jarfile" | grep -Fx 'com/axalotl/async/forge/mixin/client/embeddium/SectionStorageGenerationAccess.class'
+
+      - name: Install real Forge 47.4.23 server fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/runtime/server evidence/runtime/client
+          curl -fL --retry 3 'https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.23/forge-1.20.1-47.4.23-installer.jar' -o forge-installer.jar
+          rm -rf forge-template qa-server
+          mkdir forge-template
+          (cd forge-template && java -jar ../forge-installer.jar --installServer > ../evidence/runtime/server/forge-server-install.log 2>&1)
+          cp -a forge-template qa-server
+          chmod +x qa-server/run.sh
+          mkdir -p qa-server/mods
+          cp compiled/HariMultiThread-Ultimate-1.20.1-2.3.0-noxviola.1-persistent-scene.jar qa-server/mods/HariMultiThread-Ultimate.jar
+          printf 'eula=true\n' > qa-server/eula.txt
+          cat > qa-server/server.properties <<'EOF'
+          online-mode=false
+          level-name=world
+          level-seed=8675309
+          spawn-protection=0
+          view-distance=4
+          simulation-distance=4
+          motd=Hari Persistent GPU Scene Native QA
+          EOF
+
+      - name: Dedicated-server fixture/no-client-class regression gate
+        shell: bash
+        run: python3 minecraft/async-1.20.1-ultimate/runtime_server_qa.py qa-server evidence/runtime/server
+
+      - name: Real Forge client persistent-scene rendered-world gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/runtime_client_qa.py upstream qa-server/world evidence/runtime/client
+          log=evidence/runtime/client/forge-client-console.log
+          grep -F 'Hari 26.3 render bridge: provider=HARI_GPU_INDIRECT' "$log"
+          grep -F 'Hari GPU terrain initialized: GPU threshold=1 regionCache=true persistentScene=true' "$log"
+          grep -F 'Hari persistent GPU scene active:' "$log"
+          ! grep -F 'Hari GPU terrain failed' "$log"
+          ! grep -E 'MixinApplyError|InvalidMixinException|InjectionError' "$log"
+          test -s evidence/runtime/client/forge-client-integrated-server.png
+          grep -F 'ready=true' evidence/runtime/client/forge-client-render-readiness.txt
+
+      - name: Package native acceptance evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-out
+          cp compiled/HariMultiThread-Ultimate-1.20.1-2.3.0-noxviola.1-persistent-scene.jar qa-out/
+          cp compiled/UPSTREAM-TO-2.3.0-PERSISTENT-SCENE.patch qa-out/
+          cp compiled/PERSISTENT-GPU-SCENE-CHECKPOINT.md qa-out/
+          cp -a evidence qa-out/
+          cat > qa-out/NATIVE-ACCEPTANCE.txt <<EOF
+          HariMultiThread Ultimate 2.3 persistent GPU scene native acceptance
+          source_commit=${GITHUB_SHA}
+          compile_run_id=35330795167
+          qa_threshold_override=1
+          required_marker=Hari persistent GPU scene active:
+          EOF
+          (cd qa-out && sha256sum HariMultiThread-Ultimate-1.20.1-2.3.0-noxviola.1-persistent-scene.jar UPSTREAM-TO-2.3.0-PERSISTENT-SCENE.patch PERSISTENT-GPU-SCENE-CHECKPOINT.md NATIVE-ACCEPTANCE.txt > SHA256SUMS.txt)
+
+      - name: Upload native persistent-scene evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-Ultimate-1.20.1-2.3.0-PERSISTENT-SCENE-NATIVE
+          path: qa-out/
+          if-no-files-found: error
+
+      - name: Upload native failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-2.3.0-persistent-scene-native-failure
+          path: |
+            evidence/
+            upstream/forge/run/logs/
+          if-no-files-found: warn

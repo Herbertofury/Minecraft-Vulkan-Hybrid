@@ -3,6 +3,10 @@ name: Hari 1.20.1 Ultimate 2.3.0 Persistent GPU Scene Compile
 on:
   push:
     branches: [async-1.20.1-ultimate-2.3.0-persistent-scene-20260918]
+    paths:
+      - 'minecraft/async-1.20.1-ultimate/apply_persistent_gpu_scene.py'
+      - 'minecraft/async-1.20.1-ultimate/persistent_gpu_scene_patch/**'
+      - 'minecraft/async-1.20.1-ultimate/PERSISTENT-GPU-SCENE-CHECKPOINT.md'
   workflow_dispatch:
 
 permissions:
