@@ -113,7 +113,7 @@ jobs:
           name: HariMultiThread-Ultimate-1.20.1-2.3.0-PERSISTENT-SCENE-COMPILE
           path: compiled
           repository: Herbertofury/ProjectDump
-          run-id: 35331493006
+          run-id: 35332910135
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Verify downloaded compile checkpoint
@@ -196,7 +196,7 @@ jobs:
           cat > qa-out/NATIVE-ACCEPTANCE.txt <<EOF
           HariMultiThread Ultimate 2.3 persistent GPU scene native acceptance
           source_commit=${GITHUB_SHA}
-          compile_run_id=35331493006
+          compile_run_id=35332910135
           qa_threshold_override=1
           required_marker=Hari persistent GPU scene active:
           EOF
