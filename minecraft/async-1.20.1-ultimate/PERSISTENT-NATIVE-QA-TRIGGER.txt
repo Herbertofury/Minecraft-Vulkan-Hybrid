@@ -1,9 +1,9 @@
 Persistent GPU scene native QA trigger
-source_commit=fbcd650150ab27a4d1d7677988657470d19048f7
-compile_run_id=35330795167
-compile_artifact_id=10540688463
-compile_artifact_digest=sha256:c5090cd516b6c9c3a573c677e0f067b9162a37ff757a932f356cb12f5056a4b0
+source_commit=e2daf524662af37b9faf3da89e9bc248e3612053
+compile_run_id=35331493006
+compile_artifact_id=10540864665
+compile_artifact_digest=sha256:382929b2bdef53d589e5b1c6f438415bb71b045dfffd7c04db6bc5dfadfeb39d
 required_marker=Hari persistent GPU scene active:
 qa_threshold_override=1
-native_retry=2
-reason=normalize ci-out manifest transport prefix only
+native_retry=3
+reason=use production-SPIRV verified compile artifact
