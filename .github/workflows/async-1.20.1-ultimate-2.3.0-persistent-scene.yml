@@ -4,6 +4,7 @@ on:
   push:
     branches: [async-1.20.1-ultimate-2.3.0-persistent-scene-20260918]
     paths:
+      - '.github/workflows/async-1.20.1-ultimate-2.3.0-persistent-scene.yml'
       - 'minecraft/async-1.20.1-ultimate/apply_persistent_gpu_scene.py'
       - 'minecraft/async-1.20.1-ultimate/persistent_gpu_scene_patch/**'
       - 'minecraft/async-1.20.1-ultimate/PERSISTENT-GPU-SCENE-CHECKPOINT.md'
@@ -86,11 +87,14 @@ jobs:
           grep -F 'SectionStorageGenerationAccess' upstream/forge/src/main/java/com/axalotl/async/forge/mixin/client/embeddium/MixinSectionRenderDataStorage.java
           grep -F 'BYTES = 64' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/meshlet/MeshletHeader.java
 
-      - name: Validate persistent-scene compute shader
+      - name: Validate GPU shaders and compile production SPIR-V
         shell: bash
         run: |
           set -euo pipefail
           glslangValidator -S comp upstream/forge/src/main/resources/assets/harimt/shaders/hari_terrain_indirect.glsl
+          shader=upstream/common/src/main/resources/assets/async/shaders/collision_broadphase.comp
+          glslangValidator -V "$shader" -o "${shader}.spv"
+          test "$(xxd -p -l 4 "${shader}.spv")" = '03022307'
 
       - name: Compile and build Forge 1.20.1
         shell: bash
@@ -106,6 +110,8 @@ jobs:
           jar tf "$jarfile" | grep -Fx 'com/axalotl/async/forge/client/hari263/render/PersistentRegionSceneCache.class'
           jar tf "$jarfile" | grep -Fx 'com/axalotl/async/forge/mixin/client/embeddium/SectionStorageGenerationAccess.class'
           jar tf "$jarfile" | grep -Fx 'assets/harimt/shaders/hari_terrain_indirect.glsl'
+          jar tf "$jarfile" | grep -Fx 'assets/async/shaders/collision_broadphase.comp.spv'
+          unzip -p "$jarfile" assets/async/shaders/collision_broadphase.comp.spv | xxd -p -l 4 | grep -Fx '03022307'
           unzip -t "$jarfile" | grep -F 'No errors detected'
           mkdir -p ci-out
           cp "$jarfile" ci-out/HariMultiThread-Ultimate-1.20.1-2.3.0-noxviola.1-persistent-scene.jar
