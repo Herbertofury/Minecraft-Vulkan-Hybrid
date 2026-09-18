@@ -74,7 +74,10 @@ jobs:
           set -euo pipefail
           python3 minecraft/async-1.20.1-ultimate/apply_mc263_gpu_terrain.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_persistent_gpu_scene.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_persistent_mixin_namespace_fix.py upstream
           git -C upstream diff --check
+          test ! -e upstream/forge/src/main/java/com/axalotl/async/forge/mixin/client/embeddium/SectionStorageGenerationAccess.java
+          test -f upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/render/SectionStorageGenerationAccess.java
           grep -F 'harimt.gpuTerrainCpuThreshold' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/compute/ComputePipeline.java
           grep -F 'Hari persistent GPU scene active:' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/render/HariTerrainRenderer.java
 
@@ -124,7 +127,8 @@ jobs:
           jarfile='compiled/HariMultiThread-Ultimate-1.20.1-2.3.0-noxviola.1-persistent-scene.jar'
           test -s "$jarfile"
           jar tf "$jarfile" | grep -Fx 'com/axalotl/async/forge/client/hari263/render/PersistentRegionSceneCache.class'
-          jar tf "$jarfile" | grep -Fx 'com/axalotl/async/forge/mixin/client/embeddium/SectionStorageGenerationAccess.class'
+          jar tf "$jarfile" | grep -Fx 'com/axalotl/async/forge/client/hari263/render/SectionStorageGenerationAccess.class'
+          ! jar tf "$jarfile" | grep -Fx 'com/axalotl/async/forge/mixin/client/embeddium/SectionStorageGenerationAccess.class'
 
       - name: Restore verified production SPIR-V into ForgeGradle client source runtime
         shell: bash
