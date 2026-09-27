@@ -1,0 +1,226 @@
+name: Hari 1.20.1 Ultimate 2.4 Vulkan Hybrid Native QA
+
+"on":
+  push:
+    branches: [async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926]
+    paths:
+      - 'minecraft/async-1.20.1-ultimate/runtime_vulkan_hybrid_qa.py'
+      - '.github/workflows/async-1.20.1-ultimate-2.4.0-vulkan-hybrid-native.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: hari-2.4-vulkan-hybrid-native-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  native-vulkan-hybrid:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - name: Checkout ProjectDump integration
+        uses: actions/checkout@v4
+
+      - name: Checkout canonical HariMultiThread
+        uses: actions/checkout@v4
+        with:
+          repository: JustHari01/HariMultiThread
+          ref: f381611c2d71a85192e2028f9e30c03823a6482b
+          path: upstream
+          fetch-depth: 1
+
+      - name: Checkout pinned Forge Vulkan renderer
+        uses: actions/checkout@v4
+        with:
+          repository: kzktor/Forgified-VulkanMod
+          ref: 0ceac5d47f84c910d2f5f6d007b0ffe266c6f736
+          path: vulkan-forge
+          fetch-depth: 1
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Install native QA tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            patch curl zip unzip mesa-vulkan-drivers vulkan-tools \
+            xvfb openbox xdotool x11-utils imagemagick libgl1-mesa-dri
+          chmod +x upstream/gradlew
+          vulkaninfo --summary | tee vulkaninfo-summary.txt
+
+      - name: Reconstruct accepted Hari 2.3 persistent-scene base
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/apply_overlay.py upstream minecraft/async-1.20.1-ultimate/overlay
+          python3 minecraft/async-1.20.1-ultimate/apply_hardening.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_lifecycle.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_platform.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_interop.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_lwjgl_runtime.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_backend_architecture.py upstream minecraft/async-1.20.1-ultimate/backend-overlay
+          python3 minecraft/async-1.20.1-ultimate/apply_spawn_interop.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_world_batch.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_spatial_gpu.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_backports.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_worldgen_cache.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_region_read.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_provider_precedence.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_diagnostics.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_region_diagnostics.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_release_identity.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mixin_packaging.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_gpu_terrain.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_persistent_gpu_scene.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_persistent_mixin_namespace_fix.py upstream
+          grep -F 'version=2.3.0-noxviola.1' upstream/gradle.properties
+
+      - name: Merge Vulkan renderer and build exact 2.4 candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/apply_vulkan_hybrid.py upstream vulkan-forge
+          git -C upstream diff --check
+          javac -d /tmp/hari24-gate-preflight upstream/forge/src/main/java/net/vulkanmod/compat/UniversalRendererGate.java
+          (cd upstream && ./gradlew --no-daemon :forge:build --stacktrace)
+          mkdir -p qa-out evidence/runtime/server evidence/runtime/client-vulkan evidence/runtime/client-opengl
+          jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*.jar' ! -name '*-sources.jar' | head -n 1)"
+          test -s "$jarfile"
+          cp "$jarfile" qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar
+          sha256sum qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar | tee qa-out/JAR-SHA256.txt
+
+      - name: Install real Forge 47.4.23 server fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 'https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.23/forge-1.20.1-47.4.23-installer.jar' -o forge-installer.jar
+          rm -rf forge-template qa-server
+          mkdir forge-template
+          (cd forge-template && java -jar ../forge-installer.jar --installServer > ../evidence/runtime/server/forge-server-install.log 2>&1)
+          cp -a forge-template qa-server
+          chmod +x qa-server/run.sh
+          mkdir -p qa-server/mods
+          cp qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar qa-server/mods/HariMultiThread-Ultimate.jar
+          printf 'eula=true\n' > qa-server/eula.txt
+          cat > qa-server/server.properties <<'EOF'
+          online-mode=false
+          level-name=world
+          level-seed=8675309
+          spawn-protection=0
+          view-distance=4
+          simulation-distance=4
+          motd=Hari 2.4 Vulkan Hybrid Native QA
+          EOF
+
+      - name: Dedicated-server no-client-init regression gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/runtime_server_qa.py qa-server evidence/runtime/server
+          ! grep -R -F 'Hari 2.4 selected merged Vulkan renderer:' evidence/runtime/server/*.log
+          ! grep -R -F '[Hari/Vulkan] renderer=' evidence/runtime/server/*.log
+          ! grep -R -E 'MixinApplyError|InvalidMixinException|InjectionError|NoClassDefFoundError' evidence/runtime/server/*.log
+          grep -F 'Live GPU Verification PASS' evidence/runtime/server/packaged-server-gpu-and-fallback.log
+          grep -F 'HMT_QA_RESTART_ENTITIES_PRESENT' evidence/runtime/server/packaged-server-restart.log
+
+      - name: Real Forge client Vulkan rendered-world gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/runtime_vulkan_hybrid_qa.py \
+            upstream qa-server/world evidence/runtime/client-vulkan \
+            --expect vulkan --display :99
+          log=evidence/runtime/client-vulkan/forge-client-console.log
+          grep -F '[Hari/Vulkan] renderer=VULKAN' "$log"
+          grep -F 'Hari 2.4 selected merged Vulkan renderer:' "$log"
+          grep -F 'Selected Vulkan device:' "$log"
+          ! grep -F 'renderer=OPENGL_FALLBACK' "$log"
+          test -s evidence/runtime/client-vulkan/forge-client-vulkan.png
+          grep -F 'ready=true' evidence/runtime/client-vulkan/forge-client-render-readiness.txt
+
+      - name: Enable real Embeddium runtime for fallback lane
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('upstream/forge/build.gradle')
+          s = p.read_text(encoding='utf-8')
+          dep = 'curse.maven:embeddium-908741:5681725'
+          if dep not in s:
+              raise SystemExit('Embeddium dependency missing from reconstructed build.gradle')
+          s2 = s.replace(
+              'compileOnly fg.deobf("curse.maven:embeddium-908741:5681725")',
+              'implementation fg.deobf("curse.maven:embeddium-908741:5681725")'
+          )
+          if s2 == s:
+              s2 = s.replace(
+                  "compileOnly fg.deobf('curse.maven:embeddium-908741:5681725')",
+                  "implementation fg.deobf('curse.maven:embeddium-908741:5681725')"
+              )
+          if s2 == s:
+              raise SystemExit('Expected compileOnly Embeddium declaration not found')
+          p.write_text(s2, encoding='utf-8')
+          PY
+          rm -f upstream/forge/run/mods/Embeddium*.jar upstream/forge/run/mods/embeddium*.jar || true
+
+      - name: Real Forge client Embeddium OpenGL fallback gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/runtime_vulkan_hybrid_qa.py \
+            upstream qa-server/world evidence/runtime/client-opengl \
+            --expect opengl --display :98
+          log=evidence/runtime/client-opengl/forge-client-console.log
+          grep -F '[Hari/Vulkan] renderer=OPENGL_FALLBACK' "$log"
+          grep -F 'embeddium' "$log"
+          grep -F 'Hari 2.4 selected OpenGL compatibility renderer:' "$log"
+          ! grep -F 'renderer=VULKAN' "$log"
+          test -s evidence/runtime/client-opengl/forge-client-opengl.png
+          grep -F 'ready=true' evidence/runtime/client-opengl/forge-client-render-readiness.txt
+
+      - name: Package native acceptance evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp vulkaninfo-summary.txt qa-out/
+          cp -a evidence qa-out/
+          cat > qa-out/NATIVE-ACCEPTANCE.txt <<EOF
+          HariMultiThread Ultimate 2.4 Vulkan Hybrid native acceptance
+          source_commit=${GITHUB_SHA}
+          hari_upstream=f381611c2d71a85192e2028f9e30c03823a6482b
+          vulkan_forge=0ceac5d47f84c910d2f5f6d007b0ffe266c6f736
+          dedicated_server=PASS
+          clean_client_renderer=VULKAN
+          embeddium_client_renderer=OPENGL_FALLBACK
+          EOF
+          (cd qa-out && find . -type f -print0 | sort -z | xargs -0 sha256sum > SHA256SUMS.txt)
+
+      - name: Upload native Vulkan hybrid evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-Ultimate-1.20.1-2.4.0-VULKAN-HYBRID-NATIVE
+          path: qa-out/
+          if-no-files-found: error
+
+      - name: Upload native failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-2.4.0-vulkan-hybrid-native-failure
+          path: |
+            vulkaninfo-summary.txt
+            evidence/
+            upstream/forge/run/logs/
+            upstream/forge/build/reports/
+          if-no-files-found: warn
