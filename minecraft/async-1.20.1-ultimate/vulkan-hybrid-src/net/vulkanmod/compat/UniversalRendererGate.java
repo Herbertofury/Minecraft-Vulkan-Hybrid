@@ -35,7 +35,7 @@ import java.util.zip.ZipInputStream;
 public final class UniversalRendererGate {
     public static final String MODE_PROPERTY = "harimt.vulkan.mode"; // auto | force | off
     public static final String CACHE_PROPERTY = "harimt.vulkan.compatCache"; // default true
-    private static final String CACHE_SCHEMA = "2.4.0-vulkan-gate-v2";
+    private static final String CACHE_SCHEMA = "2.4.0-vulkan-gate-v3";
 
     private static final Pattern MOD_ID = Pattern.compile("(?m)^\\s*modId\\s*=\\s*[\\\"']([^\\\"']+)[\\\"']");
     private static final String GL_PREFIX = "org/lwjgl/opengl/";
@@ -43,7 +43,8 @@ public final class UniversalRendererGate {
 
     private static final Set<String> RENDERER_CONFLICTS = Set.of(
             "embeddium", "rubidium", "sodium", "oculus", "iris", "optifine", "optifabric",
-            "canvas", "distanthorizons", "immediatelyfast", "exordium", "lazurite", "indium"
+            "canvas", "distanthorizons", "immediatelyfast", "exordium", "lazurite", "indium",
+            "continuity"
     );
 
     private static final AtomicBoolean LOGGED = new AtomicBoolean();
@@ -106,7 +107,17 @@ public final class UniversalRendererGate {
                 Set<String> ids = readModIds(zip);
                 if (ids.contains("harimt") || ids.contains("vulkanmod")) continue;
                 for (String id : ids) if (RENDERER_CONFLICTS.contains(id)) conflicts.add(id);
-                if (!Collections.disjoint(ids, RENDERER_CONFLICTS)) continue;
+
+                // Forgified Fabric API's Indigo renderer decides whether to load from static
+                // mod metadata during its Mixin config phase. Because Hari selects Vulkan
+                // dynamically after inspecting the pack, claiming that metadata unconditionally
+                // would break the OpenGL fallback. If Indigo is present (including Jar-in-Jar),
+                // fail closed to Hari's OpenGL renderer instead of racing two FRAPI renderers.
+                if (containsIndigoRenderer(zip)) {
+                    conflicts.add("fabric-renderer-indigo");
+                }
+                if (!Collections.disjoint(ids, RENDERER_CONFLICTS)
+                        || conflicts.contains("fabric-renderer-indigo")) continue;
 
                 var entries = zip.entries();
                 while (entries.hasMoreElements()) {
@@ -189,6 +200,49 @@ public final class UniversalRendererGate {
             }
         }
         return ids;
+    }
+
+    private static final String INDIGO_PLUGIN_CLASS =
+            "net/fabricmc/fabric/impl/client/indigo/IndigoMixinConfigPlugin.class";
+    private static final String INDIGO_MIXINS = "fabric-renderer-indigo.mixins.json";
+
+    private static boolean containsIndigoRenderer(ZipFile zip) throws IOException {
+        var entries = zip.entries();
+        while (entries.hasMoreElements()) {
+            ZipEntry entry = entries.nextElement();
+            if (entry.isDirectory()) continue;
+            String name = entry.getName();
+            if (INDIGO_PLUGIN_CLASS.equals(name) || name.endsWith("/" + INDIGO_PLUGIN_CLASS)
+                    || INDIGO_MIXINS.equals(name) || name.endsWith("/" + INDIGO_MIXINS)) {
+                return true;
+            }
+            if (name.endsWith(".jar")) {
+                try (InputStream input = zip.getInputStream(entry)) {
+                    if (containsIndigoRenderer(input, 0)) return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean containsIndigoRenderer(InputStream raw, int depth) throws IOException {
+        if (depth > 3) return false;
+        try (ZipInputStream zin = new ZipInputStream(raw)) {
+            ZipEntry entry;
+            while ((entry = zin.getNextEntry()) != null) {
+                if (entry.isDirectory()) continue;
+                String name = entry.getName();
+                if (INDIGO_PLUGIN_CLASS.equals(name) || name.endsWith("/" + INDIGO_PLUGIN_CLASS)
+                        || INDIGO_MIXINS.equals(name) || name.endsWith("/" + INDIGO_MIXINS)) {
+                    return true;
+                }
+                if (name.endsWith(".jar")) {
+                    byte[] nested = zin.readAllBytes();
+                    if (containsIndigoRenderer(new ByteArrayInputStream(nested), depth + 1)) return true;
+                }
+            }
+        }
+        return false;
     }
 
     private static void collectUnsupported(List<MethodRef> refs, Map<String, Set<String>> contracts,
