@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "checkpoint_kind": "active-runtime-acceptance",
+  "branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+  "checkpoint_commit": "31bf774a554ac7d948caa950a9645f6162a29ca9",
+  "candidate_source_lineage": {
+    "product_fix_commit": "a732102dbfa98d8457d8c1f10f131cce5c034ac0",
+    "production_qa_runner_commit": "41c1066f9da1e763c2430beb8c561a3ad9c7b159",
+    "later_non_product_checkpoint_commits": [
+      "31bf774a554ac7d948caa950a9645f6162a29ca9"
+    ]
+  },
+  "target": {
+    "minecraft": "1.20.1",
+    "forge": "47.4.23",
+    "java": "17",
+    "hari_upstream": "f381611c2d71a85192e2028f9e30c03823a6482b",
+    "forgified_vulkanmod": "0ceac5d47f84c910d2f5f6d007b0ffe266c6f736"
+  },
+  "artifact": {
+    "compile_acceptance_artifact_id": 10938888290,
+    "jar_sha256": "ab35bb0d4ff51fcf68892c623360fd7e41e1a9f12c1f5fa87bf151c329fc333a",
+    "structural_challenge_pass": [
+      "single harimt mod identity",
+      "vulkanmod.mixins.json present",
+      "collision SPIR-V present with 03022307 magic",
+      "terrain_z.fsh present and terrain_Z.fsh absent",
+      "isolated harimt-vulkan-backend-3.3.1.jar present",
+      "Jar-in-Jar owns lwjgl-vulkan/lwjgl-shaderc/lwjgl-vma only",
+      "nested LWJGL module-info descriptors absent",
+      "required Windows/Linux/macOS renderer native payloads present",
+      "ZIP integrity clean"
+    ]
+  },
+  "acceptance": {
+    "compile_and_package": {
+      "state": "pass",
+      "job_id": 108682042292,
+      "source_commit": "a732102dbfa98d8457d8c1f10f131cce5c034ac0"
+    },
+    "dedicated_server_gpu_collision_and_restart": {
+      "state": "pass",
+      "active_job_id": 108682041961,
+      "step": 10,
+      "prior_independent_verification_job_id": 108540486734
+    },
+    "native_vulkan_rendered_world": {
+      "state": "in_progress",
+      "job_id": 108682041961,
+      "step": 11
+    },
+    "native_embeddium_opengl_fallback": {
+      "state": "pending",
+      "job_id": 108682041961,
+      "step": 13
+    },
+    "packaged_forgeclient_rendered_world": {
+      "state": "in_progress",
+      "job_id": 108682048855,
+      "step": 11,
+      "prerequisites_passed": [
+        "Ubuntu 24.04 production tools",
+        "exact 2.4 packaged build",
+        "deterministic Forge world seed",
+        "pinned PortableMC 5.0.5 SHA-256",
+        "exact Forge 47.4.23 production profile"
+      ]
+    }
+  },
+  "no_repeat_failures": [
+    "Do not re-diagnose missing collision SPIR-V unless packaged bytes regress.",
+    "Do not revert/select ordinary parent-first loading for org.lwjgl.vulkan.*; dedicated server proof requires selective child-first Vulkan binding ownership.",
+    "Do not classify Linux without XDG_SESSION_TYPE as Android when DISPLAY or WAYLAND_DISPLAY proves a desktop display.",
+    "Do not restore uppercase terrain_Z.fsh; Minecraft rejects uppercase ResourceLocation paths.",
+    "Do not run PortableMC 5.0.5 GNU binary on Ubuntu 22.04; its verified binary requires glibc 2.38/2.39 and production QA uses Ubuntu 24.04."
+  ],
+  "exact_next_actions": [
+    "When native-vulkan-hybrid job 108682041961 changes state, read the completed job log once if it failed; repair the earliest causal runtime failure only.",
+    "When packaged-production-client job 108682048855 changes state, read the completed job log once if it failed; preserve real forgeclient proof and repair the causal owner rather than weakening the gate.",
+    "If the native Vulkan rendered-world lane passes, harden runtime_vulkan_hybrid_qa.py so Vulkan CI also sets -Dharimt.vulkan.allowCpuDevice=true and proves collision GPU initialization in the same integrated-client JVM, then rerun only the invalidated native gate.",
+    "At convergence add final packaged lowercase terrain resource regression checks, capture verified Linux platform recovery as an incident, package/hash final evidence, run one challenge pass, then publish coherent release/checkpoint state."
+  ]
+}
