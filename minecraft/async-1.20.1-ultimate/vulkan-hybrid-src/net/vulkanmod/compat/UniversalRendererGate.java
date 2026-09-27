@@ -35,9 +35,10 @@ import java.util.zip.ZipInputStream;
 public final class UniversalRendererGate {
     public static final String MODE_PROPERTY = "harimt.vulkan.mode"; // auto | force | off
     public static final String CACHE_PROPERTY = "harimt.vulkan.compatCache"; // default true
-    private static final String CACHE_SCHEMA = "2.4.0-vulkan-gate-v3";
+    private static final String CACHE_SCHEMA = "2.4.0-vulkan-gate-v4";
 
     private static final Pattern MOD_ID = Pattern.compile("(?m)^\\s*modId\\s*=\\s*[\\\"']([^\\\"']+)[\\\"']");
+    private static final Pattern FABRIC_ID = Pattern.compile("\\"id\\"\\s*:\\s*\\\"([^\\\"]+)\\\"");
     private static final String GL_PREFIX = "org/lwjgl/opengl/";
     private static final String CONTRACT_RESOURCE = "/assets/vulkanmod/compat/harimt_supported_gl_methods.properties";
 
@@ -195,6 +196,17 @@ public final class UniversalRendererGate {
             }
             if (!insideModsTable) continue;
             Matcher matcher = MOD_ID.matcher(line);
+            if (matcher.find()) {
+                ids.add(matcher.group(1).toLowerCase(Locale.ROOT));
+            }
+        }
+        ZipEntry fabricEntry = zip.getEntry("fabric.mod.json");
+        if (fabricEntry != null) {
+            String json;
+            try (InputStream input = zip.getInputStream(fabricEntry)) {
+                json = new String(input.readAllBytes(), StandardCharsets.UTF_8);
+            }
+            Matcher matcher = FABRIC_ID.matcher(json);
             if (matcher.find()) {
                 ids.add(matcher.group(1).toLowerCase(Locale.ROOT));
             }
