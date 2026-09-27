@@ -87,6 +87,9 @@ public final class UniversalRendererGate {
         boolean indigoOnClasspath = indigoRendererResourcePresent();
         TreeSet<String> earlyConflicts = rendererConflicts(loadedIds);
         if (indigoOnClasspath) earlyConflicts.add("fabric-renderer-indigo");
+        if (!earlyConflicts.isEmpty()) {
+            return new Decision(false, "mutually-exclusive renderer(s): " + String.join(",", earlyConflicts));
+        }
 
         Path mods = Path.of(System.getProperty("user.dir", ".")).toAbsolutePath().normalize().resolve("mods");
         if (!Files.isDirectory(mods)) {

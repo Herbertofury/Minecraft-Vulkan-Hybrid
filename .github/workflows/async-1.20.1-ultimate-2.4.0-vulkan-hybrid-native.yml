@@ -94,8 +94,9 @@ jobs:
           javac -d /tmp/hari24-gate-preflight upstream/forge/src/main/java/net/vulkanmod/compat/UniversalRendererGate.java
           (cd upstream && ./gradlew --no-daemon :forge:build --stacktrace)
           mkdir -p qa-out evidence/runtime/server evidence/runtime/client-vulkan evidence/runtime/client-opengl
-          jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*.jar' ! -name '*-sources.jar' | head -n 1)"
+          jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.4.0-noxviola.1-vulkan-hybrid-all.jar' | sort | head -n 1)"
           test -s "$jarfile"
+          unzip -t "$jarfile" | grep -F 'No errors detected'
           cp "$jarfile" qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar
           sha256sum qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar | tee qa-out/JAR-SHA256.txt
 

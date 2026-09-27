@@ -115,8 +115,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*.jar' ! -name '*-sources.jar' | head -n 1)"
-          test -n "$jarfile"
+          jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.4.0-noxviola.1-vulkan-hybrid-all.jar' | sort | head -n 1)"
+          test -s "$jarfile"
+          unzip -t "$jarfile" | grep -F 'No errors detected'
           mkdir -p qa-out
           cp "$jarfile" qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar
           jar tf "$jarfile" > qa-out/JAR-CONTENTS.txt
@@ -126,6 +127,708 @@ jobs:
           grep -Fx 'vulkanmod.mixins.json' qa-out/JAR-CONTENTS.txt
           grep -Fx 'META-INF/harimt-vulkan/SOURCE.txt' qa-out/JAR-CONTENTS.txt
           grep -Fx 'assets/vulkanmod/compat/harimt_supported_gl_methods.properties' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/windows/x64/windows/x64/org/lwjgl/shaderc/shaderc.dll' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/windows/x64/windows/x64/org/lwjgl/vma/lwjgl_vma.dll' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/linux/x64/linux/x64/org/lwjgl/shaderc/libshaderc.so' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/linux/x64/linux/x64/org/lwjgl/vma/liblwjgl_vma.so' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/linux/arm64/linux/arm64/org/lwjgl/shaderc/libshaderc.so' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/linux/arm64/linux/arm64/org/lwjgl/vma/liblwjgl_vma.so' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/macos/x64/macos/x64/org/lwjgl/shaderc/libshaderc.dylib' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/macos/x64/macos/x64/org/lwjgl/vma/liblwjgl_vma.dylib' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/macos/x64/macos/x64/org/lwjgl/vulkan/libMoltenVK.dylib' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/macos/arm64/macos/arm64/org/lwjgl/shaderc/libshaderc.dylib' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/macos/arm64/macos/arm64/org/lwjgl/vma/liblwjgl_vma.dylib' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/macos/arm64/macos/arm64/org/lwjgl/vulkan/libMoltenVK.dylib' qa-out/JAR-CONTENTS.txt
+          grep -E '^META-INF/jarjar/lwjgl-vulkan-[^/]+\.jar          unzip -p "$jarfile" META-INF/mods.toml > qa-out/MODS-TOML.txt
+          grep -F 'modId = "harimt"' qa-out/MODS-TOML.txt
+          ! grep -F 'modId="vulkanmod"' qa-out/MODS-TOML.txt
+          unzip -p "$jarfile" META-INF/harimt-vulkan/SOURCE.txt > qa-out/VULKAN-SOURCE.txt
+
+      - name: Compile renderer decision probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/src qa-probe/classes
+          cat > qa-probe/src/GateProbe.java <<'JAVA'
+          public final class GateProbe {
+              public static void main(String[] args) {
+                  var d = net.vulkanmod.compat.UniversalRendererGate.decision();
+                  System.out.println("enabled=" + d.enabled());
+                  System.out.println("reason=" + d.reason());
+              }
+          }
+          JAVA
+          javac -cp qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar \
+            -d qa-probe/classes qa-probe/src/GateProbe.java
+
+      - name: Prove clean pack selects Vulkan
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/clean/mods qa-probe/clean/config
+          (
+            cd qa-probe/clean
+            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee ../../qa-out/GATE-CLEAN.txt
+          grep -F 'enabled=true' qa-out/GATE-CLEAN.txt
+
+      - name: Prove renderer conflict selects OpenGL fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/conflict/mods/fake/META-INF qa-probe/conflict/config
+          cat > qa-probe/conflict/mods/fake/META-INF/mods.toml <<'EOF'
+          modLoader="javafml"
+          loaderVersion="[47,)"
+          license="test"
+          [[mods]]
+          modId="embeddium"
+          version="0"
+          displayName="compatibility-fixture"
+          EOF
+          (cd qa-probe/conflict/mods/fake && zip -qr ../fake-embeddium.jar META-INF)
+          rm -rf qa-probe/conflict/mods/fake
+          (
+            cd qa-probe/conflict
+            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee ../../qa-out/GATE-CONFLICT.txt
+          grep -F 'enabled=false' qa-out/GATE-CONFLICT.txt
+          grep -F 'embeddium' qa-out/GATE-CONFLICT.txt
+
+      - name: Prove Continuity selects OpenGL fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/continuity/mods/fake qa-probe/continuity/config
+          cat > qa-probe/continuity/mods/fake/fabric.mod.json <<'EOF'
+          {
+            "schemaVersion": 1,
+            "id": "continuity",
+            "version": "0",
+            "name": "compatibility-fixture"
+          }
+          EOF
+          (cd qa-probe/continuity/mods/fake && zip -qr ../fake-continuity.jar fabric.mod.json)
+          rm -rf qa-probe/continuity/mods/fake
+          (
+            cd qa-probe/continuity
+            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee ../../qa-out/GATE-CONTINUITY.txt
+          grep -F 'enabled=false' qa-out/GATE-CONTINUITY.txt
+          grep -F 'continuity' qa-out/GATE-CONTINUITY.txt
+
+      - name: Prove nested Indigo renderer selects OpenGL fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/indigo/mods/outer/META-INF/jarjar                    qa-probe/indigo/mods/inner/net/fabricmc/fabric/impl/client/indigo                    qa-probe/indigo/config
+          printf 'fixture' > qa-probe/indigo/mods/inner/net/fabricmc/fabric/impl/client/indigo/IndigoMixinConfigPlugin.class
+          (cd qa-probe/indigo/mods/inner && zip -qr ../outer/META-INF/jarjar/fabric-renderer-indigo.jar .)
+          cat > qa-probe/indigo/mods/outer/META-INF/mods.toml <<'EOF'
+          modLoader="javafml"
+          loaderVersion="[47,)"
+          license="test"
+          [[mods]]
+          modId="forgified_fabric_api"
+          version="0"
+          displayName="compatibility-fixture"
+          EOF
+          (cd qa-probe/indigo/mods/outer && zip -qr ../fake-forgified-fabric-api.jar META-INF)
+          rm -rf qa-probe/indigo/mods/outer qa-probe/indigo/mods/inner
+          (
+            cd qa-probe/indigo
+            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee ../../qa-out/GATE-INDIGO.txt
+          grep -F 'enabled=false' qa-out/GATE-INDIGO.txt
+          grep -F 'fabric-renderer-indigo' qa-out/GATE-INDIGO.txt
+
+      - name: Package compile acceptance evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo 'HariMultiThread Ultimate 2.4 Vulkan Hybrid compile acceptance'
+            echo "source_commit=$GITHUB_SHA"
+            echo 'hari_upstream=f381611c2d71a85192e2028f9e30c03823a6482b'
+            echo 'vulkan_forge=0ceac5d47f84c910d2f5f6d007b0ffe266c6f736'
+            echo 'gate_clean=VULKAN'
+            echo 'gate_conflict=OPENGL_FALLBACK'
+            echo 'gate_continuity=OPENGL_FALLBACK'
+            echo 'gate_nested_indigo=OPENGL_FALLBACK'
+          } > qa-out/ACCEPTANCE.txt
+          (cd qa-out && sha256sum * > SHA256SUMS.txt)
+
+      - name: Upload compile acceptance
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-Ultimate-1.20.1-2.4.0-VULKAN-HYBRID-COMPILE
+          path: qa-out/
+          if-no-files-found: error
+
+      - name: Upload failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-2.4.0-vulkan-hybrid-compile-failure
+          path: |
+            upstream/forge/build/reports/
+            upstream/forge/build/tmp/
+            upstream/forge/run/logs/
+            qa-out/
+          if-no-files-found: warn
+ qa-out/JAR-CONTENTS.txt
+          grep -E '^META-INF/jarjar/lwjgl-shaderc-[^/]+\.jar          unzip -p "$jarfile" META-INF/mods.toml > qa-out/MODS-TOML.txt
+          grep -F 'modId = "harimt"' qa-out/MODS-TOML.txt
+          ! grep -F 'modId="vulkanmod"' qa-out/MODS-TOML.txt
+          unzip -p "$jarfile" META-INF/harimt-vulkan/SOURCE.txt > qa-out/VULKAN-SOURCE.txt
+
+      - name: Compile renderer decision probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/src qa-probe/classes
+          cat > qa-probe/src/GateProbe.java <<'JAVA'
+          public final class GateProbe {
+              public static void main(String[] args) {
+                  var d = net.vulkanmod.compat.UniversalRendererGate.decision();
+                  System.out.println("enabled=" + d.enabled());
+                  System.out.println("reason=" + d.reason());
+              }
+          }
+          JAVA
+          javac -cp qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar \
+            -d qa-probe/classes qa-probe/src/GateProbe.java
+
+      - name: Prove clean pack selects Vulkan
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/clean/mods qa-probe/clean/config
+          (
+            cd qa-probe/clean
+            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee ../../qa-out/GATE-CLEAN.txt
+          grep -F 'enabled=true' qa-out/GATE-CLEAN.txt
+
+      - name: Prove renderer conflict selects OpenGL fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/conflict/mods/fake/META-INF qa-probe/conflict/config
+          cat > qa-probe/conflict/mods/fake/META-INF/mods.toml <<'EOF'
+          modLoader="javafml"
+          loaderVersion="[47,)"
+          license="test"
+          [[mods]]
+          modId="embeddium"
+          version="0"
+          displayName="compatibility-fixture"
+          EOF
+          (cd qa-probe/conflict/mods/fake && zip -qr ../fake-embeddium.jar META-INF)
+          rm -rf qa-probe/conflict/mods/fake
+          (
+            cd qa-probe/conflict
+            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee ../../qa-out/GATE-CONFLICT.txt
+          grep -F 'enabled=false' qa-out/GATE-CONFLICT.txt
+          grep -F 'embeddium' qa-out/GATE-CONFLICT.txt
+
+      - name: Prove Continuity selects OpenGL fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/continuity/mods/fake qa-probe/continuity/config
+          cat > qa-probe/continuity/mods/fake/fabric.mod.json <<'EOF'
+          {
+            "schemaVersion": 1,
+            "id": "continuity",
+            "version": "0",
+            "name": "compatibility-fixture"
+          }
+          EOF
+          (cd qa-probe/continuity/mods/fake && zip -qr ../fake-continuity.jar fabric.mod.json)
+          rm -rf qa-probe/continuity/mods/fake
+          (
+            cd qa-probe/continuity
+            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee ../../qa-out/GATE-CONTINUITY.txt
+          grep -F 'enabled=false' qa-out/GATE-CONTINUITY.txt
+          grep -F 'continuity' qa-out/GATE-CONTINUITY.txt
+
+      - name: Prove nested Indigo renderer selects OpenGL fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/indigo/mods/outer/META-INF/jarjar                    qa-probe/indigo/mods/inner/net/fabricmc/fabric/impl/client/indigo                    qa-probe/indigo/config
+          printf 'fixture' > qa-probe/indigo/mods/inner/net/fabricmc/fabric/impl/client/indigo/IndigoMixinConfigPlugin.class
+          (cd qa-probe/indigo/mods/inner && zip -qr ../outer/META-INF/jarjar/fabric-renderer-indigo.jar .)
+          cat > qa-probe/indigo/mods/outer/META-INF/mods.toml <<'EOF'
+          modLoader="javafml"
+          loaderVersion="[47,)"
+          license="test"
+          [[mods]]
+          modId="forgified_fabric_api"
+          version="0"
+          displayName="compatibility-fixture"
+          EOF
+          (cd qa-probe/indigo/mods/outer && zip -qr ../fake-forgified-fabric-api.jar META-INF)
+          rm -rf qa-probe/indigo/mods/outer qa-probe/indigo/mods/inner
+          (
+            cd qa-probe/indigo
+            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee ../../qa-out/GATE-INDIGO.txt
+          grep -F 'enabled=false' qa-out/GATE-INDIGO.txt
+          grep -F 'fabric-renderer-indigo' qa-out/GATE-INDIGO.txt
+
+      - name: Package compile acceptance evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo 'HariMultiThread Ultimate 2.4 Vulkan Hybrid compile acceptance'
+            echo "source_commit=$GITHUB_SHA"
+            echo 'hari_upstream=f381611c2d71a85192e2028f9e30c03823a6482b'
+            echo 'vulkan_forge=0ceac5d47f84c910d2f5f6d007b0ffe266c6f736'
+            echo 'gate_clean=VULKAN'
+            echo 'gate_conflict=OPENGL_FALLBACK'
+            echo 'gate_continuity=OPENGL_FALLBACK'
+            echo 'gate_nested_indigo=OPENGL_FALLBACK'
+          } > qa-out/ACCEPTANCE.txt
+          (cd qa-out && sha256sum * > SHA256SUMS.txt)
+
+      - name: Upload compile acceptance
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-Ultimate-1.20.1-2.4.0-VULKAN-HYBRID-COMPILE
+          path: qa-out/
+          if-no-files-found: error
+
+      - name: Upload failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-2.4.0-vulkan-hybrid-compile-failure
+          path: |
+            upstream/forge/build/reports/
+            upstream/forge/build/tmp/
+            upstream/forge/run/logs/
+            qa-out/
+          if-no-files-found: warn
+ qa-out/JAR-CONTENTS.txt
+          grep -E '^META-INF/jarjar/lwjgl-vma-[^/]+\.jar          unzip -p "$jarfile" META-INF/mods.toml > qa-out/MODS-TOML.txt
+          grep -F 'modId = "harimt"' qa-out/MODS-TOML.txt
+          ! grep -F 'modId="vulkanmod"' qa-out/MODS-TOML.txt
+          unzip -p "$jarfile" META-INF/harimt-vulkan/SOURCE.txt > qa-out/VULKAN-SOURCE.txt
+
+      - name: Compile renderer decision probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/src qa-probe/classes
+          cat > qa-probe/src/GateProbe.java <<'JAVA'
+          public final class GateProbe {
+              public static void main(String[] args) {
+                  var d = net.vulkanmod.compat.UniversalRendererGate.decision();
+                  System.out.println("enabled=" + d.enabled());
+                  System.out.println("reason=" + d.reason());
+              }
+          }
+          JAVA
+          javac -cp qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar \
+            -d qa-probe/classes qa-probe/src/GateProbe.java
+
+      - name: Prove clean pack selects Vulkan
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/clean/mods qa-probe/clean/config
+          (
+            cd qa-probe/clean
+            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee ../../qa-out/GATE-CLEAN.txt
+          grep -F 'enabled=true' qa-out/GATE-CLEAN.txt
+
+      - name: Prove renderer conflict selects OpenGL fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/conflict/mods/fake/META-INF qa-probe/conflict/config
+          cat > qa-probe/conflict/mods/fake/META-INF/mods.toml <<'EOF'
+          modLoader="javafml"
+          loaderVersion="[47,)"
+          license="test"
+          [[mods]]
+          modId="embeddium"
+          version="0"
+          displayName="compatibility-fixture"
+          EOF
+          (cd qa-probe/conflict/mods/fake && zip -qr ../fake-embeddium.jar META-INF)
+          rm -rf qa-probe/conflict/mods/fake
+          (
+            cd qa-probe/conflict
+            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee ../../qa-out/GATE-CONFLICT.txt
+          grep -F 'enabled=false' qa-out/GATE-CONFLICT.txt
+          grep -F 'embeddium' qa-out/GATE-CONFLICT.txt
+
+      - name: Prove Continuity selects OpenGL fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/continuity/mods/fake qa-probe/continuity/config
+          cat > qa-probe/continuity/mods/fake/fabric.mod.json <<'EOF'
+          {
+            "schemaVersion": 1,
+            "id": "continuity",
+            "version": "0",
+            "name": "compatibility-fixture"
+          }
+          EOF
+          (cd qa-probe/continuity/mods/fake && zip -qr ../fake-continuity.jar fabric.mod.json)
+          rm -rf qa-probe/continuity/mods/fake
+          (
+            cd qa-probe/continuity
+            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee ../../qa-out/GATE-CONTINUITY.txt
+          grep -F 'enabled=false' qa-out/GATE-CONTINUITY.txt
+          grep -F 'continuity' qa-out/GATE-CONTINUITY.txt
+
+      - name: Prove nested Indigo renderer selects OpenGL fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/indigo/mods/outer/META-INF/jarjar                    qa-probe/indigo/mods/inner/net/fabricmc/fabric/impl/client/indigo                    qa-probe/indigo/config
+          printf 'fixture' > qa-probe/indigo/mods/inner/net/fabricmc/fabric/impl/client/indigo/IndigoMixinConfigPlugin.class
+          (cd qa-probe/indigo/mods/inner && zip -qr ../outer/META-INF/jarjar/fabric-renderer-indigo.jar .)
+          cat > qa-probe/indigo/mods/outer/META-INF/mods.toml <<'EOF'
+          modLoader="javafml"
+          loaderVersion="[47,)"
+          license="test"
+          [[mods]]
+          modId="forgified_fabric_api"
+          version="0"
+          displayName="compatibility-fixture"
+          EOF
+          (cd qa-probe/indigo/mods/outer && zip -qr ../fake-forgified-fabric-api.jar META-INF)
+          rm -rf qa-probe/indigo/mods/outer qa-probe/indigo/mods/inner
+          (
+            cd qa-probe/indigo
+            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee ../../qa-out/GATE-INDIGO.txt
+          grep -F 'enabled=false' qa-out/GATE-INDIGO.txt
+          grep -F 'fabric-renderer-indigo' qa-out/GATE-INDIGO.txt
+
+      - name: Package compile acceptance evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo 'HariMultiThread Ultimate 2.4 Vulkan Hybrid compile acceptance'
+            echo "source_commit=$GITHUB_SHA"
+            echo 'hari_upstream=f381611c2d71a85192e2028f9e30c03823a6482b'
+            echo 'vulkan_forge=0ceac5d47f84c910d2f5f6d007b0ffe266c6f736'
+            echo 'gate_clean=VULKAN'
+            echo 'gate_conflict=OPENGL_FALLBACK'
+            echo 'gate_continuity=OPENGL_FALLBACK'
+            echo 'gate_nested_indigo=OPENGL_FALLBACK'
+          } > qa-out/ACCEPTANCE.txt
+          (cd qa-out && sha256sum * > SHA256SUMS.txt)
+
+      - name: Upload compile acceptance
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-Ultimate-1.20.1-2.4.0-VULKAN-HYBRID-COMPILE
+          path: qa-out/
+          if-no-files-found: error
+
+      - name: Upload failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-2.4.0-vulkan-hybrid-compile-failure
+          path: |
+            upstream/forge/build/reports/
+            upstream/forge/build/tmp/
+            upstream/forge/run/logs/
+            qa-out/
+          if-no-files-found: warn
+ qa-out/JAR-CONTENTS.txt
+          ! grep -E '^META-INF/jarjar/lwjgl-[0-9][^/]*\.jar          unzip -p "$jarfile" META-INF/mods.toml > qa-out/MODS-TOML.txt
+          grep -F 'modId = "harimt"' qa-out/MODS-TOML.txt
+          ! grep -F 'modId="vulkanmod"' qa-out/MODS-TOML.txt
+          unzip -p "$jarfile" META-INF/harimt-vulkan/SOURCE.txt > qa-out/VULKAN-SOURCE.txt
+
+      - name: Compile renderer decision probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/src qa-probe/classes
+          cat > qa-probe/src/GateProbe.java <<'JAVA'
+          public final class GateProbe {
+              public static void main(String[] args) {
+                  var d = net.vulkanmod.compat.UniversalRendererGate.decision();
+                  System.out.println("enabled=" + d.enabled());
+                  System.out.println("reason=" + d.reason());
+              }
+          }
+          JAVA
+          javac -cp qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar \
+            -d qa-probe/classes qa-probe/src/GateProbe.java
+
+      - name: Prove clean pack selects Vulkan
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/clean/mods qa-probe/clean/config
+          (
+            cd qa-probe/clean
+            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee ../../qa-out/GATE-CLEAN.txt
+          grep -F 'enabled=true' qa-out/GATE-CLEAN.txt
+
+      - name: Prove renderer conflict selects OpenGL fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/conflict/mods/fake/META-INF qa-probe/conflict/config
+          cat > qa-probe/conflict/mods/fake/META-INF/mods.toml <<'EOF'
+          modLoader="javafml"
+          loaderVersion="[47,)"
+          license="test"
+          [[mods]]
+          modId="embeddium"
+          version="0"
+          displayName="compatibility-fixture"
+          EOF
+          (cd qa-probe/conflict/mods/fake && zip -qr ../fake-embeddium.jar META-INF)
+          rm -rf qa-probe/conflict/mods/fake
+          (
+            cd qa-probe/conflict
+            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee ../../qa-out/GATE-CONFLICT.txt
+          grep -F 'enabled=false' qa-out/GATE-CONFLICT.txt
+          grep -F 'embeddium' qa-out/GATE-CONFLICT.txt
+
+      - name: Prove Continuity selects OpenGL fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/continuity/mods/fake qa-probe/continuity/config
+          cat > qa-probe/continuity/mods/fake/fabric.mod.json <<'EOF'
+          {
+            "schemaVersion": 1,
+            "id": "continuity",
+            "version": "0",
+            "name": "compatibility-fixture"
+          }
+          EOF
+          (cd qa-probe/continuity/mods/fake && zip -qr ../fake-continuity.jar fabric.mod.json)
+          rm -rf qa-probe/continuity/mods/fake
+          (
+            cd qa-probe/continuity
+            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee ../../qa-out/GATE-CONTINUITY.txt
+          grep -F 'enabled=false' qa-out/GATE-CONTINUITY.txt
+          grep -F 'continuity' qa-out/GATE-CONTINUITY.txt
+
+      - name: Prove nested Indigo renderer selects OpenGL fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/indigo/mods/outer/META-INF/jarjar                    qa-probe/indigo/mods/inner/net/fabricmc/fabric/impl/client/indigo                    qa-probe/indigo/config
+          printf 'fixture' > qa-probe/indigo/mods/inner/net/fabricmc/fabric/impl/client/indigo/IndigoMixinConfigPlugin.class
+          (cd qa-probe/indigo/mods/inner && zip -qr ../outer/META-INF/jarjar/fabric-renderer-indigo.jar .)
+          cat > qa-probe/indigo/mods/outer/META-INF/mods.toml <<'EOF'
+          modLoader="javafml"
+          loaderVersion="[47,)"
+          license="test"
+          [[mods]]
+          modId="forgified_fabric_api"
+          version="0"
+          displayName="compatibility-fixture"
+          EOF
+          (cd qa-probe/indigo/mods/outer && zip -qr ../fake-forgified-fabric-api.jar META-INF)
+          rm -rf qa-probe/indigo/mods/outer qa-probe/indigo/mods/inner
+          (
+            cd qa-probe/indigo
+            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee ../../qa-out/GATE-INDIGO.txt
+          grep -F 'enabled=false' qa-out/GATE-INDIGO.txt
+          grep -F 'fabric-renderer-indigo' qa-out/GATE-INDIGO.txt
+
+      - name: Package compile acceptance evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo 'HariMultiThread Ultimate 2.4 Vulkan Hybrid compile acceptance'
+            echo "source_commit=$GITHUB_SHA"
+            echo 'hari_upstream=f381611c2d71a85192e2028f9e30c03823a6482b'
+            echo 'vulkan_forge=0ceac5d47f84c910d2f5f6d007b0ffe266c6f736'
+            echo 'gate_clean=VULKAN'
+            echo 'gate_conflict=OPENGL_FALLBACK'
+            echo 'gate_continuity=OPENGL_FALLBACK'
+            echo 'gate_nested_indigo=OPENGL_FALLBACK'
+          } > qa-out/ACCEPTANCE.txt
+          (cd qa-out && sha256sum * > SHA256SUMS.txt)
+
+      - name: Upload compile acceptance
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-Ultimate-1.20.1-2.4.0-VULKAN-HYBRID-COMPILE
+          path: qa-out/
+          if-no-files-found: error
+
+      - name: Upload failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-2.4.0-vulkan-hybrid-compile-failure
+          path: |
+            upstream/forge/build/reports/
+            upstream/forge/build/tmp/
+            upstream/forge/run/logs/
+            qa-out/
+          if-no-files-found: warn
+ qa-out/JAR-CONTENTS.txt
+          ! grep -E '^META-INF/jarjar/lwjgl-(glfw|opengl|stb)-[^/]+\.jar          unzip -p "$jarfile" META-INF/mods.toml > qa-out/MODS-TOML.txt
+          grep -F 'modId = "harimt"' qa-out/MODS-TOML.txt
+          ! grep -F 'modId="vulkanmod"' qa-out/MODS-TOML.txt
+          unzip -p "$jarfile" META-INF/harimt-vulkan/SOURCE.txt > qa-out/VULKAN-SOURCE.txt
+
+      - name: Compile renderer decision probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/src qa-probe/classes
+          cat > qa-probe/src/GateProbe.java <<'JAVA'
+          public final class GateProbe {
+              public static void main(String[] args) {
+                  var d = net.vulkanmod.compat.UniversalRendererGate.decision();
+                  System.out.println("enabled=" + d.enabled());
+                  System.out.println("reason=" + d.reason());
+              }
+          }
+          JAVA
+          javac -cp qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar \
+            -d qa-probe/classes qa-probe/src/GateProbe.java
+
+      - name: Prove clean pack selects Vulkan
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/clean/mods qa-probe/clean/config
+          (
+            cd qa-probe/clean
+            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee ../../qa-out/GATE-CLEAN.txt
+          grep -F 'enabled=true' qa-out/GATE-CLEAN.txt
+
+      - name: Prove renderer conflict selects OpenGL fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/conflict/mods/fake/META-INF qa-probe/conflict/config
+          cat > qa-probe/conflict/mods/fake/META-INF/mods.toml <<'EOF'
+          modLoader="javafml"
+          loaderVersion="[47,)"
+          license="test"
+          [[mods]]
+          modId="embeddium"
+          version="0"
+          displayName="compatibility-fixture"
+          EOF
+          (cd qa-probe/conflict/mods/fake && zip -qr ../fake-embeddium.jar META-INF)
+          rm -rf qa-probe/conflict/mods/fake
+          (
+            cd qa-probe/conflict
+            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee ../../qa-out/GATE-CONFLICT.txt
+          grep -F 'enabled=false' qa-out/GATE-CONFLICT.txt
+          grep -F 'embeddium' qa-out/GATE-CONFLICT.txt
+
+      - name: Prove Continuity selects OpenGL fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/continuity/mods/fake qa-probe/continuity/config
+          cat > qa-probe/continuity/mods/fake/fabric.mod.json <<'EOF'
+          {
+            "schemaVersion": 1,
+            "id": "continuity",
+            "version": "0",
+            "name": "compatibility-fixture"
+          }
+          EOF
+          (cd qa-probe/continuity/mods/fake && zip -qr ../fake-continuity.jar fabric.mod.json)
+          rm -rf qa-probe/continuity/mods/fake
+          (
+            cd qa-probe/continuity
+            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee ../../qa-out/GATE-CONTINUITY.txt
+          grep -F 'enabled=false' qa-out/GATE-CONTINUITY.txt
+          grep -F 'continuity' qa-out/GATE-CONTINUITY.txt
+
+      - name: Prove nested Indigo renderer selects OpenGL fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/indigo/mods/outer/META-INF/jarjar                    qa-probe/indigo/mods/inner/net/fabricmc/fabric/impl/client/indigo                    qa-probe/indigo/config
+          printf 'fixture' > qa-probe/indigo/mods/inner/net/fabricmc/fabric/impl/client/indigo/IndigoMixinConfigPlugin.class
+          (cd qa-probe/indigo/mods/inner && zip -qr ../outer/META-INF/jarjar/fabric-renderer-indigo.jar .)
+          cat > qa-probe/indigo/mods/outer/META-INF/mods.toml <<'EOF'
+          modLoader="javafml"
+          loaderVersion="[47,)"
+          license="test"
+          [[mods]]
+          modId="forgified_fabric_api"
+          version="0"
+          displayName="compatibility-fixture"
+          EOF
+          (cd qa-probe/indigo/mods/outer && zip -qr ../fake-forgified-fabric-api.jar META-INF)
+          rm -rf qa-probe/indigo/mods/outer qa-probe/indigo/mods/inner
+          (
+            cd qa-probe/indigo
+            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee ../../qa-out/GATE-INDIGO.txt
+          grep -F 'enabled=false' qa-out/GATE-INDIGO.txt
+          grep -F 'fabric-renderer-indigo' qa-out/GATE-INDIGO.txt
+
+      - name: Package compile acceptance evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo 'HariMultiThread Ultimate 2.4 Vulkan Hybrid compile acceptance'
+            echo "source_commit=$GITHUB_SHA"
+            echo 'hari_upstream=f381611c2d71a85192e2028f9e30c03823a6482b'
+            echo 'vulkan_forge=0ceac5d47f84c910d2f5f6d007b0ffe266c6f736'
+            echo 'gate_clean=VULKAN'
+            echo 'gate_conflict=OPENGL_FALLBACK'
+            echo 'gate_continuity=OPENGL_FALLBACK'
+            echo 'gate_nested_indigo=OPENGL_FALLBACK'
+          } > qa-out/ACCEPTANCE.txt
+          (cd qa-out && sha256sum * > SHA256SUMS.txt)
+
+      - name: Upload compile acceptance
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-Ultimate-1.20.1-2.4.0-VULKAN-HYBRID-COMPILE
+          path: qa-out/
+          if-no-files-found: error
+
+      - name: Upload failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-2.4.0-vulkan-hybrid-compile-failure
+          path: |
+            upstream/forge/build/reports/
+            upstream/forge/build/tmp/
+            upstream/forge/run/logs/
+            qa-out/
+          if-no-files-found: warn
+ qa-out/JAR-CONTENTS.txt
           grep -Fx 'com/axalotl/async/forge/client/hari263/render/PersistentRegionSceneCache.class' qa-out/JAR-CONTENTS.txt
           unzip -p "$jarfile" META-INF/mods.toml > qa-out/MODS-TOML.txt
           grep -F 'modId = "harimt"' qa-out/MODS-TOML.txt
