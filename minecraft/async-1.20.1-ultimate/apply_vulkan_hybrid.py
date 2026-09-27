@@ -70,6 +70,66 @@ for src in src_res.rglob("*"):
     dst.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(src, dst)
 
+# Fix upstream Linux platform detection before compilation. Forge/launcher and
+# headless QA environments can provide a perfectly valid X11/Wayland display
+# without XDG_SESSION_TYPE. Upstream treats that case as GLFW_ANY_PLATFORM
+# ("ANDROID"), which prevents the desktop Vulkan renderer from initializing.
+platform = dst_java / "config/Platform.java"
+platform_text = platform.read_text(encoding="utf-8")
+old_detect = """    private static int determineDisplayServer() {
+
+        //Return Null platform if not on Linux (i.e. no X11 or Wayland)
+        String xdgSessionType = System.getenv("XDG_SESSION_TYPE");
+        if (xdgSessionType == null) return GLFW_ANY_PLATFORM; //Likely Android
+        return switch (xdgSessionType) {
+            case "wayland" -> GLFW_PLATFORM_WAYLAND; //Wayland
+            case "x11" -> GLFW_PLATFORM_X11; //X11
+            default -> GLFW_ANY_PLATFORM; //Either unknown Platform or Display Server
+        };
+    }
+"""
+new_detect = """    private static int determineDisplayServer() {
+        String xdgSessionType = System.getenv("XDG_SESSION_TYPE");
+        if (xdgSessionType != null) {
+            if ("wayland".equalsIgnoreCase(xdgSessionType)) return GLFW_PLATFORM_WAYLAND;
+            if ("x11".equalsIgnoreCase(xdgSessionType)) return GLFW_PLATFORM_X11;
+        }
+
+        // Launchers, Xvfb, containers and some display managers omit
+        // XDG_SESSION_TYPE even though a real display server is available.
+        String waylandDisplay = System.getenv("WAYLAND_DISPLAY");
+        if (waylandDisplay != null && !waylandDisplay.isBlank()) return GLFW_PLATFORM_WAYLAND;
+        String x11Display = System.getenv("DISPLAY");
+        if (x11Display != null && !x11Display.isBlank()) return GLFW_PLATFORM_X11;
+
+        // Preserve upstream's Android/unknown fallback only when no desktop
+        // display evidence exists.
+        return GLFW_ANY_PLATFORM;
+    }
+"""
+if platform_text.count(old_detect) != 1:
+    raise SystemExit("source drift: expected upstream Platform.determineDisplayServer")
+platform_text = platform_text.replace(old_detect, new_detect, 1)
+platform.write_text(platform_text, encoding="utf-8")
+
+# Minecraft ResourceLocation paths are lowercase-only. Upstream's early-Z
+# terrain fragment shader uses terrain_Z.fsh and is actively requested by
+# PipelineManager, so the resource pack rejects it before Vulkan can consume it.
+upper_terrain = forge_res / "assets/vulkanmod/shaders/basic/terrain/terrain_Z.fsh"
+lower_terrain = forge_res / "assets/vulkanmod/shaders/basic/terrain/terrain_z.fsh"
+if not upper_terrain.is_file():
+    raise SystemExit("source drift: missing upstream terrain_Z.fsh")
+if lower_terrain.exists():
+    raise SystemExit("unexpected pre-existing lowercase terrain_z.fsh")
+upper_terrain.rename(lower_terrain)
+
+pipeline_manager = dst_java / "render/PipelineManager.java"
+pipeline_text = pipeline_manager.read_text(encoding="utf-8")
+if pipeline_text.count('"terrain_Z"') != 1:
+    raise SystemExit("source drift: expected one terrain_Z pipeline reference")
+pipeline_text = pipeline_text.replace('"terrain_Z"', '"terrain_z"', 1)
+pipeline_manager.write_text(pipeline_text, encoding="utf-8")
+
 prov = forge_res / "META-INF/harimt-vulkan"
 prov.mkdir(parents=True, exist_ok=True)
 for name in ("LICENSE", "COPYING", "NOTICE", "README.md"):
@@ -387,5 +447,10 @@ assert 'new net.vulkanmod.Initializer()' in async_forge.read_text(encoding="utf-
 assert 'FMLEnvironment.dist == net.minecraftforge.api.distmarker.Dist.CLIENT' in async_forge.read_text(encoding="utf-8")
 assert 'config = "vulkanmod.mixins.json"' in mods_toml.read_text(encoding="utf-8")
 assert contract_path.stat().st_size > 128
+assert lower_terrain.is_file() and not upper_terrain.exists()
+assert '"terrain_z"' in pipeline_manager.read_text(encoding="utf-8")
+assert '"terrain_Z"' not in pipeline_manager.read_text(encoding="utf-8")
+assert 'System.getenv("DISPLAY")' in platform.read_text(encoding="utf-8")
+assert 'System.getenv("WAYLAND_DISPLAY")' in platform.read_text(encoding="utf-8")
 assert "version=2.4.0-noxviola.1-vulkan-hybrid" in (root / "gradle.properties").read_text(encoding="utf-8")
 print("Hari 2.4 merged Vulkan renderer applied successfully")
