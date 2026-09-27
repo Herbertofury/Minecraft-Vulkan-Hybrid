@@ -158,11 +158,13 @@ contract_path.write_text(
 
 text = async_forge.read_text(encoding="utf-8")
 anchor = '        LOGGER.info("Initializing Async...");\n'
-insert = anchor + """        if (net.vulkanmod.compat.UniversalRendererGate.vulkanRendererEnabled()) {
-            LOGGER.info("Hari 2.4 selected merged Vulkan renderer: {}", net.vulkanmod.compat.UniversalRendererGate.reason());
-            new net.vulkanmod.Initializer();
-        } else {
-            LOGGER.info("Hari 2.4 selected OpenGL compatibility renderer: {}", net.vulkanmod.compat.UniversalRendererGate.reason());
+insert = anchor + """        if (net.minecraftforge.fml.loading.FMLEnvironment.dist == net.minecraftforge.api.distmarker.Dist.CLIENT) {
+            if (net.vulkanmod.compat.UniversalRendererGate.vulkanRendererEnabled()) {
+                LOGGER.info("Hari 2.4 selected merged Vulkan renderer: {}", net.vulkanmod.compat.UniversalRendererGate.reason());
+                new net.vulkanmod.Initializer();
+            } else {
+                LOGGER.info("Hari 2.4 selected OpenGL compatibility renderer: {}", net.vulkanmod.compat.UniversalRendererGate.reason());
+            }
         }
 """
 if anchor not in text:
@@ -291,6 +293,7 @@ props = props.replace("version=2.3.0-noxviola.1", "version=2.4.0-noxviola.1-vulk
 assert '@Mod("vulkanmod")' not in init.read_text(encoding="utf-8")
 assert 'UniversalRendererGate.vulkanRendererEnabled()' in plugin.read_text(encoding="utf-8")
 assert 'new net.vulkanmod.Initializer()' in async_forge.read_text(encoding="utf-8")
+assert 'FMLEnvironment.dist == net.minecraftforge.api.distmarker.Dist.CLIENT' in async_forge.read_text(encoding="utf-8")
 assert 'config = "vulkanmod.mixins.json"' in mods_toml.read_text(encoding="utf-8")
 assert contract_path.stat().st_size > 128
 assert "version=2.4.0-noxviola.1-vulkan-hybrid" in (root / "gradle.properties").read_text(encoding="utf-8")
