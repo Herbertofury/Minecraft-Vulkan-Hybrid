@@ -260,6 +260,11 @@ if common_gradle.is_file():
 fb = forge_build.read_text(encoding="utf-8")
 fb = fb.replace("    maven { name = 'Bawnorton'; url = 'https://maven.bawnorton.com/releases' }\n", "")
 forge_build.write_text(fb, encoding="utf-8")
+common_build = root / "common/build.gradle"
+if common_build.is_file():
+    cb = common_build.read_text(encoding="utf-8")
+    cb = cb.replace("    maven { name = 'Bawnorton'; url = 'https://maven.bawnorton.com/releases' }\n", "")
+    common_build.write_text(cb, encoding="utf-8")
 
 props = props.replace("version=2.3.0-noxviola.1", "version=2.4.0-noxviola.1-vulkan-hybrid", 1)
 (root / "gradle.properties").write_text(props, encoding="utf-8")
