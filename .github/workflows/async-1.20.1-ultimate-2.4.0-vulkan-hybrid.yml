@@ -12,6 +12,10 @@ permissions:
   contents: read
   actions: read
 
+concurrency:
+  group: hari-2.4-vulkan-hybrid-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   compile-and-gate:
     runs-on: ubuntu-22.04
