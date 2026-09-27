@@ -38,7 +38,7 @@ public final class UniversalRendererGate {
     private static final String CACHE_SCHEMA = "2.4.0-vulkan-gate-v6";
 
     private static final Pattern MOD_ID = Pattern.compile("(?m)^\\s*modId\\s*=\\s*[\\\"']([^\\\"']+)[\\\"']");
-    private static final Pattern FABRIC_ID = Pattern.compile("\\"id\\"\\s*:\\s*\\\"([^\\\"]+)\\\"");
+    private static final Pattern FABRIC_ID = Pattern.compile("\\\"id\\\"\\\\s*:\\\\s*\\\"([^\\\"]+)\\\"");
     private static final String GL_PREFIX = "org/lwjgl/opengl/";
     private static final String CONTRACT_RESOURCE = "/assets/vulkanmod/compat/harimt_supported_gl_methods.properties";
 
