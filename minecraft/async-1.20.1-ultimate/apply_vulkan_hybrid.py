@@ -243,7 +243,9 @@ dependencies {
     harimtVulkanNativesMacosArm64 "org.lwjgl:lwjgl-vma:" + harimtLwjglVersion + ":natives-macos-arm64"
 }
 
-tasks.named('jar', Jar).configure {
+// Stage bundled shaderc/VMA natives as normal resources so ForgeGradle runClient
+// and the shipped JAR exercise the exact same resource layout.
+tasks.named('processResources').configure {
     into('assets/vulkanmod/natives/windows/x64') {
         from { configurations.harimtVulkanNativesWindows.collect { zipTree(it) } }
     }
