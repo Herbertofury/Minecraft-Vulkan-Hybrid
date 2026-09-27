@@ -48,6 +48,13 @@ jobs:
           java-version: '17'
           cache: gradle
 
+      - name: Install shader validation tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends glslang-tools
+
       - name: Reconstruct accepted Hari 2.3 persistent-scene base
         shell: bash
         run: |
@@ -109,6 +116,11 @@ jobs:
           mkdir -p qa-preflight
           javac -d qa-preflight upstream/forge/src/main/java/net/vulkanmod/compat/UniversalRendererGate.java
           test -f qa-preflight/net/vulkanmod/compat/UniversalRendererGate.class
+          shader=upstream/common/src/main/resources/assets/async/shaders/collision_broadphase.comp
+          test -s "$shader"
+          glslangValidator -V "$shader" -o "${shader}.spv"
+          test -s "${shader}.spv"
+          test "$(xxd -p -l 4 "${shader}.spv")" = '03022307'
 
       - name: Build merged Forge artifact
         working-directory: upstream
@@ -134,6 +146,8 @@ jobs:
           grep -Fx 'vulkanmod.mixins.json' qa-out/JAR-CONTENTS.txt
           grep -Fx 'META-INF/harimt-vulkan/SOURCE.txt' qa-out/JAR-CONTENTS.txt
           grep -Fx 'assets/vulkanmod/compat/harimt_supported_gl_methods.properties' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/async/shaders/collision_broadphase.comp.spv' qa-out/JAR-CONTENTS.txt
+          unzip -p "$jarfile" assets/async/shaders/collision_broadphase.comp.spv | xxd -p -l 4 | grep -Fx '03022307'
           grep -Fx 'assets/vulkanmod/natives/windows/x64/windows/x64/org/lwjgl/shaderc/shaderc.dll' qa-out/JAR-CONTENTS.txt
           grep -Fx 'assets/vulkanmod/natives/windows/x64/windows/x64/org/lwjgl/vma/lwjgl_vma.dll' qa-out/JAR-CONTENTS.txt
           grep -Fx 'assets/vulkanmod/natives/linux/x64/linux/x64/org/lwjgl/shaderc/libshaderc.so' qa-out/JAR-CONTENTS.txt
