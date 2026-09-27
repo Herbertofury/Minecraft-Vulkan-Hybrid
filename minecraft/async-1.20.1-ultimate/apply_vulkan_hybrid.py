@@ -270,6 +270,17 @@ if marker not in build:
 // Hari 2.4 merged Vulkan renderer
 def harimtLwjglVersion = '3.3.3'
 
+// Forge 1.20.1 discovers Mixin configs from the distributable JAR manifest.
+// Hari's reconstructed manifest already owns the three Hari configs; the merged
+// Vulkan renderer must be registered there too or its window/render mixins are
+// packaged but never applied at runtime.
+tasks.named('jar').configure {
+    manifest {
+        attributes 'MixinConfigs': 'harimt.common.mixins.json,harimt.forge.mixins.json,harimt.gpu.mixins.json,vulkanmod.mixins.json'
+    }
+}
+
+
 configurations {
     harimtVulkanNativesWindows { canBeResolved = true; canBeConsumed = false; transitive = false }
     harimtVulkanNativesLinux { canBeResolved = true; canBeConsumed = false; transitive = false }
@@ -367,6 +378,13 @@ tasks.named('processResources').configure {
 // Minecraft owns core LWJGL; Hari owns only Vulkan/shaderc/VMA as JIJ metadata.
 tasks.named('jarJar').configure {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    doFirst {
+        def mixinConfigs = tasks.named('jar').get().manifest.attributes.get('MixinConfigs')?.toString()
+        if (mixinConfigs == null || !mixinConfigs.split(',').collect { it.trim() }.contains('vulkanmod.mixins.json')) {
+            throw new GradleException('Merged Vulkan renderer missing from JAR MixinConfigs manifest: ' + mixinConfigs)
+        }
+    }
     exclude 'module-info.class'
     exclude 'META-INF/versions/*/module-info.class'
     exclude 'META-INF/*.SF'
@@ -446,6 +464,9 @@ assert 'UniversalRendererGate.vulkanRendererEnabled()' in plugin.read_text(encod
 assert 'new net.vulkanmod.Initializer()' in async_forge.read_text(encoding="utf-8")
 assert 'FMLEnvironment.dist == net.minecraftforge.api.distmarker.Dist.CLIENT' in async_forge.read_text(encoding="utf-8")
 assert 'config = "vulkanmod.mixins.json"' in mods_toml.read_text(encoding="utf-8")
+final_build_text = forge_build.read_text(encoding="utf-8")
+assert "harimt.gpu.mixins.json,vulkanmod.mixins.json" in final_build_text
+assert "Merged Vulkan renderer missing from JAR MixinConfigs manifest" in final_build_text
 assert contract_path.stat().st_size > 128
 assert lower_terrain.is_file() and not upper_terrain.exists()
 assert '"terrain_z"' in pipeline_manager.read_text(encoding="utf-8")
