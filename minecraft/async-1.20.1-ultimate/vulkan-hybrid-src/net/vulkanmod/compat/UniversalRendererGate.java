@@ -35,7 +35,7 @@ import java.util.zip.ZipInputStream;
 public final class UniversalRendererGate {
     public static final String MODE_PROPERTY = "harimt.vulkan.mode"; // auto | force | off
     public static final String CACHE_PROPERTY = "harimt.vulkan.compatCache"; // default true
-    private static final String CACHE_SCHEMA = "2.4.0-vulkan-gate-v5";
+    private static final String CACHE_SCHEMA = "2.4.0-vulkan-gate-v6";
 
     private static final Pattern MOD_ID = Pattern.compile("(?m)^\\s*modId\\s*=\\s*[\\\"']([^\\\"']+)[\\\"']");
     private static final Pattern FABRIC_ID = Pattern.compile("\\"id\\"\\s*:\\s*\\\"([^\\\"]+)\\\"");
@@ -206,10 +206,12 @@ public final class UniversalRendererGate {
             Class<?> loadingModList = Class.forName("net.minecraftforge.fml.loading.LoadingModList");
             Object list = loadingModList.getMethod("get").invoke(null);
             Object mods = loadingModList.getMethod("getMods").invoke(list);
+            Class<?> modInfoType = Class.forName("net.minecraftforge.forgespi.language.IModInfo");
+            var getModId = modInfoType.getMethod("getModId");
             if (mods instanceof Iterable<?> iterable) {
                 for (Object info : iterable) {
                     try {
-                        Object id = info.getClass().getMethod("getModId").invoke(info);
+                        Object id = getModId.invoke(info);
                         if (id != null) ids.add(String.valueOf(id).toLowerCase(Locale.ROOT));
                     } catch (ReflectiveOperationException ignored) {
                         // Fail closed is handled by physical mod scanning; one malformed
