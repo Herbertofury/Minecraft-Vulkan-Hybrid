@@ -183,17 +183,16 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p qa-probe/continuity/mods/fake/META-INF qa-probe/continuity/config
-          cat > qa-probe/continuity/mods/fake/META-INF/mods.toml <<'EOF'
-          modLoader="javafml"
-          loaderVersion="[47,)"
-          license="test"
-          [[mods]]
-          modId="continuity"
-          version="0"
-          displayName="compatibility-fixture"
+          mkdir -p qa-probe/continuity/mods/fake qa-probe/continuity/config
+          cat > qa-probe/continuity/mods/fake/fabric.mod.json <<'EOF'
+          {
+            "schemaVersion": 1,
+            "id": "continuity",
+            "version": "0",
+            "name": "compatibility-fixture"
+          }
           EOF
-          (cd qa-probe/continuity/mods/fake && zip -qr ../fake-continuity.jar META-INF)
+          (cd qa-probe/continuity/mods/fake && zip -qr ../fake-continuity.jar fabric.mod.json)
           rm -rf qa-probe/continuity/mods/fake
           (
             cd qa-probe/continuity
