@@ -82,16 +82,17 @@ for name in ("LICENSE", "COPYING", "NOTICE", "README.md"):
 
 init = dst_java / "Initializer.java"
 text = init.read_text(encoding="utf-8")
+# Hari is the only logical Forge mod in the merged artifact. Remove VulkanMod's
+# independent entrypoint annotation/import but keep its bootstrap class callable.
 text = text.replace("import net.minecraftforge.fml.common.Mod;\n", "")
 text = text.replace('@Mod("vulkanmod")\n', "")
-if '@Mod("vulkanmod")' in text:
-    raise SystemExit("failed to remove VulkanMod independent @Mod declaration")
 # The standalone fork checks TrulyRin/VulkanMod-Reforged for updates. Once merged
 # into Hari that version comparison is wrong (Hari's 2.4 version is not a VulkanMod
 # release) and adds needless startup network I/O. Hari owns updates for this single mod.
-text = init.read_text(encoding="utf-8")
 text = text.replace("import net.vulkanmod.config.UpdateChecker;\n", "")
-text = re.sub(r"^\\s*UpdateChecker\\.checkForUpdates\\(\\);\\s*$", "", text, flags=re.MULTILINE)
+text = re.sub(r"^\s*UpdateChecker\.checkForUpdates\(\);\s*$", "", text, flags=re.MULTILINE)
+if '@Mod("vulkanmod")' in text:
+    raise SystemExit("failed to remove VulkanMod independent @Mod declaration")
 if "UpdateChecker.checkForUpdates()" in text:
     raise SystemExit("failed to remove standalone VulkanMod update checker")
 init.write_text(text, encoding="utf-8")
