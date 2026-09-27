@@ -259,29 +259,10 @@ forge_build.write_text(build, encoding="utf-8")
 common_gradle = root / "buildSrc/src/main/groovy/multiloader-common.gradle"
 if common_gradle.is_file():
     cg = common_gradle.read_text(encoding="utf-8")
-    # Vulkan mixin JSON contains legitimate 'fb = forge_build.read_text(encoding="utf-8")
-fb = fb.replace("    maven { name = 'Bawnorton'; url = 'https://maven.bawnorton.com/releases' }\n", "")
-forge_build.write_text(fb, encoding="utf-8")
-common_build = root / "common/build.gradle"
-if common_build.is_file():
-    cb = common_build.read_text(encoding="utf-8")
-    cb = cb.replace("    maven { name = 'Bawnorton'; url = 'https://maven.bawnorton.com/releases' }\n", "")
-    common_build.write_text(cb, encoding="utf-8")
-
-props = props.replace("version=2.3.0-noxviola.1", "version=2.4.0-noxviola.1-vulkan-hybrid", 1)
-(root / "gradle.properties").write_text(props, encoding="utf-8")
-
-assert '@Mod("vulkanmod")' not in init.read_text(encoding="utf-8")
-assert 'UniversalRendererGate.vulkanRendererEnabled()' in plugin.read_text(encoding="utf-8")
-assert 'new net.vulkanmod.Initializer()' in async_forge.read_text(encoding="utf-8")
-assert 'config = "vulkanmod.mixins.json"' in mods_toml.read_text(encoding="utf-8")
-assert contract_path.stat().st_size > 128
-assert "version=2.4.0-noxviola.1-vulkan-hybrid" in (root / "gradle.properties").read_text(encoding="utf-8")
-print("Hari 2.4 merged Vulkan renderer applied successfully")
- inner-class names (for example
-    # VertexMultiConsumersM$DoubleM). Groovy SimpleTemplateEngine interprets those as
-    # template properties if the upstream wildcard expands every *.mixins.json.
-    # Hari's mixin JSON files contain no resource placeholders, so do not template them.
+    # Vulkan mixin JSON contains legitimate inner-class '$' names such as
+    # VertexMultiConsumersM$DoubleM. Groovy template expansion treats these as
+    # properties. Hari mixin JSON contains no template placeholders, so exclude
+    # all *.mixins.json files from SimpleTemplateEngine expansion.
     cg = cg.replace(", '*.mixins.json'", "")
     if "'*.mixins.json'" in cg:
         raise SystemExit("failed to disable mixin JSON template expansion")
