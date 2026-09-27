@@ -272,7 +272,8 @@ tasks.named('processResources').configure {
         if (!harimtCollisionSpirv.isFile() || harimtCollisionSpirv.length() < 4L) {
             throw new GradleException('Missing production collision SPIR-V: ' + harimtCollisionSpirv)
         }
-        def magic = harimtCollisionSpirv.bytes.take(4).collect { ((int) it) & 0xff }
+        def bytes = harimtCollisionSpirv.bytes
+        def magic = [0, 1, 2, 3].collect { ((int) bytes[it]) & 0xff }
         if (magic != [0x03, 0x02, 0x23, 0x07]) {
             throw new GradleException('Invalid collision SPIR-V magic: ' + magic)
         }
