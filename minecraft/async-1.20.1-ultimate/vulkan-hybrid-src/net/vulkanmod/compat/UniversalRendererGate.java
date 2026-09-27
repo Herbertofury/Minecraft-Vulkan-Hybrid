@@ -169,9 +169,21 @@ public final class UniversalRendererGate {
         try (InputStream input = zip.getInputStream(entry)) {
             toml = new String(input.readAllBytes(), StandardCharsets.UTF_8);
         }
+
         HashSet<String> ids = new HashSet<>();
-        Matcher matcher = MOD_ID.matcher(toml);
-        while (matcher.find()) ids.add(matcher.group(1).toLowerCase(Locale.ROOT));
+        boolean insideModsTable = false;
+        for (String rawLine : toml.split("\\R")) {
+            String line = rawLine.trim();
+            if (line.startsWith("[[")) {
+                insideModsTable = line.equalsIgnoreCase("[[mods]]");
+                continue;
+            }
+            if (!insideModsTable) continue;
+            Matcher matcher = MOD_ID.matcher(line);
+            if (matcher.find()) {
+                ids.add(matcher.group(1).toLowerCase(Locale.ROOT));
+            }
+        }
         return ids;
     }
 
