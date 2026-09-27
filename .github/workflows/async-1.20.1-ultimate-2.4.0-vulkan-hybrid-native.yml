@@ -54,8 +54,13 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends \
             patch curl zip unzip glslang-tools mesa-vulkan-drivers vulkan-tools \
-            xvfb openbox xdotool x11-utils imagemagick libgl1-mesa-dri
+            xvfb openbox xdotool x11-utils imagemagick libgl1-mesa-dri libflite1
           chmod +x upstream/gradlew
+          mkdir -p qa-native-libs
+          flite_lib="$(ldconfig -p | awk '/libflite\.so\.1/{print $NF; exit}')"
+          test -n "$flite_lib"
+          ln -sf "$flite_lib" qa-native-libs/libflite.so
+          echo "LD_LIBRARY_PATH=$PWD/qa-native-libs${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" >> "$GITHUB_ENV"
           { vulkaninfo --summary || true; } 2>&1 | tee vulkaninfo-summary.txt
 
       - name: Reconstruct accepted Hari 2.3 persistent-scene base
