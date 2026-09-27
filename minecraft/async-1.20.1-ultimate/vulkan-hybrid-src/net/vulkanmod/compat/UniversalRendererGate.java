@@ -1,5 +1,6 @@
 package net.vulkanmod.compat;
 
+import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,6 +22,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 /**
  * Fail-closed session renderer selector for HariMultiThread Ultimate.
@@ -33,6 +35,7 @@ import java.util.zip.ZipFile;
 public final class UniversalRendererGate {
     public static final String MODE_PROPERTY = "harimt.vulkan.mode"; // auto | force | off
     public static final String CACHE_PROPERTY = "harimt.vulkan.compatCache"; // default true
+    private static final String CACHE_SCHEMA = "2.4.0-vulkan-gate-v2";
 
     private static final Pattern MOD_ID = Pattern.compile("(?m)^\\s*modId\\s*=\\s*[\\\"']([^\\\"']+)[\\\"']");
     private static final String GL_PREFIX = "org/lwjgl/opengl/";
@@ -108,13 +111,14 @@ public final class UniversalRendererGate {
                 var entries = zip.entries();
                 while (entries.hasMoreElements()) {
                     ZipEntry entry = entries.nextElement();
-                    if (entry.isDirectory() || !entry.getName().endsWith(".class")) continue;
-                    try (InputStream input = zip.getInputStream(entry)) {
-                        for (MethodRef ref : openGlMethodRefs(input)) {
-                            Set<String> methods = contracts.get(ref.owner());
-                            if (methods == null || !methods.contains(ref.name())) {
-                                unsupported.add(ref.owner() + "#" + ref.name() + "@" + jar.getFileName());
-                            }
+                    if (entry.isDirectory()) continue;
+                    if (entry.getName().endsWith(".class")) {
+                        try (InputStream input = zip.getInputStream(entry)) {
+                            collectUnsupported(openGlMethodRefs(input), contracts, unsupported, jar.getFileName().toString());
+                        }
+                    } else if (entry.getName().endsWith(".jar")) {
+                        try (InputStream input = zip.getInputStream(entry)) {
+                            scanNestedJar(input, jar.getFileName() + "!" + entry.getName(), contracts, unsupported, 0);
                         }
                     }
                 }
@@ -187,6 +191,37 @@ public final class UniversalRendererGate {
         return ids;
     }
 
+    private static void collectUnsupported(List<MethodRef> refs, Map<String, Set<String>> contracts,
+                                           Set<String> unsupported, String source) {
+        for (MethodRef ref : refs) {
+            Set<String> methods = contracts.get(ref.owner());
+            if (methods == null || !methods.contains(ref.name())) {
+                unsupported.add(ref.owner() + "#" + ref.name() + "@" + source);
+            }
+        }
+    }
+
+    private static void scanNestedJar(InputStream raw, String source, Map<String, Set<String>> contracts,
+                                      Set<String> unsupported, int depth) throws IOException {
+        if (depth > 3) {
+            unsupported.add("nested-jar-depth@" + source);
+            return;
+        }
+        try (ZipInputStream zin = new ZipInputStream(raw)) {
+            ZipEntry entry;
+            while ((entry = zin.getNextEntry()) != null) {
+                if (entry.isDirectory()) continue;
+                if (entry.getName().endsWith(".class")) {
+                    collectUnsupported(openGlMethodRefs(zin), contracts, unsupported, source + "!" + entry.getName());
+                } else if (entry.getName().endsWith(".jar")) {
+                    byte[] nested = zin.readAllBytes();
+                    scanNestedJar(new ByteArrayInputStream(nested), source + "!" + entry.getName(),
+                            contracts, unsupported, depth + 1);
+                }
+            }
+        }
+    }
+
     /** Minimal class-file constant-pool reader for direct Methodref/InterfaceMethodref entries. */
     private static List<MethodRef> openGlMethodRefs(InputStream raw) throws IOException {
         DataInputStream in = new DataInputStream(raw);
@@ -232,7 +267,7 @@ public final class UniversalRendererGate {
     }
 
     private static String signature(List<Path> jars) {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(CACHE_SCHEMA).append(';');
         for (Path path : jars) {
             try {
                 builder.append(path.getFileName()).append(':').append(Files.size(path)).append(':')
