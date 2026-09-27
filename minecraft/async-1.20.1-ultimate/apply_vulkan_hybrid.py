@@ -57,10 +57,14 @@ for src in src_res.rglob("*"):
     if not src.is_file():
         continue
     rel = src.relative_to(src_res)
-    # Hari owns the final mod descriptor and canonical access transformer.
-    # Vulkan AT rules are merged into common_at below; copying the source AT as a
-    # second Forge resource creates a duplicate META-INF/accesstransformer.cfg.
-    if rel.as_posix() in {"META-INF/mods.toml", "META-INF/accesstransformer.cfg"}:
+    # Hari owns the final mod descriptor, resource-pack metadata, and canonical
+    # access transformer. Vulkan AT rules are merged into common_at below; copying
+    # these root files into Forge resources would create duplicate merged resources.
+    if rel.as_posix() in {
+        "META-INF/mods.toml",
+        "META-INF/accesstransformer.cfg",
+        "pack.mcmeta",
+    }:
         continue
     dst = forge_res / rel
     dst.parent.mkdir(parents=True, exist_ok=True)
@@ -313,6 +317,7 @@ props = props.replace("version=2.3.0-noxviola.1", "version=2.4.0-noxviola.1-vulk
 (root / "gradle.properties").write_text(props, encoding="utf-8")
 
 assert not (forge_res / "META-INF/accesstransformer.cfg").exists(), "duplicate Forge AT resource present"
+assert not (forge_res / "pack.mcmeta").exists(), "duplicate Forge pack.mcmeta present"
 assert any("net.vulkanmod" in line or "com.mojang" in line or "net.minecraft" in line for line in vk_lines), "Vulkan AT rules unexpectedly empty"
 assert '@Mod("vulkanmod")' not in init.read_text(encoding="utf-8")
 assert 'UniversalRendererGate.vulkanRendererEnabled()' in plugin.read_text(encoding="utf-8")
