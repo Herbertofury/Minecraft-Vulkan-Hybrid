@@ -86,6 +86,14 @@ text = text.replace("import net.minecraftforge.fml.common.Mod;\n", "")
 text = text.replace('@Mod("vulkanmod")\n', "")
 if '@Mod("vulkanmod")' in text:
     raise SystemExit("failed to remove VulkanMod independent @Mod declaration")
+# The standalone fork checks TrulyRin/VulkanMod-Reforged for updates. Once merged
+# into Hari that version comparison is wrong (Hari's 2.4 version is not a VulkanMod
+# release) and adds needless startup network I/O. Hari owns updates for this single mod.
+text = init.read_text(encoding="utf-8")
+text = text.replace("import net.vulkanmod.config.UpdateChecker;\n", "")
+text = text.replace("        UpdateChecker.checkForUpdates();\n", "")
+if "UpdateChecker.checkForUpdates()" in text:
+    raise SystemExit("failed to remove standalone VulkanMod update checker")
 init.write_text(text, encoding="utf-8")
 
 gate_src = here / "vulkan-hybrid-src/net/vulkanmod/compat/UniversalRendererGate.java"
