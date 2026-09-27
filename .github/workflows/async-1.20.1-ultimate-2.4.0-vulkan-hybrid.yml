@@ -88,6 +88,15 @@ jobs:
           ! grep -R -F '@Mod("vulkanmod")' upstream/forge/src/main/java/net/vulkanmod
           test -s upstream/forge/src/main/resources/assets/vulkanmod/compat/harimt_supported_gl_methods.properties
           grep -E '^GL(11|15|20|30|45)C?=' upstream/forge/src/main/resources/assets/vulkanmod/compat/harimt_supported_gl_methods.properties
+          echo '===== HARI_RENDER_STATE_BEGIN ====='
+          sed -n '1,320p' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/HariRenderState.java
+          echo '===== HARI_RENDER_STATE_END ====='
+          echo '===== HARI_COMPUTE_PIPELINE_BEGIN ====='
+          sed -n '1,360p' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/compute/ComputePipeline.java
+          echo '===== HARI_COMPUTE_PIPELINE_END ====='
+          echo '===== HARI_TERRAIN_RENDERER_BEGIN ====='
+          sed -n '1,420p' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/render/HariTerrainRenderer.java
+          echo '===== HARI_TERRAIN_RENDERER_END ====='
 
       - name: Build merged Forge artifact
         working-directory: upstream
