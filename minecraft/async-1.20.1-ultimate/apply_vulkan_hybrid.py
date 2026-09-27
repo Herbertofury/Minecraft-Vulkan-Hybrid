@@ -316,6 +316,7 @@ if marker not in build:
 
 // Hari 2.4 merged Vulkan renderer
 def harimtLwjglVersion = '3.3.3'
+def harimtMergedMixinConfigs = 'harimt.common.mixins.json,harimt.forge.mixins.json,harimt.gpu.mixins.json,vulkanmod.mixins.json'
 
 // Forge 1.20.1 discovers Mixin configs from the distributable JAR manifest.
 // Hari's reconstructed manifest already owns the three Hari configs; the merged
@@ -323,7 +324,7 @@ def harimtLwjglVersion = '3.3.3'
 // packaged but never applied at runtime.
 tasks.named('jar').configure {
     manifest {
-        attributes 'MixinConfigs': 'harimt.common.mixins.json,harimt.forge.mixins.json,harimt.gpu.mixins.json,vulkanmod.mixins.json'
+        attributes 'MixinConfigs': harimtMergedMixinConfigs
     }
 }
 
@@ -466,6 +467,24 @@ tasks.named('jarJar').configure {
             }
         }
 
+        // JarJar owns its own final manifest snapshot. Rewrite that exact
+        // distributable manifest during the same deterministic repack that strips
+        // nested LWJGL module descriptors, so the final shipped bytes cannot lose
+        // the merged Vulkan Mixin registration even if Gradle task-manifest
+        // inheritance changes.
+        def manifestFile = new File(tmpDir, 'META-INF/MANIFEST.MF')
+        if (!manifestFile.isFile()) {
+            throw new GradleException('Final JarJar staging tree is missing META-INF/MANIFEST.MF')
+        }
+        def mergedManifest
+        manifestFile.withInputStream { input ->
+            mergedManifest = new java.util.jar.Manifest(input)
+        }
+        mergedManifest.mainAttributes.putValue('MixinConfigs', harimtMergedMixinConfigs)
+        manifestFile.withOutputStream { output ->
+            mergedManifest.write(output)
+        }
+
         if (!jarFile.delete()) {
             throw new GradleException("Could not replace jarJar output: ${jarFile}")
         }
@@ -546,6 +565,7 @@ assert '"refmap": "harimt.refmap.json"' in vulkan_mixins.read_text(encoding="utf
 assert '"refmap": "vulkanmod.refmap.json"' not in vulkan_mixins.read_text(encoding="utf-8")
 final_build_text = forge_build.read_text(encoding="utf-8")
 assert "harimt.gpu.mixins.json,vulkanmod.mixins.json" in final_build_text
+assert "mergedManifest.mainAttributes.putValue('MixinConfigs', harimtMergedMixinConfigs)" in final_build_text
 assert '--mixin.config=vulkanmod.mixins.json' in final_build_text
 assert final_build_text.count('--mixin.config=vulkanmod.mixins.json') == 1
 assert "Merged Vulkan renderer missing from JAR MixinConfigs manifest" in final_build_text
