@@ -29,6 +29,7 @@ common_at = root / "common/src/main/resources/META-INF/accesstransformer.cfg"
 forge_build = root / "forge/build.gradle"
 mods_toml = forge_res / "META-INF/mods.toml"
 async_forge = forge_java / "com/axalotl/async/forge/AsyncForge.java"
+hari_window_mixin = forge_java / "com/axalotl/async/forge/mixin/client/MixinWindow.java"
 
 required = [
     vk / "src/main/java/net/vulkanmod/Initializer.java",
@@ -36,7 +37,7 @@ required = [
     vk / "src/main/resources/vulkanmod.mixins.json",
     vk / "src/main/resources/META-INF/accesstransformer.cfg",
     root / "gradle.properties",
-    common_at, forge_build, mods_toml, async_forge,
+    common_at, forge_build, mods_toml, async_forge, hari_window_mixin,
 ]
 for p in required:
     if not p.is_file():
@@ -186,6 +187,24 @@ if not gate_src.is_file():
     raise SystemExit("missing UniversalRendererGate source")
 gate_dst.parent.mkdir(parents=True, exist_ok=True)
 shutil.copy2(gate_src, gate_dst)
+
+# Hari's persistent GPU-scene bridge probes OpenGL capabilities at Window
+# constructor return. The Vulkan WindowMixin deliberately leaves that window
+# contextless, so GL.getCapabilities() is invalid in Vulkan mode. Keep Hari's
+# detector unchanged for every OpenGL fallback lane and skip only this call when
+# the session renderer gate selected Vulkan.
+hari_window_text = hari_window_mixin.read_text(encoding="utf-8")
+gpu_probe = "HariRenderState.detectCapabilities();"
+if hari_window_text.count(gpu_probe) != 1:
+    raise SystemExit("source drift: expected exactly one Hari Window GPU capability probe")
+hari_window_text = hari_window_text.replace(
+    gpu_probe,
+    """if (!net.vulkanmod.compat.UniversalRendererGate.vulkanRendererEnabled()) {
+            HariRenderState.detectCapabilities();
+        }""",
+    1,
+)
+hari_window_mixin.write_text(hari_window_text, encoding="utf-8")
 
 plugin = dst_java / "mixin/MixinPlugin.java"
 text = plugin.read_text(encoding="utf-8")
@@ -518,6 +537,8 @@ assert not (forge_res / "pack.mcmeta").exists(), "duplicate Forge pack.mcmeta pr
 assert any("net.vulkanmod" in line or "com.mojang" in line or "net.minecraft" in line for line in vk_lines), "Vulkan AT rules unexpectedly empty"
 assert '@Mod("vulkanmod")' not in init.read_text(encoding="utf-8")
 assert 'UniversalRendererGate.vulkanRendererEnabled()' in plugin.read_text(encoding="utf-8")
+assert 'net.vulkanmod.compat.UniversalRendererGate.vulkanRendererEnabled()' in hari_window_mixin.read_text(encoding="utf-8")
+assert hari_window_mixin.read_text(encoding="utf-8").count('HariRenderState.detectCapabilities();') == 1
 assert 'new net.vulkanmod.Initializer()' in async_forge.read_text(encoding="utf-8")
 assert 'FMLEnvironment.dist == net.minecraftforge.api.distmarker.Dist.CLIENT' in async_forge.read_text(encoding="utf-8")
 assert 'config = "vulkanmod.mixins.json"' in mods_toml.read_text(encoding="utf-8")
