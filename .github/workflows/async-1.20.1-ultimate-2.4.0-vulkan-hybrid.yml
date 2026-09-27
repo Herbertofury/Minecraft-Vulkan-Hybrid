@@ -117,10 +117,15 @@ jobs:
           javac -d qa-preflight upstream/forge/src/main/java/net/vulkanmod/compat/UniversalRendererGate.java
           test -f qa-preflight/net/vulkanmod/compat/UniversalRendererGate.class
           shader=upstream/common/src/main/resources/assets/async/shaders/collision_broadphase.comp
+          canonical="${shader}.spv"
+          rebuilt="${shader}.ci-rebuilt.spv"
           test -s "$shader"
-          glslangValidator -V "$shader" -o "${shader}.spv"
-          test -s "${shader}.spv"
-          test "$(xxd -p -l 4 "${shader}.spv")" = '03022307'
+          test -s "$canonical"
+          test "$(xxd -p -l 4 "$canonical")" = '03022307'
+          glslangValidator -V "$shader" -o "$rebuilt"
+          test "$(xxd -p -l 4 "$rebuilt")" = '03022307'
+          cmp "$canonical" "$rebuilt"
+          rm -f "$rebuilt"
 
       - name: Build merged Forge artifact
         working-directory: upstream
@@ -148,6 +153,10 @@ jobs:
           grep -Fx 'assets/vulkanmod/compat/harimt_supported_gl_methods.properties' qa-out/JAR-CONTENTS.txt
           grep -Fx 'assets/async/shaders/collision_broadphase.comp.spv' qa-out/JAR-CONTENTS.txt
           unzip -p "$jarfile" assets/async/shaders/collision_broadphase.comp.spv | xxd -p -l 4 | grep -Fx '03022307'
+          grep -Fx 'harimt.refmap.json' qa-out/JAR-CONTENTS.txt
+          unzip -p "$jarfile" harimt.refmap.json > qa-out/HARIMT-REFMAP.json
+          test -s qa-out/HARIMT-REFMAP.json
+          grep -F '"reloadResources": "Lnet/minecraft/server/MinecraftServer;m_129861_' qa-out/HARIMT-REFMAP.json
           grep -Fx 'assets/vulkanmod/natives/windows/x64/windows/x64/org/lwjgl/shaderc/shaderc.dll' qa-out/JAR-CONTENTS.txt
           grep -Fx 'assets/vulkanmod/natives/windows/x64/windows/x64/org/lwjgl/vma/lwjgl_vma.dll' qa-out/JAR-CONTENTS.txt
           grep -Fx 'assets/vulkanmod/natives/linux/x64/linux/x64/org/lwjgl/shaderc/libshaderc.so' qa-out/JAR-CONTENTS.txt
@@ -305,6 +314,8 @@ jobs:
             echo 'gate_conflict=OPENGL_FALLBACK'
             echo 'gate_continuity=OPENGL_FALLBACK'
             echo 'gate_nested_indigo=OPENGL_FALLBACK'
+            echo 'collision_spirv=PASS'
+            echo 'production_refmap=PASS'
           } > qa-out/ACCEPTANCE.txt
           (cd qa-out && sha256sum * > SHA256SUMS.txt)
 

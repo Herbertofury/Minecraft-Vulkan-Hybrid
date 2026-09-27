@@ -90,7 +90,21 @@ if text.count(reobf_marker) != 1:
 # Force the established ordering: compile first, then contribute mappings, then
 # let reobfJar/reobfJarJar consume them. This repairs all generated hard refs at
 # the pipeline boundary instead of adding per-field aliases.
-reobf_order_block = '''// Ensure Mixin AP hard-reference mappings exist before reobf configuration.\nafterEvaluate {\n    tasks.configureReobfTaskForReobfJar.mustRunAfter(tasks.compileJava)\n    tasks.configureReobfTaskForReobfJarJar.mustRunAfter(tasks.compileJava)\n}\n\n'''
+reobf_order_block = '''// Ensure Mixin AP side outputs are first-class Gradle cache outputs.
+// Otherwise compileJava may be restored FROM-CACHE while the AP-generated
+// refmap + hard-reference mappings are absent from the workspace.
+afterEvaluate {
+    def hariCompileJava = tasks.named('compileJava')
+    hariCompileJava.configure {
+        inputs.property('harimtMixinSideOutputContract', 'v2')
+        outputs.file(layout.buildDirectory.file('tmp/compileJava/compileJava-refmap.json'))
+        outputs.file(layout.buildDirectory.file('tmp/compileJava/compileJava-mappings.tsrg'))
+    }
+    tasks.configureReobfTaskForReobfJar.mustRunAfter(hariCompileJava)
+    tasks.configureReobfTaskForReobfJarJar.mustRunAfter(hariCompileJava)
+}
+
+'''
 text = text.replace(reobf_marker, reobf_order_block + reobf_marker, 1)
 
 build.write_text(text, encoding="utf-8")

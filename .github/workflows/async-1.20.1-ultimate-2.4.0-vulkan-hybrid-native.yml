@@ -93,10 +93,15 @@ jobs:
           git -C upstream diff --check
           javac -d /tmp/hari24-gate-preflight upstream/forge/src/main/java/net/vulkanmod/compat/UniversalRendererGate.java
           shader=upstream/common/src/main/resources/assets/async/shaders/collision_broadphase.comp
+          canonical="${shader}.spv"
+          rebuilt="${shader}.ci-rebuilt.spv"
           test -s "$shader"
-          glslangValidator -V "$shader" -o "${shader}.spv"
-          test -s "${shader}.spv"
-          test "$(xxd -p -l 4 "${shader}.spv")" = '03022307'
+          test -s "$canonical"
+          test "$(xxd -p -l 4 "$canonical")" = '03022307'
+          glslangValidator -V "$shader" -o "$rebuilt"
+          test "$(xxd -p -l 4 "$rebuilt")" = '03022307'
+          cmp "$canonical" "$rebuilt"
+          rm -f "$rebuilt"
           (cd upstream && ./gradlew --no-daemon :forge:build --stacktrace)
           mkdir -p qa-out evidence/runtime/server evidence/runtime/client-vulkan evidence/runtime/client-opengl
           jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.4.0-noxviola.1-vulkan-hybrid-all.jar' | sort | head -n 1)"
@@ -105,6 +110,10 @@ jobs:
           cp "$jarfile" qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar
           jar tf "$jarfile" | grep -Fx 'assets/async/shaders/collision_broadphase.comp.spv'
           unzip -p "$jarfile" assets/async/shaders/collision_broadphase.comp.spv | xxd -p -l 4 | grep -Fx '03022307'
+          jar tf "$jarfile" | grep -Fx 'harimt.refmap.json'
+          unzip -p "$jarfile" harimt.refmap.json > qa-out/HARIMT-REFMAP.json
+          test -s qa-out/HARIMT-REFMAP.json
+          grep -F '"reloadResources": "Lnet/minecraft/server/MinecraftServer;m_129861_' qa-out/HARIMT-REFMAP.json
           sha256sum qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar | tee qa-out/JAR-SHA256.txt
 
       - name: Install real Forge 47.4.23 server fixture

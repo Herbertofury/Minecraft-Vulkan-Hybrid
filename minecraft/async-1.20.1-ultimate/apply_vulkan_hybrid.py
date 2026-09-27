@@ -262,8 +262,21 @@ configurations.jarJar {
 }
 
 // Stage bundled shaderc/VMA natives as normal resources so ForgeGradle runClient
-// and the shipped JAR exercise the exact same resource layout.
+// and the shipped JAR exercise the exact same resource layout. The production
+// server collision shader is pinned in the overlay; CI recompiles GLSL and
+// byte-compares it to prove source/binary parity.
+def harimtCollisionSpirv = rootProject.file('common/src/main/resources/assets/async/shaders/collision_broadphase.comp.spv')
 tasks.named('processResources').configure {
+    inputs.file(harimtCollisionSpirv)
+    doFirst {
+        if (!harimtCollisionSpirv.isFile() || harimtCollisionSpirv.length() < 4L) {
+            throw new GradleException('Missing production collision SPIR-V: ' + harimtCollisionSpirv)
+        }
+        def magic = harimtCollisionSpirv.bytes.take(4).collect { ((int) it) & 0xff }
+        if (magic != [0x03, 0x02, 0x23, 0x07]) {
+            throw new GradleException('Invalid collision SPIR-V magic: ' + magic)
+        }
+    }
     into('assets/vulkanmod/natives/windows/x64') {
         from { configurations.harimtVulkanNativesWindows.collect { zipTree(it) } }
         include 'windows/x64/org/lwjgl/**'
