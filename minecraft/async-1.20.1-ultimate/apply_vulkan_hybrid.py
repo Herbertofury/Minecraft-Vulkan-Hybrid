@@ -285,6 +285,54 @@ tasks.named('processResources').configure {
         include 'macos/arm64/org/lwjgl/**'
     }
 }
+
+// Forge's Jar-in-Jar module layer cannot resolve LWJGL 3.3.3's Java-9 module
+// descriptors against Minecraft's launcher-owned org.lwjgl core module. The
+// pinned Forge renderer solves this by stripping module-info from every nested
+// LWJGL jar while leaving the normal classes intact. Preserve that exact split:
+// Minecraft owns core LWJGL; Hari owns only Vulkan/shaderc/VMA as JIJ metadata.
+tasks.named('jarJar').configure {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    exclude 'module-info.class'
+    exclude 'META-INF/versions/*/module-info.class'
+    exclude 'META-INF/*.SF'
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+
+    doLast {
+        def jarFile = archiveFile.get().asFile
+        def tmpDir = new File(temporaryDir, 'harimt-lwjgl-repack')
+        tmpDir.deleteDir()
+        tmpDir.mkdirs()
+        ant.unzip(src: jarFile, dest: tmpDir)
+
+        def jarjarDir = new File(tmpDir, 'META-INF/jarjar')
+        if (jarjarDir.exists()) {
+            jarjarDir.listFiles().findAll {
+                it.name.endsWith('.jar') && it.name.startsWith('lwjgl-')
+            }.each { embeddedJar ->
+                def stripped = new File(temporaryDir, "stripped-\${embeddedJar.name}")
+                ant.zip(destfile: stripped) {
+                    zipfileset(src: embeddedJar) {
+                        exclude(name: 'module-info.class')
+                        exclude(name: 'META-INF/versions/*/module-info.class')
+                    }
+                }
+                if (!embeddedJar.delete()) {
+                    throw new GradleException("Could not replace nested LWJGL jar: \${embeddedJar}")
+                }
+                if (!stripped.renameTo(embeddedJar)) {
+                    throw new GradleException("Could not install stripped nested LWJGL jar: \${embeddedJar}")
+                }
+            }
+        }
+
+        if (!jarFile.delete()) {
+            throw new GradleException("Could not replace jarJar output: \${jarFile}")
+        }
+        ant.zip(destfile: jarFile, basedir: tmpDir)
+    }
+}
 """
 forge_build.write_text(build, encoding="utf-8")
 

@@ -86,8 +86,14 @@ jobs:
           grep -F 'config = "vulkanmod.mixins.json"' upstream/forge/src/main/resources/META-INF/mods.toml
           grep -F 'UniversalRendererGate.vulkanRendererEnabled()' upstream/forge/src/main/java/net/vulkanmod/mixin/MixinPlugin.java
           grep -F 'new net.vulkanmod.Initializer()' upstream/forge/src/main/java/com/axalotl/async/forge/AsyncForge.java
-          ! grep -F 'UpdateChecker.checkForUpdates()' upstream/forge/src/main/java/net/vulkanmod/Initializer.java
-          ! grep -R -F '@Mod("vulkanmod")' upstream/forge/src/main/java/net/vulkanmod
+          if grep -F 'UpdateChecker.checkForUpdates()' upstream/forge/src/main/java/net/vulkanmod/Initializer.java; then
+            echo '::error::Standalone Vulkan update check survived merge'
+            exit 1
+          fi
+          if grep -R -F '@Mod("vulkanmod")' upstream/forge/src/main/java/net/vulkanmod; then
+            echo '::error::Standalone Vulkan mod identity survived merge'
+            exit 1
+          fi
           test -s upstream/forge/src/main/resources/assets/vulkanmod/compat/harimt_supported_gl_methods.properties
           grep -E '^GL(11|15|20|30|45)C?=' upstream/forge/src/main/resources/assets/vulkanmod/compat/harimt_supported_gl_methods.properties
           echo '===== HARI_RENDER_STATE_BEGIN ====='
@@ -143,12 +149,35 @@ jobs:
           grep -E '^META-INF/jarjar/lwjgl-vulkan-[^/]+\.jar$' qa-out/JAR-CONTENTS.txt
           grep -E '^META-INF/jarjar/lwjgl-shaderc-[^/]+\.jar$' qa-out/JAR-CONTENTS.txt
           grep -E '^META-INF/jarjar/lwjgl-vma-[^/]+\.jar$' qa-out/JAR-CONTENTS.txt
-          ! grep -E '^META-INF/jarjar/lwjgl-[0-9][^/]*\.jar$' qa-out/JAR-CONTENTS.txt
-          ! grep -E '^META-INF/jarjar/lwjgl-(glfw|opengl|stb)-[^/]+\.jar$' qa-out/JAR-CONTENTS.txt
+          unzip -p "$jarfile" META-INF/jarjar/metadata.json > qa-out/JARJAR-METADATA.json
+          grep -F '"artifact": "lwjgl-vulkan"' qa-out/JARJAR-METADATA.json
+          grep -F '"artifact": "lwjgl-shaderc"' qa-out/JARJAR-METADATA.json
+          grep -F '"artifact": "lwjgl-vma"' qa-out/JARJAR-METADATA.json
+          if grep -F '"artifact": "lwjgl"' qa-out/JARJAR-METADATA.json; then
+            echo '::error::Core LWJGL must remain launcher-owned, not Jar-in-Jar metadata'
+            exit 1
+          fi
+          if grep -E '"artifact": "lwjgl-(glfw|opengl|stb)"' qa-out/JARJAR-METADATA.json; then
+            echo '::error::Minecraft launcher-owned LWJGL modules leaked into Jar-in-Jar metadata'
+            exit 1
+          fi
+          nested_dir="$(mktemp -d)"
+          while IFS= read -r nested; do
+            nested_file="$nested_dir/$(basename "$nested")"
+            unzip -p "$jarfile" "$nested" > "$nested_file"
+            if jar tf "$nested_file" | grep -Eq '(^|/)module-info\.class$'; then
+              echo "::error::Nested LWJGL module descriptor survived strip: $nested"
+              exit 1
+            fi
+          done < <(grep -E '^META-INF/jarjar/lwjgl[^/]*\.jar$' qa-out/JAR-CONTENTS.txt)
+          rm -rf "$nested_dir"
           grep -Fx 'com/axalotl/async/forge/client/hari263/render/PersistentRegionSceneCache.class' qa-out/JAR-CONTENTS.txt
           unzip -p "$jarfile" META-INF/mods.toml > qa-out/MODS-TOML.txt
           grep -F 'modId = "harimt"' qa-out/MODS-TOML.txt
-          ! grep -F 'modId="vulkanmod"' qa-out/MODS-TOML.txt
+          if grep -F 'modId="vulkanmod"' qa-out/MODS-TOML.txt; then
+            echo '::error::Packaged mods.toml still exposes vulkanmod as a second mod'
+            exit 1
+          fi
           unzip -p "$jarfile" META-INF/harimt-vulkan/SOURCE.txt > qa-out/VULKAN-SOURCE.txt
 
       - name: Compile renderer decision probe
@@ -175,8 +204,8 @@ jobs:
           mkdir -p qa-probe/clean/mods qa-probe/clean/config
           (
             cd qa-probe/clean
-            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
-          ) | tee ../../qa-out/GATE-CLEAN.txt
+            java -cp "../classes:../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee qa-out/GATE-CLEAN.txt
           grep -F 'enabled=true' qa-out/GATE-CLEAN.txt
 
       - name: Prove renderer conflict selects OpenGL fallback
@@ -197,8 +226,8 @@ jobs:
           rm -rf qa-probe/conflict/mods/fake
           (
             cd qa-probe/conflict
-            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
-          ) | tee ../../qa-out/GATE-CONFLICT.txt
+            java -cp "../classes:../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee qa-out/GATE-CONFLICT.txt
           grep -F 'enabled=false' qa-out/GATE-CONFLICT.txt
           grep -F 'embeddium' qa-out/GATE-CONFLICT.txt
 
@@ -219,8 +248,8 @@ jobs:
           rm -rf qa-probe/continuity/mods/fake
           (
             cd qa-probe/continuity
-            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
-          ) | tee ../../qa-out/GATE-CONTINUITY.txt
+            java -cp "../classes:../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee qa-out/GATE-CONTINUITY.txt
           grep -F 'enabled=false' qa-out/GATE-CONTINUITY.txt
           grep -F 'continuity' qa-out/GATE-CONTINUITY.txt
 
@@ -244,8 +273,8 @@ jobs:
           rm -rf qa-probe/indigo/mods/outer qa-probe/indigo/mods/inner
           (
             cd qa-probe/indigo
-            java -cp "../../classes:../../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
-          ) | tee ../../qa-out/GATE-INDIGO.txt
+            java -cp "../classes:../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar" GateProbe
+          ) | tee qa-out/GATE-INDIGO.txt
           grep -F 'enabled=false' qa-out/GATE-INDIGO.txt
           grep -F 'fabric-renderer-indigo' qa-out/GATE-INDIGO.txt
 

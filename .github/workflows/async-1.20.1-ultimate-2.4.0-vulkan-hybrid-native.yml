@@ -128,9 +128,18 @@ jobs:
         run: |
           set -euo pipefail
           python3 minecraft/async-1.20.1-ultimate/runtime_server_qa.py qa-server evidence/runtime/server
-          ! grep -R -F 'Hari 2.4 selected merged Vulkan renderer:' evidence/runtime/server/*.log
-          ! grep -R -F '[Hari/Vulkan] renderer=' evidence/runtime/server/*.log
-          ! grep -R -E 'MixinApplyError|InvalidMixinException|InjectionError|NoClassDefFoundError' evidence/runtime/server/*.log
+          if grep -R -F 'Hari 2.4 selected merged Vulkan renderer:' evidence/runtime/server/*.log; then
+            echo '::error::Dedicated server initialized the client Vulkan renderer'
+            exit 1
+          fi
+          if grep -R -F '[Hari/Vulkan] renderer=' evidence/runtime/server/*.log; then
+            echo '::error::Dedicated server evaluated the client renderer gate'
+            exit 1
+          fi
+          if grep -R -E 'MixinApplyError|InvalidMixinException|InjectionError|NoClassDefFoundError' evidence/runtime/server/*.log; then
+            echo '::error::Dedicated server log contains a classloading/mixin failure'
+            exit 1
+          fi
           grep -F 'Live GPU Verification PASS' evidence/runtime/server/packaged-server-gpu-and-fallback.log
           grep -F 'HMT_QA_RESTART_ENTITIES_PRESENT' evidence/runtime/server/packaged-server-restart.log
 
@@ -145,7 +154,10 @@ jobs:
           grep -F '[Hari/Vulkan] renderer=VULKAN' "$log"
           grep -F 'Hari 2.4 selected merged Vulkan renderer:' "$log"
           grep -F 'Selected Vulkan device:' "$log"
-          ! grep -F 'renderer=OPENGL_FALLBACK' "$log"
+          if grep -F 'renderer=OPENGL_FALLBACK' "$log"; then
+            echo '::error::Clean Vulkan lane unexpectedly fell back to OpenGL'
+            exit 1
+          fi
           test -s evidence/runtime/client-vulkan/forge-client-vulkan.png
           grep -F 'ready=true' evidence/runtime/client-vulkan/forge-client-render-readiness.txt
 
@@ -186,7 +198,10 @@ jobs:
           grep -F '[Hari/Vulkan] renderer=OPENGL_FALLBACK' "$log"
           grep -F 'embeddium' "$log"
           grep -F 'Hari 2.4 selected OpenGL compatibility renderer:' "$log"
-          ! grep -F 'renderer=VULKAN' "$log"
+          if grep -F 'renderer=VULKAN' "$log"; then
+            echo '::error::Embeddium fallback lane unexpectedly enabled Vulkan'
+            exit 1
+          fi
           test -s evidence/runtime/client-opengl/forge-client-opengl.png
           grep -F 'ready=true' evidence/runtime/client-opengl/forge-client-render-readiness.txt
 
