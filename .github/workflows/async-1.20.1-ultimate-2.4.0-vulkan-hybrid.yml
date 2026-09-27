@@ -98,6 +98,10 @@ jobs:
           echo '===== HARI_TERRAIN_RENDERER_BEGIN ====='
           sed -n '1,420p' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/render/HariTerrainRenderer.java
           echo '===== HARI_TERRAIN_RENDERER_END ====='
+          rm -rf qa-preflight
+          mkdir -p qa-preflight
+          javac -d qa-preflight upstream/forge/src/main/java/net/vulkanmod/compat/UniversalRendererGate.java
+          test -f qa-preflight/net/vulkanmod/compat/UniversalRendererGate.class
 
       - name: Build merged Forge artifact
         working-directory: upstream
