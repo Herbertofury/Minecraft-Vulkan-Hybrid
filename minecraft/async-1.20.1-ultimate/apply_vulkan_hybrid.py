@@ -205,6 +205,9 @@ repositories {
 }
 
 dependencies {
+    // Android/FCL EGL handoff uses JNA; desktop paths do not load it.
+    compileOnly "net.java.dev.jna:jna:5.13.0"
+
     implementation "org.lwjgl:lwjgl-shaderc:" + harimtLwjglVersion
     implementation "org.lwjgl:lwjgl-vma:" + harimtLwjglVersion
     implementation(jarJar("org.lwjgl:lwjgl-shaderc:[3.3.1,3.3.2)"))
