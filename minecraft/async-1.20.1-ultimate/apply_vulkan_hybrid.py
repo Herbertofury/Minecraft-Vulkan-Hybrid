@@ -190,7 +190,7 @@ if marker not in build:
     build += r"""
 
 // Hari 2.4 merged Vulkan renderer
-def harimtLwjglVersion = '3.3.1'
+def harimtLwjglVersion = '3.3.3'
 
 configurations {
     harimtVulkanNativesWindows { canBeResolved = true; canBeConsumed = false; transitive = false }
@@ -208,10 +208,14 @@ dependencies {
     // Android/FCL EGL handoff uses JNA; desktop paths do not load it.
     compileOnly "net.java.dev.jna:jna:5.13.0"
 
+    // Keep the three Vulkan-side LWJGL modules on the exact version proven by the
+    // Forge 1.20.1 renderer port. Do not replace Minecraft's core/GLFW/OpenGL modules.
+    implementation "org.lwjgl:lwjgl-vulkan:" + harimtLwjglVersion
     implementation "org.lwjgl:lwjgl-shaderc:" + harimtLwjglVersion
     implementation "org.lwjgl:lwjgl-vma:" + harimtLwjglVersion
-    implementation(jarJar("org.lwjgl:lwjgl-shaderc:[3.3.1,3.3.2)"))
-    implementation(jarJar("org.lwjgl:lwjgl-vma:[3.3.1,3.3.2)"))
+    implementation(jarJar("org.lwjgl:lwjgl-vulkan:[3.3.3,3.3.4)"))
+    implementation(jarJar("org.lwjgl:lwjgl-shaderc:[3.3.3,3.3.4)"))
+    implementation(jarJar("org.lwjgl:lwjgl-vma:[3.3.3,3.3.4)"))
 
     compileOnly fg.deobf("dev.su5ed.sinytra.fabric-api:fabric-renderer-api-v1:3.2.1+1d29b44577")
     compileOnly fg.deobf("dev.su5ed.sinytra.fabric-api:fabric-api-base:0.4.31+ef105b4977")
