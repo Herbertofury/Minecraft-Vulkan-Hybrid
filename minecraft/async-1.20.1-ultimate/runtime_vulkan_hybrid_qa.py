@@ -242,6 +242,8 @@ def main() -> int:
         if args.expect == "vulkan":
             wait_for("[Hari/Vulkan] renderer=VULKAN", 300)
             wait_for("Hari 2.4 selected merged Vulkan renderer:", 300)
+            wait_for("VulkanMod: WindowMixin initialization finished.", 300)
+            wait_for("VulkanMod: RenderSystemMixin.initRenderer called.", 300)
             wait_for("Selected Vulkan device:", 300)
         else:
             wait_for("[Hari/Vulkan] renderer=OPENGL_FALLBACK", 300)
@@ -250,6 +252,9 @@ def main() -> int:
         for marker in args.extra_marker:
             wait_for(marker, 300)
         wait_for(" joined the game", 300)
+        if args.expect == "vulkan":
+            wait_for("Compile-checked Vulkan collision backend initialized on", 300)
+            wait_for("Vulkan push broad-phase sustained: 10 consecutive verified batches completed", 300)
 
         windows = subprocess.run(
             ["xdotool", "search", "--onlyvisible", "--name", "Minecraft"],
@@ -323,10 +328,17 @@ def main() -> int:
         if " joined the game" not in joined:
             raise RuntimeError("integrated player join proof missing")
         if args.expect == "vulkan":
-            if "[Hari/Vulkan] renderer=VULKAN" not in joined:
-                raise RuntimeError("Vulkan renderer-selection proof missing")
-            if "Selected Vulkan device:" not in joined:
-                raise RuntimeError("Vulkan device-selection proof missing")
+            required_vulkan = (
+                "[Hari/Vulkan] renderer=VULKAN",
+                "VulkanMod: WindowMixin initialization finished.",
+                "VulkanMod: RenderSystemMixin.initRenderer called.",
+                "Selected Vulkan device:",
+                "Compile-checked Vulkan collision backend initialized on",
+                "Vulkan push broad-phase sustained: 10 consecutive verified batches completed",
+            )
+            missing_vulkan = [marker for marker in required_vulkan if marker not in joined]
+            if missing_vulkan:
+                raise RuntimeError(f"Vulkan runtime proof missing: {missing_vulkan}")
             if "renderer=OPENGL_FALLBACK" in joined:
                 raise RuntimeError("Vulkan lane fell back to OpenGL")
         else:
@@ -334,6 +346,14 @@ def main() -> int:
                 raise RuntimeError("OpenGL fallback proof missing")
             if "renderer=VULKAN" in joined:
                 raise RuntimeError("OpenGL lane unexpectedly enabled Vulkan")
+            forbidden_vulkan = (
+                "VulkanMod: WindowMixin initialization finished.",
+                "VulkanMod: RenderSystemMixin.initRenderer called.",
+                "Selected Vulkan device:",
+            )
+            leaked = [marker for marker in forbidden_vulkan if marker in joined]
+            if leaked:
+                raise RuntimeError(f"OpenGL fallback applied Vulkan runtime hooks: {leaked}")
 
         print(f"[HARI24-QA] real Forge client {args.expect} rendered-world gate PASSED", flush=True)
         return 0

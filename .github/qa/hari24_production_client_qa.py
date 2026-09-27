@@ -198,8 +198,12 @@ def main() -> int:
         wait_for("--launchTarget, forgeclient")
         wait_for("[Hari/Vulkan] renderer=VULKAN")
         wait_for("Hari 2.4 selected merged Vulkan renderer:")
+        wait_for("VulkanMod: WindowMixin initialization finished.")
+        wait_for("VulkanMod: RenderSystemMixin.initRenderer called.")
         wait_for("Selected Vulkan device:")
         wait_for(" joined the game")
+        wait_for("Compile-checked Vulkan collision backend initialized on")
+        wait_for("Vulkan push broad-phase sustained: 10 consecutive verified batches completed")
 
         windows = subprocess.run(
             ["xdotool", "search", "--onlyvisible", "--name", "Minecraft"],
@@ -258,8 +262,12 @@ def main() -> int:
             "--launchTarget, forgeclient",
             "[Hari/Vulkan] renderer=VULKAN",
             "Hari 2.4 selected merged Vulkan renderer:",
+            "VulkanMod: WindowMixin initialization finished.",
+            "VulkanMod: RenderSystemMixin.initRenderer called.",
             "Selected Vulkan device:",
             " joined the game",
+            "Compile-checked Vulkan collision backend initialized on",
+            "Vulkan push broad-phase sustained: 10 consecutive verified batches completed",
         )
         for marker in required:
             if marker not in joined:
