@@ -248,6 +248,19 @@ tasks.named('jar', Jar).configure {
 """
 forge_build.write_text(build, encoding="utf-8")
 
+# Build reliability: upstream declares Bawnorton's Maven as a broad repository even though the
+# only dependencies that use it are commented out. A 530 from that mirror otherwise aborts
+# resolution of Forge artifacts such as bootstraplauncher before Gradle reaches Forge/Maven Central.
+# Remove only the unused broad repository; no dependency or feature is removed.
+common_gradle = root / "buildSrc/src/main/groovy/multiloader-common.gradle"
+if common_gradle.is_file():
+    cg = common_gradle.read_text(encoding="utf-8")
+    cg = cg.replace("    maven { url = 'https://maven.bawnorton.com/releases' }\n", "")
+    common_gradle.write_text(cg, encoding="utf-8")
+fb = forge_build.read_text(encoding="utf-8")
+fb = fb.replace("    maven { name = 'Bawnorton'; url = 'https://maven.bawnorton.com/releases' }\n", "")
+forge_build.write_text(fb, encoding="utf-8")
+
 props = props.replace("version=2.3.0-noxviola.1", "version=2.4.0-noxviola.1-vulkan-hybrid", 1)
 (root / "gradle.properties").write_text(props, encoding="utf-8")
 
