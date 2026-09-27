@@ -130,6 +130,22 @@ if pipeline_text.count('"terrain_Z"') != 1:
 pipeline_text = pipeline_text.replace('"terrain_Z"', '"terrain_z"', 1)
 pipeline_manager.write_text(pipeline_text, encoding="utf-8")
 
+# Vulkan sources compile inside Hari's Forge source set, so the existing
+# harimt.refmap.json annotation-processor output already contains the merged
+# net.vulkanmod mappings. Point Vulkan's config at that shared generated refmap
+# instead of the standalone fork's vulkanmod.refmap.json (which does not exist
+# in the merged artifact).
+vulkan_mixins = forge_res / "vulkanmod.mixins.json"
+vulkan_mixins_text = vulkan_mixins.read_text(encoding="utf-8")
+if '"refmap": "vulkanmod.refmap.json"' not in vulkan_mixins_text:
+    raise SystemExit("source drift: expected standalone Vulkan refmap declaration")
+vulkan_mixins_text = vulkan_mixins_text.replace(
+    '"refmap": "vulkanmod.refmap.json"',
+    '"refmap": "harimt.refmap.json"',
+    1,
+)
+vulkan_mixins.write_text(vulkan_mixins_text, encoding="utf-8")
+
 prov = forge_res / "META-INF/harimt-vulkan"
 prov.mkdir(parents=True, exist_ok=True)
 for name in ("LICENSE", "COPYING", "NOTICE", "README.md"):
@@ -464,6 +480,8 @@ assert 'UniversalRendererGate.vulkanRendererEnabled()' in plugin.read_text(encod
 assert 'new net.vulkanmod.Initializer()' in async_forge.read_text(encoding="utf-8")
 assert 'FMLEnvironment.dist == net.minecraftforge.api.distmarker.Dist.CLIENT' in async_forge.read_text(encoding="utf-8")
 assert 'config = "vulkanmod.mixins.json"' in mods_toml.read_text(encoding="utf-8")
+assert '"refmap": "harimt.refmap.json"' in vulkan_mixins.read_text(encoding="utf-8")
+assert '"refmap": "vulkanmod.refmap.json"' not in vulkan_mixins.read_text(encoding="utf-8")
 final_build_text = forge_build.read_text(encoding="utf-8")
 assert "harimt.gpu.mixins.json,vulkanmod.mixins.json" in final_build_text
 assert "Merged Vulkan renderer missing from JAR MixinConfigs manifest" in final_build_text
