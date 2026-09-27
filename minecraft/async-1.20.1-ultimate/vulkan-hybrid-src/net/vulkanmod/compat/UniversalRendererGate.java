@@ -35,7 +35,7 @@ import java.util.zip.ZipInputStream;
 public final class UniversalRendererGate {
     public static final String MODE_PROPERTY = "harimt.vulkan.mode"; // auto | force | off
     public static final String CACHE_PROPERTY = "harimt.vulkan.compatCache"; // default true
-    private static final String CACHE_SCHEMA = "2.4.0-vulkan-gate-v4";
+    private static final String CACHE_SCHEMA = "2.4.0-vulkan-gate-v5";
 
     private static final Pattern MOD_ID = Pattern.compile("(?m)^\\s*modId\\s*=\\s*[\\\"']([^\\\"']+)[\\\"']");
     private static final Pattern FABRIC_ID = Pattern.compile("\\"id\\"\\s*:\\s*\\\"([^\\\"]+)\\\"");
@@ -80,8 +80,18 @@ public final class UniversalRendererGate {
         Map<String, Set<String>> contracts = loadContracts();
         if (contracts.isEmpty()) return new Decision(false, "OpenGL translation contract missing");
 
+        Set<String> forgeLoadedIds = forgeLoadedModIds();
+        boolean indigoOnClasspath = indigoRendererResourcePresent();
+        TreeSet<String> earlyConflicts = rendererConflicts(forgeLoadedIds);
+        if (indigoOnClasspath) earlyConflicts.add("fabric-renderer-indigo");
+
         Path mods = Path.of(System.getProperty("user.dir", ".")).toAbsolutePath().normalize().resolve("mods");
-        if (!Files.isDirectory(mods)) return new Decision(true, "no external mods directory");
+        if (!Files.isDirectory(mods)) {
+            if (!earlyConflicts.isEmpty()) {
+                return new Decision(false, "mutually-exclusive renderer(s): " + String.join(",", earlyConflicts));
+            }
+            return new Decision(true, "no external mods directory and no loaded renderer conflicts");
+        }
 
         List<Path> jars;
         try (var stream = Files.list(mods)) {
@@ -92,14 +102,14 @@ public final class UniversalRendererGate {
             return new Decision(false, "cannot inspect mods directory: " + e.getClass().getSimpleName());
         }
 
-        String signature = signature(jars);
+        String signature = signature(jars, forgeLoadedIds, indigoOnClasspath);
         boolean useCache = Boolean.parseBoolean(System.getProperty(CACHE_PROPERTY, "true"));
         if (useCache) {
             Decision cached = readCache(signature);
             if (cached != null) return cached;
         }
 
-        TreeSet<String> conflicts = new TreeSet<>();
+        TreeSet<String> conflicts = new TreeSet<>(earlyConflicts);
         TreeSet<String> unsupported = new TreeSet<>();
         TreeSet<String> unreadable = new TreeSet<>();
 
@@ -176,6 +186,47 @@ public final class UniversalRendererGate {
             result.put(owner, Collections.unmodifiableSet(methods));
         }
         return Collections.unmodifiableMap(result);
+    }
+
+    private static TreeSet<String> rendererConflicts(Set<String> ids) {
+        TreeSet<String> conflicts = new TreeSet<>();
+        for (String id : ids) {
+            if (RENDERER_CONFLICTS.contains(id)) conflicts.add(id);
+        }
+        return conflicts;
+    }
+
+    /**
+     * Forge exposes the loading list during Mixin config evaluation (Indigo itself relies
+     * on the same phase). Reflection keeps the standalone GateProbe independent of Forge.
+     */
+    private static Set<String> forgeLoadedModIds() {
+        TreeSet<String> ids = new TreeSet<>();
+        try {
+            Class<?> loadingModList = Class.forName("net.minecraftforge.fml.loading.LoadingModList");
+            Object list = loadingModList.getMethod("get").invoke(null);
+            Object mods = loadingModList.getMethod("getMods").invoke(list);
+            if (mods instanceof Iterable<?> iterable) {
+                for (Object info : iterable) {
+                    try {
+                        Object id = info.getClass().getMethod("getModId").invoke(info);
+                        if (id != null) ids.add(String.valueOf(id).toLowerCase(Locale.ROOT));
+                    } catch (ReflectiveOperationException ignored) {
+                        // Fail closed is handled by physical mod scanning; one malformed
+                        // metadata record should not discard other discoverable IDs.
+                    }
+                }
+            }
+        } catch (Throwable ignored) {
+            // Expected in the standalone compile gate. Real Forge runs provide this class.
+        }
+        return ids;
+    }
+
+    private static boolean indigoRendererResourcePresent() {
+        ClassLoader loader = UniversalRendererGate.class.getClassLoader();
+        return loader != null && loader.getResource(
+                "net/fabricmc/fabric/impl/client/indigo/IndigoMixinConfigPlugin.class") != null;
     }
 
     private static Set<String> readModIds(ZipFile zip) throws IOException {
@@ -332,8 +383,11 @@ public final class UniversalRendererGate {
         return refs;
     }
 
-    private static String signature(List<Path> jars) {
+    private static String signature(List<Path> jars, Set<String> forgeLoadedIds, boolean indigoOnClasspath) {
         StringBuilder builder = new StringBuilder(CACHE_SCHEMA).append(';');
+        builder.append("forgeIds=");
+        for (String id : new TreeSet<>(forgeLoadedIds)) builder.append(id).append(',');
+        builder.append(";indigoClasspath=").append(indigoOnClasspath).append(';');
         for (Path path : jars) {
             try {
                 builder.append(path.getFileName()).append(':').append(Files.size(path)).append(':')
