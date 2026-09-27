@@ -132,6 +132,11 @@ def main() -> int:
         }
     )
     java_opts = [env.get("JAVA_TOOL_OPTIONS", "").strip(), "-Dharimt.vulkan.compatCache=false"]
+    if args.expect == "vulkan":
+        # CI uses Mesa llvmpipe/lavapipe. Allow Hari's collision backend to use
+        # that CPU Vulkan device so the same integrated-client JVM proves both
+        # the renderer and collision pipeline without changing user defaults.
+        java_opts.append("-Dharimt.vulkan.allowCpuDevice=true")
     env["JAVA_TOOL_OPTIONS"] = " ".join(x for x in java_opts if x)
 
     if args.expect == "vulkan":
