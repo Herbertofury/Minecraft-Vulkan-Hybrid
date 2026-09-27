@@ -311,7 +311,7 @@ tasks.named('jarJar').configure {
             jarjarDir.listFiles().findAll {
                 it.name.endsWith('.jar') && it.name.startsWith('lwjgl-')
             }.each { embeddedJar ->
-                def stripped = new File(temporaryDir, "stripped-\${embeddedJar.name}")
+                def stripped = new File(temporaryDir, "stripped-${embeddedJar.name}")
                 ant.zip(destfile: stripped) {
                     zipfileset(src: embeddedJar) {
                         exclude(name: 'module-info.class')
@@ -319,16 +319,16 @@ tasks.named('jarJar').configure {
                     }
                 }
                 if (!embeddedJar.delete()) {
-                    throw new GradleException("Could not replace nested LWJGL jar: \${embeddedJar}")
+                    throw new GradleException("Could not replace nested LWJGL jar: ${embeddedJar}")
                 }
                 if (!stripped.renameTo(embeddedJar)) {
-                    throw new GradleException("Could not install stripped nested LWJGL jar: \${embeddedJar}")
+                    throw new GradleException("Could not install stripped nested LWJGL jar: ${embeddedJar}")
                 }
             }
         }
 
         if (!jarFile.delete()) {
-            throw new GradleException("Could not replace jarJar output: \${jarFile}")
+            throw new GradleException("Could not replace jarJar output: ${jarFile}")
         }
         ant.zip(destfile: jarFile, basedir: tmpDir)
     }
