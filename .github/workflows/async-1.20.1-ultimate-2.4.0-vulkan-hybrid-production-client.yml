@@ -18,7 +18,9 @@ concurrency:
 
 jobs:
   packaged-production-client:
-    runs-on: ubuntu-22.04
+    # PortableMC 5.0.5's pinned GNU binary requires glibc 2.38/2.39.
+    # Ubuntu 24.04 provides glibc 2.39; 22.04 cannot execute the verified binary.
+    runs-on: ubuntu-24.04
     timeout-minutes: 90
     steps:
       - name: Checkout ProjectDump integration
