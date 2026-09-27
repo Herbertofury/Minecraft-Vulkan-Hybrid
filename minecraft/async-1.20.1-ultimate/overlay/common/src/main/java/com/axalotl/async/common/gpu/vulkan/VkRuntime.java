@@ -18,10 +18,13 @@ import java.util.Locale;
  * Creates the isolated compile-checked Vulkan backend without putting LWJGL
  * Vulkan on Forge/ModLauncher's module layer.
  *
- * URLClassLoader is parent-first. On a Minecraft client the backend therefore
- * reuses the launcher's already-loaded LWJGL core/native classes while loading
- * only the missing Vulkan binding/backend from the child. On a dedicated server
- * the embedded core/native JARs supply the complete LWJGL runtime.
+ * The isolated loader is parent-first for Minecraft/Hari/LWJGL core, but
+ * child-first for org.lwjgl.vulkan.*. This is deliberate: the merged client
+ * renderer exposes a newer lwjgl-vulkan Jar-in-Jar to Forge's parent loader,
+ * while the collision backend is compiled against the isolated 3.3.1 Vulkan
+ * binding. Keeping only Vulkan child-first prevents cross-version binding
+ * capture while still reusing Minecraft's launcher-owned LWJGL core on clients.
+ * Dedicated servers fall back to the embedded 3.3.1 core/native JARs.
  */
 public final class VkRuntime {
     private static final Logger LOGGER = LoggerFactory.getLogger("HariMT/VkRuntime");
@@ -29,6 +32,7 @@ public final class VkRuntime {
     private static final String RESOURCE_ROOT = "META-INF/harimt-libs/";
     private static final String BACKEND_JAR = "harimt-vulkan-backend-" + VERSION + ".jar";
     private static final String BACKEND_CLASS = "com.axalotl.async.vulkanruntime.LwjglVulkanBackend";
+    private static final String VULKAN_CHILD_PREFIX = "org.lwjgl.vulkan.";
 
     private static volatile URLClassLoader isolatedLoader;
     private static volatile Path extractionDir;
@@ -90,11 +94,38 @@ public final class VkRuntime {
             throw failure;
         }
 
-        isolatedLoader = new URLClassLoader(urls.toArray(URL[]::new), parent);
+        isolatedLoader = new BackendClassLoader(urls.toArray(URL[]::new), parent);
         extractionDir = dir;
-        LOGGER.info("Isolated compile-checked LWJGL {} Vulkan backend activated for {} ({})",
+        LOGGER.info("Isolated compile-checked LWJGL {} Vulkan backend activated for {} ({})"
+                        + " [child-first Vulkan, parent-first core]",
                 VERSION, nativeClassifier, System.getProperty("os.arch"));
         return isolatedLoader;
+    }
+
+    private static final class BackendClassLoader extends URLClassLoader {
+        BackendClassLoader(URL[] urls, ClassLoader parent) {
+            super(urls, parent);
+        }
+
+        @Override
+        protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
+            synchronized (getClassLoadingLock(name)) {
+                Class<?> loaded = findLoadedClass(name);
+                if (loaded == null && name.startsWith(VULKAN_CHILD_PREFIX)) {
+                    try {
+                        loaded = findClass(name);
+                    } catch (ClassNotFoundException ignored) {
+                        // Fall through to normal parent-first resolution if the
+                        // isolated runtime does not contain this Vulkan class.
+                    }
+                }
+                if (loaded == null) {
+                    loaded = super.loadClass(name, false);
+                }
+                if (resolve) resolveClass(loaded);
+                return loaded;
+            }
+        }
     }
 
     private static List<Path> safeList(Path dir) {
