@@ -1,0 +1,236 @@
+name: Hari 1.20.1 Ultimate 2.4 Packaged Production Client QA
+
+"on":
+  push:
+    branches: [async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926]
+    paths:
+      - '.github/qa/hari24_production_client_qa.py'
+      - '.github/qa/seed_forge_world.py'
+      - '.github/workflows/async-1.20.1-ultimate-2.4.0-vulkan-hybrid-production-client.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hari-2.4-production-client-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  packaged-production-client:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - name: Checkout ProjectDump integration
+        uses: actions/checkout@v4
+
+      - name: Checkout canonical HariMultiThread
+        uses: actions/checkout@v4
+        with:
+          repository: JustHari01/HariMultiThread
+          ref: f381611c2d71a85192e2028f9e30c03823a6482b
+          path: upstream
+          fetch-depth: 1
+
+      - name: Checkout pinned Forge Vulkan renderer
+        uses: actions/checkout@v4
+        with:
+          repository: kzktor/Forgified-VulkanMod
+          ref: 0ceac5d47f84c910d2f5f6d007b0ffe266c6f736
+          path: vulkan-forge
+          fetch-depth: 1
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Install production QA tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            curl tar zip unzip glslang-tools mesa-vulkan-drivers vulkan-tools \
+            xvfb openbox xdotool x11-utils imagemagick libgl1-mesa-dri
+          chmod +x upstream/gradlew
+          chmod +x .github/qa/hari24_production_client_qa.py .github/qa/seed_forge_world.py
+
+      - name: Reconstruct and build exact packaged Hari 2.4 candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/apply_overlay.py upstream minecraft/async-1.20.1-ultimate/overlay
+          python3 minecraft/async-1.20.1-ultimate/apply_hardening.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_lifecycle.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_platform.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_interop.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_lwjgl_runtime.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_backend_architecture.py upstream minecraft/async-1.20.1-ultimate/backend-overlay
+          python3 minecraft/async-1.20.1-ultimate/apply_spawn_interop.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_world_batch.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_spatial_gpu.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_backports.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_worldgen_cache.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_region_read.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_provider_precedence.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_diagnostics.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_region_diagnostics.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_release_identity.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mixin_packaging.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_gpu_terrain.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_persistent_gpu_scene.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_persistent_mixin_namespace_fix.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_vulkan_hybrid.py upstream vulkan-forge
+          git -C upstream diff --check
+          (cd upstream && ./gradlew --no-daemon :forge:build --stacktrace)
+
+          mkdir -p production-qa
+          jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.4.0-noxviola.1-vulkan-hybrid-all.jar' | sort | head -n 1)"
+          test -s "$jarfile"
+          unzip -t "$jarfile" | grep -F 'No errors detected'
+          cp "$jarfile" production-qa/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar
+          sha256sum production-qa/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar | tee production-qa/JAR-SHA256.txt
+
+      - name: Generate deterministic Forge world fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 \
+            'https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.23/forge-1.20.1-47.4.23-installer.jar' \
+            -o forge-installer.jar
+          rm -rf production-seed-server
+          mkdir production-seed-server
+          (cd production-seed-server && java -jar ../forge-installer.jar --installServer > ../production-qa/forge-server-install.log 2>&1)
+          chmod +x production-seed-server/run.sh
+          printf 'eula=true\n' > production-seed-server/eula.txt
+          cat > production-seed-server/server.properties <<'EOF'
+          online-mode=false
+          level-name=world
+          level-seed=8675309
+          spawn-protection=0
+          view-distance=4
+          simulation-distance=4
+          motd=Hari 2.4 Production Client World Seed
+          EOF
+          python3 .github/qa/seed_forge_world.py production-seed-server production-qa/seed-server.log
+          test -s production-seed-server/world/level.dat
+
+      - name: Install pinned PortableMC production launcher
+        shell: bash
+        run: |
+          set -euo pipefail
+          url='https://github.com/theorzr/portablemc/releases/download/v5.0.5/portablemc-5.0.5-linux-x86_64-gnu.tar.gz'
+          curl -fL --retry 3 "$url" -o portablemc.tar.gz
+          echo '272611ab554237993cd2720dcc7219516f5e9d6382986df2c6d7177793b145dc  portablemc.tar.gz' | sha256sum -c -
+          rm -rf portablemc-bin
+          mkdir portablemc-bin
+          tar -xzf portablemc.tar.gz -C portablemc-bin
+          pmc="$(find portablemc-bin -type f -name portablemc -perm -u+x | head -n 1)"
+          test -n "$pmc"
+          "$pmc" --version | tee production-qa/portablemc-version.txt
+          echo "$pmc" > production-qa/portablemc-path.txt
+
+      - name: Install exact Forge production profile
+        shell: bash
+        run: |
+          set -euo pipefail
+          pmc="$(cat production-qa/portablemc-path.txt)"
+          rm -rf pmc-main pmc-game
+          mkdir -p pmc-main pmc-game
+          "$pmc" --main-dir "$PWD/pmc-main" -vv start forge::1.20.1-47.4.23 \
+            --mc-dir "$PWD/pmc-game" --jvm "$JAVA_HOME/bin/java" \
+            -u HariProdQA --resolution 1280x720 --dry \
+            | tee production-qa/portablemc-install.log
+
+          grep -R -F '"forgeclient"' pmc-main/versions pmc-game 2>/dev/null | tee production-qa/forgeclient-profile-proof.txt
+          if grep -R -F 'forgeclientuserdev' pmc-main/versions pmc-game 2>/dev/null; then
+            echo '::error::Production launcher installation contains forgeclientuserdev'
+            exit 1
+          fi
+
+          mkdir -p pmc-game/mods pmc-game/saves/HMT-2.4-QA
+          cp production-qa/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar pmc-game/mods/HariMultiThread-Ultimate.jar
+          cp -a production-seed-server/world/. pmc-game/saves/HMT-2.4-QA/
+          sha256sum pmc-game/mods/HariMultiThread-Ultimate.jar | tee production-qa/INSTALLED-JAR-SHA256.txt
+          diff -u production-qa/JAR-SHA256.txt <(sed 's#pmc-game/mods/HariMultiThread-Ultimate.jar#production-qa/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar#' production-qa/INSTALLED-JAR-SHA256.txt)
+
+      - name: Launch real packaged Forge production client
+        shell: bash
+        run: |
+          set -euo pipefail
+          pmc="$(cat production-qa/portablemc-path.txt)"
+          python3 .github/qa/hari24_production_client_qa.py \
+            --portablemc "$pmc" \
+            --main-dir pmc-main \
+            --mc-dir pmc-game \
+            --world HMT-2.4-QA \
+            --evidence production-qa/client \
+            --java "$JAVA_HOME/bin/java" \
+            --display :97
+
+          log=production-qa/client/production-client-console.log
+          grep -F -- '--launchTarget, forgeclient' "$log"
+          if grep -F 'forgeclientuserdev' "$log"; then
+            echo '::error::Mapped userdev launcher appeared in production proof'
+            exit 1
+          fi
+          grep -F '[Hari/Vulkan] renderer=VULKAN' "$log"
+          grep -F 'Hari 2.4 selected merged Vulkan renderer:' "$log"
+          grep -F 'Selected Vulkan device:' "$log"
+          grep -F ' joined the game' "$log"
+          test -s production-qa/client/forge-production-client.png
+          grep -F 'ready=true' production-qa/client/render-readiness.txt
+
+      - name: Reject packaged-client linkage and Mixin regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          log=production-qa/client/production-client-console.log
+          if grep -E 'MixinApplyError|InvalidMixinException|InjectionError|NoClassDefFoundError|NoSuchMethodError|NoSuchFieldError|AbstractMethodError' "$log"; then
+            echo '::error::Production namespace/linkage failure detected'
+            exit 1
+          fi
+          if grep -E 'missing.*(model|blockstate|texture)|ModelBakery.*(error|exception)|pack\.mcmeta.*missing' "$log"; then
+            echo '::error::Task-owned resource-pack regression detected in production client'
+            exit 1
+          fi
+
+      - name: Package production-client acceptance
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > production-qa/PRODUCTION-ACCEPTANCE.txt <<EOF
+          HariMultiThread Ultimate 2.4 packaged Forge production-client acceptance
+          source_commit=${GITHUB_SHA}
+          minecraft=1.20.1
+          forge=47.4.23
+          mcp=20230612.114412
+          java=17
+          portablemc=5.0.5
+          launch_target=forgeclient
+          mapped_userdev=false
+          integrated_world=PASS
+          merged_vulkan_renderer=PASS
+          rendered_frame=PASS
+          EOF
+          (cd production-qa && find . -type f -print0 | sort -z | xargs -0 sha256sum > SHA256SUMS.txt)
+
+      - name: Upload production-client acceptance
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-Ultimate-1.20.1-2.4.0-PRODUCTION-CLIENT
+          path: production-qa/
+          if-no-files-found: error
+
+      - name: Upload production-client failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-2.4.0-production-client-failure
+          path: |
+            production-qa/
+            pmc-game/logs/
+          if-no-files-found: warn
