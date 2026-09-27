@@ -262,18 +262,23 @@ configurations.jarJar {
 tasks.named('processResources').configure {
     into('assets/vulkanmod/natives/windows/x64') {
         from { configurations.harimtVulkanNativesWindows.collect { zipTree(it) } }
+        include 'windows/x64/org/lwjgl/**'
     }
     into('assets/vulkanmod/natives/linux/x64') {
         from { configurations.harimtVulkanNativesLinux.collect { zipTree(it) } }
+        include 'linux/x64/org/lwjgl/**'
     }
     into('assets/vulkanmod/natives/linux/arm64') {
         from { configurations.harimtVulkanNativesLinuxArm64.collect { zipTree(it) } }
+        include 'linux/arm64/org/lwjgl/**'
     }
     into('assets/vulkanmod/natives/macos/x64') {
         from { configurations.harimtVulkanNativesMacos.collect { zipTree(it) } }
+        include 'macos/x64/org/lwjgl/**'
     }
     into('assets/vulkanmod/natives/macos/arm64') {
         from { configurations.harimtVulkanNativesMacosArm64.collect { zipTree(it) } }
+        include 'macos/arm64/org/lwjgl/**'
     }
 }
 """
