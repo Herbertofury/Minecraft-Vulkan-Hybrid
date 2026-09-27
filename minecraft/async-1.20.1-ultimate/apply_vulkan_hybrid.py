@@ -239,8 +239,19 @@ dependencies {
     harimtVulkanNativesLinuxArm64 "org.lwjgl:lwjgl-vma:" + harimtLwjglVersion + ":natives-linux-arm64"
     harimtVulkanNativesMacos "org.lwjgl:lwjgl-shaderc:" + harimtLwjglVersion + ":natives-macos"
     harimtVulkanNativesMacos "org.lwjgl:lwjgl-vma:" + harimtLwjglVersion + ":natives-macos"
+    harimtVulkanNativesMacos "org.lwjgl:lwjgl-vulkan:" + harimtLwjglVersion + ":natives-macos"
     harimtVulkanNativesMacosArm64 "org.lwjgl:lwjgl-shaderc:" + harimtLwjglVersion + ":natives-macos-arm64"
     harimtVulkanNativesMacosArm64 "org.lwjgl:lwjgl-vma:" + harimtLwjglVersion + ":natives-macos-arm64"
+    harimtVulkanNativesMacosArm64 "org.lwjgl:lwjgl-vulkan:" + harimtLwjglVersion + ":natives-macos-arm64"
+}
+
+// Match the Forge port's split-LWJGL contract: embed only the Vulkan-side modules.
+// Minecraft keeps ownership of core LWJGL/GLFW/OpenGL/STB to avoid classpath replacement.
+configurations.jarJar {
+    exclude group: 'org.lwjgl', module: 'lwjgl'
+    exclude group: 'org.lwjgl', module: 'lwjgl-glfw'
+    exclude group: 'org.lwjgl', module: 'lwjgl-opengl'
+    exclude group: 'org.lwjgl', module: 'lwjgl-stb'
 }
 
 // Stage bundled shaderc/VMA natives as normal resources so ForgeGradle runClient
