@@ -439,6 +439,35 @@ tasks.named('jarJar').configure {
             throw new GradleException("Could not replace jarJar output: ${jarFile}")
         }
         ant.zip(destfile: jarFile, basedir: tmpDir)
+
+        // Verify the exact distributable bytes, not just Gradle task state.
+        def finalZip = new java.util.zip.ZipFile(jarFile)
+        try {
+            def manifestEntry = finalZip.getEntry('META-INF/MANIFEST.MF')
+            def configEntry = finalZip.getEntry('vulkanmod.mixins.json')
+            def refmapEntry = finalZip.getEntry('harimt.refmap.json')
+            if (manifestEntry == null || configEntry == null || refmapEntry == null) {
+                throw new GradleException('Merged Vulkan mixin packaging incomplete in final jarJar output')
+            }
+
+            def manifestText = finalZip.getInputStream(manifestEntry).getText('UTF-8')
+                    .replaceAll('\\r?\\n ', '')
+            if (!manifestText.contains('vulkanmod.mixins.json')) {
+                throw new GradleException('Final JAR manifest does not register vulkanmod.mixins.json')
+            }
+
+            def configText = finalZip.getInputStream(configEntry).getText('UTF-8')
+            if (!configText.contains('"refmap": "harimt.refmap.json"')) {
+                throw new GradleException('Final Vulkan mixin config does not use merged harimt.refmap.json')
+            }
+
+            def refmapText = finalZip.getInputStream(refmapEntry).getText('UTF-8')
+            if (!refmapText.contains('net/vulkanmod/mixin/')) {
+                throw new GradleException('Merged harimt.refmap.json contains no Vulkan mixin mappings')
+            }
+        } finally {
+            finalZip.close()
+        }
     }
 }
 """
