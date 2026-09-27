@@ -91,7 +91,7 @@ if '@Mod("vulkanmod")' in text:
 # release) and adds needless startup network I/O. Hari owns updates for this single mod.
 text = init.read_text(encoding="utf-8")
 text = text.replace("import net.vulkanmod.config.UpdateChecker;\n", "")
-text = text.replace("        UpdateChecker.checkForUpdates();\n", "")
+text = re.sub(r"^\\s*UpdateChecker\\.checkForUpdates\\(\\);\\s*$", "", text, flags=re.MULTILINE)
 if "UpdateChecker.checkForUpdates()" in text:
     raise SystemExit("failed to remove standalone VulkanMod update checker")
 init.write_text(text, encoding="utf-8")
