@@ -5,10 +5,12 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -35,7 +37,7 @@ import java.util.zip.ZipInputStream;
 public final class UniversalRendererGate {
     public static final String MODE_PROPERTY = "harimt.vulkan.mode"; // auto | force | off
     public static final String CACHE_PROPERTY = "harimt.vulkan.compatCache"; // default true
-    private static final String CACHE_SCHEMA = "2.4.0-vulkan-gate-v6";
+    private static final String CACHE_SCHEMA = "2.4.0-vulkan-gate-v7";
 
     private static final Pattern MOD_ID = Pattern.compile("(?m)^\\s*modId\\s*=\\s*[\\\"']([^\\\"']+)[\\\"']");
     private static final Pattern FABRIC_ID = Pattern.compile("\"id\"\\s*:\\s*\"([^\"]+)\"");
@@ -80,9 +82,10 @@ public final class UniversalRendererGate {
         Map<String, Set<String>> contracts = loadContracts();
         if (contracts.isEmpty()) return new Decision(false, "OpenGL translation contract missing");
 
-        Set<String> forgeLoadedIds = forgeLoadedModIds();
+        TreeSet<String> loadedIds = new TreeSet<>(classpathModIds());
+        loadedIds.addAll(forgeLoadedModIds());
         boolean indigoOnClasspath = indigoRendererResourcePresent();
-        TreeSet<String> earlyConflicts = rendererConflicts(forgeLoadedIds);
+        TreeSet<String> earlyConflicts = rendererConflicts(loadedIds);
         if (indigoOnClasspath) earlyConflicts.add("fabric-renderer-indigo");
 
         Path mods = Path.of(System.getProperty("user.dir", ".")).toAbsolutePath().normalize().resolve("mods");
@@ -102,7 +105,7 @@ public final class UniversalRendererGate {
             return new Decision(false, "cannot inspect mods directory: " + e.getClass().getSimpleName());
         }
 
-        String signature = signature(jars, forgeLoadedIds, indigoOnClasspath);
+        String signature = signature(jars, loadedIds, indigoOnClasspath);
         boolean useCache = Boolean.parseBoolean(System.getProperty(CACHE_PROPERTY, "true"));
         if (useCache) {
             Decision cached = readCache(signature);
@@ -188,6 +191,37 @@ public final class UniversalRendererGate {
         return Collections.unmodifiableMap(result);
     }
 
+    private static Set<String> classpathModIds() {
+        TreeSet<String> ids = new TreeSet<>();
+        ClassLoader loader = UniversalRendererGate.class.getClassLoader();
+        if (loader == null) return ids;
+
+        try {
+            Enumeration<URL> forgeMetadata = loader.getResources("META-INF/mods.toml");
+            while (forgeMetadata.hasMoreElements()) {
+                URL url = forgeMetadata.nextElement();
+                try (InputStream input = url.openStream()) {
+                    ids.addAll(parseForgeModIds(new String(input.readAllBytes(), StandardCharsets.UTF_8)));
+                } catch (IOException ignored) {}
+            }
+
+            Enumeration<URL> fabricMetadata = loader.getResources("fabric.mod.json");
+            while (fabricMetadata.hasMoreElements()) {
+                URL url = fabricMetadata.nextElement();
+                try (InputStream input = url.openStream()) {
+                    String id = parseFabricModId(new String(input.readAllBytes(), StandardCharsets.UTF_8));
+                    if (id != null) ids.add(id);
+                } catch (IOException ignored) {}
+            }
+        } catch (IOException ignored) {
+            // Physical mod scanning and Forge's loading list remain independent fallbacks.
+        }
+
+        ids.remove("harimt");
+        ids.remove("vulkanmod");
+        return ids;
+    }
+
     private static TreeSet<String> rendererConflicts(Set<String> ids) {
         TreeSet<String> conflicts = new TreeSet<>();
         for (String id : ids) {
@@ -231,14 +265,7 @@ public final class UniversalRendererGate {
                 "net/fabricmc/fabric/impl/client/indigo/IndigoMixinConfigPlugin.class") != null;
     }
 
-    private static Set<String> readModIds(ZipFile zip) throws IOException {
-        ZipEntry entry = zip.getEntry("META-INF/mods.toml");
-        if (entry == null) return Set.of();
-        String toml;
-        try (InputStream input = zip.getInputStream(entry)) {
-            toml = new String(input.readAllBytes(), StandardCharsets.UTF_8);
-        }
-
+    private static Set<String> parseForgeModIds(String toml) {
         HashSet<String> ids = new HashSet<>();
         boolean insideModsTable = false;
         for (String rawLine : toml.split("\\R")) {
@@ -249,19 +276,31 @@ public final class UniversalRendererGate {
             }
             if (!insideModsTable) continue;
             Matcher matcher = MOD_ID.matcher(line);
-            if (matcher.find()) {
-                ids.add(matcher.group(1).toLowerCase(Locale.ROOT));
+            if (matcher.find()) ids.add(matcher.group(1).toLowerCase(Locale.ROOT));
+        }
+        return ids;
+    }
+
+    private static String parseFabricModId(String json) {
+        Matcher matcher = FABRIC_ID.matcher(json);
+        return matcher.find() ? matcher.group(1).toLowerCase(Locale.ROOT) : null;
+    }
+
+    private static Set<String> readModIds(ZipFile zip) throws IOException {
+        HashSet<String> ids = new HashSet<>();
+
+        ZipEntry forgeEntry = zip.getEntry("META-INF/mods.toml");
+        if (forgeEntry != null) {
+            try (InputStream input = zip.getInputStream(forgeEntry)) {
+                ids.addAll(parseForgeModIds(new String(input.readAllBytes(), StandardCharsets.UTF_8)));
             }
         }
+
         ZipEntry fabricEntry = zip.getEntry("fabric.mod.json");
         if (fabricEntry != null) {
-            String json;
             try (InputStream input = zip.getInputStream(fabricEntry)) {
-                json = new String(input.readAllBytes(), StandardCharsets.UTF_8);
-            }
-            Matcher matcher = FABRIC_ID.matcher(json);
-            if (matcher.find()) {
-                ids.add(matcher.group(1).toLowerCase(Locale.ROOT));
+                String id = parseFabricModId(new String(input.readAllBytes(), StandardCharsets.UTF_8));
+                if (id != null) ids.add(id);
             }
         }
         return ids;
@@ -385,10 +424,10 @@ public final class UniversalRendererGate {
         return refs;
     }
 
-    private static String signature(List<Path> jars, Set<String> forgeLoadedIds, boolean indigoOnClasspath) {
+    private static String signature(List<Path> jars, Set<String> loadedIds, boolean indigoOnClasspath) {
         StringBuilder builder = new StringBuilder(CACHE_SCHEMA).append(';');
         builder.append("forgeIds=");
-        for (String id : new TreeSet<>(forgeLoadedIds)) builder.append(id).append(',');
+        for (String id : new TreeSet<>(loadedIds)) builder.append(id).append(',');
         builder.append(";indigoClasspath=").append(indigoOnClasspath).append(';');
         for (Path path : jars) {
             try {
