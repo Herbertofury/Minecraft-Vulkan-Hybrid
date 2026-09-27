@@ -6,6 +6,9 @@ name: Hari 1.20.1 Ultimate 2.4 Packaged Production Client QA
     paths:
       - '.github/qa/hari24_production_client_qa.py'
       - '.github/qa/seed_forge_world.py'
+      - 'minecraft/async-1.20.1-ultimate/apply_vulkan_hybrid.py'
+      - 'minecraft/async-1.20.1-ultimate/vulkan-hybrid-src/**'
+      - 'minecraft/async-1.20.1-ultimate/runtime_vulkan_hybrid_qa.py'
       - '.github/workflows/async-1.20.1-ultimate-2.4.0-vulkan-hybrid-production-client.yml'
   workflow_dispatch:
 
