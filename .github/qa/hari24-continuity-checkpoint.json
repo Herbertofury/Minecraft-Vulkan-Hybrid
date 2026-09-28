@@ -1,83 +1,131 @@
 {
-  "schema_version": 1,
-  "checkpoint_kind": "active-runtime-acceptance",
+  "schema_version": 2,
+  "checkpoint_kind": "accepted-baseline-with-isolated-modernization",
   "branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
-  "checkpoint_commit": "31bf774a554ac7d948caa950a9645f6162a29ca9",
-  "candidate_source_lineage": {
-    "product_fix_commit": "a732102dbfa98d8457d8c1f10f131cce5c034ac0",
-    "production_qa_runner_commit": "41c1066f9da1e763c2430beb8c561a3ad9c7b159",
-    "later_non_product_checkpoint_commits": [
-      "31bf774a554ac7d948caa950a9645f6162a29ca9"
-    ]
-  },
+  "accepted_product_commit": "205279979eb3ff0c4cf28d864abdac93c05cd203",
   "target": {
     "minecraft": "1.20.1",
     "forge": "47.4.23",
     "java": "17",
     "hari_upstream": "f381611c2d71a85192e2028f9e30c03823a6482b",
-    "forgified_vulkanmod": "0ceac5d47f84c910d2f5f6d007b0ffe266c6f736"
+    "forgified_vulkanmod": "0ceac5d47f84c910d2f5f6d007b0ffe266c6f736",
+    "xcollateral_dev_observed": "087ef24e58e5522dec5ccb44f279768786bfb6da"
   },
-  "artifact": {
-    "compile_acceptance_artifact_id": 10938888290,
-    "jar_sha256": "ab35bb0d4ff51fcf68892c623360fd7e41e1a9f12c1f5fa87bf151c329fc333a",
-    "structural_challenge_pass": [
-      "single harimt mod identity",
-      "vulkanmod.mixins.json present",
-      "collision SPIR-V present with 03022307 magic",
-      "terrain_z.fsh present and terrain_Z.fsh absent",
-      "isolated harimt-vulkan-backend-3.3.1.jar present",
-      "Jar-in-Jar owns lwjgl-vulkan/lwjgl-shaderc/lwjgl-vma only",
-      "nested LWJGL module-info descriptors absent",
-      "required Windows/Linux/macOS renderer native payloads present",
-      "ZIP integrity clean"
-    ]
-  },
-  "acceptance": {
+  "accepted_baseline": {
     "compile_and_package": {
       "state": "pass",
-      "job_id": 108682042292,
-      "source_commit": "a732102dbfa98d8457d8c1f10f131cce5c034ac0"
+      "job_id": 108742417778,
+      "run_id": 36362533946,
+      "artifact_id": 10945614020
     },
-    "dedicated_server_gpu_collision_and_restart": {
+    "dedicated_server_gpu_collision_restart": {
       "state": "pass",
-      "active_job_id": 108682041961,
-      "step": 10,
-      "prior_independent_verification_job_id": 108540486734
+      "job_id": 108742425171,
+      "run_id": 36362533931,
+      "artifact_id": 10945954122
     },
-    "native_vulkan_rendered_world": {
+    "packaged_clean_vulkan_client": {
+      "state": "pass",
+      "job_id": 108742417601,
+      "run_id": 36362533950,
+      "artifact_id": 10946655455,
+      "markers": [
+        "renderer=VULKAN",
+        "VulkanMod: WindowMixin initialization finished.",
+        "VulkanMod: RenderSystemMixin.initRenderer called.",
+        "Selected Vulkan device: llvmpipe",
+        "joined the game",
+        "Vulkan push broad-phase sustained: 10 consecutive verified batches completed"
+      ],
+      "rendered_screenshot": "client-vulkan/forge-production-client-vulkan.png"
+    },
+    "packaged_embeddium_opengl_fallback": {
+      "state": "pass",
+      "job_id": 108742417601,
+      "run_id": 36362533950,
+      "artifact_id": 10946655455,
+      "fixture": "curse.maven:embeddium-908741:5681725",
+      "markers": [
+        "renderer=OPENGL_FALLBACK",
+        "mutually-exclusive renderer(s): embeddium,rubidium",
+        "joined the game",
+        "Vulkan push broad-phase sustained: 10 consecutive verified batches completed"
+      ],
+      "forbidden_markers_absent": [
+        "renderer=VULKAN",
+        "VulkanMod: WindowMixin initialization finished.",
+        "Selected Vulkan device:"
+      ],
+      "rendered_screenshot": "client-embeddium/forge-production-client-opengl.png"
+    }
+  },
+  "baseline_artifacts": {
+    "compile_jar_sha256": "5ba25336294e121f6c3c0975749e330d563438ff345f58b8e035e08068cc52d8",
+    "production_jar_sha256": "87c17bac60d310c7f5c52f069c319d21596b0503fb1990b66ec569778def8212",
+    "server_jar_sha256": "0a2226b929d47e6456a27eb8a862eab6146654c00f381b5fae9ef5e054f507db",
+    "reproducibility_state": "unresolved-active",
+    "reproducibility_finding": "All 958 packaged paths match except harimt.refmap.json byte ordering and nested harimt-vulkan-backend-3.3.1.jar archive metadata. Refmaps canonicalize to identical JSON; nested backend JARs unpack to identical file bytes. Product semantics match, but byte-for-byte release reproducibility is being repaired before promotion."
+  },
+  "structural_challenge_pass": [
+    "single harimt mod identity",
+    "MixinConfigs manifest includes harimt common/forge/gpu plus vulkanmod.mixins.json",
+    "vulkanmod.mixins.json points at harimt.refmap.json",
+    "UniversalRendererGate v8 contains mapped-userdev fail-safe",
+    "collision SPIR-V present with 03022307 magic",
+    "terrain_z.fsh present and terrain_Z.fsh absent",
+    "isolated harimt-vulkan-backend-3.3.1.jar present",
+    "Jar-in-Jar owns lwjgl-vulkan/lwjgl-shaderc/lwjgl-vma only",
+    "nested LWJGL module-info descriptors absent",
+    "Windows/Linux/macOS renderer native payloads present",
+    "ZIP integrity clean"
+  ],
+  "active_isolated_work": {
+    "modernization_branch": {
+      "branch": "async-1.20.1-ultimate-2.4.0-vulkan-modernization-20260927",
+      "head": "3c98c0c132c84a4d40565dc818274abefdc9ea7d",
+      "compile_job_id": 108743829455,
       "state": "in_progress",
-      "job_id": 108682041961,
-      "step": 11
+      "candidate_changes": [
+        "xCollateral 94d137a8 image-upload transfer memory barrier",
+        "shader-read visibility widened to vertex+fragment",
+        "white texture unpack row-length fix",
+        "xCollateral c9522019 draw-time shared auto-index reallocation fix",
+        "explicit autoIndexed=false when returning to explicit index buffers"
+      ]
     },
-    "native_embeddium_opengl_fallback": {
-      "state": "pending",
-      "job_id": 108682041961,
-      "step": 13
-    },
-    "packaged_forgeclient_rendered_world": {
+    "reproducibility_branch": {
+      "branch": "async-1.20.1-ultimate-2.4.0-vulkan-reproducible-20260927",
+      "head": "3fb2887ff80eefbfe7967faf15f4d24086a099ad",
+      "job_id": 108744135965,
       "state": "in_progress",
-      "job_id": 108682048855,
-      "step": 11,
-      "prerequisites_passed": [
-        "Ubuntu 24.04 production tools",
-        "exact 2.4 packaged build",
-        "deterministic Forge world seed",
-        "pinned PortableMC 5.0.5 SHA-256",
-        "exact Forge 47.4.23 production profile"
+      "candidate_changes": [
+        "Gradle AbstractArchiveTask fixed timestamps",
+        "reproducible file order",
+        "recursive deterministic Mixin refmap JSON ordering",
+        "two-build byte-for-byte final JAR cmp gate"
       ]
     }
   },
   "no_repeat_failures": [
-    "Do not re-diagnose missing collision SPIR-V unless packaged bytes regress.",
-    "Do not revert/select ordinary parent-first loading for org.lwjgl.vulkan.*; dedicated server proof requires selective child-first Vulkan binding ownership.",
-    "Do not classify Linux without XDG_SESSION_TYPE as Android when DISPLAY or WAYLAND_DISPLAY proves a desktop display.",
-    "Do not restore uppercase terrain_Z.fsh; Minecraft rejects uppercase ResourceLocation paths.",
-    "Do not run PortableMC 5.0.5 GNU binary on Ubuntu 22.04; its verified binary requires glibc 2.38/2.39 and production QA uses Ubuntu 24.04."
+    "Use exact *2.4.0-noxviola.1-vulkan-hybrid-all.jar, never first arbitrary non-sources JAR.",
+    "Keep one canonical merged access transformer; never copy Vulkan standalone META-INF/accesstransformer.cfg.",
+    "Stage renderer natives through processResources; do not make packaged JAR and runClient use different resource layouts.",
+    "Jar-in-Jar metadata must not own core LWJGL/GLFW/OpenGL/STB.",
+    "Keep macOS MoltenVK payloads.",
+    "Keep collision SPIR-V packaged and magic-checked.",
+    "Keep collision backend org.lwjgl.vulkan.* child-first while LWJGL core remains parent-first.",
+    "Missing XDG_SESSION_TYPE is not Android when DISPLAY or WAYLAND_DISPLAY exists.",
+    "Keep lowercase terrain_z.fsh; uppercase resource path is invalid.",
+    "PortableMC 5.0.5 GNU production QA requires Ubuntu 24.04/glibc 2.39.",
+    "Forgified-VulkanMod uses production SRG remap=false shadows; mapped ForgeGradle runClient is not renderer authority.",
+    "Real packaged forgeclient is the client authority for clean Vulkan and renderer-conflict fallback.",
+    "Do not use Bash ! grep under set -e as an absence assertion; use explicit if grep; then exit 1; fi."
   ],
   "exact_next_actions": [
-    "When native-vulkan-hybrid job 108682041961 changes state, read the completed job log once if it failed; repair the earliest causal runtime failure only.",
-    "When packaged-production-client job 108682048855 changes state, read the completed job log once if it failed; preserve real forgeclient proof and repair the causal owner rather than weakening the gate.",
-    "If the native Vulkan rendered-world lane passes, harden runtime_vulkan_hybrid_qa.py so Vulkan CI also sets -Dharimt.vulkan.allowCpuDevice=true and proves collision GPU initialization in the same integrated-client JVM, then rerun only the invalidated native gate.",
-    "At convergence add final packaged lowercase terrain resource regression checks, capture verified Linux platform recovery as an incident, package/hash final evidence, run one challenge pass, then publish coherent release/checkpoint state."
+    "Take the first result of modernization compile job 108743829455; repair only a fresh causal compile/package failure.",
+    "Take the first result of reproducibility job 108744135965; if hashes differ, inspect only the remaining differing entry/ZIP metadata and fix that owner.",
+    "When both isolated candidates pass, synthesize them on the main integration branch without losing accepted baseline behavior and rerun compile + dedicated server + dual packaged forgeclient runtime gates.",
+    "After the synthesized runtime candidate is green, add deterministic packaged-client 300-frame performance instrumentation and A/B candidate promotion evidence before calling the renderer performance baseline final.",
+    "Evaluate larger xCollateral 2026 GPU-semaphore frame-sync changes only as a decomposed second-phase candidate because current 1.20.1 queue/staging ownership differs from modern dev."
   ]
 }
