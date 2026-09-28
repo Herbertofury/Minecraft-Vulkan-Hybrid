@@ -81,6 +81,7 @@ def main() -> int:
     p.add_argument("--evidence", type=Path, required=True)
     p.add_argument("--display", default=":97")
     p.add_argument("--java", default="java")
+    p.add_argument("--expect", choices=("vulkan", "opengl"), default="vulkan")
     args = p.parse_args()
 
     pmc = args.portablemc.resolve()
@@ -174,8 +175,10 @@ def main() -> int:
                     raise RuntimeError(f"production client failed waiting for {marker!r}: {fatal}")
             if "forgeclientuserdev" in line:
                 raise RuntimeError("production gate accidentally launched forgeclientuserdev")
-            if "renderer=OPENGL_FALLBACK" in line:
+            if args.expect == "vulkan" and "renderer=OPENGL_FALLBACK" in line:
                 raise RuntimeError("clean production Vulkan lane unexpectedly selected OpenGL fallback")
+            if args.expect == "opengl" and "renderer=VULKAN" in line:
+                raise RuntimeError("OpenGL compatibility lane unexpectedly selected Vulkan")
 
         def wait_for(marker: str, timeout: float = READY_TIMEOUT) -> None:
             for line in list(lines):
@@ -196,11 +199,15 @@ def main() -> int:
             raise TimeoutError(f"timed out waiting for {marker!r}")
 
         wait_for("--launchTarget, forgeclient")
-        wait_for("[Hari/Vulkan] renderer=VULKAN")
-        wait_for("Hari 2.4 selected merged Vulkan renderer:")
-        wait_for("VulkanMod: WindowMixin initialization finished.")
-        wait_for("VulkanMod: RenderSystemMixin.initRenderer called.")
-        wait_for("Selected Vulkan device:")
+        if args.expect == "vulkan":
+            wait_for("[Hari/Vulkan] renderer=VULKAN")
+            wait_for("Hari 2.4 selected merged Vulkan renderer:")
+            wait_for("VulkanMod: WindowMixin initialization finished.")
+            wait_for("VulkanMod: RenderSystemMixin.initRenderer called.")
+            wait_for("Selected Vulkan device:")
+        else:
+            wait_for("[Hari/Vulkan] renderer=OPENGL_FALLBACK")
+            wait_for("Hari 2.4 selected OpenGL compatibility renderer:")
         wait_for(" joined the game")
         wait_for("Compile-checked Vulkan collision backend initialized on")
         wait_for("Vulkan push broad-phase sustained: 10 consecutive verified batches completed")
@@ -219,7 +226,7 @@ def main() -> int:
         wid = ids[-1]
         subprocess.run(["xdotool", "windowactivate", "--sync", wid], env=env, check=True, timeout=15)
 
-        shot = evidence / "forge-production-client.png"
+        shot = evidence / f"forge-production-client-{args.expect}.png"
         candidate = evidence / "candidate.png"
         deadline = time.monotonic() + 90.0
         metrics: list[str] = []
@@ -258,27 +265,46 @@ def main() -> int:
             raise RuntimeError(f"PortableMC production launch exited with code {rc}")
 
         joined = "".join(lines)
-        required = (
+        required = [
             "--launchTarget, forgeclient",
-            "[Hari/Vulkan] renderer=VULKAN",
-            "Hari 2.4 selected merged Vulkan renderer:",
-            "VulkanMod: WindowMixin initialization finished.",
-            "VulkanMod: RenderSystemMixin.initRenderer called.",
-            "Selected Vulkan device:",
             " joined the game",
             "Compile-checked Vulkan collision backend initialized on",
             "Vulkan push broad-phase sustained: 10 consecutive verified batches completed",
-        )
+        ]
+        if args.expect == "vulkan":
+            required.extend([
+                "[Hari/Vulkan] renderer=VULKAN",
+                "Hari 2.4 selected merged Vulkan renderer:",
+                "VulkanMod: WindowMixin initialization finished.",
+                "VulkanMod: RenderSystemMixin.initRenderer called.",
+                "Selected Vulkan device:",
+            ])
+        else:
+            required.extend([
+                "[Hari/Vulkan] renderer=OPENGL_FALLBACK",
+                "Hari 2.4 selected OpenGL compatibility renderer:",
+            ])
         for marker in required:
             if marker not in joined:
                 raise RuntimeError(f"missing production marker {marker!r}")
+        if args.expect == "vulkan" and "renderer=OPENGL_FALLBACK" in joined:
+            raise RuntimeError("clean production Vulkan lane fell back to OpenGL")
+        if args.expect == "opengl":
+            for forbidden in (
+                "renderer=VULKAN",
+                "VulkanMod: WindowMixin initialization finished.",
+                "VulkanMod: RenderSystemMixin.initRenderer called.",
+                "Selected Vulkan device:",
+            ):
+                if forbidden in joined:
+                    raise RuntimeError(f"OpenGL compatibility lane activated Vulkan path: {forbidden}")
         for fatal in FATAL:
             if fatal in joined:
                 raise RuntimeError(f"fatal packaged-client marker found: {fatal}")
         if "forgeclientuserdev" in joined:
             raise RuntimeError("mapped userdev launcher appeared in production log")
 
-        print("[HARI24-QA] packaged Forge production-client gate PASSED", flush=True)
+        print(f"[HARI24-QA] packaged Forge production-client {args.expect} gate PASSED", flush=True)
         return 0
     except Exception:
         (evidence / "harness-error.txt").write_text(traceback.format_exc(), encoding="utf-8")

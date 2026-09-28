@@ -37,7 +37,7 @@ import java.util.zip.ZipInputStream;
 public final class UniversalRendererGate {
     public static final String MODE_PROPERTY = "harimt.vulkan.mode"; // auto | force | off
     public static final String CACHE_PROPERTY = "harimt.vulkan.compatCache"; // default true
-    private static final String CACHE_SCHEMA = "2.4.0-vulkan-gate-v7";
+    private static final String CACHE_SCHEMA = "2.4.0-vulkan-gate-v8";
 
     private static final Pattern MOD_ID = Pattern.compile("(?m)^\\s*modId\\s*=\\s*[\\\"']([^\\\"']+)[\\\"']");
     private static final Pattern FABRIC_ID = Pattern.compile("\"id\"\\s*:\\s*\"([^\"]+)\"");
@@ -78,6 +78,12 @@ public final class UniversalRendererGate {
         if ("off".equals(mode)) return new Decision(false, "forced off");
         if ("force".equals(mode)) return new Decision(true, "forced on; compatibility gate bypassed");
         if (!"auto".equals(mode)) return new Decision(false, "invalid harimt.vulkan.mode=" + mode);
+
+        Boolean forgeProduction = forgeProductionRuntime();
+        if (Boolean.FALSE.equals(forgeProduction)) {
+            return new Decision(false,
+                    "ForgeGradle mapped userdev uses Mojmap; SRG-locked Vulkan mixins require packaged forgeclient");
+        }
 
         Map<String, Set<String>> contracts = loadContracts();
         if (contracts.isEmpty()) return new Decision(false, "OpenGL translation contract missing");
@@ -231,6 +237,19 @@ public final class UniversalRendererGate {
             if (RENDERER_CONFLICTS.contains(id)) conflicts.add(id);
         }
         return conflicts;
+    }
+
+    /**
+     * Returns Forge's production flag when available. Null means this is the standalone
+     * compatibility probe or another non-Forge context and must not be treated as dev.
+     */
+    private static Boolean forgeProductionRuntime() {
+        try {
+            Class<?> environment = Class.forName("net.minecraftforge.fml.loading.FMLEnvironment");
+            return environment.getField("production").getBoolean(null);
+        } catch (Throwable ignored) {
+            return null;
+        }
     }
 
     /**

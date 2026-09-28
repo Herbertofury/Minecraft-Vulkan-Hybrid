@@ -177,11 +177,12 @@ jobs:
             --main-dir pmc-main \
             --mc-dir pmc-game \
             --world HMT-2.4-QA \
-            --evidence production-qa/client \
+            --evidence production-qa/client-vulkan \
             --java "$JAVA_HOME/bin/java" \
+            --expect vulkan \
             --display :97
 
-          log=production-qa/client/production-client-console.log
+          log=production-qa/client-vulkan/production-client-console.log
           grep -F -- '--launchTarget, forgeclient' "$log"
           if grep -F 'forgeclientuserdev' "$log"; then
             echo '::error::Mapped userdev launcher appeared in production proof'
@@ -191,22 +192,73 @@ jobs:
           grep -F 'Hari 2.4 selected merged Vulkan renderer:' "$log"
           grep -F 'Selected Vulkan device:' "$log"
           grep -F ' joined the game' "$log"
-          test -s production-qa/client/forge-production-client.png
-          grep -F 'ready=true' production-qa/client/render-readiness.txt
+          test -s production-qa/client-vulkan/forge-production-client-vulkan.png
+          grep -F 'ready=true' production-qa/client-vulkan/render-readiness.txt
+
+      - name: Install exact Embeddium fallback fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          embeddium="$(find "$HOME/.gradle/caches/modules-2/files-2.1" -type f \
+            -path '*/curse.maven/embeddium-908741/5681725/*/*.jar' | sort | head -n 1)"
+          test -s "$embeddium"
+          cp "$embeddium" pmc-game/mods/Embeddium-5681725.jar
+          sha256sum "$embeddium" | tee production-qa/EMBEDDIUM-5681725-SHA256.txt
+          jar tf "$embeddium" | grep -E 'META-INF/mods.toml|fabric.mod.json'
+
+      - name: Launch real packaged Forge Embeddium OpenGL fallback client
+        shell: bash
+        run: |
+          set -euo pipefail
+          pmc="$(cat production-qa/portablemc-path.txt)"
+          python3 .github/qa/hari24_production_client_qa.py \
+            --portablemc "$pmc" \
+            --main-dir pmc-main \
+            --mc-dir pmc-game \
+            --world HMT-2.4-QA \
+            --evidence production-qa/client-embeddium \
+            --java "$JAVA_HOME/bin/java" \
+            --expect opengl \
+            --display :96
+
+          log=production-qa/client-embeddium/production-client-console.log
+          grep -F -- '--launchTarget, forgeclient' "$log"
+          grep -F '[Hari/Vulkan] renderer=OPENGL_FALLBACK' "$log"
+          grep -F 'Hari 2.4 selected OpenGL compatibility renderer:' "$log"
+          grep -i -F 'embeddium' "$log"
+          grep -F ' joined the game' "$log"
+          if grep -F 'renderer=VULKAN' "$log"; then
+            echo '::error::Embeddium production lane unexpectedly enabled Vulkan renderer'
+            exit 1
+          fi
+          if grep -F 'VulkanMod: WindowMixin initialization finished.' "$log"; then
+            echo '::error::Vulkan window mixin applied during Embeddium fallback'
+            exit 1
+          fi
+          if grep -F 'Selected Vulkan device:' "$log"; then
+            echo '::error::Vulkan renderer initialized a device during Embeddium fallback'
+            exit 1
+          fi
+          test -s production-qa/client-embeddium/forge-production-client-opengl.png
+          grep -F 'ready=true' production-qa/client-embeddium/render-readiness.txt
 
       - name: Reject packaged-client linkage and Mixin regressions
         shell: bash
         run: |
           set -euo pipefail
-          log=production-qa/client/production-client-console.log
-          if grep -E 'MixinApplyError|InvalidMixinException|InjectionError|NoClassDefFoundError|NoSuchMethodError|NoSuchFieldError|AbstractMethodError' "$log"; then
-            echo '::error::Production namespace/linkage failure detected'
-            exit 1
-          fi
-          if grep -E 'missing.*(model|blockstate|texture)|ModelBakery.*(error|exception)|pack\.mcmeta.*missing' "$log"; then
-            echo '::error::Task-owned resource-pack regression detected in production client'
-            exit 1
-          fi
+          for log in \
+            production-qa/client-vulkan/production-client-console.log \
+            production-qa/client-embeddium/production-client-console.log
+          do
+            if grep -E 'MixinApplyError|InvalidMixinException|InjectionError|NoClassDefFoundError|NoSuchMethodError|NoSuchFieldError|AbstractMethodError' "$log"; then
+              echo "::error::Production namespace/linkage failure detected in $log"
+              exit 1
+            fi
+            if grep -E 'missing.*(model|blockstate|texture)|ModelBakery.*(error|exception)|pack\.mcmeta.*missing' "$log"; then
+              echo "::error::Task-owned resource-pack regression detected in $log"
+              exit 1
+            fi
+          done
 
       - name: Package production-client acceptance
         shell: bash
@@ -223,8 +275,11 @@ jobs:
           launch_target=forgeclient
           mapped_userdev=false
           integrated_world=PASS
-          merged_vulkan_renderer=PASS
-          rendered_frame=PASS
+          clean_client_renderer=VULKAN
+          embeddium_fixture=curse.maven:embeddium-908741:5681725
+          embeddium_client_renderer=OPENGL_FALLBACK
+          collision_vulkan_in_both_integrated_servers=PASS
+          rendered_frames=PASS
           EOF
           (cd production-qa && find . -type f -print0 | sort -z | xargs -0 sha256sum > SHA256SUMS.txt)
 

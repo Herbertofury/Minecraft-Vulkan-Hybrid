@@ -164,68 +164,6 @@ jobs:
           grep -F 'Live GPU Verification PASS' evidence/runtime/server/packaged-server-gpu-and-fallback.log
           grep -F 'HMT_QA_RESTART_ENTITIES_PRESENT' evidence/runtime/server/packaged-server-restart.log
 
-      - name: Real Forge client Vulkan rendered-world gate
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 minecraft/async-1.20.1-ultimate/runtime_vulkan_hybrid_qa.py \
-            upstream qa-server/world evidence/runtime/client-vulkan \
-            --expect vulkan --display :99
-          log=evidence/runtime/client-vulkan/forge-client-console.log
-          grep -F '[Hari/Vulkan] renderer=VULKAN' "$log"
-          grep -F 'Hari 2.4 selected merged Vulkan renderer:' "$log"
-          grep -F 'Selected Vulkan device:' "$log"
-          if grep -F 'renderer=OPENGL_FALLBACK' "$log"; then
-            echo '::error::Clean Vulkan lane unexpectedly fell back to OpenGL'
-            exit 1
-          fi
-          test -s evidence/runtime/client-vulkan/forge-client-vulkan.png
-          grep -F 'ready=true' evidence/runtime/client-vulkan/forge-client-render-readiness.txt
-
-      - name: Enable real Embeddium runtime for fallback lane
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          from pathlib import Path
-          p = Path('upstream/forge/build.gradle')
-          s = p.read_text(encoding='utf-8')
-          dep = 'curse.maven:embeddium-908741:5681725'
-          if dep not in s:
-              raise SystemExit('Embeddium dependency missing from reconstructed build.gradle')
-          s2 = s.replace(
-              'compileOnly fg.deobf("curse.maven:embeddium-908741:5681725")',
-              'implementation fg.deobf("curse.maven:embeddium-908741:5681725")'
-          )
-          if s2 == s:
-              s2 = s.replace(
-                  "compileOnly fg.deobf('curse.maven:embeddium-908741:5681725')",
-                  "implementation fg.deobf('curse.maven:embeddium-908741:5681725')"
-              )
-          if s2 == s:
-              raise SystemExit('Expected compileOnly Embeddium declaration not found')
-          p.write_text(s2, encoding='utf-8')
-          PY
-          rm -f upstream/forge/run/mods/Embeddium*.jar upstream/forge/run/mods/embeddium*.jar || true
-
-      - name: Real Forge client Embeddium OpenGL fallback gate
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 minecraft/async-1.20.1-ultimate/runtime_vulkan_hybrid_qa.py \
-            upstream qa-server/world evidence/runtime/client-opengl \
-            --expect opengl --display :98
-          log=evidence/runtime/client-opengl/forge-client-console.log
-          grep -F '[Hari/Vulkan] renderer=OPENGL_FALLBACK' "$log"
-          grep -F 'embeddium' "$log"
-          grep -F 'Hari 2.4 selected OpenGL compatibility renderer:' "$log"
-          if grep -F 'renderer=VULKAN' "$log"; then
-            echo '::error::Embeddium fallback lane unexpectedly enabled Vulkan'
-            exit 1
-          fi
-          test -s evidence/runtime/client-opengl/forge-client-opengl.png
-          grep -F 'ready=true' evidence/runtime/client-opengl/forge-client-render-readiness.txt
-
       - name: Package native acceptance evidence
         shell: bash
         run: |
@@ -238,15 +176,15 @@ jobs:
           hari_upstream=f381611c2d71a85192e2028f9e30c03823a6482b
           vulkan_forge=0ceac5d47f84c910d2f5f6d007b0ffe266c6f736
           dedicated_server=PASS
-          clean_client_renderer=VULKAN
-          embeddium_client_renderer=OPENGL_FALLBACK
+          client_runtime_authority=packaged-production-client
+          client_runtime_workflow=async-1.20.1-ultimate-2.4.0-vulkan-hybrid-production-client.yml
           EOF
           (cd qa-out && find . -type f -print0 | sort -z | xargs -0 sha256sum > SHA256SUMS.txt)
 
       - name: Upload native Vulkan hybrid evidence
         uses: actions/upload-artifact@v4
         with:
-          name: HariMultiThread-Ultimate-1.20.1-2.4.0-VULKAN-HYBRID-NATIVE
+          name: HariMultiThread-Ultimate-1.20.1-2.4.0-VULKAN-HYBRID-SERVER
           path: qa-out/
           if-no-files-found: error
 
