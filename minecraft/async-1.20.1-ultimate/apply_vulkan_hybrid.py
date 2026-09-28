@@ -299,16 +299,28 @@ common_at.write_text("\n".join(merged).rstrip() + "\n", encoding="utf-8")
 
 build = forge_build.read_text(encoding="utf-8")
 
-# ForgeGradle runClient does not launch the packaged JAR, so it cannot discover
-# the merged Vulkan config from META-INF/MANIFEST.MF. Register Vulkan explicitly
-# in the client run only; the dedicated server must never evaluate client Vulkan
-# renderer mixins.
-client_run_anchor = "        client {\n            workingDirectory project.file('run')\n"
-if client_run_anchor not in build:
-    raise SystemExit("source drift: ForgeGradle client run anchor missing")
-client_run_insert = client_run_anchor + '            args "--mixin.config=vulkanmod.mixins.json"\n'
-if "--mixin.config=vulkanmod.mixins.json" not in build:
-    build = build.replace(client_run_anchor, client_run_insert, 1)
+# Register Vulkan through MixinGradle, not a raw runClient argument. The existing
+# MixinGradle source-set registration owns harimt.refmap.json and ForgeGradle's
+# mapped-dev remapping lifecycle. A manual --mixin.config argument loads the
+# config but bypasses that lifecycle, producing "No refMap loaded" and SRG
+# @Shadow failures in runClient even though the packaged Forge client is valid.
+mixin_anchor = """mixin {
+    add sourceSets.main, "${mod_id}.refmap.json"
+    config 'harimt.common.mixins.json'
+    config 'harimt.forge.mixins.json'
+"""
+if mixin_anchor not in build:
+    raise SystemExit("source drift: production MixinGradle block missing")
+if "    config 'vulkanmod.mixins.json'\n" not in build:
+    build = build.replace(
+        mixin_anchor,
+        mixin_anchor + "    config 'vulkanmod.mixins.json'\n",
+        1,
+    )
+
+# Ensure the stale raw dev-run registration is absent.
+if '--mixin.config=vulkanmod.mixins.json' in build:
+    raise SystemExit("stale raw Vulkan Mixin dev-run argument survived")
 
 marker = "// Hari 2.4 merged Vulkan renderer"
 if marker not in build:
@@ -566,8 +578,9 @@ assert '"refmap": "vulkanmod.refmap.json"' not in vulkan_mixins.read_text(encodi
 final_build_text = forge_build.read_text(encoding="utf-8")
 assert "harimt.gpu.mixins.json,vulkanmod.mixins.json" in final_build_text
 assert "mergedManifest.mainAttributes.putValue('MixinConfigs', harimtMergedMixinConfigs)" in final_build_text
-assert '--mixin.config=vulkanmod.mixins.json' in final_build_text
-assert final_build_text.count('--mixin.config=vulkanmod.mixins.json') == 1
+assert "config 'vulkanmod.mixins.json'" in final_build_text
+assert final_build_text.count("config 'vulkanmod.mixins.json'") == 1
+assert '--mixin.config=vulkanmod.mixins.json' not in final_build_text
 assert "Merged Vulkan renderer missing from JAR MixinConfigs manifest" in final_build_text
 assert contract_path.stat().st_size > 128
 assert lower_terrain.is_file() and not upper_terrain.exists()
