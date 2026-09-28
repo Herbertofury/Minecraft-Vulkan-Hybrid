@@ -131,6 +131,216 @@ if pipeline_text.count('"terrain_Z"') != 1:
 pipeline_text = pipeline_text.replace('"terrain_Z"', '"terrain_z"', 1)
 pipeline_manager.write_text(pipeline_text, encoding="utf-8")
 
+# Backport xCollateral/VulkanMod 2026 image-upload synchronization fixes
+# (94d137a8). These are API-compatible with the 1.20.1 fork and close a
+# transfer-write hazard without importing the newer 1.21 renderer architecture.
+image_util = dst_java / "vulkan/texture/ImageUtil.java"
+image_util_text = image_util.read_text(encoding="utf-8")
+image_barrier_anchor = """    public static void generateMipmaps(VulkanImage image) {
+"""
+image_barrier_method = """    public static void imageTransferMemoryBarrier(MemoryStack stack, VkCommandBuffer commandBuffer, VulkanImage image, int baseLevel) {
+        VkImageMemoryBarrier.Buffer barrier = VkImageMemoryBarrier.calloc(1, stack);
+        barrier.sType(VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER);
+        barrier.oldLayout(image.getCurrentLayout());
+        barrier.newLayout(image.getCurrentLayout());
+        barrier.srcQueueFamilyIndex(VK_QUEUE_FAMILY_IGNORED);
+        barrier.dstQueueFamilyIndex(VK_QUEUE_FAMILY_IGNORED);
+        barrier.image(image.getId());
+
+        barrier.subresourceRange().baseMipLevel(baseLevel);
+        barrier.subresourceRange().levelCount(1);
+        barrier.subresourceRange().baseArrayLayer(0);
+        barrier.subresourceRange().layerCount(VK_REMAINING_ARRAY_LAYERS);
+        barrier.subresourceRange().aspectMask(image.aspect);
+
+        barrier.srcAccessMask(VK_ACCESS_MEMORY_WRITE_BIT);
+        barrier.dstAccessMask(VK_ACCESS_MEMORY_WRITE_BIT);
+
+        vkCmdPipelineBarrier(commandBuffer,
+                VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT,
+                0, null, null, barrier);
+    }
+
+"""
+if image_util_text.count(image_barrier_anchor) != 1:
+    raise SystemExit("source drift: ImageUtil.generateMipmaps anchor missing")
+if "imageTransferMemoryBarrier(" in image_util_text:
+    raise SystemExit("source drift: image upload barrier already present upstream")
+image_util_text = image_util_text.replace(
+    image_barrier_anchor,
+    image_barrier_method + image_barrier_anchor,
+    1,
+)
+image_util.write_text(image_util_text, encoding="utf-8")
+
+vulkan_image = dst_java / "vulkan/texture/VulkanImage.java"
+vulkan_image_text = vulkan_image.read_text(encoding="utf-8")
+
+white_old = "image.uploadSubTextureAsync(0, image.width, image.height, 0, 0, 0, 0, 0, buffer);"
+white_new = "image.uploadSubTextureAsync(0, image.width, image.height, 0, 0, 0, 0, image.width, buffer);"
+if vulkan_image_text.count(white_old) != 1:
+    raise SystemExit("source drift: white texture upload row-length anchor missing")
+vulkan_image_text = vulkan_image_text.replace(white_old, white_new, 1)
+
+copy_anchor = """        ImageUtil.copyBufferToImageCmd(commandBuffer.getHandle(), stagingBuffer.getId(), id, mipLevel, width, height, xOffset, yOffset,
+                (int) (stagingBuffer.getOffset() + (unpackRowLength * unpackSkipRows + unpackSkipPixels) * this.formatSize), unpackRowLength, height);
+
+        long fence = DeviceManager.getGraphicsQueue().endIfNeeded(commandBuffer);
+"""
+copy_new = """        ImageUtil.copyBufferToImageCmd(commandBuffer.getHandle(), stagingBuffer.getId(), id, mipLevel, width, height, xOffset, yOffset,
+                (int) (stagingBuffer.getOffset() + (unpackRowLength * unpackSkipRows + unpackSkipPixels) * this.formatSize), unpackRowLength, height);
+
+        // Multiple async uploads can target the same image/mip within one transfer
+        // command stream. Order transfer writes explicitly before the next write.
+        try (MemoryStack stack = stackPush()) {
+            ImageUtil.imageTransferMemoryBarrier(stack, commandBuffer.getHandle(), this, mipLevel);
+        }
+
+        long fence = DeviceManager.getGraphicsQueue().endIfNeeded(commandBuffer);
+"""
+if vulkan_image_text.count(copy_anchor) != 1:
+    raise SystemExit("source drift: async image upload copy anchor missing")
+vulkan_image_text = vulkan_image_text.replace(copy_anchor, copy_new, 1)
+
+shader_stage_old = "destinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;"
+shader_stage_new = "destinationStage = VK_PIPELINE_STAGE_VERTEX_SHADER_BIT | VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;"
+if vulkan_image_text.count(shader_stage_old) < 1:
+    raise SystemExit("source drift: shader-read destination stage missing")
+# Only the new-layout SHADER_READ_ONLY branch needs widening; use its exact block.
+shader_block_old = """            case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL -> {
+                dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+                destinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+            }
+"""
+shader_block_new = """            case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL -> {
+                dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+                destinationStage = VK_PIPELINE_STAGE_VERTEX_SHADER_BIT | VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+            }
+"""
+if vulkan_image_text.count(shader_block_old) != 1:
+    raise SystemExit("source drift: shader-read new-layout block missing")
+vulkan_image_text = vulkan_image_text.replace(shader_block_old, shader_block_new, 1)
+vulkan_image.write_text(vulkan_image_text, encoding="utf-8")
+
+# Backport xCollateral/VulkanMod 2026 auto-index reallocation fix (c9522019).
+# The 1.20.1 fork cached a shared AutoIndexBuffer pointer during upload. Another
+# VBO could grow/reallocate that shared buffer later, leaving older VBOs pointing
+# at freed storage. Resolve/check shared auto-index capacity at draw time instead.
+vbo = dst_java / "render/VBO.java"
+vbo_text = vbo.read_text(encoding="utf-8")
+seq_old = """        if (parameters.sequentialIndex()) {
+
+            AutoIndexBuffer autoIndexBuffer;
+            switch (this.mode) {
+                case TRIANGLE_FAN -> {
+                    autoIndexBuffer = Renderer.getDrawer().getTriangleFanIndexBuffer();
+                    this.indexCount = AutoIndexBuffer.DrawType.getTriangleStripIndexCount(this.vertexCount);
+                }
+                case TRIANGLE_STRIP, LINE_STRIP -> {
+                    autoIndexBuffer = Renderer.getDrawer().getTriangleStripIndexBuffer();
+                    this.indexCount = AutoIndexBuffer.DrawType.getTriangleStripIndexCount(this.vertexCount);
+                }
+                case QUADS -> {
+                    autoIndexBuffer = Renderer.getDrawer().getQuadsIndexBuffer();
+                }
+                case LINES -> {
+                    autoIndexBuffer = Renderer.getDrawer().getLinesIndexBuffer();
+                }
+                case DEBUG_LINE_STRIP -> {
+                    autoIndexBuffer = Renderer.getDrawer().getDebugLineStripIndexBuffer();
+                }
+                case TRIANGLES, DEBUG_LINES -> {
+                    autoIndexBuffer = null;
+                }
+                default -> throw new IllegalStateException("Unexpected draw mode: %s".formatted(this.mode));
+            }
+
+            if (this.indexBuffer != null && !this.autoIndexed)
+                this.indexBuffer.freeBuffer();
+
+            if (autoIndexBuffer != null) {
+                autoIndexBuffer.checkCapacity(this.vertexCount);
+                this.indexBuffer = autoIndexBuffer.getIndexBuffer();
+            }
+
+            this.autoIndexed = true;
+
+        } else {
+            if (this.indexBuffer != null)
+                this.indexBuffer.freeBuffer();
+
+            this.indexBuffer = new IndexBuffer(data.remaining(), MemoryTypes.GPU_MEM);
+            this.indexBuffer.copyBuffer(data);
+        }
+
+    }
+"""
+seq_new = """        if (parameters.sequentialIndex()) {
+            if (this.indexBuffer != null && !this.autoIndexed)
+                this.indexBuffer.freeBuffer();
+
+            this.indexBuffer = null;
+            this.autoIndexed = true;
+        } else {
+            if (this.indexBuffer != null && !this.autoIndexed)
+                this.indexBuffer.freeBuffer();
+
+            this.indexBuffer = new IndexBuffer(data.remaining(), MemoryTypes.GPU_MEM);
+            this.indexBuffer.copyBuffer(data);
+            this.autoIndexed = false;
+        }
+
+    }
+
+    private IndexBuffer getAutoIndexBuffer() {
+        AutoIndexBuffer autoIndexBuffer;
+        switch (this.mode) {
+            case TRIANGLE_FAN -> {
+                autoIndexBuffer = Renderer.getDrawer().getTriangleFanIndexBuffer();
+                this.indexCount = AutoIndexBuffer.DrawType.getTriangleStripIndexCount(this.vertexCount);
+            }
+            case TRIANGLE_STRIP, LINE_STRIP -> {
+                autoIndexBuffer = Renderer.getDrawer().getTriangleStripIndexBuffer();
+                this.indexCount = AutoIndexBuffer.DrawType.getTriangleStripIndexCount(this.vertexCount);
+            }
+            case QUADS -> autoIndexBuffer = Renderer.getDrawer().getQuadsIndexBuffer();
+            case LINES -> autoIndexBuffer = Renderer.getDrawer().getLinesIndexBuffer();
+            case DEBUG_LINE_STRIP -> autoIndexBuffer = Renderer.getDrawer().getDebugLineStripIndexBuffer();
+            case TRIANGLES, DEBUG_LINES -> autoIndexBuffer = null;
+            default -> throw new IllegalStateException("Unexpected draw mode: %s".formatted(this.mode));
+        }
+
+        if (autoIndexBuffer != null) {
+            autoIndexBuffer.checkCapacity(this.vertexCount);
+            return autoIndexBuffer.getIndexBuffer();
+        }
+        return null;
+    }
+
+    private IndexBuffer resolveIndexBuffer() {
+        return this.autoIndexed ? getAutoIndexBuffer() : this.indexBuffer;
+    }
+"""
+if vbo_text.count(seq_old) != 1:
+    raise SystemExit("source drift: VBO sequential-index block missing")
+vbo_text = vbo_text.replace(seq_old, seq_new, 1)
+
+draw_old = """            if (this.indexBuffer != null)
+                Renderer.getDrawer().drawIndexed(this.vertexBuffer, this.indexBuffer, this.indexCount);
+            else
+                Renderer.getDrawer().draw(this.vertexBuffer, this.vertexCount);
+"""
+draw_new = """            IndexBuffer drawIndexBuffer = resolveIndexBuffer();
+            if (drawIndexBuffer != null)
+                Renderer.getDrawer().drawIndexed(this.vertexBuffer, drawIndexBuffer, this.indexCount);
+            else
+                Renderer.getDrawer().draw(this.vertexBuffer, this.vertexCount);
+"""
+if vbo_text.count(draw_old) != 2:
+    raise SystemExit("source drift: expected two VBO draw index-buffer blocks")
+vbo_text = vbo_text.replace(draw_old, draw_new)
+vbo.write_text(vbo_text, encoding="utf-8")
+
 # Vulkan sources compile inside Hari's Forge source set, so the existing
 # harimt.refmap.json annotation-processor output already contains the merged
 # net.vulkanmod mappings. Point Vulkan's config at that shared generated refmap
@@ -588,5 +798,9 @@ assert '"terrain_z"' in pipeline_manager.read_text(encoding="utf-8")
 assert '"terrain_Z"' not in pipeline_manager.read_text(encoding="utf-8")
 assert 'System.getenv("DISPLAY")' in platform.read_text(encoding="utf-8")
 assert 'System.getenv("WAYLAND_DISPLAY")' in platform.read_text(encoding="utf-8")
+assert "imageTransferMemoryBarrier" in image_util.read_text(encoding="utf-8")
+assert "VK_PIPELINE_STAGE_VERTEX_SHADER_BIT | VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT" in vulkan_image.read_text(encoding="utf-8")
+assert "private IndexBuffer resolveIndexBuffer()" in vbo.read_text(encoding="utf-8")
+assert "this.autoIndexed = false;" in vbo.read_text(encoding="utf-8")
 assert "version=2.4.0-noxviola.1-vulkan-hybrid" in (root / "gradle.properties").read_text(encoding="utf-8")
 print("Hari 2.4 merged Vulkan renderer applied successfully")
