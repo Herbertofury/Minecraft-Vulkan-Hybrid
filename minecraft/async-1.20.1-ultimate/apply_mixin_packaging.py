@@ -90,22 +90,89 @@ if text.count(reobf_marker) != 1:
 # Force the established ordering: compile first, then contribute mappings, then
 # let reobfJar/reobfJarJar consume them. This repairs all generated hard refs at
 # the pipeline boundary instead of adding per-field aliases.
-reobf_order_block = '''// Ensure Mixin AP side outputs are first-class Gradle cache outputs.
+reobf_order_block = '''// Reproducible archives are part of the release contract. Gradle otherwise
+// preserves per-build timestamps in the outer mod JAR and nested backend JARs,
+// producing different SHA-256 values from identical source.
+tasks.withType(org.gradle.api.tasks.bundling.AbstractArchiveTask).configureEach {
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+}
+
+// Ensure Mixin AP side outputs are first-class Gradle cache outputs.
 // Otherwise compileJava may be restored FROM-CACHE while the AP-generated
 // refmap + hard-reference mappings are absent from the workspace.
 afterEvaluate {
     def hariCompileJava = tasks.named('compileJava')
     hariCompileJava.configure {
-        inputs.property('harimtMixinSideOutputContract', 'v2')
+        inputs.property('harimtMixinSideOutputContract', 'v3-reproducible')
         outputs.file(layout.buildDirectory.file('tmp/compileJava/compileJava-refmap.json'))
         outputs.file(layout.buildDirectory.file('tmp/compileJava/compileJava-mappings.tsrg'))
     }
-    tasks.configureReobfTaskForReobfJar.mustRunAfter(hariCompileJava)
-    tasks.configureReobfTaskForReobfJarJar.mustRunAfter(hariCompileJava)
+
+    // Mixin's annotation processor emits logically stable JSON through maps whose
+    // iteration order is not guaranteed. Canonicalize every object key recursively
+    // after compileJava, then feed that exact named refmap to all JAR tasks.
+    def normalizeHariMixinRefmap = tasks.register('normalizeHariMixinRefmap') {
+        dependsOn hariCompileJava
+        outputs.upToDateWhen { false }
+        doLast {
+            File raw = hariCompileJava.get().ext.refMapFile as File
+            if (!raw.isFile()) {
+                throw new GradleException("Missing Mixin AP refmap for deterministic packaging: " + raw)
+            }
+
+            File named = new File(raw.parentFile, hariCompileJava.get().ext.refMap.toString())
+            named.parentFile.mkdirs()
+            named.bytes = raw.bytes
+
+            def canonicalize
+            canonicalize = { Object node ->
+                if (node instanceof Map) {
+                    def sorted = new java.util.TreeMap()
+                    node.each { key, value -> sorted.put(key.toString(), canonicalize(value)) }
+                    return sorted
+                }
+                if (node instanceof List) {
+                    return node.collect { value -> canonicalize(value) }
+                }
+                return node
+            }
+
+            [raw, named].each { File refmap ->
+                def parsed = new groovy.json.JsonSlurper().parse(refmap)
+                def canonical = canonicalize(parsed)
+                refmap.setText(
+                        groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(canonical)) + System.lineSeparator(),
+                        'UTF-8')
+            }
+        }
+    }
+
+    // MixinGradle creates addMixinsTo* tasks in its earlier afterEvaluate hook.
+    // Make them consume the canonical named refmap rather than racing compileJava's
+    // non-deterministic doLast copy.
+    tasks.matching { it.name.startsWith('addMixinsTo') }.configureEach {
+        dependsOn normalizeHariMixinRefmap
+    }
+    tasks.withType(org.gradle.jvm.tasks.Jar).configureEach {
+        dependsOn normalizeHariMixinRefmap
+    }
+
+    tasks.configureReobfTaskForReobfJar.mustRunAfter(normalizeHariMixinRefmap)
+    tasks.configureReobfTaskForReobfJarJar.mustRunAfter(normalizeHariMixinRefmap)
 }
 
 '''
 text = text.replace(reobf_marker, reobf_order_block + reobf_marker, 1)
+
+for required_repro_token in (
+    "preserveFileTimestamps = false",
+    "reproducibleFileOrder = true",
+    "normalizeHariMixinRefmap",
+    "v3-reproducible",
+):
+    if required_repro_token not in text:
+        raise SystemExit(f"failed to install deterministic packaging token: {required_repro_token}")
 
 build.write_text(text, encoding="utf-8")
 print("HariMultiThread production Mixin plugin/refmap/config/reobf ordering applied successfully")
