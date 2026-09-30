@@ -157,6 +157,10 @@ def run_server(server_dir: Path, log_path: Path, phase: int) -> None:
 
             send('execute if entity @e[tag=harimt_qa] run say HMT_QA_ENTITIES_PRESENT')
             wait_for("HMT_QA_ENTITIES_PRESENT", 20)
+            send("scoreboard objectives add harimtCount dummy")
+            send("execute store result score entities harimtCount if entity @e[tag=harimt_qa]")
+            send("execute if score entities harimtCount matches 256 run say HMT_QA_COUNT_256")
+            wait_for("HMT_QA_COUNT_256", 20)
 
             # Exercise palette mutation + save while the async entity workload is live.
             send("fill 0 180 0 15 195 15 minecraft:stone")
@@ -174,6 +178,9 @@ def run_server(server_dir: Path, log_path: Path, phase: int) -> None:
             wait_for("Vanilla push replay fallback is active: GPU collision is disabled", 90)
             send('execute if entity @e[tag=harimt_qa] run say HMT_QA_RESTART_ENTITIES_PRESENT')
             wait_for("HMT_QA_RESTART_ENTITIES_PRESENT", 20)
+            send("execute store result score entities harimtCount if entity @e[tag=harimt_qa]")
+            send("execute if score entities harimtCount matches 256 run say HMT_QA_RESTART_COUNT_256")
+            wait_for("HMT_QA_RESTART_COUNT_256", 20)
 
             # Re-enable Vulkan live and prove repeated command-buffer reuse again
             # after a full JVM/server restart. The exact live verifier remains the

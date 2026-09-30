@@ -24,7 +24,7 @@ for fault in (True,False):
                 if required not in joined:raise RuntimeError('Missing real asynchronous failure marker: '+required)
             reports=[path for path in (server/'crash-reports').glob('*.txt') if marker in path.read_text()]
             if not reports:raise RuntimeError('Async entity tick failure produced no matching Minecraft crash report')
-            if not any('Exception in server tick loop' in path.read_text() for path in reports):raise RuntimeError('The intentional entity failure did not reach Minecraft server tick-loop reporting')
+            if not any('Description: Exception ticking world' in path.read_text() for path in reports):raise RuntimeError('The intentional entity failure did not reach Minecraft server tick-loop reporting')
             for path in reports:(evidence/path.name).write_bytes(path.read_bytes())
         else:
             while 'Done (' not in ''.join(lines) and time.monotonic()<deadline:
@@ -34,8 +34,11 @@ for fault in (True,False):
             proc.stdin.write('execute if entity @e[tag=harimt_qa] run say HARI_QA_POST_FAULT_ENTITIES_PRESENT\n');proc.stdin.flush()
             while 'HARI_QA_POST_FAULT_ENTITIES_PRESENT' not in ''.join(lines) and time.monotonic()<deadline:time.sleep(.2)
             if 'HARI_QA_POST_FAULT_ENTITIES_PRESENT' not in ''.join(lines):raise RuntimeError('saved QA entities were lost after the fault')
+            proc.stdin.write('execute store result score entities harimtCount if entity @e[tag=harimt_qa]\nexecute if score entities harimtCount matches 256 run say HARI_QA_POST_FAULT_COUNT_256\n');proc.stdin.flush()
+            while 'HARI_QA_POST_FAULT_COUNT_256' not in ''.join(lines) and time.monotonic()<deadline:time.sleep(.2)
+            if 'HARI_QA_POST_FAULT_COUNT_256' not in ''.join(lines):raise RuntimeError('async tick failure changed the saved 256-entity population')
             proc.stdin.write('stop\n');proc.stdin.flush();proc.wait(timeout=90);thread.join(5)
-            for fatal in ('Exception in server tick loop','MixinApplyError','NoSuchMethodError',marker):
+            for fatal in ('Encountered an unexpected exception','Exception ticking world','Exception in server tick loop','MixinApplyError','NoSuchMethodError',marker):
                 if fatal in ''.join(lines):raise RuntimeError('unexpected reopened-world failure: '+fatal)
         print('PASS: '+('real async tick failure surfaced and server saved' if fault else 'saved world reopened with entities retained'))
     finally:
