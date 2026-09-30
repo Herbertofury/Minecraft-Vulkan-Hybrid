@@ -140,6 +140,14 @@ jobs:
             --baseline vulkan-forge/src/main/java/net/vulkanmod/vulkan/memory/AutoIndexBuffer.java \
             --report qa-out/AUTO-INDEX-REGRESSION.json
 
+      - name: Verify simulation failure propagation and worker barrier
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/test_task_failures.py \
+            upstream/common/src/main/java/com/axalotl/async/common/TaskFailures.java \
+            --report qa-out/TASK-FAILURE-REGRESSION.json
+
       - name: Build merged Forge artifact
         working-directory: upstream
         shell: bash

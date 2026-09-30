@@ -37,3 +37,79 @@ destination = root / "forge/src/main/java" / rel
 destination.parent.mkdir(parents=True, exist_ok=True)
 shutil.copy2(here / "vulkan-hybrid-src" / rel, destination)
 print("Shader integrity: active JSON/imports, closed streams, exact bindings, no approximate fallback")
+
+# Simulation failures must not be logged and treated as successful ticks.
+processor = root / "common/src/main/java/com/axalotl/async/common/ParallelProcessor.java"
+p = processor.read_text()
+p = p.replace("        ConcurrentLinkedQueue<T> work = new ConcurrentLinkedQueue<>(items);", "        TaskFailures failures = new TaskFailures();\n        ConcurrentLinkedQueue<T> work = new ConcurrentLinkedQueue<>(items);", 1)
+p = p.replace("                while ((item = work.poll()) != null) {", "                while (!failures.failed() && (item = work.poll()) != null) {", 1)
+p = p.replace('                LOGGER.error("Error during parallel batch item", t);', '                failures.record(t);', 1)
+a = p.index("        waitForFutures(futures, waitWorld);", p.index("public static <T> void forEachParallel"))
+p = p[:a] + p[a:].replace("        waitForFutures(futures, waitWorld);", "        waitForFutures(futures, waitWorld);\n        failures.rethrow();", 1)
+p = p.replace("        boolean allDone;\n", "        boolean interrupted = false;\n        boolean allDone;\n", 1)
+p = p.replace("        do {\n            allDone = futures", "        do {\n            if (Thread.interrupted()) interrupted = true;\n            allDone = futures", 1)
+a = p.index("        // Collect results and log errors")
+b = p.index("    public static boolean shouldTickSynchronously", a)
+p = p[:a] + "        if (interrupted) Thread.currentThread().interrupt();\n        TaskFailures.joinCompleted(futures);\n    }\n\n" + p[b:]
+a = p.index("        } catch (Exception e)", p.index("private static void tickEntity"))
+b = p.index("        } finally {", a)
+p = p[:b] + "            if (e instanceof RuntimeException runtime) throw runtime;\n            throw new IllegalStateException(\"Entity tick failed\", e);\n" + p[b:]
+assert 'LOGGER.error("Error during parallel batch item", t)' not in p
+processor.write_text(p)
+rel = Path("com/axalotl/async/common/TaskFailures.java")
+destination = root / "common/src/main/java" / rel
+destination.parent.mkdir(parents=True, exist_ok=True)
+shutil.copy2(here / "vulkan-hybrid-src" / rel, destination)
+print("Simulation integrity: join active workers and propagate tick/task failures")
+
+# A failed world tick must still release deferral state after all active workers join.
+p = processor.read_text()
+assert p.count('        boolean workersJoined = false;') == 1
+p = p.replace('        boolean workersJoined = false;', '        boolean workersJoined = false;\n        TaskFailures batchFailures = new TaskFailures();', 1)
+old = '''        } finally {
+            if (pushBatchActive) {
+                // If an unexpected exception bypassed the normal join, converge any
+                // already-submitted workers before exposing their final positions.
+                if (!workersJoined) waitForFutures(futures, world);
+                GpuPushBatch.endBatch(world);
+                GpuPushBatch.flush(world);
+            }
+        }
+        TickStats.RECORDING_TICKS_LEFT.decrementAndGet();'''
+new = '''        } catch (Throwable failure) {
+            batchFailures.record(failure);
+        } finally {
+            if (pushBatchActive) {
+                if (!workersJoined) {
+                    try {
+                        waitForFutures(futures, world);
+                    } catch (Throwable failure) {
+                        batchFailures.record(failure);
+                    }
+                }
+                GpuPushBatch.endBatch(world);
+                if (batchFailures.failed()) GpuPushBatch.discard(world);
+                else GpuPushBatch.flush(world);
+            }
+        }
+        batchFailures.rethrow();
+        TickStats.RECORDING_TICKS_LEFT.decrementAndGet();'''
+assert p.count(old) == 1, 'world-batch failure cleanup source drift'
+p = p.replace(old, new, 1)
+processor.write_text(p)
+push = root / 'common/src/main/java/com/axalotl/async/common/gpu/GpuPushBatch.java'
+p = push.read_text()
+anchor = '    public static boolean isBatchActive(ServerLevel world) {'
+assert p.count(anchor) == 1
+p = p.replace(anchor, '''    /** Drop incomplete-tick deferrals only after active workers have converged. */
+    public static void discard(ServerLevel world) {
+        if (world == null) return;
+        if (isBatchActive(world)) throw new IllegalStateException("Cannot discard an active entity batch");
+        DEFERRED.remove(world.dimension());
+    }
+
+''' + anchor, 1)
+p = p.replace('''            LOGGER.error("Refusing to replay deferred pushes while the entity batch is still active for {}",
+                    world.dimension().location());
+            return;''', '''            throw new IllegalStateException("Cannot replay deferred pushes during active batch " + world.dimension().location());''', 1)
+push.write_text(p)

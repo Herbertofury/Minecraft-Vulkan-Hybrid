@@ -10,6 +10,8 @@ Scope: Minecraft 1.20.1, Forge 47.4.23, Java 17. Original Hari source is immutab
 - Remove approximate vertex-format-based shader substitution and fabricated zero uniforms. Missing resources, conversion failures, or missing bindings now identify the actual shader defect instead of silently changing visuals.
 - Fix the QA client's invalid simulationDistance=4 to the supported minimum 5.
 
+- Hari's entity tick, parallel item, and completed-future handlers also swallowed simulation exceptions. Keep active workers behind the barrier, retain failure causes and secondary exceptions, and propagate the failure to Minecraft. Real Java futures/threads cover eight failure/barrier cases, including cancellation, fatal Error, and restored interruption.
+
 ## Verification status
 
 Candidate reconstruction completed. New compile, reproducibility, dedicated server, packaged Vulkan, packaged Embeddium, resource reload, resize, injected external-looking tick failure, and saved-world reopen checks are pending. The previous distributed artifact remains the previously verified build until these gates pass. No claim of universal compatibility, hardware performance, or an error-free release is made while verification is pending.

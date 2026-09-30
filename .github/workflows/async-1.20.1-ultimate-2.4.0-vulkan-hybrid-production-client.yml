@@ -209,12 +209,12 @@ jobs:
           python3 .github/qa/hari24_production_client_qa.py \
             --portablemc "$pmc" --main-dir "$PWD/pmc-main" \
             --mc-dir "$PWD/pmc-game" --world HMT-2.4-QA \
-            --evidence "$PWD/production-qa/client-tick-fault" --display :95 --expect vulkan --tick-fault
+            --evidence "$PWD/production-qa/client-tick-fault" --java "$JAVA_HOME/bin/java" --display :95 --expect vulkan --tick-fault
           pmc="$(cat production-qa/portablemc-path.txt)"
           python3 .github/qa/hari24_production_client_qa.py \
             --portablemc "$pmc" --main-dir "$PWD/pmc-main" \
             --mc-dir "$PWD/pmc-game" --world HMT-2.4-QA \
-            --evidence "$PWD/production-qa/client-vulkan-reopen" --display :94 --expect vulkan
+            --evidence "$PWD/production-qa/client-vulkan-reopen" --java "$JAVA_HOME/bin/java" --display :94 --expect vulkan
 
       - name: Install exact Embeddium fallback fixture
         shell: bash
