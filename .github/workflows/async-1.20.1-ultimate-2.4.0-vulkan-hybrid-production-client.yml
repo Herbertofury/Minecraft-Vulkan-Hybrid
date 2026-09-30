@@ -216,6 +216,24 @@ jobs:
             --mc-dir "$PWD/pmc-game" --world HMT-2.4-QA \
             --evidence "$PWD/production-qa/client-vulkan-reopen" --java "$JAVA_HOME/bin/java" --display :94 --expect vulkan
 
+      - name: Preserve Fabulous graphics through the OpenGL renderer
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY_OPTIONS'
+          from pathlib import Path
+          path = Path('pmc-game/options.txt')
+          rows = [line for line in path.read_text().splitlines() if not line.startswith('graphicsMode:')]
+          path.write_text('\n'.join(rows + ['graphicsMode:2']) + '\n')
+          PY_OPTIONS
+          pmc="$(cat production-qa/portablemc-path.txt)"
+          python3 .github/qa/hari24_production_client_qa.py \
+            --portablemc "$pmc" --main-dir pmc-main --mc-dir pmc-game \
+            --world HMT-2.4-QA --evidence production-qa/client-fabulous \
+            --java "$JAVA_HOME/bin/java" --display :93 --expect opengl
+          grep -F 'Fabulous graphics requires' production-qa/client-fabulous/production-client-console.log
+          grep -F 'graphicsMode:2' pmc-game/options.txt
+
       - name: Install exact Embeddium fallback fixture
         shell: bash
         run: |

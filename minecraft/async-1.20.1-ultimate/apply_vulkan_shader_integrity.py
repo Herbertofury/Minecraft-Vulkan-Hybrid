@@ -113,3 +113,15 @@ p = p.replace('''            LOGGER.error("Refusing to replay deferred pushes wh
                     world.dimension().location());
             return;''', '''            throw new IllegalStateException("Cannot replay deferred pushes during active batch " + world.dimension().location());''', 1)
 push.write_text(p)
+
+# Opt-in native failure probe is not registered during ordinary play.
+rel = Path("com/axalotl/async/forge/qa/HariServerFailureProbe.java")
+destination = root / "forge/src/main/java" / rel
+destination.parent.mkdir(parents=True, exist_ok=True)
+shutil.copy2(here / "vulkan-hybrid-src" / rel, destination)
+forge = root / "forge/src/main/java/com/axalotl/async/forge/AsyncForge.java"
+s = forge.read_text()
+anchor = "        MinecraftForge.EVENT_BUS.register(this);"
+assert s.count(anchor) == 1
+s = s.replace(anchor, anchor + "\n        if (Boolean.getBoolean(\"harimt.qa.entityFault\")) {\n            MinecraftForge.EVENT_BUS.register(new com.axalotl.async.forge.qa.HariServerFailureProbe());\n        }", 1)
+forge.write_text(s)

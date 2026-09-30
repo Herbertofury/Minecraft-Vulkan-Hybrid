@@ -164,6 +164,13 @@ jobs:
           grep -F 'Live GPU Verification PASS' evidence/runtime/server/packaged-server-gpu-and-fallback.log
           grep -F 'HMT_QA_RESTART_ENTITIES_PRESENT' evidence/runtime/server/packaged-server-restart.log
 
+      - name: Prove real async entity tick failures surface and the saved world reopens
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/runtime_entity_failure_qa.py \
+            qa-server evidence/runtime/entity-failure
+
       - name: Package native acceptance evidence
         shell: bash
         run: |

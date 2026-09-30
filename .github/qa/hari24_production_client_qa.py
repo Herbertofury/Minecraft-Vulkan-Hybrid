@@ -292,6 +292,20 @@ def main() -> int:
         if args.expect == "vulkan":
             wait_for("legacy shader 'forge:rendertype_entity_unlit_translucent'")
 
+        def error_ledger(snapshot: list[str]) -> None:
+            records = []
+            for line in snapshot:
+                if "[ERROR]" not in line and "/ERROR]" not in line:
+                    continue
+                if "com.mojang.authlib.exceptions.InvalidCredentialsException: Status: 401" in line:
+                    classification = "offline-launcher authentication diagnostic"
+                elif "Mod mixin into Embeddium internals detected. This instance is now tainted." in line:
+                    classification = "Embeddium support notice for retained Hari GPU bridge"
+                else:
+                    raise RuntimeError("unexpected production error: " + line.strip())
+                records.append({"classification": classification, "line": line.strip()})
+            (evidence / "error-ledger.json").write_text(json.dumps(records, indent=2) + "\n", encoding="utf-8")
+
         command_file = mc_dir / "harimt-qa-command.txt"
         cursor = len(lines)
         command_file.write_text("reload\n", encoding="utf-8")
@@ -310,6 +324,7 @@ def main() -> int:
             if (actual_width, actual_height) != (width, height) or colors < 64 or stddev < 0.05:
                 raise RuntimeError("resized client did not render the real world")
 
+        error_ledger(list(lines))
         if args.tick_fault:
             cursor = len(lines)
             command_file.write_text("tick-fault\n", encoding="utf-8")
@@ -337,6 +352,7 @@ def main() -> int:
         if rc != 0:
             raise RuntimeError(f"PortableMC production launch exited with code {rc}")
 
+        error_ledger(list(lines))
         joined = "".join(lines)
         required = [
             "--launchTarget, forgeclient",

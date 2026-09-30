@@ -37,7 +37,7 @@ import java.util.zip.ZipInputStream;
 public final class UniversalRendererGate {
     public static final String MODE_PROPERTY = "harimt.vulkan.mode"; // auto | force | off
     public static final String CACHE_PROPERTY = "harimt.vulkan.compatCache"; // default true
-    private static final String CACHE_SCHEMA = "2.4.0-vulkan-gate-v8";
+    private static final String CACHE_SCHEMA = "2.4.0-vulkan-gate-v9";
 
     private static final Pattern MOD_ID = Pattern.compile("(?m)^\\s*modId\\s*=\\s*[\\\"']([^\\\"']+)[\\\"']");
     private static final Pattern FABRIC_ID = Pattern.compile("\"id\"\\s*:\\s*\"([^\"]+)\"");
@@ -85,6 +85,19 @@ public final class UniversalRendererGate {
                     "ForgeGradle mapped userdev uses Mojmap; SRG-locked Vulkan mixins require packaged forgeclient");
         }
 
+        Path options = gameDirectory().resolve("options.txt");
+        if (Files.isRegularFile(options)) {
+            try {
+                for (String line : Files.readAllLines(options, StandardCharsets.UTF_8)) {
+                    if (line.trim().equals("graphicsMode:2")) {
+                        return new Decision(false, "Fabulous graphics requires Minecraft's OpenGL transparency pipeline");
+                    }
+                }
+            } catch (IOException failure) {
+                return new Decision(false, "cannot inspect graphics options: " + failure.getClass().getSimpleName());
+            }
+        }
+
         Map<String, Set<String>> contracts = loadContracts();
         if (contracts.isEmpty()) return new Decision(false, "OpenGL translation contract missing");
 
@@ -97,7 +110,7 @@ public final class UniversalRendererGate {
             return new Decision(false, "mutually-exclusive renderer(s): " + String.join(",", earlyConflicts));
         }
 
-        Path mods = Path.of(System.getProperty("user.dir", ".")).toAbsolutePath().normalize().resolve("mods");
+        Path mods = gameDirectory().resolve("mods");
         if (!Files.isDirectory(mods)) {
             if (!earlyConflicts.isEmpty()) {
                 return new Decision(false, "mutually-exclusive renderer(s): " + String.join(",", earlyConflicts));
@@ -173,6 +186,17 @@ public final class UniversalRendererGate {
         }
         if (useCache) writeCache(signature, result);
         return result;
+    }
+
+    private static Path gameDirectory() {
+        try {
+            Class<?> paths = Class.forName("net.minecraftforge.fml.loading.FMLPaths", false,
+                    UniversalRendererGate.class.getClassLoader());
+            Object gameDir = paths.getField("GAMEDIR").get(null);
+            return ((Path) paths.getMethod("get").invoke(gameDir)).toAbsolutePath().normalize();
+        } catch (ReflectiveOperationException | LinkageError unavailable) {
+            return Path.of(System.getProperty("user.dir", ".")).toAbsolutePath().normalize();
+        }
     }
 
     private static String summarize(Set<String> values, int max) {

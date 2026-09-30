@@ -148,6 +148,15 @@ jobs:
             upstream/common/src/main/java/com/axalotl/async/common/TaskFailures.java \
             --report qa-out/TASK-FAILURE-REGRESSION.json
 
+      - name: Verify graphics settings and actual Forge game-directory routing
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/test_vulkan_graphics_gate.py \
+            upstream/forge/src/main/java/net/vulkanmod/compat/UniversalRendererGate.java \
+            upstream/forge/src/main/resources/assets/vulkanmod/compat/harimt_supported_gl_methods.properties \
+            --report qa-out/GRAPHICS-GATE-REGRESSION.json
+
       - name: Build merged Forge artifact
         working-directory: upstream
         shell: bash
