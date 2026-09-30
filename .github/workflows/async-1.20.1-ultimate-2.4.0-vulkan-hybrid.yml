@@ -127,6 +127,15 @@ jobs:
           cmp "$canonical" "$rebuilt"
           rm -f "$rebuilt"
 
+      - name: Check VBO resource ownership against pinned negative controls
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/test_vulkan_vbo.py \
+            upstream/forge/src/main/java/net/vulkanmod/render/VBO.java \
+            --baseline vulkan-forge/src/main/java/net/vulkanmod/render/VBO.java \
+            --report qa-out/VBO-REGRESSION.json
+
       - name: Build merged Forge artifact
         working-directory: upstream
         shell: bash
@@ -202,6 +211,27 @@ jobs:
             exit 1
           fi
           unzip -p "$jarfile" META-INF/harimt-vulkan/SOURCE.txt > qa-out/VULKAN-SOURCE.txt
+
+      - name: Prove byte-for-byte reproducible rebuild
+        shell: bash
+        run: |
+          set -euo pipefail
+          first=qa-out/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar
+          test -s "$first"
+          cp "$first" /tmp/hari24-first.jar
+          sha256sum /tmp/hari24-first.jar | tee qa-out/REPRO-FIRST-SHA256.txt
+
+          (cd upstream && ./gradlew --no-daemon clean :forge:build --stacktrace) 2>&1 | tee qa-out/REPRO-REBUILD.log
+          second="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.4.0-noxviola.1-vulkan-hybrid-all.jar' | sort | head -n 1)"
+          test -s "$second"
+          sha256sum "$second" | tee qa-out/REPRO-SECOND-SHA256.txt
+          cp "$second" qa-out/REPRO-SECOND.jar
+          cmp /tmp/hari24-first.jar "$second"
+
+          first_sha="$(sha256sum /tmp/hari24-first.jar | awk '{print $1}')"
+          second_sha="$(sha256sum "$second" | awk '{print $1}')"
+          test "$first_sha" = "$second_sha"
+          printf 'reproducible_jar_sha256=%s\n' "$first_sha" | tee qa-out/REPRODUCIBLE.txt
 
       - name: Compile renderer decision probe
         shell: bash
