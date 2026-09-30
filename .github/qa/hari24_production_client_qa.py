@@ -21,6 +21,16 @@ import traceback
 from pathlib import Path
 
 FATAL = (
+    "minecraft:null.vsh",
+    "createLegacyShader FAILED",
+    "Error on shader",
+    "Cannot create Vulkan shader",
+    "Using Vulkan fallback shader",
+    "zero-filling",
+    "not present in uniform map",
+    "Suppressed external failure",
+    "Error parsing option value",
+    "[Hari/QA] frame capture failed",
     "MixinApplyError",
     "InvalidMixinException",
     "InjectionError",
@@ -86,6 +96,7 @@ def main() -> int:
     p.add_argument("--display", default=":97")
     p.add_argument("--java", default="java")
     p.add_argument("--expect", choices=("vulkan", "opengl"), default="vulkan")
+    p.add_argument("--tick-fault", action="store_true")
     args = p.parse_args()
 
     pmc = args.portablemc.resolve()
@@ -125,7 +136,7 @@ def main() -> int:
     wm_log = None
     proc = None
     lines: list[str] = []
-    events: queue.Queue[str] = queue.Queue()
+    events: queue.Queue[tuple[int, str]] = queue.Queue()
 
     try:
         wait_x(args.display, env)
@@ -159,6 +170,7 @@ def main() -> int:
             "--jvm-arg=-Dharimt.vulkan.compatCache=false",
             "--jvm-arg=-Dharimt.vulkan.allowCpuDevice=true",
             "--jvm-arg=-Dharimt.qa.captureFrames=true",
+            "--jvm-arg=-Dharimt.qa.lifecycle=true",
         ]
         (evidence / "launch-command.txt").write_text(" ".join(cmd) + "\n", encoding="utf-8")
         proc = subprocess.Popen(
@@ -176,7 +188,7 @@ def main() -> int:
             for line in proc.stdout:
                 print(line, end="", flush=True)
                 lines.append(line)
-                events.put(line)
+                events.put((len(lines) - 1, line))
 
         thread = threading.Thread(target=reader, name="hari24-production-reader", daemon=True)
         thread.start()
@@ -192,8 +204,8 @@ def main() -> int:
             if args.expect == "opengl" and "renderer=VULKAN" in line:
                 raise RuntimeError("OpenGL compatibility lane unexpectedly selected Vulkan")
 
-        def wait_for(marker: str, timeout: float = READY_TIMEOUT) -> None:
-            for line in list(lines):
+        def wait_for(marker: str, timeout: float = READY_TIMEOUT, start_at: int = 0) -> None:
+            for line in list(lines)[start_at:]:
                 inspect(line, marker)
                 if marker in line:
                     return
@@ -202,11 +214,11 @@ def main() -> int:
                 if proc is not None and proc.poll() is not None and events.empty():
                     raise RuntimeError(f"PortableMC/Minecraft exited waiting for {marker!r}")
                 try:
-                    line = events.get(timeout=min(1.0, max(0.05, deadline - time.monotonic())))
+                    index, line = events.get(timeout=min(1.0, max(0.05, deadline - time.monotonic())))
                 except queue.Empty:
                     continue
                 inspect(line, marker)
-                if marker in line:
+                if index >= start_at and marker in line:
                     return
             raise TimeoutError(f"timed out waiting for {marker!r}")
 
@@ -276,6 +288,43 @@ def main() -> int:
         else:
             raise TimeoutError("packaged production client never produced a rendered-world frame")
         (evidence / "render-readiness.txt").write_text("\n".join(metrics) + "\n", encoding="utf-8")
+
+        if args.expect == "vulkan":
+            wait_for("legacy shader 'forge:rendertype_entity_unlit_translucent'")
+
+        command_file = mc_dir / "harimt-qa-command.txt"
+        cursor = len(lines)
+        command_file.write_text("reload\n", encoding="utf-8")
+        wait_for("[Hari/QA] resource reload completed and world rendered", start_at=cursor)
+        subprocess.run(["import", "-display", args.display, "-window", wid,
+                        str(evidence / "after-resource-reload.png")], env=env, check=True, timeout=20)
+        for width, height in ((960, 540), (1280, 720)):
+            cursor = len(lines)
+            subprocess.run(["xdotool", "windowsize", "--sync", wid, str(width), str(height)],
+                           env=env, check=True, timeout=20)
+            wait_for(f"[Hari/QA] rendered world width={width} height={height}", start_at=cursor)
+            resized = evidence / f"after-resize-{width}x{height}.png"
+            subprocess.run(["import", "-display", args.display, "-window", wid, str(resized)],
+                           env=env, check=True, timeout=20)
+            actual_width, actual_height, colors, stddev = image_metrics(resized, env)
+            if (actual_width, actual_height) != (width, height) or colors < 64 or stddev < 0.05:
+                raise RuntimeError("resized client did not render the real world")
+
+        if args.tick_fault:
+            cursor = len(lines)
+            command_file.write_text("tick-fault\n", encoding="utf-8")
+            wait_for("HARI_QA_INTENTIONAL_CLIENT_TICK_FAULT", start_at=cursor)
+            proc.wait(timeout=120)
+            thread.join(timeout=5)
+            if not list((mc_dir / "crash-reports").glob("*.txt")):
+                raise RuntimeError("injected client tick failure did not create a crash report")
+            joined = "".join(lines)
+            for fatal in FATAL:
+                if fatal in joined:
+                    raise RuntimeError(f"unexpected error during intentional tick-fault lane: {fatal}")
+            shutil.copytree(mc_dir / "crash-reports", evidence / "intentional-crash-reports", dirs_exist_ok=True)
+            print("[HARI24-QA] intentional tick failure surfaced without suppression", flush=True)
+            return 0
 
         subprocess.run(
             ["xdotool", "windowactivate", "--sync", wid, "key", "--clearmodifiers", "alt+F4"],

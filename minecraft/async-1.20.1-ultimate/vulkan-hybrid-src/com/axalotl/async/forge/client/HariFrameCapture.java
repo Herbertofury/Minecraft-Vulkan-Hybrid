@@ -18,6 +18,13 @@ import java.util.Map;
 @Mod.EventBusSubscriber(modid = "harimt", value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public final class HariFrameCapture {
     private static final boolean ENABLED = Boolean.getBoolean("harimt.qa.captureFrames");
+    private static final boolean LIFECYCLE = Boolean.getBoolean("harimt.qa.lifecycle");
+    private static int commandTicks;
+    private static int stableFrames;
+    private static int lastWidth;
+    private static int lastHeight;
+    private static boolean reloadCompleted;
+    private static boolean reloadReported;
     private static final int WARMUP = 120;
     private static final int SAMPLES = 300;
     private static final double[] FRAMES = ENABLED ? new double[SAMPLES] : null;
@@ -29,9 +36,57 @@ public final class HariFrameCapture {
     private HariFrameCapture() {}
 
     @SubscribeEvent
-    public static void render(TickEvent.RenderTickEvent event) {
-        if (!ENABLED || finished || event.phase != TickEvent.Phase.END) return;
+    public static void tick(TickEvent.ClientTickEvent event) {
+        if (!LIFECYCLE || event.phase != TickEvent.Phase.END || ++commandTicks % 20 != 0) return;
         Minecraft mc = Minecraft.getInstance();
+        if (mc.level == null || mc.player == null) return;
+        java.nio.file.Path command = mc.gameDirectory.toPath().resolve("harimt-qa-command.txt");
+        if (!Files.isRegularFile(command)) return;
+        String action;
+        try {
+            action = Files.readString(command, StandardCharsets.UTF_8).trim();
+            Files.delete(command);
+        } catch (java.io.IOException failure) {
+            throw new java.io.UncheckedIOException("Cannot read QA lifecycle command", failure);
+        }
+        if ("reload".equals(action)) {
+            reloadCompleted = false;
+            reloadReported = false;
+            mc.reloadResourcePacks().thenRun(() -> {
+                reloadCompleted = true;
+                stableFrames = 0;
+            });
+        } else if ("tick-fault".equals(action)) {
+            RuntimeException failure = new RuntimeException("HARI_QA_INTENTIONAL_CLIENT_TICK_FAULT");
+            failure.setStackTrace(new StackTraceElement[] {
+                    new StackTraceElement("org.orecruncher.dsurround.HariAuditFixture", "tick", "HariAuditFixture.java", 1)
+            });
+            throw failure;
+        } else {
+            throw new IllegalArgumentException("Unknown QA lifecycle command: " + action);
+        }
+    }
+
+    @SubscribeEvent
+    public static void render(TickEvent.RenderTickEvent event) {
+        if ((!ENABLED && !LIFECYCLE) || event.phase != TickEvent.Phase.END) return;
+        Minecraft mc = Minecraft.getInstance();
+        if (LIFECYCLE && mc.level != null && mc.player != null && mc.getOverlay() == null) {
+            int width = mc.getWindow().getWidth(), height = mc.getWindow().getHeight();
+            if (width != lastWidth || height != lastHeight) {
+                lastWidth = width;
+                lastHeight = height;
+                stableFrames = 0;
+            }
+            if (++stableFrames == 20) {
+                AsyncForge.LOGGER.info("[Hari/QA] rendered world width={} height={}", width, height);
+            }
+            if (reloadCompleted && !reloadReported && stableFrames >= 20) {
+                reloadReported = true;
+                AsyncForge.LOGGER.info("[Hari/QA] resource reload completed and world rendered");
+            }
+        }
+        if (!ENABLED || finished) return;
         if (mc.level == null || mc.player == null || mc.screen != null) {
             warmup = 0;
             count = 0;

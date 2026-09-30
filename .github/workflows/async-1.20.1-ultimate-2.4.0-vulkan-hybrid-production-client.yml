@@ -7,6 +7,7 @@ name: Hari 1.20.1 Ultimate 2.4 Packaged Production Client QA
       - '.github/qa/hari24_production_client_qa.py'
       - '.github/qa/seed_forge_world.py'
       - 'minecraft/async-1.20.1-ultimate/apply_vulkan_hybrid.py'
+      - 'minecraft/async-1.20.1-ultimate/apply_vulkan_shader_integrity.py'
       - 'minecraft/async-1.20.1-ultimate/vulkan-hybrid-src/**'
       - 'minecraft/async-1.20.1-ultimate/runtime_vulkan_hybrid_qa.py'
       - '.github/workflows/async-1.20.1-ultimate-2.4.0-vulkan-hybrid-production-client.yml'
@@ -164,7 +165,7 @@ jobs:
           mkdir -p pmc-game/mods pmc-game/saves/HMT-2.4-QA
           cp production-qa/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar pmc-game/mods/HariMultiThread-Ultimate.jar
           cp -a production-seed-server/world/. pmc-game/saves/HMT-2.4-QA/
-          printf 'renderDistance:4\nsimulationDistance:4\nmaxFps:260\nenableVsync:false\npauseOnLostFocus:false\n' > pmc-game/options.txt
+          printf 'renderDistance:4\nsimulationDistance:5\nmaxFps:260\nenableVsync:false\npauseOnLostFocus:false\n' > pmc-game/options.txt
           # The software driver supports core GL 4.5. Avoid spending Forge's
           # ten-second early-window budget attempting unsupported GL 4.6.
           mkdir -p pmc-game/config
@@ -200,6 +201,21 @@ jobs:
           test -s production-qa/client-vulkan/forge-production-client-vulkan.png
           grep -F 'ready=true' production-qa/client-vulkan/render-readiness.txt
 
+      - name: Prove client tick failures surface and the saved world reopens
+        shell: bash
+        run: |
+          set -euo pipefail
+          pmc="$(cat production-qa/portablemc-path.txt)"
+          python3 .github/qa/hari24_production_client_qa.py \
+            --portablemc "$pmc" --main-dir "$PWD/pmc-main" \
+            --mc-dir "$PWD/pmc-game" --world HMT-2.4-QA \
+            --evidence "$PWD/production-qa/client-tick-fault" --display :95 --expect vulkan --tick-fault
+          pmc="$(cat production-qa/portablemc-path.txt)"
+          python3 .github/qa/hari24_production_client_qa.py \
+            --portablemc "$pmc" --main-dir "$PWD/pmc-main" \
+            --mc-dir "$PWD/pmc-game" --world HMT-2.4-QA \
+            --evidence "$PWD/production-qa/client-vulkan-reopen" --display :94 --expect vulkan
+
       - name: Install exact Embeddium fallback fixture
         shell: bash
         run: |
@@ -213,7 +229,7 @@ jobs:
           rm -rf pmc-game/saves/HMT-2.4-QA
           mkdir -p pmc-game/saves/HMT-2.4-QA
           cp -a production-seed-server/world/. pmc-game/saves/HMT-2.4-QA/
-          printf 'renderDistance:4\nsimulationDistance:4\nmaxFps:260\nenableVsync:false\npauseOnLostFocus:false\n' > pmc-game/options.txt
+          printf 'renderDistance:4\nsimulationDistance:5\nmaxFps:260\nenableVsync:false\npauseOnLostFocus:false\n' > pmc-game/options.txt
 
       - name: Launch real packaged Forge Embeddium OpenGL fallback client
         shell: bash

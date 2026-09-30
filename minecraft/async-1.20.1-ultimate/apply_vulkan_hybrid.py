@@ -131,6 +131,37 @@ if pipeline_text.count('"terrain_Z"') != 1:
 pipeline_text = pipeline_text.replace('"terrain_Z"', '"terrain_z"', 1)
 pipeline_manager.write_text(pipeline_text, encoding="utf-8")
 
+# Preserve vanilla tick failure and emergency-save behavior. The Forge port
+# introduced a whole-tick exception boundary that can suppress an external mod
+# failure and abandon the rest of that tick. Its inherited empty emergencySave
+# redirect also prevents vanilla from attempting to save an integrated world.
+minecraft_mixin = dst_java / "mixin/render/MinecraftMixin.java"
+minecraft_text = minecraft_mixin.read_text(encoding="utf-8")
+tick_boundary = """    @Redirect(method = "runTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;tick()V"))
+    private void guardClientTick(Minecraft instance) {
+        ExternalClientFaultBoundary.runClientTick(instance);
+    }
+
+"""
+save_boundary = """    @Redirect(method = "run", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;emergencySave()V"))
+    private void skipEmergencySave(Minecraft instance) {
+
+    }
+
+"""
+for label, block in (("client tick suppression", tick_boundary), ("emergency save suppression", save_boundary)):
+    if minecraft_text.count(block) != 1:
+        raise SystemExit(f"source drift: expected one {label} block")
+    minecraft_text = minecraft_text.replace(block, "", 1)
+minecraft_text = minecraft_text.replace("import net.vulkanmod.compat.ExternalClientFaultBoundary;\n", "")
+minecraft_mixin.write_text(minecraft_text, encoding="utf-8")
+(dst_java / "compat/ExternalClientFaultBoundary.java").unlink()
+(forge_res / "assets/vulkanmod/compat/client_tick_exception_prefixes.txt").unlink()
+
+# Forge custom shader programs must resolve from their active JSON, not an optional redirect.
+import subprocess
+subprocess.run([sys.executable, str(here / "apply_vulkan_shader_integrity.py"), str(root)], check=True)
+
 # Backport xCollateral/VulkanMod 2026 image-upload synchronization fixes
 # (94d137a8). These are API-compatible with the 1.20.1 fork and close a
 # transfer-write hazard without importing the newer 1.21 renderer architecture.
