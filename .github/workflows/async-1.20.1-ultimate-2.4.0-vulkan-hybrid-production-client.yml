@@ -59,7 +59,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends \
             curl tar zip unzip glslang-tools mesa-vulkan-drivers vulkan-tools \
-            xvfb openbox xdotool x11-utils imagemagick libgl1-mesa-dri libflite1
+            xvfb openbox xdotool x11-utils imagemagick libgl1-mesa-dri mesa-utils libflite1
           chmod +x upstream/gradlew
           mkdir -p qa-native-libs
           flite_lib="$(ldconfig -p | awk '/libflite\.so\.1/{print $NF; exit}')"
@@ -164,6 +164,11 @@ jobs:
           mkdir -p pmc-game/mods pmc-game/saves/HMT-2.4-QA
           cp production-qa/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar pmc-game/mods/HariMultiThread-Ultimate.jar
           cp -a production-seed-server/world/. pmc-game/saves/HMT-2.4-QA/
+          printf 'renderDistance:4\nsimulationDistance:4\nmaxFps:260\nenableVsync:false\npauseOnLostFocus:false\n' > pmc-game/options.txt
+          # The software driver supports core GL 4.5. Avoid spending Forge's
+          # ten-second early-window budget attempting unsupported GL 4.6.
+          mkdir -p pmc-game/config
+          printf 'earlyWindowSkipGLVersions = ["4.6"]\n' > pmc-game/config/fml.toml
           sha256sum pmc-game/mods/HariMultiThread-Ultimate.jar | tee production-qa/INSTALLED-JAR-SHA256.txt
           diff -u production-qa/JAR-SHA256.txt <(sed 's#pmc-game/mods/HariMultiThread-Ultimate.jar#production-qa/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar#' production-qa/INSTALLED-JAR-SHA256.txt)
 
@@ -205,6 +210,10 @@ jobs:
           cp "$embeddium" pmc-game/mods/Embeddium-5681725.jar
           sha256sum "$embeddium" | tee production-qa/EMBEDDIUM-5681725-SHA256.txt
           jar tf "$embeddium" | grep -E 'META-INF/mods.toml|fabric.mod.json'
+          rm -rf pmc-game/saves/HMT-2.4-QA
+          mkdir -p pmc-game/saves/HMT-2.4-QA
+          cp -a production-seed-server/world/. pmc-game/saves/HMT-2.4-QA/
+          printf 'renderDistance:4\nsimulationDistance:4\nmaxFps:260\nenableVsync:false\npauseOnLostFocus:false\n' > pmc-game/options.txt
 
       - name: Launch real packaged Forge Embeddium OpenGL fallback client
         shell: bash
@@ -280,6 +289,9 @@ jobs:
           embeddium_client_renderer=OPENGL_FALLBACK
           collision_vulkan_in_both_integrated_servers=PASS
           rendered_frames=PASS
+          per_renderer_timing_samples=300
+          per_renderer_warmup_frames=120
+          timing_scope=software-driver render-end intervals, not hardware FPS claims
           EOF
           (cd production-qa && find . -type f -print0 | sort -z | xargs -0 sha256sum > SHA256SUMS.txt)
 

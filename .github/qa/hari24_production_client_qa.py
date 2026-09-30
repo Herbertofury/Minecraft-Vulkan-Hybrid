@@ -8,6 +8,8 @@ world plus a rendered Minecraft window from the exact packaged Hari JAR.
 from __future__ import annotations
 
 import argparse
+import json
+import math
 import os
 import queue
 import shutil
@@ -29,6 +31,8 @@ FATAL = (
     "UnsatisfiedLinkError",
     "VK_ERROR_DEVICE_LOST",
     "A fatal error has been detected by the Java Runtime Environment",
+    "Timed out trying to setup the Game Window",
+    "Failed to initialize graphics window with current settings",
 )
 READY_TIMEOUT = 420.0
 
@@ -89,6 +93,8 @@ def main() -> int:
     mc_dir = args.mc_dir.resolve()
     evidence = args.evidence.resolve()
     evidence.mkdir(parents=True, exist_ok=True)
+    frame_report = mc_dir / "harimt-frame-sample.json"
+    frame_report.unlink(missing_ok=True)
 
     env = os.environ.copy()
     env.update(
@@ -122,6 +128,10 @@ def main() -> int:
 
     try:
         wait_x(args.display, env)
+        # Warm the software GL driver before Forge's fixed ten-second early
+        # window deadline and retain the actual renderer/capability evidence.
+        gl = subprocess.run(["glxinfo", "-B"], env=env, text=True, capture_output=True, timeout=60, check=True)
+        (evidence / "software-opengl.txt").write_text(gl.stdout + gl.stderr, encoding="utf-8")
         wm_log = (evidence / "openbox.log").open("w", encoding="utf-8")
         wm = subprocess.Popen(
             ["openbox", "--sm-disable"],
@@ -147,6 +157,7 @@ def main() -> int:
             "-u", "HariProdQA",
             "--jvm-arg=-Dharimt.vulkan.compatCache=false",
             "--jvm-arg=-Dharimt.vulkan.allowCpuDevice=true",
+            "--jvm-arg=-Dharimt.qa.captureFrames=true",
         ]
         (evidence / "launch-command.txt").write_text(" ".join(cmd) + "\n", encoding="utf-8")
         proc = subprocess.Popen(
@@ -225,6 +236,16 @@ def main() -> int:
             raise RuntimeError("visible packaged Minecraft window not found")
         wid = ids[-1]
         subprocess.run(["xdotool", "windowactivate", "--sync", wid], env=env, check=True, timeout=15)
+
+        wait_for("[Hari/QA] captured 300 world frames after 120 warmup frames")
+        frames = json.loads(frame_report.read_text(encoding="utf-8"))
+        expected_renderer = "VULKAN" if args.expect == "vulkan" else "OPENGL_FALLBACK"
+        samples = frames.get("frame_ms", [])
+        if frames.get("renderer") != expected_renderer or frames.get("sample_count") != 300 or len(samples) != 300:
+            raise RuntimeError("frame capture has wrong renderer or sample count")
+        if not all(isinstance(x, (float, int)) and math.isfinite(x) and x > 0 for x in samples):
+            raise RuntimeError("frame capture contains invalid timing samples")
+        shutil.copyfile(frame_report, evidence / "frame-sample.json")
 
         shot = evidence / f"forge-production-client-{args.expect}.png"
         candidate = evidence / "candidate.png"

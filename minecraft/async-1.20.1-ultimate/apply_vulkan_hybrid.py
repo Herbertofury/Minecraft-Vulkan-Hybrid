@@ -382,6 +382,67 @@ if vbo_text.count(close_old) != 1:
 vbo_text = vbo_text.replace(close_old, close_new, 1)
 vbo.write_text(vbo_text, encoding="utf-8")
 
+# Index width follows the largest vertex index, not the number of indices.
+# A 16-bit unsigned index addresses exactly 65,536 vertices. The fork used
+# 98,304 as the quad cutoff and never widened other generated topologies.
+auto_index = dst_java / "vulkan/memory/AutoIndexBuffer.java"
+auto_text = auto_index.read_text(encoding="utf-8")
+auto_limit_old = "QUAD_U16_MAX_VERTEX_COUNT = U16_MAX_INDEX_COUNT * 3 / 2;"
+if auto_text.count(auto_limit_old) != 1:
+    raise SystemExit("source drift: auto-index 16-bit vertex limit missing")
+auto_text = auto_text.replace(auto_limit_old, "QUAD_U16_MAX_VERTEX_COUNT = U16_MAX_INDEX_COUNT;", 1)
+auto_switch = """        switch (this.drawType) {
+"""
+if auto_text.count(auto_switch) != 1:
+    raise SystemExit("source drift: auto-index creation switch missing")
+auto_text = auto_text.replace(auto_switch, """        if (vertexCount > U16_MAX_INDEX_COUNT) {
+            indexType = IndexBuffer.IndexType.INT;
+            buffer = genIntIndices(vertexCount, this.drawType);
+        } else switch (this.drawType) {
+""", 1)
+auto_anchor = "    public static ByteBuffer genQuadIndices(int vertexCount) {"
+auto_wide = """    private static ByteBuffer genIntIndices(int vertexCount, DrawType drawType) {
+        if (drawType == DrawType.QUADS) return genIntQuadIndices(vertexCount);
+        int count = switch (drawType) {
+            case LINES -> roundUpToDivisible(Math.multiplyExact(vertexCount, 3) / 2, 6);
+            case TRIANGLE_FAN, TRIANGLE_STRIP -> Math.multiplyExact(vertexCount - 2, 3);
+            case DEBUG_LINE_STRIP -> Math.multiplyExact(vertexCount - 1, 2);
+            default -> throw new IllegalArgumentException("Unsupported drawType: " + drawType);
+        };
+        ByteBuffer buffer = MemoryUtil.memAlloc(Math.multiplyExact(count, Integer.BYTES));
+        IntBuffer indices = buffer.asIntBuffer();
+        switch (drawType) {
+            case TRIANGLE_FAN -> {
+                for (int i = 0; i < vertexCount - 2; ++i) {
+                    indices.put(0).put(i + 1).put(i + 2);
+                }
+            }
+            case TRIANGLE_STRIP -> {
+                for (int i = 0; i < vertexCount - 2; ++i) {
+                    indices.put(i + (i & 1)).put(i + 1 - (i & 1)).put(i + 2);
+                }
+            }
+            case LINES -> {
+                for (int i = 0; i < vertexCount; i += 4) {
+                    indices.put(i).put(i + 1).put(i + 2).put(i + 3).put(i + 2).put(i + 1);
+                }
+            }
+            case DEBUG_LINE_STRIP -> {
+                for (int i = 0; i < vertexCount - 1; ++i) {
+                    indices.put(i).put(i + 1);
+                }
+            }
+            default -> throw new IllegalArgumentException("Unsupported drawType: " + drawType);
+        }
+        return buffer;
+    }
+
+"""
+if auto_text.count(auto_anchor) != 1:
+    raise SystemExit("source drift: auto-index generator anchor missing")
+auto_text = auto_text.replace(auto_anchor, auto_wide + auto_anchor, 1)
+auto_index.write_text(auto_text, encoding="utf-8")
+
 # Vulkan sources compile inside Hari's Forge source set, so the existing
 # harimt.refmap.json annotation-processor output already contains the merged
 # net.vulkanmod mappings. Point Vulkan's config at that shared generated refmap
@@ -438,6 +499,12 @@ if not gate_src.is_file():
     raise SystemExit("missing UniversalRendererGate source")
 gate_dst.parent.mkdir(parents=True, exist_ok=True)
 shutil.copy2(gate_src, gate_dst)
+
+# Dist.CLIENT subscriber remains inert unless the packaged QA launcher opts in.
+capture_rel = Path("com/axalotl/async/forge/client/HariFrameCapture.java")
+capture_dst = forge_java / capture_rel
+capture_dst.parent.mkdir(parents=True, exist_ok=True)
+shutil.copy2(here / "vulkan-hybrid-src" / capture_rel, capture_dst)
 
 # Hari's persistent GPU-scene bridge probes OpenGL capabilities at Window
 # constructor return. The Vulkan WindowMixin deliberately leaves that window

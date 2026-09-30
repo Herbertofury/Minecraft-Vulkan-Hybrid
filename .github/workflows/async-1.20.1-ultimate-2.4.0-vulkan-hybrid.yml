@@ -135,6 +135,10 @@ jobs:
             upstream/forge/src/main/java/net/vulkanmod/render/VBO.java \
             --baseline vulkan-forge/src/main/java/net/vulkanmod/render/VBO.java \
             --report qa-out/VBO-REGRESSION.json
+          python3 minecraft/async-1.20.1-ultimate/test_vulkan_auto_index.py \
+            upstream/forge/src/main/java/net/vulkanmod/vulkan/memory/AutoIndexBuffer.java \
+            --baseline vulkan-forge/src/main/java/net/vulkanmod/vulkan/memory/AutoIndexBuffer.java \
+            --report qa-out/AUTO-INDEX-REGRESSION.json
 
       - name: Build merged Forge artifact
         working-directory: upstream
