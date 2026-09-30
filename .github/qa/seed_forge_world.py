@@ -45,6 +45,9 @@ def main() -> int:
         while time.monotonic()<deadline:
             joined="".join(lines[-500:])
             if "Done (" in joined:
+                # Both renderer lanes restore this same world before launch.
+                # Eliminate randomized player spawn and daylight/weather drift.
+                proc.stdin.write("gamerule spawnRadius 0\ngamerule doDaylightCycle false\ngamerule doWeatherCycle false\ntime set noon\nweather clear\n")
                 proc.stdin.write("save-all flush\n")
                 proc.stdin.flush()
                 time.sleep(2.0)

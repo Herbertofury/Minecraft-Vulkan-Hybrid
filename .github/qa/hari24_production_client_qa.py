@@ -114,7 +114,8 @@ def main() -> int:
             break
 
     xvfb = subprocess.Popen(
-        ["Xvfb", args.display, "-screen", "0", "1280x720x24", "-nolisten", "tcp"],
+        # Leave room for window decorations so both client areas remain 1280x720.
+        ["Xvfb", args.display, "-screen", "0", "1600x900x24", "-nolisten", "tcp"],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.PIPE,
         text=True,
@@ -245,6 +246,8 @@ def main() -> int:
             raise RuntimeError("frame capture has wrong renderer or sample count")
         if not all(isinstance(x, (float, int)) and math.isfinite(x) and x > 0 for x in samples):
             raise RuntimeError("frame capture contains invalid timing samples")
+        if (frames.get("width"), frames.get("height"), frames.get("render_distance")) != (1280, 720, 4):
+            raise RuntimeError("frame capture does not match the fixed 1280x720 / distance-4 fixture")
         shutil.copyfile(frame_report, evidence / "frame-sample.json")
 
         shot = evidence / f"forge-production-client-{args.expect}.png"
