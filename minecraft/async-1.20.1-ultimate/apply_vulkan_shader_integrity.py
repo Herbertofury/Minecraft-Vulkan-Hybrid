@@ -31,6 +31,24 @@ a = s.index("        } catch (Throwable e)", a)
 b = s.index("    private static String getVulkanShaderPath", a)
 s = s[:a] + "    }\n\n" + s[b:]
 s = s.replace('        return Pipeline.class.getResourceAsStream(resourcePath) != null ? path : null;', '        try (InputStream resource = Pipeline.class.getResourceAsStream(resourcePath)) {\n            return resource != null ? path : null;\n        } catch (java.io.IOException failure) {\n            throw new java.io.UncheckedIOException(failure);\n        }')
+# Vulkan bypasses vanilla close(), so it also owns the native ShaderInstance uniforms.
+s = s.replace("    private GraphicsPipeline pipeline;", "    private GraphicsPipeline pipeline;\n    private boolean harimt$closed;", 1)
+old_close = """        if (this.pipeline != null)
+            this.pipeline.cleanUp();
+        ci.cancel();"""
+new_close = """        if (!this.harimt$closed) {
+            this.harimt$closed = true;
+            try {
+                if (this.pipeline != null) this.pipeline.cleanUp();
+            } finally {
+                // UniformM gives every declared uniform a location, so this map owns all
+                // parsed uniforms. Free their native buffers even if pipeline cleanup fails.
+                this.f_173333_.values().forEach(com.mojang.blaze3d.shaders.Uniform::close);
+            }
+        }
+        ci.cancel();"""
+assert s.count(old_close) == 1, "unexpected shader close owner"
+s = s.replace(old_close, new_close, 1)
 path.write_text(s)
 rel = Path("net/vulkanmod/vulkan/shader/ShaderResources.java")
 destination = root / "forge/src/main/java" / rel
@@ -125,3 +143,26 @@ anchor = "        MinecraftForge.EVENT_BUS.register(this);"
 assert s.count(anchor) == 1
 s = s.replace(anchor, anchor + "\n        if (Boolean.getBoolean(\"harimt.qa.entityFault\")) {\n            MinecraftForge.EVENT_BUS.register(new com.axalotl.async.forge.qa.HariServerFailureProbe());\n        }", 1)
 forge.write_text(s)
+
+# Forge's autosaving ConfigValue.set calls can race its file watcher between fields.
+# Capture all command values first, then write one complete TOML snapshot atomically.
+config = root / 'forge/src/main/java/com/axalotl/async/forge/config/AsyncConfigForge.java'
+s = config.read_text()
+a = s.index('        public static void saveConfig() {')
+b = s.index('                onConfigLoaded();', a)
+old = s[a:b]
+import re
+pairs = re.findall(r'\s+(\w+)Local\.set\((\w+)\.getValue\(\)\);', old)
+assert len(pairs) == 17, f'config fields changed: {len(pairs)}'
+rows = ['        public static void saveConfig() {', '                java.util.Map<String, Object> snapshot = new java.util.LinkedHashMap<>();']
+for local, common in pairs:
+    assert local == common
+    rows.append(f'                snapshot.put({common}.getKey(), {common}.getValue());')
+rows += ['                snapshot.put(synchronizedEntities.getKey(), new ArrayList<>(synchronizedEntities.getValue()));',
+         '                HariConfigPersistence.save(snapshot);']
+s = s[:a] + '\n'.join(rows) + '\n' + s[b:]
+config.write_text(s)
+for name in ('AtomicConfigPersistence.java', 'HariConfigPersistence.java'):
+    rel = Path('com/axalotl/async/forge/config') / name
+    destination = root / 'forge/src/main/java' / rel
+    shutil.copy2(here / 'vulkan-hybrid-src' / rel, destination)

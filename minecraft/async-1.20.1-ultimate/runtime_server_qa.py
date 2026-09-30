@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import os
 import queue
+import re
 import subprocess
 import sys
 import threading
@@ -149,6 +150,11 @@ def run_server(server_dir: Path, log_path: Path, phase: int) -> None:
             send("async gpu toggle")
             wait_for("Vanilla push replay fallback is active: GPU collision is disabled", 60)
 
+            config_text = (server_dir / "config/harimt.toml").read_text(encoding="utf-8")
+            if not re.search(r'(?m)^\s*enableGpuCollision\s*=\s*false\s*$', config_text):
+                raise RuntimeError("GPU toggle did not persist false to harimt.toml")
+            (log_path.parent / "gpu-disabled-config.toml").write_text(config_text, encoding="utf-8")
+
             send('execute if entity @e[tag=harimt_qa] run say HMT_QA_ENTITIES_PRESENT')
             wait_for("HMT_QA_ENTITIES_PRESENT", 20)
 
@@ -159,6 +165,10 @@ def run_server(server_dir: Path, log_path: Path, phase: int) -> None:
             time.sleep(3.0)
             send("stop")
         else:
+            config_text = (server_dir / "config/harimt.toml").read_text(encoding="utf-8")
+            if not re.search(r'(?m)^\s*enableGpuCollision\s*=\s*false\s*$', config_text):
+                raise RuntimeError("Persisted GPU-disable state was lost before restarted-world ticks")
+
             # GPU-disable state and entities must survive restart; this also verifies
             # that server shutdown cleared only runtime references, not world state.
             wait_for("Vanilla push replay fallback is active: GPU collision is disabled", 90)

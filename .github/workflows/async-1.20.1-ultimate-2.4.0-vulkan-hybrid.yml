@@ -157,6 +157,15 @@ jobs:
             upstream/forge/src/main/resources/assets/vulkanmod/compat/harimt_supported_gl_methods.properties \
             --report qa-out/GRAPHICS-GATE-REGRESSION.json
 
+      - name: Verify shader uniform cleanup and idempotent close
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/test_shader_close.py \
+            upstream/forge/src/main/java/net/vulkanmod/mixin/render/ShaderInstanceM.java \
+            --baseline vulkan-forge/src/main/java/net/vulkanmod/mixin/render/ShaderInstanceM.java \
+            --report qa-out/SHADER-CLOSE-REGRESSION.json
+
       - name: Build merged Forge artifact
         working-directory: upstream
         shell: bash
@@ -164,6 +173,18 @@ jobs:
           set -euo pipefail
           ./gradlew --no-daemon :forge:build --stacktrace
           find forge/build/libs -maxdepth 1 -type f -name '*.jar' -print -exec ls -lh {} \;
+
+      - name: Verify atomic command config saves against the real NightConfig library
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL https://repo.maven.apache.org/maven2/com/electronwill/night-config/core/3.6.3/core-3.6.3.jar -o /tmp/night-core-3.6.3.jar
+          curl -fsSL https://repo.maven.apache.org/maven2/com/electronwill/night-config/toml/3.6.3/toml-3.6.3.jar -o /tmp/night-toml-3.6.3.jar
+          printf '14e9554e9c48abfe7449e4451e597bfc0d85074fc6c80a377488c067c313fd7c  /tmp/night-core-3.6.3.jar\n721b9484f2c35e1a051d5d72254b76ab98ae799858bd5daa8217a7124ef728df  /tmp/night-toml-3.6.3.jar\n' | sha256sum -c -
+          python3 minecraft/async-1.20.1-ultimate/test_atomic_config.py \
+            upstream/forge/src/main/java/com/axalotl/async/forge/config/AtomicConfigPersistence.java \
+            /tmp/night-core-3.6.3.jar /tmp/night-toml-3.6.3.jar \
+            --report qa-out/ATOMIC-CONFIG-REGRESSION.json
 
       - name: Verify one-mod packaging and Vulkan payload
         shell: bash
