@@ -1,65 +1,17 @@
-# HariMultiThread Ultimate 1.20.1 — Current Checkpoint
+# HariMultiThread Vulkan Hybrid — current verified checkpoint
 
-Updated: 2026-09-12
-Canonical branch: `async-1.20.1-ultimate`
-Final-fix staging branch: `async-1.20.1-ultimate-final-fix-20260912`
-Pinned upstream: `JustHari01/HariMultiThread@f381611c2d71a85192e2028f9e30c03823a6482b`
-Target: Minecraft 1.20.1 / Forge 47.4.23 / Java 17
+Updated: 2026-09-30. Canonical branch: `async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926`.
+Target: Minecraft 1.20.1 / Forge 47.4.23 / Java 17.
+Product commit: `8ed1e557ae30502fc6a1196e7a843fe2d64cbe9a`.
+QA-only commit: `c3ca9efe46901f87ceae57f1ab554b477483f1c1`.
+JAR SHA-256: `ce7003e81ebafe14653719bc6fb67f278dfa624b5c4c9245f536b704186fcdb8`; 30693714 bytes.
 
-## Accepted runtime boundary
+The complete integrity release is accepted. Compile/repro runs 36769199186 and 36770319923, packaged-client run 36769199184, and native-server run 36770320239 passed. Their JAR bytes match. See INTEGRITY-RELEASE-CHECKPOINT.json and UPSTREAM-INTEGRITY-AUDIT.md for exact inputs and acceptance evidence.
 
-Authoritative diagnostic release run #88 (`34081440571`, job `101617338848`, commit `6203952553f89ec69892fab699c0746bf5ac4476`) passed every release gate through the packaged runtime:
+Tick and task failures propagate after active workers converge; the imported tick swallowing and empty emergency-save redirect are removed. Shader JSON/imports retain real semantics and uniform values. Native uniform cleanup is idempotent. Config commands atomically persist complete TOML settings. Fabulous graphics is preserved by selecting OpenGL before Vulkan mixins apply. Earlier index/VBO/image-sync/packaging fixes remain intact.
 
-- deterministic release reconstruction and hardening invariants;
-- real SPIR-V compilation/validation;
-- Forge 47.4.23 production build and final JAR/Mixin/refmap/manifest checks;
-- isolated Vulkan backend packaging;
-- real Forge 47.4.23 dedicated-server installation;
-- packaged Vulkan activation, complete fallback, save and restart QA.
+Runtime proof includes resource reloads, resize, Vulkan/Embeddium/Fabulous paths, saved-world reopen, both intentionally injected tick failure paths, durable GPU toggles, GPU-vs-CPU verification, and all 256 tagged entities retained across restart and failure recovery. All 40 focused cases and 101 atomic-save iterations pass. Linux software-driver proof does not establish hardware FPS or Windows/macOS runtime correctness. Normal offline-auth and Embeddium support notices are classified and retained.
 
-The only failed step was the real Forge client/integrated-server evidence gate.
+Current exact next action: none. Reuse accepted evidence and source pins; do not restore an older branch or rerun obsolete 2.2/2.3 recovery work. Historical checkpoints remain in Git history.
 
-## Client failure root cause proven from run #88 artifact
-
-Failure artifact `async-1.20.1-ultimate-client-failure` (`10003967788`, digest `sha256:ab5ec95af91146f258f29485b58cf7b2171162bb9674e320ba36f17fdb955bcc`) proves the client runtime itself was healthy:
-
-- real `[Render thread/INFO]` was reached;
-- local player `Dev` logged in and `Dev joined the game`;
-- isolated Vulkan backend activated on llvmpipe;
-- first verified broad-phase batch produced 32,641 candidate pairs;
-- 10 consecutive verified Vulkan broad-phase batches completed;
-- no HariMT/Mixin/Vulkan/JVM fatal marker occurred.
-
-The QA harness then captured the Minecraft window while it still displayed `Loading terrain...`. The exact failed capture was 1278x695, 9 colors, grayscale standard deviation 0.033306, and 4,517 bytes. The old harness incorrectly used PNG byte size `< 10,000` as its rejection rule, so it failed before waiting for an actually rendered world.
-
-## Final-fix implementation
-
-The staging branch contains only the following intended delta from canonical commit `6203952553f89ec69892fab699c0746bf5ac4476`:
-
-1. `runtime_client_qa.py`
-   - requires Render-thread proof, integrated player join, Vulkan active, and sustained 10-batch proof;
-   - repeatedly captures the actual visible Minecraft X11 window until it satisfies rendered-world metrics (minimum 800x450, 64 colors, normalized grayscale standard deviation 0.050);
-   - explicitly rejects the exact old 9-color `Loading terrain...` frame in the local negative control;
-   - preserves console/latest-log/error/last-unready-frame evidence on failures;
-   - keeps the rendered world alive briefly before a normal Alt+F4 close and integrated-server save path.
-
-2. `performance_stack_compatibility_audit.py`
-   - verifies third-party entity namespaces remain synchronous unless explicitly opted into HariMT `AsyncCompatible`;
-   - verifies `ServerPlayer` and Ender Dragon synchronous safety;
-   - verifies C2ME Forge detection and dimension-local DimThread barrier pumping;
-   - fails if HariMT common/Forge code overlaps Minecraft client renderer/GUI/Blaze3D/OpenGL, Entity Culling, ImmediatelyFast, GPUTape, or BadOptimizations ownership;
-   - verifies Vulkan remains a private isolated backend instead of a Forge JarJar LWJGL module;
-   - writes a compatibility report covering the active Noxviola performance stack, including Entity Culling, ImmediatelyFast, GPUTape, BadOptimizations, C2ME/DimThread, Physics Mod/Uranus, Curios/ApothicCurios, and Potatoptimize.
-
-3. `apply_mixin_packaging.py`
-   - invokes the compatibility audit after the final deterministic source transformation, making the compatibility contract release-blocking and including its report in release evidence.
-
-No gameplay/content/quality reduction, entity cap, render reduction, silent collision loss, unsafe fire-and-forget behavior, or mandatory Vulkan dependency is introduced.
-
-## Preserved implementation
-
-All accepted hardening remains unchanged: work stealing/affinity/circuit breaker, one logical CPU reserved, Dragon sync, conservative modded-entity sync policy, EntitySection snapshots, tracked-entity serialization, same-tick spawn/random-tick barriers, scheduled-LevelChunk spawn interop, PalettedContainer locking, C2ME/c2meforge + SAFE-INTEROP DimThread compatibility, lifecycle cleanup, isolated compile-checked LWJGL Vulkan backend, repaired 9-SSBO/16-byte shader ABI, convergent final workgroup barriers, serialized AABB snapshot/dispatch/pair-map transaction, mixed sync/async world-batch push deferral, complete vanilla fallback, adaptive no-cap pair capacity with learned high-water reuse, and the dense collision stress fixture.
-
-## Exact next action
-
-Fast-forward `async-1.20.1-ultimate` to this staged successor with `force=false` exactly once. Track only the resulting `Async 1.20.1 Ultimate` run. Require: compatibility gate -> SPIR-V -> Forge build/JAR/refmap/backend -> packaged Forge server Vulkan/fallback/save/restart -> real Forge client with rendered-world evidence and sustained Vulkan -> package/checksums -> Actions release bundle -> GitHub release tag `harimt-ultimate-1.20.1-2.1.0-noxviola.1`. Independently verify the resulting JAR/source/evidence/checksums and mirror the verified deliverables to Drive folder `12TS5TdawtH6x4UU4OCiCQ933lz7nHmDD`.
+Verified delivery: [mod JAR](https://drive.google.com/file/d/1zi_YwVnHL00VAF-kN4Wtj9oboxblJdcG/view) and [full source/evidence bundle](https://drive.google.com/file/d/10lob_1zvY28_MdSFj1SBUJXWyWwD6sFE/view). Both were uploaded, downloaded, and byte-verified; every bundle manifest entry passed. Prior releases remain available. See INTEGRITY-DELIVERY-RECEIPT.json.

@@ -19,6 +19,12 @@ Scope: Minecraft 1.20.1, Forge 47.4.23, Java 17. Original Hari source is immutab
 
 ## Verification status
 
-Candidate reconstruction completed. New compile, reproducibility, dedicated server, packaged Vulkan, packaged Embeddium, resource reload, resize, injected external-looking tick failure, and saved-world reopen checks are pending. The previous distributed artifact remains the previously verified build until these gates pass. No claim of universal compatibility, hardware performance, or an error-free release is made while verification is pending.
+All release gates passed. The product commit is 8ed1e557ae30502fc6a1196e7a843fe2d64cbe9a; QA-only commit c3ca9efe46901f87ceae57f1ab554b477483f1c1 changes no product source. Normal and cached rebuilds, independent native-server builds, and packaged clients have identical JAR SHA-256 ce7003e81ebafe14653719bc6fb67f278dfa624b5c4c9245f536b704186fcdb8.
+
+Accepted runs: compile/repro 36769199186 and 36770319923; packaged clients 36769199184; native server 36770320239. Real packaged forgeclient covers Vulkan, Embeddium, preserved Fabulous/OpenGL, resource reloads, resize, an injected external-looking client tick fault, and a new-JVM saved-world reopen. Dedicated-server QA covers GPU-vs-CPU collision verification, durable GPU toggles/restart, a real async entity tick fault reaching fatal Minecraft world reporting/save, and all 256 tagged entities retained after reopening. The intentional server failure arrives as Minecraft's wrapped `Exception ticking world` report.
+
+Forty actual Java resource/barrier/gate cases and 101 atomic settings saves with concurrent reads pass. The original shader close, VBO, and generated-index negative controls fail. Immutable Hari inventory reconciles 108 identical files, 28 changed files, and three reflection implementations replaced by the compiled backend. The pinned Forge Vulkan import reconciles 577 identical files, 13 changed files, and five intentional merged/renamed/removed files. All 165 original 1.20.1 core shader resources have counterparts in the Forge layout, and all 13 original Vulkan access-transformer rules remain in the canonical transformer. These inventories are not claims of byte-identical Fabric/Forge behavior.
+
+Native runtime proof uses Linux Mesa software drivers. No universal modpack, hardware-FPS, or Windows/macOS runtime claim is made.
 
 Offline PortableMC's authentication-service 401 and Embeddium's retained GPU-bridge support notice are external fixture/support diagnostics. Production authentication is not altered and third-party notices are not hidden.
