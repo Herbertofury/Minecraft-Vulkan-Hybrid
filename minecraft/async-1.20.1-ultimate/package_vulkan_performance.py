@@ -27,6 +27,7 @@ def main() -> None:
     parser.add_argument('--evidence', type=Path, required=True)
     parser.add_argument('--checkpoint', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--diagnostic-companions', type=Path)
     args = parser.parse_args()
     source = args.source.resolve()
     if 'version=2.4.1-noxviola.1-vulkan-hybrid' not in (source/'gradle.properties').read_text():
@@ -41,9 +42,33 @@ def main() -> None:
     if any(checkpoint.get('ci', {}).get(gate, {}).get('state') != 'pass' for gate in required_gates):
         raise SystemExit('One or more exact-binary acceptance gates are incomplete')
     entries: dict[str, bytes] = {args.jar.name: binary, 'CHECKPOINT.json': args.checkpoint.read_bytes()}
+    companions = None
+    if args.diagnostic_companions:
+        companions = json.loads(args.diagnostic_companions.read_text())
+        if not companions.get('complete') or not companions.get('verified_union_matches_source'):
+            raise SystemExit('Historical companion collection is incomplete')
+        if companions.get('product_commit') != checkpoint['product_commit']:
+            raise SystemExit('Companion collection belongs to a different product')
+        union = {}
+        for volume in companions['volumes']:
+            archive_path = args.output.parent / volume['file']
+            if archive_path.stat().st_size != volume['bytes'] or digest(archive_path.read_bytes()) != volume['sha256']:
+                raise SystemExit('Diagnostic companion changed: ' + volume['file'])
+            with zipfile.ZipFile(archive_path) as archive:
+                if archive.testzip() is not None: raise SystemExit('Diagnostic companion CRC failure')
+                for name, sha in volume['entries'].items():
+                    if name in union or digest(archive.read(name)) != sha:
+                        raise SystemExit('Duplicate or changed diagnostic entry: ' + name)
+                    union[name] = sha
+        actual = {'evidence/diagnostics-repaired/' + path.relative_to(args.evidence/'diagnostics-repaired').as_posix(): digest(path.read_bytes())
+                  for path in (args.evidence/'diagnostics-repaired').rglob('*') if path.is_file()}
+        if union != actual: raise SystemExit('Diagnostic companion union does not preserve all evidence')
+        entries['COMPANION-ARCHIVES.json'] = args.diagnostic_companions.read_bytes()
     for origin, prefix in [(source, 'source'), (args.project.resolve(), 'reconstruction'), (args.evidence.resolve(), 'evidence')]:
         for path in sorted(origin.rglob('*')):
             if path.is_file() and source_file(path.relative_to(origin)):
+                if companions and prefix == 'evidence' and path.relative_to(origin).parts[0] == 'diagnostics-repaired':
+                    continue
                 entries[f'{prefix}/{path.relative_to(origin).as_posix()}'] = path.read_bytes()
     source_count = sum(name.startswith('source/') for name in entries)
     if source_count != checkpoint.get('source_verification', {}).get('complete_source_files'):
@@ -61,7 +86,8 @@ def main() -> None:
         'Keep your current graphics and gameplay settings. Fabulous and conflicting renderers retain the existing OpenGL compatibility route.\n'
         'Source: source/ is the complete merged source, including Java packages named build. reconstruction/ contains the versioned overlay recipe.\n'
         'Evidence: exact packaged Forge clients and servers, C2ME save/unload/reload/restart, failure surfacing, reproducible build and CPU component benchmark.\n'
-        'Identical CI binary copies are represented by the root JAR and BINARY-REFERENCES.json. Historical failures in diagnostics-repaired/ are retained for provenance and are not current acceptance.\n'
+        'Identical CI binary copies are represented by the root JAR and BINARY-REFERENCES.json. Historical failures are retained for provenance and are not current acceptance.\n'
+        + ('Historical evidence is preserved completely in the companion ZIPs listed in COMPANION-ARCHIVES.json. Keep the complete collection.\n' if companions else 'Historical diagnostics are under evidence/diagnostics-repaired/.\n') +
         'Native tests used Linux Mesa software drivers; no Windows/RTX 4090 FPS guarantee is made.\n'
         'See CHECKPOINT.json and reconstruction/VULKAN-PERFORMANCE-2.4.1.md for pinned provenance and acceptance.\n'
     ).encode()

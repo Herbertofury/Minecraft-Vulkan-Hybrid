@@ -1,6 +1,6 @@
 # Hari 2.4.1 Vulkan performance and C2ME compatibility
 
-Recommendations 1, 2 and 5 are implemented for Minecraft 1.20.1 / Forge 47.4.23 / Java 17. Product commit: ba05e9589960f3ab255926c50b007f9d7ce1b4ea. JAR: HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar, 30,710,062 bytes, SHA-256 bc91ce5c87610eaeb0a0c87f9b80d44633450adf487d17a0e0e71fb79b8ad446.
+Recommendations 1, 2 and 5 are implemented for Minecraft 1.20.1 / Forge 47.4.23 / Java 17. Product commit: 6594c6cc652db554213c52ae02f7acd8f439644c. JAR: HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar, 30,730,495 bytes, SHA-256 58ceda73c9328c78fc3d82eb652475cb4c7ddd91f3078d6d31717eb0ea9d432f.
 
 ## Implementation
 
@@ -11,7 +11,17 @@ Recommendations 1, 2 and 5 are implemented for Minecraft 1.20.1 / Forge 47.4.23 
 - Backport the upstream cancelled transparency-sort fix under the renderer's existing LGPL license. Graphics features, gameplay simulation and visibility remain enabled.
 - Replace inherited direction-change omission with reusable deferred graph scheduling. All frustum/occlusion-valid sections remain eligible; the existing advanced-culling setting now prioritizes simple paths instead of dropping visible terrain. The actual complete Java graph/queue regression reproduces 11/32 reachable sections in the old code and verifies 44,744 section checks across all four settings, queue growth/reset, exact rebuilds/block entities and retained frustum/visibility exclusions.
 
-The prior ba05e958 binary and gates below are historical proof of the owner-chunk fix. Native screenshot review and the new graph regression require a new complete-visibility product and all exact-binary gates to pass before promotion. See CURRENT-CHECKPOINT.md and PERFORMANCE-RELEASE-CHECKPOINT.json for its current state.
+The complete graph regression proves a concrete old reachability defect. The short-distance native screenshots do not independently establish that their terrain frontier was caused by this graph defect. A separate view-distance-eight challenge is checking full surrounding terrain before final packaging.
+
+## Rendering and audio API boundaries
+
+Minecraft's shader, buffer, texture, render-target, draw and window paths use the merged Vulkan renderer and SPIR-V pipelines. Hari's Embeddium/OpenGL terrain route remains behind renderer ownership and capability checks; it does not probe or call a missing OpenGL context in the Vulkan lane. The seven native clients verify both routes with their original graphics settings.
+
+The upstream import declared 2,359 GL overloads as compatibility overwrites, including empty copy/compute/shader placeholders. An overwrite is no longer taken as evidence of translation. The generated external-call contract advertises 111 reviewed state/resource overloads and includes their exact JVM descriptors. The selector rejects unknown overloads, generic shader/compute paths and empty placeholders before applying Vulkan transforms; incompatible providers retain the complete OpenGL renderer. It does not claim arbitrary OpenGL 4.x programs have been converted into working Vulkan pipelines. The cache schema invalidates the old permissive decisions.
+
+GL20 and ARB source boundaries preserve all source strings, explicit UTF-8 byte lengths, null-terminated strings and caller buffer positions; native LWJGL memory tests cover these paths. Buffer-based program/shader queries use the same underlying query as scalar overloads rather than return unconditional success.
+
+Official Minecraft 1.20.1 bytecode exposed a reload race: stopAll restarts the sound executor, queues source stops, directly clears handles and destroys the context without waiting behind those source operations. ChannelAccess now runs its original clear on the sound executor and waits before context cleanup. Same-thread cleanup runs directly; original failures and submission failures propagate unchanged. The negative control reproduces the deleted-source race, and 1,100 ordered cleanup cycles pass. A separate installed client acknowledges a live music sound and completes resource reload three times, with no invalid-source errors or muted diagnostic. OpenAL remains the audio API.
 
 ## C2ME correctness repairs
 
@@ -29,26 +39,27 @@ Strict disposable C2ME fixtures use config version 3 and enforceSafeWorldRandomA
 
 | Gate | Run | Result |
 |---|---|---|
-| Clean build, identical rebuild, packaged integrity, 13 focused Java suites | 36866930953 | Pass |
-| Packaged server, strict C2ME, 256-entity preservation, GPU and CPU fallback, block NBT travel/restart, deliberate failure/recovery | 36866930874 | Pass |
-| Seven installed Forge production-client configurations | 36866930792 | Pass |
-| Extra Khronos synchronization validation, acknowledged far/return terrain travel and native two-worker C2ME server | 36887875665 | Pending |
+| Clean build, identical rebuild, packaged integrity, 17 focused Java suites | 36899664277 | Pass |
+| Packaged server, strict C2ME, 256-entity preservation, GPU/CPU, block NBT travel/restart, deliberate failure/recovery | 36899664082 | Pass |
+| Seven installed Forge production-client configurations | 36899664091 | Pass |
+| Khronos synchronization validation, three active-sound reloads, 49-chunk far/return predicates, sustained terrain and two-worker C2ME restart | 36900474237 | Pass |
+| Additional view-distance-eight, 169-chunk readiness and sustained 90% terrain coverage | 36902532611 | Pending |
 
-All three passed jobs and the clean rebuild produce the identical JAR hash above. The seven production-client lanes cover Vulkan, deliberate tick crash, same-world recovery, strict C2ME first launch and reopen, Fabulous OpenGL with settings retained, and actual Embeddium OpenGL coexistence. Each lane captures 300 frames after 120 warmup frames and verifies resource reload and 960/1280 resize. Unexpected runtime errors fail; only the exact offline HTTP 401 authentication diagnostic and explicit Embeddium support notice are classified. The deliberate fault creates a real crash report.
+Both independent builds, the clean rebuild and the installed client use the identical JAR hash above. The extra native challenge downloads that immutable compile artifact and checks its exact installed hash. The seven production-client lanes cover Vulkan, deliberate tick crash, same-world recovery, strict C2ME first launch and reopen, Fabulous OpenGL with settings retained, and actual Embeddium OpenGL coexistence. Each lane captures 300 frames after 120 warmup frames and verifies resource reload and 960/1280 resize. Unexpected runtime errors fail; only the exact offline HTTP 401 authentication diagnostic and explicit Embeddium support notice are classified. The deliberate fault creates a real crash report.
 
-The extra challenge requires real game-mode and teleport acknowledgements, a loaded far chunk, returned loaded chunk, and central terrain crops above chat with the HUD hidden. At least 60% of the 800x350 viewport must contain scene pixels in three consecutive captures; every progression screenshot is retained. The earlier first-tree capture is rejected by this strengthened classifier. Its previous attempt had no command acknowledgements despite continued server progress; the software validation frame p95 was 734ms versus a 200ms chat-open delay. The follow-up paces actual UI input by measured frames and retains each typed command screenshot. The acceptance criteria remain unchanged. Release promotion waits for this challenge.
+The passed extra challenge requires real sound, game-mode and teleport acknowledgements, all 49 nearby FULL chunks at each destination, and central terrain crops above chat with the HUD hidden. At least 60% of the 800x350 crop must contain scene pixels in three consecutive captures; every progression screenshot remains included. Far/return commands are paced from measured frame times, and every typed command screenshot is retained. The follow-up view-distance-eight challenge raises this to all 169 nearby chunks and sustained 90% terrain coverage. It changes only disposable QA settings.
 
 Focused suites use actual production Java and checked interfaces where Minecraft/GPU resources require doubles. They include 4400 chunk requests on real 1/2/8 workers (1100 cached reads, 3300 owner loads), original failure identities and a negative control reproducing the prior raw-future stall; 1100 cross-queue waits; 553 passenger trees / 2212 entities with the old monitor cycle negative control; checked RNG/lifecycle paths; all three old sensor crashes and 330 parallel sorts. These support, and do not replace, native production testing.
 
 ## Measured component improvements
 
-Seven alternating equivalent-work queue samples, 5,120,000 items per sample: baseline median 60,460,101ns; candidate 14,203,676ns (76.5% less time). Allocated bytes: 123,360,000 versus 21,120,000 (82.9% less). Actual old/new upload-manager comparison: 128 disjoint 16-byte writes produced 128 copies and 64 broad write barriers in the baseline versus one copy and zero barriers in the candidate, with all 2048 destination bytes identical. Native batching depends on buffer pair and ordering, so this is not a promised ratio for every frame.
+Seven alternating equivalent-work queue samples, 5,120,000 items per sample: baseline median 63,338,047ns; candidate 26,159,995ns (58.7% less time). Allocated bytes: 123,360,000 versus 21,120,000 (82.9% less). Actual old/new upload-manager comparison: 128 disjoint 16-byte writes produced 128 copies and 64 broad write barriers in the baseline versus one copy and zero barriers in the candidate, with all 2048 destination bytes identical. Native batching depends on buffer pair and ordering, so this is not a promised ratio for every frame.
 
 These measure queue and upload components, not overall Minecraft FPS. Native execution uses Linux Mesa software drivers; Windows/RTX 4090 FPS remains unmeasured. Arbitrary third-party modpacks are not universally certified.
 
 ## Source and installation
 
-The release includes complete merged source (986 files), the 23-step immutable reconstruction recipe, all 44 builder-package source files, exact JAR and full QA evidence. Fresh reconstruction matches every source byte. Filtering excludes generated build roots by full path and preserves legitimate Java packages named build. CI binary duplicates are represented by the canonical root JAR and hash references. Historical failed attempts are retained separately and never counted as acceptance.
+The release includes complete merged source (989 files), the 23-step immutable reconstruction recipe, all 44 builder-package source files, exact JAR and full QA evidence collection. Fresh reconstruction matches every source byte. Filtering excludes generated build roots by full path and preserves legitimate Java packages named build. CI binary duplicates are represented by the canonical root JAR and hash references. All 1,058 historical diagnostic files remain preserved in two independently readable companion ZIPs, with exact union/hash verification. They are not current acceptance. Each collection ZIP is below the per-file upload limit.
 
 Replace the previous Hari JAR in mods with the included 2.4.1 JAR. The Vulkan renderer is merged; do not install a separate VulkanMod alongside it. C2ME Forge 0.2.0-forge.9.6 is optional and not bundled. Keep current graphics/gameplay settings; Fabulous and conflicting renderers retain the OpenGL compatibility route. Original Hari, renderer and dependency licenses are included in source/JAR.
 

@@ -3,7 +3,7 @@
   "checkpoint_kind": "complete-visibility-runtime-candidate",
   "updated_utc": "2026-10-01",
   "branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
-  "product_commit": "pending-audio-gl-publication",
+  "product_commit": "6594c6cc652db554213c52ae02f7acd8f439644c",
   "client_qa_commit": "c6265c4e94a2e717afe4898c65902f7fed87bbda",
   "stress_qa_commit": "b62d84a7012869aeb19a4b18853bb0cdb4f54741",
   "jar_name": "HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar",
@@ -71,10 +71,11 @@
     }
   ],
   "source_verification": {
-    "complete_source_files": 986,
+    "product_commit": "6594c6cc652db554213c52ae02f7acd8f439644c",
+    "complete_source_files": 989,
     "recipe_steps": 23,
-    "fresh_reconstruction_byte_identical": true,
-    "restored_builder_sources": 44
+    "all_source_bytes_match_fresh_recipe": true,
+    "builder_package_files": 44
   },
   "performance_component_benchmark": {
     "work_items_per_sample": 5120000,
@@ -160,16 +161,43 @@
   },
   "ci": {
     "compile_repro": {
-      "state": "pending"
+      "state": "pass",
+      "run": 36899664277,
+      "job": 110495374267,
+      "artifact": 11180993318,
+      "zip_sha256": "d724300be1bfb15b95cfceb80afb71b3191fc269a6e1c811f8e3549fe3454a92",
+      "zip_bytes": 60994730,
+      "focused_suites": 17
     },
     "native_server_c2me": {
-      "state": "pending"
+      "state": "pass",
+      "run": 36899664082,
+      "job": 110495373312,
+      "artifact": 11181976381,
+      "zip_bytes": 30663818,
+      "zip_sha256": "24d954a922a192e8fc2afc5431f799900ebe5a7686483596b026cc2b0034fa12"
     },
     "packaged_clients": {
-      "state": "pending"
+      "state": "pass",
+      "run": 36899664091,
+      "job": 110495373227,
+      "artifact": 11180804948,
+      "zip_bytes": 50251970,
+      "zip_sha256": "a451ccd11955e4a71e363e566f41608d7469cb142b1eb537e2ddf9f164355057"
     },
     "khronos_c2me_travel": {
-      "state": "pending"
+      "state": "pass",
+      "run": 36900474237,
+      "job": 110498069526,
+      "artifact": 11182125658,
+      "qa_commit": "3ee628772bce2513ce244b9072ff6e12d292efc8",
+      "zip_bytes": 19057655,
+      "zip_sha256": "f6b1267faf274012d95d70b5ba60760804134e1c676a86c91f65036e37686b31",
+      "audio_reload_cycles": 3,
+      "loaded_chunks_per_destination": 49,
+      "minimum_terrain_coverage": 0.6,
+      "render_distance": 4,
+      "two_worker_restart": true
     }
   },
   "audio_reload_fix": {
@@ -189,5 +217,29 @@
     "Validate the new audio/GL product in all exact-binary gates",
     "Verify complete current source matches the immutable recipe",
     "Publish complete release and historical diagnostic companion archives to Drive; verify raw readbacks"
-  ]
+  ],
+  "jar_sha256": "58ceda73c9328c78fc3d82eb652475cb4c7ddd91f3078d6d31717eb0ea9d432f",
+  "jar_bytes": 30730495,
+  "component_benchmark": {
+    "passed": true,
+    "work_items_per_sample": 5120000,
+    "baseline_median_ns": 63338047,
+    "candidate_median_ns": 26159995,
+    "baseline_allocated_bytes": 123360000,
+    "candidate_allocated_bytes": 21120000,
+    "disjoint_upload_regions": 128,
+    "candidate_copy_commands": 1,
+    "candidate_disjoint_barriers": 0,
+    "scope": "Actual production Java; real concurrent queue checks and alternating equivalent-work CPU benchmark; Vulkan command recording uses checked doubles. Native Minecraft proof is separate.",
+    "queue_time_reduction_percent": 58.69781870602988,
+    "allocation_reduction_percent": 82.8793774319066
+  },
+  "higher_view_distance_check": {
+    "state": "pending",
+    "qa_commit": "47ed1da15775c2ea0d4fbae8c23bd472fab849d6",
+    "render_distance": 8,
+    "loaded_chunks_per_destination": 169,
+    "minimum_terrain_coverage": 0.9
+  },
+  "drive_historical_diagnostics": "automatic_review_requires_explicit_payload_and_destination_approval"
 }
