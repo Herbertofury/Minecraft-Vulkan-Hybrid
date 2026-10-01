@@ -120,7 +120,7 @@ jobs:
           cp c2meforge-0.2.0-forge.9.6-all.jar pmc-game/mods/
           mkdir -p pmc-game/config
           test ! -e pmc-game/config/c2me.toml
-          printf '[fixes]\nenforceSafeWorldRandomAccess = true\n' > pmc-game/config/c2me.toml
+          printf 'version = 3\n[fixes]\nenforceSafeWorldRandomAccess = true\n' > pmc-game/config/c2me.toml
           pmc="$(cat production-qa/portablemc-path.txt)"
           python3 .github/qa/hari24_vulkan_c2me_stress_qa.py \
             --portablemc "$pmc" --main-dir "$PWD/pmc-main" --mc-dir "$PWD/pmc-game" \
@@ -141,7 +141,7 @@ jobs:
           mkdir -p production-seed-server/config
           test ! -e production-seed-server/config/c2me.toml
           test ! -e production-seed-server/config/harimt.toml
-          printf '[fixes]\nenforceSafeWorldRandomAccess = true\n' > production-seed-server/config/c2me.toml
+          printf 'version = 3\n[fixes]\nenforceSafeWorldRandomAccess = true\n' > production-seed-server/config/c2me.toml
           printf 'paraMax = 2\n' > production-seed-server/config/harimt.toml
           python3 .github/qa/hari_c2me_owner_server_qa.py production-seed-server production-qa/owner-server
           grep -F 'externalChunks=true' production-qa/owner-server/packaged-server-gpu-and-fallback.log
