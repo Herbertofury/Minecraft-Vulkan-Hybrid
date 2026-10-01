@@ -1,14 +1,14 @@
 {
-  "schema_version": 7,
+  "schema_version": 8,
   "checkpoint_kind": "vulkan-performance-candidate-runtime-qa",
   "updated_utc": "2026-10-01",
   "branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
-  "product_commit": "22f4bda73d7cc7b8631c497fd0dfb1bd7fa28ca8",
-  "client_qa_commit": "22f4bda73d7cc7b8631c497fd0dfb1bd7fa28ca8",
-  "stress_qa_commit": "fe83b91b1b258b4ca240e6e474f5198cdcb08a9f",
+  "product_commit": "170784207b0c9093c850c629c19f0bcfff54bef7",
+  "client_qa_commit": "170784207b0c9093c850c629c19f0bcfff54bef7",
+  "stress_qa_commit": "3afa86397713cdf6439ee4ac39ed76b01464110c",
   "jar_name": "HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar",
-  "jar_bytes": 30707838,
-  "jar_sha256": "73c952ec7105f0ad971a55d880f4152db40bc22ae4eaf0de267a2678432709ac",
+  "jar_bytes": 30708500,
+  "jar_sha256": "13710068df209f3216c11af5c4931c944072cf874ffabd97a3176a703b1de5cc",
   "verification_complete": false,
   "previous_verified_checkpoint": "INTEGRITY-RELEASE-CHECKPOINT.json",
   "inputs": {
@@ -23,32 +23,31 @@
   },
   "ci": {
     "compile_repro": {
-      "run_id": 36820325316,
-      "job_id": 110234305084,
-      "artifact_id": 11143431316,
+      "run_id": 36823011441,
+      "job_id": 110242455159,
+      "artifact_id": 11143949587,
       "state": "pass",
-      "artifact_sha256": "973f39b3211e85b6a85bdc489374f21af1d8da00d32839e5821c0554fe6f02fd"
+      "artifact_sha256": "babbcc5e59896f95a785bd31d3ba78dab3b4b89f69dba488847b4d94b9a2394b",
+      "packaged_decompiler_stub_guard": "pass"
     },
     "native_server_c2me": {
-      "run_id": 36820325255,
-      "job_id": 110234304760,
-      "artifact_id": 11143760942,
-      "state": "pass",
-      "artifact_sha256": "951a0801d8909c444d01fb6c4543726ad195625c997fa24c7abea4c250ee7170",
-      "normal_c2me_detection": "active, no unsafe-access/error rows",
-      "strict_enforcement": "separate challenge pending"
+      "run_id": 36823011335,
+      "job_id": 110242454403,
+      "state": "running",
+      "strict_rng_enforcement_required": true
     },
     "packaged_clients": {
-      "run_id": 36820325336,
-      "job_id": 110234304728,
-      "state": "running"
+      "run_id": 36823011386,
+      "job_id": 110242454510,
+      "state": "running",
+      "strict_rng_enforcement_required": true
     },
     "khronos_c2me_travel": {
-      "run_id": 36821367192,
-      "qa_commit": "fe83b91b1b258b4ca240e6e474f5198cdcb08a9f",
+      "qa_commit": "3afa86397713cdf6439ee4ac39ed76b01464110c",
       "state": "running",
       "strict_rng_enforcement_required": true,
-      "parallel_entity_workers_required": 2
+      "parallel_entity_workers_required": 2,
+      "sensing_fixture": "bee + villagers + Piglin + two item types"
     }
   },
   "exact_next_actions": [
@@ -73,7 +72,8 @@
     "C2ME off-owner despawn/tracker mutation",
     "C2ME bee world RNG access",
     "Outer passenger-spawn dimension-lock cycle (live JVM evidence + actual mixin negative control)",
-    "Server watchdog: C2ME chunk-future completion required server/other-world owner queues; vanilla managed blocking now retains progress and full failure barrier"
+    "Server watchdog: C2ME chunk-future completion required server/other-world owner queues; vanilla managed blocking now retains progress and full failure barrier",
+    "Inherited executable CFR throw stubs in three sensor comparators; restore identity-cached vanilla distance ordering and reject source/JAR decompiler failures"
   ],
   "rejected_candidates": [
     {
@@ -85,6 +85,11 @@
       "product_commit": "f98d69e4ac571d25cdaf727bc22758ddc916bab4",
       "jar_sha256": "243808f1352a6f226f2d369112daf8a7dcc2da4e1a077bb3aa18a60b93ad980f",
       "reason": "C2ME saved-server watchdog chunk-queue dependency, repaired by managed blocking"
+    },
+    {
+      "product_commit": "22f4bda73d7cc7b8631c497fd0dfb1bd7fa28ca8",
+      "jar_sha256": "73c952ec7105f0ad971a55d880f4152db40bc22ae4eaf0de267a2678432709ac",
+      "reason": "Strict native chunk travel exposed inherited sensor comparator decompiler throw; all three sensor stubs restored in 1707842"
     }
   ],
   "source_verification": {
@@ -95,8 +100,8 @@
   },
   "performance_component_benchmark": {
     "work_items_per_sample": 5120000,
-    "baseline_median_ns": 60476234,
-    "candidate_median_ns": 14257191,
+    "baseline_median_ns": 59153367,
+    "candidate_median_ns": 14109954,
     "baseline_allocated_bytes": 123360000,
     "candidate_allocated_bytes": 21120000,
     "scope": "queue construction/draining; not Minecraft FPS"
