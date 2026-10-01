@@ -37,6 +37,15 @@ edit(p, '            allDone = futures.stream().allMatch(Future::isDone);', ''' 
             for (Future<?> future : futures) {
                 if (!future.isDone()) { allDone = false; break; }
             }''')
+edit(p, '        boolean timeoutWarned = false;', '''        if (AsyncCommon.HARICHUNK && waitWorld != null) {
+            C2meTaskWaiter.await(waitWorld, futures, timeoutNs, elapsed -> {
+                totalTimeoutWarnings.increment();
+                LOGGER.warn("Async entity tick batch exceeded {}ms timeout ({}ms elapsed), still waiting...",
+                        AsyncConfig.staleTaskTimeoutMs.getValue(), TimeUnit.NANOSECONDS.toMillis(elapsed));
+            });
+            return;
+        }
+        boolean timeoutWarned = false;''')
 edit(p, '     * IMPROVED: Work stealing with shared ConcurrentLinkedQueue.', '     * Snapshot-indexed work stealing without per-entity linked nodes.')
 
 p='common/src/main/java/com/axalotl/async/common/config/AsyncConfig.java'

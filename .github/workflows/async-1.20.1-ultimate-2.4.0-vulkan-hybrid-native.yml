@@ -183,6 +183,9 @@ jobs:
           mkdir -p qa-server-c2me/mods
           cp qa-out/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar qa-server-c2me/mods/HariMultiThread-Ultimate.jar
           cp c2meforge-0.2.0-forge.9.6-all.jar qa-server-c2me/mods/
+          mkdir -p qa-server-c2me/config
+          test ! -e qa-server-c2me/config/c2me.toml
+          printf '[fixes]\nenforceSafeWorldRandomAccess = true\n' > qa-server-c2me/config/c2me.toml
           cp qa-server/server.properties qa-server-c2me/server.properties
           printf 'eula=true\n' > qa-server-c2me/eula.txt
           python3 minecraft/async-1.20.1-ultimate/runtime_server_qa.py qa-server-c2me evidence/runtime/server-c2me

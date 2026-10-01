@@ -31,14 +31,18 @@ for fault in (True,False):
                 if proc.poll() is not None:raise RuntimeError('world failed to reopen after async entity crash')
                 time.sleep(.2)
             if 'Done (' not in ''.join(lines):raise TimeoutError('world reopen did not finish')
-            proc.stdin.write('execute if entity @e[tag=harimt_qa] run say HARI_QA_POST_FAULT_ENTITIES_PRESENT\n');proc.stdin.flush()
-            while 'HARI_QA_POST_FAULT_ENTITIES_PRESENT' not in ''.join(lines) and time.monotonic()<deadline:time.sleep(.2)
-            if 'HARI_QA_POST_FAULT_ENTITIES_PRESENT' not in ''.join(lines):raise RuntimeError('saved QA entities were lost after the fault')
-            proc.stdin.write('execute store result score entities harimtCount if entity @e[tag=harimt_qa]\nexecute if score entities harimtCount matches 256 run say HARI_QA_POST_FAULT_COUNT_256\n');proc.stdin.flush()
-            while 'HARI_QA_POST_FAULT_COUNT_256' not in ''.join(lines) and time.monotonic()<deadline:time.sleep(.2)
-            if 'HARI_QA_POST_FAULT_COUNT_256' not in ''.join(lines):raise RuntimeError('async tick failure changed the saved 256-entity population')
+            def query_until(command, required):
+                next_query=0
+                while required not in ''.join(lines) and time.monotonic()<deadline:
+                    if proc.poll() is not None:raise RuntimeError('reopened server exited before '+required+'; inspect post-entity-fault-reopen.log')
+                    if time.monotonic()>=next_query:
+                        proc.stdin.write(command+'\n');proc.stdin.flush();next_query=time.monotonic()+2
+                    time.sleep(.2)
+                if required not in ''.join(lines):raise RuntimeError('saved-world recovery did not satisfy '+required)
+            query_until('execute if entity @e[tag=harimt_qa] run say HARI_QA_POST_FAULT_ENTITIES_PRESENT','HARI_QA_POST_FAULT_ENTITIES_PRESENT')
+            query_until('execute store result score entities harimtCount if entity @e[tag=harimt_qa]\nexecute if score entities harimtCount matches 256 run say HARI_QA_POST_FAULT_COUNT_256','HARI_QA_POST_FAULT_COUNT_256')
             proc.stdin.write('stop\n');proc.stdin.flush();proc.wait(timeout=90);thread.join(5)
-            for fatal in ('Encountered an unexpected exception','Exception ticking world','Exception in server tick loop','MixinApplyError','NoSuchMethodError',marker):
+            for fatal in ('Encountered an unexpected exception','Exception ticking world','Exception in server tick loop','MixinApplyError','NoSuchMethodError','ServerHangWatchdog','Off-thread world random access','Async entity load','Async entity unload',marker):
                 if fatal in ''.join(lines):raise RuntimeError('unexpected reopened-world failure: '+fatal)
         print('PASS: '+('real async tick failure surfaced and server saved' if fault else 'saved world reopened with entities retained'))
     finally:

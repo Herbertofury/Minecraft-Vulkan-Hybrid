@@ -226,6 +226,9 @@ jobs:
           curl -fL --retry 3 'https://edge.forgecdn.net/files/8929/972/c2meforge-0.2.0-forge.9.6-all.jar' -o c2meforge-0.2.0-forge.9.6-all.jar
           echo '97401e625906dc7dbe7719c4915d5aa88830e64e5aa6f90831ee45a61373f8d3  c2meforge-0.2.0-forge.9.6-all.jar' | sha256sum -c -
           cp c2meforge-0.2.0-forge.9.6-all.jar pmc-game/mods/
+          mkdir -p pmc-game/config
+          test ! -e pmc-game/config/c2me.toml
+          printf '[fixes]\nenforceSafeWorldRandomAccess = true\n' > pmc-game/config/c2me.toml
           pmc="$(cat production-qa/portablemc-path.txt)"
           for phase in first reopen; do
             python3 .github/qa/hari24_production_client_qa.py \
