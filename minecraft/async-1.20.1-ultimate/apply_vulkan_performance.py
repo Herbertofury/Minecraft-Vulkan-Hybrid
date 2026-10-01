@@ -116,6 +116,49 @@ p='forge/src/main/java/net/vulkanmod/render/chunk/build/task/SortTransparencyTas
 edit(p, '        QuadSorter.SortState transparencyState = compiledSection.transparencyState;', '''        QuadSorter.SortState transparencyState = compiledSection.transparencyState;
         if (transparencyState == null) return Result.CANCELLED;''')
 
+# C2ME owns world RNG and entity tracking mutations. Never disable its checks.
+p='common/src/main/java/com/axalotl/async/common/mixin/server/ServerChunkCacheMixin.java'
+edit(p, 'extends ChunkSource {', 'extends ChunkSource implements com.axalotl.async.common.ChunkOwnerExecutor {')
+edit(p, '    @Unique private final List<LevelChunk>', '    @Override public java.util.concurrent.Executor harimt$ownerExecutor() { return this.mainThreadProcessor; }\n\n    @Unique private final List<LevelChunk>')
+p='common/src/main/java/com/axalotl/async/common/mixin/world/LevelMixin.java'
+edit(p, '        AutoCloseable {', '        AutoCloseable, com.axalotl.async.common.WorldRandomAccess {')
+edit(p, '    @Shadow\n    @Final\n    private Thread thread;', """    @Shadow
+    @Final
+    private Thread thread;
+    @Shadow @Final @org.spongepowered.asm.mixin.Mutable public net.minecraft.util.RandomSource random;
+    @Override public net.minecraft.util.RandomSource harimt$worldRandom() { return this.random; }
+    @Override public void harimt$worldRandom(net.minecraft.util.RandomSource value) { this.random = value; }""")
+p='common/src/main/java/com/axalotl/async/common/mixin/world/ServerLevelMixin.java'
+edit(p, '        this.players = new CopyOnWriteArrayList<>();', """        this.players = new CopyOnWriteArrayList<>();
+        if (com.axalotl.async.common.AsyncCommon.HARICHUNK) {
+            com.axalotl.async.common.WorldRandomAccess access = (com.axalotl.async.common.WorldRandomAccess) (Object) this;
+            access.harimt$worldRandom(new com.axalotl.async.common.ServerOwnedRandom(this.getLevel(), access.harimt$worldRandom()));
+        }""")
+edit(p, '        ParallelProcessor.forEachParallel(this.getLevel(), toDespawnCheck, Entity::checkDespawn);', """        if (com.axalotl.async.common.AsyncCommon.HARICHUNK) {
+            // Despawning changes C2ME's main-thread entity tracker.
+            for (Entity entity : toDespawnCheck) entity.checkDespawn();
+        } else {
+            ParallelProcessor.forEachParallel(this.getLevel(), toDespawnCheck, Entity::checkDespawn);
+        }
+        toTick.removeIf(Entity::isRemoved);""")
+edit(p, '    private boolean wrapAddFreshEntity(Entity entity, Operation<Boolean> original) {', '    private boolean wrapAddFreshEntity(Entity entity, Operation<Boolean> original) {\n        if (com.axalotl.async.common.C2meThreadBoundary.mustHandoff()) {\n            return com.axalotl.async.common.C2meThreadBoundary.call(this.getLevel(), () -> wrapAddFreshEntity(entity, original));\n        }')
+p='common/src/main/java/com/axalotl/async/common/mixin/entity/EntityMixin.java'
+edit(p, '    private void setRemoved(Entity.RemovalReason reason, Operation<Void> original) {', """    private void setRemoved(Entity.RemovalReason reason, Operation<Void> original) {
+        Entity self = (Entity) (Object) this;
+        if (com.axalotl.async.common.C2meThreadBoundary.mustHandoff() && self.level() instanceof ServerLevel world) {
+            com.axalotl.async.common.C2meThreadBoundary.run(world, () -> setRemoved(reason, original));
+            return;
+        }""")
+p='common/src/main/java/com/axalotl/async/common/mixin/server/PersistentEntitySectionManagerCallbackMixin.java'
+edit(p, '    @Unique\n    private final ReentrantLock', '    @Shadow @org.spongepowered.asm.mixin.Final private net.minecraft.world.level.entity.EntityAccess entity;\n    @Unique\n    private final ReentrantLock')
+edit(p, '    private void onMove(Operation<Void> original) {', """    private void onMove(Operation<Void> original) {
+        if (com.axalotl.async.common.C2meThreadBoundary.mustHandoff()
+                && this.entity instanceof net.minecraft.world.entity.Entity value
+                && value.level() instanceof net.minecraft.server.level.ServerLevel world) {
+            com.axalotl.async.common.C2meThreadBoundary.run(world, () -> onMove(original));
+            return;
+        }""")
+
 edit('gradle.properties', 'version=2.4.0-noxviola.1-vulkan-hybrid', 'version=2.4.1-noxviola.1-vulkan-hybrid')
 
 for src in payload.rglob('*'):

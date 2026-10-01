@@ -9,6 +9,7 @@ Requested scope: recommendations 1 (worker scheduling), 2 (chunk uploads) and 5 
 - Chunk worker offer/poll/wait use one monitor, preventing missed wakeups. Shutdown discards an already-polled task instead of losing it.
 - Chunk uploads reuse primitive region storage and emit multiple disjoint regions in one Vulkan copy command. Barriers remain on actual overlapping writes and buffer-copy dependencies. Staging rollover, deferred frees, submission and fence ownership remain intact.
 - Null transparency sort-state cancellation backported from xCollateral/VulkanMod e5dad791ca89b4f40ecef0155148711a4980b3b5 under the existing LGPL renderer license.
+- C2ME runtime repair: despawn checks stay on the owner thread, and spawn/removal/movement side effects hand off before acquiring entity locks. World RNG calls retain C2ME's checked delegate and exact RNG sequence on the real owner queue; entity simulation remains parallel. No C2ME safety check is disabled.
 - Source archives exclude generated build roots by exact path, preserving legitimate Java packages named build.
 
 ## Bounded primary-source review
@@ -41,3 +42,9 @@ Alternating equivalent-work queue benchmark (7 samples, 5,120,000 items/sample):
 Packaged production client, real C2ME client/server coexistence, NBT persistence, resource reload/resize, deliberate failure surfacing and reproducible JAR build are pending CI at this checkpoint. No Windows/RTX 4090 FPS claim is made from software-driver CI.
 
 C2ME fixture bytes: 1,343,566; SHA-256: 97401e625906dc7dbe7719c4915d5aa88830e64e5aa6f90831ee45a61373f8d3. C2ME is optional and is not bundled into Hari.
+
+## Runtime discoveries and repair checkpoint
+
+The initial native server passed 256-entity preservation and exact block-entity inventory unload/reload/restart without C2ME. C2ME live GPU collision passed, then the new harness exposed a missing evidence-directory creation; this QA-only error was repaired. The packaged C2ME client exposed real off-thread despawn/tracker mutation and bee access to C2ME's checked world RNG. Owner-thread lifecycle/RNG handoffs were implemented instead of disabling C2ME checks or replacing its random sequence. A new actual-Java test passed 1,400 exact RNG sequence cases, 1,100 lifecycle owner calls on real 1/2/8 workers, zero off-owner delegate accesses and original exception/Error identity preservation. Native proof of this repair remains pending.
+
+C2ME Forge reconfigures client console appenders. QA now reads the fresh Forge latest.log as well as stdout, saves both, and rejects off-thread C2ME diagnostics. This repairs observation without changing logging or hiding errors.

@@ -40,6 +40,9 @@ FATAL = (
     "NoSuchFieldError",
     "UnsatisfiedLinkError",
     "VK_ERROR_DEVICE_LOST",
+    "Async entity unload",
+    "Async entity load",
+    "Off-thread world random access",
     "A fatal error has been detected by the Java Runtime Environment",
     "Timed out trying to setup the Game Window",
     "Failed to initialize graphics window with current settings",
@@ -106,6 +109,10 @@ def main() -> int:
     evidence.mkdir(parents=True, exist_ok=True)
     frame_report = mc_dir / "harimt-frame-sample.json"
     frame_report.unlink(missing_ok=True)
+    runtime_log = mc_dir / "logs/latest.log"
+    if runtime_log.is_file():
+        shutil.copyfile(runtime_log, evidence / "previous-latest.log")
+        runtime_log.unlink()
 
     env = os.environ.copy()
     env.update(
@@ -184,15 +191,43 @@ def main() -> int:
         )
         assert proc.stdout is not None
 
+        source_lock = threading.Lock()
+        stdout_lines: list[str] = []
+        def record(line: str) -> None:
+            with source_lock:
+                lines.append(line)
+                events.put((len(lines) - 1, line))
+
         def reader() -> None:
             assert proc is not None and proc.stdout is not None
             for line in proc.stdout:
                 print(line, end="", flush=True)
-                lines.append(line)
-                events.put((len(lines) - 1, line))
+                stdout_lines.append(line)
+                record(line)
+
+        def read_runtime_log() -> None:
+            # C2ME Forge can reconfigure client console appenders. The fresh Forge
+            # file remains authoritative; preserve and inspect it without changing
+            # its logger settings or muting any diagnostics.
+            cursor = 0
+            while True:
+                if runtime_log.is_file():
+                    rows = runtime_log.read_text(encoding="utf-8", errors="replace").splitlines(keepends=True)
+                    if rows and not rows[-1].endswith("\n"):
+                        rows.pop()
+                    if len(rows) < cursor:
+                        cursor = 0
+                    for row in rows[cursor:]:
+                        record(row)
+                    cursor = len(rows)
+                if proc is None or proc.poll() is not None:
+                    return
+                time.sleep(0.15)
 
         thread = threading.Thread(target=reader, name="hari24-production-reader", daemon=True)
+        file_thread = threading.Thread(target=read_runtime_log, name="hari24-forge-log-reader", daemon=True)
         thread.start()
+        file_thread.start()
 
         def inspect(line: str, marker: str) -> None:
             for fatal in FATAL:
@@ -336,6 +371,7 @@ def main() -> int:
             wait_for("HARI_QA_INTENTIONAL_CLIENT_TICK_FAULT", start_at=cursor)
             proc.wait(timeout=120)
             thread.join(timeout=5)
+            file_thread.join(timeout=5)
             if not list((mc_dir / "crash-reports").glob("*.txt")):
                 raise RuntimeError("injected client tick failure did not create a crash report")
             joined = "".join(lines)
@@ -354,6 +390,7 @@ def main() -> int:
         )
         rc = proc.wait(timeout=120)
         thread.join(timeout=5)
+        file_thread.join(timeout=5)
         if rc != 0:
             raise RuntimeError(f"PortableMC production launch exited with code {rc}")
 
@@ -425,6 +462,10 @@ def main() -> int:
                 xvfb.wait(timeout=10)
             except subprocess.TimeoutExpired:
                 xvfb.kill()
+        if runtime_log.is_file():
+            shutil.copyfile(runtime_log, evidence / "forge-latest.log")
+        if 'stdout_lines' in locals():
+            (evidence / "launcher-stdout.log").write_text("".join(stdout_lines), encoding="utf-8")
         (evidence / "production-client-console.log").write_text("".join(lines), encoding="utf-8")
 
 
