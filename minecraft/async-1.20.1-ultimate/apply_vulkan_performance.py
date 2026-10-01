@@ -142,6 +142,14 @@ edit(p, '        ParallelProcessor.forEachParallel(this.getLevel(), toDespawnChe
         }
         toTick.removeIf(Entity::isRemoved);""")
 edit(p, '    private boolean wrapAddFreshEntity(Entity entity, Operation<Boolean> original) {', '    private boolean wrapAddFreshEntity(Entity entity, Operation<Boolean> original) {\n        if (com.axalotl.async.common.C2meThreadBoundary.mustHandoff()) {\n            return com.axalotl.async.common.C2meThreadBoundary.call(this.getLevel(), () -> wrapAddFreshEntity(entity, original));\n        }')
+# Native thread dump: addFreshEntityWithPassengers must hand off before its outer dimension monitor.
+p='common/src/main/java/com/axalotl/async/common/mixin/spawn/ServerLevelAccessorMixin.java'
+edit(p, '    default void addFreshEntityWithPassengers(Entity entity) {', """    default void addFreshEntityWithPassengers(Entity entity) {
+        ServerLevelAccessor self = (ServerLevelAccessor) this;
+        if (com.axalotl.async.common.C2meThreadBoundary.mustHandoff()) {
+            com.axalotl.async.common.C2meThreadBoundary.run(self.getLevel(), () -> self.addFreshEntityWithPassengers(entity));
+            return;
+        }""")
 p='common/src/main/java/com/axalotl/async/common/mixin/entity/EntityMixin.java'
 edit(p, '    private void setRemoved(Entity.RemovalReason reason, Operation<Void> original) {', """    private void setRemoved(Entity.RemovalReason reason, Operation<Void> original) {
         Entity self = (Entity) (Object) this;
