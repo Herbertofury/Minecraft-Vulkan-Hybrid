@@ -1,14 +1,14 @@
 {
-  "schema_version": 8,
-  "checkpoint_kind": "vulkan-performance-candidate-runtime-qa",
+  "schema_version": 10,
+  "checkpoint_kind": "owner-chunk-access-candidate-runtime-qa",
   "updated_utc": "2026-10-01",
   "branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
-  "product_commit": "170784207b0c9093c850c629c19f0bcfff54bef7",
-  "client_qa_commit": "170784207b0c9093c850c629c19f0bcfff54bef7",
-  "stress_qa_commit": "3afa86397713cdf6439ee4ac39ed76b01464110c",
+  "product_commit": "ba05e9589960f3ab255926c50b007f9d7ce1b4ea",
+  "client_qa_commit": "ba05e9589960f3ab255926c50b007f9d7ce1b4ea",
+  "stress_qa_commit": null,
   "jar_name": "HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar",
-  "jar_bytes": 30708500,
-  "jar_sha256": "13710068df209f3216c11af5c4931c944072cf874ffabd97a3176a703b1de5cc",
+  "jar_bytes": null,
+  "jar_sha256": null,
   "verification_complete": false,
   "previous_verified_checkpoint": "INTEGRITY-RELEASE-CHECKPOINT.json",
   "inputs": {
@@ -23,46 +23,41 @@
   },
   "ci": {
     "compile_repro": {
-      "run_id": 36823011441,
-      "job_id": 110242455159,
-      "artifact_id": 11143949587,
-      "state": "pass",
-      "artifact_sha256": "babbcc5e59896f95a785bd31d3ba78dab3b4b89f69dba488847b4d94b9a2394b",
-      "packaged_decompiler_stub_guard": "pass"
+      "run_id": 36866930953,
+      "state": "running"
     },
     "native_server_c2me": {
-      "run_id": 36823011335,
-      "job_id": 110242454403,
-      "state": "running",
-      "strict_rng_enforcement_required": true
+      "run_id": 36866930874,
+      "state": "running"
     },
     "packaged_clients": {
-      "run_id": 36823011386,
-      "job_id": 110242454510,
-      "state": "running",
-      "strict_rng_enforcement_required": true
+      "run_id": 36866930792,
+      "state": "running"
     },
     "khronos_c2me_travel": {
-      "qa_commit": "3afa86397713cdf6439ee4ac39ed76b01464110c",
-      "state": "running",
+      "state": "await-new-compile-artifact",
       "strict_rng_enforcement_required": true,
-      "parallel_entity_workers_required": 2,
-      "sensing_fixture": "bee + villagers + Piglin + two item types"
+      "central_terrain_gate_required": true,
+      "parallel_entity_workers_required": 2
     }
   },
   "exact_next_actions": [
-    "Finish packaged-client C2ME/reopen/Fabulous/Embeddium gates",
-    "Finish synchronization validation, far-chunk generation/travel and nectar-bee owner checks",
-    "Verify all downloaded artifacts and identical JAR hashes",
-    "Publish complete source (including legitimate build packages), JAR and evidence to Drive, download back and verify",
-    "Update CURRENT-CHECKPOINT.md and delivery receipt only after all gates pass"
+    "Finish the new owner-chunk fix compile/repro and focused Java regression",
+    "Finish exact new packaged Forge clients and strict C2ME server/recovery",
+    "Pin the new compile JAR in Khronos/strict C2ME travel; verify terrain above chat and two native workers",
+    "Package complete source/recipe/JAR/all evidence; Drive upload and full byte readback",
+    "Update final acceptance and delivery receipt"
   ],
   "no_repeat": [
     "Do not swallow tick failures or mute C2ME checks/logs",
     "C2ME Forge changes client console appenders: inspect fresh latest.log plus stdout",
     "Offline authentication header is classified only with its exact HTTP 401 cause",
     "Preserve original world RNG sequence on the real owner thread",
-    "Exclude generated build roots by full path, never any source package named build"
+    "Exclude generated build roots by full path, never any source package named build",
+    "C2ME off-thread chunk requests can strand despite managed blocking; do not treat the old seven-client pass as final acceptance",
+    "Whole-window contrast can pass sky plus chat; require central terrain crop",
+    "Forge explicit paraMax belongs under the Async Config table",
+    "Original client/server CI manifest self hashes are invalid during write; verify actual files and ZIP provider digest, future manifests exclude self"
   ],
   "limits": [
     "Linux Mesa software runtime proof is not Windows/RTX 4090 FPS proof",
@@ -73,7 +68,8 @@
     "C2ME bee world RNG access",
     "Outer passenger-spawn dimension-lock cycle (live JVM evidence + actual mixin negative control)",
     "Server watchdog: C2ME chunk-future completion required server/other-world owner queues; vanilla managed blocking now retains progress and full failure barrier",
-    "Inherited executable CFR throw stubs in three sensor comparators; restore identity-cached vanilla distance ordering and reject source/JAR decompiler failures"
+    "Inherited executable CFR throw stubs in three sensor comparators; restore identity-cached vanilla distance ordering and reject source/JAR decompiler failures",
+    "Own worker blocking C2ME chunk future chain bypassed the normal owner request path. Completed FULL chunk reads remain inline; loading/status misses invoke whole getChunk on owner before C2ME HEAD interception."
   ],
   "rejected_candidates": [
     {
@@ -90,10 +86,15 @@
       "product_commit": "22f4bda73d7cc7b8631c497fd0dfb1bd7fa28ca8",
       "jar_sha256": "73c952ec7105f0ad971a55d880f4152db40bc22ae4eaf0de267a2678432709ac",
       "reason": "Strict native chunk travel exposed inherited sensor comparator decompiler throw; all three sensor stubs restored in 1707842"
+    },
+    {
+      "product_commit": "170784207b0c9093c850c629c19f0bcfff54bef7",
+      "jar_sha256": "13710068df209f3216c11af5c4931c944072cf874ffabd97a3176a703b1de5cc",
+      "reason": "Broader strict C2ME travel stalled a spider in C2ME getChunkOffThread/CFUtil.join despite live server managed blocking. New whole-method owner chunk wrapper retains loaded noncreating fast reads and vanilla/C2ME owner loading path."
     }
   ],
   "source_verification": {
-    "complete_source_files": 985,
+    "complete_source_files": 986,
     "recipe_steps": 23,
     "fresh_reconstruction_byte_identical": true,
     "restored_builder_sources": 44
@@ -105,5 +106,10 @@
     "baseline_allocated_bytes": 123360000,
     "candidate_allocated_bytes": 21120000,
     "scope": "queue construction/draining; not Minecraft FPS"
+  },
+  "superseded_sensor_binary": {
+    "jar_name": "HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar",
+    "jar_bytes": 30708500,
+    "jar_sha256": "13710068df209f3216c11af5c4931c944072cf874ffabd97a3176a703b1de5cc"
   }
 }
