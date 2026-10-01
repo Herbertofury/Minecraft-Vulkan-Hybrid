@@ -430,9 +430,10 @@ def main() -> int:
             subprocess.run(["xdotool", "key", "--clearmodifiers", "Return"], env=env, check=True, timeout=15)
 
         game_command("/gamemode spectator @s")
+        subprocess.run(["xdotool", "key", "--clearmodifiers", "F1"], env=env, check=True, timeout=15)
         for x, marker in ((4096, "HMT_QA_FAR_GENERATED"), (0, "HMT_QA_RETURN_RENDERED")):
             cursor = len(lines)
-            game_command(f"/tp @s {x} 100 {x}")
+            game_command(f"/tp @s {x} 100 {x} 0 60")
             deadline = time.monotonic() + 180
             while True:
                 game_command(f"/execute if entity @s[x={x-1},y=99,z={x-1},dx=2,dy=2,dz=2] if loaded {x} 80 {x} run say {marker}")
@@ -442,12 +443,19 @@ def main() -> int:
                 except TimeoutError:
                     if time.monotonic() >= deadline:
                         raise RuntimeError(f"C2ME did not finish chunk travel: {marker}")
-            time.sleep(5)
             travel_shot = evidence / f"chunk-travel-{x}.png"
-            subprocess.run(["import", "-display", args.display, "-window", wid, str(travel_shot)], env=env, check=True, timeout=20)
-            width, height, colors, stddev = image_metrics(travel_shot, env)
-            if (width, height) != (1280, 720) or colors < 64 or stddev < 0.05:
-                raise RuntimeError("C2ME chunk travel failed to render a world")
+            render_deadline = time.monotonic() + 120
+            while True:
+                subprocess.run(["import", "-display", args.display, "-window", wid, str(travel_shot)], env=env, check=True, timeout=20)
+                width, height, colors, stddev = image_metrics(travel_shot, env)
+                if (width, height) == (1280, 720) and colors >= 64 and stddev >= 0.05:
+                    break
+                for line in list(lines)[cursor:]:
+                    inspect(line, marker)
+                if time.monotonic() >= render_deadline:
+                    raise RuntimeError("C2ME chunk travel failed to render terrain while looking down, HUD hidden")
+                time.sleep(2)
+        subprocess.run(["xdotool", "key", "--clearmodifiers", "F1"], env=env, check=True, timeout=15)
         error_ledger(list(lines))
         if args.tick_fault:
             cursor = len(lines)

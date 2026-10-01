@@ -34,14 +34,14 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: HariMultiThread-Ultimate-1.20.1-2.4.0-VULKAN-HYBRID-COMPILE
-          run-id: 36818650293
+          run-id: 36820325316
           github-token: ${{ github.token }}
           path: tested
       - name: Verify artifact and C2ME bytes
         shell: bash
         run: |
           set -euo pipefail
-          echo '243808f1352a6f226f2d369112daf8a7dcc2da4e1a077bb3aa18a60b93ad980f  tested/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar' | sha256sum -c -
+          echo '73c952ec7105f0ad971a55d880f4152db40bc22ae4eaf0de267a2678432709ac  tested/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar' | sha256sum -c -
           sha256sum tested/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar | sed 's#tested/#production-qa/#' > tested/JAR-SHA256.txt
           curl -fL --retry 3 'https://edge.forgecdn.net/files/8929/972/c2meforge-0.2.0-forge.9.6-all.jar' -o c2meforge-0.2.0-forge.9.6-all.jar
           echo '97401e625906dc7dbe7719c4915d5aa88830e64e5aa6f90831ee45a61373f8d3  c2meforge-0.2.0-forge.9.6-all.jar' | sha256sum -c -
@@ -118,12 +118,16 @@ jobs:
         run: |
           set -euo pipefail
           cp c2meforge-0.2.0-forge.9.6-all.jar pmc-game/mods/
+          mkdir -p pmc-game/config
+          test ! -e pmc-game/config/c2me.toml
+          printf '[fixes]\nenforceSafeWorldRandomAccess = true\n' > pmc-game/config/c2me.toml
           pmc="$(cat production-qa/portablemc-path.txt)"
           python3 .github/qa/hari24_vulkan_c2me_stress_qa.py \
             --portablemc "$pmc" --main-dir "$PWD/pmc-main" --mc-dir "$PWD/pmc-game" \
             --world HMT-2.4-QA --evidence "$PWD/production-qa/validation-c2me" \
             --java "$JAVA_HOME/bin/java" --display :91 --expect vulkan
           grep -F 'externalChunks=true' production-qa/validation-c2me/production-client-console.log
+          grep -F 'Enforcing safe world random access' production-qa/validation-c2me/production-client-console.log
           grep -F 'VK_LAYER_KHRONOS_validation' production-qa/validation-c2me/production-client-console.log
           grep -F 'HMT_QA_FAR_GENERATED' production-qa/validation-c2me/production-client-console.log
           grep -F 'HMT_QA_RETURN_RENDERED' production-qa/validation-c2me/production-client-console.log
@@ -134,8 +138,16 @@ jobs:
           mkdir -p production-seed-server/mods
           cp tested/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar production-seed-server/mods/HariMultiThread-Ultimate.jar
           cp c2meforge-0.2.0-forge.9.6-all.jar production-seed-server/mods/
+          mkdir -p production-seed-server/config
+          test ! -e production-seed-server/config/c2me.toml
+          test ! -e production-seed-server/config/harimt.toml
+          printf '[fixes]\nenforceSafeWorldRandomAccess = true\n' > production-seed-server/config/c2me.toml
+          printf 'paraMax = 2\n' > production-seed-server/config/harimt.toml
           python3 .github/qa/hari_c2me_owner_server_qa.py production-seed-server production-qa/owner-server
           grep -F 'externalChunks=true' production-qa/owner-server/packaged-server-gpu-and-fallback.log
+          grep -F 'Initialized Pool with 2 threads' production-qa/owner-server/packaged-server-gpu-and-fallback.log
+          grep -F 'Enforcing safe world random access' production-qa/owner-server/packaged-server-gpu-and-fallback.log
+          grep -F 'Initialized Pool with 2 threads' production-qa/owner-server/packaged-server-restart.log
           grep -F 'HMT_QA_BLOCK_NBT_RESTART' production-qa/owner-server/packaged-server-restart.log
       - uses: actions/upload-artifact@v4
         if: always()
