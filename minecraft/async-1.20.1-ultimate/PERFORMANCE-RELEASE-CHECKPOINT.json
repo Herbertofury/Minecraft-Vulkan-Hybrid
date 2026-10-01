@@ -1,14 +1,14 @@
 {
-  "schema_version": 6,
+  "schema_version": 7,
   "checkpoint_kind": "vulkan-performance-candidate-runtime-qa",
   "updated_utc": "2026-10-01",
   "branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
-  "product_commit": "f98d69e4ac571d25cdaf727bc22758ddc916bab4",
-  "client_qa_commit": "f98d69e4ac571d25cdaf727bc22758ddc916bab4",
-  "stress_qa_commit": "4a8ab26d14b2c9aa9e7cb6fd257a1c813377aaee",
+  "product_commit": "22f4bda73d7cc7b8631c497fd0dfb1bd7fa28ca8",
+  "client_qa_commit": "22f4bda73d7cc7b8631c497fd0dfb1bd7fa28ca8",
+  "stress_qa_commit": "fe83b91b1b258b4ca240e6e474f5198cdcb08a9f",
   "jar_name": "HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar",
-  "jar_bytes": 30705747,
-  "jar_sha256": "243808f1352a6f226f2d369112daf8a7dcc2da4e1a077bb3aa18a60b93ad980f",
+  "jar_bytes": 30707838,
+  "jar_sha256": "73c952ec7105f0ad971a55d880f4152db40bc22ae4eaf0de267a2678432709ac",
   "verification_complete": false,
   "previous_verified_checkpoint": "INTEGRITY-RELEASE-CHECKPOINT.json",
   "inputs": {
@@ -23,25 +23,32 @@
   },
   "ci": {
     "compile_repro": {
-      "run_id": 36818650293,
-      "job_id": 110229195046,
-      "artifact_id": 11142751878,
+      "run_id": 36820325316,
+      "job_id": 110234305084,
+      "artifact_id": 11143431316,
       "state": "pass",
-      "artifact_sha256": "2cfc3f04353d98b36c554c25e28c0f9e1a445b2548f5652eb22a720178418742"
+      "artifact_sha256": "973f39b3211e85b6a85bdc489374f21af1d8da00d32839e5821c0554fe6f02fd"
     },
     "native_server_c2me": {
-      "run_id": 36818650277,
-      "job_id": 110229194223,
-      "state": "running"
+      "run_id": 36820325255,
+      "job_id": 110234304760,
+      "artifact_id": 11143760942,
+      "state": "pass",
+      "artifact_sha256": "951a0801d8909c444d01fb6c4543726ad195625c997fa24c7abea4c250ee7170",
+      "normal_c2me_detection": "active, no unsafe-access/error rows",
+      "strict_enforcement": "separate challenge pending"
     },
     "packaged_clients": {
-      "run_id": 36818650271,
-      "job_id": 110229194464,
+      "run_id": 36820325336,
+      "job_id": 110234304728,
       "state": "running"
     },
     "khronos_c2me_travel": {
-      "qa_commit": "4a8ab26d14b2c9aa9e7cb6fd257a1c813377aaee",
-      "state": "running"
+      "run_id": 36821367192,
+      "qa_commit": "fe83b91b1b258b4ca240e6e474f5198cdcb08a9f",
+      "state": "running",
+      "strict_rng_enforcement_required": true,
+      "parallel_entity_workers_required": 2
     }
   },
   "exact_next_actions": [
@@ -65,19 +72,33 @@
   "repaired_runtime_failures": [
     "C2ME off-owner despawn/tracker mutation",
     "C2ME bee world RNG access",
-    "Outer passenger-spawn dimension-lock cycle (live JVM evidence + actual mixin negative control)"
+    "Outer passenger-spawn dimension-lock cycle (live JVM evidence + actual mixin negative control)",
+    "Server watchdog: C2ME chunk-future completion required server/other-world owner queues; vanilla managed blocking now retains progress and full failure barrier"
   ],
   "rejected_candidates": [
     {
       "product_commit": "418ed90c2748990c674a09e5ee1240457567ffb1",
       "jar_sha256": "a309c2823ee6a64dae6728bef73b2934e0181abe7f26edc3c18f220147ef08df",
       "reason": "Native client passenger-spawn deadlock; superseded, not accepted"
+    },
+    {
+      "product_commit": "f98d69e4ac571d25cdaf727bc22758ddc916bab4",
+      "jar_sha256": "243808f1352a6f226f2d369112daf8a7dcc2da4e1a077bb3aa18a60b93ad980f",
+      "reason": "C2ME saved-server watchdog chunk-queue dependency, repaired by managed blocking"
     }
   ],
   "source_verification": {
-    "complete_source_files": 984,
+    "complete_source_files": 985,
     "recipe_steps": 23,
     "fresh_reconstruction_byte_identical": true,
     "restored_builder_sources": 44
+  },
+  "performance_component_benchmark": {
+    "work_items_per_sample": 5120000,
+    "baseline_median_ns": 60476234,
+    "candidate_median_ns": 14257191,
+    "baseline_allocated_bytes": 123360000,
+    "candidate_allocated_bytes": 21120000,
+    "scope": "queue construction/draining; not Minecraft FPS"
   }
 }

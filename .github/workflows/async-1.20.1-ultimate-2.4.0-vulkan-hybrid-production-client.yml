@@ -228,7 +228,7 @@ jobs:
           cp c2meforge-0.2.0-forge.9.6-all.jar pmc-game/mods/
           mkdir -p pmc-game/config
           test ! -e pmc-game/config/c2me.toml
-          printf '[fixes]\nenforceSafeWorldRandomAccess = true\n' > pmc-game/config/c2me.toml
+          printf 'version = 3\n[fixes]\nenforceSafeWorldRandomAccess = true\n' > pmc-game/config/c2me.toml
           pmc="$(cat production-qa/portablemc-path.txt)"
           for phase in first reopen; do
             python3 .github/qa/hari24_production_client_qa.py \
