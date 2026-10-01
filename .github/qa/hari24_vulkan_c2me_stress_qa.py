@@ -43,6 +43,7 @@ FATAL = (
     "UnsatisfiedLinkError",
     "VK_ERROR_DEVICE_LOST",
     "Validation Error:",
+    "VUID-",
     "SYNC-HAZARD-",
     "HARI_QA_DIAGNOSTIC_THREAD_SNAPSHOT_COMPLETE",
     "Decompilation failed",
@@ -94,6 +95,17 @@ def image_metrics(path: Path, env: dict[str, str]) -> tuple[int, int, int, float
         ).strip()
     )
     return width, height, colors, stddev
+
+
+def terrain_fraction(path: Path, sky_color: str, env: dict[str, str]) -> float:
+    """Count real scene pixels rather than a small tree against uniform sky."""
+    convert = shutil.which("magick") or shutil.which("convert")
+    if convert is None:
+        raise RuntimeError("ImageMagick is required")
+    return float(subprocess.check_output(
+        [convert, str(path), "-alpha", "on", "-fuzz", "4%", "-transparent",
+         sky_color, "-alpha", "extract", "-format", "%[fx:mean]", "info:"],
+        text=True, env=env, timeout=10).strip())
 
 
 def main() -> int:
@@ -468,6 +480,10 @@ def main() -> int:
             travel_shot = evidence / f"chunk-travel-{x}.png"
             terrain_shot = evidence / f"chunk-travel-{x}-terrain.png"
             terrain_checks: list[dict[str, object]] = []
+            stable_terrain = 0
+            sky_color: str | None = None
+            progression = evidence / f"chunk-travel-{x}-progression"
+            progression.mkdir()
             render_deadline = time.monotonic() + 120
             while True:
                 subprocess.run(["import", "-display", args.display, "-window", wid, str(travel_shot)], env=env, check=True, timeout=20)
@@ -477,11 +493,24 @@ def main() -> int:
                 convert = shutil.which("magick") or shutil.which("convert")
                 if convert is None:
                     raise RuntimeError("ImageMagick is required")
-                subprocess.run([convert, str(travel_shot), "-crop", "800x350+240+60", "+repage", str(terrain_shot)], env=env, check=True, timeout=20)
+                if sky_color is None:
+                    sky_color = subprocess.check_output(
+                        [convert, str(travel_shot), "-format", "%[pixel:p{0,0}]", "info:"],
+                        env=env, text=True, timeout=10).strip()
+                subprocess.run([convert, str(travel_shot), "-crop", "800x350+240+200", "+repage", str(terrain_shot)], env=env, check=True, timeout=20)
                 width, height, colors, stddev = image_metrics(terrain_shot, env)
-                terrain_checks.append({"width": width, "height": height, "colors": colors, "gray_stddev": stddev})
+                coverage = terrain_fraction(terrain_shot, sky_color, env)
+                ready = (width, height) == (800, 350) and colors >= 64 and stddev >= 0.05 and coverage >= 0.60
+                stable_terrain = stable_terrain + 1 if ready else 0
+                frame_name = f"frame-{len(terrain_checks):03d}.png"
+                shutil.copyfile(travel_shot, progression / frame_name)
+                terrain_checks.append({"width": width, "height": height, "colors": colors,
+                                       "gray_stddev": stddev, "non_sky_fraction": coverage,
+                                       "sky_reference": sky_color, "ready": ready,
+                                       "consecutive_ready_samples": stable_terrain,
+                                       "screenshot": f"{progression.name}/{frame_name}"})
                 (evidence / f"chunk-travel-{x}-readiness.json").write_text(json.dumps(terrain_checks, indent=2) + "\n")
-                if (width, height) == (800, 350) and colors >= 64 and stddev >= 0.05:
+                if stable_terrain >= 3:
                     break
                 for line in list(lines)[cursor:]:
                     inspect(line, marker)
