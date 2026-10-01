@@ -1,17 +1,9 @@
-# HariMultiThread Vulkan Hybrid — current verified checkpoint
+# HariMultiThread Vulkan Hybrid — current work checkpoint
 
-Updated: 2026-09-30. Canonical branch: `async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926`.
-Target: Minecraft 1.20.1 / Forge 47.4.23 / Java 17.
-Product commit: `8ed1e557ae30502fc6a1196e7a843fe2d64cbe9a`.
-QA-only commit: `c3ca9efe46901f87ceae57f1ab554b477483f1c1`.
-JAR SHA-256: `ce7003e81ebafe14653719bc6fb67f278dfa624b5c4c9245f536b704186fcdb8`; 30693714 bytes.
+Updated: 2026-10-01. Target: Minecraft 1.20.1 / Forge 47.4.23 / Java 17. Canonical branch: `async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926`.
 
-The complete integrity release is accepted. Compile/repro runs 36769199186 and 36770319923, packaged-client run 36769199184, and native-server run 36770320239 passed. Their JAR bytes match. See INTEGRITY-RELEASE-CHECKPOINT.json and UPSTREAM-INTEGRITY-AUDIT.md for exact inputs and acceptance evidence.
+The 2.4.1 performance candidate is implemented at product commit `418ed90c2748990c674a09e5ee1240457567ffb1`. Its JAR is 30,705,542 bytes, SHA-256 `a309c2823ee6a64dae6728bef73b2934e0181abe7f26edc3c18f220147ef08df`. Compile/repro run 36814574523 and native-server/C2ME run 36814574538 passed with identical JARs. All 256 entities and block-entity inventory survived unload/reload/restart and intentional async failures remained visible with a saved-world recovery.
 
-Tick and task failures propagate after active workers converge; the imported tick swallowing and empty emergency-save redirect are removed. Shader JSON/imports retain real semantics and uniform values. Native uniform cleanup is idempotent. Config commands atomically persist complete TOML settings. Fabulous graphics is preserved by selecting OpenGL before Vulkan mixins apply. Earlier index/VBO/image-sync/packaging fixes remain intact.
+Packaged client run 36815141375 and extra Khronos synchronization-validation/C2ME travel run 36815286781 are still running. The candidate is not yet promoted. See PERFORMANCE-RELEASE-CHECKPOINT.json for exact pending actions and VULKAN-PERFORMANCE-2.4.1.md for changes, primary-source research and repaired runtime discoveries. Current working source preserves all 931 previously archived files and restores 44 omitted builder sources; 984 complete source files are expected.
 
-Runtime proof includes resource reloads, resize, Vulkan/Embeddium/Fabulous paths, saved-world reopen, both intentionally injected tick failure paths, durable GPU toggles, GPU-vs-CPU verification, and all 256 tagged entities retained across restart and failure recovery. All 40 focused cases and 101 atomic-save iterations pass. Linux software-driver proof does not establish hardware FPS or Windows/macOS runtime correctness. Normal offline-auth and Embeddium support notices are classified and retained.
-
-Current exact next action: none. Reuse accepted evidence and source pins; do not restore an older branch or rerun obsolete 2.2/2.3 recovery work. Historical checkpoints remain in Git history.
-
-Verified delivery: [mod JAR](https://drive.google.com/file/d/1zi_YwVnHL00VAF-kN4Wtj9oboxblJdcG/view) and [full source/evidence bundle](https://drive.google.com/file/d/10lob_1zvY28_MdSFj1SBUJXWyWwD6sFE/view). Both were uploaded, downloaded, and byte-verified; every bundle manifest entry passed. Prior releases remain available. See INTEGRITY-DELIVERY-RECEIPT.json.
+The previous verified 2.4.0 integrity release remains available through INTEGRITY-RELEASE-CHECKPOINT.json and INTEGRITY-DELIVERY-RECEIPT.json. Preserve that evidence and every shader, ownership, index, failure, config, graphics and packaging correction. Do not restart obsolete 2.2/2.3 recovery. Native proof is Linux Mesa software; no hardware FPS claim.

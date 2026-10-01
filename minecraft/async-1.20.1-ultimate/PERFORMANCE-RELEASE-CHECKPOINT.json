@@ -1,0 +1,66 @@
+{
+  "schema_version": 5,
+  "checkpoint_kind": "vulkan-performance-candidate-runtime-qa",
+  "updated_utc": "2026-10-01",
+  "branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+  "product_commit": "418ed90c2748990c674a09e5ee1240457567ffb1",
+  "client_qa_commit": "d5e1c8d9cd0be1fede481bead519741ec987c7f4",
+  "stress_qa_commit": "4307ca3d844ba5f0751ec36186e387d24d78a7d2",
+  "jar_name": "HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar",
+  "jar_bytes": 30705542,
+  "jar_sha256": "a309c2823ee6a64dae6728bef73b2934e0181abe7f26edc3c18f220147ef08df",
+  "verification_complete": false,
+  "previous_verified_checkpoint": "INTEGRITY-RELEASE-CHECKPOINT.json",
+  "inputs": {
+    "minecraft": "1.20.1",
+    "forge": "47.4.23",
+    "java": "17",
+    "hari_original": "f381611c2d71a85192e2028f9e30c03823a6482b",
+    "vulkan_forge": "0ceac5d47f84c910d2f5f6d007b0ffe266c6f736",
+    "c2me": "c2meforge-0.2.0-forge.9.6-all.jar",
+    "c2me_bytes": 1343566,
+    "c2me_sha256": "97401e625906dc7dbe7719c4915d5aa88830e64e5aa6f90831ee45a61373f8d3"
+  },
+  "ci": {
+    "compile_repro": {
+      "run_id": 36814574523,
+      "job_id": 110216738628,
+      "artifact_id": 11141210958,
+      "state": "pass"
+    },
+    "native_server_c2me": {
+      "run_id": 36814574538,
+      "job_id": 110216738064,
+      "artifact_id": 11141077039,
+      "state": "pass"
+    },
+    "packaged_clients": {
+      "run_id": 36815141375,
+      "job_id": 110218463084,
+      "state": "running"
+    },
+    "khronos_c2me_travel": {
+      "run_id": 36815286781,
+      "job_id": 110218904362,
+      "state": "running"
+    }
+  },
+  "exact_next_actions": [
+    "Finish packaged-client C2ME/reopen/Fabulous/Embeddium gates",
+    "Finish synchronization validation, far-chunk generation/travel and nectar-bee owner checks",
+    "Verify all downloaded artifacts and identical JAR hashes",
+    "Publish complete source (including legitimate build packages), JAR and evidence to Drive, download back and verify",
+    "Update CURRENT-CHECKPOINT.md and delivery receipt only after all gates pass"
+  ],
+  "no_repeat": [
+    "Do not swallow tick failures or mute C2ME checks/logs",
+    "C2ME Forge changes client console appenders: inspect fresh latest.log plus stdout",
+    "Offline authentication header is classified only with its exact HTTP 401 cause",
+    "Preserve original world RNG sequence on the real owner thread",
+    "Exclude generated build roots by full path, never any source package named build"
+  ],
+  "limits": [
+    "Linux Mesa software runtime proof is not Windows/RTX 4090 FPS proof",
+    "No universal third-party-pack compatibility claim"
+  ]
+}

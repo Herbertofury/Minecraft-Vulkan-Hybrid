@@ -1,0 +1,5 @@
+Accepted Hari 2.4.0 integrity uploader. LGPL-3.0 renderer source from kzktor/Forgified-VulkanMod.
+Accepted product: 8ed1e557ae30502fc6a1196e7a843fe2d64cbe9a
+Accepted JAR SHA-256: ce7003e81ebafe14653719bc6fb67f278dfa624b5c4c9245f536b704186fcdb8
+Uploader source SHA-256: fa2b164da889b8cac2ca931b40a9541b98b7952ffbcc623ba8a651390b7be3e8
+Used only for comparative tests; never copied into the new production source.
