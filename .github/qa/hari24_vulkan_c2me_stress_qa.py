@@ -433,9 +433,15 @@ def main() -> int:
         for x, marker in ((4096, "HMT_QA_FAR_GENERATED"), (0, "HMT_QA_RETURN_RENDERED")):
             cursor = len(lines)
             game_command(f"/tp @s {x} 100 {x}")
-            time.sleep(5)
-            game_command(f"/execute if entity @s[x={x-1},y=99,z={x-1},dx=2,dy=2,dz=2] if loaded {x} 80 {x} run say {marker}")
-            wait_for(marker, timeout=180, start_at=cursor)
+            deadline = time.monotonic() + 180
+            while True:
+                game_command(f"/execute if entity @s[x={x-1},y=99,z={x-1},dx=2,dy=2,dz=2] if loaded {x} 80 {x} run say {marker}")
+                try:
+                    wait_for(marker, timeout=5, start_at=cursor)
+                    break
+                except TimeoutError:
+                    if time.monotonic() >= deadline:
+                        raise RuntimeError(f"C2ME did not finish chunk travel: {marker}")
             time.sleep(5)
             travel_shot = evidence / f"chunk-travel-{x}.png"
             subprocess.run(["import", "-display", args.display, "-window", wid, str(travel_shot)], env=env, check=True, timeout=20)

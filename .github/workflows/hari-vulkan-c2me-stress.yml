@@ -34,14 +34,14 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: HariMultiThread-Ultimate-1.20.1-2.4.0-VULKAN-HYBRID-COMPILE
-          run-id: 36814574523
+          run-id: 36818650293
           github-token: ${{ github.token }}
           path: tested
       - name: Verify artifact and C2ME bytes
         shell: bash
         run: |
           set -euo pipefail
-          echo 'a309c2823ee6a64dae6728bef73b2934e0181abe7f26edc3c18f220147ef08df  tested/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar' | sha256sum -c -
+          echo '243808f1352a6f226f2d369112daf8a7dcc2da4e1a077bb3aa18a60b93ad980f  tested/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar' | sha256sum -c -
           sha256sum tested/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar | sed 's#tested/#production-qa/#' > tested/JAR-SHA256.txt
           curl -fL --retry 3 'https://edge.forgecdn.net/files/8929/972/c2meforge-0.2.0-forge.9.6-all.jar' -o c2meforge-0.2.0-forge.9.6-all.jar
           echo '97401e625906dc7dbe7719c4915d5aa88830e64e5aa6f90831ee45a61373f8d3  c2meforge-0.2.0-forge.9.6-all.jar' | sha256sum -c -
@@ -122,7 +122,7 @@ jobs:
           python3 .github/qa/hari24_vulkan_c2me_stress_qa.py \
             --portablemc "$pmc" --main-dir "$PWD/pmc-main" --mc-dir "$PWD/pmc-game" \
             --world HMT-2.4-QA --evidence "$PWD/production-qa/validation-c2me" \
-            --java "$JAVA_HOME/bin/java" --display :91 --expect vulkan --snapshot-and-stop
+            --java "$JAVA_HOME/bin/java" --display :91 --expect vulkan
           grep -F 'externalChunks=true' production-qa/validation-c2me/production-client-console.log
           grep -F 'VK_LAYER_KHRONOS_validation' production-qa/validation-c2me/production-client-console.log
           grep -F 'HMT_QA_FAR_GENERATED' production-qa/validation-c2me/production-client-console.log
