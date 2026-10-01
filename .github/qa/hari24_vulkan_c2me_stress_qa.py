@@ -388,8 +388,8 @@ def main() -> int:
             raise RuntimeError("frame capture has wrong renderer or sample count")
         if not all(isinstance(x, (float, int)) and math.isfinite(x) and x > 0 for x in samples):
             raise RuntimeError("frame capture contains invalid timing samples")
-        if (frames.get("width"), frames.get("height"), frames.get("render_distance")) != (1280, 720, 4):
-            raise RuntimeError("frame capture does not match the fixed 1280x720 / distance-4 fixture")
+        if (frames.get("width"), frames.get("height"), frames.get("render_distance")) != (1280, 720, 8):
+            raise RuntimeError("frame capture does not match the fixed 1280x720 / distance-8 fixture")
         if args.expect == "vulkan":
             regions, copies = frames.get("upload_regions", 0), frames.get("upload_copy_commands", 0)
             if not (0 < copies <= regions):
