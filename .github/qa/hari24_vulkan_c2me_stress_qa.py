@@ -44,6 +44,7 @@ FATAL = (
     "VK_ERROR_DEVICE_LOST",
     "Validation Error:",
     "SYNC-HAZARD-",
+    "HARI_QA_DIAGNOSTIC_THREAD_SNAPSHOT_COMPLETE",
     "Async entity unload",
     "Async entity load",
     "Off-thread world random access",
@@ -104,6 +105,7 @@ def main() -> int:
     p.add_argument("--java", default="java")
     p.add_argument("--expect", choices=("vulkan", "opengl"), default="vulkan")
     p.add_argument("--tick-fault", action="store_true")
+    p.add_argument("--snapshot-and-stop", action="store_true", help="Diagnostic run only: checkpoint a live JVM dump after 180 seconds")
     args = p.parse_args()
 
     pmc = args.portablemc.resolve()
@@ -279,6 +281,8 @@ def main() -> int:
                         (evidence / f"jvm-thread-state-{pid}.txt").write_text(state.stdout + state.stderr, encoding="utf-8")
             except Exception as diagnostic_failure:
                 (evidence / "thread-capture-error.txt").write_text(repr(diagnostic_failure), encoding="utf-8")
+            if args.snapshot_and_stop:
+                record("HARI_QA_DIAGNOSTIC_THREAD_SNAPSHOT_COMPLETE\n")
 
         threading.Thread(target=capture_thread_state, name="hari24-thread-observer", daemon=True).start()
 

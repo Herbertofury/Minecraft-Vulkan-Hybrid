@@ -122,7 +122,7 @@ jobs:
           python3 .github/qa/hari24_vulkan_c2me_stress_qa.py \
             --portablemc "$pmc" --main-dir "$PWD/pmc-main" --mc-dir "$PWD/pmc-game" \
             --world HMT-2.4-QA --evidence "$PWD/production-qa/validation-c2me" \
-            --java "$JAVA_HOME/bin/java" --display :91 --expect vulkan
+            --java "$JAVA_HOME/bin/java" --display :91 --expect vulkan --snapshot-and-stop
           grep -F 'externalChunks=true' production-qa/validation-c2me/production-client-console.log
           grep -F 'VK_LAYER_KHRONOS_validation' production-qa/validation-c2me/production-client-console.log
           grep -F 'HMT_QA_FAR_GENERATED' production-qa/validation-c2me/production-client-console.log
