@@ -120,6 +120,15 @@ public final class HariFrameCapture {
         report.put("height", mc.getWindow().getHeight());
         report.put("render_distance", mc.options.renderDistance().get());
         report.put("java", System.getProperty("java.version"));
+        if (Boolean.getBoolean("harimt.qa.performance")
+                && net.vulkanmod.compat.UniversalRendererGate.vulkanRendererEnabled()) {
+            net.vulkanmod.render.chunk.buffer.UploadManager upload = net.vulkanmod.render.chunk.buffer.UploadManager.INSTANCE;
+            if (upload != null) {
+                report.put("upload_regions", upload.qaRegions);
+                report.put("upload_copy_commands", upload.qaCopyCalls);
+                report.put("upload_write_barriers", upload.qaWriteBarriers);
+            }
+        }
         try {
             Files.writeString(mc.gameDirectory.toPath().resolve("harimt-frame-sample.json"),
                     new GsonBuilder().setPrettyPrinting().create().toJson(report) + "\n", StandardCharsets.UTF_8);

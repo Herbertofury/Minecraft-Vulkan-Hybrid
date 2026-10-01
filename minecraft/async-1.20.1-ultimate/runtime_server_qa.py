@@ -113,6 +113,18 @@ def run_server(server_dir: Path, log_path: Path, phase: int) -> None:
                 return
         raise TimeoutError(f"timed out waiting for marker: {text}")
 
+    def command_until(command: str, marker: str, timeout: float = 90) -> None:
+        start = len(lines)
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            send(command)
+            time.sleep(0.5)
+            for row in list(lines)[start:]:
+                inspect_line(row, marker)
+                if marker in row:
+                    return
+        raise TimeoutError(f"command condition did not become true: {marker}")
+
     try:
         wait_for("Done (", 180)
 
@@ -165,6 +177,17 @@ def run_server(server_dir: Path, log_path: Path, phase: int) -> None:
             # Exercise palette mutation + save while the async entity workload is live.
             send("fill 0 180 0 15 195 15 minecraft:stone")
             send("fill 0 180 0 15 195 15 minecraft:air")
+            send("forceload add 4096 4096")
+            command_until("execute if loaded 4096 80 4096 run say HMT_QA_CHUNK_LOADED", "HMT_QA_CHUNK_LOADED")
+            send('setblock 4096 80 4096 minecraft:chest{Lock:"HMT_QA_PERSIST",Items:[{Slot:0b,id:"minecraft:diamond",Count:7b}]}')
+            send('execute if block 4096 80 4096 minecraft:chest{Lock:"HMT_QA_PERSIST",Items:[{Slot:0b,id:"minecraft:diamond",Count:7b}]} run say HMT_QA_BLOCK_NBT_CREATED')
+            wait_for("HMT_QA_BLOCK_NBT_CREATED", 60)
+            send("forceload remove 4096 4096")
+            command_until("execute unless loaded 4096 80 4096 run say HMT_QA_CHUNK_UNLOADED", "HMT_QA_CHUNK_UNLOADED")
+            send("forceload add 4096 4096")
+            command_until("execute if loaded 4096 80 4096 run say HMT_QA_CHUNK_LOADED", "HMT_QA_CHUNK_LOADED")
+            send('execute if block 4096 80 4096 minecraft:chest{Lock:"HMT_QA_PERSIST",Items:[{Slot:0b,id:"minecraft:diamond",Count:7b}]} run say HMT_QA_BLOCK_NBT_RELOADED')
+            wait_for("HMT_QA_BLOCK_NBT_RELOADED", 60)
             send("save-all flush")
             time.sleep(3.0)
             send("stop")
@@ -181,6 +204,9 @@ def run_server(server_dir: Path, log_path: Path, phase: int) -> None:
             send("execute store result score entities harimtCount if entity @e[tag=harimt_qa]")
             send("execute if score entities harimtCount matches 256 run say HMT_QA_RESTART_COUNT_256")
             wait_for("HMT_QA_RESTART_COUNT_256", 20)
+
+            send('execute if block 4096 80 4096 minecraft:chest{Lock:"HMT_QA_PERSIST",Items:[{Slot:0b,id:"minecraft:diamond",Count:7b}]} run say HMT_QA_BLOCK_NBT_RESTART')
+            wait_for("HMT_QA_BLOCK_NBT_RESTART", 60)
 
             # Re-enable Vulkan live and prove repeated command-buffer reuse again
             # after a full JVM/server restart. The exact live verifier remains the

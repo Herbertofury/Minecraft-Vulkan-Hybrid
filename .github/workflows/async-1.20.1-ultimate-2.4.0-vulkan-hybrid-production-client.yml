@@ -7,6 +7,8 @@ name: Hari 1.20.1 Ultimate 2.4 Packaged Production Client QA
       - '.github/qa/hari24_production_client_qa.py'
       - '.github/qa/seed_forge_world.py'
       - 'minecraft/async-1.20.1-ultimate/apply_vulkan_hybrid.py'
+      - 'minecraft/async-1.20.1-ultimate/apply_vulkan_performance.py'
+      - 'minecraft/async-1.20.1-ultimate/performance-src/**'
       - 'minecraft/async-1.20.1-ultimate/apply_vulkan_shader_integrity.py'
       - 'minecraft/async-1.20.1-ultimate/vulkan-hybrid-src/**'
       - 'minecraft/async-1.20.1-ultimate/runtime_vulkan_hybrid_qa.py'
@@ -25,7 +27,7 @@ jobs:
     # PortableMC 5.0.5's pinned GNU binary requires glibc 2.38/2.39.
     # Ubuntu 24.04 provides glibc 2.39; 22.04 cannot execute the verified binary.
     runs-on: ubuntu-24.04
-    timeout-minutes: 90
+    timeout-minutes: 120
     steps:
       - name: Checkout ProjectDump integration
         uses: actions/checkout@v4
@@ -95,15 +97,16 @@ jobs:
           python3 minecraft/async-1.20.1-ultimate/apply_persistent_gpu_scene.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_persistent_mixin_namespace_fix.py upstream
           python3 minecraft/async-1.20.1-ultimate/apply_vulkan_hybrid.py upstream vulkan-forge
+          python3 minecraft/async-1.20.1-ultimate/apply_vulkan_performance.py upstream
           git -C upstream diff --check
           (cd upstream && ./gradlew --no-daemon :forge:build --stacktrace)
 
           mkdir -p production-qa
-          jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.4.0-noxviola.1-vulkan-hybrid-all.jar' | sort | head -n 1)"
+          jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.4.1-noxviola.1-vulkan-hybrid-all.jar' | sort | head -n 1)"
           test -s "$jarfile"
           unzip -t "$jarfile" | grep -F 'No errors detected'
-          cp "$jarfile" production-qa/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar
-          sha256sum production-qa/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar | tee production-qa/JAR-SHA256.txt
+          cp "$jarfile" production-qa/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar
+          sha256sum production-qa/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar | tee production-qa/JAR-SHA256.txt
 
       - name: Generate deterministic Forge world fixture
         shell: bash
@@ -163,7 +166,7 @@ jobs:
           fi
 
           mkdir -p pmc-game/mods pmc-game/saves/HMT-2.4-QA
-          cp production-qa/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar pmc-game/mods/HariMultiThread-Ultimate.jar
+          cp production-qa/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar pmc-game/mods/HariMultiThread-Ultimate.jar
           cp -a production-seed-server/world/. pmc-game/saves/HMT-2.4-QA/
           printf 'renderDistance:4\nsimulationDistance:5\nmaxFps:260\nenableVsync:false\npauseOnLostFocus:false\n' > pmc-game/options.txt
           # The software driver supports core GL 4.5. Avoid spending Forge's
@@ -171,7 +174,7 @@ jobs:
           mkdir -p pmc-game/config
           printf 'earlyWindowSkipGLVersions = ["4.6"]\n' > pmc-game/config/fml.toml
           sha256sum pmc-game/mods/HariMultiThread-Ultimate.jar | tee production-qa/INSTALLED-JAR-SHA256.txt
-          diff -u production-qa/JAR-SHA256.txt <(sed 's#pmc-game/mods/HariMultiThread-Ultimate.jar#production-qa/HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid.jar#' production-qa/INSTALLED-JAR-SHA256.txt)
+          diff -u production-qa/JAR-SHA256.txt <(sed 's#pmc-game/mods/HariMultiThread-Ultimate.jar#production-qa/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar#' production-qa/INSTALLED-JAR-SHA256.txt)
 
       - name: Launch real packaged Forge production client
         shell: bash
@@ -215,6 +218,25 @@ jobs:
             --portablemc "$pmc" --main-dir "$PWD/pmc-main" \
             --mc-dir "$PWD/pmc-game" --world HMT-2.4-QA \
             --evidence "$PWD/production-qa/client-vulkan-reopen" --java "$JAVA_HOME/bin/java" --display :94 --expect vulkan
+
+      - name: Run real C2ME Forge with Vulkan and reopen the same integrated world
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 'https://edge.forgecdn.net/files/8929/972/c2meforge-0.2.0-forge.9.6-all.jar' -o c2meforge-0.2.0-forge.9.6-all.jar
+          echo '97401e625906dc7dbe7719c4915d5aa88830e64e5aa6f90831ee45a61373f8d3  c2meforge-0.2.0-forge.9.6-all.jar' | sha256sum -c -
+          cp c2meforge-0.2.0-forge.9.6-all.jar pmc-game/mods/
+          pmc="$(cat production-qa/portablemc-path.txt)"
+          for phase in first reopen; do
+            python3 .github/qa/hari24_production_client_qa.py \
+              --portablemc "$pmc" --main-dir "$PWD/pmc-main" --mc-dir "$PWD/pmc-game" \
+              --world HMT-2.4-QA --evidence "$PWD/production-qa/client-c2me-$phase" \
+              --java "$JAVA_HOME/bin/java" --display :92 --expect vulkan
+            grep -F 'Detected: HariChunk/C2ME - Threading synchronized' production-qa/client-c2me-$phase/production-client-console.log
+            grep -F 'externalChunks=true' production-qa/client-c2me-$phase/production-client-console.log
+          done
+          sha256sum pmc-game/mods/c2meforge-0.2.0-forge.9.6-all.jar > production-qa/C2ME-SHA256.txt
+          rm pmc-game/mods/c2meforge-0.2.0-forge.9.6-all.jar
 
       - name: Preserve Fabulous graphics through the OpenGL renderer
         shell: bash

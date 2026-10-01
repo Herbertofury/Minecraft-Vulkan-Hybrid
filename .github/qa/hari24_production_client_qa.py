@@ -170,6 +170,7 @@ def main() -> int:
             "--jvm-arg=-Dharimt.vulkan.compatCache=false",
             "--jvm-arg=-Dharimt.vulkan.allowCpuDevice=true",
             "--jvm-arg=-Dharimt.qa.captureFrames=true",
+            "--jvm-arg=-Dharimt.qa.performance=true",
             "--jvm-arg=-Dharimt.qa.lifecycle=true",
         ]
         (evidence / "launch-command.txt").write_text(" ".join(cmd) + "\n", encoding="utf-8")
@@ -260,6 +261,10 @@ def main() -> int:
             raise RuntimeError("frame capture contains invalid timing samples")
         if (frames.get("width"), frames.get("height"), frames.get("render_distance")) != (1280, 720, 4):
             raise RuntimeError("frame capture does not match the fixed 1280x720 / distance-4 fixture")
+        if args.expect == "vulkan":
+            regions, copies = frames.get("upload_regions", 0), frames.get("upload_copy_commands", 0)
+            if not (0 < copies <= regions):
+                raise RuntimeError("native Vulkan uploads did not record ordered region copies")
         shutil.copyfile(frame_report, evidence / "frame-sample.json")
 
         shot = evidence / f"forge-production-client-{args.expect}.png"
