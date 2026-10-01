@@ -1,14 +1,14 @@
 {
-  "schema_version": 5,
+  "schema_version": 6,
   "checkpoint_kind": "vulkan-performance-candidate-runtime-qa",
   "updated_utc": "2026-10-01",
   "branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
-  "product_commit": "418ed90c2748990c674a09e5ee1240457567ffb1",
-  "client_qa_commit": "d5e1c8d9cd0be1fede481bead519741ec987c7f4",
-  "stress_qa_commit": "4307ca3d844ba5f0751ec36186e387d24d78a7d2",
+  "product_commit": "f98d69e4ac571d25cdaf727bc22758ddc916bab4",
+  "client_qa_commit": "f98d69e4ac571d25cdaf727bc22758ddc916bab4",
+  "stress_qa_commit": "4a8ab26d14b2c9aa9e7cb6fd257a1c813377aaee",
   "jar_name": "HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar",
-  "jar_bytes": 30705542,
-  "jar_sha256": "a309c2823ee6a64dae6728bef73b2934e0181abe7f26edc3c18f220147ef08df",
+  "jar_bytes": 30705747,
+  "jar_sha256": "243808f1352a6f226f2d369112daf8a7dcc2da4e1a077bb3aa18a60b93ad980f",
   "verification_complete": false,
   "previous_verified_checkpoint": "INTEGRITY-RELEASE-CHECKPOINT.json",
   "inputs": {
@@ -23,25 +23,24 @@
   },
   "ci": {
     "compile_repro": {
-      "run_id": 36814574523,
-      "job_id": 110216738628,
-      "artifact_id": 11141210958,
-      "state": "pass"
+      "run_id": 36818650293,
+      "job_id": 110229195046,
+      "artifact_id": 11142751878,
+      "state": "pass",
+      "artifact_sha256": "2cfc3f04353d98b36c554c25e28c0f9e1a445b2548f5652eb22a720178418742"
     },
     "native_server_c2me": {
-      "run_id": 36814574538,
-      "job_id": 110216738064,
-      "artifact_id": 11141077039,
-      "state": "pass"
+      "run_id": 36818650277,
+      "job_id": 110229194223,
+      "state": "running"
     },
     "packaged_clients": {
-      "run_id": 36815141375,
-      "job_id": 110218463084,
+      "run_id": 36818650271,
+      "job_id": 110229194464,
       "state": "running"
     },
     "khronos_c2me_travel": {
-      "run_id": 36815286781,
-      "job_id": 110218904362,
+      "qa_commit": "4a8ab26d14b2c9aa9e7cb6fd257a1c813377aaee",
       "state": "running"
     }
   },
@@ -62,5 +61,23 @@
   "limits": [
     "Linux Mesa software runtime proof is not Windows/RTX 4090 FPS proof",
     "No universal third-party-pack compatibility claim"
-  ]
+  ],
+  "repaired_runtime_failures": [
+    "C2ME off-owner despawn/tracker mutation",
+    "C2ME bee world RNG access",
+    "Outer passenger-spawn dimension-lock cycle (live JVM evidence + actual mixin negative control)"
+  ],
+  "rejected_candidates": [
+    {
+      "product_commit": "418ed90c2748990c674a09e5ee1240457567ffb1",
+      "jar_sha256": "a309c2823ee6a64dae6728bef73b2934e0181abe7f26edc3c18f220147ef08df",
+      "reason": "Native client passenger-spawn deadlock; superseded, not accepted"
+    }
+  ],
+  "source_verification": {
+    "complete_source_files": 984,
+    "recipe_steps": 23,
+    "fresh_reconstruction_byte_identical": true,
+    "restored_builder_sources": 44
+  }
 }
