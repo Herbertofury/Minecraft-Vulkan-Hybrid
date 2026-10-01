@@ -44,6 +44,8 @@ FATAL = (
     "VK_ERROR_DEVICE_LOST",
     "Validation Error:",
     "VUID-",
+    "Unknown function hmtqa:",
+    "Unknown function 'hmtqa:",
     "SYNC-HAZARD-",
     "HARI_QA_DIAGNOSTIC_THREAD_SNAPSHOT_COMPLETE",
     "Decompilation failed",
@@ -147,6 +149,26 @@ def main() -> int:
         raise RuntimeError("QA fixture command permission is not a boolean byte")
     payload[offset] = 1
     level.write_bytes(gzip.compress(payload, mtime=0))
+
+    # Real server-side execute predicates avoid the chat packet's length limit.
+    # Check all 49 chunks within radius three, rather than only the arrival chunk.
+    # These queries do not load chunks or generate fake completion markers.
+    qa_pack = level.parent / "datapacks" / "harimt-terrain-qa"
+    functions = qa_pack / "data" / "hmtqa" / "functions"
+    functions.mkdir(parents=True, exist_ok=True)
+    (qa_pack / "pack.mcmeta").write_text(json.dumps({"pack": {
+        "pack_format": 15, "description": "Hari 1.20.1 native terrain readiness QA"}}) + "\n")
+    function_proof = []
+    for x, name, marker in ((4096, "far_ready", "HMT_QA_FAR_GENERATED"),
+                            (0, "return_ready", "HMT_QA_RETURN_RENDERED")):
+        positions = [(x + dx * 16, x + dz * 16) for dx in range(-3, 4) for dz in range(-3, 4)]
+        condition = f"execute if entity @s[x={x-1},y=99,z={x-1},dx=2,dy=2,dz=2] "
+        condition += " ".join(f"if loaded {cx} 80 {cz}" for cx, cz in positions)
+        condition += f" run say {marker}\n"
+        (functions / f"{name}.mcfunction").write_text(condition)
+        function_proof.append({"function": f"hmtqa:{name}", "chunk_positions": positions,
+                               "required_loaded_chunks": len(positions), "command": condition.strip()})
+    (evidence / "terrain-readiness-functions.json").write_text(json.dumps(function_proof, indent=2) + "\n")
 
     env = os.environ.copy()
     env.update(
@@ -461,6 +483,9 @@ def main() -> int:
             time.sleep(input_settle)
 
         cursor = len(lines)
+        game_command("/reload")
+        wait_for("Reloading!", timeout=30, start_at=cursor)
+        cursor = len(lines)
         game_command("/gamemode spectator @s")
         wait_for("Set own game mode to Spectator Mode", timeout=30, start_at=cursor)
         subprocess.run(["xdotool", "key", "--clearmodifiers", "F1"], env=env, check=True, timeout=15)
@@ -470,7 +495,7 @@ def main() -> int:
             wait_for("Teleported HariProdQA to", timeout=30, start_at=cursor)
             deadline = time.monotonic() + 180
             while True:
-                game_command(f"/execute if entity @s[x={x-1},y=99,z={x-1},dx=2,dy=2,dz=2] if loaded {x} 80 {x} run say {marker}")
+                game_command(f"/function hmtqa:{'far_ready' if x else 'return_ready'}")
                 try:
                     wait_for(marker, timeout=5, start_at=cursor)
                     break
