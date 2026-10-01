@@ -447,11 +447,22 @@ def main() -> int:
                     if time.monotonic() >= deadline:
                         raise RuntimeError(f"C2ME did not finish chunk travel: {marker}")
             travel_shot = evidence / f"chunk-travel-{x}.png"
+            terrain_shot = evidence / f"chunk-travel-{x}-terrain.png"
+            terrain_checks: list[dict[str, object]] = []
             render_deadline = time.monotonic() + 120
             while True:
                 subprocess.run(["import", "-display", args.display, "-window", wid, str(travel_shot)], env=env, check=True, timeout=20)
-                width, height, colors, stddev = image_metrics(travel_shot, env)
-                if (width, height) == (1280, 720) and colors >= 64 and stddev >= 0.05:
+                # Chat and the command bar can satisfy whole-window contrast even
+                # when terrain has not arrived yet. Inspect only the central world
+                # viewport above those overlays and retain every readiness sample.
+                convert = shutil.which("magick") or shutil.which("convert")
+                if convert is None:
+                    raise RuntimeError("ImageMagick is required")
+                subprocess.run([convert, str(travel_shot), "-crop", "800x350+240+60", "+repage", str(terrain_shot)], env=env, check=True, timeout=20)
+                width, height, colors, stddev = image_metrics(terrain_shot, env)
+                terrain_checks.append({"width": width, "height": height, "colors": colors, "gray_stddev": stddev})
+                (evidence / f"chunk-travel-{x}-readiness.json").write_text(json.dumps(terrain_checks, indent=2) + "\n")
+                if (width, height) == (800, 350) and colors >= 64 and stddev >= 0.05:
                     break
                 for line in list(lines)[cursor:]:
                     inspect(line, marker)
