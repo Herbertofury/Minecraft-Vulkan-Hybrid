@@ -20,9 +20,7 @@
     "c2me_sha256": "97401e625906dc7dbe7719c4915d5aa88830e64e5aa6f90831ee45a61373f8d3"
   },
   "exact_next_actions": [
-    "Package and verify accepted exact JAR, complete source/current proof and all historical companion archives",
-    "Upload complete source and verify raw Drive readback",
-    "Provide the concrete diagnostic archive collection and ask for specific blocked historical Drive upload approval"
+    "Provide reviewable complete source and diagnostic ZIPs and request specific approval to upload them to existing Hari Drive folder 1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B"
   ],
   "no_repeat": [
     "Do not swallow tick failures or mute C2ME checks/logs",
@@ -219,9 +217,7 @@
     "native_shader_source_checks": 10
   },
   "next_actions": [
-    "Package and verify accepted exact JAR, complete source/current proof and all historical companion archives",
-    "Upload complete source and verify raw Drive readback",
-    "Provide the concrete diagnostic archive collection and ask for specific blocked historical Drive upload approval"
+    "Provide reviewable complete source and diagnostic ZIPs and request specific approval to upload them to existing Hari Drive folder 1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B"
   ],
   "jar_sha256": "58ceda73c9328c78fc3d82eb652475cb4c7ddd91f3078d6d31717eb0ea9d432f",
   "jar_bytes": 30730495,
@@ -280,5 +276,11 @@
   },
   "schema": 16,
   "historical_provider_runs": 29,
-  "delivery_status": "Tested JAR delivered and readback verified; complete source/evidence packaging in progress; historical diagnostic Drive upload requires specific approval"
+  "delivery_status": "Exact tested JAR delivered and readback verified. All code checkpointed on GitHub. Complete source and evidence collection locally verified; source/historical Drive uploads require specific automatic-review approval.",
+  "source_drive_delivery": {
+    "state": "automatic_review_requires_specific_payload_destination_approval",
+    "attempted_file": "Hari-2.4.1-complete-source.zip",
+    "file_created_on_drive": false,
+    "reason": "Complete private source archive classified sensitive code; destination ownership not established by automatic reviewer; broad finish permission insufficient for specific archive/destination"
+  }
 }
