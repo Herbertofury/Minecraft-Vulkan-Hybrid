@@ -173,6 +173,9 @@ jobs:
           set -euo pipefail
           python3 minecraft/async-1.20.1-ultimate/test_vulkan_performance.py upstream --report qa-out/CPU-UPLOAD-REGRESSIONS.json
           python3 minecraft/async-1.20.1-ultimate/test_chunk_workers.py upstream --report qa-out/CHUNK-WORKERS.json
+          python3 minecraft/async-1.20.1-ultimate/test_section_graph.py upstream \
+            --baseline vulkan-forge/src/main/java/net/vulkanmod/render/chunk/graph/SectionGraph.java \
+            --report qa-out/SECTION-GRAPH.json
           python3 minecraft/async-1.20.1-ultimate/test_c2me_boundary.py upstream --report qa-out/C2ME-BOUNDARY.json
           python3 minecraft/async-1.20.1-ultimate/test_c2me_spawn_lock.py upstream --report qa-out/C2ME-SPAWN-LOCK.json
           python3 minecraft/async-1.20.1-ultimate/test_c2me_task_waiter.py upstream --report qa-out/C2ME-TASK-WAITER.json

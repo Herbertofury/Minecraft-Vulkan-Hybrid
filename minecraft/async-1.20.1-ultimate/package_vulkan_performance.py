@@ -37,11 +37,17 @@ def main() -> None:
         raise SystemExit('Candidate JAR does not match accepted CI checkpoint')
     if not checkpoint['verification_complete']:
         raise SystemExit('Native acceptance is incomplete')
+    required_gates = ('compile_repro', 'native_server_c2me', 'packaged_clients', 'khronos_c2me_travel')
+    if any(checkpoint.get('ci', {}).get(gate, {}).get('state') != 'pass' for gate in required_gates):
+        raise SystemExit('One or more exact-binary acceptance gates are incomplete')
     entries: dict[str, bytes] = {args.jar.name: binary, 'CHECKPOINT.json': args.checkpoint.read_bytes()}
     for origin, prefix in [(source, 'source'), (args.project.resolve(), 'reconstruction'), (args.evidence.resolve(), 'evidence')]:
         for path in sorted(origin.rglob('*')):
             if path.is_file() and source_file(path.relative_to(origin)):
                 entries[f'{prefix}/{path.relative_to(origin).as_posix()}'] = path.read_bytes()
+    source_count = sum(name.startswith('source/') for name in entries)
+    if source_count != checkpoint.get('source_verification', {}).get('complete_source_files'):
+        raise SystemExit('Complete source file count does not match the verified reconstruction')
     # Prevent recurrence of the old broad "build in path.parts" source filter.
     for tail in ['TaskDispatcher.java', 'task/BuildTask.java', 'task/SortTransparencyTask.java', 'thread/BuilderResources.java']:
         expected = 'source/forge/src/main/java/net/vulkanmod/render/chunk/build/' + tail

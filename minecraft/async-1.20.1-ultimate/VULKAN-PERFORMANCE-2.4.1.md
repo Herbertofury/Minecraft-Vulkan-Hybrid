@@ -9,6 +9,9 @@ Recommendations 1, 2 and 5 are implemented for Minecraft 1.20.1 / Forge 47.4.23 
 - Chunk workers offer, poll and wait under the same monitor to prevent missed wakeups. Closing a worker safely discards an already-polled build task.
 - Uploads reuse primitive staging-region storage and batch compatible disjoint writes into one Vulkan copy call. Overlap and buffer-copy dependencies retain barriers; staging rollover, alignment, bounds, fences, deferred frees and submission ownership are preserved. No new Vulkan feature requirement is introduced.
 - Backport the upstream cancelled transparency-sort fix under the renderer's existing LGPL license. Graphics features, gameplay simulation and visibility remain enabled.
+- Replace inherited direction-change omission with reusable deferred graph scheduling. All frustum/occlusion-valid sections remain eligible; the existing advanced-culling setting now prioritizes simple paths instead of dropping visible terrain. The actual complete Java graph/queue regression reproduces 11/32 reachable sections in the old code and verifies 44,744 section checks across all four settings, queue growth/reset, exact rebuilds/block entities and retained frustum/visibility exclusions.
+
+The prior ba05e958 binary and gates below are historical proof of the owner-chunk fix. Native screenshot review and the new graph regression require a new complete-visibility product and all exact-binary gates to pass before promotion. See CURRENT-CHECKPOINT.md and PERFORMANCE-RELEASE-CHECKPOINT.json for its current state.
 
 ## C2ME correctness repairs
 
@@ -70,4 +73,3 @@ Primary URLs:
 - https://github.com/TrulyRin/VulkanMod-Reforged
 - https://github.com/SebastianDanielFrenz/c2me-forge
 - https://www.curseforge.com/minecraft/mc-mods/concurrent-chunk-management-engine-forge/files/8929972
-

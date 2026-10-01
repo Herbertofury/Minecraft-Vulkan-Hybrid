@@ -206,6 +206,13 @@ for name, generic in [('NearestLivingEntitySensorMixin', 'E'),
     text = text[:text.index('    private static /* synthetic */ double[] lambda$async$safeComparator$1')] + '}\n'
     path.write_text(text)
 
+graph = root / 'forge/src/main/java/net/vulkanmod/render/chunk/graph/SectionGraph.java'
+if graph.read_text().count('if (renderSection.directionChanges > maxDirectionsChanges)') != 1:
+    raise SystemExit('section graph source drift before complete-traversal repair')
+edit('forge/src/main/resources/assets/vulkanmod/lang/en_us.json',
+     'Use a culling algorithm that might improve performance by reducing the number of non visible chunk sections rendered.',
+     'Prioritize simpler visibility paths while terrain loads. Every reachable visible section is rendered, including in aggressive mode.')
+
 for src in payload.rglob('*'):
     if src.is_file():
         dst=root/src.relative_to(payload); dst.parent.mkdir(parents=True,exist_ok=True); shutil.copy2(src,dst)

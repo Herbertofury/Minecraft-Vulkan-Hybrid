@@ -1,14 +1,14 @@
 {
-  "schema_version": 12,
-  "checkpoint_kind": "native-gates-pass-sustained-terrain-recheck",
+  "schema_version": 13,
+  "checkpoint_kind": "complete-visibility-repair-candidate",
   "updated_utc": "2026-10-01",
   "branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
-  "product_commit": "ba05e9589960f3ab255926c50b007f9d7ce1b4ea",
-  "client_qa_commit": "ba05e9589960f3ab255926c50b007f9d7ce1b4ea",
+  "product_commit": "pending-publication",
+  "client_qa_commit": "pending-publication",
   "stress_qa_commit": "62322d04cb5e9b9b91cb368db57b62a9e2220757",
   "jar_name": "HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar",
-  "jar_bytes": 30710062,
-  "jar_sha256": "bc91ce5c87610eaeb0a0c87f9b80d44633450adf487d17a0e0e71fb79b8ad446",
+  "jar_bytes": null,
+  "jar_sha256": null,
   "verification_complete": false,
   "previous_verified_checkpoint": "INTEGRITY-RELEASE-CHECKPOINT.json",
   "inputs": {
@@ -23,42 +23,23 @@
   },
   "ci": {
     "compile_repro": {
-      "run_id": 36866930953,
-      "state": "pass",
-      "job_id": 110384634010,
-      "artifact_id": 11163723109,
-      "artifact_sha256": "2348e0c07d5acb19ef1c46f1d5394804432997c03966e407d0d925a281f9d2d0"
+      "state": "pending-new-product"
     },
     "native_server_c2me": {
-      "run_id": 36866930874,
-      "state": "pass",
-      "job_id": 110384633470,
-      "artifact_id": 11163694472,
-      "artifact_sha256": "d902de7597be96eaa1df32ed135035c16c46939eb637d6ff4230d3989341e935"
+      "state": "pending-new-product"
     },
     "packaged_clients": {
-      "run_id": 36866930792,
-      "state": "pass",
-      "job_id": 110384633327,
-      "artifact_id": 11164229434,
-      "artifact_sha256": "ed4bdd2182db6fe7c6cc0712f10f29e4cf4ae52f3ce6fba9dc99e82a728770de"
+      "state": "pending-new-product"
     },
     "khronos_c2me_travel": {
-      "state": "running",
-      "strict_rng_enforcement_required": true,
-      "central_terrain_gate_required": true,
-      "parallel_entity_workers_required": 2,
-      "run_id": 36887875665,
-      "job_id": 110455710162,
-      "qa_commit": "62322d04cb5e9b9b91cb368db57b62a9e2220757",
-      "minimum_terrain_coverage": 0.6,
-      "consecutive_terrain_captures": 3
+      "state": "pending-new-product"
     }
   },
   "exact_next_actions": [
-    "Complete acknowledged strict Khronos/C2ME far and return terrain travel plus two-worker server challenge",
-    "Package complete source/recipe/JAR/all evidence; Drive upload and full byte readback",
-    "Publish final acceptance and delivery receipt"
+    "Complete new complete-visibility graph compile/repro plus 14 focused suites",
+    "Complete exact new native server and seven packaged clients",
+    "Pin the new JAR in strict sustained terrain/Khronos/two-worker challenge; visually inspect complete scenes",
+    "Publish complete JAR/source/evidence, Drive readback and delivery receipt"
   ],
   "no_repeat": [
     "Do not swallow tick failures or mute C2ME checks/logs",
@@ -81,7 +62,8 @@
     "Outer passenger-spawn dimension-lock cycle (live JVM evidence + actual mixin negative control)",
     "Server watchdog: C2ME chunk-future completion required server/other-world owner queues; vanilla managed blocking now retains progress and full failure barrier",
     "Inherited executable CFR throw stubs in three sensor comparators; restore identity-cached vanilla distance ordering and reject source/JAR decompiler failures",
-    "Own worker blocking C2ME chunk future chain bypassed the normal owner request path. Completed FULL chunk reads remain inline; loading/status misses invoke whole getChunk on owner before C2ME HEAD interception."
+    "Own worker blocking C2ME chunk future chain bypassed the normal owner request path. Completed FULL chunk reads remain inline; loading/status misses invoke whole getChunk on owner before C2ME HEAD interception.",
+    "Inherited direction-change hard cull dropped reachable visible section paths; retain frustum/occlusion checks and use reusable deferred scheduling instead of omission. Actual graph negative control: 11/32 old versus 32/32 fixed, 44,744 section checks across all four config modes."
   ],
   "rejected_candidates": [
     {
@@ -148,5 +130,11 @@
       "accepted_final_product": false,
       "reason": "Actual acknowledgements, loaded chunks, Khronos and two-worker server passed; manual far screenshot review found premature 16.8 percent terrain. Final QA requires at least 60 percent non-sky coverage for three consecutive captures, retaining all progression frames."
     }
-  ]
+  ],
+  "superseded_owner_chunk_binary": {
+    "product_commit": "ba05e9589960f3ab255926c50b007f9d7ce1b4ea",
+    "jar_sha256": "bc91ce5c87610eaeb0a0c87f9b80d44633450adf487d17a0e0e71fb79b8ad446",
+    "jar_bytes": 30710062,
+    "reason": "Four binary gates passed, but manual terrain inspection plus actual graph negative control found the inherited direction-change hard cull can drop reachable sections; replace it with reusable deferred scheduling."
+  }
 }
