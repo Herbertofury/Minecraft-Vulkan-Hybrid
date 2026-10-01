@@ -50,10 +50,12 @@ def main() -> None:
     entries['README.txt'] = (
         'HariMultiThread Ultimate 2.4.1 Vulkan hybrid — Minecraft 1.20.1 / Forge 47.4.23 / Java 17.\n'
         'Install the included JAR in mods, replacing the previous Hari JAR. The Vulkan renderer is merged into this mod.\n'
+        'Do not also install a standalone VulkanMod JAR; this release already includes that renderer.\n'
         'C2ME is optional, not bundled. Native compatibility proof covers c2meforge-0.2.0-forge.9.6-all.jar (CurseForge file 8929972).\n'
         'Keep your current graphics and gameplay settings. Fabulous and conflicting renderers retain the existing OpenGL compatibility route.\n'
         'Source: source/ is the complete merged source, including Java packages named build. reconstruction/ contains the versioned overlay recipe.\n'
         'Evidence: exact packaged Forge clients and servers, C2ME save/unload/reload/restart, failure surfacing, reproducible build and CPU component benchmark.\n'
+        'Identical CI binary copies are represented by the root JAR and BINARY-REFERENCES.json. Historical failures in diagnostics-repaired/ are retained for provenance and are not current acceptance.\n'
         'Native tests used Linux Mesa software drivers; no Windows/RTX 4090 FPS guarantee is made.\n'
         'See CHECKPOINT.json and reconstruction/VULKAN-PERFORMANCE-2.4.1.md for pinned provenance and acceptance.\n'
     ).encode()

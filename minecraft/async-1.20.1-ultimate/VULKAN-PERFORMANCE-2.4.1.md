@@ -1,18 +1,56 @@
 # Hari 2.4.1 Vulkan performance and C2ME compatibility
 
-Requested scope: recommendations 1 (worker scheduling), 2 (chunk uploads) and 5 (evaluate newer mature implementations). Minecraft 1.20.1, Forge 47.4.23, Java 17. The accepted 2.4.0 shader, failure, ownership and settings corrections remain prerequisites.
+Recommendations 1, 2 and 5 are implemented for Minecraft 1.20.1 / Forge 47.4.23 / Java 17. Product commit: ba05e9589960f3ab255926c50b007f9d7ce1b4ea. JAR: HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar, 30,710,062 bytes, SHA-256 bc91ce5c87610eaeb0a0c87f9b80d44633450adf487d17a0e0e71fb79b8ad446.
 
-## Implemented
+## Implementation
 
-- Snapshot-indexed entity queues remove per-entity linked-list nodes while preserving affinity and stealing. Worker identity uses the actual thread subtype, with the public registration fallback retained.
-- Automatic entity and mesh worker budgets leave capacity for the main/render threads and C2ME. User-configured entity caps remain authoritative. C2ME owns generation, lighting and chunk I/O. Provider detection also covers c2mef and c2me_base.
-- Chunk worker offer/poll/wait use one monitor, preventing missed wakeups. Shutdown discards an already-polled task instead of losing it.
-- Chunk uploads reuse primitive region storage and emit multiple disjoint regions in one Vulkan copy command. Barriers remain on actual overlapping writes and buffer-copy dependencies. Staging rollover, deferred frees, submission and fence ownership remain intact.
-- Null transparency sort-state cancellation backported from xCollateral/VulkanMod e5dad791ca89b4f40ecef0155148711a4980b3b5 under the existing LGPL renderer license.
-- C2ME runtime repair: despawn checks stay on the owner thread, and spawn/removal/movement side effects hand off before acquiring entity locks. World RNG calls retain C2ME's checked delegate and exact RNG sequence on the real owner queue; entity simulation remains parallel. No C2ME safety check is disabled.
-- Source archives exclude generated build roots by exact path, preserving legitimate Java packages named build.
+- Entity work uses a snapshot-indexed queue without per-entity linked nodes. Affinity, stealing and complete worker barriers are retained. Actual worker thread identity takes the fast path; public registration remains available.
+- Automatic entity and mesh worker counts leave CPU capacity for the main/render threads and external chunk engines. Explicit user caps remain authoritative. C2ME owns world generation, lighting and chunk I/O; aliases c2meforge/c2mef/c2me_base/harichunk are detected.
+- Chunk workers offer, poll and wait under the same monitor to prevent missed wakeups. Closing a worker safely discards an already-polled build task.
+- Uploads reuse primitive staging-region storage and batch compatible disjoint writes into one Vulkan copy call. Overlap and buffer-copy dependencies retain barriers; staging rollover, alignment, bounds, fences, deferred frees and submission ownership are preserved. No new Vulkan feature requirement is introduced.
+- Backport the upstream cancelled transparency-sort fix under the renderer's existing LGPL license. Graphics features, gameplay simulation and visibility remain enabled.
+
+## C2ME correctness repairs
+
+Real Minecraft runs exposed several defects; each was repaired and its evidence retained. Despawn, entity tracker mutations, spawn/removal/movement and whole passenger spawn trees execute owner-only effects before entity/dimension locks. World RNG retains C2ME's checked original delegate, sequence and forks on the real owner queue. Entity simulation remains parallel.
+
+C2ME entity barriers use MinecraftServer.managedBlock so server and other-world owner queues can finish chunk dependencies. Every worker is joined; worker and owner errors, cancellation and interruption remain visible. Tick exceptions are not swallowed and emergency crash saves remain active.
+
+A whole-method chunk wrapper intercepts only Hari's own async workers before C2ME's off-thread HEAD interception. Already completed FULL chunks use getChunkNow without creating or handing off. Other requests execute the original getChunk through the actual owner queue, retaining C2ME's re-entrant currently-loading path, tickets and generation. This repairs the native spider CFUtil.join stall captured for superseded product 1707842.
+
+Three inherited executable CFR failure stubs in living/item/player sensor comparators were restored. Identity-cached squared distances preserve stable-world vanilla order and ties while preventing concurrently moving entities from violating the comparator contract. Disabled sensing retains the original extractor. Source and packaged-class gates reject executable decompiler failures.
+
+Strict disposable C2ME fixtures use config version 3 and enforceSafeWorldRandomAccess=true, with actual enforcement logs required. The product does not alter C2ME configuration or disable checks. Optional compatibility fixture: c2meforge-0.2.0-forge.9.6-all.jar, CurseForge file 8929972, 1,343,566 bytes, SHA-256 97401e625906dc7dbe7719c4915d5aa88830e64e5aa6f90831ee45a61373f8d3.
+
+## Verification of this exact binary
+
+| Gate | Run | Result |
+|---|---|---|
+| Clean build, identical rebuild, packaged integrity, 13 focused Java suites | 36866930953 | Pass |
+| Packaged server, strict C2ME, 256-entity preservation, GPU and CPU fallback, block NBT travel/restart, deliberate failure/recovery | 36866930874 | Pass |
+| Seven installed Forge production-client configurations | 36866930792 | Pass |
+| Extra Khronos synchronization validation, acknowledged far/return terrain travel and native two-worker C2ME server | 36870710724 | Pending |
+
+All three passed jobs and the clean rebuild produce the identical JAR hash above. The seven production-client lanes cover Vulkan, deliberate tick crash, same-world recovery, strict C2ME first launch and reopen, Fabulous OpenGL with settings retained, and actual Embeddium OpenGL coexistence. Each lane captures 300 frames after 120 warmup frames and verifies resource reload and 960/1280 resize. Unexpected runtime errors fail; only the exact offline HTTP 401 authentication diagnostic and explicit Embeddium support notice are classified. The deliberate fault creates a real crash report.
+
+The extra challenge requires real game-mode and teleport acknowledgements, a loaded far chunk, returned loaded chunk, and central terrain crops above chat with the HUD hidden. Its previous attempt had no command acknowledgements despite continued server progress; the software validation frame p95 was 734ms versus a 200ms chat-open delay. The follow-up paces actual UI input by measured frames and retains each typed command screenshot. The acceptance criteria remain unchanged. Release promotion waits for this challenge.
+
+Focused suites use actual production Java and checked interfaces where Minecraft/GPU resources require doubles. They include 4400 chunk requests on real 1/2/8 workers (1100 cached reads, 3300 owner loads), original failure identities and a negative control reproducing the prior raw-future stall; 1100 cross-queue waits; 553 passenger trees / 2212 entities with the old monitor cycle negative control; checked RNG/lifecycle paths; all three old sensor crashes and 330 parallel sorts. These support, and do not replace, native production testing.
+
+## Measured component improvements
+
+Seven alternating equivalent-work queue samples, 5,120,000 items per sample: baseline median 60,460,101ns; candidate 14,203,676ns (76.5% less time). Allocated bytes: 123,360,000 versus 21,120,000 (82.9% less). Actual old/new upload-manager comparison: 128 disjoint 16-byte writes produced 128 copies and 64 broad write barriers in the baseline versus one copy and zero barriers in the candidate, with all 2048 destination bytes identical. Native batching depends on buffer pair and ordering, so this is not a promised ratio for every frame.
+
+These measure queue and upload components, not overall Minecraft FPS. Native execution uses Linux Mesa software drivers; Windows/RTX 4090 FPS remains unmeasured. Arbitrary third-party modpacks are not universally certified.
+
+## Source and installation
+
+The release includes complete merged source (986 files), the 23-step immutable reconstruction recipe, all 44 builder-package source files, exact JAR and full QA evidence. Fresh reconstruction matches every source byte. Filtering excludes generated build roots by full path and preserves legitimate Java packages named build. CI binary duplicates are represented by the canonical root JAR and hash references. Historical failed attempts are retained separately and never counted as acceptance.
+
+Replace the previous Hari JAR in mods with the included 2.4.1 JAR. The Vulkan renderer is merged; do not install a separate VulkanMod alongside it. C2ME Forge 0.2.0-forge.9.6 is optional and not bundled. Keep current graphics/gameplay settings; Fabulous and conflicting renderers retain the OpenGL compatibility route. Original Hari, renderer and dependency licenses are included in source/JAR.
 
 ## Bounded primary-source review
+
 
 | Source | Reviewed revision | Disposition |
 |---|---|---|
@@ -33,34 +71,3 @@ Primary URLs:
 - https://github.com/SebastianDanielFrenz/c2me-forge
 - https://www.curseforge.com/minecraft/mc-mods/concurrent-chunk-management-engine-forge/files/8929972
 
-## Checkpoint validation
-
-Actual production Java focused tests passed: exact-once concurrent work, snapshot/null semantics, identity, CPU budget cases, byte-exact upload ordering/staging rollover/compaction and range reuse; a forced missed-wakeup race, 4000 concurrent chunk tasks, bounded upload drain, restart and closure; all eight real-future failure/barrier cases.
-
-Alternating equivalent-work queue benchmark (7 samples, 5,120,000 items/sample): baseline median 56,882,043 ns versus candidate 12,487,106 ns; baseline 123,360,000 allocated bytes versus candidate 21,120,000. This measures queue construction/draining, not overall Minecraft FPS. 128 disjoint upload regions recorded one copy command and zero redundant write barriers in the checked command harness. Native Vulkan execution is a separate gate.
-
-Packaged production client, real C2ME client/server coexistence, NBT persistence, resource reload/resize, deliberate failure surfacing and reproducible JAR build are pending CI at this checkpoint. No Windows/RTX 4090 FPS claim is made from software-driver CI.
-
-C2ME fixture bytes: 1,343,566; SHA-256: 97401e625906dc7dbe7719c4915d5aa88830e64e5aa6f90831ee45a61373f8d3. C2ME is optional and is not bundled into Hari.
-
-## Runtime discoveries and repair checkpoint
-
-The initial native server passed 256-entity preservation and exact block-entity inventory unload/reload/restart without C2ME. C2ME live GPU collision passed, then the new harness exposed a missing evidence-directory creation; this QA-only error was repaired. The packaged C2ME client exposed real off-thread despawn/tracker mutation and bee access to C2ME's checked world RNG. Owner-thread lifecycle/RNG handoffs were implemented instead of disabling C2ME checks or replacing its random sequence. A new actual-Java test passed 1,400 exact RNG sequence cases, 1,100 lifecycle owner calls on real 1/2/8 workers, zero off-owner delegate accesses and original exception/Error identity preservation. Native proof of this repair remains pending.
-
-C2ME Forge reconfigures client console appenders. QA now reads the fresh Forge latest.log as well as stdout, saves both, and rejects off-thread C2ME diagnostics. This repairs observation without changing logging or hiding errors.
-
-The packaged C2ME client then exposed a passenger-spawn lock cycle: an entity worker held the outer dimension monitor while waiting for owner-thread spawning, and the owner thread needed that monitor. The live JVM dump identified both sides. The whole self-and-passenger spawn tree now hands off before acquiring the outer monitor. A regression compiles the actual mixin, reproduces the old lock cycle as a negative control, and checks the fixed path with 553 passenger trees / 2212 exact-once entities, ordering, original failures and disabled/non-C2ME paths. Full native acceptance remains pending.
-
-The passenger fix passed packaged C2ME gameplay and same-world reopen. A dedicated-server fault-recovery watchdog then captured a separate queue dependency: an entity worker waited inside C2ME's off-thread chunk request while Hari polled only the current world's chunk queue. C2ME entity batches now use MinecraftServer.managedBlock, allowing server and other-world owner work to progress after the tick budget expires. Every worker is still joined, and original worker/owner failures, interruption and cancellation remain visible. The actual production waiter regression reproduces the old chunk-only stall and completes 1100 multi-stage cross-queue requests on 1/2/8 workers. Native QA additionally forces C2ME's optional safe-world-RNG enforcement to true in disposable fixtures; production does not change C2ME settings.
-
-The broader native strict-C2ME travel challenge reached an inherited executable CFR throw stub in NearestLivingEntitySensor's comparator. Source-wide auditing found three such failures: living entities, items and players. All three now compare cached squared distances, freezing the observer at sensor entry and each target at its first comparison. This preserves stable-world vanilla ordering and stable ties while preventing movement from breaking the sorting contract; the disabled path keeps the original extractor. Real Java regressions reproduce all three old crashes and verify 759 stable-world entities, identity-colliding targets, movement snapshots, fresh comparator refresh, original extractor failures and 330 parallel sorts. Recipe and packaged-JAR gates now reject executable decompiler failures. Native acceptance must be rerun for this final sensor repair; earlier builds are superseded.
-
-The exact old/new uploader comparison additionally passed: the accepted source emitted 128 copies and 64 broad write barriers for 128 disjoint 16-byte writes. The candidate emitted one copy and zero barriers, with every destination byte identical (2048 checked bytes). The compiled CI queue benchmark measured 59,350,819 ns baseline versus 14,142,559 ns candidate (76.2% less time) with the same 82.9% allocation reduction. These remain component measurements rather than overall FPS.
-
-## Owner chunk-path repair (current candidate ba05e958)
-
-The stricter central-terrain challenge at run 36825404697 timed out before far-travel acknowledgement. Its live JVM dump shows the server inside C2meTaskWaiter/Minecraft managed blocking, an async spider tick inside C2ME getChunkOffThread/CFUtil.join, and idle C2ME generation workers. Earlier seven-client/server passes are therefore insufficient to promote product 1707842.
-
-The exact 0.2.0-forge.9.6 bytecode schedules its off-thread request through ChunkHolder.getOrScheduleFuture, whereas its re-entrant loading fix wraps the normal owner getChunk future path. A whole-method wrapper now intercepts only Hari's own async workers before that off-thread HEAD injector. Completed FULL chunk reads use the non-creating getChunkNow fast path; loading and other-status requests execute the original whole getChunk on the actual owner. C2ME still owns generation, lighting, I/O, ticketing and its re-entrant currently-loading handling. Other providers' threads, non-C2ME operation and the owner path remain unchanged.
-
-Actual Java regression: 4400 requests on 1/2/8 workers; 1100 cached reads without owner handoff; 3300 owner loading/status requests; old incomplete raw-chain negative control; null/non-creating semantics; original RuntimeException/Error identity. Native acceptance is pending compile 36866930953, server 36866930874, clients 36866930792 and a newly pinned strict Khronos travel challenge. Complete source is now 986 files, byte-identical to fresh reconstruction.

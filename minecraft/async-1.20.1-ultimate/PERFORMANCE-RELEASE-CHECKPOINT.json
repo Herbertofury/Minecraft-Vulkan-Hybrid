@@ -1,14 +1,14 @@
 {
-  "schema_version": 10,
-  "checkpoint_kind": "owner-chunk-access-candidate-runtime-qa",
+  "schema_version": 11,
+  "checkpoint_kind": "main-gates-pass-strict-travel-recheck",
   "updated_utc": "2026-10-01",
   "branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
   "product_commit": "ba05e9589960f3ab255926c50b007f9d7ce1b4ea",
   "client_qa_commit": "ba05e9589960f3ab255926c50b007f9d7ce1b4ea",
-  "stress_qa_commit": null,
+  "stress_qa_commit": "ec12ff67e29496a93d24e54e9bd5f58081dada8b",
   "jar_name": "HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar",
-  "jar_bytes": null,
-  "jar_sha256": null,
+  "jar_bytes": 30710062,
+  "jar_sha256": "bc91ce5c87610eaeb0a0c87f9b80d44633450adf487d17a0e0e71fb79b8ad446",
   "verification_complete": false,
   "previous_verified_checkpoint": "INTEGRITY-RELEASE-CHECKPOINT.json",
   "inputs": {
@@ -24,29 +24,39 @@
   "ci": {
     "compile_repro": {
       "run_id": 36866930953,
-      "state": "running"
+      "state": "pass",
+      "job_id": 110384634010,
+      "artifact_id": 11163723109,
+      "artifact_sha256": "2348e0c07d5acb19ef1c46f1d5394804432997c03966e407d0d925a281f9d2d0"
     },
     "native_server_c2me": {
       "run_id": 36866930874,
-      "state": "running"
+      "state": "pass",
+      "job_id": 110384633470,
+      "artifact_id": 11163694472,
+      "artifact_sha256": "d902de7597be96eaa1df32ed135035c16c46939eb637d6ff4230d3989341e935"
     },
     "packaged_clients": {
       "run_id": 36866930792,
-      "state": "running"
+      "state": "pass",
+      "job_id": 110384633327,
+      "artifact_id": 11164229434,
+      "artifact_sha256": "ed4bdd2182db6fe7c6cc0712f10f29e4cf4ae52f3ce6fba9dc99e82a728770de"
     },
     "khronos_c2me_travel": {
-      "state": "await-new-compile-artifact",
+      "state": "running",
       "strict_rng_enforcement_required": true,
       "central_terrain_gate_required": true,
-      "parallel_entity_workers_required": 2
+      "parallel_entity_workers_required": 2,
+      "run_id": 36870710724,
+      "job_id": 110397434486,
+      "qa_commit": "ec12ff67e29496a93d24e54e9bd5f58081dada8b"
     }
   },
   "exact_next_actions": [
-    "Finish the new owner-chunk fix compile/repro and focused Java regression",
-    "Finish exact new packaged Forge clients and strict C2ME server/recovery",
-    "Pin the new compile JAR in Khronos/strict C2ME travel; verify terrain above chat and two native workers",
+    "Complete acknowledged strict Khronos/C2ME far and return terrain travel plus two-worker server challenge",
     "Package complete source/recipe/JAR/all evidence; Drive upload and full byte readback",
-    "Update final acceptance and delivery receipt"
+    "Publish final acceptance and delivery receipt"
   ],
   "no_repeat": [
     "Do not swallow tick failures or mute C2ME checks/logs",
@@ -101,8 +111,8 @@
   },
   "performance_component_benchmark": {
     "work_items_per_sample": 5120000,
-    "baseline_median_ns": 59153367,
-    "candidate_median_ns": 14109954,
+    "baseline_median_ns": 60460101,
+    "candidate_median_ns": 14203676,
     "baseline_allocated_bytes": 123360000,
     "candidate_allocated_bytes": 21120000,
     "scope": "queue construction/draining; not Minecraft FPS"
@@ -111,5 +121,22 @@
     "jar_name": "HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar",
     "jar_bytes": 30708500,
     "jar_sha256": "13710068df209f3216c11af5c4931c944072cf874ffabd97a3176a703b1de5cc"
-  }
+  },
+  "source_checkpoint_drive": {
+    "id": "1oSe-i76YbcqH2CmBXrJoTTwMLBC8qqxS",
+    "bytes": 5231083,
+    "sha256": "0d64b3d150dd5c86e72d07e9b46e2124ccc8d7de0d985c4413336bd2f68e3a99",
+    "full_readback_verified": true,
+    "candidate_only": true
+  },
+  "qa_observations": [
+    {
+      "run_id": 36867941506,
+      "qa_commit": "b586db88a56f3e85146700f7ac41a019c1bb094f",
+      "artifact_id": 11167040873,
+      "conclusion": "failure",
+      "reason": "No game-mode/teleport acknowledgements despite server advancing; frame p95 734ms exceeded 200ms chat-opening input delay. Follow-up retains typed screenshots and requires real command acknowledgements.",
+      "not_acceptance": true
+    }
+  ]
 }
