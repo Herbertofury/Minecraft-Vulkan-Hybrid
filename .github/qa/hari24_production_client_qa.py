@@ -334,11 +334,13 @@ def main() -> int:
 
         def error_ledger(snapshot: list[str]) -> None:
             records = []
-            for line in snapshot:
+            for index, line in enumerate(snapshot):
                 if "[ERROR]" not in line and "/ERROR]" not in line:
                     continue
-                if "com.mojang.authlib.exceptions.InvalidCredentialsException: Status: 401" in line:
-                    classification = "offline-launcher authentication diagnostic"
+                offline_401 = "com.mojang.authlib.exceptions.InvalidCredentialsException: Status: 401"
+                if offline_401 in line or (line.strip().endswith("Failed to verify authentication")
+                        and any(offline_401 in row for row in snapshot[index + 1:index + 12])):
+                    classification = "offline-launcher authentication diagnostic (exact HTTP 401 cause)"
                 elif "Mod mixin into Embeddium internals detected. This instance is now tainted." in line:
                     classification = "Embeddium support notice for retained Hari GPU bridge"
                 else:
