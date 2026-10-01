@@ -5,6 +5,8 @@ name: Hari 2.4.1 Vulkan validation and C2ME chunk travel
     paths:
       - '.github/workflows/hari-vulkan-c2me-stress.yml'
       - '.github/qa/hari24_vulkan_c2me_stress_qa.py'
+      - '.github/qa/hari_seed_c2me_world.py'
+      - '.github/qa/hari_c2me_owner_server_qa.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -34,14 +36,14 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: HariMultiThread-Ultimate-1.20.1-2.4.0-VULKAN-HYBRID-COMPILE
-          run-id: 36820325316
+          run-id: 36823011441
           github-token: ${{ github.token }}
           path: tested
       - name: Verify artifact and C2ME bytes
         shell: bash
         run: |
           set -euo pipefail
-          echo '73c952ec7105f0ad971a55d880f4152db40bc22ae4eaf0de267a2678432709ac  tested/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar' | sha256sum -c -
+          echo '13710068df209f3216c11af5c4931c944072cf874ffabd97a3176a703b1de5cc  tested/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar' | sha256sum -c -
           sha256sum tested/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar | sed 's#tested/#production-qa/#' > tested/JAR-SHA256.txt
           curl -fL --retry 3 'https://edge.forgecdn.net/files/8929/972/c2meforge-0.2.0-forge.9.6-all.jar' -o c2meforge-0.2.0-forge.9.6-all.jar
           echo '97401e625906dc7dbe7719c4915d5aa88830e64e5aa6f90831ee45a61373f8d3  c2meforge-0.2.0-forge.9.6-all.jar' | sha256sum -c -

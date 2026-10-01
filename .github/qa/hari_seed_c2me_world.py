@@ -49,6 +49,13 @@ def main() -> int:
                 # Eliminate randomized player spawn and daylight/weather drift.
                 proc.stdin.write("gamerule spawnRadius 0\ngamerule doDaylightCycle false\ngamerule doWeatherCycle false\ntime set noon\nweather clear\n")
                 proc.stdin.write('summon minecraft:bee 0 80 0 {Tags:["harimt_owner_bee"],HasNectar:1b,NoGravity:1b,PersistenceRequired:1b,Invulnerable:1b}\n')
+                # Exercise living-entity/player sensing and Piglin item sensing
+                # in the disposable scene before long-distance chunk travel.
+                for x in (1, 3):
+                    proc.stdin.write(f'summon minecraft:villager {x} 80 1 {{Tags:["harimt_owner_sensor"],PersistenceRequired:1b,Invulnerable:1b}}\n')
+                proc.stdin.write('summon minecraft:piglin 2 80 2 {Tags:["harimt_owner_sensor"],IsImmuneToZombification:1b,PersistenceRequired:1b,Invulnerable:1b}\n')
+                for item, x in (("gold_ingot", 1), ("gold_nugget", 3)):
+                    proc.stdin.write(f'summon minecraft:item {x} 81 2 {{Tags:["harimt_owner_sensor"],Age:-32768s,Item:{{id:"minecraft:{item}",Count:1b}}}}\n')
                 proc.stdin.write("save-all flush\n")
                 proc.stdin.flush()
                 time.sleep(2.0)

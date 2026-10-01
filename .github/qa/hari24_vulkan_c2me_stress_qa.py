@@ -45,6 +45,8 @@ FATAL = (
     "Validation Error:",
     "SYNC-HAZARD-",
     "HARI_QA_DIAGNOSTIC_THREAD_SNAPSHOT_COMPLETE",
+    "Decompilation failed",
+    "Exception ticking world",
     "Async entity unload",
     "Async entity load",
     "Off-thread world random access",
@@ -116,6 +118,7 @@ def main() -> int:
     frame_report = mc_dir / "harimt-frame-sample.json"
     frame_report.unlink(missing_ok=True)
     runtime_log = mc_dir / "logs/latest.log"
+    previous_crashes = {p.name: (p.stat().st_mtime_ns, p.stat().st_size) for p in (mc_dir / "crash-reports").glob("*.txt")}
     if runtime_log.is_file():
         shutil.copyfile(runtime_log, evidence / "previous-latest.log")
         runtime_log.unlink()
@@ -554,6 +557,11 @@ def main() -> int:
                 xvfb.wait(timeout=10)
             except subprocess.TimeoutExpired:
                 xvfb.kill()
+        for report in (mc_dir / "crash-reports").glob("*.txt"):
+            if previous_crashes.get(report.name) != (report.stat().st_mtime_ns, report.stat().st_size):
+                destination = evidence / "runtime-crash-reports" / report.name
+                destination.parent.mkdir(exist_ok=True)
+                shutil.copyfile(report, destination)
         if runtime_log.is_file():
             shutil.copyfile(runtime_log, evidence / "forge-latest.log")
         if 'stdout_lines' in locals():
