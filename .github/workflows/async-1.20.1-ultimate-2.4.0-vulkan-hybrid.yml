@@ -176,6 +176,7 @@ jobs:
           python3 minecraft/async-1.20.1-ultimate/test_c2me_boundary.py upstream --report qa-out/C2ME-BOUNDARY.json
           python3 minecraft/async-1.20.1-ultimate/test_c2me_spawn_lock.py upstream --report qa-out/C2ME-SPAWN-LOCK.json
           python3 minecraft/async-1.20.1-ultimate/test_c2me_task_waiter.py upstream --report qa-out/C2ME-TASK-WAITER.json
+          python3 minecraft/async-1.20.1-ultimate/test_c2me_chunk_access.py upstream --report qa-out/C2ME-CHUNK-ACCESS.json
           mkdir -p sensor-original/common/src/main/java/com/axalotl/async/common/mixin/entity/sensor
           for sensor in NearestLivingEntitySensorMixin NearestItemSensorMixin PlayerSensorMixin; do
             path="common/src/main/java/com/axalotl/async/common/mixin/entity/sensor/${sensor}.java"

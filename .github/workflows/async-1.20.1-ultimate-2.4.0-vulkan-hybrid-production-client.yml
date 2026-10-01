@@ -352,7 +352,7 @@ jobs:
           per_renderer_warmup_frames=120
           timing_scope=software-driver render-end intervals, not hardware FPS claims
           EOF
-          (cd production-qa && find . -type f -print0 | sort -z | xargs -0 sha256sum > SHA256SUMS.txt)
+          (cd production-qa && find . -type f ! -name SHA256SUMS.txt -print0 | sort -z | xargs -0 sha256sum > SHA256SUMS.txt)
 
       - name: Upload production-client acceptance
         uses: actions/upload-artifact@v4

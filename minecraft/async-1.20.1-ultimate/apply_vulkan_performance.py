@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Result-preserving scheduler/upload improvements after the integrity layer."""
 from pathlib import Path
-import shutil, sys
+import json, shutil, sys
 
 root = Path(sys.argv[1]).resolve()
 payload = Path(__file__).parent / 'performance-src'
@@ -126,6 +126,11 @@ edit(p, '        QuadSorter.SortState transparencyState = compiledSection.transp
         if (transparencyState == null) return Result.CANCELLED;''')
 
 # C2ME owns world RNG and entity tracking mutations. Never disable its checks.
+mixins = root/'common/src/main/resources/harimt.common.mixins.json'
+config = json.loads(mixins.read_text())
+assert 'server.C2meChunkAccessMixin' not in config['mixins']
+config['mixins'].append('server.C2meChunkAccessMixin')
+mixins.write_text(json.dumps(config, indent=2)+'\n')
 p='common/src/main/java/com/axalotl/async/common/mixin/server/ServerChunkCacheMixin.java'
 edit(p, 'extends ChunkSource {', 'extends ChunkSource implements com.axalotl.async.common.ChunkOwnerExecutor {')
 edit(p, '    @Unique private final List<LevelChunk>', '    @Override public java.util.concurrent.Executor harimt$ownerExecutor() { return this.mainThreadProcessor; }\n\n    @Unique private final List<LevelChunk>')

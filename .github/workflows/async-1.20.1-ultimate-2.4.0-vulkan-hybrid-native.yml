@@ -214,7 +214,7 @@ jobs:
           client_runtime_authority=packaged-production-client
           client_runtime_workflow=async-1.20.1-ultimate-2.4.0-vulkan-hybrid-production-client.yml
           EOF
-          (cd qa-out && find . -type f -print0 | sort -z | xargs -0 sha256sum > SHA256SUMS.txt)
+          (cd qa-out && find . -type f ! -name SHA256SUMS.txt -print0 | sort -z | xargs -0 sha256sum > SHA256SUMS.txt)
 
       - name: Upload native Vulkan hybrid evidence
         uses: actions/upload-artifact@v4
