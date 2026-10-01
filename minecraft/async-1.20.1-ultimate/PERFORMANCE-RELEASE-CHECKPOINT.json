@@ -1,11 +1,11 @@
 {
-  "schema_version": 11,
-  "checkpoint_kind": "main-gates-pass-strict-travel-recheck",
+  "schema_version": 12,
+  "checkpoint_kind": "native-gates-pass-sustained-terrain-recheck",
   "updated_utc": "2026-10-01",
   "branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
   "product_commit": "ba05e9589960f3ab255926c50b007f9d7ce1b4ea",
   "client_qa_commit": "ba05e9589960f3ab255926c50b007f9d7ce1b4ea",
-  "stress_qa_commit": "ec12ff67e29496a93d24e54e9bd5f58081dada8b",
+  "stress_qa_commit": "62322d04cb5e9b9b91cb368db57b62a9e2220757",
   "jar_name": "HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar",
   "jar_bytes": 30710062,
   "jar_sha256": "bc91ce5c87610eaeb0a0c87f9b80d44633450adf487d17a0e0e71fb79b8ad446",
@@ -48,9 +48,11 @@
       "strict_rng_enforcement_required": true,
       "central_terrain_gate_required": true,
       "parallel_entity_workers_required": 2,
-      "run_id": 36870710724,
-      "job_id": 110397434486,
-      "qa_commit": "ec12ff67e29496a93d24e54e9bd5f58081dada8b"
+      "run_id": 36887875665,
+      "job_id": 110455710162,
+      "qa_commit": "62322d04cb5e9b9b91cb368db57b62a9e2220757",
+      "minimum_terrain_coverage": 0.6,
+      "consecutive_terrain_captures": 3
     }
   },
   "exact_next_actions": [
@@ -137,6 +139,14 @@
       "conclusion": "failure",
       "reason": "No game-mode/teleport acknowledgements despite server advancing; frame p95 734ms exceeded 200ms chat-opening input delay. Follow-up retains typed screenshots and requires real command acknowledgements.",
       "not_acceptance": true
+    },
+    {
+      "run_id": 36870710724,
+      "qa_commit": "ec12ff67e29496a93d24e54e9bd5f58081dada8b",
+      "artifact_id": 11167024864,
+      "original_conclusion": "success",
+      "accepted_final_product": false,
+      "reason": "Actual acknowledgements, loaded chunks, Khronos and two-worker server passed; manual far screenshot review found premature 16.8 percent terrain. Final QA requires at least 60 percent non-sky coverage for three consecutive captures, retaining all progression frames."
     }
   ]
 }
