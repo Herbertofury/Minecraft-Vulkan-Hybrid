@@ -144,13 +144,15 @@ jobs:
           test ! -e production-seed-server/config/c2me.toml
           test ! -e production-seed-server/config/harimt.toml
           printf 'version = 3\n[fixes]\nenforceSafeWorldRandomAccess = true\n' > production-seed-server/config/c2me.toml
-          printf 'paraMax = 2\n' > production-seed-server/config/harimt.toml
+          printf '["Async Config"]\nparaMax = 2\n' > production-seed-server/config/harimt.toml
+          cp production-seed-server/config/harimt.toml production-qa/owner-server-requested-config.toml
           python3 .github/qa/hari_c2me_owner_server_qa.py production-seed-server production-qa/owner-server
           grep -F 'externalChunks=true' production-qa/owner-server/packaged-server-gpu-and-fallback.log
           grep -F 'Initialized Pool with 2 threads' production-qa/owner-server/packaged-server-gpu-and-fallback.log
           grep -F 'Enforcing safe world random access' production-qa/owner-server/packaged-server-gpu-and-fallback.log
           grep -F 'Initialized Pool with 2 threads' production-qa/owner-server/packaged-server-restart.log
           grep -F 'HMT_QA_BLOCK_NBT_RESTART' production-qa/owner-server/packaged-server-restart.log
+          cp production-seed-server/config/harimt.toml production-qa/owner-server-final-config.toml
       - uses: actions/upload-artifact@v4
         if: always()
         with:
