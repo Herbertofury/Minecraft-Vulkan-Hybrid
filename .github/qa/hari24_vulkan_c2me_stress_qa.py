@@ -442,24 +442,6 @@ def main() -> int:
                 records.append({"classification": classification, "line": line.strip()})
             (evidence / "error-ledger.json").write_text(json.dumps(records, indent=2) + "\n", encoding="utf-8")
 
-        command_file = mc_dir / "harimt-qa-command.txt"
-        cursor = len(lines)
-        command_file.write_text("reload\n", encoding="utf-8")
-        wait_for("[Hari/QA] resource reload completed and world rendered", start_at=cursor)
-        subprocess.run(["import", "-display", args.display, "-window", wid,
-                        str(evidence / "after-resource-reload.png")], env=env, check=True, timeout=20)
-        for width, height in ((960, 540), (1280, 720)):
-            cursor = len(lines)
-            subprocess.run(["xdotool", "windowsize", "--sync", wid, str(width), str(height)],
-                           env=env, check=True, timeout=20)
-            wait_for(f"[Hari/QA] rendered world width={width} height={height}", start_at=cursor)
-            resized = evidence / f"after-resize-{width}x{height}.png"
-            subprocess.run(["import", "-display", args.display, "-window", wid, str(resized)],
-                           env=env, check=True, timeout=20)
-            actual_width, actual_height, colors, stddev = image_metrics(resized, env)
-            if (actual_width, actual_height) != (width, height) or colors < 64 or stddev < 0.05:
-                raise RuntimeError("resized client did not render the real world")
-
         # GLFW receives events only when this software-rendered client pumps its
         # next frame. The validation fixture takes ~0.7 seconds per frame, so a
         # fixed 0.2-second chat-opening delay could type before ChatScreen exists.
@@ -481,6 +463,34 @@ def main() -> int:
             (evidence / "command-journal.json").write_text(json.dumps(command_journal, indent=2) + "\n")
             subprocess.run(["xdotool", "key", "--clearmodifiers", "Return"], env=env, check=True, timeout=15)
             time.sleep(input_settle)
+
+        command_file = mc_dir / "harimt-qa-command.txt"
+        audio_reloads: list[dict[str, object]] = []
+        for cycle in range(3):
+            cursor = len(lines)
+            game_command("/playsound minecraft:music.menu master @s ~ ~ ~ 1 1")
+            wait_for("Played sound minecraft:music.menu to HariProdQA", timeout=30, start_at=cursor)
+            cursor = len(lines)
+            command_file.write_text("reload\n", encoding="utf-8")
+            wait_for("[Hari/QA] resource reload completed and world rendered", start_at=cursor)
+            shot = evidence / f"after-resource-reload-{cycle + 1}.png"
+            subprocess.run(["import", "-display", args.display, "-window", wid, str(shot)],
+                           env=env, check=True, timeout=20)
+            error_ledger(list(lines))
+            audio_reloads.append({"cycle": cycle + 1, "sound": "minecraft:music.menu", "sound_command_acknowledged": True,
+                                  "resource_reload_completed": True, "screenshot": shot.name, "unexpected_errors": 0})
+            (evidence / "audio-reload-cycles.json").write_text(json.dumps(audio_reloads, indent=2) + "\n")
+        for width, height in ((960, 540), (1280, 720)):
+            cursor = len(lines)
+            subprocess.run(["xdotool", "windowsize", "--sync", wid, str(width), str(height)],
+                           env=env, check=True, timeout=20)
+            wait_for(f"[Hari/QA] rendered world width={width} height={height}", start_at=cursor)
+            resized = evidence / f"after-resize-{width}x{height}.png"
+            subprocess.run(["import", "-display", args.display, "-window", wid, str(resized)],
+                           env=env, check=True, timeout=20)
+            actual_width, actual_height, colors, stddev = image_metrics(resized, env)
+            if (actual_width, actual_height) != (width, height) or colors < 64 or stddev < 0.05:
+                raise RuntimeError("resized client did not render the real world")
 
         cursor = len(lines)
         game_command("/reload")

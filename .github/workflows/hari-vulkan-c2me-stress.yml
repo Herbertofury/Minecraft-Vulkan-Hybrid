@@ -36,14 +36,14 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: HariMultiThread-Ultimate-1.20.1-2.4.0-VULKAN-HYBRID-COMPILE
-          run-id: 36893014766
+          run-id: 36899664277
           github-token: ${{ github.token }}
           path: tested
       - name: Verify artifact and C2ME bytes
         shell: bash
         run: |
           set -euo pipefail
-          echo '1756410ee37c13ee2857651bf83ea63e572fdb1cc22c4587bf0c042e753227d4  tested/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar' | sha256sum -c -
+          echo '58ceda73c9328c78fc3d82eb652475cb4c7ddd91f3078d6d31717eb0ea9d432f  tested/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar' | sha256sum -c -
           sha256sum tested/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar | sed 's#tested/#production-qa/#' > tested/JAR-SHA256.txt
           curl -fL --retry 3 'https://edge.forgecdn.net/files/8929/972/c2meforge-0.2.0-forge.9.6-all.jar' -o c2meforge-0.2.0-forge.9.6-all.jar
           echo '97401e625906dc7dbe7719c4915d5aa88830e64e5aa6f90831ee45a61373f8d3  c2meforge-0.2.0-forge.9.6-all.jar' | sha256sum -c -
