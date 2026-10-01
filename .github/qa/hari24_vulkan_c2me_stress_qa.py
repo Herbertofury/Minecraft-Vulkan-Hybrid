@@ -426,17 +426,36 @@ def main() -> int:
             if (actual_width, actual_height) != (width, height) or colors < 64 or stddev < 0.05:
                 raise RuntimeError("resized client did not render the real world")
 
+        # GLFW receives events only when this software-rendered client pumps its
+        # next frame. The validation fixture takes ~0.7 seconds per frame, so a
+        # fixed 0.2-second chat-opening delay could type before ChatScreen exists.
+        # Keep commands in the real client chat path and pace input by measured
+        # frames; retain the typed command screenshot before pressing Enter.
+        input_settle = max(1.0, min(5.0, 3 * sorted(samples)[284] / 1000))
+        command_journal: list[dict[str, object]] = []
+
         def game_command(command: str) -> None:
             subprocess.run(["xdotool", "windowactivate", "--sync", wid, "key", "--clearmodifiers", "t"], env=env, check=True, timeout=15)
-            time.sleep(0.2)
-            subprocess.run(["xdotool", "type", "--clearmodifiers", "--delay", "1", command], env=env, check=True, timeout=15)
+            time.sleep(input_settle)
+            subprocess.run(["xdotool", "type", "--clearmodifiers", "--delay", "30", command], env=env, check=True, timeout=15)
+            time.sleep(input_settle)
+            entry = {"command": command, "input_settle_seconds": input_settle,
+                     "screenshot": f"command-{len(command_journal):03d}.png"}
+            subprocess.run(["import", "-display", args.display, "-window", wid,
+                            str(evidence / str(entry["screenshot"]))], env=env, check=True, timeout=20)
+            command_journal.append(entry)
+            (evidence / "command-journal.json").write_text(json.dumps(command_journal, indent=2) + "\n")
             subprocess.run(["xdotool", "key", "--clearmodifiers", "Return"], env=env, check=True, timeout=15)
+            time.sleep(input_settle)
 
+        cursor = len(lines)
         game_command("/gamemode spectator @s")
+        wait_for("Set own game mode to Spectator Mode", timeout=30, start_at=cursor)
         subprocess.run(["xdotool", "key", "--clearmodifiers", "F1"], env=env, check=True, timeout=15)
         for x, marker in ((4096, "HMT_QA_FAR_GENERATED"), (0, "HMT_QA_RETURN_RENDERED")):
             cursor = len(lines)
             game_command(f"/tp @s {x} 100 {x} 0 60")
+            wait_for("Teleported HariProdQA to", timeout=30, start_at=cursor)
             deadline = time.monotonic() + 180
             while True:
                 game_command(f"/execute if entity @s[x={x-1},y=99,z={x-1},dx=2,dy=2,dz=2] if loaded {x} 80 {x} run say {marker}")
