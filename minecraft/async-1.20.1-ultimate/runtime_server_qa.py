@@ -264,6 +264,7 @@ def main() -> int:
 
     server_dir = args.server_dir.resolve()
     evidence_dir = args.evidence_dir.resolve()
+    evidence_dir.mkdir(parents=True, exist_ok=True)
     if not (server_dir / "run.sh").is_file():
         raise SystemExit(f"Forge run.sh missing: {server_dir / 'run.sh'}")
 
