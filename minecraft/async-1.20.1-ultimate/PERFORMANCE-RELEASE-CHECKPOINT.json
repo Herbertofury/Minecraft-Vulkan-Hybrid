@@ -1,13 +1,13 @@
 {
-  "schema_version": 15,
-  "checkpoint_kind": "exact-binary-accepted-expanded-terrain-challenge",
+  "schema_version": 16,
+  "checkpoint_kind": "accepted-performance-release",
   "updated_utc": "2026-10-01",
   "branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
   "product_commit": "6594c6cc652db554213c52ae02f7acd8f439644c",
   "client_qa_commit": "6594c6cc652db554213c52ae02f7acd8f439644c",
-  "stress_qa_commit": "3ee628772bce2513ce244b9072ff6e12d292efc8",
+  "stress_qa_commit": "384eb2122c7f490a29caf4c3601bf2307a705191",
   "jar_name": "HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar",
-  "verification_complete": false,
+  "verification_complete": true,
   "previous_verified_checkpoint": "INTEGRITY-RELEASE-CHECKPOINT.json",
   "inputs": {
     "minecraft": "1.20.1",
@@ -20,9 +20,9 @@
     "c2me_sha256": "97401e625906dc7dbe7719c4915d5aa88830e64e5aa6f90831ee45a61373f8d3"
   },
   "exact_next_actions": [
-    "Complete expanded view/simulation-distance8 runtime with all169 entity-ticking chunks and sustained90% terrain",
-    "Package and verify complete source/current proof plus all preserved historical companion volumes",
-    "Finish authorized JAR/source delivery; request final specific historical diagnostic Drive approval because automatic review rejected it"
+    "Package and verify accepted exact JAR, complete source/current proof and all historical companion archives",
+    "Upload complete source and verify raw Drive readback",
+    "Provide the concrete diagnostic archive collection and ask for specific blocked historical Drive upload approval"
   ],
   "no_repeat": [
     "Do not swallow tick failures or mute C2ME checks/logs",
@@ -125,7 +125,7 @@
     "product_commit": "ba05e9589960f3ab255926c50b007f9d7ce1b4ea",
     "jar_sha256": "bc91ce5c87610eaeb0a0c87f9b80d44633450adf487d17a0e0e71fb79b8ad446",
     "jar_bytes": 30710062,
-    "reason": "Four binary gates passed, but manual terrain inspection plus actual graph negative control found the inherited direction-change hard cull can drop reachable sections; replace it with reusable deferred scheduling."
+    "reason": "Native gates passed, but an independent actual section-graph negative control proved the inherited direction-change hard cull can omit reachable sections. The exact short-distance screenshot frontier was not established by this test. Deferred scheduling repairs the proven graph defect."
   },
   "previous_product_commit": "c6265c4e94a2e717afe4898c65902f7fed87bbda",
   "previous_product_jar_sha256": "1756410ee37c13ee2857651bf83ea63e572fdb1cc22c4587bf0c042e753227d4",
@@ -219,9 +219,9 @@
     "native_shader_source_checks": 10
   },
   "next_actions": [
-    "Complete expanded view/simulation-distance8 runtime with all169 entity-ticking chunks and sustained90% terrain",
-    "Package and verify complete source/current proof plus all preserved historical companion volumes",
-    "Finish authorized JAR/source delivery; request final specific historical diagnostic Drive approval because automatic review rejected it"
+    "Package and verify accepted exact JAR, complete source/current proof and all historical companion archives",
+    "Upload complete source and verify raw Drive readback",
+    "Provide the concrete diagnostic archive collection and ask for specific blocked historical Drive upload approval"
   ],
   "jar_sha256": "58ceda73c9328c78fc3d82eb652475cb4c7ddd91f3078d6d31717eb0ea9d432f",
   "jar_bytes": 30730495,
@@ -240,7 +240,7 @@
     "allocation_reduction_percent": 82.8793774319066
   },
   "higher_view_distance_check": {
-    "state": "running",
+    "state": "pass",
     "qa_commit": "384eb2122c7f490a29caf4c3601bf2307a705191",
     "render_distance": 8,
     "loaded_chunks_per_destination": 169,
@@ -258,10 +258,18 @@
       }
     ],
     "run": 36906027597,
-    "job": 110516668516
+    "job": 110516668516,
+    "artifact": 11184869900,
+    "zip_bytes": 34706091,
+    "zip_sha256": "060a51533445a4291bf4718bbd4f96c0bfcb9e2bcb6ec690851a4b58489488e5",
+    "manual_visual_review_completed": true,
+    "final_terrain_coverage": {
+      "4096": 0.951086,
+      "0": 0.966571
+    }
   },
   "drive_historical_diagnostics": "automatic_review_requires_explicit_payload_and_destination_approval",
-  "historical_diagnostic_files": 1128,
+  "historical_diagnostic_files": 1168,
   "jar_drive_delivery": {
     "file": "HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar",
     "drive_id": "1IHdqge9h6a8OZprWP6HAdoMO3ekXqLzV",
@@ -269,5 +277,8 @@
     "bytes": 30730495,
     "sha256": "58ceda73c9328c78fc3d82eb652475cb4c7ddd91f3078d6d31717eb0ea9d432f",
     "raw_drive_readback_sha_and_crc_verified": true
-  }
+  },
+  "schema": 16,
+  "historical_provider_runs": 29,
+  "delivery_status": "Tested JAR delivered and readback verified; complete source/evidence packaging in progress; historical diagnostic Drive upload requires specific approval"
 }
