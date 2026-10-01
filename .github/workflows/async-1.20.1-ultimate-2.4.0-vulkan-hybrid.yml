@@ -176,6 +176,12 @@ jobs:
           python3 minecraft/async-1.20.1-ultimate/test_c2me_boundary.py upstream --report qa-out/C2ME-BOUNDARY.json
           python3 minecraft/async-1.20.1-ultimate/test_c2me_spawn_lock.py upstream --report qa-out/C2ME-SPAWN-LOCK.json
           python3 minecraft/async-1.20.1-ultimate/test_c2me_task_waiter.py upstream --report qa-out/C2ME-TASK-WAITER.json
+          mkdir -p sensor-original/common/src/main/java/com/axalotl/async/common/mixin/entity/sensor
+          for sensor in NearestLivingEntitySensorMixin NearestItemSensorMixin PlayerSensorMixin; do
+            path="common/src/main/java/com/axalotl/async/common/mixin/entity/sensor/${sensor}.java"
+            git -C upstream show f381611c2d71a85192e2028f9e30c03823a6482b:"$path" > "sensor-original/$path"
+          done
+          python3 minecraft/async-1.20.1-ultimate/test_sensor_comparators.py upstream --baseline sensor-original --report qa-out/SENSOR-COMPARATORS.json
 
       - name: Build merged Forge artifact
         working-directory: upstream
@@ -206,6 +212,13 @@ jobs:
           unzip -t "$jarfile" | grep -F 'No errors detected'
           mkdir -p qa-out
           cp "$jarfile" qa-out/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar
+          python3 - "$jarfile" <<'PY_SENSOR_JAR'
+          import sys, zipfile
+          with zipfile.ZipFile(sys.argv[1]) as archive:
+              broken = [name for name in archive.namelist() if name.endswith('.class') and b'Decompilation failed' in archive.read(name)]
+          assert not broken, broken
+          print('PASS: no executable decompiler throw stubs in the packaged JAR')
+          PY_SENSOR_JAR
           jar tf "$jarfile" > qa-out/JAR-CONTENTS.txt
           test "$(grep -cx 'META-INF/mods.toml' qa-out/JAR-CONTENTS.txt)" -eq 1
           grep -Fx 'net/vulkanmod/compat/UniversalRendererGate.class' qa-out/JAR-CONTENTS.txt

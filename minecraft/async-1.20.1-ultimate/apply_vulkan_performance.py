@@ -178,7 +178,34 @@ edit(p, '    private void onMove(Operation<Void> original) {', """    private vo
 
 edit('gradle.properties', 'version=2.4.0-noxviola.1-vulkan-hybrid', 'version=2.4.1-noxviola.1-vulkan-hybrid')
 
+# Three inherited CFR failures were executable throw stubs in mob sensor sorting.
+# Freeze the observer once and each target on first comparison so movement cannot
+# violate TimSort's ordering contract. Stable-world order is vanilla squared distance.
+for name, generic in [('NearestLivingEntitySensorMixin', 'E'),
+                      ('NearestItemSensorMixin', 'T'), ('PlayerSensorMixin', 'T')]:
+    path = root / ('common/src/main/java/com/axalotl/async/common/mixin/entity/sensor/' + name + '.java')
+    text = path.read_text()
+    if text.count('throw new IllegalStateException("Decompilation failed");') != 1:
+        raise SystemExit('sensor source drift: ' + name)
+    start = text.index('        IdentityHashMap cache = new IdentityHashMap();')
+    end = text.index('        };', start) + len('        };')
+    replacement = '''        IdentityHashMap<GENERIC, Double> distances = new IdentityHashMap<>();
+        return Comparator.comparingDouble(target -> distances.computeIfAbsent(target, value -> {
+            double dx = ex - value.getX();
+            double dy = ey - value.getY();
+            double dz = ez - value.getZ();
+            return dx * dx + dy * dy + dz * dz;
+        }));'''.replace('GENERIC', generic)
+    text = text[:start] + replacement + text[end:]
+    # Remove the unused helper emitted next to the failed decompilation.
+    text = text[:text.index('    private static /* synthetic */ double[] lambda$async$safeComparator$1')] + '}\n'
+    path.write_text(text)
+
 for src in payload.rglob('*'):
     if src.is_file():
         dst=root/src.relative_to(payload); dst.parent.mkdir(parents=True,exist_ok=True); shutil.copy2(src,dst)
+for source_root in ['common/src/main/java', 'forge/src/main/java', 'fabric/src/main/java']:
+    for path in (root/source_root).rglob('*.java'):
+        if 'Decompilation failed' in path.read_text() or 'This method has failed to decompile' in path.read_text():
+            raise SystemExit('Unrepaired decompiler failure: ' + str(path.relative_to(root)))
 print('Hari indexed scheduling, shared CPU budgets, wakeup repair and upstream sort-state fix applied')
