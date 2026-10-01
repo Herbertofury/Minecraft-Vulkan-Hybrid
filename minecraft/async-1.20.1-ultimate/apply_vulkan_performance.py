@@ -213,6 +213,32 @@ edit('forge/src/main/resources/assets/vulkanmod/lang/en_us.json',
      'Use a culling algorithm that might improve performance by reducing the number of non visible chunk sections rendered.',
      'Prioritize simpler visibility paths while terrain loads. Every reachable visible section is rendered, including in aggressive mode.')
 
+# Imported GL20/ARB shader boundaries dropped all but the first source string,
+# and discarded pointer-based sources entirely. Preserve bytes and exact query values.
+for family, handle in [('GL20M', 'shader'), ('ARBShaderObjectsM', 'vulkanmod$coreShader(shaderObj)')]:
+    relative = 'forge/src/main/java/net/vulkanmod/mixin/compatibility/gl/' + family + '.java'
+    edit(relative, 'strings != null && strings.length > 0 ? strings[0] : ""',
+         'net.vulkanmod.gl.GlShaderSource.concatenate(strings)')
+    edit(relative, 'GlProgram.shaderSource(' + handle + ', "");',
+         'GlProgram.shaderSource(' + handle + ', net.vulkanmod.gl.GlShaderSource.concatenate(strings, length));', 2)
+relative = 'forge/src/main/java/net/vulkanmod/mixin/compatibility/gl/GL20M.java'
+path = root / relative
+text = path.read_text()
+assert text.count('params.put(params.position(), GL20.GL_TRUE);') == 2
+text = text.replace('params.put(params.position(), GL20.GL_TRUE);',
+                    'params.put(params.position(), GlProgram.getShaderi(shader, pname));', 1)
+text = text.replace('params.put(params.position(), GL20.GL_TRUE);',
+                    'params.put(params.position(), GlProgram.getProgrami(program, pname));', 1)
+path.write_text(text)
+
+# Vanilla stopAll queues stops after restarting the sound executor, then clears
+# channels on the render thread. Serialize the original clear before context cleanup.
+forge_mixins = root / 'forge/src/main/resources/harimt.forge.mixins.json'
+forge_config = json.loads(forge_mixins.read_text())
+assert 'client.ChannelAccessMixin' not in forge_config['client']
+forge_config['client'].append('client.ChannelAccessMixin')
+forge_mixins.write_text(json.dumps(forge_config, indent=2) + '\n')
+
 for src in payload.rglob('*'):
     if src.is_file():
         dst=root/src.relative_to(payload); dst.parent.mkdir(parents=True,exist_ok=True); shutil.copy2(src,dst)
@@ -220,4 +246,6 @@ for source_root in ['common/src/main/java', 'forge/src/main/java', 'fabric/src/m
     for path in (root/source_root).rglob('*.java'):
         if 'Decompilation failed' in path.read_text() or 'This method has failed to decompile' in path.read_text():
             raise SystemExit('Unrepaired decompiler failure: ' + str(path.relative_to(root)))
+from build_gl_contract import generate
+generate(root)
 print('Hari indexed scheduling, shared CPU budgets, wakeup repair and upstream sort-state fix applied')

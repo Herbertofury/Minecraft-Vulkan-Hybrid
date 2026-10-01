@@ -1,14 +1,12 @@
 {
-  "schema_version": 13,
-  "checkpoint_kind": "complete-visibility-repair-candidate",
+  "schema_version": 14,
+  "checkpoint_kind": "complete-visibility-runtime-candidate",
   "updated_utc": "2026-10-01",
   "branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
-  "product_commit": "pending-publication",
-  "client_qa_commit": "pending-publication",
-  "stress_qa_commit": "62322d04cb5e9b9b91cb368db57b62a9e2220757",
+  "product_commit": "pending-audio-gl-publication",
+  "client_qa_commit": "c6265c4e94a2e717afe4898c65902f7fed87bbda",
+  "stress_qa_commit": "b62d84a7012869aeb19a4b18853bb0cdb4f54741",
   "jar_name": "HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar",
-  "jar_bytes": null,
-  "jar_sha256": null,
   "verification_complete": false,
   "previous_verified_checkpoint": "INTEGRITY-RELEASE-CHECKPOINT.json",
   "inputs": {
@@ -21,25 +19,10 @@
     "c2me_bytes": 1343566,
     "c2me_sha256": "97401e625906dc7dbe7719c4915d5aa88830e64e5aa6f90831ee45a61373f8d3"
   },
-  "ci": {
-    "compile_repro": {
-      "state": "pending-new-product"
-    },
-    "native_server_c2me": {
-      "state": "pending-new-product"
-    },
-    "packaged_clients": {
-      "state": "pending-new-product"
-    },
-    "khronos_c2me_travel": {
-      "state": "pending-new-product"
-    }
-  },
   "exact_next_actions": [
-    "Complete new complete-visibility graph compile/repro plus 14 focused suites",
-    "Complete exact new native server and seven packaged clients",
-    "Pin the new JAR in strict sustained terrain/Khronos/two-worker challenge; visually inspect complete scenes",
-    "Publish complete JAR/source/evidence, Drive readback and delivery receipt"
+    "Complete seven exact repaired production clients",
+    "Complete all-49-chunk strict terrain/Khronos/two-worker run, inspect scenes",
+    "Package final accepted JAR/source/all proof and verify Drive readback"
   ],
   "no_repeat": [
     "Do not swallow tick failures or mute C2ME checks/logs",
@@ -95,11 +78,11 @@
   },
   "performance_component_benchmark": {
     "work_items_per_sample": 5120000,
-    "baseline_median_ns": 60460101,
-    "candidate_median_ns": 14203676,
+    "baseline_median_ns": 53612319,
+    "candidate_median_ns": 12009342,
     "baseline_allocated_bytes": 123360000,
     "candidate_allocated_bytes": 21120000,
-    "scope": "queue construction/draining; not Minecraft FPS"
+    "scope": "Actual production Java; real concurrent queue checks and alternating equivalent-work CPU benchmark; Vulkan command recording uses checked doubles. Native Minecraft proof is separate."
   },
   "superseded_sensor_binary": {
     "jar_name": "HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar",
@@ -136,5 +119,75 @@
     "jar_sha256": "bc91ce5c87610eaeb0a0c87f9b80d44633450adf487d17a0e0e71fb79b8ad446",
     "jar_bytes": 30710062,
     "reason": "Four binary gates passed, but manual terrain inspection plus actual graph negative control found the inherited direction-change hard cull can drop reachable sections; replace it with reusable deferred scheduling."
-  }
+  },
+  "schema": 15,
+  "previous_product_commit": "c6265c4e94a2e717afe4898c65902f7fed87bbda",
+  "previous_product_jar_sha256": "1756410ee37c13ee2857651bf83ea63e572fdb1cc22c4587bf0c042e753227d4",
+  "previous_product_jar_bytes": 30710235,
+  "ci_previous": {
+    "compile_repro": {
+      "state": "pass",
+      "run_id": 36893014766,
+      "job_id": 110473028460,
+      "artifact_id": 11177582044,
+      "artifact_sha256": "eff09fb71c24af9581f74b54f6995ba6462535ef1eea9b9d4df4e57884034c7f"
+    },
+    "native_server_c2me": {
+      "state": "pass",
+      "run_id": 36893014808,
+      "job_id": 110473030159,
+      "artifact_id": 11178985276,
+      "artifact_sha256": "8a41fcbd652f666fb3ce8fb901bb7f5ae62b66f3e8e64f04d7cffcf0295cc5ce"
+    },
+    "packaged_clients": {
+      "state": "pass",
+      "run_id": 36893014777,
+      "job_id": 110473024659
+    },
+    "khronos_c2me_travel": {
+      "state": "fail",
+      "run_id": 36894479661,
+      "job_id": 110477899795,
+      "qa_commit": "b62d84a7012869aeb19a4b18853bb0cdb4f54741",
+      "strict_rng_enforcement_required": true,
+      "central_terrain_gate_required": true,
+      "minimum_terrain_coverage": 0.6,
+      "consecutive_terrain_captures": 3,
+      "required_loaded_chunks": 49,
+      "parallel_entity_workers_required": 2,
+      "failure": "OpenAL invalid source during resource reload; terrain predicates/captures passed"
+    }
+  },
+  "ci": {
+    "compile_repro": {
+      "state": "pending"
+    },
+    "native_server_c2me": {
+      "state": "pending"
+    },
+    "packaged_clients": {
+      "state": "pending"
+    },
+    "khronos_c2me_travel": {
+      "state": "pending"
+    }
+  },
+  "audio_reload_fix": {
+    "ordered_clear_on_sound_executor": true,
+    "negative_control_invalid_source": true,
+    "local_ordered_cycles": 1100,
+    "original_failures_retained": true
+  },
+  "gl_translation_contract": {
+    "exact_overload_descriptors": true,
+    "audited_overloads": 111,
+    "unadvertised_imported_overloads": 2248,
+    "empty_overwrite_not_support": true,
+    "native_shader_source_checks": 10
+  },
+  "next_actions": [
+    "Validate the new audio/GL product in all exact-binary gates",
+    "Verify complete current source matches the immutable recipe",
+    "Publish complete release and historical diagnostic companion archives to Drive; verify raw readbacks"
+  ]
 }

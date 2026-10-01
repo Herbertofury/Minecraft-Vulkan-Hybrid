@@ -173,6 +173,10 @@ jobs:
           set -euo pipefail
           python3 minecraft/async-1.20.1-ultimate/test_vulkan_performance.py upstream --report qa-out/CPU-UPLOAD-REGRESSIONS.json
           python3 minecraft/async-1.20.1-ultimate/test_chunk_workers.py upstream --report qa-out/CHUNK-WORKERS.json
+          python3 minecraft/async-1.20.1-ultimate/test_audio_reload.py upstream --report qa-out/AUDIO-RELOAD.json
+          python3 minecraft/async-1.20.1-ultimate/test_gl_contract.py upstream --report qa-out/GL-TRANSLATION-CONTRACT.json
+          python3 minecraft/async-1.20.1-ultimate/test_gl_shader_source.py upstream --report qa-out/GL-SHADER-SOURCE.json
+          cp upstream/forge/src/main/resources/assets/vulkanmod/compat/harimt_gl_translation_audit.json qa-out/GL-TRANSLATION-AUDIT.json
           python3 minecraft/async-1.20.1-ultimate/test_section_graph.py upstream \
             --baseline vulkan-forge/src/main/java/net/vulkanmod/render/chunk/graph/SectionGraph.java \
             --report qa-out/SECTION-GRAPH.json

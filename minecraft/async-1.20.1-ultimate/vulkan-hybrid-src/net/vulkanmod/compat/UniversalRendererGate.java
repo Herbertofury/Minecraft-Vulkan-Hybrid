@@ -30,14 +30,13 @@ import java.util.zip.ZipInputStream;
  * Fail-closed session renderer selector for HariMultiThread Ultimate.
  *
  * <p>Auto mode enables Vulkan only when no mutually-exclusive renderer is installed and every
- * direct LWJGL OpenGL method reference found in installed mods is covered by the merged VulkanMod
- * compatibility mixins. Any unknown owner/method selects Hari's proven OpenGL fallback before
+ * direct LWJGL OpenGL method reference found in installed mods is covered by audited Vulkan translations, including the exact overload descriptor. Any unknown owner/method selects Hari's proven OpenGL fallback before
  * Vulkan mixins apply. Results are cached by the mods-folder signature.</p>
  */
 public final class UniversalRendererGate {
     public static final String MODE_PROPERTY = "harimt.vulkan.mode"; // auto | force | off
     public static final String CACHE_PROPERTY = "harimt.vulkan.compatCache"; // default true
-    private static final String CACHE_SCHEMA = "2.4.0-vulkan-gate-v9";
+    private static final String CACHE_SCHEMA = "2.4.1-vulkan-gate-v10-audited-overloads";
 
     private static final Pattern MOD_ID = Pattern.compile("(?m)^\\s*modId\\s*=\\s*[\\\"']([^\\\"']+)[\\\"']");
     private static final Pattern FABRIC_ID = Pattern.compile("\"id\"\\s*:\\s*\"([^\"]+)\"");
@@ -399,8 +398,8 @@ public final class UniversalRendererGate {
                                            Set<String> unsupported, String source) {
         for (MethodRef ref : refs) {
             Set<String> methods = contracts.get(ref.owner());
-            if (methods == null || !methods.contains(ref.name())) {
-                unsupported.add(ref.owner() + "#" + ref.name() + "@" + source);
+            if (methods == null || !methods.contains(ref.name() + ref.descriptor())) {
+                unsupported.add(ref.owner() + "#" + ref.name() + ref.descriptor() + "@" + source);
             }
         }
     }
@@ -465,7 +464,9 @@ public final class UniversalRendererGate {
             if (nameTypeIndex <= 0 || nameTypeIndex >= count || tag[nameTypeIndex] != 12) continue;
             int nameUtf = a[nameTypeIndex];
             if (nameUtf <= 0 || nameUtf >= count || utf[nameUtf] == null) continue;
-            refs.add(new MethodRef(owner.substring(GL_PREFIX.length()), utf[nameUtf]));
+            int descriptorUtf = b[nameTypeIndex];
+            if (descriptorUtf <= 0 || descriptorUtf >= count || utf[descriptorUtf] == null) continue;
+            refs.add(new MethodRef(owner.substring(GL_PREFIX.length()), utf[nameUtf], utf[descriptorUtf]));
         }
         return refs;
     }
@@ -518,6 +519,6 @@ public final class UniversalRendererGate {
         } catch (IOException ignored) {}
     }
 
-    private record MethodRef(String owner, String name) {}
+    private record MethodRef(String owner, String name, String descriptor) {}
     public record Decision(boolean enabled, String reason) {}
 }
