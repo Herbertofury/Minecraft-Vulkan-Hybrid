@@ -251,6 +251,37 @@ def main() -> int:
         thread.start()
         file_thread.start()
 
+        def capture_thread_state() -> None:
+            # Preserve evidence while the JVM is still alive, including slow/hung
+            # entity barriers. Do not interrupt or disable the tested workload.
+            deadline = time.monotonic() + 180
+            while time.monotonic() < deadline:
+                if proc is None or proc.poll() is not None:
+                    return
+                time.sleep(1)
+            jcmd = Path(args.java).parent / "jcmd"
+            if not jcmd.is_file() or proc is None or proc.poll() is not None:
+                return
+            try:
+                table = subprocess.check_output(["ps", "-eo", "pid=,ppid=,comm="], text=True, timeout=10)
+                records = [row.split() for row in table.splitlines()]
+                family = {proc.pid}
+                changed = True
+                while changed:
+                    changed = False
+                    for pid, ppid, command in records:
+                        if int(ppid) in family and int(pid) not in family:
+                            family.add(int(pid)); changed = True
+                for pid, ppid, command in records:
+                    if int(pid) in family and command == "java":
+                        state = subprocess.run([str(jcmd), pid, "Thread.print", "-l"], text=True,
+                                               capture_output=True, timeout=30)
+                        (evidence / f"jvm-thread-state-{pid}.txt").write_text(state.stdout + state.stderr, encoding="utf-8")
+            except Exception as diagnostic_failure:
+                (evidence / "thread-capture-error.txt").write_text(repr(diagnostic_failure), encoding="utf-8")
+
+        threading.Thread(target=capture_thread_state, name="hari24-thread-observer", daemon=True).start()
+
         def inspect(line: str, marker: str) -> None:
             for fatal in FATAL:
                 if fatal in line:
