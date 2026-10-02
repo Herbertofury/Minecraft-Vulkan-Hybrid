@@ -113,7 +113,7 @@ jobs:
           mkdir -p pmc-game/mods pmc-game/saves/HMT-2.4-QA
           cp tested/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar pmc-game/mods/HariMultiThread-Ultimate.jar
           cp -a production-seed-server/world/. pmc-game/saves/HMT-2.4-QA/
-          printf 'renderDistance:4\nsimulationDistance:4\nmaxFps:260\nenableVsync:false\npauseOnLostFocus:false\n' > pmc-game/options.txt
+          printf 'renderDistance:4\nsimulationDistance:5\nmaxFps:260\nenableVsync:false\npauseOnLostFocus:false\n' > pmc-game/options.txt
           # The software driver supports core GL 4.5. Avoid spending Forge's
           # ten-second early-window budget attempting unsupported GL 4.6.
           mkdir -p pmc-game/config

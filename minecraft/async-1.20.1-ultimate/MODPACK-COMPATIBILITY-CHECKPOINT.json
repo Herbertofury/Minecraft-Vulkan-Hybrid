@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "native_compatibility_wave_prepared",
+  "state": "fixture_option_repaired_native_replacement_pending",
   "parent_commit": "82589863b3bed5ca6a784538368b8faf561c49ff",
   "product_commit": "6594c6cc652db554213c52ae02f7acd8f439644c",
   "jar_sha256": "58ceda73c9328c78fc3d82eb652475cb4c7ddd91f3078d6d31717eb0ea9d432f",
@@ -50,10 +50,18 @@
   "unresolved_provider_lookup": [
     "OptiFabric: Modrinth slug 404; author/source route pending"
   ],
-  "exact_next_action": "Publish this native test fixture and observe first causal client failure or authoritative pass; patch real failures and rerun only invalidated gates",
+  "exact_next_action": "Publish the repaired disposable options fixture, rerun all invalidated modpack native lanes, and inspect the earliest real mod/runtime failure",
   "drive_archive_upload_block": "Previous five source/log archive uploads remain rejected by automatic review; this task does not retry them",
   "limitations": [
     "Not every boss combat phase or arbitrary mod combination; expanded concrete runtime checks",
     "Linux Mesa software Vulkan/OpenGL; RTX4090 FPS not measured"
-  ]
+  ],
+  "initial_run": {
+    "run": 37068690325,
+    "commit": "66fce9204cb93d39f5567f65edfae803cb01b157",
+    "state": "failed_fixture_options",
+    "cause": "Copied distance-8 stress workflow changed simulationDistance to 4, below Minecraft option minimum 5; strict error detection stopped native tests before world entry",
+    "fix": "Use valid simulationDistance 5 while preserving render distance 4 and radius-three loaded-chunk assertions",
+    "product_unchanged": true
+  }
 }
