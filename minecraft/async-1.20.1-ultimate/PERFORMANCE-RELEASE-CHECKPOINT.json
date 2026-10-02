@@ -1,7 +1,7 @@
 {
   "schema_version": 16,
   "checkpoint_kind": "accepted-performance-release",
-  "updated_utc": "2026-10-01",
+  "updated_utc": "2026-10-02",
   "branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
   "product_commit": "6594c6cc652db554213c52ae02f7acd8f439644c",
   "client_qa_commit": "6594c6cc652db554213c52ae02f7acd8f439644c",
@@ -20,7 +20,8 @@
     "c2me_sha256": "97401e625906dc7dbe7719c4915d5aa88830e64e5aa6f90831ee45a61373f8d3"
   },
   "exact_next_actions": [
-    "Provide reviewable complete source and diagnostic ZIPs and request specific approval to upload them to existing Hari Drive folder 1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B"
+    "Receive explicit approval: Yes, upload all five ZIPs to my existing Hari Drive folder 1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B",
+    "Upload each exact hash-verified ZIP once, verify full raw readback and record its observed Drive ID"
   ],
   "no_repeat": [
     "Do not swallow tick failures or mute C2ME checks/logs",
@@ -217,7 +218,8 @@
     "native_shader_source_checks": 10
   },
   "next_actions": [
-    "Provide reviewable complete source and diagnostic ZIPs and request specific approval to upload them to existing Hari Drive folder 1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B"
+    "Receive explicit approval: Yes, upload all five ZIPs to my existing Hari Drive folder 1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B",
+    "Upload each exact hash-verified ZIP once, verify full raw readback and record its observed Drive ID"
   ],
   "jar_sha256": "58ceda73c9328c78fc3d82eb652475cb4c7ddd91f3078d6d31717eb0ea9d432f",
   "jar_bytes": 30730495,
@@ -276,11 +278,26 @@
   },
   "schema": 16,
   "historical_provider_runs": 29,
-  "delivery_status": "Exact tested JAR delivered and readback verified. All code checkpointed on GitHub. Complete source and evidence collection locally verified; source/historical Drive uploads require specific automatic-review approval.",
+  "delivery_status": "Five exact archives restored and verified; JAR previously delivered/readback verified. Source upload rejected again: automatic review explicitly requires payload/destination approval and does not accept continue. No reroute or bypass attempted.",
   "source_drive_delivery": {
     "state": "automatic_review_requires_specific_payload_destination_approval",
     "attempted_file": "Hari-2.4.1-complete-source.zip",
     "file_created_on_drive": false,
-    "reason": "Complete private source archive classified sensitive code; destination ownership not established by automatic reviewer; broad finish permission insufficient for specific archive/destination"
+    "reason": "Complete private source archive classified sensitive code; destination ownership not established by automatic reviewer; broad finish permission insufficient for specific archive/destination",
+    "latest_attempt_date": "2026-10-02",
+    "user_continue_did_not_satisfy_automatic_review": true,
+    "no_blocked_file_created": true
+  },
+  "archive_restoration_verified": true,
+  "wiki": {
+    "state": "published_and_byte_verified",
+    "page": "HariMultiThread-Vulkan-Hybrid",
+    "url": "https://github.com/Herbertofury/ProjectDump/wiki/HariMultiThread-Vulkan-Hybrid",
+    "source_commit": "76613a1d1cfd68c5d5935221d01118fe6fc40625",
+    "run": 37065625868,
+    "job": 111032602469,
+    "published_wiki_commit": "1417b9f13925903b480a32d6afbc6e89272b0514",
+    "commit_status": "wiki-publication=success",
+    "native_page_readback_matches": true
   }
 }

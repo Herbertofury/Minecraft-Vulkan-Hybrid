@@ -1,4 +1,4 @@
-# Hari 2.4.1 current checkpoint — 2026-10-01
+# Hari 2.4.1 current checkpoint — 2026-10-02
 
 Target: Minecraft 1.20.1 / Forge 47.4.23 / Java 17.
 Product: 6594c6cc652db554213c52ae02f7acd8f439644c.
@@ -29,3 +29,11 @@ Historical diagnostics preserve all 1,168 files across 29 immutable provider run
 Machine-readable state: PERFORMANCE-RELEASE-CHECKPOINT.json. Detailed implementation and pins: VULKAN-PERFORMANCE-2.4.1.md. Build/reproduction: REPRODUCE-2.4.1.md. No previous candidate or historical success is promoted by filename. Preserve the other 63 projects.
 
 Final archive bytes and SHA-256 values: PERFORMANCE-DELIVERY-RECEIPT.json. All code, full source hash proof and companion indexes are versioned here. Packaged CHECKPOINT.json is the frozen accepted product checkpoint; the separate delivery receipt records the completed collection without a self-hash cycle.
+
+## October 2 continuation
+
+All five archive byte counts and SHA-256 values exactly match the frozen October 1 receipt. All 989 source files, 338 current evidence files and 1,168 historical diagnostic files were restored and verified. The tested product and its accepted runtime proof are unchanged.
+
+The user replied Cotinue after the concrete upload question. Automatic approval review rejected the source ZIP upload again, explicitly saying continue does not authorize this sensitive payload and Drive destination. No file was created. Do not retry, rename or reroute the blocked uploads. The exact remaining user action is: Yes, upload all five ZIPs to my existing Hari Drive folder 1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B.
+
+The actual GitHub Wiki source page and navigation are committed on main at 76613a1d1cfd68c5d5935221d01118fe6fc40625. Actual publication passed in run 37065625868 / job 111032602469. The source commit has wiki-publication=success with fresh-clone-verified Wiki commit 1417b9f13925903b480a32d6afbc6e89272b0514. Native Git readback of the actual Wiki page matches the intended bytes. All 63 project records remain unchanged.

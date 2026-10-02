@@ -65,5 +65,35 @@
   "pending_upload_folder": "1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B",
   "no_blocked_file_created_on_drive": true,
   "privacy_audit": "Text and compressed-log scan of all 1168 historic files: zero unclassified credentials, signed URLs or personal emails; public Java module stack traces and GITHUB_TOKEN variable names classified. Screenshots are offline generated CI terrain.",
-  "scope_limit": "Installed Minecraft/Forge runtime correctness on Linux Mesa software drivers; no measured Windows RTX4090 FPS or universal modpack claim"
+  "scope_limit": "Installed Minecraft/Forge runtime correctness on Linux Mesa software drivers; no measured Windows RTX4090 FPS or universal modpack claim",
+  "latest_archive_approval_attempt": {
+    "date": "2026-10-02",
+    "user_response": "Cotinue",
+    "accepted_by_automatic_reviewer": false,
+    "upload_attempted": "Hari-2.4.1-complete-source.zip",
+    "file_created_on_drive": false,
+    "reason": "Automatic reviewer explicitly says continue is not approval of this sensitive archive and Drive destination",
+    "specific_required_approval": "Yes, upload all five ZIPs to my existing Hari Drive folder 1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B",
+    "do_not_retry_or_reroute_without_that_approval": true
+  },
+  "latest_recovery_verification": {
+    "date": "2026-10-02",
+    "all_five_zip_bytes_and_sha256_match_frozen_receipt": true,
+    "all_338_current_evidence_entries_match": true,
+    "all_1168_historical_entries_match": true,
+    "all_989_product_source_files_match": true,
+    "jar_bytes_and_sha256_match": true,
+    "product_unchanged": true
+  },
+  "wiki_publication": {
+    "state": "published_and_byte_verified",
+    "page": "HariMultiThread-Vulkan-Hybrid",
+    "url": "https://github.com/Herbertofury/ProjectDump/wiki/HariMultiThread-Vulkan-Hybrid",
+    "source_commit": "76613a1d1cfd68c5d5935221d01118fe6fc40625",
+    "run": 37065625868,
+    "job": 111032602469,
+    "published_wiki_commit": "1417b9f13925903b480a32d6afbc6e89272b0514",
+    "commit_status": "wiki-publication=success",
+    "native_page_readback_matches": true
+  }
 }
