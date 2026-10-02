@@ -1,0 +1,12 @@
+{
+  "version": "2.4.2-noxviola.1-vulkan-hybrid",
+  "product_commit": "309b303d819159aa12910c971568f6cfdf969076",
+  "compile_run": 37070673230,
+  "artifact_id": 11253878712,
+  "artifact_digest": "5fb2c0e9a05d691308c89204b2bdba40dd7dfbae745dad8494a33c768bfdf697",
+  "jar": "HariMultiThread-Ultimate-1.20.1-2.4.2-vulkan-hybrid.jar",
+  "jar_sha256": "ca2955109f188292128fec36707fc7109ba1dbacbb70d20a83659b8284ca943b",
+  "reproducible": true,
+  "shared_sampler_regression": "PASS",
+  "status": "native_modpack_pending"
+}

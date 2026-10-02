@@ -1224,5 +1224,105 @@
         "sha256": "e39acd37e162eb48cdfc6ae64776c13507a5ec3d4dd76ae4f39b5b79ca24d431"
       }
     }
+  },
+  "extra_inputs": {
+    "optifine": {
+      "filename": "OptiFine_1.20.1_HD_U_I6.jar",
+      "size": 7145205,
+      "hashes": {
+        "sha256": "0b67cb670aedf2e55a982f3d52b6d53e46791a0c984aa1d2ee58100fc9bfc650"
+      },
+      "official_page": "https://optifine.net/adloadx?f=OptiFine_1.20.1_HD_U_I6.jar",
+      "official_file": "OptiFine_1.20.1_HD_U_I6.jar",
+      "acquisition": "Fresh public download link from the official mirror page; no redistribution of OptiFine"
+    },
+    "makeup-ultra-fast": {
+      "game_versions": [
+        "1.12.2",
+        "1.13",
+        "1.13.1",
+        "1.13.2",
+        "1.14",
+        "1.14.1",
+        "1.14.2",
+        "1.14.3",
+        "1.14.4",
+        "1.15",
+        "1.15.1",
+        "1.15.2",
+        "1.16",
+        "1.16.1",
+        "1.16.2",
+        "1.16.3",
+        "1.16.4",
+        "1.16.5",
+        "1.17",
+        "1.17.1",
+        "1.18",
+        "1.18.1",
+        "1.18.2",
+        "1.19",
+        "1.19.1",
+        "1.19.2",
+        "1.19.3",
+        "1.19.4",
+        "1.20",
+        "1.20.1",
+        "1.20.2",
+        "1.20.3",
+        "1.20.4",
+        "1.20.5",
+        "1.20.6",
+        "1.21",
+        "1.21.1",
+        "1.21.2",
+        "1.21.3",
+        "1.21.4",
+        "1.21.5",
+        "1.21.6",
+        "1.21.7",
+        "1.21.8",
+        "1.21.9",
+        "1.21.10",
+        "1.21.11",
+        "26.1",
+        "26.1.1",
+        "26.1.2",
+        "26.2",
+        "26.3"
+      ],
+      "loaders": [
+        "iris",
+        "optifine"
+      ],
+      "environment": "unknown",
+      "id": "IUFkxmHz",
+      "project_id": "izsIPI7a",
+      "author_id": "VoROpsYm",
+      "featured": false,
+      "name": "MakeUp - Ultra Fast 9.5f",
+      "version_number": "9.5f",
+      "changelog_url": null,
+      "date_published": "2026-09-27T01:53:18.227784Z",
+      "downloads": 103284,
+      "version_type": "release",
+      "status": "listed",
+      "requested_status": null,
+      "files": [
+        {
+          "id": "TgHyPT2T",
+          "hashes": {
+            "sha1": "b3873dcc6b39093a6c13c2ec9c5d5eee90c06827",
+            "sha512": "86d7d21eea4eaa257a43896d639d8f8ea1709f721ea70092504d273c7c9b47a16ede605be99548dbebf8ead8749c1effe44e6f1724ecba884d67ef185fff51e4"
+          },
+          "url": "https://cdn.modrinth.com/data/izsIPI7a/versions/IUFkxmHz/MakeUp-UltraFast-9.5f.zip",
+          "filename": "MakeUp-UltraFast-9.5f.zip",
+          "primary": true,
+          "size": 403666,
+          "file_type": null
+        }
+      ],
+      "dependencies": []
+    }
   }
 }

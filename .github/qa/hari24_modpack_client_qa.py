@@ -15,6 +15,7 @@ import json
 import math
 import os
 import queue
+import re
 import shutil
 import subprocess
 import sys
@@ -109,6 +110,7 @@ def main() -> int:
     p.add_argument("--expect", choices=("vulkan", "opengl"), default="vulkan")
     p.add_argument("--tick-fault", action="store_true")
     p.add_argument("--reopen", action="store_true")
+    p.add_argument("--shaderpack", help="Require this enabled Oculus shaderpack throughout the run")
     args = p.parse_args()
 
     pmc = args.portablemc.resolve()
@@ -487,11 +489,30 @@ def main() -> int:
             predicate(f"/function hmtdim:verify_{namespace}",
                       f"HMT_DIM_VERIFIED_{namespace}_{scene['expected_entities']}")
             returned = screenshot(f"{namespace}-returned-mobs")
+            portal_return = None
+            if not args.reopen:
+                game_command("/gamemode creative @s")
+                if namespace == "aether":
+                    game_command("/function hmtdim:portal_aether_return")
+                    predicate("/execute if block 0 141 0 aether:aether_portal run say HMT_AETHER_RETURN_PORTAL_ACTIVE",
+                              "HMT_AETHER_RETURN_PORTAL_ACTIVE")
+                    game_command("/tp @s 0.5 141 0.5 0 0")
+                else:
+                    game_command("/fill 12 139 12 20 139 20 minecraft:stone")
+                    game_command("/tp @s 16.5 140 16.5 0 90")
+                    game_command("/item replace entity @s weapon.mainhand with midnight:rift_placer")
+                    subprocess.run(["xdotool", "mousedown", "3"], env=env, check=True, timeout=15)
+                    time.sleep(input_settle * 3)
+                    subprocess.run(["xdotool", "mouseup", "3"], env=env, check=True, timeout=15)
+                predicate(f"/execute if dimension minecraft:overworld run say HMT_DIM_PORTAL_RETURNED_{namespace}",
+                          f"HMT_DIM_PORTAL_RETURNED_{namespace}")
+                portal_return = screenshot(f"{namespace}-portal-return-overworld")
             error_ledger(list(lines))
             dimension_results.append({**scene, "new_jvm_reopen": args.reopen,
                 "arrival": arrival, "mob_views": mob_views, "far": far, "returned": returned,
                 "all_mob_types_present": True, "block_nbt_retained": True,
                 "far_chunks_loaded": True, "home_chunks_unloaded": True,
+                "portal_return": portal_return,
                 "unexpected_errors": 0})
             (evidence / "dimension-results.json").write_text(json.dumps(dimension_results, indent=2) + "\n")
         game_command("/execute in minecraft:overworld run tp @s 16 100 16 0 40")
@@ -516,6 +537,23 @@ def main() -> int:
                 raise RuntimeError("resized client did not render the real world")
 
         error_ledger(list(lines))
+        if args.shaderpack:
+            config = (mc_dir / "config/oculus.properties").read_text()
+            if not re.search(r"(?m)^enableShaders\s*=\s*true\s*$", config):
+                raise RuntimeError("Oculus disabled the required shaderpack")
+            if not re.search(r"(?m)^shaderPack\s*=\s*" + re.escape(args.shaderpack) + r"\s*$", config):
+                raise RuntimeError("Oculus changed the required shaderpack")
+            joined = "".join(lines)
+            for marker in ("Falling back to normal rendering without shaders", "Failed to create shader rendering pipeline",
+                           "Failed to load the shaderpack", "Could not load the shaderpack", "Shaders are disabled"):
+                if marker in joined:
+                    raise RuntimeError("Required shader rendering failed: " + marker)
+            if args.shaderpack not in joined or "Creating pipeline for dimension" not in joined:
+                raise RuntimeError("No original Oculus shaderpack/pipeline creation evidence")
+            (evidence / "active-shaderpack.json").write_text(json.dumps({
+                "shaderpack": args.shaderpack, "enableShaders": True,
+                "original_oculus_pipeline_marker": True,
+                "post_reload_world_rendered": True, "reopen": args.reopen}, indent=2) + "\n")
         if args.tick_fault:
             cursor = len(lines)
             command_file.write_text("tick-fault\n", encoding="utf-8")

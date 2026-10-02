@@ -18,6 +18,12 @@ def install(world: Path, mods: Path, evidence: Path) -> list[dict]:
         "fill -1 100 0 2 104 0 minecraft:glowstone\n"
         "fill 0 101 0 1 103 0 minecraft:air\n"
         "setblock 0 101 0 minecraft:water\n")
+    # Return portal sits above the mob fixture, preserving the tested chest NBT.
+    (functions / "portal_aether_return.mcfunction").write_text(
+        "fill -4 139 -4 4 139 4 minecraft:stone\n"
+        "fill -1 140 0 2 144 0 minecraft:glowstone\n"
+        "fill 0 141 0 1 143 0 minecraft:air\n"
+        "setblock 0 141 0 minecraft:water\n")
     catalogue = []
     for path in sorted(mods.glob("*.jar")):
         with zipfile.ZipFile(path) as jar:
