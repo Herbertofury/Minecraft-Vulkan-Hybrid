@@ -181,7 +181,7 @@ edit(p, '    private void onMove(Operation<Void> original) {', """    private vo
             return;
         }""")
 
-edit('gradle.properties', 'version=2.4.0-noxviola.1-vulkan-hybrid', 'version=2.4.1-noxviola.1-vulkan-hybrid')
+edit('gradle.properties', 'version=2.4.0-noxviola.1-vulkan-hybrid', 'version=2.4.2-noxviola.1-vulkan-hybrid')
 
 # Three inherited CFR failures were executable throw stubs in mob sensor sorting.
 # Freeze the observer once and each target on first comparison so movement cannot
@@ -212,6 +212,15 @@ if graph.read_text().count('if (renderSection.directionChanges > maxDirectionsCh
 edit('forge/src/main/resources/assets/vulkanmod/lang/en_us.json',
      'Use a culling algorithm that might improve performance by reducing the number of non visible chunk sections rendered.',
      'Prioritize simpler visibility paths while terrain loads. Every reachable visible section is rendered, including in aggressive mode.')
+
+# Renderer.bindGraphicsPipeline already emits blend/stencil dynamic-state commands.
+# Every bound graphics pipeline must declare those states; Aether/Midnight menus
+# exposed VUID-vkCmdDrawIndexed-None-08608 before world entry under validation.
+edit('forge/src/main/java/net/vulkanmod/vulkan/shader/GraphicsPipeline.java',
+     'dynamicStates.pDynamicStates(stack.ints(VK_DYNAMIC_STATE_DEPTH_BIAS,',
+     'dynamicStates.pDynamicStates(stack.ints(VK_DYNAMIC_STATE_BLEND_CONSTANTS, '
+     'VK_DYNAMIC_STATE_STENCIL_COMPARE_MASK, VK_DYNAMIC_STATE_STENCIL_WRITE_MASK, '
+     'VK_DYNAMIC_STATE_STENCIL_REFERENCE, VK_DYNAMIC_STATE_DEPTH_BIAS,', 2)
 
 # Imported GL20/ARB shader boundaries dropped all but the first source string,
 # and discarded pointer-based sources entirely. Preserve bytes and exact query values.

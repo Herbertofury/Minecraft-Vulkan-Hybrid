@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "fixture_option_repaired_native_replacement_pending",
+  "state": "native_product_failures_repaired_build_pending",
   "parent_commit": "82589863b3bed5ca6a784538368b8faf561c49ff",
   "product_commit": "6594c6cc652db554213c52ae02f7acd8f439644c",
   "jar_sha256": "58ceda73c9328c78fc3d82eb652475cb4c7ddd91f3078d6d31717eb0ea9d432f",
@@ -38,7 +38,9 @@
     "fix causal failures without disabled safety/content"
   ],
   "not_yet_tested": [
-    "OptiFine official Forge build; official-only intake pending"
+    "OptiFine I6 official binary verified; native lane pending",
+    "Active Oculus MakeUp Ultra Fast 9.5f shaderpack verified; native lane pending",
+    "Dedicated server dimension mob/chunk/save/restart lane pending"
   ],
   "not_applicable_provider_results": [
     "Exordium",
@@ -47,10 +49,8 @@
     "Sodium",
     "Indium: official Modrinth query publishes no Forge 1.20.1 build"
   ],
-  "unresolved_provider_lookup": [
-    "OptiFabric: Modrinth slug 404; author/source route pending"
-  ],
-  "exact_next_action": "Publish the repaired disposable options fixture, rerun all invalidated modpack native lanes, and inspect the earliest real mod/runtime failure",
+  "unresolved_provider_lookup": [],
+  "exact_next_action": "Build version 2.4.2, pin its actual packaged artifact hash/run, rerun native dimension and renderer modpack lanes with validation enabled",
   "drive_archive_upload_block": "Previous five source/log archive uploads remain rejected by automatic review; this task does not retry them",
   "limitations": [
     "Not every boss combat phase or arbitrary mod combination; expanded concrete runtime checks",
@@ -63,5 +63,24 @@
     "cause": "Copied distance-8 stress workflow changed simulationDistance to 4, below Minecraft option minimum 5; strict error detection stopped native tests before world entry",
     "fix": "Use valid simulationDistance 5 while preserving render distance 4 and radius-three loaded-chunk assertions",
     "product_unchanged": true
-  }
+  },
+  "repaired_candidate_version": "2.4.2-noxviola.1-vulkan-hybrid",
+  "product_failures": [
+    {
+      "run": 37069105366,
+      "jobs": [
+        111044049472,
+        111044049666
+      ],
+      "cause": "Missing blend/stencil pipeline dynamic-state declarations; VUID-vkCmdDrawIndexed-None-08608",
+      "fix": "Declare the states emitted by Renderer.bindGraphicsPipeline in both pipeline branches"
+    },
+    {
+      "run": 37069105366,
+      "job": 111044049245,
+      "cause": "Midnight rift samplers shared across shader stages received duplicate declarations and bindings",
+      "fix": "Deduplicate descriptor bindings by name and type, preserve per-stage declarations and texture slots, reject conflicting types"
+    }
+  ],
+  "optifabric_scope": "Official author and CurseForge metadata identify Fabric-only; no Forge 1.20.1 build in this matrix"
 }
