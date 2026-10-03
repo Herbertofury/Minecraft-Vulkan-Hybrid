@@ -223,5 +223,18 @@
     "Collect repeated old-vs-new A/B captures on the actual target gaming GPU and modpack before making performance-improvement claims.",
     "Verify native Windows/macOS graphics runtime on those operating systems; current native acceptance is Linux software Vulkan/OpenGL.",
     "Evaluate newer GPU-semaphore frame-sync architecture as a separately gated future change, preserving this verified release."
-  ]
+  ],
+  "active_unaccepted_candidate": {
+    "version": "2.4.8-noxviola.1-vulkan-hybrid",
+    "product_commit": "4052cef9dfb64b755691d02e37988947d2b48547",
+    "jar_sha256": "16ece8513104c9d08014effd734dd9ade73e2f8d42399b988139659940459e7d",
+    "standard_gates": "all pass",
+    "expanded_client_gates": "10 of 13 pass, remaining genuine failure causes being diagnosed",
+    "dedicated_dimension_server": "pass",
+    "native_matrix_run": 37136374739,
+    "shutdown_diagnostic_run": 37142127607,
+    "rubidium_diagnostic_run": 37142371662,
+    "handoff": ".github/qa/hari24-modpack-recovery.json",
+    "delivery": "Not accepted or published to Drive; preserve prior accepted lineage"
+  }
 }

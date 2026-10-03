@@ -1,5 +1,5 @@
 {
-  "state": "2.4.8_exact_native_matrix_running",
+  "state": "2.4.8_remaining_native_failures_under_diagnosis",
   "product_commit": "4052cef9dfb64b755691d02e37988947d2b48547",
   "qa_commit": "a38c9168b92d3936ae9fc37f244873a018959a0c",
   "candidate_sha256": "16ece8513104c9d08014effd734dd9ade73e2f8d42399b988139659940459e7d",
@@ -78,6 +78,37 @@
     "new_files_uploaded": false,
     "old_five_archive_uploads": "Do not retry the rejected 2.4.1 payloads without specific approval"
   },
-  "next_action": "Run all 13 exact 2.4.8 client lanes and dedicated dimensions server; resolve every actual failure before promotion.",
-  "scope": "Linux Mesa software production clients; not Windows/RTX4090 FPS or every boss combat phase"
+  "next_action": "Inspect actual shutdown failure-time threads and original Rubidium transformation. Fix causes; require native save/exit/reopen before accepted release.",
+  "scope": "Linux Mesa software production clients; not Windows/RTX4090 FPS or every boss combat phase",
+  "modpack_result": {
+    "client_passes": [
+      "aether",
+      "midnight",
+      "dimensions-c2me",
+      "immediatelyfast",
+      "entityculling",
+      "oculus-embeddium",
+      "oculus-shaders",
+      "lazurite",
+      "continuity",
+      "optimized-stack"
+    ],
+    "dedicated_dimensions_server": "pass",
+    "failures": {
+      "optifine": "Real first JVM save/close waits longer than 120 seconds; early thread snapshot cannot diagnose shutdown",
+      "distanthorizons": "Real first JVM save/close waits longer than 120 seconds; early thread snapshot cannot diagnose shutdown",
+      "rubidium": "Actual patch confirmation absent in both original logs; verify transformed target before any promotion"
+    }
+  },
+  "failure_diagnostics": {
+    "shutdown_run": 37142127607,
+    "shutdown_qa_commit": "9d2264b825428f3ebadd66db234e0ae53798e8f0",
+    "rubidium_run": 37142371662,
+    "rubidium_qa_commit": "709ab7f39234d4fd9bfb2227671da2b43854ebec",
+    "binary_changed": false,
+    "shutdown_acceptance_timeout_changed": false,
+    "failure_thread_capture": "Before destroying stalled tested process",
+    "rubidium_diagnostics": "Verbose Mixin and targeted transformed bytecode export; optional decompiler explicitly disabled"
+  },
+  "updated_utc": "2026-10-03"
 }
