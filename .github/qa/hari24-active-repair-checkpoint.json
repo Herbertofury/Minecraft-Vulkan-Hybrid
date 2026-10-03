@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "updated_at": "2026-10-03T19:15:00Z",
+  "status": "2.4.9 repair in progress; no release promotion",
+  "source_parent": "f619f92b2d59ecd0cbca916a055a422de3d7aa51",
+  "save_policy": "Non-force GitHub commits after each concrete repair and validation checkpoint; exact original provider bytes and test failures retained.",
+  "completed": {
+    "duplicate_entity_exception_cancellation": "Removed; compiled guard, native dedicated, packaged production, intentional entity-fault propagation and reopen passed.",
+    "candidate_compile": {
+      "run": 37146256589,
+      "head": "811bfcbe0a5544875d734e664219567117979a62",
+      "artifact": 11282770354,
+      "artifact_sha256": "7f8bffe104fb44222508b4b2da84ae6890edaca306cde75c9ec95825d3666763"
+    },
+    "provider_c2me98_dh": {
+      "run": 37145402840,
+      "job": 111268174544,
+      "result": "PASS, unchanged 2.4.8; not transferred to new binary"
+    }
+  },
+  "current_causal_repair": {
+    "problem": "OptiFine renumbers releaseLightTicket lambda; C2ME LIGHT add-level redirect remains but original vanilla remove level persists.",
+    "actual_native_add": "redirect$zie000$redirectAddLightTicketDistance: ChunkLevel.byStatus(FEATURES)-2 for LIGHT",
+    "actual_native_remove": "lambda$releaseLightTicket$30: ChunkLevel.byStatus(LIGHT)",
+    "observed_leak": "529 LIGHT tickets and 9025 ChunkHolders retained during failed 120-second close; original Vulkan+C2ME control closes.",
+    "native_evidence": {
+      "run": 37145601216,
+      "artifact": 11281704693,
+      "sha256": "2be5089d50113b92fd8dc7e2a4cccdcfe475413e875f999673f2d0c21b031cd4"
+    },
+    "planned_fix": "Reuse actual original C2ME addition-level helper in semantically identified original LIGHT removal; preserve original queue, ticket arguments, removal operation and errors."
+  },
+  "remaining": [
+    "Real ASM level-pairing regression with leaking original negative control and native save/reopen.",
+    "Investigate actual far-Aether sky-only render result without weakening visibility gate.",
+    "Rebuild final exact 2.4.9 and run all 13 client lanes plus dedicated native acceptance.",
+    "Publish new byte-verified source, JAR and proof to authorized release destination only after acceptance; update actual Wiki."
+  ],
+  "known_blocker": "Local exec transport disconnected; currently using connected GitHub source and native CI without losing progress.",
+  "guardrails": [
+    "No manual ticket clearing or shutdown suppression",
+    "No NoAI replacement or despawn respawn cheats",
+    "No transfer of 2.4.8 acceptance to 2.4.9",
+    "No force push; retain 63 projects and accepted 2.4.1"
+  ]
+}
