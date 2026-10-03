@@ -102,11 +102,11 @@ jobs:
           (cd upstream && ./gradlew --no-daemon :forge:build --stacktrace)
 
           mkdir -p production-qa
-          jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.4.8-noxviola.1-vulkan-hybrid-all.jar' | sort | head -n 1)"
+          jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.4.9-noxviola.1-vulkan-hybrid-all.jar' | sort | head -n 1)"
           test -s "$jarfile"
           unzip -t "$jarfile" | grep -F 'No errors detected'
-          cp "$jarfile" production-qa/HariMultiThread-Ultimate-1.20.1-2.4.8-vulkan-hybrid.jar
-          sha256sum production-qa/HariMultiThread-Ultimate-1.20.1-2.4.8-vulkan-hybrid.jar | tee production-qa/JAR-SHA256.txt
+          cp "$jarfile" production-qa/HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar
+          sha256sum production-qa/HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar | tee production-qa/JAR-SHA256.txt
 
       - name: Generate deterministic Forge world fixture
         shell: bash
@@ -166,7 +166,7 @@ jobs:
           fi
 
           mkdir -p pmc-game/mods pmc-game/saves/HMT-2.4-QA
-          cp production-qa/HariMultiThread-Ultimate-1.20.1-2.4.8-vulkan-hybrid.jar pmc-game/mods/HariMultiThread-Ultimate.jar
+          cp production-qa/HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar pmc-game/mods/HariMultiThread-Ultimate.jar
           cp -a production-seed-server/world/. pmc-game/saves/HMT-2.4-QA/
           printf 'renderDistance:4\nsimulationDistance:5\nmaxFps:260\nenableVsync:false\npauseOnLostFocus:false\n' > pmc-game/options.txt
           # The software driver supports core GL 4.5. Avoid spending Forge's
@@ -174,7 +174,7 @@ jobs:
           mkdir -p pmc-game/config
           printf 'earlyWindowSkipGLVersions = ["4.6"]\n' > pmc-game/config/fml.toml
           sha256sum pmc-game/mods/HariMultiThread-Ultimate.jar | tee production-qa/INSTALLED-JAR-SHA256.txt
-          diff -u production-qa/JAR-SHA256.txt <(sed 's#pmc-game/mods/HariMultiThread-Ultimate.jar#production-qa/HariMultiThread-Ultimate-1.20.1-2.4.8-vulkan-hybrid.jar#' production-qa/INSTALLED-JAR-SHA256.txt)
+          diff -u production-qa/JAR-SHA256.txt <(sed 's#pmc-game/mods/HariMultiThread-Ultimate.jar#production-qa/HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar#' production-qa/INSTALLED-JAR-SHA256.txt)
 
       - name: Launch real packaged Forge production client
         shell: bash

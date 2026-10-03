@@ -186,7 +186,18 @@ edit(p, '    private void onMove(Operation<Void> original) {', """    private vo
             return;
         }""")
 
-edit('gradle.properties', 'version=2.4.0-noxviola.1-vulkan-hybrid', 'version=2.4.8-noxviola.1-vulkan-hybrid')
+
+# Preserve Minecraft's original duplicate entity tracking failure. The inherited
+# injector cancelled addEntity immediately before its IllegalStateException;
+# synchronization and owner handoff do not authorize suppressing that failure.
+edit('common/src/main/java/com/axalotl/async/common/mixin/server/ChunkMapMixin.java',
+     '''    @Inject(method={"addEntity"}, at={@At(value="INVOKE", target="Lnet/minecraft/Util;pauseInIde(Ljava/lang/Throwable;)Ljava/lang/Throwable;")}, cancellable=true)
+    private void skipThrowLoadEntity(Entity entity, CallbackInfo ci) {
+        ci.cancel();
+    }
+''', '')
+
+edit('gradle.properties', 'version=2.4.0-noxviola.1-vulkan-hybrid', 'version=2.4.9-noxviola.1-vulkan-hybrid')
 
 # Three inherited CFR failures were executable throw stubs in mob sensor sorting.
 # Freeze the observer once and each target on first comparison so movement cannot
