@@ -134,6 +134,14 @@ mixins.write_text(json.dumps(config, indent=2)+'\n')
 p='common/src/main/java/com/axalotl/async/common/mixin/server/ServerChunkCacheMixin.java'
 edit(p, 'extends ChunkSource {', 'extends ChunkSource implements com.axalotl.async.common.ChunkOwnerExecutor {')
 edit(p, '    @Unique private final List<LevelChunk>', '    @Override public java.util.concurrent.Executor harimt$ownerExecutor() { return this.mainThreadProcessor; }\n\n    @Unique private final List<LevelChunk>')
+edit(p, '            ParallelProcessor.forEachParallel(this.level, tasks, Runnable::run);', '''            if (com.axalotl.async.common.AsyncCommon.HARICHUNK) {
+                // C2ME's world RNG and spawn/entity trackers belong to the owner.
+                // Run each original deferred spawn once on that owner instead of
+                // scheduling thousands of blocking RNG handoffs per chunk phase.
+                for (Runnable task : tasks) task.run();
+            } else {
+                ParallelProcessor.forEachParallel(this.level, tasks, Runnable::run);
+            }''')
 p='common/src/main/java/com/axalotl/async/common/mixin/world/LevelMixin.java'
 edit(p, '        AutoCloseable {', '        AutoCloseable, com.axalotl.async.common.WorldRandomAccess {')
 edit(p, '    @Shadow\n    @Final\n    private Thread thread;', """    @Shadow
@@ -181,7 +189,7 @@ edit(p, '    private void onMove(Operation<Void> original) {', """    private vo
             return;
         }""")
 
-edit('gradle.properties', 'version=2.4.0-noxviola.1-vulkan-hybrid', 'version=2.4.3-noxviola.1-vulkan-hybrid')
+edit('gradle.properties', 'version=2.4.0-noxviola.1-vulkan-hybrid', 'version=2.4.4-noxviola.1-vulkan-hybrid')
 
 # Three inherited CFR failures were executable throw stubs in mob sensor sorting.
 # Freeze the observer once and each target on first comparison so movement cannot
@@ -257,6 +265,8 @@ for source_root in ['common/src/main/java', 'forge/src/main/java', 'fabric/src/m
             raise SystemExit('Unrepaired decompiler failure: ' + str(path.relative_to(root)))
 from apply_swapchain_sync import apply as apply_swapchain_sync
 apply_swapchain_sync(root)
+from apply_modpack_render_integrity import apply as apply_modpack_render_integrity
+apply_modpack_render_integrity(root)
 from build_gl_contract import generate
 generate(root)
 print('Hari indexed scheduling, shared CPU budgets, wakeup repair and upstream sort-state fix applied')

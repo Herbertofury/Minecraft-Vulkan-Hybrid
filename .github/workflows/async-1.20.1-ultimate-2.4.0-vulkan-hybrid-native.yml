@@ -110,17 +110,17 @@ jobs:
           rm -f "$rebuilt"
           (cd upstream && ./gradlew --no-daemon :forge:build --stacktrace)
           mkdir -p qa-out evidence/runtime/server evidence/runtime/client-vulkan evidence/runtime/client-opengl
-          jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.4.3-noxviola.1-vulkan-hybrid-all.jar' | sort | head -n 1)"
+          jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.4.4-noxviola.1-vulkan-hybrid-all.jar' | sort | head -n 1)"
           test -s "$jarfile"
           unzip -t "$jarfile" | grep -F 'No errors detected'
-          cp "$jarfile" qa-out/HariMultiThread-Ultimate-1.20.1-2.4.3-vulkan-hybrid.jar
+          cp "$jarfile" qa-out/HariMultiThread-Ultimate-1.20.1-2.4.4-vulkan-hybrid.jar
           jar tf "$jarfile" | grep -Fx 'assets/async/shaders/collision_broadphase.comp.spv'
           unzip -p "$jarfile" assets/async/shaders/collision_broadphase.comp.spv | xxd -p -l 4 | grep -Fx '03022307'
           jar tf "$jarfile" | grep -Fx 'harimt.refmap.json'
           unzip -p "$jarfile" harimt.refmap.json > qa-out/HARIMT-REFMAP.json
           test -s qa-out/HARIMT-REFMAP.json
           grep -F '"reloadResources": "Lnet/minecraft/server/MinecraftServer;m_129861_' qa-out/HARIMT-REFMAP.json
-          sha256sum qa-out/HariMultiThread-Ultimate-1.20.1-2.4.3-vulkan-hybrid.jar | tee qa-out/JAR-SHA256.txt
+          sha256sum qa-out/HariMultiThread-Ultimate-1.20.1-2.4.4-vulkan-hybrid.jar | tee qa-out/JAR-SHA256.txt
 
       - name: Install real Forge 47.4.23 server fixture
         shell: bash
@@ -133,7 +133,7 @@ jobs:
           cp -a forge-template qa-server
           chmod +x qa-server/run.sh
           mkdir -p qa-server/mods
-          cp qa-out/HariMultiThread-Ultimate-1.20.1-2.4.3-vulkan-hybrid.jar qa-server/mods/HariMultiThread-Ultimate.jar
+          cp qa-out/HariMultiThread-Ultimate-1.20.1-2.4.4-vulkan-hybrid.jar qa-server/mods/HariMultiThread-Ultimate.jar
           printf 'eula=true\n' > qa-server/eula.txt
           cat > qa-server/server.properties <<'EOF'
           online-mode=false
@@ -181,7 +181,7 @@ jobs:
           cp -a forge-template qa-server-c2me
           chmod +x qa-server-c2me/run.sh
           mkdir -p qa-server-c2me/mods
-          cp qa-out/HariMultiThread-Ultimate-1.20.1-2.4.3-vulkan-hybrid.jar qa-server-c2me/mods/HariMultiThread-Ultimate.jar
+          cp qa-out/HariMultiThread-Ultimate-1.20.1-2.4.4-vulkan-hybrid.jar qa-server-c2me/mods/HariMultiThread-Ultimate.jar
           cp c2meforge-0.2.0-forge.9.6-all.jar qa-server-c2me/mods/
           mkdir -p qa-server-c2me/config
           test ! -e qa-server-c2me/config/c2me.toml

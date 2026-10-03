@@ -26,6 +26,7 @@ public class Renderer extends VkMock {
  void endRenderPass(VkCommandBuffer b){boundRenderPass=null;}
  void beginRenderPass(MemoryStack s){recordingCmds=true;boundRenderPass=new RenderPass();boundFramebuffer=new Framebuffer();}
  void invalidateRenderState(){}
+ static void resetDynamicState(VkCommandBuffer buffer){}
 METHODS
  static void require(boolean v,String s){if(!v)throw new AssertionError(s);}
  void acquire(int frame,int image){currentFrame=frame;imageIndex=image;swapChainAcquirePending=true;gpuPending=true;waits=0;recordingCmds=true;boundRenderPass=new RenderPass();boundFramebuffer=new Framebuffer();live=this;}
