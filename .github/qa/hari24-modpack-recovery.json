@@ -1,43 +1,68 @@
 {
-  "state": "2.4.3_exact_native_modpack_matrix_ready",
-  "product_commit": "195f540644db752a0b31bf282e0ea62b69af2cdf",
-  "qa_commit": "c02df97ac7dec6c06e3a31251443cb574c8e14df",
-  "candidate_sha256": "d8c9066ad863fc51889fe1437a959b3d4f38aae4f52eb4e47ee32a704906a0e6",
-  "passed_runs": {
-    "compile": 37070673230,
-    "native": 37070673213,
-    "packaged_client": 37070673256
+  "state": "2.4.6_exact_native_modpack_matrix_in_progress",
+  "product_commit": "43994c5cba818a64f54f2394c23c1fb383c617ec",
+  "qa_commit": "59bfadc8ae45b10444a2e949e3f78c296121b226",
+  "candidate_sha256": "806c8a472170fce2a121f0135dd90593affcc791ac060886b8da8d86e5bc149f",
+  "candidate_bytes": 30739702,
+  "version": "2.4.6-noxviola.1-vulkan-hybrid",
+  "compile_run": 37102509087,
+  "compile_artifact": 11266473725,
+  "native_server_run": 37102509030,
+  "production_client_run": 37102509149,
+  "modpack_run": 37102961645,
+  "passed_current_runs": {
+    "compile": 37102509087,
+    "native_server": 37102509030
   },
-  "modpack_run": 37096083147,
-  "hypothesis": "Old modpack lanes completed resource/world data loading but never started the integrated server; inspect the visible pre-world screen before changing product code",
-  "old_five_archive_uploads": "Do not retry rejected uploads",
-  "next_action": "Collect all 13 exact 2.4.3 client lanes plus dedicated-server C2ME restart; inspect fresh native portal return, mob/terrain frames, reload/resize, active Oculus shader and official OptiFine results",
-  "diagnostic_run": 37097830210,
-  "diagnostic_commit": "c7ff4283f1bc2ceab0e46c13c641062434fb577e",
-  "diagnostic_findings": {
-    "world_entry": "Actual vanilla experimental settings notice; exact native text masks and Proceed click restricted to disposable HMT-2.4-QA fixture",
-    "aechor_plant": "Native grass supplied; source-backed removal rule verified",
-    "whirlwinds": "Explicit summon NBT skipped normal finalizeSpawn. Normal summon first, then tags; require real original lifetime countdown and expiration, preserve AI"
+  "expanded_client_lanes": [
+    "aether",
+    "midnight",
+    "dimensions-c2me",
+    "immediatelyfast",
+    "entityculling",
+    "distanthorizons",
+    "oculus-embeddium",
+    "oculus-shaders",
+    "optifine",
+    "rubidium",
+    "lazurite",
+    "continuity",
+    "optimized-stack"
+  ],
+  "inherited_causal_repairs": [
+    "Acquire wait consumed by first actual submission; per-image present semaphores",
+    "Offscreen framebuffer and main swapchain image transfer-source usage with WSI capability validation",
+    "Depth bias and line width restored after synchronous readback restart",
+    "Independent tint layers, resolver identity and exact coordinate-dependent RGB blending",
+    "Rubidium custom colors use original immutable biome snapshot instead of rejecting mod resolvers",
+    "C2ME natural spawns run once on world owner, retaining ordinary async spawn path and original failures"
+  ],
+  "previous_native_causal_confirmation": {
+    "version": "2.4.4",
+    "rubidium_job": 111141542195,
+    "rubidium_artifact": 11266427850,
+    "full_dimensions_both_jvms": "pass",
+    "dedicated_dimensions_job": 111141528615,
+    "state": "causal evidence only; current exact binary must pass independently"
   },
-  "previous_2_4_2_dimension_server": {
-    "run": 37098470636,
-    "job": 111133121966,
-    "conclusion": "success",
-    "all_original_mob_types": 30,
-    "native_whirlwind_expiry": true,
-    "unload_return_and_second_jvm": true
+  "qa_input_repairs": [
+    "Opt-in render-thread read-only dimension, screen, pause, focus and position observations",
+    "Wait actual loaded client dimension and verify native walking before portal predicates",
+    "Require actual ChatScreen during command entry instead of typing into gameplay or inventory",
+    "Original Lazurite warning preserved; native menu and sole exact QA world selection"
+  ],
+  "source_verification": {
+    "files": 992,
+    "recipe_steps": 23,
+    "legitimate_builder_package_files": 44,
+    "fresh_recipe_matches": true,
+    "receipt": ".github/qa/hari24-source-recipe-2.4.6.json"
   },
-  "new_product_version": "2.4.3-noxviola.1-vulkan-hybrid",
-  "native_client_defect": "2.4.2 original early screenshot/readback submission lacks acquire semaphore wait; actual Khronos WRITE_AFTER_PRESENT on Aether and Midnight world loading",
-  "targeted_regression": {
-    "actual_renderer_methods": true,
-    "frames": 2000,
-    "original_hazard_negative_control": true,
-    "per_image_present_semaphore_ownership": true
+  "delivery": {
+    "state": "pending_current_native_matrix",
+    "new_files_uploaded": false,
+    "old_five_archive_uploads": "Do not retry the rejected 2.4.1 payloads without specific approval"
   },
-  "compile_run": 37099287607,
-  "compile_artifact": 11265780491,
-  "new_native_portal_action": "Actual Aether capability closes chat in portals. Native walking out now precedes original server dimension predicates; original travel/cooldown retained, failure frames captured",
-  "source_files": 989,
-  "fresh_source_recipe_matches": true
+  "next_action": "Collect all current native lanes and new client-state observations. Repair causal failures without weakening tick, shader, synchronization or persistence checks; deliver fresh artifacts and update the live Wiki only after converged acceptance.",
+  "scope": "Linux Mesa software production clients; not Windows/RTX4090 FPS or every boss combat phase"
 }
