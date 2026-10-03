@@ -181,7 +181,7 @@ edit(p, '    private void onMove(Operation<Void> original) {', """    private vo
             return;
         }""")
 
-edit('gradle.properties', 'version=2.4.0-noxviola.1-vulkan-hybrid', 'version=2.4.2-noxviola.1-vulkan-hybrid')
+edit('gradle.properties', 'version=2.4.0-noxviola.1-vulkan-hybrid', 'version=2.4.3-noxviola.1-vulkan-hybrid')
 
 # Three inherited CFR failures were executable throw stubs in mob sensor sorting.
 # Freeze the observer once and each target on first comparison so movement cannot
@@ -255,6 +255,8 @@ for source_root in ['common/src/main/java', 'forge/src/main/java', 'fabric/src/m
     for path in (root/source_root).rglob('*.java'):
         if 'Decompilation failed' in path.read_text() or 'This method has failed to decompile' in path.read_text():
             raise SystemExit('Unrepaired decompiler failure: ' + str(path.relative_to(root)))
+from apply_swapchain_sync import apply as apply_swapchain_sync
+apply_swapchain_sync(root)
 from build_gl_contract import generate
 generate(root)
 print('Hari indexed scheduling, shared CPU budgets, wakeup repair and upstream sort-state fix applied')

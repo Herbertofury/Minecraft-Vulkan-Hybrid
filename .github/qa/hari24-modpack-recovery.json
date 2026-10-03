@@ -1,5 +1,5 @@
 {
-  "state": "native_original_dialog_and_spawn_fixes_ready",
+  "state": "2.4.3_swapchain_repair_standard_gates_ready",
   "product_commit": "309b303d819159aa12910c971568f6cfdf969076",
   "qa_commit": "c02df97ac7dec6c06e3a31251443cb574c8e14df",
   "candidate_sha256": "ca2955109f188292128fec36707fc7109ba1dbacbb70d20a83659b8284ca943b",
@@ -11,12 +11,28 @@
   "modpack_run": 37096083147,
   "hypothesis": "Old modpack lanes completed resource/world data loading but never started the integrated server; inspect the visible pre-world screen before changing product code",
   "old_five_archive_uploads": "Do not retry rejected uploads",
-  "next_action": "Run all 13 native client lanes and original dedicated dimension/C2ME server on unchanged immutable 2.4.2 candidate; inspect every failure and actual dimension frames",
+  "next_action": "Compile byte-identical 2.4.3, collect standard native/client proof, investigate original Aether return portal cooldown, then pin all expanded lanes to new exact artifact",
   "diagnostic_run": 37097830210,
   "diagnostic_commit": "c7ff4283f1bc2ceab0e46c13c641062434fb577e",
   "diagnostic_findings": {
     "world_entry": "Actual vanilla experimental settings notice; exact native text masks and Proceed click restricted to disposable HMT-2.4-QA fixture",
     "aechor_plant": "Native grass supplied; source-backed removal rule verified",
     "whirlwinds": "Explicit summon NBT skipped normal finalizeSpawn. Normal summon first, then tags; require real original lifetime countdown and expiration, preserve AI"
+  },
+  "previous_2_4_2_dimension_server": {
+    "run": 37098470636,
+    "job": 111133121966,
+    "conclusion": "success",
+    "all_original_mob_types": 30,
+    "native_whirlwind_expiry": true,
+    "unload_return_and_second_jvm": true
+  },
+  "new_product_version": "2.4.3-noxviola.1-vulkan-hybrid",
+  "native_client_defect": "2.4.2 original early screenshot/readback submission lacks acquire semaphore wait; actual Khronos WRITE_AFTER_PRESENT on Aether and Midnight world loading",
+  "targeted_regression": {
+    "actual_renderer_methods": true,
+    "frames": 2000,
+    "original_hazard_negative_control": true,
+    "per_image_present_semaphore_ownership": true
   }
 }
