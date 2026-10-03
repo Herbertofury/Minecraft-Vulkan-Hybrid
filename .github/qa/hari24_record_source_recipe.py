@@ -8,7 +8,7 @@ p.add_argument("--baseline",type=Path,required=True)
 p.add_argument("--output",type=Path,required=True)
 a=p.parse_args()
 old=json.loads(a.baseline.read_text())
-excluded=(".git/","build/",".gradle/","common/build/","forge/build/","fabric/build/")
+excluded=(".git/","build/",".gradle/","common/build/","forge/build/","fabric/build/","buildSrc/build/","buildSrc/.gradle/")
 files={path.relative_to(a.source).as_posix():hashlib.sha256(path.read_bytes()).hexdigest()
        for path in sorted(a.source.rglob("*")) if path.is_file()
        and not path.relative_to(a.source).as_posix().startswith(excluded)}
