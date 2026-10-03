@@ -20,7 +20,9 @@ public class UploadManager {
     public static UploadManager INSTANCE;
     public static final boolean QA = Boolean.getBoolean("harimt.qa.performance");
     public long qaRegions, qaCopyCalls, qaWriteBarriers;
-    private final Queue queue = DeviceManager.getTransferQueue();
+    // Terrain is consumed on the graphics queue. A pipeline barrier cannot
+    // order a distinct transfer queue against an earlier graphics draw.
+    private final Queue queue = DeviceManager.getGraphicsQueue();
     private CommandPool.CommandBuffer commandBuffer;
     private final UploadRanges writes = new UploadRanges();
     private final UploadCopies copies = new UploadCopies();
@@ -30,6 +32,15 @@ public class UploadManager {
     public void submitUploads() {
         if (this.commandBuffer == null) return;
         flushCopies();
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            VkMemoryBarrier.Buffer barrier = VkMemoryBarrier.calloc(1, stack);
+            barrier.sType$Default().srcAccessMask(VK_ACCESS_TRANSFER_WRITE_BIT)
+                    .dstAccessMask(VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT | VK_ACCESS_INDEX_READ_BIT
+                            | VK_ACCESS_INDIRECT_COMMAND_READ_BIT);
+            vkCmdPipelineBarrier(this.commandBuffer.getHandle(), VK_PIPELINE_STAGE_TRANSFER_BIT,
+                    VK_PIPELINE_STAGE_VERTEX_INPUT_BIT | VK_PIPELINE_STAGE_DRAW_INDIRECT_BIT,
+                    0, barrier, null, null);
+        }
         this.queue.submitCommands(this.commandBuffer);
         Synchronization.INSTANCE.addCommandBuffer(this.commandBuffer);
         this.commandBuffer = null;
@@ -112,6 +123,20 @@ public class UploadManager {
     }
 
     private void beginCommands() {
-        if (this.commandBuffer == null) this.commandBuffer = this.queue.beginCommands();
+        if (this.commandBuffer == null) {
+            this.commandBuffer = this.queue.beginCommands();
+            // Finish earlier terrain vertex/index/indirect reads before recycling
+            // any arena range. One execution dependency per batch retains the
+            // grouped copies and allows later graphics stages to keep running.
+            try (MemoryStack stack = MemoryStack.stackPush()) {
+                VkMemoryBarrier.Buffer barrier = VkMemoryBarrier.calloc(1, stack);
+                barrier.sType$Default().srcAccessMask(VK_ACCESS_TRANSFER_WRITE_BIT)
+                        .dstAccessMask(VK_ACCESS_TRANSFER_READ_BIT | VK_ACCESS_TRANSFER_WRITE_BIT);
+                vkCmdPipelineBarrier(this.commandBuffer.getHandle(),
+                        VK_PIPELINE_STAGE_VERTEX_INPUT_BIT | VK_PIPELINE_STAGE_DRAW_INDIRECT_BIT
+                                | VK_PIPELINE_STAGE_TRANSFER_BIT,
+                        VK_PIPELINE_STAGE_TRANSFER_BIT, 0, barrier, null, null);
+            }
+        }
     }
 }

@@ -8,14 +8,14 @@ STUBS={
 'org/lwjgl/vulkan/VkCommandBuffer.java': 'package org.lwjgl.vulkan; public class VkCommandBuffer {}',
 'org/lwjgl/vulkan/VkBufferCopy.java': '''package org.lwjgl.vulkan; public class VkBufferCopy { public long src,dst,size; public VkBufferCopy srcOffset(long v){src=v;return this;} public VkBufferCopy dstOffset(long v){dst=v;return this;} public VkBufferCopy size(long v){size=v;return this;} public static Buffer calloc(int n,org.lwjgl.system.MemoryStack s){return new Buffer(n);} public static class Buffer { public VkBufferCopy[] values; public Buffer(int n){values=new VkBufferCopy[n];for(int i=0;i<n;i++)values[i]=new VkBufferCopy();} public VkBufferCopy get(int i){return values[i];} } }''',
 'org/lwjgl/vulkan/VkMemoryBarrier.java': '''package org.lwjgl.vulkan; public class VkMemoryBarrier { public static Buffer calloc(int n,org.lwjgl.system.MemoryStack s){return new Buffer();} public static class Buffer { public int src,dst; public Buffer sType$Default(){return this;} public Buffer srcAccessMask(int v){src=v;return this;} public Buffer dstAccessMask(int v){dst=v;return this;} } }''',
-'org/lwjgl/vulkan/VK10.java': '''package org.lwjgl.vulkan; import java.util.*; public class VK10 { public static final int VK_ACCESS_TRANSFER_WRITE_BIT=1,VK_ACCESS_TRANSFER_READ_BIT=2,VK_PIPELINE_STAGE_TRANSFER_BIT=4; public static final List<String> log=new ArrayList<>(); public static final List<Runnable> pending=new ArrayList<>(); public static void vkCmdCopyBuffer(VkCommandBuffer cb,long src,long dst,VkBufferCopy.Buffer copies){ long[][] regions=new long[copies.values.length][3];for(int i=0;i<regions.length;i++){var r=copies.values[i];regions[i]=new long[]{r.src,r.dst,r.size};} log.add("copy:"+regions.length); pending.add(()->{for(var r:regions)System.arraycopy(net.vulkanmod.vulkan.memory.Buffer.bytes.get(src),(int)r[0],net.vulkanmod.vulkan.memory.Buffer.bytes.get(dst),(int)r[1],(int)r[2]);}); } public static void vkCmdPipelineBarrier(VkCommandBuffer cb,int a,int b,int c,VkMemoryBarrier.Buffer barrier,Object e,Object f){if(barrier.src!=1||(barrier.dst&1)==0)throw new AssertionError("lost write dependency");log.add("barrier:"+barrier.dst);} public static void execute(){for(var r:pending)r.run();pending.clear();} }''',
+'org/lwjgl/vulkan/VK10.java': '''package org.lwjgl.vulkan; import java.util.*; public class VK10 { public static final int VK_ACCESS_TRANSFER_WRITE_BIT=1,VK_ACCESS_TRANSFER_READ_BIT=2,VK_PIPELINE_STAGE_TRANSFER_BIT=4,VK_PIPELINE_STAGE_VERTEX_INPUT_BIT=8,VK_PIPELINE_STAGE_DRAW_INDIRECT_BIT=16,VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT=32,VK_ACCESS_INDEX_READ_BIT=64,VK_ACCESS_INDIRECT_COMMAND_READ_BIT=128; public static boolean previousDrawReads=true,uploadVisibleToDraw=false; public static int drawToUpload,uploadToDraw; public static final List<String> log=new ArrayList<>(); public static final List<Runnable> pending=new ArrayList<>(); public static void vkCmdCopyBuffer(VkCommandBuffer cb,long src,long dst,VkBufferCopy.Buffer copies){ if(previousDrawReads)throw new AssertionError("WRITE_AFTER_READ: prior indexed terrain draw not ordered before upload"); long[][] regions=new long[copies.values.length][3];for(int i=0;i<regions.length;i++){var r=copies.values[i];regions[i]=new long[]{r.src,r.dst,r.size};} log.add("copy:"+regions.length); pending.add(()->{for(var r:regions)System.arraycopy(net.vulkanmod.vulkan.memory.Buffer.bytes.get(src),(int)r[0],net.vulkanmod.vulkan.memory.Buffer.bytes.get(dst),(int)r[1],(int)r[2]);}); } public static void vkCmdPipelineBarrier(VkCommandBuffer cb,int a,int b,int c,VkMemoryBarrier.Buffer barrier,Object e,Object f){if(a==28&&b==4){if(barrier==null||barrier.src!=1||barrier.dst!=3)throw new AssertionError("bad draw-to-upload stages");previousDrawReads=false;drawToUpload++;return;} if(a==4&&b==24){if(barrier.src!=1||barrier.dst!=224)throw new AssertionError("lost vertex/index/indirect visibility");uploadVisibleToDraw=true;uploadToDraw++;return;} if(a!=4||b!=4||barrier.src!=1||(barrier.dst&1)==0)throw new AssertionError("lost write dependency");log.add("barrier:"+barrier.dst);} public static void execute(){for(var r:pending)r.run();pending.clear();} }''',
 'net/vulkanmod/vulkan/memory/Buffer.java': '''package net.vulkanmod.vulkan.memory; public class Buffer { public static final java.util.Map<Long,byte[]> bytes=new java.util.HashMap<>(); public long id; public int capacity; public Buffer(long id,int n){this.id=id;capacity=n;bytes.put(id,new byte[n]);} public long getId(){return id;} public int getBufferSize(){return capacity;} }''',
 'net/vulkanmod/vulkan/memory/StagingBuffer.java': '''package net.vulkanmod.vulkan.memory; public class StagingBuffer extends Buffer { private int used,offset; public StagingBuffer(){super(100,4096);} public void align(int n){used=(used+n-1)/n*n;} public void copyBuffer(int n,java.nio.ByteBuffer src){if(used+n>capacity){id++;capacity=(capacity+n)*2;bytes.put(id,new byte[capacity]);}offset=used;src.duplicate().get(bytes.get(id),used,n);used+=n;} public long getOffset(){return offset;} }''',
 'net/vulkanmod/vulkan/Vulkan.java': '''package net.vulkanmod.vulkan; public class Vulkan { public static net.vulkanmod.vulkan.memory.StagingBuffer staging=new net.vulkanmod.vulkan.memory.StagingBuffer(); public static net.vulkanmod.vulkan.memory.StagingBuffer getStagingBuffer(){return staging;} }''',
 'net/vulkanmod/vulkan/queue/CommandPool.java': '''package net.vulkanmod.vulkan.queue; public class CommandPool { public static class CommandBuffer { private final org.lwjgl.vulkan.VkCommandBuffer handle=new org.lwjgl.vulkan.VkCommandBuffer(); public org.lwjgl.vulkan.VkCommandBuffer getHandle(){return handle;} } }''',
-'net/vulkanmod/vulkan/queue/Queue.java': '''package net.vulkanmod.vulkan.queue; public class Queue { public CommandPool.CommandBuffer beginCommands(){return new CommandPool.CommandBuffer();} public void submitCommands(CommandPool.CommandBuffer cb){org.lwjgl.vulkan.VK10.execute();} }''',
+'net/vulkanmod/vulkan/queue/Queue.java': '''package net.vulkanmod.vulkan.queue; public class Queue { public CommandPool.CommandBuffer beginCommands(){return new CommandPool.CommandBuffer();} public void submitCommands(CommandPool.CommandBuffer cb){org.lwjgl.vulkan.VK10.execute();if(!org.lwjgl.vulkan.VK10.uploadVisibleToDraw)throw new AssertionError("upload not visible to next draw");org.lwjgl.vulkan.VK10.previousDrawReads=true;org.lwjgl.vulkan.VK10.uploadVisibleToDraw=false;} }''',
 'net/vulkanmod/vulkan/queue/TransferQueue.java': '''package net.vulkanmod.vulkan.queue; public class TransferQueue { public static void uploadBufferCmd(org.lwjgl.vulkan.VkCommandBuffer cb,long s,long so,long d,long o,long n){var r=org.lwjgl.vulkan.VkBufferCopy.calloc(1,org.lwjgl.system.MemoryStack.stackPush());r.get(0).srcOffset(so).dstOffset(o).size(n);org.lwjgl.vulkan.VK10.vkCmdCopyBuffer(cb,s,d,r);} }''',
-'net/vulkanmod/vulkan/device/DeviceManager.java': '''package net.vulkanmod.vulkan.device; public class DeviceManager { public static net.vulkanmod.vulkan.queue.Queue getTransferQueue(){return new net.vulkanmod.vulkan.queue.Queue();} }''',
+'net/vulkanmod/vulkan/device/DeviceManager.java': '''package net.vulkanmod.vulkan.device; public class DeviceManager { public static net.vulkanmod.vulkan.queue.Queue getTransferQueue(){throw new AssertionError("terrain uploads must share graphics ordering");} public static net.vulkanmod.vulkan.queue.Queue getGraphicsQueue(){return new net.vulkanmod.vulkan.queue.Queue();} }''',
 'net/vulkanmod/vulkan/Synchronization.java': '''package net.vulkanmod.vulkan; public class Synchronization { public static final Synchronization INSTANCE=new Synchronization(); public void addCommandBuffer(net.vulkanmod.vulkan.queue.CommandPool.CommandBuffer cb){} public void waitFences(){} }''',
 }
 PROBE=r"""
@@ -31,7 +31,7 @@ public class PerformanceProbe {
  static volatile long sink;
  static void check(boolean v,String m){if(!v)throw new AssertionError(m);}
  static ByteBuffer data(int n,int value){byte[] bytes=new byte[n];Arrays.fill(bytes,(byte)value);return ByteBuffer.wrap(bytes);}
- static void fresh(){VK10.log.clear();VK10.pending.clear();net.vulkanmod.vulkan.Vulkan.staging=new net.vulkanmod.vulkan.memory.StagingBuffer();UploadManager.createInstance();}
+ static void fresh(){VK10.log.clear();VK10.pending.clear();VK10.previousDrawReads=true;VK10.uploadVisibleToDraw=false;VK10.drawToUpload=0;VK10.uploadToDraw=0;net.vulkanmod.vulkan.Vulkan.staging=new net.vulkanmod.vulkan.memory.StagingBuffer();UploadManager.createInstance();}
  static void queues() throws Exception {
   for(int workers:new int[]{1,2,8}) {
    var values=new ArrayList<Integer>();for(int i=0;i<10000;i++)values.add(i);
@@ -55,7 +55,7 @@ public class PerformanceProbe {
  static void uploads(){
   fresh();var dst=new Buffer(1,4096);var u=UploadManager.INSTANCE;
   for(int i=0;i<128;i++)u.recordUpload(dst,i*16,16,data(16,i));
-  u.submitUploads();check(VK10.log.equals(List.of("copy:128")),"separate writes did not batch: "+VK10.log);
+  u.submitUploads();check(VK10.drawToUpload==1&&VK10.uploadToDraw==1,"must use one pair of draw/upload dependencies per batch");check(VK10.log.equals(List.of("copy:128")),"separate writes did not batch: "+VK10.log);
   for(int i=0;i<2048;i++)check(Buffer.bytes.get(1L)[i]==(byte)(i/16),"changed upload bytes");
   fresh();dst=new Buffer(2,4096);u=UploadManager.INSTANCE;
   u.recordUpload(dst,0,16,data(16,1));u.recordUpload(dst,8,16,data(16,2));u.recordUpload(dst,12,16,data(16,3));u.submitUploads();
@@ -111,6 +111,27 @@ def main():
   subprocess.run(compiler+['--release','17','-d',str(root/'classes')]+list(map(str,root.rglob('*.java'))),check=True)
   run=subprocess.run(['java','-Xms256m','-Xmx256m','-Dharimt.qa.performance=true','-ea','-cp',str(root/'classes'),'PerformanceProbe'],capture_output=True,text=True,check=True,timeout=60)
   result=json.loads(run.stdout);result['scope']='Actual production Java; real concurrent queue checks and alternating equivalent-work CPU benchmark; Vulkan command recording uses checked doubles. Native Minecraft proof is separate.'
+  manager=root/'net/vulkanmod/render/chunk/buffer/UploadManager.java'
+  actual=manager.read_text()
+  (root/'UploadHazardProbe.java').write_text('''import net.vulkanmod.render.chunk.buffer.UploadManager;import net.vulkanmod.vulkan.memory.Buffer;public class UploadHazardProbe {public static void main(String[] args){UploadManager.createInstance();UploadManager.INSTANCE.recordUpload(new Buffer(1,64),0,16,java.nio.ByteBuffer.allocate(16));UploadManager.INSTANCE.submitUploads();}}''')
+  war='''                vkCmdPipelineBarrier(this.commandBuffer.getHandle(),
+                        VK_PIPELINE_STAGE_VERTEX_INPUT_BIT | VK_PIPELINE_STAGE_DRAW_INDIRECT_BIT
+                                | VK_PIPELINE_STAGE_TRANSFER_BIT,
+                        VK_PIPELINE_STAGE_TRANSFER_BIT, 0, barrier, null, null);'''
+  raw='''            vkCmdPipelineBarrier(this.commandBuffer.getHandle(), VK_PIPELINE_STAGE_TRANSFER_BIT,
+                    VK_PIPELINE_STAGE_VERTEX_INPUT_BIT | VK_PIPELINE_STAGE_DRAW_INDIRECT_BIT,
+                    0, barrier, null, null);'''
+  negative=[]
+  for call,expected in [(war,'WRITE_AFTER_READ'),(raw,'upload not visible to next draw')]:
+   assert actual.count(call)==1,'production upload dependency drift'
+   manager.write_text(actual.replace(call,''))
+   subprocess.run(compiler+['--release','17','-cp',str(root/'classes'),'-d',str(root/'classes'),str(manager),str(root/'UploadHazardProbe.java')],check=True)
+   failed=subprocess.run(['java','-ea','-cp',str(root/'classes'),'UploadHazardProbe'],capture_output=True,text=True,timeout=15)
+   assert failed.returncode!=0 and expected in failed.stderr,'missing dependency negative control did not fail causally'
+   negative.append(expected)
+  result.update(graphics_upload_ordering=True,draw_upload_dependencies_per_batch=2,
+                disjoint_barrier_metric='candidate_disjoint_barriers counts only intra-batch write-after-write barriers',
+                missing_dependency_negative_controls=negative)
   print(json.dumps(result,indent=2))
   if args.report:args.report.parent.mkdir(parents=True,exist_ok=True);args.report.write_text(json.dumps(result,indent=2)+'\n')
 if __name__=='__main__':main()

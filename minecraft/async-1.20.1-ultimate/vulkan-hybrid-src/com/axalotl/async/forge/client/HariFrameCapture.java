@@ -150,6 +150,7 @@ public final class HariFrameCapture {
         state.put("observed_at_epoch_ms", System.currentTimeMillis());
         state.put("dimension", mc.level == null ? null : mc.level.dimension().location().toString());
         state.put("screen", mc.screen == null ? null : mc.screen.getClass().getName());
+        state.put("chat_screen", mc.screen instanceof net.minecraft.client.gui.screens.ChatScreen);
         state.put("screen_pauses", mc.screen != null && mc.screen.isPauseScreen());
         state.put("overlay", mc.getOverlay() == null ? null : mc.getOverlay().getClass().getName());
         state.put("paused", mc.isPaused());
@@ -157,6 +158,8 @@ public final class HariFrameCapture {
         state.put("mouse_grabbed", mc.mouseHandler.isMouseGrabbed());
         if (mc.player != null) {
             state.put("position", new double[] {mc.player.getX(), mc.player.getY(), mc.player.getZ()});
+            state.put("may_fly", mc.player.getAbilities().mayfly);
+            state.put("flying", mc.player.getAbilities().flying);
         }
         java.nio.file.Path target = mc.gameDirectory.toPath().resolve("harimt-qa-client-state.json");
         java.nio.file.Path temporary = target.resolveSibling("harimt-qa-client-state.tmp");
