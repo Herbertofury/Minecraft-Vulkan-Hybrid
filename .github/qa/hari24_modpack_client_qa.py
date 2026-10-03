@@ -332,6 +332,8 @@ def main() -> int:
             wait_for("[Hari/Vulkan] renderer=OPENGL_FALLBACK")
             wait_for("Hari 2.4 selected OpenGL compatibility renderer:")
         wait_for(" joined the game")
+        if any(path.name.startswith("rubidium-") for path in (mc_dir / "mods").glob("*.jar")):
+            wait_for("[Hari/Compat] Rubidium cleanup shares the original acquire/invalidate monitor")
         wait_for("Compile-checked Vulkan collision backend initialized on")
         wait_for("Vulkan push broad-phase sustained: 10 consecutive verified batches completed")
 
@@ -507,7 +509,7 @@ def main() -> int:
                             "windowfocus", "--sync", wid], env=env, check=True, timeout=15)
             before = wait_client_state("rendered interactive arrival in " + dimension,
                                       lambda state: interactive(state) and state["dimension"] == dimension)
-            ensure_creative_flight()
+            ensure_creative_flight(native_only=True)
             before = wait_client_state("flying arrival in " + dimension,
                                       lambda state: interactive(state) and state["dimension"] == dimension and state.get("flying"))
             subprocess.run(["xdotool", "windowactivate", "--sync", wid,
@@ -525,12 +527,37 @@ def main() -> int:
             (evidence / "command-journal.json").write_text(json.dumps(command_journal, indent=2) + "\n")
             time.sleep(input_settle)
 
-        def ensure_creative_flight():
+        def ensure_creative_flight(native_only=False):
             before = wait_client_state("interactive creative flight controls", interactive)
             if before.get("flying"):
                 return
             if not before.get("may_fly"):
                 raise RuntimeError("Native flight requested outside creative mode: " + repr(before))
+            if native_only:
+                # Original Aether closes chat while inside the arrival portal.
+                # Observe actual key/input transitions so each Space edge is
+                # processed in a different client tick, even on software GPUs.
+                for attempt in range(10):
+                    try:
+                        subprocess.run(["xdotool", "keyup", "space"], env=env, check=True, timeout=15)
+                        wait_client_state("released native jump", lambda state: not state["jump_key_down"] and not state["jumping"], timeout=15)
+                        subprocess.run(["xdotool", "keydown", "space"], env=env, check=True, timeout=15)
+                        first = wait_client_state("processed first native jump", lambda state: state["jump_key_down"] and state["jumping"], timeout=15)
+                        subprocess.run(["xdotool", "keyup", "space"], env=env, check=True, timeout=15)
+                        wait_client_state("processed native jump release", lambda state: not state["jump_key_down"] and not state["jumping"], timeout=15)
+                        subprocess.run(["xdotool", "keydown", "space"], env=env, check=True, timeout=15)
+                        try:
+                            after = wait_client_state("original double-jump flight", lambda state: interactive(state) and state.get("flying"), timeout=2)
+                        except TimeoutError:
+                            continue
+                        command_journal.append({"native_input": "observed double-Space to enable original creative flight",
+                                                "attempt": attempt + 1, "first_press": first, "after": after,
+                                                "dimension_changed_by_command": False})
+                        (evidence / "command-journal.json").write_text(json.dumps(command_journal, indent=2) + "\n")
+                        return
+                    finally:
+                        subprocess.run(["xdotool", "keyup", "space"], env=env, check=True, timeout=15)
+                raise RuntimeError("Original native creative flight never enabled: " + repr(client_state()))
             # Original game-mode transitions enable flight without frame-rate
             # sensitive double-Space input. Spectator enables flying; returning
             # to creative retains it. No dimension or portal state is changed.

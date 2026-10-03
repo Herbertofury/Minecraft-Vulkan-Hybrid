@@ -1,19 +1,17 @@
 {
-  "state": "2.4.7_exact_native_modpack_matrix_ready",
-  "product_commit": "ce5257b5d9e4ce4f5e6bc0932256ceb2b41c0b03",
-  "qa_commit": "59bfadc8ae45b10444a2e949e3f78c296121b226",
-  "candidate_sha256": "3fa25ab82e1399dd7e594bd51bfae2511de9c72066def2675ee4fbad6df44fb9",
-  "candidate_bytes": 30740024,
-  "version": "2.4.7-noxviola.1-vulkan-hybrid",
-  "compile_run": 37103715293,
-  "compile_artifact": 11266974711,
-  "native_server_run": 37103715298,
-  "production_client_run": 37103715290,
-  "modpack_run": 37102961645,
+  "state": "2.4.8_exact_native_modpack_matrix_preparing",
+  "product_commit": "4052cef9dfb64b755691d02e37988947d2b48547",
+  "qa_commit": null,
+  "candidate_sha256": "16ece8513104c9d08014effd734dd9ade73e2f8d42399b988139659940459e7d",
+  "candidate_bytes": 30746014,
+  "version": "2.4.8-noxviola.1-vulkan-hybrid",
+  "compile_run": 37135775317,
+  "compile_artifact": 11278067893,
+  "native_server_run": 37135775382,
+  "production_client_run": 37135775318,
+  "modpack_run": null,
   "passed_current_runs": {
-    "compile": 37103715293,
-    "native_server": 37103715298,
-    "production_client": 37103715290
+    "compile": 37135775317
   },
   "expanded_client_lanes": [
     "aether",
@@ -36,36 +34,48 @@
     "Depth bias and line width restored after synchronous readback restart",
     "Independent tint layers, resolver identity and exact coordinate-dependent RGB blending",
     "Rubidium custom colors use original immutable biome snapshot instead of rejecting mod resolvers",
-    "C2ME natural spawns run once on world owner, retaining ordinary async spawn path and original failures",
-    "Graphics-queue terrain uploads: one draw/previous-transfer-to-upload dependency and one upload-to-vertex/index/indirect-read dependency per batch; 128 regions still one copy"
+    "C2ME natural spawns run once on world owner, preserving original failures; all original Forge natural spawn callbacks now run on world owner",
+    "Graphics-queue terrain uploads: one draw/previous-transfer-to-upload dependency and one upload-to-vertex/index/indirect-read dependency per batch; 128 regions still one copy",
+    "Rubidium original cache cleanup shares acquire/invalidate monitor; complete original method retained",
+    "Forge OpenGL loading overlay owns its original logo texture through final draw and releases it once"
   ],
   "previous_native_causal_confirmation": {
-    "version": "2.4.4",
-    "rubidium_job": 111141542195,
-    "rubidium_artifact": 11266427850,
-    "full_dimensions_both_jvms": "pass",
-    "dedicated_dimensions_job": 111141528615,
-    "state": "causal evidence only; current exact binary must pass independently"
+    "version": "2.4.7",
+    "run": 37133680499,
+    "completed_lanes": [
+      "dedicated-server",
+      "midnight",
+      "entityculling",
+      "lazurite",
+      "immediatelyfast",
+      "distanthorizons",
+      "oculus-shaders",
+      "oculus-embeddium",
+      "continuity",
+      "optimized-stack"
+    ],
+    "state": "Previous binary causal evidence only; 2.4.8 must pass independently"
   },
   "qa_input_repairs": [
     "Opt-in render-thread read-only dimension, screen, pause, focus and position observations",
     "Wait actual loaded client dimension and verify native walking before portal predicates",
     "Require actual ChatScreen during command entry instead of typing into gameplay or inventory",
     "Original Lazurite warning preserved; native menu and sole exact QA world selection",
-    "Actual creative flight prevents original Aether void return when leaving the tiny arrival platform; horizontal movement verified; ChatScreen subtype recognizes OptiFine"
+    "Actual creative flight prevents original Aether void return when leaving the tiny arrival platform; horizontal movement verified; ChatScreen subtype recognizes OptiFine",
+    "Aether portal arrival creative flight uses observed native jump/input edges; no chat inside portal"
   ],
   "source_verification": {
-    "files": 992,
+    "files": 996,
     "recipe_steps": 23,
     "legitimate_builder_package_files": 44,
     "fresh_recipe_matches": true,
-    "receipt": ".github/qa/hari24-source-recipe-2.4.6.json"
+    "receipt": ".github/qa/hari24-source-recipe-2.4.8.json"
   },
   "delivery": {
     "state": "pending_current_native_matrix",
     "new_files_uploaded": false,
     "old_five_archive_uploads": "Do not retry the rejected 2.4.1 payloads without specific approval"
   },
-  "next_action": "Run all 13 exact 2.4.7 client lanes and dedicated dimensions server; inspect any fresh failures before acceptance or release delivery.",
+  "next_action": "Run all 13 exact 2.4.8 client lanes and dedicated dimensions server; resolve every actual failure before promotion.",
   "scope": "Linux Mesa software production clients; not Windows/RTX4090 FPS or every boss combat phase"
 }
