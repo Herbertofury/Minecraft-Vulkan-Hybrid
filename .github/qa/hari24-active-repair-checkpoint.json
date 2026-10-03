@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "updated_at": "2026-10-03T23:45:00Z",
-  "status": "2.4.9 postApply repair tested locally; fresh exact native acceptance pending",
+  "updated_at": "2026-10-03T23:56:00Z",
+  "status": "Corrected postApply2.4.9 compiled, 23regressions and byte-identical rebuild passed; final complete native matrix pending.",
   "source_parent": "f619f92b2d59ecd0cbca916a055a422de3d7aa51",
   "save_policy": "Non-force GitHub commits after each concrete repair and validation checkpoint; exact original provider bytes and test failures retained.",
   "completed": {
@@ -35,7 +35,31 @@
       "standard_dedicated_run": 37147380703,
       "standard_packaged_production_run": 37147380701
     },
-    "early_249_native_result": "9/13 client lanes plus dedicated passed; remaining original failures preserved in checkpoints/hari249-early-native-results.json. Do not transfer acceptance to new binary."
+    "early_249_native_result": "9/13 client lanes plus dedicated passed; remaining original failures preserved in checkpoints/hari249-early-native-results.json. Do not transfer acceptance to new binary.",
+    "final_candidate_compile": {
+      "status": "native_modpack_pending",
+      "product_commit": "22010e6b0f308e46fb250761d72147b8a60711bf",
+      "compile_run": 37162935847,
+      "artifact_id": 11288003795,
+      "artifact_digest": "sha256:a51c29e38d410c90d48403cc3b8bbdd8bee17c8122299cf2a17ae113a636c55c",
+      "artifact_bytes": 61083155,
+      "jar": "HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar",
+      "jar_bytes": 30750208,
+      "jar_sha256": "2fe2db8900f0810e581fd1ea6d7cfd82f3aca73a64f23da394c4e10abfaf7811",
+      "reproducible": true,
+      "actual_compiled_postapply_verified": true,
+      "source_files": 998,
+      "recipe_steps": 23,
+      "focused_regression_suites": 23,
+      "version": "2.4.9-noxviola.1-vulkan-hybrid",
+      "early_plugin_merge_timing_regression": true,
+      "duplicate_entity_tracking_cancellation_removed": true
+    },
+    "final_native_dedicated_run": {
+      "run": 37162935881,
+      "job": 111319951074,
+      "result": "PASS"
+    }
   },
   "current_causal_repair": {
     "problem": "OptiFine renumbers releaseLightTicket lambda; C2ME LIGHT add-level redirect remains but original vanilla remove level persists.",
@@ -55,7 +79,7 @@
     "integration_regression": "PASS: compiled actual early plugin retains529 tickets when provider is merged after preApply; compiled actual corrected plugin releases529 via original removal after postApply; six mapped/development shape variants and exception identity also pass."
   },
   "remaining": [
-    "Compile and native-test exact corrected postApply binary; do not reuse early JAR hash.",
+    "Execute all13+dedicated final native lanes and original C2ME9.8 focused lanes on exact2fe2db89 JAR; retain actual input, portal, mobAI, NBT, pixels, Vulkan validation, save and reopen gates.",
     "Run all13 client lanes plus dedicated and original9.8 focused checks with actual double-Space input and native movement after reopen.",
     "Verify complete fresh998-file source/23steps and final JAR/proof, upload to authorized Drive release folder and update actual Wiki after full acceptance."
   ],
@@ -73,5 +97,16 @@
     "sha256": "2a4a00c33dc6b9d014ddd724e97a755e31fb247901595d82d95c7d9f10715730",
     "downloaded_byte_readback_match": true,
     "contents": "235 integration code and QA files plus original-causal LIGHT regression; native acceptance pending"
+  },
+  "complete_source_checkpoint": {
+    "drive_id": "1Qr25eBZuWtXZ_CtMYECHLDWePUkEdNex",
+    "url": "https://drive.google.com/file/d/1Qr25eBZuWtXZ_CtMYECHLDWePUkEdNex/view?usp=drivesdk",
+    "bytes": 3127237,
+    "sha256": "0107aefdf1e681249c21bdfd2c93eb09a39f1cef09d812f1da1d4a11d266dea7",
+    "downloaded_byte_readback_match": true,
+    "fresh_original_recipe_steps": 23,
+    "source_files": 998,
+    "all998_local_source_hashes_match_actual_hosted_compile": true,
+    "native_acceptance_pending": true
   }
 }

@@ -588,41 +588,30 @@ def main() -> int:
                 return
             if not before.get("may_fly"):
                 raise RuntimeError("Native flight requested outside creative mode: " + repr(before))
-            if native_only:
-                # Original Aether closes chat while inside the arrival portal.
-                # Observe actual key/input transitions so each Space edge is
-                # processed in a different client tick, even on software GPUs.
-                for attempt in range(10):
+            # Original Aether closes chat while inside the arrival portal.
+            # Observe actual key/input transitions so each Space edge is
+            # processed in a different client tick, even on software GPUs.
+            for attempt in range(10):
+                try:
+                    subprocess.run(["xdotool", "keyup", "space"], env=env, check=True, timeout=15)
+                    wait_client_state("released native jump", lambda state: not state["jump_key_down"] and not state["jumping"], timeout=15)
+                    subprocess.run(["xdotool", "keydown", "space"], env=env, check=True, timeout=15)
+                    first = wait_client_state("processed first native jump", lambda state: state["jump_key_down"] and state["jumping"], timeout=15)
+                    subprocess.run(["xdotool", "keyup", "space"], env=env, check=True, timeout=15)
+                    wait_client_state("processed native jump release", lambda state: not state["jump_key_down"] and not state["jumping"], timeout=15)
+                    subprocess.run(["xdotool", "keydown", "space"], env=env, check=True, timeout=15)
                     try:
-                        subprocess.run(["xdotool", "keyup", "space"], env=env, check=True, timeout=15)
-                        wait_client_state("released native jump", lambda state: not state["jump_key_down"] and not state["jumping"], timeout=15)
-                        subprocess.run(["xdotool", "keydown", "space"], env=env, check=True, timeout=15)
-                        first = wait_client_state("processed first native jump", lambda state: state["jump_key_down"] and state["jumping"], timeout=15)
-                        subprocess.run(["xdotool", "keyup", "space"], env=env, check=True, timeout=15)
-                        wait_client_state("processed native jump release", lambda state: not state["jump_key_down"] and not state["jumping"], timeout=15)
-                        subprocess.run(["xdotool", "keydown", "space"], env=env, check=True, timeout=15)
-                        try:
-                            after = wait_client_state("original double-jump flight", lambda state: interactive(state) and state.get("flying"), timeout=2)
-                        except TimeoutError:
-                            continue
-                        command_journal.append({"native_input": "observed double-Space to enable original creative flight",
-                                                "attempt": attempt + 1, "first_press": first, "after": after,
-                                                "dimension_changed_by_command": False})
-                        (evidence / "command-journal.json").write_text(json.dumps(command_journal, indent=2) + "\n")
-                        return
-                    finally:
-                        subprocess.run(["xdotool", "keyup", "space"], env=env, check=True, timeout=15)
-                raise RuntimeError("Original native creative flight never enabled: " + repr(client_state()))
-            # Original game-mode transitions enable flight without frame-rate
-            # sensitive double-Space input. Spectator enables flying; returning
-            # to creative retains it. No dimension or portal state is changed.
-            game_command("/gamemode spectator @s")
-            game_command("/gamemode creative @s")
-            after = wait_client_state("original creative flight enabled",
-                                      lambda state: interactive(state) and state.get("flying"), timeout=15)
-            command_journal.append({"native_input": "original game-mode commands to enable creative flight",
-                                    "before": before, "after": after, "dimension_changed_by_command": False})
-            (evidence / "command-journal.json").write_text(json.dumps(command_journal, indent=2) + "\n")
+                        after = wait_client_state("original double-jump flight", lambda state: interactive(state) and state.get("flying"), timeout=2)
+                    except TimeoutError:
+                        continue
+                    command_journal.append({"native_input": "observed double-Space to enable original creative flight",
+                                            "attempt": attempt + 1, "first_press": first, "after": after,
+                                            "dimension_changed_by_command": False})
+                    (evidence / "command-journal.json").write_text(json.dumps(command_journal, indent=2) + "\n")
+                    return
+                finally:
+                    subprocess.run(["xdotool", "keyup", "space"], env=env, check=True, timeout=15)
+            raise RuntimeError("Original native creative flight never enabled: " + repr(client_state()))
 
         game_command("/reload")
         if not args.reopen:
@@ -638,6 +627,7 @@ def main() -> int:
                 cursor = game_command(f"/scoreboard players set @s hmtdim_portal {stage}")
             if args.reopen:
                 game_command(f"/execute in {dimension} run tp @s 0 120 0 0 40")
+                step_out_of_portal(dimension)
             elif namespace == "aether":
                 game_command("/function hmtdim:portal_aether")
                 predicate("/execute if block 0 101 0 aether:aether_portal run say HMT_AETHER_PORTAL_ACTIVE",
