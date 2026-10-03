@@ -26,7 +26,7 @@ LANES = {
     "optimized-stack": {"mods": DIMENSIONS + ["modernfix", "ferrite-core", "servercore",
                                                "entityculling", "immediatelyfast"], "c2me": True},
 }
-CANDIDATE_SHA = "ca2955109f188292128fec36707fc7109ba1dbacbb70d20a83659b8284ca943b"
+CANDIDATE_SHA = "d8c9066ad863fc51889fe1437a959b3d4f38aae4f52eb4e47ee32a704906a0e6"
 C2ME = {"filename": "c2meforge-0.2.0-forge.9.6-all.jar", "size": 1343566,
         "url": "https://edge.forgecdn.net/files/8929/972/c2meforge-0.2.0-forge.9.6-all.jar",
         "hashes": {"sha256": "97401e625906dc7dbe7719c4915d5aa88830e64e5aa6f90831ee45a61373f8d3"}}
@@ -47,31 +47,9 @@ def verified_file(spec, cache):
     return target
 
 def official_optifine(spec, cache):
-    target = cache / spec["filename"]
-    if not target.is_file():
-        class Links(HTMLParser):
-            def __init__(self): super().__init__(); self.links = set()
-            def handle_starttag(self, tag, attrs):
-                if tag == "a":
-                    for key, value in attrs:
-                        if key == "href" and value:
-                            url = urllib.parse.urljoin(spec["official_page"], value)
-                            parsed = urllib.parse.urlparse(url)
-                            query = urllib.parse.parse_qs(parsed.query)
-                            if parsed.scheme == "https" and parsed.hostname == "optifine.net" and parsed.path == "/downloadx" and query.get("f") == [spec["official_file"]]:
-                                self.links.add(url)
-        request = urllib.request.Request(spec["official_page"], headers={"User-Agent": "Hari-Compatibility-QA/2.4.2"})
-        with urllib.request.urlopen(request, timeout=120) as response: page = response.read().decode()
-        parser = Links(); parser.feed(page)
-        if len(parser.links) != 1:
-            raise RuntimeError("Official OptiFine page did not supply one unambiguous download")
-        # The temporary download token stays in memory and is never logged or committed.
-        with urllib.request.urlopen(next(iter(parser.links)), timeout=180) as response:
-            target.write_bytes(response.read())
-    payload = target.read_bytes()
-    if len(payload) != spec["size"] or hashlib.sha256(payload).hexdigest() != spec["hashes"]["sha256"]:
-        raise RuntimeError("Official OptiFine binary differs from pinned input")
-    return target
+    from hari24_optifine_download import download
+    return download(spec, cache)
+
 
 def main():
     parser = argparse.ArgumentParser()

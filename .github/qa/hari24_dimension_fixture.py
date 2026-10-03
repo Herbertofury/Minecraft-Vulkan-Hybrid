@@ -89,7 +89,7 @@ def install(world: Path, mods: Path, evidence: Path) -> list[dict]:
                 checks.append(condition)
                 (functions / f"verify_{namespace}.mcfunction").write_text("\n".join(checks) + "\n")
                 audit = checks[:2] + ["scoreboard players get count hmtdim"]
-                audit += [f"execute unless entity @e[tag={tag}_{mob},limit=1] run say HMT_DIM_MISSING_{namespace}_{mob}" for mob in mobs]
+                audit += [f"execute unless entity @e[tag={tag}_{mob},limit=1] run say HMT_DIM_MISSING_{namespace}_{mob}" for mob in persistent]
                 audit += [f'execute unless block 2 99 2 minecraft:chest{{Lock:"HariDimensionQA",Items:[{{Slot:0b,id:"{item}",Count:7b}}]}} run say HMT_DIM_MISSING_NBT_{namespace}']
                 (functions / f"audit_{namespace}.mcfunction").write_text("\n".join(audit) + "\n")
                 if transient:

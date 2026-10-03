@@ -446,6 +446,21 @@ def main() -> int:
                 raise RuntimeError("Native scene did not render: " + name)
             return {"screenshot": shot.name, "colors": colors, "gray_stddev": stddev}
 
+        def step_out_of_portal():
+            # Original AetherPlayerCapability closes non-pause screens while the
+            # player is in a portal, including the chat used for our predicates.
+            # Walk clear through normal input before asking the server where we
+            # arrived. Portal travel and cooldown remain entirely original.
+            subprocess.run(["xdotool", "windowactivate", "--sync", wid,
+                            "keydown", "s", "keydown", "d"], env=env, check=True, timeout=15)
+            try:
+                time.sleep(max(1.5, input_settle * 2))
+            finally:
+                subprocess.run(["xdotool", "keyup", "d", "keyup", "s"], env=env, check=True, timeout=15)
+            command_journal.append({"native_input": "walk backward and right out of portal", "dimension_changed_by_command": False})
+            (evidence / "command-journal.json").write_text(json.dumps(command_journal, indent=2) + "\n")
+            time.sleep(input_settle)
+
         game_command("/reload")
         if not args.reopen:
             game_command("/function hmtdim:init")
@@ -467,6 +482,8 @@ def main() -> int:
                 subprocess.run(["xdotool", "mousedown", "3"], env=env, check=True, timeout=15)
                 time.sleep(input_settle * 3)
                 subprocess.run(["xdotool", "mouseup", "3"], env=env, check=True, timeout=15)
+            if not args.reopen:
+                step_out_of_portal()
             predicate(f"/execute if dimension {dimension} run say HMT_DIM_ENTERED_{namespace}",
                       f"HMT_DIM_ENTERED_{namespace}")
             arrival = screenshot(f"{namespace}-{'reopened' if args.reopen else 'portal-arrival'}")
@@ -515,6 +532,7 @@ def main() -> int:
                     subprocess.run(["xdotool", "mousedown", "3"], env=env, check=True, timeout=15)
                     time.sleep(input_settle * 3)
                     subprocess.run(["xdotool", "mouseup", "3"], env=env, check=True, timeout=15)
+                step_out_of_portal()
                 predicate(f"/execute if dimension minecraft:overworld run say HMT_DIM_PORTAL_RETURNED_{namespace}",
                           f"HMT_DIM_PORTAL_RETURNED_{namespace}")
                 portal_return = screenshot(f"{namespace}-portal-return-overworld")
@@ -640,6 +658,14 @@ def main() -> int:
         return 0
     except Exception:
         (evidence / "harness-error.txt").write_text(traceback.format_exc(), encoding="utf-8")
+        try:
+            windows = subprocess.run(["xdotool", "search", "--onlyvisible", "--name", "Minecraft"],
+                                     env=env, capture_output=True, text=True, timeout=10)
+            if windows.stdout.strip():
+                subprocess.run(["import", "-display", args.display, "-window", windows.stdout.splitlines()[-1],
+                                str(evidence / "failure-screen.png")], env=env, check=True, timeout=20)
+        except Exception as capture_failure:
+            (evidence / "failure-capture-error.txt").write_text(repr(capture_failure) + "\n")
         raise
     finally:
         if proc is not None and proc.poll() is None:

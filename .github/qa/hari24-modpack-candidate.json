@@ -1,12 +1,15 @@
 {
-  "version": "2.4.2-noxviola.1-vulkan-hybrid",
-  "product_commit": "309b303d819159aa12910c971568f6cfdf969076",
-  "compile_run": 37070673230,
-  "artifact_id": 11253878712,
-  "artifact_digest": "5fb2c0e9a05d691308c89204b2bdba40dd7dfbae745dad8494a33c768bfdf697",
-  "jar": "HariMultiThread-Ultimate-1.20.1-2.4.2-vulkan-hybrid.jar",
-  "jar_sha256": "ca2955109f188292128fec36707fc7109ba1dbacbb70d20a83659b8284ca943b",
+  "version": "2.4.3-noxviola.1-vulkan-hybrid",
+  "product_commit": "195f540644db752a0b31bf282e0ea62b69af2cdf",
+  "compile_run": 37099287607,
+  "artifact_id": 11265780491,
+  "artifact_digest": "f9286b17d5d41aa237d04672f65775b8f9965d0411250ce71692cd18644c265a",
+  "jar": "HariMultiThread-Ultimate-1.20.1-2.4.3-vulkan-hybrid.jar",
+  "jar_sha256": "d8c9066ad863fc51889fe1437a959b3d4f38aae4f52eb4e47ee32a704906a0e6",
   "reproducible": true,
   "shared_sampler_regression": "PASS",
-  "status": "native_modpack_pending"
+  "status": "native_modpack_pending",
+  "jar_bytes": 30731372,
+  "swapchain_submission_regression": "PASS",
+  "focused_regression_suites": 19
 }
