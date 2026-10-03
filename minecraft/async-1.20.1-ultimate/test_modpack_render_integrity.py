@@ -119,6 +119,19 @@ def main():
     fb=(java/'net/vulkanmod/vulkan/framebuffer/Framebuffer.java').read_text()
     creation=method(fb,'createImages')
     assert '.setUsage(VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT)' in creation
+    swapchain=(java/'net/vulkanmod/vulkan/framebuffer/SwapChain.java').read_text()
+    start=swapchain.index('            int requiredImageUsage = ')
+    end=swapchain.index('            createInfo.imageUsage(requiredImageUsage);',start)+len('            createInfo.imageUsage(requiredImageUsage);')
+    usage=swapchain[start:end]
+    surface_probe='''public class SurfaceProbe {
+      static final int VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT=16,VK_IMAGE_USAGE_SAMPLED_BIT=4,VK_IMAGE_USAGE_TRANSFER_SRC_BIT=1;
+      static class Caps{int supported;Caps(int s){supported=s;}int supportedUsageFlags(){return supported;}}
+      static class Surface{Caps capabilities;Surface(int s){capabilities=new Caps(s);}}
+      static class Info{int usage;void imageUsage(int flags){usage=flags;}}
+      static int create(int flags){Surface surfaceProperties=new Surface(flags);Info createInfo=new Info();__PRODUCTION_BODY__ return createInfo.usage;}
+      public static void main(String[] args){if(create(0x1f)!=0x15)throw new AssertionError("main image missing readback usage");try{create(0x14);throw new AssertionError("unsupported image usage requested");}catch(IllegalStateException expected){}System.out.println("SURFACE_READBACK_CAPABILITIES_PASSED");}
+    }'''.replace('__PRODUCTION_BODY__',usage)
+    assert run_java({'SurfaceProbe.java':surface_probe},'SurfaceProbe')=='SURFACE_READBACK_CAPABILITIES_PASSED'
     resume=method(renderer,'flushForReadback')
     assert resume.index('resetDynamicState(currentCmdBuffer)') < resume.index('resumeFramebuffer.beginRenderPass')
     assert run_java({'StateProbe.java':STATE.replace('METHODS',method(renderer,'resetDynamicState')+'\n'+method(renderer,'setDepthBias'))},'StateProbe')=='COMMAND_RESTART_PRESERVES_CURRENT_STATE_PASSED'
@@ -131,6 +144,7 @@ def main():
     assert run_java({'SpawnProbe.java':SPAWN.replace('METHOD',method(spawn,'harimt$flushParallelChunkWork')),
                      'com/axalotl/async/common/AsyncCommon.java':'package com.axalotl.async.common;public class AsyncCommon{public static boolean HARICHUNK;}'},'SpawnProbe')=='C2ME_10000_ORIGINAL_OWNER_SPAWNS_PASSED'
     report={'passed':True,'framebuffer_readback_usage':True,'readback_restart_restores_bias_and_line_width':True,
+            'swapchain_readback_usage_and_surface_capability_check':True,
             'custom_resolver_original_colors':True,'separate_height_layers':True,'resolver_identity_and_pooled_cache_invalidation':True,
             'snapshot_lookup_and_original_failures':True,'blend_radii':[0,1,2,7],
             'c2me_original_spawns_on_owner':10000,'ordinary_async_spawns_retained':True,'original_spawn_failures_surface':True,

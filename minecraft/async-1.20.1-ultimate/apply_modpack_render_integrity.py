@@ -13,6 +13,13 @@ def apply(root: Path):
     edit('forge/src/main/java/net/vulkanmod/vulkan/framebuffer/Framebuffer.java',
          '.setUsage(VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT)',
          '.setUsage(VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT)')
+    edit('forge/src/main/java/net/vulkanmod/vulkan/framebuffer/SwapChain.java',
+         '            createInfo.imageUsage(VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT);',
+         '''            int requiredImageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
+            if ((surfaceProperties.capabilities.supportedUsageFlags() & requiredImageUsage) != requiredImageUsage)
+                throw new IllegalStateException("Vulkan surface does not support render-target sampling and readback: "
+                        + surfaceProperties.capabilities.supportedUsageFlags());
+            createInfo.imageUsage(requiredImageUsage);''')
     name = 'forge/src/main/java/net/vulkanmod/vulkan/Renderer.java'
     edit(name, '    private boolean swapChainAcquirePending;',
          '    private boolean swapChainAcquirePending;\n    private float depthBiasUnits, depthBiasFactor;')
