@@ -64,7 +64,7 @@ for aid, size, digest in artifacts:
                     import re
                     parts = re.split(r"(?m)(?=^  (?:public|private|protected))", source)
                     for part in parts:
-                        if "TicketType" in part or "releaseLight" in part or "Entity is already tracked" in part:
+                        if "TicketType" in part or "releaseLight" in part or "redirectAddLightTicketDistance" in part or "Entity is already tracked" in part:
                             print("ACTUAL CHUNK TICKET BYTECODE",name,"\\n"+part,flush=True)
     if aid == 11281704693:
         for name in archive.namelist():

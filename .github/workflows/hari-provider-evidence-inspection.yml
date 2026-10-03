@@ -1,4 +1,4 @@
-name: Hari verified native LIGHT cleanup and original terrain inspection
+name: Hari original ticket level pairing and native scene pixels
 "on":
   push:
     branches: [async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926]
@@ -17,6 +17,10 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+      - name: Install native evidence image reader
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends imagemagick
       - name: Verify immutable evidence and inspect original provider differences
         env:
           GH_TOKEN: ${{ github.token }}
