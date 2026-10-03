@@ -7,6 +7,7 @@ import com.sun.tools.attach.VirtualMachine;
 
 /** QA observer: reads loaded class flags and chunk bookkeeping, never alters game state. */
 public final class HariRuntimeSnapshot {
+    private static volatile java.lang.ref.WeakReference<Object> observedServer = new java.lang.ref.WeakReference<>(null);
     public static void main(String[] args) throws Exception {
         VirtualMachine vm = VirtualMachine.attach(args[0]);
         try { vm.loadAgent(args[1], args[2]); }
@@ -34,8 +35,19 @@ public final class HariRuntimeSnapshot {
             if (minecraft == null) throw new IllegalStateException("Minecraft class not loaded");
             Object client = minecraft.getDeclaredMethod("m_91087_").invoke(null);
             Object server = fieldOfType(client, "net.minecraft.client.server.IntegratedServer");
+            if (server != null) observedServer = new java.lang.ref.WeakReference<>(server);
+            else server = observedServer.get();
             report.put("integrated_server_present", server != null);
             if (server != null) {
+                Map<String, Object> clocks = new LinkedHashMap<>();
+                for (Field field : fields(server.getClass())) {
+                    if (!Modifier.isStatic(field.getModifiers()) && field.getType().isPrimitive()) {
+                        field.setAccessible(true);
+                        Object value = field.get(server);
+                        if (value instanceof Number || value instanceof Boolean) clocks.put(field.getName(), value);
+                    }
+                }
+                report.put("server_scalar_fields", clocks);
                 List<Object> worlds = new ArrayList<>();
                 for (Field field : fields(server.getClass())) {
                     if (!Map.class.isAssignableFrom(field.getType()) || Modifier.isStatic(field.getModifiers())) continue;
@@ -99,6 +111,14 @@ public final class HariRuntimeSnapshot {
                                 futureField.setAccessible(true);
                                 CompletableFuture<?> future = (CompletableFuture<?>) futureField.get(entry);
                                 if (future != null && !future.isDone()) pending.merge(futureField.getName(), 1, Integer::sum);
+                            } else if (java.util.concurrent.atomic.AtomicReferenceArray.class.isAssignableFrom(futureField.getType())) {
+                                futureField.setAccessible(true);
+                                java.util.concurrent.atomic.AtomicReferenceArray<?> futures = (java.util.concurrent.atomic.AtomicReferenceArray<?>) futureField.get(entry);
+                                for (int i = 0; futures != null && i < futures.length(); i++) {
+                                    Object future = futures.get(i);
+                                    if (future instanceof CompletableFuture<?> task && !task.isDone())
+                                        pending.merge(futureField.getName() + "[" + i + "]", 1, Integer::sum);
+                                }
                             }
                         }
                     }
