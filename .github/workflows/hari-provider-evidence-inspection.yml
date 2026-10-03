@@ -1,0 +1,29 @@
+name: Hari original provider and shutdown evidence inspection
+"on":
+  push:
+    branches: [async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926]
+    paths: ['.github/workflows/hari-provider-evidence-inspection.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Verify immutable evidence and inspect original provider differences
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 .github/qa/hari24_evidence_inspect.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Hari-2.4.8-original-provider-inspection
+          path: provider-inspection/
+          if-no-files-found: error
