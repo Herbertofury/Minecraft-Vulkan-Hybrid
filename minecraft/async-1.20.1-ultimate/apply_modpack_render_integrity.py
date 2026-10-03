@@ -86,7 +86,13 @@ def apply(root: Path):
 
     edit('forge/src/main/java/com/axalotl/async/forge/mixin/HariForgeMixinPlugin.java',
          '@Override public void preApply(String targetClassName,ClassNode targetClass, String mixinClassName,IMixinInfo mixinInfo){}',
-         '@Override public void preApply(String targetClassName,ClassNode targetClass, String mixinClassName,IMixinInfo mixinInfo){\n        if (mixinClassName.endsWith(".RubidiumChunkCacheMixin"))\n            com.axalotl.async.forge.client.RubidiumCacheLock.apply(targetClass);\n        if (mixinClassName.endsWith(".C2meLightTicketMixin"))\n            com.axalotl.async.forge.client.C2meLightTicketLevels.apply(targetClass);\n    }')
+         '@Override public void preApply(String targetClassName,ClassNode targetClass, String mixinClassName,IMixinInfo mixinInfo){\n        if (mixinClassName.endsWith(".RubidiumChunkCacheMixin"))\n            com.axalotl.async.forge.client.RubidiumCacheLock.apply(targetClass);\n    }')
+
+    # Mixin runs every preApply callback before any mixin methods are merged.
+    # Only postApply can see C2ME's installed redirect and the final release lambda.
+    edit('forge/src/main/java/com/axalotl/async/forge/mixin/HariForgeMixinPlugin.java',
+         '@Override public void postApply(String targetClassName,ClassNode targetClass,String mixinClassName,IMixinInfo mixinInfo){}',
+         '@Override public void postApply(String targetClassName,ClassNode targetClass,String mixinClassName,IMixinInfo mixinInfo){\n        if (mixinClassName.endsWith(".C2meLightTicketMixin"))\n            com.axalotl.async.forge.client.C2meLightTicketLevels.apply(targetClass);\n    }')
 
 if __name__ == '__main__':
     import sys

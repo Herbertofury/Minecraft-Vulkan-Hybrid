@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "updated_at": "2026-10-03T19:25:00Z",
-  "status": "2.4.9 repair in progress; no release promotion",
+  "updated_at": "2026-10-03T23:45:00Z",
+  "status": "2.4.9 postApply repair tested locally; fresh exact native acceptance pending",
   "source_parent": "f619f92b2d59ecd0cbca916a055a422de3d7aa51",
   "save_policy": "Non-force GitHub commits after each concrete repair and validation checkpoint; exact original provider bytes and test failures retained.",
   "completed": {
@@ -34,7 +34,8 @@
       "status": "native_modpack_pending",
       "standard_dedicated_run": 37147380703,
       "standard_packaged_production_run": 37147380701
-    }
+    },
+    "early_249_native_result": "9/13 client lanes plus dedicated passed; remaining original failures preserved in checkpoints/hari249-early-native-results.json. Do not transfer acceptance to new binary."
   },
   "current_causal_repair": {
     "problem": "OptiFine renumbers releaseLightTicket lambda; C2ME LIGHT add-level redirect remains but original vanilla remove level persists.",
@@ -48,13 +49,15 @@
     },
     "planned_fix": "Reuse actual original C2ME addition-level helper in semantically identified original LIGHT removal; preserve original queue, ticket arguments, removal operation and errors.",
     "implementation": "Semantically matches the original release lambda independent of numeric suffix, reuses installed C2ME add helper, validates actual original LIGHT removal shape, disabled worldgen no-op. Real ASM fixture negative control pending execution.",
-    "regression": "PASS in hosted actual reconstructed source and local production helper: old code leaks529, six repaired variants release through original owner queue; original failure identity retained."
+    "regression": "PASS in hosted actual reconstructed source and local production helper: old code leaks529, six repaired variants release through original owner queue; original failure identity retained.",
+    "late_integration_fix": "SpongePowered Mixin0.8.5 invokes ALL preApply callbacks before merge/injection passes; installed C2ME helper only exists in postApply. Moved original level-pairing callback to postApply.",
+    "lifecycle_source": "https://github.com/SpongePowered/Mixin/blob/0.8.5/src/main/java/org/spongepowered/asm/mixin/transformer/MixinApplicatorStandard.java",
+    "integration_regression": "PASS: compiled actual early plugin retains529 tickets when provider is merged after preApply; compiled actual corrected plugin releases529 via original removal after postApply; six mapped/development shape variants and exception identity also pass."
   },
   "remaining": [
-    "Validate original native OptiFine+C2ME world save/close/reopen with repaired exact binary.",
-    "Observe bounded actual-client-frame readiness after server chunks ready; keep original pixel thresholds and unready frames.",
-    "Rebuild final exact 2.4.9 and run all 13 client lanes plus dedicated native acceptance.",
-    "Publish new byte-verified source, JAR and proof to authorized release destination only after acceptance; update actual Wiki."
+    "Compile and native-test exact corrected postApply binary; do not reuse early JAR hash.",
+    "Run all13 client lanes plus dedicated and original9.8 focused checks with actual double-Space input and native movement after reopen.",
+    "Verify complete fresh998-file source/23steps and final JAR/proof, upload to authorized Drive release folder and update actual Wiki after full acceptance."
   ],
   "known_blocker": "Local exec transport disconnected; currently using connected GitHub source and native CI without losing progress.",
   "guardrails": [

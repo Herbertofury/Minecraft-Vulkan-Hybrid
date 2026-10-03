@@ -38,6 +38,21 @@ public int pending(){return ownerQueue.size();} public int tickets(){return mana
 }""",
 }
 
+FILES.update({
+"net/minecraftforge/fml/loading/FMLLoader.java": """package net.minecraftforge.fml.loading;public class FMLLoader {
+ public static LoadingModList getLoadingModList(){return new LoadingModList();}
+ public static class LoadingModList {public Object getModFileById(String id){return id.equals("c2meforge")?new Object():null;}} }""",
+"net/vulkanmod/compat/UniversalRendererGate.java": "package net.vulkanmod.compat;public class UniversalRendererGate {public static boolean vulkanRendererEnabled(){return false;}}",
+"org/spongepowered/asm/mixin/extensibility/IMixinInfo.java": "package org.spongepowered.asm.mixin.extensibility;public interface IMixinInfo {}",
+"org/spongepowered/asm/mixin/extensibility/IMixinConfigPlugin.java": """package org.spongepowered.asm.mixin.extensibility;
+import java.util.*;import org.objectweb.asm.tree.ClassNode;
+public interface IMixinConfigPlugin {void onLoad(String s);String getRefMapperConfig();boolean shouldApplyMixin(String a,String b);
+void acceptTargets(Set<String>a,Set<String>b);List<String>getMixins();void preApply(String a,ClassNode b,String c,IMixinInfo d);void postApply(String a,ClassNode b,String c,IMixinInfo d);} """,
+})
+# Exact d087b4d generated plugin, before the late-hook repair. It compiles and
+# reproduces why a direct helper test alone cannot prove real Mixin integration.
+EARLY_PLUGIN = 'package com.axalotl.async.forge.mixin;\n\nimport net.minecraftforge.fml.loading.FMLLoader;\nimport org.objectweb.asm.tree.ClassNode;\nimport org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;\nimport org.spongepowered.asm.mixin.extensibility.IMixinInfo;\n\nimport java.util.List;\nimport java.util.Set;\n\n/** Fail-closed gating for optional Embeddium renderer hooks. */\npublic final class HariForgeMixinPlugin implements IMixinConfigPlugin {\n    @Override public void onLoad(String mixinPackage) {}\n    @Override public String getRefMapperConfig(){return null;}\n    @Override public boolean shouldApplyMixin(String targetClassName,String mixinClassName){\n        if(mixinClassName.contains(".client.c2me.")) {\n            var list = FMLLoader.getLoadingModList();\n            return list.getModFileById("c2meforge") != null || list.getModFileById("c2me") != null\n                    || list.getModFileById("c2mef") != null || list.getModFileById("c2me_base") != null;\n        }\n        if(mixinClassName.contains(".client.opengl.")) return !net.vulkanmod.compat.UniversalRendererGate.vulkanRendererEnabled();\n        if(mixinClassName.contains(".client.rubidium.")) {\n            var list = FMLLoader.getLoadingModList();\n            return list.getModFileById("rubidium") != null && list.getModFileById("embeddium") == null;\n        }\n        if(!mixinClassName.contains(".client.embeddium.")) return true;\n        try {\n            var list=FMLLoader.getLoadingModList();\n            boolean embeddium=list.getModFileById("embeddium")!=null;\n            boolean external=list.getModFileById("nvidium")!=null || list.getModFileById("alloyium")!=null;\n            boolean shaders=list.getModFileById("oculus")!=null || list.getModFileById("iris")!=null;\n            return embeddium && !external && !shaders;\n        } catch(Throwable ignored){ return false; }\n    }\n    @Override public void acceptTargets(Set<String> myTargets,Set<String> otherTargets){}\n    @Override public List<String> getMixins(){return null;}\n    @Override public void preApply(String targetClassName,ClassNode targetClass, String mixinClassName,IMixinInfo mixinInfo){\n        if (mixinClassName.endsWith(".RubidiumChunkCacheMixin"))\n            com.axalotl.async.forge.client.RubidiumCacheLock.apply(targetClass);\n        if (mixinClassName.endsWith(".C2meLightTicketMixin"))\n            com.axalotl.async.forge.client.C2meLightTicketLevels.apply(targetClass);\n    }\n    @Override public void postApply(String targetClassName,ClassNode targetClass,String mixinClassName,IMixinInfo mixinInfo){}\n}\n'
+
 PROBE = r'''
 import com.axalotl.async.forge.client.C2meLightTicketLevels;
 import org.objectweb.asm.*;import org.objectweb.asm.tree.*;
@@ -129,6 +144,21 @@ public class LightProbe {
  ClassNode duplicate=read(original);MethodNode provider=duplicate.methods.stream().filter(m->m.name.endsWith("$redirectAddLightTicketDistance")).findFirst().orElseThrow();
  duplicate.methods.add(provider);expectDrift(duplicate);
  ClassNode drift=read(original);drift.methods.stream().filter(m->m.name.startsWith("lambda$releaseLightTicket$")).findFirst().orElseThrow().name="unsupportedRelease";expectDrift(drift);
+ // Mixin 0.8.5 MixinApplicatorStandard applies all pre hooks, then all
+ // merge/injection passes, then all post hooks. Invoke the production plugin
+ // around that actual lifecycle, with the provider absent before the merge.
+ ClassNode late=variant(original,30,true,false);
+ MethodNode injected=late.methods.stream().filter(m->m.name.endsWith("$redirectAddLightTicketDistance")).findFirst().orElseThrow();
+ late.methods.remove(injected);
+ var plugin=new com.axalotl.async.forge.mixin.HariForgeMixinPlugin();
+ String marker="com.axalotl.async.forge.mixin.client.c2me.C2meLightTicketMixin";
+ check(plugin.shouldApplyMixin(TARGET,marker),"C2ME alias gate disabled repair");
+ plugin.preApply(TARGET,late,marker,null);
+ late.methods.add(injected);
+ plugin.postApply(TARGET,late,marker,null);
+ boolean early=args[1].equals("early");
+ exercise(write(late),!early);
+ System.out.println(early?"EARLY_PLUGIN_MERGE_TIMING_529_TICKET_LEAK_REPRODUCED":"PRODUCTION_POSTAPPLY_PLUGIN_PAIRS_LATE_PROVIDER_PASSED");
  System.out.println("LIGHT_TICKET_529_LEAK_NEGATIVE_CONTROL_AND_"+variants+"_PAIRED_VARIANTS_PASSED");
  }
 }
@@ -144,21 +174,35 @@ def main():
             with urllib.request.urlopen(f"https://repo.maven.apache.org/maven2/org/ow2/asm/{artifact}/9.5/{artifact}-9.5.jar",timeout=90) as response:path.write_bytes(response.read())
         jars.append(path.resolve())
     helper=a.source/"forge/src/main/java/com/axalotl/async/forge/client/C2meLightTicketLevels.java"
-    with tempfile.TemporaryDirectory(prefix="hari-light-level-") as temp:
-        root=Path(temp);files=dict(FILES);files["LightProbe.java"]=PROBE
-        files["com/axalotl/async/forge/client/C2meLightTicketLevels.java"]=helper.read_text()
-        for name,body in files.items():
-            path=root/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_text(body)
-        classes=root/"classes";cp=":".join(map(str,[classes,*jars]))
-        subprocess.run(["java","--module","jdk.compiler/com.sun.tools.javac.Main","--release","17","-cp",cp,"-d",str(classes),*[str(path) for path in root.rglob("*.java")]],check=True)
-        output=subprocess.check_output(["java","-ea","-cp",cp,"LightProbe",str(classes/"net/minecraft/server/level/ChunkMap.class")],text=True,stderr=subprocess.STDOUT,timeout=60)
-        assert "LIGHT_TICKET_529_LEAK_NEGATIVE_CONTROL_AND_6_PAIRED_VARIANTS_PASSED" in output,output
+    plugin=a.source/"forge/src/main/java/com/axalotl/async/forge/mixin/HariForgeMixinPlugin.java"
+    ruby=a.source/"forge/src/main/java/com/axalotl/async/forge/client/RubidiumCacheLock.java"
+    outputs=[]
+    for mode,plugin_source in (("early",EARLY_PLUGIN),("late",plugin.read_text())):
+        with tempfile.TemporaryDirectory(prefix="hari-light-level-") as temp:
+            root=Path(temp);files=dict(FILES);files["LightProbe.java"]=PROBE
+            files["com/axalotl/async/forge/client/C2meLightTicketLevels.java"]=helper.read_text()
+            files["com/axalotl/async/forge/client/RubidiumCacheLock.java"]=ruby.read_text()
+            files["com/axalotl/async/forge/mixin/HariForgeMixinPlugin.java"]=plugin_source
+            for name,body in files.items():
+                path=root/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_text(body)
+            classes=root/"classes";cp=":".join(map(str,[classes,*jars]))
+            subprocess.run(["java","--module","jdk.compiler/com.sun.tools.javac.Main","--release","17","-cp",cp,"-d",str(classes),*[str(path) for path in root.rglob("*.java")]],check=True)
+            output=subprocess.check_output(["java","-ea","-cp",cp,"LightProbe",str(classes/"net/minecraft/server/level/ChunkMap.class"),mode],text=True,stderr=subprocess.STDOUT,timeout=60)
+            assert "LIGHT_TICKET_529_LEAK_NEGATIVE_CONTROL_AND_6_PAIRED_VARIANTS_PASSED" in output,output
+            expected="EARLY_PLUGIN_MERGE_TIMING_529_TICKET_LEAK_REPRODUCED" if mode=="early" else "PRODUCTION_POSTAPPLY_PLUGIN_PAIRS_LATE_PROVIDER_PASSED"
+            assert expected in output,output
+            outputs.append(output)
+
     report={"passed":True,"production_helper_sha256":hashlib.sha256(helper.read_bytes()).hexdigest(),
+        "actual_production_plugin_sha256":hashlib.sha256(plugin.read_bytes()).hexdigest(),
+        "original_early_hook_plugin_sha256":hashlib.sha256(EARLY_PLUGIN.encode()).hexdigest(),
+        "early_plugin_before_provider_merge_negative_control":True,
+        "actual_postapply_plugin_after_provider_merge":True,
         "original_negative_control_retained_LIGHT_tickets":529,"fixed_variants":6,
         "lambda_suffixes":[7,30,57],"development_and_native_names":True,
         "already_paired_idempotent":True,"worldgen_disabled_noop":True,
         "original_owner_queue_and_529_removal_operations":True,
         "original_exception_identity_preserved":True,"unsupported_drift_fails":True,
         "scope":"Real ASM and compiled Minecraft ticket-key causal fixtures matching exported original OptiFine+C2ME native instructions. Does not substitute for real native save/close/reopen."}
-    a.report.parent.mkdir(parents=True,exist_ok=True);a.report.write_text(json.dumps(report,indent=2)+"\n");print(output);print(json.dumps(report,indent=2))
+    a.report.parent.mkdir(parents=True,exist_ok=True);a.report.write_text(json.dumps(report,indent=2)+"\n");print("\n".join(outputs));print(json.dumps(report,indent=2))
 if __name__=="__main__":main()
