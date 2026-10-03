@@ -55,6 +55,13 @@ public class TintProbe {
   }
   var snapshot=RubidiumBiomeAccess.snapshot(new Slice());
   check(ModdedBiomeTint.blend(new BlockPos(4,3,6),a,0,snapshot)==(43<<16|4<<8|6),"snapshot biome lookup");
+  ColorResolver nonlinear=(bi,x,z)->((int)(x*x*z+bi.y*37)&255)<<16|((int)(z*z+x*17)&255)<<8|((int)(x*z*23)&255);
+  for(int radius:new int[]{1,2,7}){
+   int width=16+2*radius;int[] colors=new int[width*width];
+   for(int z=0;z<width;z++)for(int x=0;x<width;x++)colors[x+z*width]=nonlinear.getColor(new Biome(5),x-radius,z-radius);
+   ModdedBiomeTint.blur(colors,width,radius);
+   for(int z=0;z<16;z++)for(int x=0;x<16;x++)check((colors[x+radius+(z+radius)*width]&0xffffff)==ModdedBiomeTint.blend(new BlockPos(x,5,z),nonlinear,radius,q->new Biome(5)),"integral blend differs from vanilla average");
+  }
   RuntimeException original=new IllegalArgumentException("resolver failure");
   try{ModdedBiomeTint.blend(new BlockPos(0,0,0),(bi,x,z)->{throw original;},0,snapshot);throw new AssertionError("failure hidden");}catch(RuntimeException e){check(e==original,"resolver failure changed");}
   System.out.println("CUSTOM_TINT_SNAPSHOT_HEIGHT_IDENTITY_REUSE_BLEND_PASSED");
@@ -79,6 +86,33 @@ METHODS
 }class VkCommandBuffer{}
 '''
 
+SPAWN = r'''
+import java.util.*;import java.util.function.*;
+public class SpawnProbe {
+ List<LevelChunk> harimt$randomTickChunks=new ArrayList<>();List<Runnable> harimt$spawnTasks=new ArrayList<>();Level level=new Level();
+METHOD
+ public static void main(String[] args){
+  SpawnProbe phase=new SpawnProbe();Thread owner=Thread.currentThread();int[] completed={0};
+  com.axalotl.async.common.AsyncCommon.HARICHUNK=true;
+  for(int i=0;i<10000;i++)phase.harimt$spawnTasks.add(()->{if(Thread.currentThread()!=owner)throw new AssertionError("off-owner spawn");completed[0]++;});
+  phase.harimt$flushParallelChunkWork(new CallbackInfo());
+  if(completed[0]!=10000||!phase.harimt$spawnTasks.isEmpty()||ParallelProcessor.dispatches!=0)throw new AssertionError("lost, duplicated, or handed-off C2ME spawns");
+  com.axalotl.async.common.AsyncCommon.HARICHUNK=false;
+  phase.harimt$spawnTasks.add(()->completed[0]++);phase.harimt$flushParallelChunkWork(new CallbackInfo());
+  if(completed[0]!=10001||ParallelProcessor.dispatches!=1)throw new AssertionError("ordinary async spawn path changed");
+  com.axalotl.async.common.AsyncCommon.HARICHUNK=true;
+  RuntimeException original=new IllegalArgumentException("native spawn failure");phase.harimt$spawnTasks.add(()->{throw original;});
+  try{phase.harimt$flushParallelChunkWork(new CallbackInfo());throw new AssertionError("spawn failure hidden");}catch(RuntimeException e){if(e!=original)throw new AssertionError("original spawn failure changed");}
+  System.out.println("C2ME_10000_ORIGINAL_OWNER_SPAWNS_PASSED");
+ }
+}class CallbackInfo{}class Inject{}class At{}
+class GameRules{static final int RULE_RANDOMTICKING=1;int getInt(int x){return 3;}}
+class Pos{int x,z;}class Chunks{boolean hasChunk(int x,int z){return true;}}
+class Level{GameRules getGameRules(){return new GameRules();}Chunks getChunkSource(){return new Chunks();}void tickChunk(LevelChunk c,int s){}}
+class LevelChunk{Level getLevel(){return new Level();}Pos getPos(){return new Pos();}}
+class ParallelProcessor{static int dispatches;static <T> void forEachParallel(Level l,List<T> xs,Consumer<T> fn){dispatches++;xs.forEach(fn);}}
+'''
+
 def main():
     p=argparse.ArgumentParser();p.add_argument('source',type=Path);p.add_argument('--report',type=Path,required=True);a=p.parse_args()
     java=a.source/'forge/src/main/java';renderer=(java/'net/vulkanmod/vulkan/Renderer.java').read_text()
@@ -93,9 +127,13 @@ def main():
         files[name]=(java/name).read_text()
     files['TintProbe.java']=PROBE
     assert run_java(files,'TintProbe')=='CUSTOM_TINT_SNAPSHOT_HEIGHT_IDENTITY_REUSE_BLEND_PASSED'
+    spawn=(a.source/'common/src/main/java/com/axalotl/async/common/mixin/server/ServerChunkCacheMixin.java').read_text()
+    assert run_java({'SpawnProbe.java':SPAWN.replace('METHOD',method(spawn,'harimt$flushParallelChunkWork')),
+                     'com/axalotl/async/common/AsyncCommon.java':'package com.axalotl.async.common;public class AsyncCommon{public static boolean HARICHUNK;}'},'SpawnProbe')=='C2ME_10000_ORIGINAL_OWNER_SPAWNS_PASSED'
     report={'passed':True,'framebuffer_readback_usage':True,'readback_restart_restores_bias_and_line_width':True,
             'custom_resolver_original_colors':True,'separate_height_layers':True,'resolver_identity_and_pooled_cache_invalidation':True,
             'snapshot_lookup_and_original_failures':True,'blend_radii':[0,1,2,7],
+            'c2me_original_spawns_on_owner':10000,'ordinary_async_spawns_retained':True,'original_spawn_failures_surface':True,
             'renderer_sha256':hashlib.sha256(renderer.encode()).hexdigest(),
             'scope':'Production state/tint/snapshot Java code with Minecraft/Vulkan API doubles; real Rubidium mixin and native Vulkan validation are separate required gates.'}
     a.report.parent.mkdir(parents=True,exist_ok=True);a.report.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))

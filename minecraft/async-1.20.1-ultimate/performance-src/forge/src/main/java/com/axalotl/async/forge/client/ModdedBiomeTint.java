@@ -8,6 +8,30 @@ import java.util.function.Function;
 /** Vanilla RGB box average, evaluated against the supplied biome snapshot. */
 public final class ModdedBiomeTint {
     private ModdedBiomeTint() {}
+    /** Exact RGB box averages in linear work, with one rounding after both axes. */
+    public static void blur(int[] colors, int width, int radius) {
+        int stride = width + 1, diameter = radius * 2 + 1, count = diameter * diameter;
+        int[] sums = new int[stride * stride];
+        for (int shift : new int[]{16, 8, 0}) {
+            java.util.Arrays.fill(sums, 0);
+            for (int z = 0; z < width; z++) {
+                int row = 0;
+                for (int x = 0; x < width; x++) {
+                    row += colors[x + z * width] >> shift & 255;
+                    sums[x + 1 + (z + 1) * stride] = row + sums[x + 1 + z * stride];
+                }
+            }
+            for (int z = radius; z < width - radius; z++) {
+                for (int x = radius; x < width - radius; x++) {
+                    int x0 = x - radius, z0 = z - radius, x1 = x + radius + 1, z1 = z + radius + 1;
+                    int sum = sums[x1 + z1 * stride] - sums[x0 + z1 * stride]
+                            - sums[x1 + z0 * stride] + sums[x0 + z0 * stride];
+                    int index = x + z * width;
+                    colors[index] = (colors[index] & ~(255 << shift)) | (sum / count << shift);
+                }
+            }
+        }
+    }
     public static int blend(BlockPos position, ColorResolver resolver, int radius,
                             Function<BlockPos, Biome> biomes) {
         if (radius < 0 || radius > 7) throw new IllegalArgumentException("Biome blend radius: " + radius);

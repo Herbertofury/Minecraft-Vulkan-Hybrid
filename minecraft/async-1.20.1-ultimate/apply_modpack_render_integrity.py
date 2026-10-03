@@ -47,7 +47,7 @@ def apply(root: Path):
                     Biome biome = level.getBiome(sample.set(x, absY, z)).value();
                     colors[(x - minX) + (z - minZ) * totalWidth] = resolver.getColor(biome, x, z);
                 }
-                if (blendRadius > 0) BoxBlur.blur(colors, temp, SECTION_WIDTH, blendRadius);
+                if (blendRadius > 0) com.axalotl.async.forge.client.ModdedBiomeTint.blur(colors, totalWidth, blendRadius);
                 return colors;
             });
         }''')
