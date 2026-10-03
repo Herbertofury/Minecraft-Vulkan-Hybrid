@@ -8,6 +8,8 @@ name: Hari 1.20.1 Ultimate 2.4 Packaged Production Client QA
       - '.github/qa/seed_forge_world.py'
       - 'minecraft/async-1.20.1-ultimate/apply_vulkan_hybrid.py'
       - 'minecraft/async-1.20.1-ultimate/apply_vulkan_performance.py'
+      - 'minecraft/async-1.20.1-ultimate/apply_modpack_render_integrity.py'
+      - 'minecraft/async-1.20.1-ultimate/apply_swapchain_sync.py'
       - 'minecraft/async-1.20.1-ultimate/performance-src/**'
       - 'minecraft/async-1.20.1-ultimate/apply_vulkan_shader_integrity.py'
       - 'minecraft/async-1.20.1-ultimate/vulkan-hybrid-src/**'
