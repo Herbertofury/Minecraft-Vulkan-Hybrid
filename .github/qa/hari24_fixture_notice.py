@@ -20,6 +20,11 @@ LAZURITE_WARNING_MASKS = {
     "1256x44+12+110": "cc4bac56b145d8a16c7efb454c15dfc48265a813ad813218d391ce7c424573c6",
     "550x48+365+650": "c19815f31f339a3a8e9f2f7f04cd43a28650411e7039fcb1c6b3b2f4d22d6c91",
 }
+TITLE_BUTTON_MASKS = {
+    "240x30+520+339": "28c30278c5dab138924debd1fcb07d9758dafe9e832473809846247398b49463",
+    "240x30+520+411": "8f6d25cea006275785081850b4e51268ae6f9f5a84dbe13938e7fb69fdc090b3",
+    "270x30+350+591": "14288cc5205b4ea6487cd734ef90f6109a7c9f806fc0d83bccc41600c0895698",
+}
 
 def matches_masks(image: Path, env: dict, masks: dict) -> bool:
     size = subprocess.check_output(["identify", "-format", "%w %h", str(image)],
@@ -38,9 +43,10 @@ def matches_notice(image: Path, env: dict) -> bool:
     return matches_masks(image, env, MASKS)
 
 class FixtureNotice:
-    def __init__(self, world: str, evidence: Path, env: dict):
+    def __init__(self, world: str, evidence: Path, env: dict, game: Path):
         self.enabled = world == "HMT-2.4-QA"
         self.evidence, self.env = evidence, env
+        self.game = game
         self.last_check, self.handled = 0.0, set()
 
     def poll(self):
@@ -55,6 +61,46 @@ class FixtureNotice:
         shot = self.evidence / "world-entry-current.png"
         subprocess.run(["import", "-display", self.env["DISPLAY"], "-window", wid, str(shot)],
                        env=self.env, check=True, timeout=20)
+        state_file = self.game / "harimt-qa-client-state.json"
+        state = json.loads(state_file.read_text()) if state_file.is_file() else {}
+        fresh = time.time() * 1000 - state.get("observed_at_epoch_ms", 0) < 5000
+        if "lazurite_warning" in self.handled and fresh:
+            if ("singleplayer" not in self.handled and state.get("dimension") is None
+                    and matches_masks(shot, self.env, TITLE_BUTTON_MASKS)):
+                shot.rename(self.evidence / "lazurite-native-main-menu.png")
+                subprocess.run(["xdotool", "windowactivate", "--sync", wid,
+                                "mousemove", "--window", wid, "640", "354", "click", "1"],
+                               env=self.env, check=True, timeout=20)
+                self.handled.add("singleplayer")
+                return
+            if ("singleplayer" in self.handled and "fixture_selected" not in self.handled
+                    and state.get("screen") == "net.minecraft.client.gui.screens.worldselection.SelectWorldScreen"):
+                worlds = sorted(p.name for p in (self.game / "saves").iterdir()
+                                if p.is_dir() and (p / "level.dat").is_file())
+                if worlds != ["HMT-2.4-QA"]:
+                    raise RuntimeError("Native QA world selection is ambiguous: " + repr(worlds))
+                shot.rename(self.evidence / "lazurite-native-world-selection.png")
+                # Vanilla 1.20.1 SelectWorldScreen: search at GUI y=22..42;
+                # first list row y=52..88. The observed 1280x720 menu uses scale 3.
+                subprocess.run(["xdotool", "windowactivate", "--sync", wid,
+                                "mousemove", "--window", wid, "640", "96", "click", "1",
+                                "type", "--clearmodifiers", "--delay", "30", "HMT-2.4-QA"],
+                               env=self.env, check=True, timeout=20)
+                time.sleep(1)
+                subprocess.run(["import", "-display", self.env["DISPLAY"], "-window", wid,
+                                str(self.evidence / "lazurite-filtered-qa-world.png")],
+                               env=self.env, check=True, timeout=20)
+                subprocess.run(["xdotool", "mousemove", "--window", wid, "640", "194",
+                                "click", "--repeat", "2", "--delay", "100", "1"],
+                               env=self.env, check=True, timeout=20)
+                self.handled.add("fixture_selected")
+                (self.evidence / "lazurite-world-selection-action.json").write_text(json.dumps({
+                    "world": "HMT-2.4-QA", "only_available_world": worlds,
+                    "actual_screen_class": state["screen"], "matched_original_main_menu_text": True,
+                    "action": "Native Singleplayer, exact QA world search and first filtered result double click",
+                    "mods_removed_or_settings_changed": False,
+                }, indent=2) + "\n")
+                return
         if "lazurite_warning" not in self.handled and matches_masks(shot, self.env, LAZURITE_WARNING_MASKS):
             before = self.evidence / "lazurite-embeddium-warning.png"
             shot.rename(before)

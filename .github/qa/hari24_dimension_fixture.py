@@ -28,7 +28,7 @@ def install(world: Path, mods: Path, evidence: Path) -> list[dict]:
     ):
         name = f"portal_observed_{stage}"
         observers.append(f"execute as @a[scores={{hmtdim_portal={stage}}}] at @s if dimension {dimension} run function hmtdim:{name}")
-        (functions / (name + ".mcfunction")).write_text(f"scoreboard players set @s hmtdim_portal 0\nsay {marker}\n")
+        (functions / (name + ".mcfunction")).write_text(f"scoreboard players set @s hmtdim_portal 0\nsay {marker}\ndata get entity @s Pos\n")
     (functions / "portal_aether.mcfunction").write_text(
         "fill -4 99 -4 4 99 4 minecraft:stone\n"
         "fill -1 100 0 2 104 0 minecraft:glowstone\n"

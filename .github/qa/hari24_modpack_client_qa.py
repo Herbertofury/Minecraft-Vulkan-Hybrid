@@ -121,6 +121,7 @@ def main() -> int:
     evidence.mkdir(parents=True, exist_ok=True)
     frame_report = mc_dir / "harimt-frame-sample.json"
     frame_report.unlink(missing_ok=True)
+    (mc_dir / "harimt-qa-client-state.json").unlink(missing_ok=True)
     runtime_log = mc_dir / "logs/latest.log"
     previous_crashes = {p.name: (p.stat().st_mtime_ns, p.stat().st_size) for p in (mc_dir / "crash-reports").glob("*.txt")}
     if runtime_log.is_file():
@@ -205,6 +206,7 @@ def main() -> int:
             "--jvm-arg=-Dharimt.qa.captureFrames=true",
             "--jvm-arg=-Dharimt.qa.performance=true",
             "--jvm-arg=-Dharimt.qa.lifecycle=true",
+            "--jvm-arg=-Dharimt.qa.observeClientState=true",
         ]
         (evidence / "launch-command.txt").write_text(" ".join(cmd) + "\n", encoding="utf-8")
         proc = subprocess.Popen(
@@ -297,7 +299,7 @@ def main() -> int:
             if args.expect == "opengl" and "renderer=VULKAN" in line:
                 raise RuntimeError("OpenGL compatibility lane unexpectedly selected Vulkan")
 
-        fixture_notice = FixtureNotice(args.world, evidence, env)
+        fixture_notice = FixtureNotice(args.world, evidence, env, mc_dir)
 
         def wait_for(marker: str, timeout: float = READY_TIMEOUT, start_at: int = 0) -> None:
             for line in list(lines)[start_at:]:
@@ -345,7 +347,8 @@ def main() -> int:
         if not ids:
             raise RuntimeError("visible packaged Minecraft window not found")
         wid = ids[-1]
-        subprocess.run(["xdotool", "windowactivate", "--sync", wid], env=env, check=True, timeout=15)
+        subprocess.run(["xdotool", "windowactivate", "--sync", wid,
+                        "windowfocus", "--sync", wid], env=env, check=True, timeout=15)
 
         wait_for("[Hari/QA] captured 300 world frames after 120 warmup frames")
         frames = json.loads(frame_report.read_text(encoding="utf-8"))
@@ -415,14 +418,59 @@ def main() -> int:
 
         input_settle = max(1.0, min(5.0, 3 * sorted(samples)[284] / 1000))
         command_journal = []
+        state_file = mc_dir / "harimt-qa-client-state.json"
+        last_observation = None
+
+        def client_state():
+            nonlocal last_observation
+            if not state_file.is_file():
+                return None
+            state = json.loads(state_file.read_text(encoding="utf-8"))
+            if time.time() * 1000 - state["observed_at_epoch_ms"] > 5000:
+                return None
+            if state["observed_at_epoch_ms"] != last_observation:
+                last_observation = state["observed_at_epoch_ms"]
+                with (evidence / "client-state-observations.jsonl").open("a", encoding="utf-8") as output:
+                    output.write(json.dumps(state) + "\n")
+            return state
+
+        def wait_client_state(label, matches, timeout=240):
+            deadline = time.monotonic() + timeout
+            latest = None
+            log_cursor = len(lines)
+            while time.monotonic() < deadline:
+                snapshot = list(lines)
+                for line in snapshot[log_cursor:]:
+                    inspect(line, label)
+                log_cursor = len(snapshot)
+                latest = client_state()
+                if latest is not None and matches(latest):
+                    return latest
+                if proc.poll() is not None:
+                    raise RuntimeError("Minecraft exited waiting for client state: " + label)
+                time.sleep(0.1)
+            raise TimeoutError(f"Client state never became {label}: {latest}")
+
+        def interactive(state):
+            return (state["dimension"] is not None and state["screen"] is None
+                    and state["overlay"] is None and not state["paused"] and state["window_active"])
+
         def game_command(command: str) -> int:
+            subprocess.run(["xdotool", "windowactivate", "--sync", wid,
+                            "windowfocus", "--sync", wid], env=env, check=True, timeout=15)
+            wait_client_state("interactive world before " + command, interactive)
             cursor = len(lines)
             subprocess.run(["xdotool", "windowactivate", "--sync", wid,
+                            "windowfocus", "--sync", wid,
                             "key", "--clearmodifiers", "t"], env=env, check=True, timeout=15)
+            wait_client_state("native chat screen", lambda state: state["screen"] == "net.minecraft.client.gui.screens.ChatScreen", timeout=15)
             time.sleep(input_settle)
             subprocess.run(["xdotool", "type", "--clearmodifiers", "--delay", "20", command],
                            env=env, check=True, timeout=20)
             time.sleep(input_settle)
+            state = client_state()
+            if state is None or state["screen"] != "net.minecraft.client.gui.screens.ChatScreen":
+                raise RuntimeError(f"Native chat closed while typing {command}: {state}")
             subprocess.run(["xdotool", "key", "--clearmodifiers", "Return"],
                            env=env, check=True, timeout=15)
             command_journal.append({"command": command, "line_cursor": cursor})
@@ -450,18 +498,27 @@ def main() -> int:
                 raise RuntimeError("Native scene did not render: " + name)
             return {"screenshot": shot.name, "colors": colors, "gray_stddev": stddev}
 
-        def step_out_of_portal():
+        def step_out_of_portal(dimension):
             # Original AetherPlayerCapability closes non-pause screens while the
             # player is in a portal, including the chat used for our predicates.
             # Walk clear through normal input before asking the server where we
             # arrived. Portal travel and cooldown remain entirely original.
             subprocess.run(["xdotool", "windowactivate", "--sync", wid,
+                            "windowfocus", "--sync", wid], env=env, check=True, timeout=15)
+            before = wait_client_state("rendered interactive arrival in " + dimension,
+                                      lambda state: interactive(state) and state["dimension"] == dimension)
+            subprocess.run(["xdotool", "windowactivate", "--sync", wid,
+                            "windowfocus", "--sync", wid,
                             "keydown", "s", "keydown", "d"], env=env, check=True, timeout=15)
             try:
-                time.sleep(max(1.5, input_settle * 2))
+                after = wait_client_state("native movement clear of portal",
+                    lambda state: interactive(state) and state["dimension"] == dimension
+                    and sum((a-b)**2 for a,b in zip(state.get("position", []), before["position"])) > 16,
+                    timeout=30)
             finally:
                 subprocess.run(["xdotool", "keyup", "d", "keyup", "s"], env=env, check=True, timeout=15)
-            command_journal.append({"native_input": "walk backward and right out of portal", "dimension_changed_by_command": False})
+            command_journal.append({"native_input": "walk backward and right out of portal",
+                                    "before": before, "after": after, "dimension_changed_by_command": False})
             (evidence / "command-journal.json").write_text(json.dumps(command_journal, indent=2) + "\n")
             time.sleep(input_settle)
 
@@ -491,7 +548,7 @@ def main() -> int:
                 subprocess.run(["xdotool", "mouseup", "3"], env=env, check=True, timeout=15)
             if not args.reopen:
                 wait_for(f"HMT_DIM_NATIVE_PORTAL_ENTERED_{namespace}", timeout=240, start_at=cursor)
-                step_out_of_portal()
+                step_out_of_portal(dimension)
             predicate(f"/execute if dimension {dimension} run say HMT_DIM_ENTERED_{namespace}",
                       f"HMT_DIM_ENTERED_{namespace}")
             arrival = screenshot(f"{namespace}-{'reopened' if args.reopen else 'portal-arrival'}")
@@ -543,7 +600,7 @@ def main() -> int:
                     time.sleep(input_settle * 3)
                     subprocess.run(["xdotool", "mouseup", "3"], env=env, check=True, timeout=15)
                 wait_for(f"HMT_DIM_NATIVE_PORTAL_RETURNED_{namespace}", timeout=240, start_at=cursor)
-                step_out_of_portal()
+                step_out_of_portal("minecraft:overworld")
                 predicate(f"/execute if dimension minecraft:overworld run say HMT_DIM_PORTAL_RETURNED_{namespace}",
                           f"HMT_DIM_PORTAL_RETURNED_{namespace}")
                 portal_return = screenshot(f"{namespace}-portal-return-overworld")
@@ -707,6 +764,8 @@ def main() -> int:
                 shutil.copyfile(report, destination)
         if runtime_log.is_file():
             shutil.copyfile(runtime_log, evidence / "forge-latest.log")
+        if (mc_dir / "harimt-qa-client-state.json").is_file():
+            shutil.copyfile(mc_dir / "harimt-qa-client-state.json", evidence / "last-client-state.json")
         if 'stdout_lines' in locals():
             (evidence / "launcher-stdout.log").write_text("".join(stdout_lines), encoding="utf-8")
         (evidence / "production-client-console.log").write_text("".join(lines), encoding="utf-8")
