@@ -516,6 +516,12 @@ def main() -> int:
                     return
                 except TimeoutError:
                     pass
+            if marker.startswith("HMT_DIM_VERIFIED_"):
+                namespace = marker.split("_")[3]
+                audit_cursor = game_command(f"/function hmtdim:audit_{namespace}")
+                wait_for(f"from function 'hmtdim:audit_{namespace}'", timeout=15, start_at=audit_cursor)
+                game_command(f"/execute as @e[tag=hmtdim_{namespace}] run data get entity @s Pos")
+                game_command("/data get block 2 99 2")
             raise TimeoutError("Actual server predicate was never satisfied: " + marker)
 
         def screenshot(name: str):
@@ -814,6 +820,12 @@ def main() -> int:
             (evidence / "failure-capture-error.txt").write_text(repr(capture_failure) + "\n")
         raise
     finally:
+        if (evidence / "harness-error.txt").is_file():
+            world = mc_dir / "saves" / args.world
+            for entity_region in world.rglob("entities/*.mca"):
+                destination = evidence / "failure-entity-regions" / entity_region.relative_to(world)
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(entity_region, destination)
         if proc is not None and proc.poll() is None:
             proc.terminate()
             try:
