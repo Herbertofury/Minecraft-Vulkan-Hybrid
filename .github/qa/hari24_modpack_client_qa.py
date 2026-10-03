@@ -257,14 +257,20 @@ def main() -> int:
         thread.start()
         file_thread.start()
 
-        def capture_thread_state() -> None:
-            # Preserve evidence while the JVM is still alive, including slow/hung
-            # entity barriers. Do not interrupt or disable the tested workload.
-            deadline = time.monotonic() + 180
-            while time.monotonic() < deadline:
-                if proc is None or proc.poll() is not None:
-                    return
-                time.sleep(1)
+        agent_classes = evidence / "observer-classes"
+        agent_classes.mkdir()
+        subprocess.run([args.java, "--module", "jdk.compiler/com.sun.tools.javac.Main",
+                        "--release", "17", "--add-modules", "jdk.attach", "-d", str(agent_classes),
+                        str(Path(__file__).with_name("HariRuntimeSnapshot.java"))], check=True, timeout=60)
+        import zipfile
+        agent_jar = evidence / "read-only-runtime-observer.jar"
+        with zipfile.ZipFile(agent_jar, "w") as jar:
+            jar.writestr("META-INF/MANIFEST.MF", "Manifest-Version: 1.0\nAgent-Class: HariRuntimeSnapshot\n\n")
+            for path in agent_classes.rglob("*.class"):
+                jar.write(path, path.relative_to(agent_classes).as_posix())
+
+        def capture_thread_state(label: str) -> None:
+            # Read-only diagnostics while the actual stalled JVM is still alive.
             jcmd = Path(args.java).parent / "jcmd"
             if not jcmd.is_file() or proc is None or proc.poll() is not None:
                 return
@@ -282,11 +288,24 @@ def main() -> int:
                     if int(pid) in family and command == "java":
                         state = subprocess.run([str(jcmd), pid, "Thread.print", "-l"], text=True,
                                                capture_output=True, timeout=30)
-                        (evidence / f"jvm-thread-state-{pid}.txt").write_text(state.stdout + state.stderr, encoding="utf-8")
+                        (evidence / f"jvm-thread-{label}-{pid}.txt").write_text(state.stdout + state.stderr, encoding="utf-8")
+                        snapshot = evidence / f"runtime-snapshot-{label}-{pid}.json"
+                        observe = subprocess.run([args.java, "--add-modules", "jdk.attach", "-cp", str(agent_jar),
+                                                  "HariRuntimeSnapshot", pid, str(agent_jar), str(snapshot)],
+                                                 text=True, capture_output=True, timeout=30)
+                        (evidence / f"runtime-observer-{label}-{pid}.log").write_text(observe.stdout + observe.stderr)
             except Exception as diagnostic_failure:
-                (evidence / "thread-capture-error.txt").write_text(repr(diagnostic_failure), encoding="utf-8")
+                (evidence / f"thread-capture-{label}-error.txt").write_text(repr(diagnostic_failure), encoding="utf-8")
 
-        threading.Thread(target=capture_thread_state, name="hari24-thread-observer", daemon=True).start()
+        def capture_startup_thread_state() -> None:
+            deadline = time.monotonic() + 180
+            while time.monotonic() < deadline:
+                if proc is None or proc.poll() is not None:
+                    return
+                time.sleep(1)
+            capture_thread_state("startup")
+
+        threading.Thread(target=capture_startup_thread_state, name="hari24-thread-observer", daemon=True).start()
 
         def inspect(line: str, marker: str) -> None:
             for fatal in FATAL:
@@ -333,7 +352,15 @@ def main() -> int:
             wait_for("Hari 2.4 selected OpenGL compatibility renderer:")
         wait_for(" joined the game")
         if any(path.name.startswith("rubidium-") for path in (mc_dir / "mods").glob("*.jar")):
-            wait_for("[Hari/Compat] Rubidium cleanup shares the original acquire/invalidate monitor")
+            capture_thread_state("rubidium-ready")
+            snapshots = list(evidence.glob("runtime-snapshot-rubidium-ready-*.json"))
+            if len(snapshots) != 1:
+                raise RuntimeError("Missing original loaded Rubidium cache observation")
+            observed = json.loads(snapshots[0].read_text())
+            if not observed.get("rubidium_cache_loaded") or observed.get("rubidium_mutation_monitors") != {
+                    "cleanup": True, "acquire": True, "invalidate": True}:
+                raise RuntimeError("Original loaded Rubidium cache does not share all three mutation monitors: "
+                                   + str(observed))
         wait_for("Compile-checked Vulkan collision backend initialized on")
         wait_for("Vulkan push broad-phase sustained: 10 consecutive verified batches completed")
 
@@ -489,16 +516,44 @@ def main() -> int:
                     return
                 except TimeoutError:
                     pass
+            if marker.startswith("HMT_DIM_VERIFIED_"):
+                namespace = marker.split("_")[3]
+                audit_cursor = game_command(f"/function hmtdim:audit_{namespace}")
+                wait_for(f"from function 'hmtdim:audit_{namespace}'", timeout=15, start_at=audit_cursor)
+                game_command(f"/execute as @e[tag=hmtdim_{namespace}] run data get entity @s Pos")
+                game_command("/data get block 2 99 2")
             raise TimeoutError("Actual server predicate was never satisfied: " + marker)
 
         def screenshot(name: str):
             shot = evidence / (name + ".png")
-            subprocess.run(["import", "-display", args.display, "-window", wid, str(shot)],
-                           env=env, check=True, timeout=20)
-            width, height, colors, stddev = image_metrics(shot, env)
-            if (width, height) != (1280, 720) or colors < 64:
-                raise RuntimeError("Native scene did not render: " + name)
-            return {"screenshot": shot.name, "colors": colors, "gray_stddev": stddev}
+            # Server chunk readiness precedes client mesh upload. Require the
+            # same actual-pixel gate, with a bounded wait for the client frame.
+            # Keep the first unready frame and every measured attempt as proof.
+            deadline = time.monotonic() + 30
+            attempts = []
+            cursor = len(lines)
+            while True:
+                for line in list(lines)[cursor:]:
+                    inspect(line, "rendered scene " + name)
+                cursor = len(lines)
+                if proc.poll() is not None:
+                    raise RuntimeError("Minecraft exited before rendering scene: " + name)
+                subprocess.run(["import", "-display", args.display, "-window", wid, str(shot)],
+                               env=env, check=True, timeout=20)
+                width, height, colors, stddev = image_metrics(shot, env)
+                ready = (width, height) == (1280, 720) and colors >= 64
+                attempts.append({"ready": ready, "width": width, "height": height,
+                                 "colors": colors, "gray_stddev": stddev})
+                (evidence / (name + "-render-readiness.json")).write_text(
+                    json.dumps(attempts, indent=2) + "\n")
+                if ready:
+                    return {"screenshot": shot.name, "colors": colors,
+                            "gray_stddev": stddev, "readiness_attempts": len(attempts)}
+                if len(attempts) == 1:
+                    shutil.copyfile(shot, evidence / (name + "-first-unready.png"))
+                if time.monotonic() >= deadline:
+                    raise RuntimeError("Native scene did not render within 30 seconds: " + name)
+                time.sleep(1)
 
         def step_out_of_portal(dimension):
             # Original AetherPlayerCapability closes non-pause screens while the
@@ -775,6 +830,8 @@ def main() -> int:
         return 0
     except Exception:
         (evidence / "harness-error.txt").write_text(traceback.format_exc(), encoding="utf-8")
+        if 'capture_thread_state' in locals():
+            capture_thread_state("failure")
         try:
             windows = subprocess.run(["xdotool", "search", "--onlyvisible", "--name", "Minecraft"],
                                      env=env, capture_output=True, text=True, timeout=10)
@@ -785,6 +842,12 @@ def main() -> int:
             (evidence / "failure-capture-error.txt").write_text(repr(capture_failure) + "\n")
         raise
     finally:
+        if (evidence / "harness-error.txt").is_file():
+            world = mc_dir / "saves" / args.world
+            for entity_region in world.rglob("entities/*.mca"):
+                destination = evidence / "failure-entity-regions" / entity_region.relative_to(world)
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(entity_region, destination)
         if proc is not None and proc.poll() is None:
             proc.terminate()
             try:
@@ -813,6 +876,8 @@ def main() -> int:
                 shutil.copyfile(report, destination)
         if runtime_log.is_file():
             shutil.copyfile(runtime_log, evidence / "forge-latest.log")
+        if (mc_dir / "logs/debug.log").is_file():
+            shutil.copyfile(mc_dir / "logs/debug.log", evidence / "forge-debug.log")
         if (mc_dir / "harimt-qa-client-state.json").is_file():
             shutil.copyfile(mc_dir / "harimt-qa-client-state.json", evidence / "last-client-state.json")
         if 'stdout_lines' in locals():

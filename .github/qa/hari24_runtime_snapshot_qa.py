@@ -526,12 +526,34 @@ def main() -> int:
 
         def screenshot(name: str):
             shot = evidence / (name + ".png")
-            subprocess.run(["import", "-display", args.display, "-window", wid, str(shot)],
-                           env=env, check=True, timeout=20)
-            width, height, colors, stddev = image_metrics(shot, env)
-            if (width, height) != (1280, 720) or colors < 64:
-                raise RuntimeError("Native scene did not render: " + name)
-            return {"screenshot": shot.name, "colors": colors, "gray_stddev": stddev}
+            # Server chunk readiness precedes client mesh upload. Require the
+            # same actual-pixel gate, with a bounded wait for the client frame.
+            # Keep the first unready frame and every measured attempt as proof.
+            deadline = time.monotonic() + 30
+            attempts = []
+            cursor = len(lines)
+            while True:
+                for line in list(lines)[cursor:]:
+                    inspect(line, "rendered scene " + name)
+                cursor = len(lines)
+                if proc.poll() is not None:
+                    raise RuntimeError("Minecraft exited before rendering scene: " + name)
+                subprocess.run(["import", "-display", args.display, "-window", wid, str(shot)],
+                               env=env, check=True, timeout=20)
+                width, height, colors, stddev = image_metrics(shot, env)
+                ready = (width, height) == (1280, 720) and colors >= 64
+                attempts.append({"ready": ready, "width": width, "height": height,
+                                 "colors": colors, "gray_stddev": stddev})
+                (evidence / (name + "-render-readiness.json")).write_text(
+                    json.dumps(attempts, indent=2) + "\n")
+                if ready:
+                    return {"screenshot": shot.name, "colors": colors,
+                            "gray_stddev": stddev, "readiness_attempts": len(attempts)}
+                if len(attempts) == 1:
+                    shutil.copyfile(shot, evidence / (name + "-first-unready.png"))
+                if time.monotonic() >= deadline:
+                    raise RuntimeError("Native scene did not render within 30 seconds: " + name)
+                time.sleep(1)
 
         def step_out_of_portal(dimension):
             # Original AetherPlayerCapability closes non-pause screens while the

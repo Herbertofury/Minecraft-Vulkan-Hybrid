@@ -1,4 +1,4 @@
-name: Hari 2.4.8 original C2ME Forge 9.8 focused native acceptance
+name: Hari 2.4.9 original C2ME Forge 9.8 focused native acceptance
 "on":
   push:
     branches: [async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926]
@@ -41,15 +41,15 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: HariMultiThread-Ultimate-1.20.1-2.4.0-VULKAN-HYBRID-COMPILE
-          run-id: 37135775317
+          run-id: 37147380723
           github-token: ${{ github.token }}
           path: tested
       - name: Verify artifact and C2ME bytes
         shell: bash
         run: |
           set -euo pipefail
-          echo '16ece8513104c9d08014effd734dd9ade73e2f8d42399b988139659940459e7d  tested/HariMultiThread-Ultimate-1.20.1-2.4.8-vulkan-hybrid.jar' | sha256sum -c -
-          sha256sum tested/HariMultiThread-Ultimate-1.20.1-2.4.8-vulkan-hybrid.jar | sed 's#tested/#production-qa/#' > tested/JAR-SHA256.txt
+          echo '5b5b6a8d7961dc43ce8213fc8a01821f66628640d70358379986ec13e80b3b99  tested/HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar' | sha256sum -c -
+          sha256sum tested/HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar | sed 's#tested/#production-qa/#' > tested/JAR-SHA256.txt
           curl -fL --retry 3 'https://edge.forgecdn.net/files/9040/801/c2meforge-0.2.0-forge.9.8-all.jar' -o c2meforge-0.2.0-forge.9.8-all.jar
           echo '903e7f66b6ee5e18f5fc736e6ace8b1d4f17c809f6db2c722efe1e54e66b4f54  c2meforge-0.2.0-forge.9.8-all.jar' | sha256sum -c -
       - name: Generate deterministic Forge world fixture
@@ -110,7 +110,7 @@ jobs:
           fi
 
           mkdir -p pmc-game/mods pmc-game/saves/HMT-2.4-QA
-          cp tested/HariMultiThread-Ultimate-1.20.1-2.4.8-vulkan-hybrid.jar pmc-game/mods/HariMultiThread-Ultimate.jar
+          cp tested/HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar pmc-game/mods/HariMultiThread-Ultimate.jar
           cp -a production-seed-server/world/. pmc-game/saves/HMT-2.4-QA/
           printf 'renderDistance:4\nsimulationDistance:5\nmaxFps:260\nenableVsync:false\npauseOnLostFocus:false\n' > pmc-game/options.txt
           # The software driver supports core GL 4.5. Avoid spending Forge's
@@ -118,7 +118,7 @@ jobs:
           mkdir -p pmc-game/config
           printf 'earlyWindowSkipGLVersions = ["4.6"]\n' > pmc-game/config/fml.toml
           sha256sum pmc-game/mods/HariMultiThread-Ultimate.jar | tee production-qa/INSTALLED-JAR-SHA256.txt
-          diff -u tested/JAR-SHA256.txt <(sed 's#pmc-game/mods/HariMultiThread-Ultimate.jar#production-qa/HariMultiThread-Ultimate-1.20.1-2.4.8-vulkan-hybrid.jar#' production-qa/INSTALLED-JAR-SHA256.txt)
+          diff -u tested/JAR-SHA256.txt <(sed 's#pmc-game/mods/HariMultiThread-Ultimate.jar#production-qa/HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar#' production-qa/INSTALLED-JAR-SHA256.txt)
 
       - name: Install immutable complete mod dependency closure
         env:
@@ -126,7 +126,7 @@ jobs:
         run: |
           python3 .github/qa/hari24_provider_inputs.py --lane "$HARI_LANE" \
             --lock .github/qa/hari24-mod-input-lock.json --game pmc-game --cache compat-mod-cache \
-            --candidate tested/HariMultiThread-Ultimate-1.20.1-2.4.8-vulkan-hybrid.jar --evidence production-qa
+            --candidate tested/HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar --evidence production-qa
           python3 .github/qa/hari24_binary_gate_probe.py \
             pmc-game/mods/HariMultiThread-Ultimate.jar pmc-game --java "$JAVA_HOME/bin/java" \
             --report production-qa/installed-renderer-selection.json
@@ -146,6 +146,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: Hari-2.4.8-C2ME98-NATIVE-${{ matrix.lane }}
+          name: Hari-2.4.9-C2ME98-NATIVE-${{ matrix.lane }}
           path: production-qa/
           if-no-files-found: error

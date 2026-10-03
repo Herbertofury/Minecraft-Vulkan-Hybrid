@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-10-03T19:15:00Z",
+  "updated_at": "2026-10-03T19:25:00Z",
   "status": "2.4.9 repair in progress; no release promotion",
   "source_parent": "f619f92b2d59ecd0cbca916a055a422de3d7aa51",
   "save_policy": "Non-force GitHub commits after each concrete repair and validation checkpoint; exact original provider bytes and test failures retained.",
@@ -16,6 +16,24 @@
       "run": 37145402840,
       "job": 111268174544,
       "result": "PASS, unchanged 2.4.8; not transferred to new binary"
+    },
+    "current_compile": {
+      "version": "2.4.9-noxviola.1-vulkan-hybrid",
+      "product_commit": "d087b4d17358d1ad94ac1362799769c7e677a862",
+      "compile_run": 37147380723,
+      "artifact_id": 11282926531,
+      "artifact_digest": "sha256:9cd6509c3fc1136b56af2a72d53c4380b33f671e0fe8b366cab51a749ebc5dd0",
+      "jar": "HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar",
+      "jar_sha256": "5b5b6a8d7961dc43ce8213fc8a01821f66628640d70358379986ec13e80b3b99",
+      "reproducible": true,
+      "source_files": 998,
+      "recipe_steps": 23,
+      "focused_regression_suites": 23,
+      "c2me_LIGHT_pairing_regression": "PASS: 529-ticket original negative control; six mapped/development variants; original queue/removal/failure identity retained",
+      "duplicate_entity_tracking_cancellation_removed": true,
+      "status": "native_modpack_pending",
+      "standard_dedicated_run": 37147380703,
+      "standard_packaged_production_run": 37147380701
     }
   },
   "current_causal_repair": {
@@ -29,11 +47,12 @@
       "sha256": "2be5089d50113b92fd8dc7e2a4cccdcfe475413e875f999673f2d0c21b031cd4"
     },
     "planned_fix": "Reuse actual original C2ME addition-level helper in semantically identified original LIGHT removal; preserve original queue, ticket arguments, removal operation and errors.",
-    "implementation": "Semantically matches the original release lambda independent of numeric suffix, reuses installed C2ME add helper, validates actual original LIGHT removal shape, disabled worldgen no-op. Real ASM fixture negative control pending execution."
+    "implementation": "Semantically matches the original release lambda independent of numeric suffix, reuses installed C2ME add helper, validates actual original LIGHT removal shape, disabled worldgen no-op. Real ASM fixture negative control pending execution.",
+    "regression": "PASS in hosted actual reconstructed source and local production helper: old code leaks529, six repaired variants release through original owner queue; original failure identity retained."
   },
   "remaining": [
-    "Compile rebuilt 2.4.9, execute real ASM ticket regression and full native save/reopen.",
-    "Investigate actual far-Aether sky-only render result without weakening visibility gate.",
+    "Validate original native OptiFine+C2ME world save/close/reopen with repaired exact binary.",
+    "Observe bounded actual-client-frame readiness after server chunks ready; keep original pixel thresholds and unready frames.",
     "Rebuild final exact 2.4.9 and run all 13 client lanes plus dedicated native acceptance.",
     "Publish new byte-verified source, JAR and proof to authorized release destination only after acceptance; update actual Wiki."
   ],
@@ -43,5 +62,13 @@
     "No NoAI replacement or despawn respawn cheats",
     "No transfer of 2.4.8 acceptance to 2.4.9",
     "No force push; retain 63 projects and accepted 2.4.1"
-  ]
+  ],
+  "progress_backup": {
+    "drive_id": "1aaHZdRVEY7_t0_avrkVbKMYl4QKRl2zV",
+    "url": "https://drive.google.com/file/d/1aaHZdRVEY7_t0_avrkVbKMYl4QKRl2zV/view?usp=drivesdk",
+    "bytes": 909330,
+    "sha256": "2a4a00c33dc6b9d014ddd724e97a755e31fb247901595d82d95c7d9f10715730",
+    "downloaded_byte_readback_match": true,
+    "contents": "235 integration code and QA files plus original-causal LIGHT regression; native acceptance pending"
+  }
 }
