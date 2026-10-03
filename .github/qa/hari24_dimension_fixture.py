@@ -38,6 +38,11 @@ def install(world: Path, mods: Path, evidence: Path) -> list[dict]:
                               and key.count(".") == 2)
                 key = f"{namespace}:{dimension}"
                 tag = f"hmtdim_{namespace}"
+                # Native whirlwinds are temporary: 512..1023 ticks for passive,
+                # 256..511 for evil. Their countdown and expiry are tested rather
+                # than changing original AI or pretending they persist forever.
+                transient = [m for m in mobs if namespace == "aether" and m in ("whirlwind", "evil_whirlwind")]
+                persistent = [m for m in mobs if m not in transient]
                 item = "aether:ambrosium_shard" if namespace == "aether" else "midnight:ebonite"
                 # Find an ordinary existing item resource; no fabricated target identifier.
                 if namespace == "midnight":
@@ -53,22 +58,59 @@ def install(world: Path, mods: Path, evidence: Path) -> list[dict]:
                          "fill -63 99 -62 -63 101 62 minecraft:glass",
                          "fill 63 99 -62 63 101 62 minecraft:glass",
                          f"kill @e[tag={tag}]",
+                         f"kill @e[tag={tag}_transient]",
                          f'setblock 2 99 2 minecraft:chest{{Lock:"HariDimensionQA",Items:[{{Slot:0b,id:"{item}",Count:7b}}]}}']
                 for i, mob in enumerate(mobs):
                     x, z = -24 + (i % 5) * 12, -24 + (i // 5) * 12
-                    setup.append(f'summon {namespace}:{mob} {x} 99 {z} '
-                                 f'{{Tags:["{tag}","{tag}_{mob}"],PersistenceRequired:1b,Invulnerable:1b}}')
+                    # AechorPlant.tick removes the plant on invalid ground,
+                    # including stone; invulnerability intentionally does not
+                    # bypass that original rule. Supply its native habitat.
+                    if namespace == "aether" and mob == "aechor_plant":
+                        setup.append(f"setblock {x} 98 {z} aether:aether_grass_block")
+                    # A summon with explicit NBT skips native finalizeSpawn. Let
+                    # Minecraft initialize the actual mob, then attach QA tags
+                    # and protection within the same function/server tick.
+                    selector = f"@e[type={namespace}:{mob},x={x},y=99,z={z},distance=..2,sort=nearest,limit=1]"
+                    setup += [f"summon {namespace}:{mob} {x} 99 {z}",
+                              f"tag {selector} add {tag}_{mob}",
+                              f"tag @e[tag={tag}_{mob},limit=1] add {tag + '_transient' if mob in transient else tag}",
+                              f"data merge entity @e[tag={tag}_{mob},limit=1] {{PersistenceRequired:1b,Invulnerable:1b}}"]
+                    if mob in transient:
+                        setup.append(f'execute store result score initial_{mob} hmtdim run data get entity @e[tag={tag}_{mob},limit=1] "Life Left"')
                 setup += [f'say HMT_DIM_CREATED_{namespace}_{len(mobs)}']
                 (functions / f"setup_{namespace}.mcfunction").write_text("\n".join(setup) + "\n")
                 # Every type must exist, every entity must remain, and original mod item NBT survives.
                 checks = ["scoreboard players set count hmtdim 0",
                           f"execute as @e[tag={tag}] run scoreboard players add count hmtdim 1"]
-                condition = f"execute if dimension {key} if score count hmtdim matches {len(mobs)} "
-                condition += " ".join(f"if entity @e[tag={tag}_{mob},limit=1]" for mob in mobs) + " "
+                condition = f"execute if dimension {key} if score count hmtdim matches {len(persistent)} "
+                condition += " ".join(f"if entity @e[tag={tag}_{mob},limit=1]" for mob in persistent) + " "
                 condition += f'if block 2 99 2 minecraft:chest{{Lock:"HariDimensionQA",Items:[{{Slot:0b,id:"{item}",Count:7b}}]}} '
-                condition += f"run say HMT_DIM_VERIFIED_{namespace}_{len(mobs)}"
+                condition += f"run say HMT_DIM_VERIFIED_{namespace}_{len(persistent)}"
                 checks.append(condition)
                 (functions / f"verify_{namespace}.mcfunction").write_text("\n".join(checks) + "\n")
+                audit = checks[:2] + ["scoreboard players get count hmtdim"]
+                audit += [f"execute unless entity @e[tag={tag}_{mob},limit=1] run say HMT_DIM_MISSING_{namespace}_{mob}" for mob in mobs]
+                audit += [f'execute unless block 2 99 2 minecraft:chest{{Lock:"HariDimensionQA",Items:[{{Slot:0b,id:"{item}",Count:7b}}]}} run say HMT_DIM_MISSING_NBT_{namespace}']
+                (functions / f"audit_{namespace}.mcfunction").write_text("\n".join(audit) + "\n")
+                if transient:
+                    live_checks = ["scoreboard players set catalogue hmtdim 0",
+                                   f"execute as @e[tag={tag}] run scoreboard players add catalogue hmtdim 1",
+                                   f"execute as @e[tag={tag}_transient] run scoreboard players add catalogue hmtdim 1"]
+                    for mob in transient:
+                        live_checks.append(f'execute store result score remaining_{mob} hmtdim run data get entity @e[tag={tag}_{mob},limit=1] "Life Left"')
+                    live = f"execute if dimension {key} if score catalogue hmtdim matches {len(mobs)} "
+                    live += " ".join(f"if entity @e[tag={tag}_{mob},limit=1]" for mob in mobs) + " "
+                    for mob in transient:
+                        limits = "256..511" if mob == "evil_whirlwind" else "512..1023"
+                        live += (f"if score initial_{mob} hmtdim matches {limits} "
+                                 f"if score remaining_{mob} hmtdim matches 1.. "
+                                 f"if score remaining_{mob} hmtdim < initial_{mob} hmtdim ")
+                    live_checks.append(live + f"run say HMT_DIM_CATALOGUE_{namespace}_{len(mobs)}")
+                    (functions / f"verify_catalogue_{namespace}.mcfunction").write_text("\n".join(live_checks)+"\n")
+                    expired = f"execute if dimension {key} "
+                    expired += " ".join(f"unless entity @e[tag={tag}_{mob},limit=1]" for mob in transient)
+                    expired += f" run say HMT_DIM_NATIVE_LIFETIME_EXPIRED_{namespace}\n"
+                    (functions / f"verify_expired_{namespace}.mcfunction").write_text(expired)
                 for label, center, y in (("home", 0, 120), ("far", 4096, 140)):
                     positions = [(center + dx * 16, center + dz * 16)
                                  for dx in range(-3, 4) for dz in range(-3, 4)]
@@ -77,10 +119,12 @@ def install(world: Path, mods: Path, evidence: Path) -> list[dict]:
                     condition += f" run say HMT_DIM_CHUNKS_{namespace}_{label}_49\n"
                     (functions / f"ready_{namespace}_{label}.mcfunction").write_text(condition)
                 catalogue.append({"namespace": namespace, "dimension": key, "mob_types": mobs,
-                                  "expected_entities": len(mobs), "persistence_item": item,
+                                  "expected_entities": len(persistent), "expected_catalogue": len(mobs),
+                                  "persistent_mob_types": persistent, "transient_mob_types": transient,
+                                  "persistence_item": item,
                                   "home": [0, 120, 0], "far": [4096, 140, 4096],
                                   "required_loaded_chunks": 49, "setup": setup, "checks": checks,
-                                  "scope": "All spawn-egg mob types, active original AI; not every boss combat phase"})
+                                  "scope": "All spawn-egg mob types with original AI; native countdown/expiry for two temporary whirlwinds, persistent mob unload/save/reopen; not every boss combat phase"})
     if len({row["namespace"] for row in catalogue}) != len(catalogue):
         raise RuntimeError("Duplicate dimension provider")
     (evidence / "dimension-fixture.json").write_text(json.dumps(catalogue, indent=2) + "\n")

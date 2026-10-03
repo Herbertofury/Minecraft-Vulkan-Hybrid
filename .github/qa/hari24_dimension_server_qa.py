@@ -75,9 +75,15 @@ def boot(server: Path, evidence: Path, scenes: list[dict], reopen: bool):
                       f"HMT_SERVER_LOADED_{ns}_49")
             if not reopen:
                 cursor = command(prefix + f"function hmtdim:setup_{ns}")
-                wait(f"HMT_DIM_CREATED_{ns}_{scene['expected_entities']}",cursor)
+                wait(f"HMT_DIM_CREATED_{ns}_{scene['expected_catalogue']}",cursor)
             # Original mob AI runs throughout, including SmartBrainLib and boss idle behavior.
             time.sleep(6)
+            command(prefix + f"function hmtdim:audit_{ns}")
+            if not reopen and scene["transient_mob_types"]:
+                predicate(prefix + f"function hmtdim:verify_catalogue_{ns}",
+                          f"HMT_DIM_CATALOGUE_{ns}_{scene['expected_catalogue']}")
+                predicate(prefix + f"function hmtdim:verify_expired_{ns}",
+                          f"HMT_DIM_NATIVE_LIFETIME_EXPIRED_{ns}", timeout=120)
             predicate(prefix + f"function hmtdim:verify_{ns}",
                       f"HMT_DIM_VERIFIED_{ns}_{scene['expected_entities']}")
             command(prefix + "forceload remove all")
@@ -93,6 +99,7 @@ def boot(server: Path, evidence: Path, scenes: list[dict], reopen: bool):
             predicate(prefix + f"function hmtdim:verify_{ns}",
                       f"HMT_DIM_VERIFIED_{ns}_{scene['expected_entities']}")
             records.append({**scene,"reopen":reopen,"exact_mob_catalogue_present":True,
+                            "transient_lifecycle_verified_in_first_jvm": bool(scene["transient_mob_types"]),
                             "block_nbt_retained":True,"real_unload_return":True})
             (evidence/f"server-{phase}-results.json").write_text(json.dumps(records,indent=2)+"\n")
         cursor=command("save-all flush"); wait("Saved the game",cursor,timeout=180)

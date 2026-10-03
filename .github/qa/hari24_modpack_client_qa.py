@@ -11,6 +11,7 @@ import argparse
 import gzip
 import struct
 from hari24_dimension_fixture import install as install_dimension_fixture
+from hari24_fixture_notice import FixtureNotice
 import json
 import math
 import os
@@ -296,6 +297,8 @@ def main() -> int:
             if args.expect == "opengl" and "renderer=VULKAN" in line:
                 raise RuntimeError("OpenGL compatibility lane unexpectedly selected Vulkan")
 
+        fixture_notice = FixtureNotice(args.world, evidence, env)
+
         def wait_for(marker: str, timeout: float = READY_TIMEOUT, start_at: int = 0) -> None:
             for line in list(lines)[start_at:]:
                 inspect(line, marker)
@@ -303,6 +306,8 @@ def main() -> int:
                     return
             deadline = time.monotonic() + timeout
             while time.monotonic() < deadline:
+                if marker == " joined the game":
+                    fixture_notice.poll()
                 if proc is not None and proc.poll() is not None and events.empty():
                     raise RuntimeError(f"PortableMC/Minecraft exited waiting for {marker!r}")
                 try:
@@ -470,7 +475,13 @@ def main() -> int:
             predicate(f"/function hmtdim:ready_{namespace}_home", f"HMT_DIM_CHUNKS_{namespace}_home_49")
             if not args.reopen:
                 cursor = game_command(f"/function hmtdim:setup_{namespace}")
-                wait_for(f"HMT_DIM_CREATED_{namespace}_{scene['expected_entities']}", start_at=cursor)
+                wait_for(f"HMT_DIM_CREATED_{namespace}_{scene['expected_catalogue']}", start_at=cursor)
+                if scene["transient_mob_types"]:
+                    predicate(f"/function hmtdim:verify_catalogue_{namespace}",
+                              f"HMT_DIM_CATALOGUE_{namespace}_{scene['expected_catalogue']}")
+                    screenshot(f"{namespace}-native-whirlwinds")
+                    predicate(f"/function hmtdim:verify_expired_{namespace}",
+                              f"HMT_DIM_NATIVE_LIFETIME_EXPIRED_{namespace}", timeout=120)
             predicate(f"/function hmtdim:verify_{namespace}",
                       f"HMT_DIM_VERIFIED_{namespace}_{scene['expected_entities']}")
             mob_views = []
@@ -511,6 +522,7 @@ def main() -> int:
             dimension_results.append({**scene, "new_jvm_reopen": args.reopen,
                 "arrival": arrival, "mob_views": mob_views, "far": far, "returned": returned,
                 "all_mob_types_present": True, "block_nbt_retained": True,
+                "native_transient_lifecycle_verified_in_first_jvm": bool(scene["transient_mob_types"]),
                 "far_chunks_loaded": True, "home_chunks_unloaded": True,
                 "portal_return": portal_return,
                 "unexpected_errors": 0})

@@ -6,6 +6,7 @@ name: Hari 2.4.2 Aether Midnight and renderer compatibility
       - '.github/workflows/hari-modpack-compatibility.yml'
       - '.github/qa/hari24_modpack*'
       - '.github/qa/hari24_dimension_fixture.py'
+      - '.github/qa/hari24_fixture_notice.py'
       - '.github/qa/hari24_dimension_server_qa.py'
       - '.github/qa/hari24_binary_gate_probe.py'
       - '.github/qa/hari24-mod-input-lock.json'
@@ -13,13 +14,36 @@ name: Hari 2.4.2 Aether Midnight and renderer compatibility
 permissions:
   contents: read
   actions: read
+concurrency:
+  group: hari-expanded-modpack-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
+  retire-obsolete-fixture-run:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Retire the known superseded run blocked at the original fixture notice
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          target=37096083147
+          metadata="$(gh api "repos/${{ github.repository }}/actions/runs/$target")"
+          test "$(jq -r .head_sha <<< "$metadata")" = c02df97ac7dec6c06e3a31251443cb574c8e14df
+          test "$(jq -r .path <<< "$metadata")" = .github/workflows/hari-modpack-compatibility.yml
+          if test "$(jq -r .status <<< "$metadata")" != completed; then
+            gh run cancel "$target" --repo "${{ github.repository }}"
+          fi
   native-modpack:
+    needs: retire-obsolete-fixture-run
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     strategy:
       fail-fast: false
-      max-parallel: 4
+      max-parallel: 13
       matrix:
         lane: [aether, midnight, dimensions-c2me, immediatelyfast, entityculling, distanthorizons, oculus-embeddium, oculus-shaders, optifine, rubidium, lazurite, continuity, optimized-stack]
     steps:
@@ -184,7 +208,7 @@ jobs:
           (cd dimension-server && java -jar ../forge-installer.jar --installServer > ../server-qa/forge-server-install.log 2>&1)
           chmod +x dimension-server/run.sh
           printf 'eula=true\n' > dimension-server/eula.txt
-          printf '%s\n' '-Xms1G' '-Xmx4G' > dimension-server/user_jvm_args.txt
+          printf '%s\n' '-Xms1G' '-Xmx4G' '-Dharimt.vulkan.allowCpuDevice=true' > dimension-server/user_jvm_args.txt
           cat > dimension-server/server.properties <<'EOF'
           online-mode=false
           level-name=world

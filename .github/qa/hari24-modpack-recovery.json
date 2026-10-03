@@ -1,5 +1,5 @@
 {
-  "state": "bounded_native_ui_and_habitat_diagnostics_prepared",
+  "state": "native_original_dialog_and_spawn_fixes_ready",
   "product_commit": "309b303d819159aa12910c971568f6cfdf969076",
   "qa_commit": "c02df97ac7dec6c06e3a31251443cb574c8e14df",
   "candidate_sha256": "ca2955109f188292128fec36707fc7109ba1dbacbb70d20a83659b8284ca943b",
@@ -11,5 +11,12 @@
   "modpack_run": 37096083147,
   "hypothesis": "Old modpack lanes completed resource/world data loading but never started the integrated server; inspect the visible pre-world screen before changing product code",
   "old_five_archive_uploads": "Do not retry rejected uploads",
-  "next_action": "Capture original production world-entry screen without dismissing any dialog; audit all native mob types on their correct ground, then repair only the evidenced QA blocker and rerun expanded acceptance"
+  "next_action": "Run all 13 native client lanes and original dedicated dimension/C2ME server on unchanged immutable 2.4.2 candidate; inspect every failure and actual dimension frames",
+  "diagnostic_run": 37097830210,
+  "diagnostic_commit": "c7ff4283f1bc2ceab0e46c13c641062434fb577e",
+  "diagnostic_findings": {
+    "world_entry": "Actual vanilla experimental settings notice; exact native text masks and Proceed click restricted to disposable HMT-2.4-QA fixture",
+    "aechor_plant": "Native grass supplied; source-backed removal rule verified",
+    "whirlwinds": "Explicit summon NBT skipped normal finalizeSpawn. Normal summon first, then tags; require real original lifetime countdown and expiration, preserve AI"
+  }
 }
