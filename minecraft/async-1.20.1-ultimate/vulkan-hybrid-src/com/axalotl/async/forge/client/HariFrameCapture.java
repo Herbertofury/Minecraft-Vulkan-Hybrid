@@ -19,6 +19,8 @@ import java.util.Map;
 public final class HariFrameCapture {
     private static final boolean ENABLED = Boolean.getBoolean("harimt.qa.captureFrames");
     private static final boolean LIFECYCLE = Boolean.getBoolean("harimt.qa.lifecycle");
+    private static final boolean OBSERVE_STATE = Boolean.getBoolean("harimt.qa.observeClientState");
+    private static long lastStateObservation;
     private static int commandTicks;
     private static int stableFrames;
     private static int lastWidth;
@@ -69,8 +71,9 @@ public final class HariFrameCapture {
 
     @SubscribeEvent
     public static void render(TickEvent.RenderTickEvent event) {
-        if ((!ENABLED && !LIFECYCLE) || event.phase != TickEvent.Phase.END) return;
+        if ((!ENABLED && !LIFECYCLE && !OBSERVE_STATE) || event.phase != TickEvent.Phase.END) return;
         Minecraft mc = Minecraft.getInstance();
+        if (OBSERVE_STATE) observeState(mc);
         if (LIFECYCLE && mc.level != null && mc.player != null && mc.getOverlay() == null) {
             int width = mc.getWindow().getWidth(), height = mc.getWindow().getHeight();
             if (width != lastWidth || height != lastHeight) {
@@ -135,6 +138,35 @@ public final class HariFrameCapture {
             AsyncForge.LOGGER.info("[Hari/QA] captured {} world frames after {} warmup frames", count, WARMUP);
         } catch (Exception e) {
             AsyncForge.LOGGER.error("[Hari/QA] frame capture failed", e);
+        }
+    }
+
+    /** Read-only native input synchronization; enabled only in the expanded QA JVM. */
+    private static void observeState(Minecraft mc) {
+        long now = System.nanoTime();
+        if (now - lastStateObservation < 250_000_000L) return;
+        lastStateObservation = now;
+        Map<String, Object> state = new LinkedHashMap<>();
+        state.put("observed_at_epoch_ms", System.currentTimeMillis());
+        state.put("dimension", mc.level == null ? null : mc.level.dimension().location().toString());
+        state.put("screen", mc.screen == null ? null : mc.screen.getClass().getName());
+        state.put("screen_pauses", mc.screen != null && mc.screen.isPauseScreen());
+        state.put("overlay", mc.getOverlay() == null ? null : mc.getOverlay().getClass().getName());
+        state.put("paused", mc.isPaused());
+        state.put("window_active", mc.isWindowActive());
+        state.put("mouse_grabbed", mc.mouseHandler.isMouseGrabbed());
+        if (mc.player != null) {
+            state.put("position", new double[] {mc.player.getX(), mc.player.getY(), mc.player.getZ()});
+        }
+        java.nio.file.Path target = mc.gameDirectory.toPath().resolve("harimt-qa-client-state.json");
+        java.nio.file.Path temporary = target.resolveSibling("harimt-qa-client-state.tmp");
+        try {
+            Files.writeString(temporary, new GsonBuilder().serializeNulls().create().toJson(state) + "\n",
+                    StandardCharsets.UTF_8);
+            Files.move(temporary, target, java.nio.file.StandardCopyOption.REPLACE_EXISTING,
+                    java.nio.file.StandardCopyOption.ATOMIC_MOVE);
+        } catch (java.io.IOException failure) {
+            throw new java.io.UncheckedIOException("Cannot write QA client state observation", failure);
         }
     }
 }
