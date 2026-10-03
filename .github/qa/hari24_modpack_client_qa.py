@@ -463,13 +463,13 @@ def main() -> int:
             subprocess.run(["xdotool", "windowactivate", "--sync", wid,
                             "windowfocus", "--sync", wid,
                             "key", "--clearmodifiers", "t"], env=env, check=True, timeout=15)
-            wait_client_state("native chat screen", lambda state: state["screen"] == "net.minecraft.client.gui.screens.ChatScreen", timeout=15)
+            wait_client_state("native chat screen", lambda state: state["chat_screen"], timeout=15)
             time.sleep(input_settle)
             subprocess.run(["xdotool", "type", "--clearmodifiers", "--delay", "20", command],
                            env=env, check=True, timeout=20)
             time.sleep(input_settle)
             state = client_state()
-            if state is None or state["screen"] != "net.minecraft.client.gui.screens.ChatScreen":
+            if state is None or not state["chat_screen"]:
                 raise RuntimeError(f"Native chat closed while typing {command}: {state}")
             subprocess.run(["xdotool", "key", "--clearmodifiers", "Return"],
                            env=env, check=True, timeout=15)
@@ -507,13 +507,16 @@ def main() -> int:
                             "windowfocus", "--sync", wid], env=env, check=True, timeout=15)
             before = wait_client_state("rendered interactive arrival in " + dimension,
                                       lambda state: interactive(state) and state["dimension"] == dimension)
+            ensure_creative_flight()
+            before = wait_client_state("flying arrival in " + dimension,
+                                      lambda state: interactive(state) and state["dimension"] == dimension and state.get("flying"))
             subprocess.run(["xdotool", "windowactivate", "--sync", wid,
                             "windowfocus", "--sync", wid,
                             "keydown", "s", "keydown", "d"], env=env, check=True, timeout=15)
             try:
                 after = wait_client_state("native movement clear of portal",
                     lambda state: interactive(state) and state["dimension"] == dimension
-                    and sum((a-b)**2 for a,b in zip(state.get("position", []), before["position"])) > 16,
+                    and state.get("flying") and sum((state["position"][axis]-before["position"][axis])**2 for axis in (0,2)) > 16,
                     timeout=30)
             finally:
                 subprocess.run(["xdotool", "keyup", "d", "keyup", "s"], env=env, check=True, timeout=15)
@@ -522,10 +525,28 @@ def main() -> int:
             (evidence / "command-journal.json").write_text(json.dumps(command_journal, indent=2) + "\n")
             time.sleep(input_settle)
 
+        def ensure_creative_flight():
+            before = wait_client_state("interactive creative flight controls", interactive)
+            if before.get("flying"):
+                return
+            if not before.get("may_fly"):
+                raise RuntimeError("Native flight requested outside creative mode: " + repr(before))
+            # Original game-mode transitions enable flight without frame-rate
+            # sensitive double-Space input. Spectator enables flying; returning
+            # to creative retains it. No dimension or portal state is changed.
+            game_command("/gamemode spectator @s")
+            game_command("/gamemode creative @s")
+            after = wait_client_state("original creative flight enabled",
+                                      lambda state: interactive(state) and state.get("flying"), timeout=15)
+            command_journal.append({"native_input": "original game-mode commands to enable creative flight",
+                                    "before": before, "after": after, "dimension_changed_by_command": False})
+            (evidence / "command-journal.json").write_text(json.dumps(command_journal, indent=2) + "\n")
+
         game_command("/reload")
         if not args.reopen:
             game_command("/function hmtdim:init")
         game_command("/gamemode creative @s")
+        ensure_creative_flight()
         dimension_results = []
         for scene in dimension_fixture:
             namespace, dimension = scene["namespace"], scene["dimension"]
@@ -585,6 +606,7 @@ def main() -> int:
             portal_return = None
             if not args.reopen:
                 game_command("/gamemode creative @s")
+                ensure_creative_flight()
                 stage = 2 if namespace == "aether" else 4
                 cursor = game_command(f"/scoreboard players set @s hmtdim_portal {stage}")
                 if namespace == "aether":
