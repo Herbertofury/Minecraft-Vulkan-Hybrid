@@ -1,4 +1,4 @@
-name: Hari original provider and shutdown evidence inspection
+name: Hari verified provider and shutdown evidence inspection
 "on":
   push:
     branches: [async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926]

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Inspect immutable native evidence and original provider bytes; never change a game."""
-import hashlib, io, json, os, pathlib, subprocess, urllib.request, zipfile
+import hashlib, io, json, os, pathlib, subprocess, urllib.request, urllib.error, urllib.parse, zipfile
 out = pathlib.Path("provider-inspection")
 out.mkdir(exist_ok=True)
 def fetch(url, token=False):
@@ -8,8 +8,22 @@ def fetch(url, token=False):
     if token:
         headers["Authorization"] = "Bearer " + os.environ["GH_TOKEN"]
         headers["Accept"] = "application/vnd.github+json"
-    with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=180) as response:
-        return response.read()
+    class NoRedirect(urllib.request.HTTPRedirectHandler):
+        def redirect_request(self, req, fp, code, msg, response_headers, newurl):
+            return None
+    request = urllib.request.Request(url, headers=headers)
+    try:
+        with urllib.request.build_opener(NoRedirect).open(request, timeout=180) as response:
+            return response.read()
+    except urllib.error.HTTPError as error:
+        if error.code not in (301, 302, 303, 307, 308):
+            raise
+        destination = urllib.parse.urljoin(url, error.headers["Location"])
+        # A GitHub API bearer is scoped to its origin. Signed artifact redirects
+        # carry their own authorization and must receive no GitHub header.
+        if urllib.parse.urlsplit(destination).hostname != urllib.parse.urlsplit(url).hostname:
+            return fetch(destination, False)
+        return fetch(destination, token)
 artifacts = [
     (11281642663, 332680, "3136b7ff9241ac9177602ce72805eae946753ff63eeded135eb4903c5dd74116"),
     (11281697663, 13494730, "632e128a736edbf9137241957d9df59229791a8fca4aa63f131f1b91ea5de4ff"),
