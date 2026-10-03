@@ -213,6 +213,7 @@ def main() -> int:
             cmd.extend([
                 "--jvm-arg=-Dmixin.debug.verbose=true",
                 "--jvm-arg=-Dmixin.debug.export=true",
+                "--jvm-arg=-Dmixin.debug.export.decompile=false",
                 "--jvm-arg=-Dmixin.debug.export.filter=me.jellysquid.mods.sodium.client.world.cloned.ClonedChunkSectionCache",
             ])
         (evidence / "launch-command.txt").write_text(" ".join(cmd) + "\n", encoding="utf-8")
@@ -828,6 +829,8 @@ def main() -> int:
                 shutil.copyfile(report, destination)
         if runtime_log.is_file():
             shutil.copyfile(runtime_log, evidence / "forge-latest.log")
+        if (mc_dir / "logs/debug.log").is_file():
+            shutil.copyfile(mc_dir / "logs/debug.log", evidence / "forge-debug.log")
         if (mc_dir / "harimt-qa-client-state.json").is_file():
             shutil.copyfile(mc_dir / "harimt-qa-client-state.json", evidence / "last-client-state.json")
         if 'stdout_lines' in locals():
