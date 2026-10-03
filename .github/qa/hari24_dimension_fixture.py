@@ -12,7 +12,23 @@ def install(world: Path, mods: Path, evidence: Path) -> list[dict]:
     functions.mkdir(parents=True, exist_ok=True)
     (pack / "pack.mcmeta").write_text(json.dumps({"pack": {
         "pack_format": 15, "description": "Disposable native dimension/mob/persistence acceptance"}}) + "\n")
-    (functions / "init.mcfunction").write_text("scoreboard objectives add hmtdim dummy\n")
+    (functions / "init.mcfunction").write_text("scoreboard objectives add hmtdim dummy\nscoreboard objectives add hmtdim_portal dummy\n")
+    # Observe the actual player's destination on server ticks. Chat is closed by
+    # Aether while standing in its portal, so UI commands cannot reliably query
+    # arrival. This observer neither teleports nor changes portals/cooldowns.
+    tick_tags = pack / "data" / "minecraft" / "tags" / "functions"
+    tick_tags.mkdir(parents=True, exist_ok=True)
+    (tick_tags / "tick.json").write_text(json.dumps({"values": ["hmtdim:portal_observer"]}) + "\n")
+    observers = []
+    for stage, dimension, marker in (
+        (1, "aether:the_aether", "HMT_DIM_NATIVE_PORTAL_ENTERED_aether"),
+        (2, "minecraft:overworld", "HMT_DIM_NATIVE_PORTAL_RETURNED_aether"),
+        (3, "midnight:the_midnight", "HMT_DIM_NATIVE_PORTAL_ENTERED_midnight"),
+        (4, "minecraft:overworld", "HMT_DIM_NATIVE_PORTAL_RETURNED_midnight"),
+    ):
+        name = f"portal_observed_{stage}"
+        observers.append(f"execute as @a[scores={{hmtdim_portal={stage}}}] at @s if dimension {dimension} run function hmtdim:{name}")
+        (functions / (name + ".mcfunction")).write_text(f"scoreboard players set @s hmtdim_portal 0\nsay {marker}\n")
     (functions / "portal_aether.mcfunction").write_text(
         "fill -4 99 -4 4 99 4 minecraft:stone\n"
         "fill -1 100 0 2 104 0 minecraft:glowstone\n"
@@ -127,5 +143,9 @@ def install(world: Path, mods: Path, evidence: Path) -> list[dict]:
                                   "scope": "All spawn-egg mob types with original AI; native countdown/expiry for two temporary whirlwinds, persistent mob unload/save/reopen; not every boss combat phase"})
     if len({row["namespace"] for row in catalogue}) != len(catalogue):
         raise RuntimeError("Duplicate dimension provider")
+    present = {row["namespace"] for row in catalogue}
+    observers = [row for index, row in enumerate(observers)
+                 if ("aether" if index < 2 else "midnight") in present]
+    (functions / "portal_observer.mcfunction").write_text("\n".join(observers) + "\n")
     (evidence / "dimension-fixture.json").write_text(json.dumps(catalogue, indent=2) + "\n")
     return catalogue

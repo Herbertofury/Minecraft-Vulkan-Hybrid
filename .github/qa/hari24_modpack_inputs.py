@@ -6,6 +6,8 @@ import json
 import shutil
 import urllib.request
 import urllib.parse
+import io
+import zipfile
 from html.parser import HTMLParser
 from pathlib import Path
 
@@ -26,7 +28,7 @@ LANES = {
     "optimized-stack": {"mods": DIMENSIONS + ["modernfix", "ferrite-core", "servercore",
                                                "entityculling", "immediatelyfast"], "c2me": True},
 }
-CANDIDATE_SHA = "d8c9066ad863fc51889fe1437a959b3d4f38aae4f52eb4e47ee32a704906a0e6"
+CANDIDATE_SHA = "1b315fe485fba2c46c080a660a484d1b3b1d0feabaa40dd5c770d7286e10d92b"
 C2ME = {"filename": "c2meforge-0.2.0-forge.9.6-all.jar", "size": 1343566,
         "url": "https://edge.forgecdn.net/files/8929/972/c2meforge-0.2.0-forge.9.6-all.jar",
         "hashes": {"sha256": "97401e625906dc7dbe7719c4915d5aa88830e64e5aa6f90831ee45a61373f8d3"}}
@@ -108,6 +110,23 @@ def main():
         (args.game / "config/oculus.properties").write_text("enableShaders=true\nshaderPack=" + target.name + "\n")
         installed["shaderpack"] = {"filename": target.name, "sha256": hashlib.sha256(target.read_bytes()).hexdigest(), "unmodified_default_pack": True}
     (args.game / "config" / "harimt.toml").write_text('["Async Config"]\nparaMax = 2\n')
+    metadata = {}
+    def inspect_metadata(payload, lineage):
+        with zipfile.ZipFile(io.BytesIO(payload)) as jar:
+            for name in jar.namelist():
+                if name.endswith('.mixins.json') or name.endswith('.mixin.json'):
+                    config_bytes = jar.read(name)
+                    config = json.loads(config_bytes)
+                    if isinstance(config, dict) and 'minVersion' not in config:
+                        metadata[Path(name).name] = {'original_jar': lineage, 'resource': name,
+                            'resource_sha256': hashlib.sha256(config_bytes).hexdigest(),
+                            'jar_sha256': hashlib.sha256(payload).hexdigest(), 'missing_field': 'minVersion'}
+                elif name.endswith('.jar'):
+                    inspect_metadata(jar.read(name), lineage + '!/' + name)
+    for path in sorted((args.game / 'mods').glob('*.jar')):
+        inspect_metadata(path.read_bytes(), path.name)
+    (args.game / 'harimt-qa-mixin-metadata.json').write_text(json.dumps(metadata, indent=2) + '\n')
+    (args.evidence / 'original-mixin-metadata.json').write_text(json.dumps(metadata, indent=2) + '\n')
     receipt = {"lane": args.lane, "candidate_sha256": CANDIDATE_SHA, "c2me": requested["c2me"],
                "installed": installed, "third_party_mods_unchanged": True}
     (args.evidence / "installed-mod-inputs.json").write_text(json.dumps(receipt, indent=2) + "\n")

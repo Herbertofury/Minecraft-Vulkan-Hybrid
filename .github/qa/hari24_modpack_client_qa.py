@@ -395,6 +395,8 @@ def main() -> int:
 
         def error_ledger(snapshot: list[str]) -> None:
             records = []
+            metadata_receipt = mc_dir / "harimt-qa-mixin-metadata.json"
+            known_metadata = json.loads(metadata_receipt.read_text()) if metadata_receipt.is_file() else {}
             for index, line in enumerate(snapshot):
                 if "[ERROR]" not in line and "/ERROR]" not in line:
                     continue
@@ -404,6 +406,8 @@ def main() -> int:
                     classification = "offline-launcher authentication diagnostic (exact HTTP 401 cause)"
                 elif "Mod mixin into Embeddium internals detected. This instance is now tainted." in line:
                     classification = "Embeddium support notice for retained Hari GPU bridge"
+                elif (match := re.search(r'Mixin config (\S+) does not specify "minVersion" property', line)) and match.group(1) in known_metadata:
+                    classification = "Unmodified third-party Mixin metadata lacks minVersion; verified original JSON receipt, no executable failure"
                 else:
                     raise RuntimeError("unexpected production error: " + line.strip())
                 records.append({"classification": classification, "line": line.strip()})
@@ -469,6 +473,9 @@ def main() -> int:
         for scene in dimension_fixture:
             namespace, dimension = scene["namespace"], scene["dimension"]
             game_command("/execute in minecraft:overworld run tp @s 16.5 100 16.5 0 90")
+            if not args.reopen:
+                stage = 1 if namespace == "aether" else 3
+                cursor = game_command(f"/scoreboard players set @s hmtdim_portal {stage}")
             if args.reopen:
                 game_command(f"/execute in {dimension} run tp @s 0 120 0 0 40")
             elif namespace == "aether":
@@ -483,6 +490,7 @@ def main() -> int:
                 time.sleep(input_settle * 3)
                 subprocess.run(["xdotool", "mouseup", "3"], env=env, check=True, timeout=15)
             if not args.reopen:
+                wait_for(f"HMT_DIM_NATIVE_PORTAL_ENTERED_{namespace}", timeout=240, start_at=cursor)
                 step_out_of_portal()
             predicate(f"/execute if dimension {dimension} run say HMT_DIM_ENTERED_{namespace}",
                       f"HMT_DIM_ENTERED_{namespace}")
@@ -520,6 +528,8 @@ def main() -> int:
             portal_return = None
             if not args.reopen:
                 game_command("/gamemode creative @s")
+                stage = 2 if namespace == "aether" else 4
+                cursor = game_command(f"/scoreboard players set @s hmtdim_portal {stage}")
                 if namespace == "aether":
                     game_command("/function hmtdim:portal_aether_return")
                     predicate("/execute if block 0 141 0 aether:aether_portal run say HMT_AETHER_RETURN_PORTAL_ACTIVE",
@@ -532,6 +542,7 @@ def main() -> int:
                     subprocess.run(["xdotool", "mousedown", "3"], env=env, check=True, timeout=15)
                     time.sleep(input_settle * 3)
                     subprocess.run(["xdotool", "mouseup", "3"], env=env, check=True, timeout=15)
+                wait_for(f"HMT_DIM_NATIVE_PORTAL_RETURNED_{namespace}", timeout=240, start_at=cursor)
                 step_out_of_portal()
                 predicate(f"/execute if dimension minecraft:overworld run say HMT_DIM_PORTAL_RETURNED_{namespace}",
                           f"HMT_DIM_PORTAL_RETURNED_{namespace}")
