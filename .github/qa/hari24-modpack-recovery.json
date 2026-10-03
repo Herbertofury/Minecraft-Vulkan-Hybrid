@@ -1,7 +1,7 @@
 {
-  "state": "2.4.8_exact_native_modpack_matrix_preparing",
+  "state": "2.4.8_exact_native_matrix_running",
   "product_commit": "4052cef9dfb64b755691d02e37988947d2b48547",
-  "qa_commit": null,
+  "qa_commit": "a38c9168b92d3936ae9fc37f244873a018959a0c",
   "candidate_sha256": "16ece8513104c9d08014effd734dd9ade73e2f8d42399b988139659940459e7d",
   "candidate_bytes": 30746014,
   "version": "2.4.8-noxviola.1-vulkan-hybrid",
@@ -9,9 +9,11 @@
   "compile_artifact": 11278067893,
   "native_server_run": 37135775382,
   "production_client_run": 37135775318,
-  "modpack_run": null,
+  "modpack_run": 37136374739,
   "passed_current_runs": {
-    "compile": 37135775317
+    "compile": 37135775317,
+    "native_server": 37135775382,
+    "production_client": 37135775318
   },
   "expanded_client_lanes": [
     "aether",
