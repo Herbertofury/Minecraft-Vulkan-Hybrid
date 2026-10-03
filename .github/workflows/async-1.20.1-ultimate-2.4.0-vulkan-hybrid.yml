@@ -247,6 +247,7 @@ jobs:
           python3 minecraft/async-1.20.1-ultimate/test_modpack_render_integrity.py upstream \
             --report qa-out/MODPACK-RENDER-INTEGRITY.json
           python3 minecraft/async-1.20.1-ultimate/test_client_lifetimes.py upstream --report qa-out/CLIENT-LIFETIMES.json --cache qa-client-lifetime-inputs
+          python3 minecraft/async-1.20.1-ultimate/test_c2me_light_levels.py upstream --report qa-out/C2ME-LIGHT-LEVELS.json --cache qa-client-lifetime-inputs
 
       - name: Verify one-mod packaging and Vulkan payload
         shell: bash

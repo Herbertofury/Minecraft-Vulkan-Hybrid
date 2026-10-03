@@ -28,10 +28,11 @@
       "artifact": 11281704693,
       "sha256": "2be5089d50113b92fd8dc7e2a4cccdcfe475413e875f999673f2d0c21b031cd4"
     },
-    "planned_fix": "Reuse actual original C2ME addition-level helper in semantically identified original LIGHT removal; preserve original queue, ticket arguments, removal operation and errors."
+    "planned_fix": "Reuse actual original C2ME addition-level helper in semantically identified original LIGHT removal; preserve original queue, ticket arguments, removal operation and errors.",
+    "implementation": "Semantically matches the original release lambda independent of numeric suffix, reuses installed C2ME add helper, validates actual original LIGHT removal shape, disabled worldgen no-op. Real ASM fixture negative control pending execution."
   },
   "remaining": [
-    "Real ASM level-pairing regression with leaking original negative control and native save/reopen.",
+    "Compile rebuilt 2.4.9, execute real ASM ticket regression and full native save/reopen.",
     "Investigate actual far-Aether sky-only render result without weakening visibility gate.",
     "Rebuild final exact 2.4.9 and run all 13 client lanes plus dedicated native acceptance.",
     "Publish new byte-verified source, JAR and proof to authorized release destination only after acceptance; update actual Wiki."

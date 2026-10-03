@@ -68,11 +68,16 @@ def apply(root: Path):
     config = root / 'forge/src/main/resources/harimt.forge.mixins.json'
     data = json.loads(config.read_text())
     assert 'client.rubidium.RubidiumWorldSliceMixin' not in data['client']
-    data['client'].extend(['client.rubidium.RubidiumWorldSliceMixin', 'client.rubidium.RubidiumChunkCacheMixin', 'client.opengl.ForgeLoadingLogoMixin'])
+    data['client'].extend(['client.rubidium.RubidiumWorldSliceMixin', 'client.rubidium.RubidiumChunkCacheMixin', 'client.opengl.ForgeLoadingLogoMixin', 'client.c2me.C2meLightTicketMixin'])
     data['plugin'] = 'com.axalotl.async.forge.mixin.HariForgeMixinPlugin'
     config.write_text(json.dumps(data, indent=2) + '\n')
     edit('forge/src/main/java/com/axalotl/async/forge/mixin/HariForgeMixinPlugin.java',
-         '        if(!mixinClassName.contains(".client.embeddium.")) return true;', '''        if(mixinClassName.contains(".client.opengl.")) return !net.vulkanmod.compat.UniversalRendererGate.vulkanRendererEnabled();
+         '        if(!mixinClassName.contains(".client.embeddium.")) return true;', '''        if(mixinClassName.contains(".client.c2me.")) {
+            var list = FMLLoader.getLoadingModList();
+            return list.getModFileById("c2meforge") != null || list.getModFileById("c2me") != null
+                    || list.getModFileById("c2mef") != null || list.getModFileById("c2me_base") != null;
+        }
+        if(mixinClassName.contains(".client.opengl.")) return !net.vulkanmod.compat.UniversalRendererGate.vulkanRendererEnabled();
         if(mixinClassName.contains(".client.rubidium.")) {
             var list = FMLLoader.getLoadingModList();
             return list.getModFileById("rubidium") != null && list.getModFileById("embeddium") == null;
@@ -81,7 +86,7 @@ def apply(root: Path):
 
     edit('forge/src/main/java/com/axalotl/async/forge/mixin/HariForgeMixinPlugin.java',
          '@Override public void preApply(String targetClassName,ClassNode targetClass, String mixinClassName,IMixinInfo mixinInfo){}',
-         '@Override public void preApply(String targetClassName,ClassNode targetClass, String mixinClassName,IMixinInfo mixinInfo){\n        if (mixinClassName.endsWith(".RubidiumChunkCacheMixin"))\n            com.axalotl.async.forge.client.RubidiumCacheLock.apply(targetClass);\n    }')
+         '@Override public void preApply(String targetClassName,ClassNode targetClass, String mixinClassName,IMixinInfo mixinInfo){\n        if (mixinClassName.endsWith(".RubidiumChunkCacheMixin"))\n            com.axalotl.async.forge.client.RubidiumCacheLock.apply(targetClass);\n        if (mixinClassName.endsWith(".C2meLightTicketMixin"))\n            com.axalotl.async.forge.client.C2meLightTicketLevels.apply(targetClass);\n    }')
 
 if __name__ == '__main__':
     import sys

@@ -12,7 +12,11 @@ excluded=(".git/","build/",".gradle/","common/build/","forge/build/","fabric/bui
 files={path.relative_to(a.source).as_posix():hashlib.sha256(path.read_bytes()).hexdigest()
        for path in sorted(a.source.rglob("*")) if path.is_file()
        and not path.relative_to(a.source).as_posix().startswith(excluded)}
-assert set(files)==set(old["files"]), {"new":sorted(set(files)-set(old["files"])),
+added={
+ "forge/src/main/java/com/axalotl/async/forge/client/C2meLightTicketLevels.java",
+ "forge/src/main/java/com/axalotl/async/forge/mixin/client/c2me/C2meLightTicketMixin.java",
+}
+assert set(files)==set(old["files"]) | added, {"new":sorted(set(files)-set(old["files"])),
     "missing":sorted(set(old["files"])-set(files))}
 receipt=dict(old,version="2.4.9-noxviola.1-vulkan-hybrid",product_commit=os.environ["GITHUB_SHA"],
     files=files,file_count=len(files),fresh_recipe_completed=True,patched_source_differences=[])
