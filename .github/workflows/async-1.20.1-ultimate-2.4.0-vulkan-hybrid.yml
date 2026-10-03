@@ -90,7 +90,7 @@ jobs:
           python3 minecraft/async-1.20.1-ultimate/apply_vulkan_hybrid.py upstream vulkan-forge
           python3 minecraft/async-1.20.1-ultimate/apply_vulkan_performance.py upstream
           git -C upstream diff --check
-          grep -F 'version=2.4.7-noxviola.1-vulkan-hybrid' upstream/gradle.properties
+          grep -F 'version=2.4.8-noxviola.1-vulkan-hybrid' upstream/gradle.properties
           grep -F 'config = "vulkanmod.mixins.json"' upstream/forge/src/main/resources/META-INF/mods.toml
           grep -F 'UniversalRendererGate.vulkanRendererEnabled()' upstream/forge/src/main/java/net/vulkanmod/mixin/MixinPlugin.java
           grep -F 'new net.vulkanmod.Initializer()' upstream/forge/src/main/java/com/axalotl/async/forge/AsyncForge.java
@@ -230,7 +230,7 @@ jobs:
           assert client.stat().st_size == 23028853
           assert hashlib.sha1(client.read_bytes()).hexdigest() == '0c3ec587af28e5a785c0b4a7b8a30f9a8f78f838'
           PY
-          jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.4.7-noxviola.1-vulkan-hybrid-all.jar' | head -n 1)"
+          jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.4.8-noxviola.1-vulkan-hybrid-all.jar' | head -n 1)"
           python3 minecraft/async-1.20.1-ultimate/test_shared_samplers.py upstream \
             --baseline vulkan-forge/src/main/java/net/vulkanmod/vulkan/shader/parser/UniformParser.java \
             --runtime-jar "$jarfile" --midnight-jar shader-mod-cache/midnight-1.20.1-0.6.7.jar \
@@ -245,16 +245,17 @@ jobs:
             --report qa-out/SWAPCHAIN-SUBMISSION-REGRESSION.json
           python3 minecraft/async-1.20.1-ultimate/test_modpack_render_integrity.py upstream \
             --report qa-out/MODPACK-RENDER-INTEGRITY.json
+          python3 minecraft/async-1.20.1-ultimate/test_client_lifetimes.py upstream --report qa-out/CLIENT-LIFETIMES.json --cache qa-client-lifetime-inputs
 
       - name: Verify one-mod packaging and Vulkan payload
         shell: bash
         run: |
           set -euo pipefail
-          jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.4.7-noxviola.1-vulkan-hybrid-all.jar' | sort | head -n 1)"
+          jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.4.8-noxviola.1-vulkan-hybrid-all.jar' | sort | head -n 1)"
           test -s "$jarfile"
           unzip -t "$jarfile" | grep -F 'No errors detected'
           mkdir -p qa-out
-          cp "$jarfile" qa-out/HariMultiThread-Ultimate-1.20.1-2.4.7-vulkan-hybrid.jar
+          cp "$jarfile" qa-out/HariMultiThread-Ultimate-1.20.1-2.4.8-vulkan-hybrid.jar
           python3 - "$jarfile" <<'PY_SENSOR_JAR'
           import sys, zipfile
           with zipfile.ZipFile(sys.argv[1]) as archive:
@@ -325,13 +326,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          first=qa-out/HariMultiThread-Ultimate-1.20.1-2.4.7-vulkan-hybrid.jar
+          first=qa-out/HariMultiThread-Ultimate-1.20.1-2.4.8-vulkan-hybrid.jar
           test -s "$first"
           cp "$first" /tmp/hari24-first.jar
           sha256sum /tmp/hari24-first.jar | tee qa-out/REPRO-FIRST-SHA256.txt
 
           (cd upstream && ./gradlew --no-daemon clean :forge:build --stacktrace) 2>&1 | tee qa-out/REPRO-REBUILD.log
-          second="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.4.7-noxviola.1-vulkan-hybrid-all.jar' | sort | head -n 1)"
+          second="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.4.8-noxviola.1-vulkan-hybrid-all.jar' | sort | head -n 1)"
           test -s "$second"
           sha256sum "$second" | tee qa-out/REPRO-SECOND-SHA256.txt
           cp "$second" qa-out/REPRO-SECOND.jar
@@ -356,7 +357,7 @@ jobs:
               }
           }
           JAVA
-          javac -cp qa-out/HariMultiThread-Ultimate-1.20.1-2.4.7-vulkan-hybrid.jar \
+          javac -cp qa-out/HariMultiThread-Ultimate-1.20.1-2.4.8-vulkan-hybrid.jar \
             -d qa-probe/classes qa-probe/src/GateProbe.java
 
       - name: Prove clean pack selects Vulkan
@@ -366,7 +367,7 @@ jobs:
           mkdir -p qa-probe/clean/mods qa-probe/clean/config
           (
             cd qa-probe/clean
-            java -cp "../classes:../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.7-vulkan-hybrid.jar" GateProbe
+            java -cp "../classes:../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.8-vulkan-hybrid.jar" GateProbe
           ) | tee qa-out/GATE-CLEAN.txt
           grep -F 'enabled=true' qa-out/GATE-CLEAN.txt
 
@@ -388,7 +389,7 @@ jobs:
           rm -rf qa-probe/conflict/mods/fake
           (
             cd qa-probe/conflict
-            java -cp "../classes:../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.7-vulkan-hybrid.jar" GateProbe
+            java -cp "../classes:../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.8-vulkan-hybrid.jar" GateProbe
           ) | tee qa-out/GATE-CONFLICT.txt
           grep -F 'enabled=false' qa-out/GATE-CONFLICT.txt
           grep -F 'embeddium' qa-out/GATE-CONFLICT.txt
@@ -410,7 +411,7 @@ jobs:
           rm -rf qa-probe/continuity/mods/fake
           (
             cd qa-probe/continuity
-            java -cp "../classes:../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.7-vulkan-hybrid.jar" GateProbe
+            java -cp "../classes:../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.8-vulkan-hybrid.jar" GateProbe
           ) | tee qa-out/GATE-CONTINUITY.txt
           grep -F 'enabled=false' qa-out/GATE-CONTINUITY.txt
           grep -F 'continuity' qa-out/GATE-CONTINUITY.txt
@@ -435,7 +436,7 @@ jobs:
           rm -rf qa-probe/indigo/mods/outer qa-probe/indigo/mods/inner
           (
             cd qa-probe/indigo
-            java -cp "../classes:../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.7-vulkan-hybrid.jar" GateProbe
+            java -cp "../classes:../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.8-vulkan-hybrid.jar" GateProbe
           ) | tee qa-out/GATE-INDIGO.txt
           grep -F 'enabled=false' qa-out/GATE-INDIGO.txt
           grep -F 'fabric-renderer-indigo' qa-out/GATE-INDIGO.txt

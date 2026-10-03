@@ -21,6 +21,7 @@ public final class HariFrameCapture {
     private static final boolean LIFECYCLE = Boolean.getBoolean("harimt.qa.lifecycle");
     private static final boolean OBSERVE_STATE = Boolean.getBoolean("harimt.qa.observeClientState");
     private static long lastStateObservation;
+    private static boolean lastJumpDown, lastJumping, lastFlying;
     private static int commandTicks;
     private static int stableFrames;
     private static int lastWidth;
@@ -144,10 +145,18 @@ public final class HariFrameCapture {
     /** Read-only native input synchronization; enabled only in the expanded QA JVM. */
     private static void observeState(Minecraft mc) {
         long now = System.nanoTime();
-        if (now - lastStateObservation < 250_000_000L) return;
+        boolean jumpDown = mc.options.keyJump.isDown();
+        boolean jumping = mc.player != null && mc.player.input.jumping;
+        boolean flying = mc.player != null && mc.player.getAbilities().flying;
+        if (now - lastStateObservation < 250_000_000L && jumpDown == lastJumpDown
+                && jumping == lastJumping && flying == lastFlying) return;
         lastStateObservation = now;
+        lastJumpDown = jumpDown; lastJumping = jumping; lastFlying = flying;
         Map<String, Object> state = new LinkedHashMap<>();
         state.put("observed_at_epoch_ms", System.currentTimeMillis());
+        state.put("jump_key_down", jumpDown);
+        state.put("jumping", jumping);
+        state.put("player_tick", mc.player == null ? null : mc.player.tickCount);
         state.put("dimension", mc.level == null ? null : mc.level.dimension().location().toString());
         state.put("screen", mc.screen == null ? null : mc.screen.getClass().getName());
         state.put("chat_screen", mc.screen instanceof net.minecraft.client.gui.screens.ChatScreen);

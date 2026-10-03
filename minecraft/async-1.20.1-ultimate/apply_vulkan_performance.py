@@ -134,14 +134,11 @@ mixins.write_text(json.dumps(config, indent=2)+'\n')
 p='common/src/main/java/com/axalotl/async/common/mixin/server/ServerChunkCacheMixin.java'
 edit(p, 'extends ChunkSource {', 'extends ChunkSource implements com.axalotl.async.common.ChunkOwnerExecutor {')
 edit(p, '    @Unique private final List<LevelChunk>', '    @Override public java.util.concurrent.Executor harimt$ownerExecutor() { return this.mainThreadProcessor; }\n\n    @Unique private final List<LevelChunk>')
-edit(p, '            ParallelProcessor.forEachParallel(this.level, tasks, Runnable::run);', '''            if (com.axalotl.async.common.AsyncCommon.HARICHUNK) {
-                // C2ME's world RNG and spawn/entity trackers belong to the owner.
-                // Run each original deferred spawn once on that owner instead of
-                // scheduling thousands of blocking RNG handoffs per chunk phase.
-                for (Runnable task : tasks) task.run();
-            } else {
-                ParallelProcessor.forEachParallel(this.level, tasks, Runnable::run);
-            }''')
+edit(p, '            ParallelProcessor.forEachParallel(this.level, tasks, Runnable::run);', '''            // Original Forge spawn predicates can read or create neighboring
+            // chunks (Aether Swet banner scans do this). SpawnState, world RNG
+            // and entity insertion also belong to the world owner, with or
+            // without C2ME. Execute each original callback exactly once here.
+            for (Runnable task : tasks) task.run();''')
 p='common/src/main/java/com/axalotl/async/common/mixin/world/LevelMixin.java'
 edit(p, '        AutoCloseable {', '        AutoCloseable, com.axalotl.async.common.WorldRandomAccess {')
 edit(p, '    @Shadow\n    @Final\n    private Thread thread;', """    @Shadow
@@ -189,7 +186,7 @@ edit(p, '    private void onMove(Operation<Void> original) {', """    private vo
             return;
         }""")
 
-edit('gradle.properties', 'version=2.4.0-noxviola.1-vulkan-hybrid', 'version=2.4.7-noxviola.1-vulkan-hybrid')
+edit('gradle.properties', 'version=2.4.0-noxviola.1-vulkan-hybrid', 'version=2.4.8-noxviola.1-vulkan-hybrid')
 
 # Three inherited CFR failures were executable throw stubs in mob sensor sorting.
 # Freeze the observer once and each target on first comparison so movement cannot

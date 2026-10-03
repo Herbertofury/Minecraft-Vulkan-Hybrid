@@ -11,7 +11,7 @@ def run_java(files, main):
             p = root / name; p.parent.mkdir(parents=True, exist_ok=True); p.write_text(body)
         subprocess.run(['java','--module','jdk.compiler/com.sun.tools.javac.Main','-d',str(root/'classes')]
                        + [str(p) for p in root.rglob('*.java')], check=True)
-        return subprocess.check_output(['java','-ea','-cp',str(root/'classes'),main], text=True).strip()
+        return subprocess.check_output(['java','-ea','-cp',str(root/'classes'),main], text=True, stderr=subprocess.PIPE).strip()
 
 STUBS = {
 'net/minecraft/core/BlockPos.java': '''package net.minecraft.core; public class BlockPos {protected int x,y,z;public BlockPos(int x,int y,int z){this.x=x;this.y=y;this.z=z;}public int getX(){return x;}public int getY(){return y;}public int getZ(){return z;}public static class MutableBlockPos extends BlockPos {public MutableBlockPos(){super(0,0,0);}public MutableBlockPos set(int x,int y,int z){this.x=x;this.y=y;this.z=z;return this;}}}''',
@@ -98,19 +98,20 @@ METHOD
   phase.harimt$flushParallelChunkWork(new CallbackInfo());
   if(completed[0]!=10000||!phase.harimt$spawnTasks.isEmpty()||ParallelProcessor.dispatches!=0)throw new AssertionError("lost, duplicated, or handed-off C2ME spawns");
   com.axalotl.async.common.AsyncCommon.HARICHUNK=false;
-  phase.harimt$spawnTasks.add(()->completed[0]++);phase.harimt$flushParallelChunkWork(new CallbackInfo());
-  if(completed[0]!=10001||ParallelProcessor.dispatches!=1)throw new AssertionError("ordinary async spawn path changed");
+  for(int i=0;i<10000;i++)phase.harimt$spawnTasks.add(()->{if(Thread.currentThread()!=owner)throw new AssertionError("Aether spawn predicate requested chunk off-owner");completed[0]++;});
+  phase.harimt$flushParallelChunkWork(new CallbackInfo());
+  if(completed[0]!=20000||ParallelProcessor.dispatches!=0)throw new AssertionError("lost, duplicated, or dispatched ordinary Forge spawn callbacks");
   com.axalotl.async.common.AsyncCommon.HARICHUNK=true;
   RuntimeException original=new IllegalArgumentException("native spawn failure");phase.harimt$spawnTasks.add(()->{throw original;});
   try{phase.harimt$flushParallelChunkWork(new CallbackInfo());throw new AssertionError("spawn failure hidden");}catch(RuntimeException e){if(e!=original)throw new AssertionError("original spawn failure changed");}
-  System.out.println("C2ME_10000_ORIGINAL_OWNER_SPAWNS_PASSED");
+  System.out.println("FORGE_20000_ORIGINAL_OWNER_SPAWNS_PASSED");
  }
 }class CallbackInfo{}class Inject{}class At{}
 class GameRules{static final int RULE_RANDOMTICKING=1;int getInt(int x){return 3;}}
 class Pos{int x,z;}class Chunks{boolean hasChunk(int x,int z){return true;}}
 class Level{GameRules getGameRules(){return new GameRules();}Chunks getChunkSource(){return new Chunks();}void tickChunk(LevelChunk c,int s){}}
 class LevelChunk{Level getLevel(){return new Level();}Pos getPos(){return new Pos();}}
-class ParallelProcessor{static int dispatches;static <T> void forEachParallel(Level l,List<T> xs,Consumer<T> fn){dispatches++;xs.forEach(fn);}}
+class ParallelProcessor{static int dispatches;static <T> void forEachParallel(Level l,List<T> xs,Consumer<T> fn){dispatches++;Thread worker=new Thread(()->{for(T x:xs)fn.accept(x);},"spawn-worker-negative-control");worker.setUncaughtExceptionHandler((t,e)->failure=e);worker.start();try{worker.join();}catch(InterruptedException e){throw new RuntimeException(e);}if(failure!=null){Throwable cause=failure;failure=null;if(cause instanceof RuntimeException r)throw r;if(cause instanceof Error r)throw r;throw new RuntimeException(cause);}}static volatile Throwable failure;}
 '''
 
 def main():
@@ -142,12 +143,21 @@ def main():
     assert run_java(files,'TintProbe')=='CUSTOM_TINT_SNAPSHOT_HEIGHT_IDENTITY_REUSE_BLEND_PASSED'
     spawn=(a.source/'common/src/main/java/com/axalotl/async/common/mixin/server/ServerChunkCacheMixin.java').read_text()
     assert run_java({'SpawnProbe.java':SPAWN.replace('METHOD',method(spawn,'harimt$flushParallelChunkWork')),
-                     'com/axalotl/async/common/AsyncCommon.java':'package com.axalotl.async.common;public class AsyncCommon{public static boolean HARICHUNK;}'},'SpawnProbe')=='C2ME_10000_ORIGINAL_OWNER_SPAWNS_PASSED'
+                     'com/axalotl/async/common/AsyncCommon.java':'package com.axalotl.async.common;public class AsyncCommon{public static boolean HARICHUNK;}'},'SpawnProbe')=='FORGE_20000_ORIGINAL_OWNER_SPAWNS_PASSED'
+    old_spawn=method(spawn,'harimt$flushParallelChunkWork').replace('for (Runnable task : tasks) task.run();',
+        'if (com.axalotl.async.common.AsyncCommon.HARICHUNK) { for (Runnable task : tasks) task.run(); } else { ParallelProcessor.forEachParallel(this.level, tasks, Runnable::run); }')
+    try:
+        run_java({'SpawnProbe.java':SPAWN.replace('METHOD',old_spawn),
+                  'com/axalotl/async/common/AsyncCommon.java':'package com.axalotl.async.common;public class AsyncCommon{public static boolean HARICHUNK;}'},'SpawnProbe')
+    except subprocess.CalledProcessError as failure:
+        assert 'Aether spawn predicate requested chunk off-owner' in failure.stderr, failure.stderr
+    else:
+        raise AssertionError('Old off-owner natural spawn negative control did not fail')
     report={'passed':True,'framebuffer_readback_usage':True,'readback_restart_restores_bias_and_line_width':True,
             'swapchain_readback_usage_and_surface_capability_check':True,
             'custom_resolver_original_colors':True,'separate_height_layers':True,'resolver_identity_and_pooled_cache_invalidation':True,
             'snapshot_lookup_and_original_failures':True,'blend_radii':[0,1,2,7],
-            'c2me_original_spawns_on_owner':10000,'ordinary_async_spawns_retained':True,'original_spawn_failures_surface':True,
+            'c2me_original_spawns_on_owner':10000,'ordinary_forge_original_spawns_on_owner':10000,'original_spawn_failures_surface':True,'old_non_c2me_spawn_negative_control':True,
             'renderer_sha256':hashlib.sha256(renderer.encode()).hexdigest(),
             'scope':'Production state/tint/snapshot Java code with Minecraft/Vulkan API doubles; real Rubidium mixin and native Vulkan validation are separate required gates.'}
     a.report.parent.mkdir(parents=True,exist_ok=True);a.report.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))

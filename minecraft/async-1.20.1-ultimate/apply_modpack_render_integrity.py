@@ -68,15 +68,20 @@ def apply(root: Path):
     config = root / 'forge/src/main/resources/harimt.forge.mixins.json'
     data = json.loads(config.read_text())
     assert 'client.rubidium.RubidiumWorldSliceMixin' not in data['client']
-    data['client'].append('client.rubidium.RubidiumWorldSliceMixin')
+    data['client'].extend(['client.rubidium.RubidiumWorldSliceMixin', 'client.rubidium.RubidiumChunkCacheMixin', 'client.opengl.ForgeLoadingLogoMixin'])
     data['plugin'] = 'com.axalotl.async.forge.mixin.HariForgeMixinPlugin'
     config.write_text(json.dumps(data, indent=2) + '\n')
     edit('forge/src/main/java/com/axalotl/async/forge/mixin/HariForgeMixinPlugin.java',
-         '        if(!mixinClassName.contains(".client.embeddium.")) return true;', '''        if(mixinClassName.contains(".client.rubidium.")) {
+         '        if(!mixinClassName.contains(".client.embeddium.")) return true;', '''        if(mixinClassName.contains(".client.opengl.")) return !net.vulkanmod.compat.UniversalRendererGate.vulkanRendererEnabled();
+        if(mixinClassName.contains(".client.rubidium.")) {
             var list = FMLLoader.getLoadingModList();
             return list.getModFileById("rubidium") != null && list.getModFileById("embeddium") == null;
         }
         if(!mixinClassName.contains(".client.embeddium.")) return true;''')
+
+    edit('forge/src/main/java/com/axalotl/async/forge/mixin/HariForgeMixinPlugin.java',
+         '@Override public void preApply(String targetClassName,ClassNode targetClass, String mixinClassName,IMixinInfo mixinInfo){}',
+         '@Override public void preApply(String targetClassName,ClassNode targetClass, String mixinClassName,IMixinInfo mixinInfo){\n        if (mixinClassName.endsWith(".RubidiumChunkCacheMixin"))\n            com.axalotl.async.forge.client.RubidiumCacheLock.apply(targetClass);\n    }')
 
 if __name__ == '__main__':
     import sys
