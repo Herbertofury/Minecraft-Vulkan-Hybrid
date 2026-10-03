@@ -1,0 +1,15 @@
+{
+  "state": "bounded_native_ui_and_habitat_diagnostics_prepared",
+  "product_commit": "309b303d819159aa12910c971568f6cfdf969076",
+  "qa_commit": "c02df97ac7dec6c06e3a31251443cb574c8e14df",
+  "candidate_sha256": "ca2955109f188292128fec36707fc7109ba1dbacbb70d20a83659b8284ca943b",
+  "passed_runs": {
+    "compile": 37070673230,
+    "native": 37070673213,
+    "packaged_client": 37070673256
+  },
+  "modpack_run": 37096083147,
+  "hypothesis": "Old modpack lanes completed resource/world data loading but never started the integrated server; inspect the visible pre-world screen before changing product code",
+  "old_five_archive_uploads": "Do not retry rejected uploads",
+  "next_action": "Capture original production world-entry screen without dismissing any dialog; audit all native mob types on their correct ground, then repair only the evidenced QA blocker and rerun expanded acceptance"
+}

@@ -1,0 +1,186 @@
+name: Hari 2.4.2 dimension entry and native habitat diagnostics
+'on':
+  push:
+    branches:
+    - async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926
+    paths:
+    - .github/workflows/hari-dimension-diagnostics.yml
+    - .github/qa/hari24_join_screen_diagnostic.py
+    - .github/qa/hari24_dimension_*diagnostic.py
+  workflow_dispatch: null
+permissions:
+  contents: read
+  actions: read
+jobs:
+  native-modpack:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        lane:
+        - dimensions-c2me
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-java@v5
+      with:
+        distribution: temurin
+        java-version: '17'
+    - name: Install QA tools and Khronos validation layer
+      shell: bash
+      run: 'set -euo pipefail
+
+        sudo apt-get update -qq
+
+        sudo apt-get install -y --no-install-recommends curl tar unzip mesa-vulkan-drivers vulkan-tools vulkan-validationlayers
+        xvfb openbox xdotool x11-utils imagemagick libgl1-mesa-dri mesa-utils libflite1
+
+        mkdir -p production-qa qa-native-libs
+
+        flite_lib="$(ldconfig -p | awk ''/libflite\.so\.1/{print $NF; exit}'')"
+
+        test -n "$flite_lib"
+
+        ln -sf "$flite_lib" qa-native-libs/libflite.so
+
+        echo "LD_LIBRARY_PATH=$PWD/qa-native-libs${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" >> "$GITHUB_ENV"
+
+        '
+    - name: Download immutable packaged-client candidate
+      uses: actions/download-artifact@v4
+      with:
+        name: HariMultiThread-Ultimate-1.20.1-2.4.0-VULKAN-HYBRID-COMPILE
+        run-id: 37070673230
+        github-token: ${{ github.token }}
+        path: tested
+    - name: Verify artifact and C2ME bytes
+      shell: bash
+      run: 'set -euo pipefail
+
+        echo ''ca2955109f188292128fec36707fc7109ba1dbacbb70d20a83659b8284ca943b  tested/HariMultiThread-Ultimate-1.20.1-2.4.2-vulkan-hybrid.jar''
+        | sha256sum -c -
+
+        sha256sum tested/HariMultiThread-Ultimate-1.20.1-2.4.2-vulkan-hybrid.jar | sed ''s#tested/#production-qa/#'' > tested/JAR-SHA256.txt
+
+        curl -fL --retry 3 ''https://edge.forgecdn.net/files/8929/972/c2meforge-0.2.0-forge.9.6-all.jar'' -o c2meforge-0.2.0-forge.9.6-all.jar
+
+        echo ''97401e625906dc7dbe7719c4915d5aa88830e64e5aa6f90831ee45a61373f8d3  c2meforge-0.2.0-forge.9.6-all.jar'' | sha256sum
+        -c -
+
+        '
+    - name: Generate deterministic Forge world fixture
+      shell: bash
+      run: "set -euo pipefail\ncurl -fL --retry 3 \\\n  'https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.23/forge-1.20.1-47.4.23-installer.jar'\
+        \ \\\n  -o forge-installer.jar\nrm -rf production-seed-server\nmkdir production-seed-server\n(cd production-seed-server\
+        \ && java -jar ../forge-installer.jar --installServer > ../production-qa/forge-server-install.log 2>&1)\nchmod +x\
+        \ production-seed-server/run.sh\nprintf 'eula=true\\n' > production-seed-server/eula.txt\ncat > production-seed-server/server.properties\
+        \ <<'EOF'\nonline-mode=false\nlevel-name=world\nlevel-seed=8675309\nspawn-protection=0\nview-distance=8\nsimulation-distance=8\n\
+        motd=Hari 2.4 Production Client World Seed\nEOF\npython3 .github/qa/hari_seed_c2me_world.py production-seed-server\
+        \ production-qa/seed-server.log\ntest -s production-seed-server/world/level.dat\n"
+    - name: Install pinned PortableMC production launcher
+      shell: bash
+      run: 'set -euo pipefail
+
+        url=''https://github.com/theorzr/portablemc/releases/download/v5.0.5/portablemc-5.0.5-linux-x86_64-gnu.tar.gz''
+
+        curl -fL --retry 3 "$url" -o portablemc.tar.gz
+
+        echo ''272611ab554237993cd2720dcc7219516f5e9d6382986df2c6d7177793b145dc  portablemc.tar.gz'' | sha256sum -c -
+
+        rm -rf portablemc-bin
+
+        mkdir portablemc-bin
+
+        tar -xzf portablemc.tar.gz -C portablemc-bin
+
+        pmc="$(find portablemc-bin -type f -name portablemc -perm -u+x | head -n 1)"
+
+        test -n "$pmc"
+
+        "$pmc" --version | tee production-qa/portablemc-version.txt
+
+        echo "$pmc" > production-qa/portablemc-path.txt
+
+        '
+    - name: Install exact Forge production profile
+      shell: bash
+      run: "set -euo pipefail\npmc=\"$(cat production-qa/portablemc-path.txt)\"\nrm -rf pmc-main pmc-game\nmkdir -p pmc-main\
+        \ pmc-game\n\"$pmc\" --main-dir \"$PWD/pmc-main\" -vv start forge::1.20.1-47.4.23 \\\n  --mc-dir \"$PWD/pmc-game\"\
+        \ --jvm \"$JAVA_HOME/bin/java\" \\\n  -u HariProdQA --resolution 1280x720 --dry \\\n  | tee production-qa/portablemc-install.log\n\
+        \ngrep -R -F '\"forgeclient\"' pmc-main/versions pmc-game 2>/dev/null | tee production-qa/forgeclient-profile-proof.txt\n\
+        if grep -R -F 'forgeclientuserdev' pmc-main/versions pmc-game 2>/dev/null; then\n  echo '::error::Production launcher\
+        \ installation contains forgeclientuserdev'\n  exit 1\nfi\n\nmkdir -p pmc-game/mods pmc-game/saves/HMT-2.4-QA\ncp\
+        \ tested/HariMultiThread-Ultimate-1.20.1-2.4.2-vulkan-hybrid.jar pmc-game/mods/HariMultiThread-Ultimate.jar\ncp -a\
+        \ production-seed-server/world/. pmc-game/saves/HMT-2.4-QA/\nprintf 'renderDistance:4\\nsimulationDistance:5\\nmaxFps:260\\\
+        nenableVsync:false\\npauseOnLostFocus:false\\n' > pmc-game/options.txt\n# The software driver supports core GL 4.5.\
+        \ Avoid spending Forge's\n# ten-second early-window budget attempting unsupported GL 4.6.\nmkdir -p pmc-game/config\n\
+        printf 'earlyWindowSkipGLVersions = [\"4.6\"]\\n' > pmc-game/config/fml.toml\nsha256sum pmc-game/mods/HariMultiThread-Ultimate.jar\
+        \ | tee production-qa/INSTALLED-JAR-SHA256.txt\ndiff -u tested/JAR-SHA256.txt <(sed 's#pmc-game/mods/HariMultiThread-Ultimate.jar#production-qa/HariMultiThread-Ultimate-1.20.1-2.4.2-vulkan-hybrid.jar#'\
+        \ production-qa/INSTALLED-JAR-SHA256.txt)\n"
+    - name: Install immutable complete mod dependency closure
+      env:
+        HARI_LANE: ${{ matrix.lane }}
+      run: "python3 .github/qa/hari24_modpack_inputs.py --lane \"$HARI_LANE\" \\\n  --lock .github/qa/hari24-mod-input-lock.json\
+        \ --game pmc-game --cache compat-mod-cache \\\n  --candidate tested/HariMultiThread-Ultimate-1.20.1-2.4.2-vulkan-hybrid.jar\
+        \ --evidence production-qa\npython3 .github/qa/hari24_binary_gate_probe.py \\\n  pmc-game/mods/HariMultiThread-Ultimate.jar\
+        \ pmc-game --java \"$JAVA_HOME/bin/java\" \\\n  --report production-qa/installed-renderer-selection.json\n"
+    - name: Capture original native world-entry UI without dismissing it
+      run: 'set -euo pipefail
+
+        pmc="$(cat production-qa/portablemc-path.txt)"
+
+        python3 .github/qa/hari24_join_screen_diagnostic.py --portablemc "$pmc" --main-dir pmc-main --mc-dir pmc-game --world
+        HMT-2.4-QA --evidence production-qa/world-entry --java "$JAVA_HOME/bin/java" --expect vulkan --display :91
+
+        '
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: Hari-2.4.2-JOIN-SCREEN-DIAGNOSTIC
+        path: production-qa/
+        if-no-files-found: error
+  native-dimension-server:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      VK_INSTANCE_LAYERS: VK_LAYER_KHRONOS_validation
+      VK_LAYER_ENABLES: VK_VALIDATION_FEATURE_ENABLE_SYNCHRONIZATION_VALIDATION_EXT
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-java@v5
+      with:
+        distribution: temurin
+        java-version: '17'
+    - name: Install Vulkan software driver and validation
+      run: 'sudo apt-get update -qq
+
+        sudo apt-get install -y --no-install-recommends mesa-vulkan-drivers vulkan-tools vulkan-validationlayers
+
+        mkdir -p server-qa
+
+        '
+    - name: Download immutable repaired candidate
+      uses: actions/download-artifact@v4
+      with:
+        name: HariMultiThread-Ultimate-1.20.1-2.4.0-VULKAN-HYBRID-COMPILE
+        run-id: 37070673230
+        github-token: ${{ github.token }}
+        path: tested
+    - name: Install exact production Forge dedicated server and complete mods
+      run: "set -euo pipefail\ncurl -fL --retry 3 'https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.23/forge-1.20.1-47.4.23-installer.jar'\
+        \ -o forge-installer.jar\nmkdir dimension-server\n(cd dimension-server && java -jar ../forge-installer.jar --installServer\
+        \ > ../server-qa/forge-server-install.log 2>&1)\nchmod +x dimension-server/run.sh\nprintf 'eula=true\\n' > dimension-server/eula.txt\n\
+        printf '%s\\n' '-Xms1G' '-Xmx4G' '-Dharimt.vulkan.allowCpuDevice=true' > dimension-server/user_jvm_args.txt\ncat >\
+        \ dimension-server/server.properties <<'EOF'\nonline-mode=false\nlevel-name=world\nlevel-seed=8675309\nspawn-protection=0\n\
+        view-distance=4\nsimulation-distance=5\nEOF\npython3 .github/qa/hari24_modpack_inputs.py --lane dimensions-c2me \\\
+        \n  --lock .github/qa/hari24-mod-input-lock.json --game dimension-server --cache compat-mod-cache \\\n  --candidate\
+        \ tested/HariMultiThread-Ultimate-1.20.1-2.4.2-vulkan-hybrid.jar --evidence server-qa\nvulkaninfo --summary > server-qa/vulkaninfo.txt\n"
+    - name: Verify original mob AI on valid habitat with per-type failure audit
+      run: python3 .github/qa/hari24_dimension_server_diagnostic.py dimension-server server-qa
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: Hari-2.4.2-DIMENSION-HABITAT-DIAGNOSTIC
+        path: server-qa/
+        if-no-files-found: error
