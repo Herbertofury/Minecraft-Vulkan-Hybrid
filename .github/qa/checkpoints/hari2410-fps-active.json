@@ -1,5 +1,5 @@
 {
-  "status": "candidate_compile_and_baseline_profile",
+  "status": "stock_tail_latency_confirmation_required",
   "accepted_floor": {
     "version": "2.4.9-noxviola.1-vulkan-hybrid",
     "commit": "357e3d8a30f973a654fd493a589ae77053e2d168",
@@ -99,5 +99,21 @@
     ],
     "upload_calls_unchanged": true,
     "image_barriers_unchanged": true
-  }
+  },
+  "measured_animation_vulkan_gain": {
+    "fps_percent": 18.218832270008157,
+    "one_percent_low_percent": 24.54666156014662,
+    "artifact_id": 11299237378,
+    "run": 37191427448
+  },
+  "remaining": [
+    "12-trial longer-warmup stock confirmation in both renderer paths",
+    "remaining native compatibility profiles",
+    "Ctrl+F9 control proof",
+    "final proof/source/install/Drive/Wiki publication"
+  ],
+  "no_repeat": [
+    "Initial profiling JVM-option split failure; already corrected",
+    "No unchanged candidate rebuild or re-run of completed compatibility lanes"
+  ]
 }

@@ -2,9 +2,32 @@
 """Full previous native reconciler plus all six actual candidate texture readbacks."""
 import argparse
 import json
+import inspect
 from pathlib import Path
 import hari249_verify_native_profile as original
 original.JAR_SHA = '8b593bac1ac77670849ed992c808d327dd6d9f188ddfdea341ac88f16edf8c9f'
+
+# A faster reopened JVM can finish before the scheduled 180-second diagnostic.
+# Its actual loaded-library PID, launcher PID and /proc mapping provide identity
+# without extending gameplay or manufacturing a thread dump.
+body = inspect.getsource(original.verify)
+old = """        startup = list(directory.glob('jvm-thread-startup-*.txt'))
+        assert len(startup) == 1
+        pids.append(int(startup[0].stem.rsplit('-', 1)[1]))"""
+new = r"""        startup = list(directory.glob('jvm-thread-startup-*.txt'))
+        if len(startup) == 1:
+            native_pid = int(startup[0].stem.rsplit('-', 1)[1])
+        else:
+            assert not startup and expected == 'VULKAN'
+            loaded_identity = json.loads((directory / 'native-validation-library.json').read_text())['loaded_original_library']
+            assert len(loaded_identity) == 1
+            native_pid = loaded_identity[0]['pid']
+            assert re.search(r'Process:\s*' + str(native_pid) + r'\b', (directory / 'launcher-stdout.log').read_text())
+            assert (directory / f'native-validation-library-maps-{native_pid}.txt').is_file()
+        pids.append(native_pid)"""
+assert body.count(old) == 1
+exec(compile(body.replace(old, new), str(Path(original.__file__)), 'exec'), original.__dict__)
+
 
 def verify(root):
     report = original.verify(root)
