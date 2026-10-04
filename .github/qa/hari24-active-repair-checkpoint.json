@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "updated_at": "2026-10-04T01:42:39.805580+00:00",
-  "status": "Exact2.4.9 candidate 11/13 full clients plusdedicated PASS; original9.8Opti and DH PASS; Midnight and original9.6/9.8dimensions native flight timing unresolved-active.",
+  "updated_at": "2026-10-04T02:12:13.144460+00:00",
+  "status": "release_verified:2.4.9 exact candidate accepted, all16client/dedicated/native proof artifacts source/JAR/notes/checksums uploaded and raw-verified, actual live Wiki bytes verified.",
   "source_parent": "f619f92b2d59ecd0cbca916a055a422de3d7aa51",
   "save_policy": "Non-force GitHub commits after each concrete repair and validation checkpoint; exact original provider bytes and test failures retained.",
   "completed": {
@@ -61,7 +61,7 @@
       "result": "PASS"
     },
     "semantic_candidate_compile": {
-      "status": "native_modpack_pending",
+      "status": "native_modpack_accepted",
       "product_commit": "3bd2621048e166cf24c8a782c79edc77b8b5b2ab",
       "compile_run": 37163922566,
       "artifact_id": 11289070883,
@@ -120,6 +120,54 @@
         5231
       ],
       "full_evidence_reconciled": true
+    },
+    "exact_candidate_midnight_native": {
+      "lane": "midnight",
+      "run": 37168634595,
+      "job": 111336814178,
+      "artifact": 11290144710,
+      "artifact_sha256": "sha256:b7f476508ccb2b19348e0c924a4e0f05bedf0eb0fd2127f8b1ec001df39cf620",
+      "two_original_client_pids": [
+        4256,
+        4951
+      ],
+      "initial_doubleSpace_first_release_flying_ticks": [
+        1225,
+        1226,
+        1227
+      ],
+      "attempt": 1,
+      "full_frame_median_ms": [
+        79.284541,
+        94.594053
+      ],
+      "native_reconciler_with_library_pin_passed": true,
+      "validation_library_sha256": "ea3395cdad554bd92e0f2ee6a7558d2094262c9695355ae0f4815843c504dbf4",
+      "product_jar_unchanged": true,
+      "interpretation": "Old validation overhead caused the software input starvation. This is a QA tool recovery, not an attributable hardware FPS speedup of the unchanged mod."
+    },
+    "all_native_compatibility": {
+      "full_profiles": 13,
+      "original_c2me98_focus": 3,
+      "new_combined_jobs": [
+        111336814285,
+        111336814171
+      ],
+      "new_artifacts": [
+        11290990011,
+        11290763698
+      ],
+      "distinct_pids": [
+        [
+          4049,
+          5010
+        ],
+        [
+          4271,
+          5231
+        ]
+      ],
+      "all_exact_candidate_proofs_reconciled": true
     }
   },
   "current_causal_repair": {
@@ -133,7 +181,7 @@
       "sha256": "2be5089d50113b92fd8dc7e2a4cccdcfe475413e875f999673f2d0c21b031cd4"
     },
     "planned_fix": "Reuse actual original C2ME addition-level helper in semantically identified original LIGHT removal; preserve original queue, ticket arguments, removal operation and errors.",
-    "implementation": "Semantically matches the original release lambda independent of numeric suffix, reuses installed C2ME add helper, validates actual original LIGHT removal shape, disabled worldgen no-op. Real ASM fixture negative control pending execution.",
+    "implementation": "Semantically matches the original release lambda independent of numeric suffix, reuses installed C2ME add helper, validates actual original LIGHT removal shape, disabled worldgen no-op. Actual compiled semantic negative controls and native provider profiles passed.",
     "regression": "PASS in hosted actual reconstructed source and local production helper: old code leaks529, six repaired variants release through original owner queue; original failure identity retained.",
     "late_integration_fix": "SpongePowered Mixin0.8.5 invokes ALL preApply callbacks before merge/injection passes; installed C2ME helper only exists in postApply. Moved original level-pairing callback to postApply.",
     "lifecycle_source": "https://github.com/SpongePowered/Mixin/blob/0.8.5/src/main/java/org/spongepowered/asm/mixin/transformer/MixinApplicatorStandard.java",
@@ -147,13 +195,10 @@
       "status": "superseded, not accepted"
     },
     "verified_original_provider": "Original SHA-pinned C2ME Forge9.6 worldgen bytecode computes FEATURES-2 in both its add and remove helpers; original bodies retained.",
-    "semantic_regression": "PASS: development and SRG release names, owner-thread redirect, existing C2ME removal helper, disabled module, idempotence, exact original removal failure identity, actual plugin late-merge lifecycle and original529-ticket-leak negative control."
+    "semantic_regression": "PASS: development and SRG release names, owner-thread redirect, existing C2ME removal helper, disabled module, idempotence, exact original removal failure identity, actual plugin late-merge lifecycle and original529-ticket-leak negative control.",
+    "status": "Implemented, compiled and native-verified on actual Forge, OptiFine and stock original C2ME9.6/9.8"
   },
-  "remaining": [
-    "Preserve live DH9.6/9.8 tests37165635433/37165635449 and finish original X11 input followups for Midnight, OculusShaders, dimensions-C2ME9.6/9.8 on same immutablec1082c82binary.",
-    "Reconcile all13clients+dedicated+3original9.8focused proofs; upload remaining complete evidence and exact standaloneJAR/finalsource/install instructions.",
-    "Update release acceptance receipt and only main Wiki mirror, verify actual liveWiki bytes through SyncWiki."
-  ],
+  "remaining": [],
   "known_blocker": null,
   "guardrails": [
     "No manual ticket clearing or shutdown suppression",
@@ -188,7 +233,7 @@
     "downloaded_byte_readback_match": true,
     "status": "Preserved22010e6 compiled checkpoint, superseded by semantic repair; not promoted."
   },
-  "latest_qa_commit": "f401af76cb790466538ae72244b905a20bc6bcdb",
+  "latest_qa_commit": "e94b6189968d4954431b230af62b5862376fcf30",
   "complete_semantic_drive_checkpoints": {
     "product_commit": "3bd2621048e166cf24c8a782c79edc77b8b5b2ab",
     "jar_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
@@ -262,16 +307,6 @@
       "raw_byte_readback_verified": true
     }
   ],
-  "active_X11_input_runs": {
-    "C2ME96_three_failed_profiles": 37166299130,
-    "C2ME98_dimensions": 37166299120
-  },
-  "active_software_input_runs": {
-    "oculus_shaders": 37166903303,
-    "midnight_and_dimensions96": 37167237796,
-    "dimensions98": 37167237787
-  },
-  "current_head": "fb3b0278435f8a160b5dfb422f5c24c9a068eaa9",
   "DH_full_native_backup": {
     "drive_id": "1NaQBTamqlzrslOxJkRaeiyb8Fn-82EQX",
     "bytes": 25761303,
@@ -287,10 +322,10 @@
     "drive_jar": "1Kpk-RaWGtc8O1Da3J0xeuLP_g9xw4fmg",
     "jar_bytes": 30750839,
     "jar_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
-    "status": "Standalone exact candidate byte-verified, final native acceptance pending",
+    "status": "Accepted verified release; same exact byte-verified JAR promoted by metadata only",
     "raw_byte_readback_verified": true
   },
-  "next_action": "Observe exact SDK1.4.363 native runs37168634595 and37168634593; reconcile original Midnight and original9.6/9.8dimension acceptance. Exact JAR unchanged. If validation reports real hazards, fix original causal product path and invalidate affected evidence.",
+  "next_action": "Release2.4.9 is complete. Preserve exact product3bd and all original proof/failed-route history; handle new user reports against verified JAR SHA, original mod inputs and driver. Do not silently reuse old1.3.275 software flight QA or overwrite the63project catalogue.",
   "current_validation_native_runs": {
     "head": "e94b6189968d4954431b230af62b5862376fcf30",
     "sdk_version": "1.4.363.0",
@@ -305,7 +340,8 @@
       "dimensions9.8": 111336814171
     },
     "sdk_install_passed_all_jobs": true,
-    "product_jar_unchanged": true
+    "product_jar_unchanged": true,
+    "status": "All three native jobs succeeded; every original artifact, actual loaded library, portals/AI/NBT/save and second JVM independently reconciled"
   },
   "drive_backups": {
     "complete_shader_proof": {
@@ -331,6 +367,104 @@
         11290192039
       ],
       "status": "FAILED diagnostics retained, no accepted profile"
+    },
+    "complete_midnight_proof": {
+      "drive_id": "1bJEBAWILujJkf3VYAK1zsGZEs81drhOU",
+      "name": "HariMultiThread-2.4.9-Complete-Native-Checkpoint-07.zip",
+      "bytes": 4717184,
+      "sha256": "4d3c5f52706bcc0005203bc118d3e9ae40a28b6bde6219d129f60866bc69c2a4",
+      "raw_byte_readback_verified": true,
+      "artifact_ids": [
+        11290144710
+      ]
+    },
+    "complete_final_dimensions": {
+      "drive_id": "1RwqEG8Ok5jEXRi6FfqvfObT-eoSGJOI4",
+      "name": "HariMultiThread-2.4.9-Complete-Native-Checkpoint-08.zip",
+      "bytes": 19827921,
+      "sha256": "46fe9e584399371e8accb529441c69d4f06ca8c7c9c6850bfb8736236cd9636e",
+      "raw_byte_readback_verified": true,
+      "artifact_ids": [
+        11290990011,
+        11290763698
+      ]
+    }
+  },
+  "final_source_install": [
+    {
+      "name": "HariMultiThread-Ultimate-1.20.1-2.4.9-SOURCE.zip",
+      "drive_id": "1-EqZEtEE5MEkvtzplkSliUEl8zPKUTup",
+      "bytes": 2495844,
+      "sha256": "da2d70879738bdca8b7b97074fdd09771449cd38b208f5538249225e864874eb",
+      "raw_byte_readback_verified": true,
+      "source_entries_verified": 998
+    },
+    {
+      "name": "INSTALL.txt",
+      "drive_id": "1k1Ls3lXClvHP1d8YeJTo4t-KPH0VJmGu",
+      "bytes": 4480,
+      "sha256": "b56f90a54d2bed6f6c984f6b54d8c58ba33f0bb4fc6e0f3c7550ad50bca28603",
+      "raw_byte_readback_verified": true
+    }
+  ],
+  "standalone_candidate_renamed_verified": {
+    "id": "1Kpk-RaWGtc8O1Da3J0xeuLP_g9xw4fmg",
+    "name": "HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar",
+    "bytes": 30750839,
+    "sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+    "same_verified_bytes": true
+  },
+  "verified_release_folder": {
+    "id": "1TZCi84twLpXuRPULJ0rvxTSdfcvt91W-",
+    "name": "HariMultiThread-2.4.9-Verified-Release"
+  },
+  "historical_input_checkpoint_head": "fb3b0278435f8a160b5dfb422f5c24c9a068eaa9",
+  "checkpoint_parent": "53a7a601239e40072e713c1dedd2681e6c2e6d38",
+  "current_product_commit": "3bd2621048e166cf24c8a782c79edc77b8b5b2ab",
+  "canonical_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+  "prior_input_run_history": {
+    "active_X11_input_runs": {
+      "C2ME96_three_failed_profiles": 37166299130,
+      "C2ME98_dimensions": 37166299120
+    },
+    "active_software_input_runs": {
+      "oculus_shaders": 37166903303,
+      "midnight_and_dimensions96": 37167237796,
+      "dimensions98": 37167237787
+    }
+  },
+  "latest_accepted_release": {
+    "version": "2.4.9-noxviola.1-vulkan-hybrid",
+    "jar_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+    "product_commit": "3bd2621048e166cf24c8a782c79edc77b8b5b2ab",
+    "full_client_profiles": 13,
+    "additional_original_c2me98_profiles": 3,
+    "release_folder": "1TZCi84twLpXuRPULJ0rvxTSdfcvt91W-",
+    "jar_drive_id": "1Kpk-RaWGtc8O1Da3J0xeuLP_g9xw4fmg",
+    "source_drive_id": "1-EqZEtEE5MEkvtzplkSliUEl8zPKUTup",
+    "full_proof_index": {
+      "drive_id": "1PASbnvio3werzVKfZR9wDNb_g_ewVssZ",
+      "name": "PROOF-INDEX.json",
+      "bytes": 282029,
+      "sha256": "a0d670a43352d302a01c6f597b054ab80c5ddbacd95fd1108f3594605773d194",
+      "raw_byte_readback_verified": true
+    },
+    "checksums": {
+      "drive_id": "1SX23nxNIkWBexS8VQkBbW8zkYXo11-zx",
+      "name": "SHA256SUMS.txt",
+      "bytes": 398,
+      "sha256": "6431033d55b7443e9c9d310107c0be53433670704ec7cc6a3daadb726d605e12",
+      "raw_byte_readback_verified": true
+    },
+    "wiki": {
+      "head": "2af2bb424b465acde1034ed4176a006a85e00677",
+      "page_sha256": "2a8765fc20996c73178b00022e6fb21b4b02da339db81fdb79b7c2699ce24029",
+      "publisher_run": 37170095652,
+      "publisher_job": 111341120954,
+      "source_main_commit": "9ff2f213daeab4a651f8f0b5ece01dda42ada145",
+      "actual_wiki_git_readback": true,
+      "fresh_clone_publisher_verified": true,
+      "url": "https://github.com/Herbertofury/ProjectDump/wiki/HariMultiThread-Vulkan-Hybrid"
     }
   }
 }

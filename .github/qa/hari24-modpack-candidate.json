@@ -1,5 +1,5 @@
 {
-  "status": "native_modpack_pending",
+  "status": "native_modpack_accepted",
   "product_commit": "3bd2621048e166cf24c8a782c79edc77b8b5b2ab",
   "compile_run": 37163922566,
   "artifact_id": 11289070883,
@@ -16,5 +16,16 @@
   "version": "2.4.9-noxviola.1-vulkan-hybrid",
   "early_plugin_merge_timing_regression": true,
   "duplicate_entity_tracking_cancellation_removed": true,
-  "semantic_srg_and_optifine_release_match": true
+  "semantic_srg_and_optifine_release_match": true,
+  "native_acceptance": {
+    "broad_client_profiles": 13,
+    "additional_original_c2me98_profiles": 3,
+    "dedicated_dimension_passed": true,
+    "standard_dedicated_passed": true,
+    "standard_production_client_passed": true,
+    "complete_artifact_reconciliation": true,
+    "scope": "Installed Forge47.4.23, Java17, Linux Mesa software Vulkan/OpenGL; original AI/native portals/49chunks/unload/NBT/reload/resize/clean same-world second JVM; hardwareFPS and all boss combat phases unmeasured",
+    "index": ".github/qa/checkpoints/hari249-byte-verified-native-profiles.json",
+    "validated_qa_sdk": "1.4.363.0 (remaining native Vulkan profiles); prior original Khronos proofs retained"
+  }
 }

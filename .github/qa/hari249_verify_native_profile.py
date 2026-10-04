@@ -61,6 +61,21 @@ def verify(root):
         startup = list(directory.glob('jvm-thread-startup-*.txt'))
         assert len(startup) == 1
         pids.append(int(startup[0].stem.rsplit('-', 1)[1]))
+        if (root / 'pinned-validation-sdk.json').is_file():
+            sdk = json.loads((root / 'pinned-validation-sdk.json').read_text())
+            assert sdk['sdk_version'] == '1.4.363.0'
+            assert sdk['archive_sha256'] == '197962f5cbf80baf2775a03336a01cee7c8745686c65aaa70d3f751ade4d7e43'
+            assert sdk['library_sha256'] == 'ea3395cdad554bd92e0f2ee6a7558d2094262c9695355ae0f4815843c504dbf4'
+            assert sdk['game_jar_unchanged'] and sdk['synchronization_validation']
+            assert sdk['queue_submit_validation_disabled'] is False
+            loaded = json.loads((directory / 'native-validation-library.json').read_text())
+            assert loaded['sdk_version'] == sdk['sdk_version'] and loaded['no_validation_checks_disabled']
+            assert loaded['synchronization_validation_enabled'] == 'VK_VALIDATION_FEATURE_ENABLE_SYNCHRONIZATION_VALIDATION_EXT'
+            assert loaded['loaded_original_library'] == [{'pid': pids[-1], 'library': sdk['library'],
+                                                          'sha256': sdk['library_sha256']}]
+            maps = (directory / f'native-validation-library-maps-{pids[-1]}.txt').read_text()
+            assert {line.split(maxsplit=5)[-1] for line in maps.splitlines()
+                    if 'libVkLayer_khronos_validation.so' in line} == {sdk['library']}
         commands.append((directory / 'launch-command.txt').read_text())
         phases.append({'phase': phase, 'c2me_versions': sorted(versions),
                        'dimensions': namespaces, 'frame_samples': 300,

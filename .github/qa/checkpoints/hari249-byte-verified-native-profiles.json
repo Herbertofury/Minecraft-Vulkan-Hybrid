@@ -1,7 +1,9 @@
 {
-  "status": "Exact candidate full11/13clients and dedicated PASS; original9.8Opti/DH PASS. Current validation proof pending Midnight/dimensions9.6/9.8. Prior failed overall runs remain failed; acceptance is job-specific.",
+  "status": "native_modpack_accepted",
   "product_commit": "3bd2621048e166cf24c8a782c79edc77b8b5b2ab",
   "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+  "broad_client_profiles": 13,
+  "additional_original_c2me98_profiles": 3,
   "profiles": [
     {
       "artifact_id": 11289187333,
@@ -14,7 +16,7 @@
         "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
         "head_sha": "490504c756ff001be12ae78f08d2fa35dde3452d"
       },
-      "job": null,
+      "job": 111325036664,
       "lane": "aether",
       "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
       "passed": true,
@@ -61,7 +63,7 @@
         "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
         "head_sha": "490504c756ff001be12ae78f08d2fa35dde3452d"
       },
-      "job": null,
+      "job": 111325036652,
       "lane": "oculus-embeddium",
       "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
       "passed": true,
@@ -114,7 +116,7 @@
         "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
         "head_sha": "490504c756ff001be12ae78f08d2fa35dde3452d"
       },
-      "job": null,
+      "job": 111325036828,
       "lane": "optimized-stack",
       "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
       "passed": true,
@@ -167,7 +169,7 @@
         "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
         "head_sha": "490504c756ff001be12ae78f08d2fa35dde3452d"
       },
-      "job": null,
+      "job": 111325036680,
       "lane": "rubidium",
       "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
       "passed": true,
@@ -220,7 +222,7 @@
         "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
         "head_sha": "490504c756ff001be12ae78f08d2fa35dde3452d"
       },
-      "job": null,
+      "job": 111325036657,
       "lane": "lazurite",
       "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
       "passed": true,
@@ -273,7 +275,7 @@
         "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
         "head_sha": "490504c756ff001be12ae78f08d2fa35dde3452d"
       },
-      "job": null,
+      "job": 111325036686,
       "lane": "entityculling",
       "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
       "passed": true,
@@ -326,7 +328,7 @@
         "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
         "head_sha": "490504c756ff001be12ae78f08d2fa35dde3452d"
       },
-      "job": null,
+      "job": 111325036671,
       "lane": "optifine",
       "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
       "passed": true,
@@ -379,7 +381,7 @@
         "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
         "head_sha": "490504c756ff001be12ae78f08d2fa35dde3452d"
       },
-      "job": null,
+      "job": 111325036733,
       "lane": "immediatelyfast",
       "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
       "passed": true,
@@ -432,7 +434,7 @@
         "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
         "head_sha": "490504c756ff001be12ae78f08d2fa35dde3452d"
       },
-      "job": null,
+      "job": 111325036692,
       "lane": "continuity",
       "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
       "passed": true,
@@ -485,7 +487,7 @@
         "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
         "head_sha": "490504c756ff001be12ae78f08d2fa35dde3452d"
       },
-      "job": null,
+      "job": 111325035935,
       "lane": "optifine",
       "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
       "passed": true,
@@ -538,7 +540,7 @@
         "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
         "head_sha": "51f09bb673a1c86f844580e4811b78ef4e6651be"
       },
-      "job": null,
+      "job": 111327879276,
       "lane": "distanthorizons",
       "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
       "passed": true,
@@ -591,7 +593,7 @@
         "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
         "head_sha": "51f09bb673a1c86f844580e4811b78ef4e6651be"
       },
-      "job": null,
+      "job": 111327837239,
       "lane": "distanthorizons",
       "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
       "passed": true,
@@ -682,6 +684,156 @@
       "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
       "evidence_file_count": 129,
       "complete_reconciliation_sha256": "c97300211c09023116b073aef86c3c1aaf1b2743f5c6bb7eb80a94d253746e4e"
+    },
+    {
+      "artifact_id": 11290144710,
+      "artifact_bytes": 4740215,
+      "artifact_sha256": "sha256:b7f476508ccb2b19348e0c924a4e0f05bedf0eb0fd2127f8b1ec001df39cf620",
+      "workflow": {
+        "id": 37168634595,
+        "head_sha": "e94b6189968d4954431b230af62b5862376fcf30"
+      },
+      "job": 111336814178,
+      "lane": "midnight",
+      "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+      "passed": true,
+      "two_distinct_original_client_pids": [
+        4256,
+        4951
+      ],
+      "phases": [
+        {
+          "phase": "client-first",
+          "c2me_versions": [],
+          "dimensions": {
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "VULKAN",
+          "original_portals": true,
+          "save_and_clean_close": true
+        },
+        {
+          "phase": "client-reopen",
+          "c2me_versions": [],
+          "dimensions": {
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "VULKAN",
+          "original_portals": false,
+          "save_and_clean_close": true
+        }
+      ],
+      "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+      "evidence_file_count": 100,
+      "complete_reconciliation_sha256": "81becac84707fa315911866fdd52b0cfdd8bd9f21a13704ee0fb9ad81faacff3"
+    },
+    {
+      "artifact_id": 11290990011,
+      "artifact_bytes": 10120955,
+      "artifact_sha256": "sha256:5ef20e4d756e316e35e180fee6e1803c1f64bf90df3ca55ac7d76db944dd462b",
+      "workflow": {
+        "id": 37168634595,
+        "repository_id": 1335388872,
+        "head_repository_id": 1335388872,
+        "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+        "head_sha": "e94b6189968d4954431b230af62b5862376fcf30"
+      },
+      "job": 111336814285,
+      "lane": "dimensions-c2me",
+      "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+      "passed": true,
+      "two_distinct_original_client_pids": [
+        4049,
+        5010
+      ],
+      "phases": [
+        {
+          "phase": "client-first",
+          "c2me_versions": [
+            "9.6"
+          ],
+          "dimensions": {
+            "aether": 18,
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "VULKAN",
+          "original_portals": true,
+          "save_and_clean_close": true
+        },
+        {
+          "phase": "client-reopen",
+          "c2me_versions": [
+            "9.6"
+          ],
+          "dimensions": {
+            "aether": 18,
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "VULKAN",
+          "original_portals": false,
+          "save_and_clean_close": true
+        }
+      ],
+      "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+      "evidence_file_count": 132,
+      "complete_reconciliation_sha256": "021b8b4590f27f221a6976a1a2fba87a35fb463aabf2bd4cdd2cb4e91b45bffc"
+    },
+    {
+      "artifact_id": 11290763698,
+      "artifact_bytes": 9754648,
+      "artifact_sha256": "sha256:a52313f53b947d06fc571e1945ed5f1c1336d3059fa2181ee83f57fa0bb9c51c",
+      "workflow": {
+        "id": 37168634593,
+        "repository_id": 1335388872,
+        "head_repository_id": 1335388872,
+        "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+        "head_sha": "e94b6189968d4954431b230af62b5862376fcf30"
+      },
+      "job": 111336814171,
+      "lane": "dimensions-c2me",
+      "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+      "passed": true,
+      "two_distinct_original_client_pids": [
+        4271,
+        5231
+      ],
+      "phases": [
+        {
+          "phase": "client-first",
+          "c2me_versions": [
+            "9.8"
+          ],
+          "dimensions": {
+            "aether": 18,
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "VULKAN",
+          "original_portals": true,
+          "save_and_clean_close": true
+        },
+        {
+          "phase": "client-reopen",
+          "c2me_versions": [
+            "9.8"
+          ],
+          "dimensions": {
+            "aether": 18,
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "VULKAN",
+          "original_portals": false,
+          "save_and_clean_close": true
+        }
+      ],
+      "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+      "evidence_file_count": 132,
+      "complete_reconciliation_sha256": "3078f9cc3befcf7fa02bdb47b60eafbc72982ef07f5d20618f3257d9c46bccbe"
     }
   ],
   "dedicated_dimension_proof": {
@@ -690,5 +842,6 @@
     "run": 37164668802,
     "job": 111325036397,
     "conclusion": "success"
-  }
+  },
+  "acceptance_is_per_job": "Older overall failed runs remain failed; these exact candidate passing jobs and immutable complete artifacts are independently reconciled."
 }

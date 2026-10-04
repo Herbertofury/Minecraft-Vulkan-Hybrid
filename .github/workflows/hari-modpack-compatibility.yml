@@ -43,6 +43,8 @@ jobs:
           test -n "$flite_lib"
           ln -sf "$flite_lib" qa-native-libs/libflite.so
           echo "LD_LIBRARY_PATH=$PWD/qa-native-libs${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" >> "$GITHUB_ENV"
+      - name: Install checksum-pinned validated Khronos library
+        run: python3 .github/qa/hari249_install_validation_sdk.py
       - name: Download immutable packaged-client candidate
         uses: actions/download-artifact@v4
         with:
@@ -143,10 +145,10 @@ jobs:
           renderer="$(python3 -c 'import json; print(json.load(open("production-qa/installed-renderer-selection.json"))["expected_renderer"])')"
           extra=()
           if [ "${{ matrix.lane }}" = "oculus-shaders" ]; then extra+=(--shaderpack MakeUp-UltraFast-9.5f.zip); fi
-          python3 .github/qa/hari24_modpack_client_qa.py "${extra[@]}" \
+          python3 .github/qa/hari249_current_validation_qa.py "${extra[@]}" \
             --portablemc "$pmc" --main-dir pmc-main --mc-dir pmc-game --world HMT-2.4-QA \
             --evidence production-qa/client-first --java "$JAVA_HOME/bin/java" --expect "$renderer" --display :91
-          python3 .github/qa/hari24_modpack_client_qa.py "${extra[@]}" \
+          python3 .github/qa/hari249_current_validation_qa.py "${extra[@]}" \
             --portablemc "$pmc" --main-dir pmc-main --mc-dir pmc-game --world HMT-2.4-QA \
             --evidence production-qa/client-reopen --java "$JAVA_HOME/bin/java" --expect "$renderer" --display :91 --reopen
       - uses: actions/upload-artifact@v4

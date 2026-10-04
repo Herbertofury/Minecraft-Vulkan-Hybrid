@@ -1,0 +1,42 @@
+HariMultiThread Ultimate 2.4.9 - Vulkan Hybrid
+Verified release: all 13 broad native client profiles, three focused original C2ME 9.8 profiles, and dedicated/production gates passed on these exact JAR bytes.
+
+Minecraft 1.20.1 / Forge 47.4.23 / Java 17
+
+Installation
+Use one copy of this Hari JAR in the Forge profile's mods directory. Replace the previous HariMultiThread/Async JAR. The Forge Vulkan renderer is included; remove a separate VulkanMod JAR. Retain the normal dependencies of each additional mod.
+
+C2ME Forge is optional. The reproducible test inputs are stock 0.2.0-forge.9.6 (CurseForge file 8929972) and stock 0.2.0-forge.9.8 (file 9040801). All third-party input JARs are unchanged. The broader 13-profile matrix uses 9.6; 9.8 has focused OptiFine, Distant Horizons and Aether+Midnight checks. The final test index records each accepted original profile and complete artifact hash.
+
+Rendering
+Compatible profiles use the merged Vulkan renderer. External renderers and shader integrations select the complete OpenGL route before Vulkan renderer initialization; Hari async processing and its separate Vulkan collision backend remain available. Fabulous graphics also retain the OpenGL renderer. This preserves the original rendering features in the tested profiles.
+
+The external GL contract recognizes 111 exact overloads. Untranslated external compute/shader calls and 2,248 unsupported overloads select OpenGL rather than pretending to implement a Vulkan equivalent.
+
+Included repairs and performance work
+- Pair original C2ME LIGHT addition/removal levels after Mixin merge. Identify actual release operations across Forge and OptiFine names, retain original owner queues, removal and exceptions.
+- Restore original duplicate-entity-tracking exceptions, preserve intentional entity/client fault propagation and saved-world reopen.
+- Preserve Rubidium cleanup/acquire/invalidate ownership, original provider chunk scheduling, native mob AI and saved NBT.
+- Retain pooled chunk work, batched region uploads, correct draw/upload/draw dependencies, Vulkan lifetime and swapchain repairs, strict shader resources and zero-loss collision fallback.
+
+Performance evidence
+The current equivalent-work Java queue/upload benchmark processes 5,120,000 work items per sample. The recorded median changes from 60.42 ms to 14.17 ms; allocation changes from 123,360,000 to 21,120,000 bytes. 128 disjoint regions use one copy command with both required graphics/transfer dependencies. These component measurements are separate from Minecraft hardware FPS.
+
+Commands
+/async stats - inspect async work
+/async gpu - inspect the device/collision path
+/async gpu test - compare actual GPU collision candidates with the CPU reference
+/async gpu toggle - change and persist the operator GPU-collision setting
+
+Verification scope
+The native tests use installed forgeclient Minecraft, dedicated servers and Linux Mesa software Vulkan/OpenGL. They include original Aether portals and Midnight rifts, all spawn-egg mob types with original AI, original whirlwind expiry, chunk unload/return, chest NBT, resource reload, actual resizing and clean same-world reopen in a distinct JVM. The shader profile retains MakeUp-UltraFast 9.5f. The automated Vulkan test environment uses the checksum-pinned official Khronos SDK 1.4.363.0 for the final Midnight/combined-dimension profiles, with full core and synchronization validation and the actual loaded library hash verified. Slow software tests temporarily use 480 × 270 only to operate original double-Space controls, then restore 1280 × 720 for every scene and 300-frame sample; no flight timer, game state, shader option or original physics is overridden.
+
+This proof covers the recorded profiles and paths. Windows/macOS hardware, hardware FPS, every boss combat phase and arbitrary packs remain outside this native proof. Rubidium's upstream Lucent dynamic-lighting limitation is not represented as repaired by a no-crash test.
+
+Source and identity
+Product source: Herbertofury/ProjectDump@3bd2621048e166cf24c8a782c79edc77b8b5b2ab
+Upstream Hari: JustHari01/HariMultiThread@f381611c2d71a85192e2028f9e30c03823a6482b
+Forge Vulkan: kzktor/Forgified-VulkanMod@0ceac5d47f84c910d2f5f6d007b0ffe266c6f736
+Reproducible JAR SHA256: c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396
+JAR bytes: 30750839
+Complete merged source: 998 files reconstructed through 23 pinned steps; source/licenses and regression recipe provided separately.
