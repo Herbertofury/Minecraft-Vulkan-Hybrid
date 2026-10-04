@@ -1,0 +1,15 @@
+source/.gradle/
+source/build/
+source/buildSrc/.gradle/
+source/buildSrc/build/
+source/common/build/
+source/fabric/build/
+source/forge/build/
+source/forge/run/
+source/forge/run-data/
+.gradle-cache/
+benchmarks/local/
+artifacts/*.jar
+artifacts/*.zip
+__pycache__/
+*.pyc

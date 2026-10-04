@@ -1,0 +1,148 @@
+{
+  "state": "pass",
+  "product_commit": "6594c6cc652db554213c52ae02f7acd8f439644c",
+  "exact_jar_sha256": "58ceda73c9328c78fc3d82eb652475cb4c7ddd91f3078d6d31717eb0ea9d432f",
+  "run": 36906027597,
+  "job": 110516668516,
+  "artifact": 11184869900,
+  "zip_bytes": 34706091,
+  "zip_sha256": "060a51533445a4291bf4718bbd4f96c0bfcb9e2bcb6ec690851a4b58489488e5",
+  "render_distance": 8,
+  "simulation_distance": 8,
+  "entity_ticking_chunks_per_destination": 169,
+  "terrain_coverage_threshold": 0.9,
+  "consecutive_terrain_captures": 3,
+  "audio_reload_cycles": [
+    {
+      "cycle": 1,
+      "sound": "minecraft:music.menu",
+      "sound_command_acknowledged": true,
+      "resource_reload_completed": true,
+      "screenshot": "after-resource-reload-1.png",
+      "unexpected_errors": 0
+    },
+    {
+      "cycle": 2,
+      "sound": "minecraft:music.menu",
+      "sound_command_acknowledged": true,
+      "resource_reload_completed": true,
+      "screenshot": "after-resource-reload-2.png",
+      "unexpected_errors": 0
+    },
+    {
+      "cycle": 3,
+      "sound": "minecraft:music.menu",
+      "sound_command_acknowledged": true,
+      "resource_reload_completed": true,
+      "screenshot": "after-resource-reload-3.png",
+      "unexpected_errors": 0
+    }
+  ],
+  "scenes": {
+    "4096": {
+      "final_three": [
+        {
+          "width": 800,
+          "height": 350,
+          "colors": 18734,
+          "gray_stddev": 0.161231,
+          "non_sky_fraction": 0.929514,
+          "sky_reference": "srgb(179,206,255)",
+          "ready": true,
+          "consecutive_ready_samples": 1,
+          "screenshot": "chunk-travel-4096-progression/frame-009.png"
+        },
+        {
+          "width": 800,
+          "height": 350,
+          "colors": 18769,
+          "gray_stddev": 0.142671,
+          "non_sky_fraction": 0.951086,
+          "sky_reference": "srgb(179,206,255)",
+          "ready": true,
+          "consecutive_ready_samples": 2,
+          "screenshot": "chunk-travel-4096-progression/frame-010.png"
+        },
+        {
+          "width": 800,
+          "height": 350,
+          "colors": 19419,
+          "gray_stddev": 0.142876,
+          "non_sky_fraction": 0.951086,
+          "sky_reference": "srgb(179,206,255)",
+          "ready": true,
+          "consecutive_ready_samples": 3,
+          "screenshot": "chunk-travel-4096-progression/frame-011.png"
+        }
+      ],
+      "all_progression_captures": 12,
+      "manual_review": "Full-window and central-crop captures inspected; central terrain coherent after generation. Finite-distance scene frontiers remain visible; no universal full-window coverage claim."
+    },
+    "0": {
+      "final_three": [
+        {
+          "width": 800,
+          "height": 350,
+          "colors": 16091,
+          "gray_stddev": 0.125615,
+          "non_sky_fraction": 0.963518,
+          "sky_reference": "srgb(179,207,255)",
+          "ready": true,
+          "consecutive_ready_samples": 1,
+          "screenshot": "chunk-travel-0-progression/frame-010.png"
+        },
+        {
+          "width": 800,
+          "height": 350,
+          "colors": 16814,
+          "gray_stddev": 0.125523,
+          "non_sky_fraction": 0.963518,
+          "sky_reference": "srgb(179,207,255)",
+          "ready": true,
+          "consecutive_ready_samples": 2,
+          "screenshot": "chunk-travel-0-progression/frame-011.png"
+        },
+        {
+          "width": 800,
+          "height": 350,
+          "colors": 15544,
+          "gray_stddev": 0.122447,
+          "non_sky_fraction": 0.966571,
+          "sky_reference": "srgb(179,207,255)",
+          "ready": true,
+          "consecutive_ready_samples": 3,
+          "screenshot": "chunk-travel-0-progression/frame-012.png"
+        }
+      ],
+      "all_progression_captures": 13,
+      "manual_review": "Full-window and central-crop captures inspected; central terrain coherent after generation. Finite-distance scene frontiers remain visible; no universal full-window coverage claim."
+    }
+  },
+  "frame_sample": {
+    "schema": 1,
+    "scope": "render-end wall-clock intervals including pacing; not GPU execution time",
+    "renderer": "VULKAN",
+    "warmup_frames": 120,
+    "sample_count": 300,
+    "mean_ms": 657.7340303433333,
+    "p50_ms": 657.094387,
+    "p95_ms": 719.027839,
+    "p99_ms": 739.977958,
+    "max_ms": 777.930652,
+    "width": 1280,
+    "height": 720,
+    "render_distance": 8,
+    "java": "17.0.20.1",
+    "upload_regions": 245,
+    "upload_copy_commands": 245,
+    "upload_write_barriers": 16
+  },
+  "error_ledger": [
+    {
+      "classification": "offline-launcher authentication diagnostic (exact HTTP 401 cause)",
+      "line": "[18:36:05] [Render thread/ERROR]: Failed to verify authentication"
+    }
+  ],
+  "manual_visual_review_completed": true,
+  "limits": "Linux Mesa software driver runtime correctness; not Windows/RTX 4090 FPS measurement"
+}

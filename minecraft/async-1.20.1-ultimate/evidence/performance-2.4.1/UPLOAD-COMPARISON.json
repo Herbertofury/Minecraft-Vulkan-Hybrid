@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "baseline": {
+    "regions": 128,
+    "copies": 128,
+    "barriers": 64,
+    "checked_bytes": 2048
+  },
+  "candidate": {
+    "regions": 128,
+    "copies": 1,
+    "barriers": 0,
+    "checked_bytes": 2048
+  },
+  "baseline_source_sha256": "fa2b164da889b8cac2ca931b40a9541b98b7952ffbcc623ba8a651390b7be3e8",
+  "candidate_source_sha256": "a9c642c9fc3f0e83334a497af1e9f993b519c9a9ea7dccc87b7316f4ecb2ba78",
+  "scope": "Actual accepted and candidate Java managers, identical disjoint destinations and data. Command recording is checked doubles; native validation is separate."
+}

@@ -1,0 +1,1034 @@
+{
+  "release": "HariMultiThread Ultimate 2.4.9 Vulkan Hybrid",
+  "status": "release_verified; native, source, artifacts and live Wiki published",
+  "product_commit": "3bd2621048e166cf24c8a782c79edc77b8b5b2ab",
+  "minecraft": "1.20.1",
+  "forge": "47.4.23",
+  "java": "17",
+  "version": "2.4.9-noxviola.1-vulkan-hybrid",
+  "files": [
+    {
+      "name": "HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar",
+      "drive_id": "1Kpk-RaWGtc8O1Da3J0xeuLP_g9xw4fmg",
+      "bytes": 30750839,
+      "sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+      "raw_byte_readback_verified": true,
+      "url": "https://drive.google.com/file/d/1Kpk-RaWGtc8O1Da3J0xeuLP_g9xw4fmg/view"
+    },
+    {
+      "name": "HariMultiThread-Ultimate-1.20.1-2.4.9-SOURCE.zip",
+      "drive_id": "1-EqZEtEE5MEkvtzplkSliUEl8zPKUTup",
+      "bytes": 2495844,
+      "sha256": "da2d70879738bdca8b7b97074fdd09771449cd38b208f5538249225e864874eb",
+      "raw_byte_readback_verified": true,
+      "url": "https://drive.google.com/file/d/1-EqZEtEE5MEkvtzplkSliUEl8zPKUTup/view"
+    },
+    {
+      "name": "INSTALL.txt",
+      "drive_id": "1k1Ls3lXClvHP1d8YeJTo4t-KPH0VJmGu",
+      "bytes": 4480,
+      "sha256": "b56f90a54d2bed6f6c984f6b54d8c58ba33f0bb4fc6e0f3c7550ad50bca28603",
+      "raw_byte_readback_verified": true,
+      "url": "https://drive.google.com/file/d/1k1Ls3lXClvHP1d8YeJTo4t-KPH0VJmGu/view"
+    }
+  ],
+  "native_acceptance": {
+    "status": "native_modpack_accepted",
+    "product_commit": "3bd2621048e166cf24c8a782c79edc77b8b5b2ab",
+    "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+    "broad_client_profiles": 13,
+    "additional_original_c2me98_profiles": 3,
+    "profiles": [
+      {
+        "artifact_id": 11289187333,
+        "artifact_bytes": 8769536,
+        "artifact_sha256": "sha256:21f56c476534786cfd5667d55051112277c6face944383ad5c2f2e60aeec8fbc",
+        "workflow": {
+          "id": 37164668802,
+          "repository_id": 1335388872,
+          "head_repository_id": 1335388872,
+          "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+          "head_sha": "490504c756ff001be12ae78f08d2fa35dde3452d"
+        },
+        "job": 111325036664,
+        "lane": "aether",
+        "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+        "passed": true,
+        "two_distinct_original_client_pids": [
+          3916,
+          4663
+        ],
+        "phases": [
+          {
+            "phase": "client-first",
+            "c2me_versions": [],
+            "dimensions": {
+              "aether": 18
+            },
+            "frame_samples": 300,
+            "renderer": "VULKAN",
+            "original_portals": true,
+            "save_and_clean_close": true
+          },
+          {
+            "phase": "client-reopen",
+            "c2me_versions": [],
+            "dimensions": {
+              "aether": 18
+            },
+            "frame_samples": 300,
+            "renderer": "VULKAN",
+            "original_portals": false,
+            "save_and_clean_close": true
+          }
+        ],
+        "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+        "evidence_file_count": 93,
+        "complete_reconciliation_sha256": "1b219daf1ec389898de4ecfb6244d7957af3733cb4b16014cc3fd41062ae11da",
+        "job_url": "https://github.com/Herbertofury/ProjectDump/actions/runs/37164668802/job/111325036664"
+      },
+      {
+        "artifact_id": 11289137697,
+        "artifact_bytes": 10396023,
+        "artifact_sha256": "sha256:8c852b2855526b7ee5d04abb5044eb75a47d7d2abfdae32f102017e6c251f9d9",
+        "workflow": {
+          "id": 37164668802,
+          "repository_id": 1335388872,
+          "head_repository_id": 1335388872,
+          "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+          "head_sha": "490504c756ff001be12ae78f08d2fa35dde3452d"
+        },
+        "job": 111325036652,
+        "lane": "oculus-embeddium",
+        "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+        "passed": true,
+        "two_distinct_original_client_pids": [
+          3920,
+          4854
+        ],
+        "phases": [
+          {
+            "phase": "client-first",
+            "c2me_versions": [
+              "9.6"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": true,
+            "save_and_clean_close": true
+          },
+          {
+            "phase": "client-reopen",
+            "c2me_versions": [
+              "9.6"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": false,
+            "save_and_clean_close": true
+          }
+        ],
+        "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+        "evidence_file_count": 123,
+        "complete_reconciliation_sha256": "69a81e8d088dc2a444d957ea034d4d2b94cd0adaf8f94fae51ab1055549b86b3",
+        "job_url": "https://github.com/Herbertofury/ProjectDump/actions/runs/37164668802/job/111325036652"
+      },
+      {
+        "artifact_id": 11288553588,
+        "artifact_bytes": 10508702,
+        "artifact_sha256": "sha256:dad04c0da97b5eee9fbe85eb1bd9a6091463a8b182e73d4ad71dd67d272f5e9b",
+        "workflow": {
+          "id": 37164668802,
+          "repository_id": 1335388872,
+          "head_repository_id": 1335388872,
+          "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+          "head_sha": "490504c756ff001be12ae78f08d2fa35dde3452d"
+        },
+        "job": 111325036828,
+        "lane": "optimized-stack",
+        "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+        "passed": true,
+        "two_distinct_original_client_pids": [
+          3892,
+          4847
+        ],
+        "phases": [
+          {
+            "phase": "client-first",
+            "c2me_versions": [
+              "9.6"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": true,
+            "save_and_clean_close": true
+          },
+          {
+            "phase": "client-reopen",
+            "c2me_versions": [
+              "9.6"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": false,
+            "save_and_clean_close": true
+          }
+        ],
+        "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+        "evidence_file_count": 123,
+        "complete_reconciliation_sha256": "6df15d59c9f125ec34071a89d0ad2594ab5759bacba9c91575622a2021230089",
+        "job_url": "https://github.com/Herbertofury/ProjectDump/actions/runs/37164668802/job/111325036828"
+      },
+      {
+        "artifact_id": 11289486929,
+        "artifact_bytes": 10210802,
+        "artifact_sha256": "sha256:eefad2df796ff9e2952a45237317c75eb977480b3da950209f01f25873bb956c",
+        "workflow": {
+          "id": 37164668802,
+          "repository_id": 1335388872,
+          "head_repository_id": 1335388872,
+          "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+          "head_sha": "490504c756ff001be12ae78f08d2fa35dde3452d"
+        },
+        "job": 111325036680,
+        "lane": "rubidium",
+        "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+        "passed": true,
+        "two_distinct_original_client_pids": [
+          4144,
+          5123
+        ],
+        "phases": [
+          {
+            "phase": "client-first",
+            "c2me_versions": [
+              "9.6"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": true,
+            "save_and_clean_close": true
+          },
+          {
+            "phase": "client-reopen",
+            "c2me_versions": [
+              "9.6"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": false,
+            "save_and_clean_close": true
+          }
+        ],
+        "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+        "evidence_file_count": 129,
+        "complete_reconciliation_sha256": "2d117c051bdcfd77f12e972a8014feb5e8b1bcf7df01dbfc4a4f723561daea8a",
+        "job_url": "https://github.com/Herbertofury/ProjectDump/actions/runs/37164668802/job/111325036680"
+      },
+      {
+        "artifact_id": 11289456983,
+        "artifact_bytes": 11736816,
+        "artifact_sha256": "sha256:e469516a6d18003f032cd63d011ecce7f2c3d5b0fa2da6f4748417d9e7c57877",
+        "workflow": {
+          "id": 37164668802,
+          "repository_id": 1335388872,
+          "head_repository_id": 1335388872,
+          "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+          "head_sha": "490504c756ff001be12ae78f08d2fa35dde3452d"
+        },
+        "job": 111325036657,
+        "lane": "lazurite",
+        "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+        "passed": true,
+        "two_distinct_original_client_pids": [
+          4143,
+          5160
+        ],
+        "phases": [
+          {
+            "phase": "client-first",
+            "c2me_versions": [
+              "9.6"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": true,
+            "save_and_clean_close": true
+          },
+          {
+            "phase": "client-reopen",
+            "c2me_versions": [
+              "9.6"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": false,
+            "save_and_clean_close": true
+          }
+        ],
+        "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+        "evidence_file_count": 135,
+        "complete_reconciliation_sha256": "29eede120febfdffd0feda14b07e448194cbadeef78b21758ad5aded3fbc6425",
+        "job_url": "https://github.com/Herbertofury/ProjectDump/actions/runs/37164668802/job/111325036657"
+      },
+      {
+        "artifact_id": 11288962222,
+        "artifact_bytes": 10591437,
+        "artifact_sha256": "sha256:de2dd688d194ec29a1ca9a8c931c0b49aefcb58d31a328646a9b9cf4148b33a6",
+        "workflow": {
+          "id": 37164668802,
+          "repository_id": 1335388872,
+          "head_repository_id": 1335388872,
+          "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+          "head_sha": "490504c756ff001be12ae78f08d2fa35dde3452d"
+        },
+        "job": 111325036686,
+        "lane": "entityculling",
+        "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+        "passed": true,
+        "two_distinct_original_client_pids": [
+          4103,
+          5067
+        ],
+        "phases": [
+          {
+            "phase": "client-first",
+            "c2me_versions": [
+              "9.6"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": true,
+            "save_and_clean_close": true
+          },
+          {
+            "phase": "client-reopen",
+            "c2me_versions": [
+              "9.6"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": false,
+            "save_and_clean_close": true
+          }
+        ],
+        "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+        "evidence_file_count": 123,
+        "complete_reconciliation_sha256": "b51673f6cced0071de582cc46d4c68d29826bfa8a604ee54c32fe883a50ac2d2",
+        "job_url": "https://github.com/Herbertofury/ProjectDump/actions/runs/37164668802/job/111325036686"
+      },
+      {
+        "artifact_id": 11288773262,
+        "artifact_bytes": 10332343,
+        "artifact_sha256": "sha256:43de4a130aebff928517afd85ecdad3d1f7ccc66ab0e24e941b69293878a62a7",
+        "workflow": {
+          "id": 37164668802,
+          "repository_id": 1335388872,
+          "head_repository_id": 1335388872,
+          "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+          "head_sha": "490504c756ff001be12ae78f08d2fa35dde3452d"
+        },
+        "job": 111325036671,
+        "lane": "optifine",
+        "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+        "passed": true,
+        "two_distinct_original_client_pids": [
+          4106,
+          5133
+        ],
+        "phases": [
+          {
+            "phase": "client-first",
+            "c2me_versions": [
+              "9.6"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": true,
+            "save_and_clean_close": true
+          },
+          {
+            "phase": "client-reopen",
+            "c2me_versions": [
+              "9.6"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": false,
+            "save_and_clean_close": true
+          }
+        ],
+        "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+        "evidence_file_count": 123,
+        "complete_reconciliation_sha256": "b6beb706a011019b341882e64fb1a5e625cfe43407dfb25dd3de06fc8f701de8",
+        "job_url": "https://github.com/Herbertofury/ProjectDump/actions/runs/37164668802/job/111325036671"
+      },
+      {
+        "artifact_id": 11288648418,
+        "artifact_bytes": 10549224,
+        "artifact_sha256": "sha256:cf34b83b63ae35d7f6b980c1a96d67dbe6eb429297ee25767472c05759c97fba",
+        "workflow": {
+          "id": 37164668802,
+          "repository_id": 1335388872,
+          "head_repository_id": 1335388872,
+          "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+          "head_sha": "490504c756ff001be12ae78f08d2fa35dde3452d"
+        },
+        "job": 111325036733,
+        "lane": "immediatelyfast",
+        "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+        "passed": true,
+        "two_distinct_original_client_pids": [
+          4070,
+          4969
+        ],
+        "phases": [
+          {
+            "phase": "client-first",
+            "c2me_versions": [
+              "9.6"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": true,
+            "save_and_clean_close": true
+          },
+          {
+            "phase": "client-reopen",
+            "c2me_versions": [
+              "9.6"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": false,
+            "save_and_clean_close": true
+          }
+        ],
+        "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+        "evidence_file_count": 123,
+        "complete_reconciliation_sha256": "320c6eb701982330b4b54d9f35c714f732fe1c32c00af8216b7e62226e499dfc",
+        "job_url": "https://github.com/Herbertofury/ProjectDump/actions/runs/37164668802/job/111325036733"
+      },
+      {
+        "artifact_id": 11288493863,
+        "artifact_bytes": 11813199,
+        "artifact_sha256": "sha256:5c6c1a706ae3afab3218f20c22e139527950af971665fcc001b8235d49c5d6cc",
+        "workflow": {
+          "id": 37164668802,
+          "repository_id": 1335388872,
+          "head_repository_id": 1335388872,
+          "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+          "head_sha": "490504c756ff001be12ae78f08d2fa35dde3452d"
+        },
+        "job": 111325036692,
+        "lane": "continuity",
+        "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+        "passed": true,
+        "two_distinct_original_client_pids": [
+          3911,
+          4898
+        ],
+        "phases": [
+          {
+            "phase": "client-first",
+            "c2me_versions": [
+              "9.6"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": true,
+            "save_and_clean_close": true
+          },
+          {
+            "phase": "client-reopen",
+            "c2me_versions": [
+              "9.6"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": false,
+            "save_and_clean_close": true
+          }
+        ],
+        "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+        "evidence_file_count": 135,
+        "complete_reconciliation_sha256": "c13cde4996ef6d5508ab2245f97a97ad3448739e071e02e9c32f0403762a1d55",
+        "job_url": "https://github.com/Herbertofury/ProjectDump/actions/runs/37164668802/job/111325036692"
+      },
+      {
+        "artifact_id": 11289426919,
+        "artifact_bytes": 10260935,
+        "artifact_sha256": "sha256:545d106331bb98eaa65173e080bd77124b8a679a48b88b1b9aa525889586adda",
+        "workflow": {
+          "id": 37164668733,
+          "repository_id": 1335388872,
+          "head_repository_id": 1335388872,
+          "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+          "head_sha": "490504c756ff001be12ae78f08d2fa35dde3452d"
+        },
+        "job": 111325035935,
+        "lane": "optifine",
+        "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+        "passed": true,
+        "two_distinct_original_client_pids": [
+          4030,
+          5029
+        ],
+        "phases": [
+          {
+            "phase": "client-first",
+            "c2me_versions": [
+              "9.8"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": true,
+            "save_and_clean_close": true
+          },
+          {
+            "phase": "client-reopen",
+            "c2me_versions": [
+              "9.8"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": false,
+            "save_and_clean_close": true
+          }
+        ],
+        "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+        "evidence_file_count": 123,
+        "complete_reconciliation_sha256": "069f4c7c3d4f79d6ebf5a40a8e3f9584ecb3ae3895a0586c61939e14f4ae4a24",
+        "job_url": "https://github.com/Herbertofury/ProjectDump/actions/runs/37164668733/job/111325035935"
+      },
+      {
+        "artifact_id": 11289499096,
+        "artifact_bytes": 12987968,
+        "artifact_sha256": "sha256:dbf623dce44c6b07fa35635b01a9aa6e7b2799fe4f7896236387e2633470830a",
+        "workflow": {
+          "id": 37165635433,
+          "repository_id": 1335388872,
+          "head_repository_id": 1335388872,
+          "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+          "head_sha": "51f09bb673a1c86f844580e4811b78ef4e6651be"
+        },
+        "job": 111327879276,
+        "lane": "distanthorizons",
+        "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+        "passed": true,
+        "two_distinct_original_client_pids": [
+          4242,
+          5364
+        ],
+        "phases": [
+          {
+            "phase": "client-first",
+            "c2me_versions": [
+              "9.6"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": true,
+            "save_and_clean_close": true
+          },
+          {
+            "phase": "client-reopen",
+            "c2me_versions": [
+              "9.6"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": false,
+            "save_and_clean_close": true
+          }
+        ],
+        "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+        "evidence_file_count": 125,
+        "complete_reconciliation_sha256": "dd064d92ab5f0001b2d0f3f452587bb7c290563665818efc4e53e6aba8379bdc",
+        "job_url": "https://github.com/Herbertofury/ProjectDump/actions/runs/37165635433/job/111327879276"
+      },
+      {
+        "artifact_id": 11289469066,
+        "artifact_bytes": 12757004,
+        "artifact_sha256": "sha256:b44c67712a832c38f5302fdb28741a8d46e44dd1d57bff6a7455064ab00d0edb",
+        "workflow": {
+          "id": 37165635449,
+          "repository_id": 1335388872,
+          "head_repository_id": 1335388872,
+          "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+          "head_sha": "51f09bb673a1c86f844580e4811b78ef4e6651be"
+        },
+        "job": 111327837239,
+        "lane": "distanthorizons",
+        "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+        "passed": true,
+        "two_distinct_original_client_pids": [
+          4041,
+          5185
+        ],
+        "phases": [
+          {
+            "phase": "client-first",
+            "c2me_versions": [
+              "9.8"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": true,
+            "save_and_clean_close": true
+          },
+          {
+            "phase": "client-reopen",
+            "c2me_versions": [
+              "9.8"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": false,
+            "save_and_clean_close": true
+          }
+        ],
+        "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+        "evidence_file_count": 125,
+        "complete_reconciliation_sha256": "c3989d44647d877f1b34434600ec52a0c80dbfa8c8a6070bd0e0076442ce50cb",
+        "job_url": "https://github.com/Herbertofury/ProjectDump/actions/runs/37165635449/job/111327837239"
+      },
+      {
+        "artifact_id": 11290815998,
+        "artifact_bytes": 21932973,
+        "artifact_sha256": "sha256:4f083fb62562222c9d5e4eacf101ca7ff0a119671895d46c610a4f1609fa2075",
+        "workflow": {
+          "id": 37166903303,
+          "head_sha": "8edb436bdbd1e690c1d3e73d6e6d4f32585aeaa8"
+        },
+        "job": 111331590303,
+        "lane": "oculus-shaders",
+        "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+        "passed": true,
+        "two_distinct_original_client_pids": [
+          4130,
+          5231
+        ],
+        "phases": [
+          {
+            "phase": "client-first",
+            "c2me_versions": [
+              "9.6"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": true,
+            "save_and_clean_close": true
+          },
+          {
+            "phase": "client-reopen",
+            "c2me_versions": [
+              "9.6"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "OPENGL_FALLBACK",
+            "original_portals": false,
+            "save_and_clean_close": true
+          }
+        ],
+        "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+        "evidence_file_count": 129,
+        "complete_reconciliation_sha256": "c97300211c09023116b073aef86c3c1aaf1b2743f5c6bb7eb80a94d253746e4e",
+        "job_url": "https://github.com/Herbertofury/ProjectDump/actions/runs/37166903303/job/111331590303"
+      },
+      {
+        "artifact_id": 11290144710,
+        "artifact_bytes": 4740215,
+        "artifact_sha256": "sha256:b7f476508ccb2b19348e0c924a4e0f05bedf0eb0fd2127f8b1ec001df39cf620",
+        "workflow": {
+          "id": 37168634595,
+          "head_sha": "e94b6189968d4954431b230af62b5862376fcf30"
+        },
+        "job": 111336814178,
+        "lane": "midnight",
+        "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+        "passed": true,
+        "two_distinct_original_client_pids": [
+          4256,
+          4951
+        ],
+        "phases": [
+          {
+            "phase": "client-first",
+            "c2me_versions": [],
+            "dimensions": {
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "VULKAN",
+            "original_portals": true,
+            "save_and_clean_close": true
+          },
+          {
+            "phase": "client-reopen",
+            "c2me_versions": [],
+            "dimensions": {
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "VULKAN",
+            "original_portals": false,
+            "save_and_clean_close": true
+          }
+        ],
+        "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+        "evidence_file_count": 100,
+        "complete_reconciliation_sha256": "81becac84707fa315911866fdd52b0cfdd8bd9f21a13704ee0fb9ad81faacff3",
+        "job_url": "https://github.com/Herbertofury/ProjectDump/actions/runs/37168634595/job/111336814178"
+      },
+      {
+        "artifact_id": 11290990011,
+        "artifact_bytes": 10120955,
+        "artifact_sha256": "sha256:5ef20e4d756e316e35e180fee6e1803c1f64bf90df3ca55ac7d76db944dd462b",
+        "workflow": {
+          "id": 37168634595,
+          "repository_id": 1335388872,
+          "head_repository_id": 1335388872,
+          "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+          "head_sha": "e94b6189968d4954431b230af62b5862376fcf30"
+        },
+        "job": 111336814285,
+        "lane": "dimensions-c2me",
+        "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+        "passed": true,
+        "two_distinct_original_client_pids": [
+          4049,
+          5010
+        ],
+        "phases": [
+          {
+            "phase": "client-first",
+            "c2me_versions": [
+              "9.6"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "VULKAN",
+            "original_portals": true,
+            "save_and_clean_close": true
+          },
+          {
+            "phase": "client-reopen",
+            "c2me_versions": [
+              "9.6"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "VULKAN",
+            "original_portals": false,
+            "save_and_clean_close": true
+          }
+        ],
+        "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+        "evidence_file_count": 132,
+        "complete_reconciliation_sha256": "021b8b4590f27f221a6976a1a2fba87a35fb463aabf2bd4cdd2cb4e91b45bffc",
+        "job_url": "https://github.com/Herbertofury/ProjectDump/actions/runs/37168634595/job/111336814285"
+      },
+      {
+        "artifact_id": 11290763698,
+        "artifact_bytes": 9754648,
+        "artifact_sha256": "sha256:a52313f53b947d06fc571e1945ed5f1c1336d3059fa2181ee83f57fa0bb9c51c",
+        "workflow": {
+          "id": 37168634593,
+          "repository_id": 1335388872,
+          "head_repository_id": 1335388872,
+          "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+          "head_sha": "e94b6189968d4954431b230af62b5862376fcf30"
+        },
+        "job": 111336814171,
+        "lane": "dimensions-c2me",
+        "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+        "passed": true,
+        "two_distinct_original_client_pids": [
+          4271,
+          5231
+        ],
+        "phases": [
+          {
+            "phase": "client-first",
+            "c2me_versions": [
+              "9.8"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "VULKAN",
+            "original_portals": true,
+            "save_and_clean_close": true
+          },
+          {
+            "phase": "client-reopen",
+            "c2me_versions": [
+              "9.8"
+            ],
+            "dimensions": {
+              "aether": 18,
+              "midnight": 10
+            },
+            "frame_samples": 300,
+            "renderer": "VULKAN",
+            "original_portals": false,
+            "save_and_clean_close": true
+          }
+        ],
+        "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+        "evidence_file_count": 132,
+        "complete_reconciliation_sha256": "3078f9cc3befcf7fa02bdb47b60eafbc72982ef07f5d20618f3257d9c46bccbe",
+        "job_url": "https://github.com/Herbertofury/ProjectDump/actions/runs/37168634593/job/111336814171"
+      }
+    ],
+    "dedicated_dimension_proof": {
+      "artifact_id": 11288877206,
+      "artifact_sha256": "369b895bd43b5fc642b607b094af1f31e110d0287fb1ede99b6e110c263120b8",
+      "run": 37164668802,
+      "job": 111325036397,
+      "conclusion": "success"
+    },
+    "acceptance_is_per_job": "Older overall failed runs remain failed; these exact candidate passing jobs and immutable complete artifacts are independently reconciled."
+  },
+  "complete_native_drive_archives": [
+    {
+      "bytes": 29862197,
+      "sha256": "e1772a9d19aad82d61705366544a68fe3cd7a07f4d3f5cd04f8f36574a34c1e0",
+      "artifact_ids": [
+        11289187333,
+        11289137697,
+        11288553588,
+        11288877206
+      ],
+      "drive_id": "1BI5ZYa0NtTu-9hBKNjVQvWmFW3gPo7B_",
+      "url": "https://drive.google.com/file/d/1BI5ZYa0NtTu-9hBKNjVQvWmFW3gPo7B_/view",
+      "raw_byte_readback_verified": true
+    },
+    {
+      "bytes": 32638848,
+      "sha256": "004803f1b285bd97513615b9cb65416a48bf8f518fa47d9733bd03e660cc7475",
+      "artifact_ids": [
+        11289486929,
+        11288962222,
+        11288493863
+      ],
+      "drive_id": "1JHVQtsUbBvTVdgI_xE-FUM715tCmQY4m",
+      "url": "https://drive.google.com/file/d/1JHVQtsUbBvTVdgI_xE-FUM715tCmQY4m/view",
+      "raw_byte_readback_verified": true
+    },
+    {
+      "bytes": 32641588,
+      "sha256": "4784509405514fa9bfa9fda1fa9ebaf954b487b4ee59732826b18d59cf99c713",
+      "artifact_ids": [
+        11288648418,
+        11289456983,
+        11288773262
+      ],
+      "drive_id": "1YC9KFjCDTz3-vSqp0IoC2ESSalrcDK3k",
+      "url": "https://drive.google.com/file/d/1YC9KFjCDTz3-vSqp0IoC2ESSalrcDK3k/view",
+      "raw_byte_readback_verified": true
+    },
+    {
+      "bytes": 10270325,
+      "sha256": "47346313296d70d2449d97750d7051a9f2644e0e531e1db744ae6ab0565c2c70",
+      "artifact_ids": [
+        11289426919
+      ],
+      "drive_id": "1qf1zLYqun3umbR7cDkgNWUDU_sMIG61r",
+      "url": "https://drive.google.com/file/d/1qf1zLYqun3umbR7cDkgNWUDU_sMIG61r/view",
+      "raw_byte_readback_verified": true
+    },
+    {
+      "drive_id": "1NaQBTamqlzrslOxJkRaeiyb8Fn-82EQX",
+      "bytes": 25761303,
+      "sha256": "43fcde4a0117c1b188eff19d6178f7014201113a2f7de9d391d48e89f94de58d",
+      "raw_byte_readback_verified": true,
+      "artifact_ids": [
+        11289499096,
+        11289469066
+      ],
+      "url": "https://drive.google.com/file/d/1NaQBTamqlzrslOxJkRaeiyb8Fn-82EQX/view"
+    },
+    {
+      "drive_id": "1ZqNJolI8MkHKFVXiXKiC6vTVxKSBfWI_",
+      "name": "HariMultiThread-2.4.9-Complete-Native-Checkpoint-06.zip",
+      "bytes": 21927365,
+      "sha256": "2d27a3feb262b1f82d9e8d222b32818db1b161559931667864c2dcb525eb1bf9",
+      "raw_byte_readback_verified": true,
+      "artifact_ids": [
+        11290815998
+      ],
+      "checked_at": "2026-10-04T01:36:12.466654+00:00",
+      "url": "https://drive.google.com/file/d/1ZqNJolI8MkHKFVXiXKiC6vTVxKSBfWI_/view"
+    },
+    {
+      "drive_id": "1bJEBAWILujJkf3VYAK1zsGZEs81drhOU",
+      "name": "HariMultiThread-2.4.9-Complete-Native-Checkpoint-07.zip",
+      "bytes": 4717184,
+      "sha256": "4d3c5f52706bcc0005203bc118d3e9ae40a28b6bde6219d129f60866bc69c2a4",
+      "raw_byte_readback_verified": true,
+      "artifact_ids": [
+        11290144710
+      ],
+      "url": "https://drive.google.com/file/d/1bJEBAWILujJkf3VYAK1zsGZEs81drhOU/view"
+    },
+    {
+      "drive_id": "1RwqEG8Ok5jEXRi6FfqvfObT-eoSGJOI4",
+      "name": "HariMultiThread-2.4.9-Complete-Native-Checkpoint-08.zip",
+      "bytes": 19827921,
+      "sha256": "46fe9e584399371e8accb529441c69d4f06ca8c7c9c6850bfb8736236cd9636e",
+      "raw_byte_readback_verified": true,
+      "artifact_ids": [
+        11290990011,
+        11290763698
+      ],
+      "url": "https://drive.google.com/file/d/1RwqEG8Ok5jEXRi6FfqvfObT-eoSGJOI4/view"
+    }
+  ],
+  "compiled_checkpoint": {
+    "drive_id": "1sc8tCZWxzlzRRty6VAf2VogTZbxgp1CI",
+    "bytes": 30599475,
+    "sha256": "c62d3fb97fce1767a766194797544fda13db878a0b92dfb32d9b779ead14c9b8",
+    "raw_byte_readback_verified": true
+  },
+  "standard_native_complete_drive_checkpoint": {
+    "drive_id": "12bKY88XNmJMLZgBC51caNr_XFbIvfjER",
+    "bytes": 20190572,
+    "sha256": "be1b50b8bd7d60bfd2837e454f0954fde26368775f1b64344ba3a4dfd59b6572",
+    "raw_byte_readback_verified": true,
+    "dedicated_evidence_files": 20,
+    "packaged_evidence_files": 111
+  },
+  "source_entries": 998,
+  "pinned_recipe_steps": 23,
+  "focused_regression_suites": 23,
+  "scope_limits": [
+    "Linux Mesa software Vulkan/OpenGL; Windows/macOS GPU and hardware FPS unmeasured",
+    "Original AI/spawn catalogue and native portal/persistence/reload paths; not every boss combat phase",
+    "111 exact external GL overloads; unsupported calls select full GL; not universal arbitrary GL translation",
+    "Original 9.6 broad 13 profiles; original 9.8 focused three profiles; not a 9.8 full matrix",
+    "Rubidium/Lucent upstream dynamic-light restriction remains"
+  ],
+  "frozen_historical_upload_rejections": "The five previously rejected 2.4.1 archives were not retried or rerouted.",
+  "live_wiki_publication": {
+    "head": "2af2bb424b465acde1034ed4176a006a85e00677",
+    "page_sha256": "2a8765fc20996c73178b00022e6fb21b4b02da339db81fdb79b7c2699ce24029",
+    "publisher_run": 37170095652,
+    "publisher_job": 111341120954,
+    "source_main_commit": "9ff2f213daeab4a651f8f0b5ece01dda42ada145",
+    "actual_wiki_git_readback": true,
+    "fresh_clone_publisher_verified": true,
+    "url": "https://github.com/Herbertofury/ProjectDump/wiki/HariMultiThread-Vulkan-Hybrid"
+  },
+  "complete_evidence_index": {
+    "drive_id": "1PASbnvio3werzVKfZR9wDNb_g_ewVssZ",
+    "sha256": "a0d670a43352d302a01c6f597b054ab80c5ddbacd95fd1108f3594605773d194",
+    "bytes": 282029,
+    "contains_every_native_evidence_file_hash": true
+  }
+}

@@ -1,0 +1,379 @@
+{
+  "binary_sha256": "5b5b6a8d7961dc43ce8213fc8a01821f66628640d70358379986ec13e80b3b99",
+  "product_commit": "d087b4d17358d1ad94ac1362799769c7e677a862",
+  "qa_commit": "7930a419f5e86914adedc2c05322610689f323e4",
+  "matrix": [
+    {
+      "id": 111275653376,
+      "name": "native-dimension-server",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37147946064,
+      "failed_steps": []
+    },
+    {
+      "id": 111275653517,
+      "name": "native-modpack (continuity)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37147946064,
+      "failed_steps": []
+    },
+    {
+      "id": 111275653534,
+      "name": "native-modpack (optifine)",
+      "status": "completed",
+      "conclusion": "failure",
+      "run_id": 37147946064,
+      "failed_steps": [
+        "Native portals mobs chunk unload reload and second JVM reopen"
+      ]
+    },
+    {
+      "id": 111275653616,
+      "name": "native-modpack (dimensions-c2me)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37147946064,
+      "failed_steps": []
+    },
+    {
+      "id": 111275653625,
+      "name": "native-modpack (entityculling)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37147946064,
+      "failed_steps": []
+    },
+    {
+      "id": 111275653627,
+      "name": "native-modpack (midnight)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37147946064,
+      "failed_steps": []
+    },
+    {
+      "id": 111275653628,
+      "name": "native-modpack (distanthorizons)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37147946064,
+      "failed_steps": []
+    },
+    {
+      "id": 111275653635,
+      "name": "native-modpack (oculus-embeddium)",
+      "status": "completed",
+      "conclusion": "failure",
+      "run_id": 37147946064,
+      "failed_steps": [
+        "Native portals mobs chunk unload reload and second JVM reopen"
+      ]
+    },
+    {
+      "id": 111275653667,
+      "name": "native-modpack (lazurite)",
+      "status": "completed",
+      "conclusion": "failure",
+      "run_id": 37147946064,
+      "failed_steps": [
+        "Native portals mobs chunk unload reload and second JVM reopen"
+      ]
+    },
+    {
+      "id": 111275653669,
+      "name": "native-modpack (rubidium)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37147946064,
+      "failed_steps": []
+    },
+    {
+      "id": 111275653674,
+      "name": "native-modpack (immediatelyfast)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37147946064,
+      "failed_steps": []
+    },
+    {
+      "id": 111275653682,
+      "name": "native-modpack (aether)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37147946064,
+      "failed_steps": []
+    },
+    {
+      "id": 111275653683,
+      "name": "native-modpack (optimized-stack)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37147946064,
+      "failed_steps": []
+    },
+    {
+      "id": 111275653703,
+      "name": "native-modpack (oculus-shaders)",
+      "status": "completed",
+      "conclusion": "failure",
+      "run_id": 37147946064,
+      "failed_steps": [
+        "Native portals mobs chunk unload reload and second JVM reopen"
+      ]
+    }
+  ],
+  "original_c2me98": [
+    {
+      "id": 111275653296,
+      "name": "native-modpack (dimensions-c2me)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37147946076,
+      "failed_steps": []
+    },
+    {
+      "id": 111275653415,
+      "name": "native-modpack (distanthorizons)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37147946076,
+      "failed_steps": []
+    },
+    {
+      "id": 111275653476,
+      "name": "native-modpack (optifine)",
+      "status": "completed",
+      "conclusion": "failure",
+      "run_id": 37147946076,
+      "failed_steps": [
+        "Native portals mobs chunk unload reload and second JVM reopen"
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 11283372821,
+      "name": "Hari-2.4.9-MODPACK-dimensions-c2me",
+      "size_in_bytes": 7565416,
+      "digest": "sha256:55a73a9dd6bfdb04e8c4ee154efc51e4db2d0872550c1c9cac0f796220e1629d",
+      "workflow_run": {
+        "id": 37147946064,
+        "repository_id": 1335388872,
+        "head_repository_id": 1335388872,
+        "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+        "head_sha": "7930a419f5e86914adedc2c05322610689f323e4"
+      }
+    },
+    {
+      "id": 11283331661,
+      "name": "Hari-2.4.9-MODPACK-midnight",
+      "size_in_bytes": 3986685,
+      "digest": "sha256:a1dc091e3a660263379c664e156b7f2bbe416584d8a7e27436cf476597a7bb76",
+      "workflow_run": {
+        "id": 37147946064,
+        "repository_id": 1335388872,
+        "head_repository_id": 1335388872,
+        "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+        "head_sha": "7930a419f5e86914adedc2c05322610689f323e4"
+      }
+    },
+    {
+      "id": 11283327734,
+      "name": "Hari-2.4.9-MODPACK-oculus-shaders",
+      "size_in_bytes": 13835896,
+      "digest": "sha256:fb90aad1614427813e5642fb4c58395133cf754ce685c3fe92e87d91bf5d8d4b",
+      "workflow_run": {
+        "id": 37147946064,
+        "repository_id": 1335388872,
+        "head_repository_id": 1335388872,
+        "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+        "head_sha": "7930a419f5e86914adedc2c05322610689f323e4"
+      }
+    },
+    {
+      "id": 11283288964,
+      "name": "Hari-2.4.9-MODPACK-aether",
+      "size_in_bytes": 6551301,
+      "digest": "sha256:957ab3c352751842ad8ad18f1ecb4cbbf906cdd2b432a12a87159059afd9f716",
+      "workflow_run": {
+        "id": 37147946064,
+        "repository_id": 1335388872,
+        "head_repository_id": 1335388872,
+        "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+        "head_sha": "7930a419f5e86914adedc2c05322610689f323e4"
+      }
+    },
+    {
+      "id": 11283143793,
+      "name": "Hari-2.4.9-MODPACK-immediatelyfast",
+      "size_in_bytes": 10430041,
+      "digest": "sha256:ec136f0d44559cea03ba43fdf84c65a6e8016f4df410a0982e0d66a16793a2d7",
+      "workflow_run": {
+        "id": 37147946064,
+        "repository_id": 1335388872,
+        "head_repository_id": 1335388872,
+        "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+        "head_sha": "7930a419f5e86914adedc2c05322610689f323e4"
+      }
+    },
+    {
+      "id": 11283058956,
+      "name": "Hari-2.4.9-MODPACK-optimized-stack",
+      "size_in_bytes": 10510385,
+      "digest": "sha256:75f3e41218e5f8b4d60b2e8ce3dc1895b56d76c8e2f8070ba9e10ebf1dfb6ef7",
+      "workflow_run": {
+        "id": 37147946064,
+        "repository_id": 1335388872,
+        "head_repository_id": 1335388872,
+        "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+        "head_sha": "7930a419f5e86914adedc2c05322610689f323e4"
+      }
+    },
+    {
+      "id": 11283037739,
+      "name": "Hari-2.4.9-MODPACK-continuity",
+      "size_in_bytes": 11646850,
+      "digest": "sha256:1c6d4337031415b42e2f229b4cffd719d6cf62ad46face81915645bd9543667a",
+      "workflow_run": {
+        "id": 37147946064,
+        "repository_id": 1335388872,
+        "head_repository_id": 1335388872,
+        "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+        "head_sha": "7930a419f5e86914adedc2c05322610689f323e4"
+      }
+    },
+    {
+      "id": 11282982810,
+      "name": "Hari-2.4.9-MODPACK-rubidium",
+      "size_in_bytes": 10213836,
+      "digest": "sha256:068c0ec1342690e03b90758a229e4ea145bab5bacb0997ab7a3a52f357e61a7b",
+      "workflow_run": {
+        "id": 37147946064,
+        "repository_id": 1335388872,
+        "head_repository_id": 1335388872,
+        "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+        "head_sha": "7930a419f5e86914adedc2c05322610689f323e4"
+      }
+    },
+    {
+      "id": 11282772873,
+      "name": "Hari-2.4.9-MODPACK-optifine",
+      "size_in_bytes": 5915102,
+      "digest": "sha256:0dbf790825f64f07b19c33e1f95c3454715fa8d3bbcd05b176c7be6b654d1ed7",
+      "workflow_run": {
+        "id": 37147946064,
+        "repository_id": 1335388872,
+        "head_repository_id": 1335388872,
+        "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+        "head_sha": "7930a419f5e86914adedc2c05322610689f323e4"
+      }
+    },
+    {
+      "id": 11282432519,
+      "name": "Hari-2.4.9-MODPACK-dedicated-server",
+      "size_in_bytes": 166571,
+      "digest": "sha256:a6841659a5c968defc3a0c842250d390562237fc34d2a90f7ae1bf231de4e712",
+      "workflow_run": {
+        "id": 37147946064,
+        "repository_id": 1335388872,
+        "head_repository_id": 1335388872,
+        "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+        "head_sha": "7930a419f5e86914adedc2c05322610689f323e4"
+      }
+    },
+    {
+      "id": 11282334331,
+      "name": "Hari-2.4.9-MODPACK-lazurite",
+      "size_in_bytes": 2479671,
+      "digest": "sha256:c75f68e46f7b2ec3195caa9a020475037238cc21741ad37510cefe4d518bcb4a",
+      "workflow_run": {
+        "id": 37147946064,
+        "repository_id": 1335388872,
+        "head_repository_id": 1335388872,
+        "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+        "head_sha": "7930a419f5e86914adedc2c05322610689f323e4"
+      }
+    },
+    {
+      "id": 11282293576,
+      "name": "Hari-2.4.9-MODPACK-entityculling",
+      "size_in_bytes": 10425133,
+      "digest": "sha256:72d49f63ccdbb59d96ce10a1bc46f3c73324790d193b2c1acf3b82875a3c0c5c",
+      "workflow_run": {
+        "id": 37147946064,
+        "repository_id": 1335388872,
+        "head_repository_id": 1335388872,
+        "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+        "head_sha": "7930a419f5e86914adedc2c05322610689f323e4"
+      }
+    },
+    {
+      "id": 11282227888,
+      "name": "Hari-2.4.9-MODPACK-oculus-embeddium",
+      "size_in_bytes": 1793735,
+      "digest": "sha256:f4abf6d671e7036c1e06ffe152766752eea58f701ef69fe0156a0447a9f2d495",
+      "workflow_run": {
+        "id": 37147946064,
+        "repository_id": 1335388872,
+        "head_repository_id": 1335388872,
+        "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+        "head_sha": "7930a419f5e86914adedc2c05322610689f323e4"
+      }
+    },
+    {
+      "id": 11282193653,
+      "name": "Hari-2.4.9-MODPACK-distanthorizons",
+      "size_in_bytes": 15106482,
+      "digest": "sha256:03199e21a050170cfdbdb64ead377d9550b8d8981bc2ff8ed6fde01fa4232c3e",
+      "workflow_run": {
+        "id": 37147946064,
+        "repository_id": 1335388872,
+        "head_repository_id": 1335388872,
+        "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+        "head_sha": "7930a419f5e86914adedc2c05322610689f323e4"
+      }
+    },
+    {
+      "id": 11283580235,
+      "name": "Hari-2.4.9-C2ME98-NATIVE-distanthorizons",
+      "size_in_bytes": 13398226,
+      "digest": "sha256:02fa4c33e38911bf514efb1fe28f38a67954a563a1e5d6b1e1882333f27d70fb",
+      "workflow_run": {
+        "id": 37147946076,
+        "repository_id": 1335388872,
+        "head_repository_id": 1335388872,
+        "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+        "head_sha": "7930a419f5e86914adedc2c05322610689f323e4"
+      }
+    },
+    {
+      "id": 11282538048,
+      "name": "Hari-2.4.9-C2ME98-NATIVE-optifine",
+      "size_in_bytes": 5892101,
+      "digest": "sha256:f382ce3fa1094a96962ba49aa98528e912527564c819efc9db594af529124cb1",
+      "workflow_run": {
+        "id": 37147946076,
+        "repository_id": 1335388872,
+        "head_repository_id": 1335388872,
+        "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+        "head_sha": "7930a419f5e86914adedc2c05322610689f323e4"
+      }
+    },
+    {
+      "id": 11282323401,
+      "name": "Hari-2.4.9-C2ME98-NATIVE-dimensions-c2me",
+      "size_in_bytes": 8930320,
+      "digest": "sha256:84ea138a7ece0d5f5b177f13e820d616e78b9e10ea503b4fd2fdedad8fe17cee",
+      "workflow_run": {
+        "id": 37147946076,
+        "repository_id": 1335388872,
+        "head_repository_id": 1335388872,
+        "head_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+        "head_sha": "7930a419f5e86914adedc2c05322610689f323e4"
+      }
+    }
+  ],
+  "result": "9/13 client PASS plus dedicated PASS. OptiFine original LIGHT leak persists because preApply precedes helper merge. Two first-client flight observations and Oculus shader reopen portal/chat observations failed; original game input synchronization is being repaired. No failed lane accepted."
+}

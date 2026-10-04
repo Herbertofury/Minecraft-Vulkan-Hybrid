@@ -1,0 +1,161 @@
+name: Hari 2.4.1 Vulkan validation and C2ME chunk travel
+"on":
+  push:
+    branches: [async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926]
+    paths:
+      - '.github/workflows/hari-vulkan-c2me-stress.yml'
+      - '.github/qa/hari24_vulkan_c2me_stress_qa.py'
+      - '.github/qa/hari_seed_c2me_world.py'
+      - '.github/qa/hari_c2me_owner_server_qa.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  native-upload-validation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Install QA tools and Khronos validation layer
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends curl tar unzip mesa-vulkan-drivers vulkan-tools vulkan-validationlayers xvfb openbox xdotool x11-utils imagemagick libgl1-mesa-dri mesa-utils libflite1
+          mkdir -p production-qa qa-native-libs
+          flite_lib="$(ldconfig -p | awk '/libflite\.so\.1/{print $NF; exit}')"
+          test -n "$flite_lib"
+          ln -sf "$flite_lib" qa-native-libs/libflite.so
+          echo "LD_LIBRARY_PATH=$PWD/qa-native-libs${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" >> "$GITHUB_ENV"
+      - name: Download immutable packaged-client candidate
+        uses: actions/download-artifact@v4
+        with:
+          name: HariMultiThread-Ultimate-1.20.1-2.4.0-VULKAN-HYBRID-COMPILE
+          run-id: 36899664277
+          github-token: ${{ github.token }}
+          path: tested
+      - name: Verify artifact and C2ME bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo '58ceda73c9328c78fc3d82eb652475cb4c7ddd91f3078d6d31717eb0ea9d432f  tested/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar' | sha256sum -c -
+          sha256sum tested/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar | sed 's#tested/#production-qa/#' > tested/JAR-SHA256.txt
+          curl -fL --retry 3 'https://edge.forgecdn.net/files/8929/972/c2meforge-0.2.0-forge.9.6-all.jar' -o c2meforge-0.2.0-forge.9.6-all.jar
+          echo '97401e625906dc7dbe7719c4915d5aa88830e64e5aa6f90831ee45a61373f8d3  c2meforge-0.2.0-forge.9.6-all.jar' | sha256sum -c -
+      - name: Generate deterministic Forge world fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 \
+            'https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.23/forge-1.20.1-47.4.23-installer.jar' \
+            -o forge-installer.jar
+          rm -rf production-seed-server
+          mkdir production-seed-server
+          (cd production-seed-server && java -jar ../forge-installer.jar --installServer > ../production-qa/forge-server-install.log 2>&1)
+          chmod +x production-seed-server/run.sh
+          printf 'eula=true\n' > production-seed-server/eula.txt
+          cat > production-seed-server/server.properties <<'EOF'
+          online-mode=false
+          level-name=world
+          level-seed=8675309
+          spawn-protection=0
+          view-distance=8
+          simulation-distance=8
+          motd=Hari 2.4 Production Client World Seed
+          EOF
+          python3 .github/qa/hari_seed_c2me_world.py production-seed-server production-qa/seed-server.log
+          test -s production-seed-server/world/level.dat
+
+      - name: Install pinned PortableMC production launcher
+        shell: bash
+        run: |
+          set -euo pipefail
+          url='https://github.com/theorzr/portablemc/releases/download/v5.0.5/portablemc-5.0.5-linux-x86_64-gnu.tar.gz'
+          curl -fL --retry 3 "$url" -o portablemc.tar.gz
+          echo '272611ab554237993cd2720dcc7219516f5e9d6382986df2c6d7177793b145dc  portablemc.tar.gz' | sha256sum -c -
+          rm -rf portablemc-bin
+          mkdir portablemc-bin
+          tar -xzf portablemc.tar.gz -C portablemc-bin
+          pmc="$(find portablemc-bin -type f -name portablemc -perm -u+x | head -n 1)"
+          test -n "$pmc"
+          "$pmc" --version | tee production-qa/portablemc-version.txt
+          echo "$pmc" > production-qa/portablemc-path.txt
+
+      - name: Install exact Forge production profile
+        shell: bash
+        run: |
+          set -euo pipefail
+          pmc="$(cat production-qa/portablemc-path.txt)"
+          rm -rf pmc-main pmc-game
+          mkdir -p pmc-main pmc-game
+          "$pmc" --main-dir "$PWD/pmc-main" -vv start forge::1.20.1-47.4.23 \
+            --mc-dir "$PWD/pmc-game" --jvm "$JAVA_HOME/bin/java" \
+            -u HariProdQA --resolution 1280x720 --dry \
+            | tee production-qa/portablemc-install.log
+
+          grep -R -F '"forgeclient"' pmc-main/versions pmc-game 2>/dev/null | tee production-qa/forgeclient-profile-proof.txt
+          if grep -R -F 'forgeclientuserdev' pmc-main/versions pmc-game 2>/dev/null; then
+            echo '::error::Production launcher installation contains forgeclientuserdev'
+            exit 1
+          fi
+
+          mkdir -p pmc-game/mods pmc-game/saves/HMT-2.4-QA
+          cp tested/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar pmc-game/mods/HariMultiThread-Ultimate.jar
+          cp -a production-seed-server/world/. pmc-game/saves/HMT-2.4-QA/
+          printf 'renderDistance:8\nsimulationDistance:8\nmaxFps:260\nenableVsync:false\npauseOnLostFocus:false\n' > pmc-game/options.txt
+          # The software driver supports core GL 4.5. Avoid spending Forge's
+          # ten-second early-window budget attempting unsupported GL 4.6.
+          mkdir -p pmc-game/config
+          printf 'earlyWindowSkipGLVersions = ["4.6"]\n' > pmc-game/config/fml.toml
+          sha256sum pmc-game/mods/HariMultiThread-Ultimate.jar | tee production-qa/INSTALLED-JAR-SHA256.txt
+          diff -u tested/JAR-SHA256.txt <(sed 's#pmc-game/mods/HariMultiThread-Ultimate.jar#production-qa/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar#' production-qa/INSTALLED-JAR-SHA256.txt)
+
+      - name: Validate actual Vulkan uploads during C2ME generation and return travel
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp c2meforge-0.2.0-forge.9.6-all.jar pmc-game/mods/
+          mkdir -p pmc-game/config
+          test ! -e pmc-game/config/c2me.toml
+          printf 'version = 3\n[fixes]\nenforceSafeWorldRandomAccess = true\n' > pmc-game/config/c2me.toml
+          pmc="$(cat production-qa/portablemc-path.txt)"
+          python3 .github/qa/hari24_vulkan_c2me_stress_qa.py \
+            --portablemc "$pmc" --main-dir "$PWD/pmc-main" --mc-dir "$PWD/pmc-game" \
+            --world HMT-2.4-QA --evidence "$PWD/production-qa/validation-c2me" \
+            --java "$JAVA_HOME/bin/java" --display :91 --expect vulkan
+          grep -F 'externalChunks=true' production-qa/validation-c2me/production-client-console.log
+          grep -F 'Enforcing safe world random access' production-qa/validation-c2me/production-client-console.log
+          grep -F 'VK_LAYER_KHRONOS_validation' production-qa/validation-c2me/production-client-console.log
+          grep -F 'HMT_QA_FAR_GENERATED' production-qa/validation-c2me/production-client-console.log
+          grep -F 'HMT_QA_RETURN_RENDERED' production-qa/validation-c2me/production-client-console.log
+      - name: Verify bee RNG, async entity lifecycle and C2ME block NBT in the exact server JAR
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p production-seed-server/mods
+          cp tested/HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar production-seed-server/mods/HariMultiThread-Ultimate.jar
+          cp c2meforge-0.2.0-forge.9.6-all.jar production-seed-server/mods/
+          mkdir -p production-seed-server/config
+          test ! -e production-seed-server/config/c2me.toml
+          test ! -e production-seed-server/config/harimt.toml
+          printf 'version = 3\n[fixes]\nenforceSafeWorldRandomAccess = true\n' > production-seed-server/config/c2me.toml
+          printf '["Async Config"]\nparaMax = 2\n' > production-seed-server/config/harimt.toml
+          cp production-seed-server/config/harimt.toml production-qa/owner-server-requested-config.toml
+          python3 .github/qa/hari_c2me_owner_server_qa.py production-seed-server production-qa/owner-server
+          grep -F 'externalChunks=true' production-qa/owner-server/packaged-server-gpu-and-fallback.log
+          grep -F 'Initialized Pool with 2 threads' production-qa/owner-server/packaged-server-gpu-and-fallback.log
+          grep -F 'Enforcing safe world random access' production-qa/owner-server/packaged-server-gpu-and-fallback.log
+          grep -F 'Initialized Pool with 2 threads' production-qa/owner-server/packaged-server-restart.log
+          grep -F 'HMT_QA_BLOCK_NBT_RESTART' production-qa/owner-server/packaged-server-restart.log
+          cp production-seed-server/config/harimt.toml production-qa/owner-server-final-config.toml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Hari-2.4.1-C2ME-CHUNK-TRAVEL-VALIDATION
+          path: production-qa/
+          if-no-files-found: error

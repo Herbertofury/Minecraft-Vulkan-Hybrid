@@ -1,0 +1,10 @@
+{
+  "old_outer_lock_deadlock_reproduced": true,
+  "passed": true,
+  "passenger_trees": 553,
+  "entities_exact_once": 2212,
+  "original_failure_identity": true,
+  "handoff_before_lock": true,
+  "disabled_and_non_c2me_paths": true,
+  "scope": "Actual passenger-spawn mixin and owner boundary; real threads reproduce the native outer dimension-lock cycle. Packaged Minecraft+C2ME proof remains separate."
+}

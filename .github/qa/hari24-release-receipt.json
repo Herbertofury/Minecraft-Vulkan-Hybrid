@@ -1,0 +1,10 @@
+{
+  "product_commit": "41445af590e96e4911ab13b65e3f49ffaa7ea887",
+  "qa_commit": "a5856c2d97c9bf37ec40dafa61d2d0ac49046890",
+  "jar_sha256": "56cf44d61b83c31cdb7189ac399d9b4c6fc42aa718280de178f6055508318697",
+  "bundle_sha256": "59e65d6b46028862a2132a8c901e544a43eec9c9a30fd23db365fcae39b2c320",
+  "bundle_bytes": 34599373,
+  "jar_url": "https://drive.google.com/file/d/1_A-LfORE29HGtssy6ShaaEM_L1lSMLoO/view",
+  "bundle_url": "https://drive.google.com/file/d/1LkGx5uQHZb9EzLBwsYo6Q4O1nuyqsfPl/view",
+  "verification": "compile, cached clean rebuild, independent server build, Vulkan and Embeddium packaged clients, save/restart, and 23 focused regressions passed"
+}

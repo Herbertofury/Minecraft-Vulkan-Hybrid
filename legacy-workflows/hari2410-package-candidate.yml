@@ -1,0 +1,74 @@
+name: Hari 2.4.10 complete compile checkpoint and fair baseline
+"on":
+  push:
+    branches: [async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926]
+    paths: ['.github/workflows/hari2410-package-candidate.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: HariMultiThread-Ultimate-1.20.1-2.4.0-VULKAN-HYBRID-COMPILE
+          run-id: 37171853240
+          github-token: ${{ github.token }}
+          path: compiled
+      - uses: actions/download-artifact@v4
+        with:
+          name: HariMultiThread-Ultimate-1.20.1-2.4.0-VULKAN-HYBRID-COMPILE
+          run-id: 37163922566
+          github-token: ${{ github.token }}
+          path: accepted
+      - name: Verify baseline equivalence and retain complete compile proof with one JAR per volume
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,shutil,zipfile
+          digest=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+          root=Path('compiled');floor=Path('accepted/HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar')
+          candidate=root/'HariMultiThread-Ultimate-1.20.1-2.4.10-vulkan-hybrid.jar'
+          baseline=root/'HariMultiThread-2.4.9-FPS-INSTRUMENTED-BASELINE.jar'
+          assert digest(floor)=='c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396'
+          assert digest(candidate)=='8b593bac1ac77670849ed992c808d327dd6d9f188ddfdea341ac88f16edf8c9f'
+          assert digest(root/'REPRO-SECOND.jar')==digest(candidate)
+          with zipfile.ZipFile(floor) as old,zipfile.ZipFile(baseline) as instrumented:
+            classes=[x for x in old.namelist() if x.endswith('.class')]
+            changed=[x for x in classes if old.read(x)!=instrumented.read(x)]
+            assert not changed,changed
+            added=sorted(x for x in instrumented.namelist() if x.endswith('.class') and x not in old.namelist())
+          report={'accepted_floor_sha256':digest(floor),'baseline_sha256':digest(baseline),
+                  'candidate_sha256':digest(candidate),'accepted_class_files_checked':len(classes),
+                  'changed_existing_baseline_classes':changed,'added_baseline_classes':added,
+                  'same_fps_capture_class_in_both':False,'compile_run':37171853240,
+                  'reproducible_candidate':True,'removed_duplicate_jar_sha256':digest(candidate)}
+          with zipfile.ZipFile(candidate) as new,zipfile.ZipFile(baseline) as base:
+            key='com/axalotl/async/forge/client/HariFpsCapture.class'
+            assert new.read(key)==base.read(key)
+            report['same_fps_capture_class_in_both']=True
+          proof=Path('candidate-proof');proof.mkdir()
+          for p in root.rglob('*'):
+            if p.is_file() and p.name not in ['REPRO-SECOND.jar',baseline.name]:
+              dst=proof/p.relative_to(root);dst.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(p,dst)
+          (proof/'BASELINE-EQUIVALENCE.json').write_text(json.dumps(report,indent=2)+'\n')
+          out=Path('baseline-proof');out.mkdir();shutil.copy2(baseline,out/baseline.name)
+          (out/'BASELINE-EQUIVALENCE.json').write_text(json.dumps(report,indent=2)+'\n')
+          for folder in [proof,out]:
+            (folder/'SHA256SUMS-CHECKPOINT.txt').write_text(''.join(digest(p)+'  '+p.relative_to(folder).as_posix()+'\n' for p in sorted(folder.rglob('*')) if p.is_file()))
+          print(json.dumps(report,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Hari-2.4.10-CANDIDATE-COMPLETE
+          path: candidate-proof/
+          compression-level: 9
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Hari-2.4.9-FAIR-FPS-BASELINE
+          path: baseline-proof/
+          compression-level: 9

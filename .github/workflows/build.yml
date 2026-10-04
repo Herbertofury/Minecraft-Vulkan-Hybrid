@@ -1,0 +1,44 @@
+name: Standalone source build and focused regressions
+on:
+  push:
+    branches: ['migration/**']
+    paths: ['source/**', 'tools/**', 'provenance/**', 'minecraft/**', '.github/workflows/build.yml']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Verify all 1001 source files
+        run: python tools/verify_source.py
+      - name: Build complete merged source
+        working-directory: source
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon --max-workers=4 :forge:build --stacktrace
+      - name: Run portable production regressions
+        run: |
+          set -euo pipefail
+          mkdir -p qa-out
+          for suite in vulkan_performance chunk_workers audio_reload gl_contract gl_shader_source c2me_boundary c2me_spawn_lock c2me_task_waiter c2me_chunk_access; do
+            python minecraft/async-1.20.1-ultimate/test_${suite}.py source --report qa-out/${suite}.json
+          done
+          python minecraft/async-1.20.1-ultimate/test_task_failures.py source/common/src/main/java/com/axalotl/async/common/TaskFailures.java --report qa-out/task_failures.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: source-build-and-focused-proof
+          path: |
+            source/forge/build/libs/*-all.jar
+            qa-out/

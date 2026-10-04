@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "production_helper_sha256": "2ecd439f0928363c6950d4afcf809384894a0fe1e1c424e58fc1e10449c28a1d",
+  "actual_production_plugin_sha256": "6dec8b08b7f318689e45203598a143f7d59d7004f01b8c8e755558ba159b6383",
+  "original_early_hook_plugin_sha256": "bcf4bd09d1ed43d932c258ed5612db0768bef040be602dc7d6dc2c772358bfed",
+  "early_plugin_before_provider_merge_negative_control": true,
+  "actual_postapply_plugin_after_provider_merge": true,
+  "original_negative_control_retained_LIGHT_tickets": 529,
+  "fixed_variants": 6,
+  "lambda_suffixes": [
+    7,
+    30,
+    57
+  ],
+  "development_and_native_names": true,
+  "already_paired_idempotent": true,
+  "worldgen_disabled_noop": true,
+  "original_owner_queue_and_529_removal_operations": true,
+  "original_exception_identity_preserved": true,
+  "unsupported_drift_fails": true,
+  "scope": "Real ASM and compiled Minecraft ticket-key causal fixtures matching exported original OptiFine+C2ME native instructions. Does not substitute for real native save/close/reopen."
+}
