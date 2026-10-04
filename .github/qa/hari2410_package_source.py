@@ -18,6 +18,7 @@ def main():
     args = parser.parse_args()
     receipt = json.loads(args.receipt.read_text())
     candidate = json.loads(args.candidate.read_text())
+    version = candidate["version"].split("-", 1)[0]
     if (not receipt["fresh_recipe_completed"] or receipt["patched_source_differences"]
             or receipt["product_commit"] != candidate["product_commit"]
             or receipt["version"] != candidate["version"] or not candidate["reproducible"]):
@@ -44,6 +45,9 @@ def main():
     for path in sorted(project.glob("test_*.py")):
         entries["reproduce/" + path.name] = path.read_bytes()
     entries["ci/compile.yml"] = (args.repo / ".github/workflows/async-1.20.1-ultimate-2.4.0-vulkan-hybrid.yml").read_bytes()
+    for name, target in [(f"RELEASE-NOTES-{version}.md", "RELEASE-NOTES.md"), (f"INSTALL-{version}.txt", "INSTALL.txt")]:
+        if (project / name).is_file():
+            entries[target] = (project / name).read_bytes()
     entries["SOURCE-RECIPE.json"] = args.receipt.read_bytes()
     entries["CANDIDATE.json"] = args.candidate.read_bytes()
     version = candidate["version"].split("-", 1)[0]

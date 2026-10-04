@@ -1,5 +1,5 @@
 {
-  "status": "native_and_frame_gates_passed_memory_diagnostics_pending",
+  "status": "accepted_final_publication_in_progress",
   "accepted_floor": {
     "version": "2.4.9-noxviola.1-vulkan-hybrid",
     "commit": "357e3d8a30f973a654fd493a589ae77053e2d168",
@@ -27,7 +27,7 @@
   },
   "candidate": {
     "version": "2.4.10-noxviola.1-vulkan-hybrid",
-    "not_promoted": true,
+    "not_promoted": false,
     "source_files": 1001,
     "recipe_steps": 24,
     "implementation": "Exact texture upload source spans; original copy calls, all animations and image barriers retained; Ctrl+F9 frame capture",
@@ -37,7 +37,7 @@
     "reproducible": true
   },
   "hardware_gpu_exposed_locally": false,
-  "next": "Reconcile both memory diagnostic jobs, preserve the original failed resource gate, and publish only if protected memory cost is resolved.",
+  "next": "Finish accepted source/proof/upload readback and replace Wiki progress header with accepted 2.4.10; preserve all historical flags.",
   "failed_routes": [
     {
       "run": 37171148505,
@@ -107,8 +107,7 @@
     "run": 37191427448
   },
   "remaining": [
-    "Resolve default Vulkan stock peak RSS variance with actual NMT/heap diagnostics in matched ergonomic/fixed heap policies",
-    "final accepted proof/source/install/Drive/Wiki publication"
+    "Final source/install/proof Drive readback and accepted Wiki publication"
   ],
   "no_repeat": [
     "Initial profiling JVM-option split failure; already corrected",
@@ -416,6 +415,8 @@
     "retained_trials_per_profile": 6,
     "native_memory_tracking": true,
     "heap_and_os_memory_before_and_after_post_capture_diagnostic_gc": true,
-    "gc_not_removed_from_original_frame_samples": true
+    "gc_not_removed_from_original_frame_samples": true,
+    "completed": true,
+    "accepted": true
   }
 }
