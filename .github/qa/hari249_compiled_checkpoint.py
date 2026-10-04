@@ -27,8 +27,8 @@ def fetch(url, token=False):
 
 import time
 REPOSITORY = "Herbertofury/ProjectDump"
-RUN = 37162935847
-HEAD = "22010e6b0f308e46fb250761d72147b8a60711bf"
+RUN = 37163922566
+HEAD = "3bd2621048e166cf24c8a782c79edc77b8b5b2ab"
 deadline = time.monotonic() + 600
 while True:
     run = json.loads(fetch(f"https://api.github.com/repos/{REPOSITORY}/actions/runs/{RUN}", True))
@@ -56,6 +56,7 @@ assert recipe["product_commit"] == HEAD and recipe["file_count"] == 998 and len(
 assert len(recipe["recipe_commands"]) == 23 and recipe["fresh_recipe_completed"] and not recipe["patched_source_differences"]
 light = json.loads(archive.read("C2ME-LIGHT-LEVELS.json"))
 assert light["passed"] and light["actual_postapply_plugin_after_provider_merge"] and light["early_plugin_before_provider_merge_negative_control"]
+assert light["srg_renamed_release_operations"] and light["original_owner_thread_removal_redirect_retained"] and light["existing_C2ME_removal_level_helper_retained"]
 for name in archive.namelist():
     if name.endswith(".jar") and name != JAR:
         continue

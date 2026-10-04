@@ -1,4 +1,4 @@
-name: Hari 2.4.9 verified compiled checkpoint extraction
+name: Hari 2.4.9 semantic LIGHT compiled checkpoint extraction
 "on":
   push:
     branches: [async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926]
