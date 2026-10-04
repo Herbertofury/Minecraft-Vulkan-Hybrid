@@ -1,0 +1,24 @@
+{
+  "product_commit": "3bd2621048e166cf24c8a782c79edc77b8b5b2ab",
+  "jar_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+  "status": "Progress checkpoint; native full matrix pending; not promoted",
+  "compiled": {
+    "drive_id": "1sc8tCZWxzlzRRty6VAf2VogTZbxgp1CI",
+    "bytes": 30599475,
+    "sha256": "c62d3fb97fce1767a766194797544fda13db878a0b92dfb32d9b779ead14c9b8",
+    "raw_byte_readback_verified": true
+  },
+  "source": {
+    "drive_id": "1poqprboC3jCpUxtsw8ypo5ZVtXVFP5n2",
+    "bytes": 2495476,
+    "sha256": "1eabb48c880f25f4238f2e731b8a2ab92b686352d7d36685d0c2efe83b485bef",
+    "raw_byte_readback_verified": true,
+    "all998_source_hashes_match_hosted_build": true,
+    "recipe_steps": 23
+  },
+  "native_runs": {
+    "full13_and_dedicated": 37164668802,
+    "original_c2me98_focused": 37164668733,
+    "commit": "490504c756ff001be12ae78f08d2fa35dde3452d"
+  }
+}
