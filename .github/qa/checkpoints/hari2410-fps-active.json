@@ -30,10 +30,14 @@
     "not_promoted": true,
     "source_files": 1001,
     "recipe_steps": 24,
-    "implementation": "Exact texture upload source spans; original copy calls, all animations and image barriers retained; Ctrl+F9 frame capture"
+    "implementation": "Exact texture upload source spans; original copy calls, all animations and image barriers retained; Ctrl+F9 frame capture",
+    "jar_sha256": "8b593bac1ac77670849ed992c808d327dd6d9f188ddfdea341ac88f16edf8c9f",
+    "compile_run": 37171853240,
+    "compile_job": 111346235788,
+    "reproducible": true
   },
   "hardware_gpu_exposed_locally": false,
-  "next": "Analyze actual CPU/JFR and frame-time baseline, then benchmark result-preserving texture uploads with same work.",
+  "next": "Run same-host A/B of stock and 8x original animated textures, all compatibility profiles with exact candidate, then publish accepted result.",
   "failed_routes": [
     {
       "run": 37171148505,
