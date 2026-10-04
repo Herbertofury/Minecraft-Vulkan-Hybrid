@@ -148,3 +148,5 @@ jobs:
           name: Hari-2.4.9-INPUT-C2ME98-${{ matrix.lane }}
           path: production-qa/
           if-no-files-found: error
+
+# Grabbed native cursor uses queued X11 motion; player-state observations synchronize input.

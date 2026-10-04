@@ -595,7 +595,7 @@ def main() -> int:
             # every terrain/mob view, sample, shader and resolution gate remains
             # unchanged. Normal scene commands restore their exact camera poses.
             for _ in range(4):
-                subprocess.run(["xdotool", "mousemove_relative", "--sync", "--", "0", "-300"],
+                subprocess.run(["xdotool", "mousemove_relative", "--", "0", "-300"],
                                env=env, check=True, timeout=15)
                 time.sleep(0.15)
             input_view = evidence / ("native-flight-input-view-" + str(len(command_journal)) + ".png")

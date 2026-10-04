@@ -39,5 +39,34 @@
     "oculus-embeddium": 111325036652,
     "optimized-stack": 111325036828,
     "dedicated": 111325036397
+  },
+  "preserved_mouse_failure": {
+    "runs": [
+      37165293505,
+      37165293473,
+      37165384601
+    ],
+    "reason": "xdotool mousemove_relative --sync waits for cursor displacement, but Minecraft original grabbed cursor recenters continuously. Native motion must be queued and observed through actual player state, without cursor-displacement waiting.",
+    "fixed": "Remove --sync for native grabbed mouse movement; original normal window activation/resize synchronization and all gameplay assertions retained."
+  },
+  "full_native_complete_passes": {
+    "run": 37164668802,
+    "lanes": [
+      "aether",
+      "immediatelyfast",
+      "entityculling",
+      "oculus-embeddium",
+      "optifine",
+      "rubidium",
+      "lazurite",
+      "continuity",
+      "optimized-stack"
+    ],
+    "dedicated": true
+  },
+  "original_c2me98_optifine": {
+    "run": 37164668733,
+    "job": 111325035935,
+    "result": "PASS; LIGHT shutdown fix proven in both original provider versions"
   }
 }
