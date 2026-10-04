@@ -7,16 +7,37 @@
       "jobs": [
         111325036709,
         111325036485,
-        111325036571
+        111325036571,
+        111325036637
       ]
     },
     {
       "run": 37164668733,
       "jobs": [
-        111325036097
+        111325036097,
+        111325036108
       ]
     }
   ],
   "observed_cause": "Original double-Space rising edges19-28client ticks apart in DH; original seven-tick toggle window expires. Actual key/input/state preserved.",
-  "repair": "Real mouse looks upward for native input, poll actual key states at10ms; every full1280x720 scene, view, shader, sample and original flight gate preserved. No flying-state or timer mutation."
+  "repair": "Real mouse looks upward for native input, poll actual key states at10ms; every full1280x720 scene, view, shader, sample and original flight gate preserved. No flying-state or timer mutation.",
+  "native_followup_runs": {
+    "renderer_profiles": 37165293505,
+    "c2me98_DH": 37165293473
+  },
+  "complete_standard_native_drive_proof": {
+    "drive_id": "12bKY88XNmJMLZgBC51caNr_XFbIvfjER",
+    "bytes": 20190572,
+    "sha256": "be1b50b8bd7d60bfd2837e454f0954fde26368775f1b64344ba3a4dfd59b6572",
+    "raw_byte_readback_verified": true,
+    "dedicated_evidence_files": 20,
+    "packaged_evidence_files": 111
+  },
+  "full_native_accepted_so_far": {
+    "run": 37164668802,
+    "aether": 111325036664,
+    "oculus-embeddium": 111325036652,
+    "optimized-stack": 111325036828,
+    "dedicated": 111325036397
+  }
 }
