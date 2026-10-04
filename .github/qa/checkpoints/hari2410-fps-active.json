@@ -26,5 +26,21 @@
   },
   "candidate": "Not implemented or promoted",
   "hardware_gpu_exposed_locally": false,
-  "next": "Analyze actual CPU/JFR and frame-time baseline, then benchmark result-preserving texture uploads with same work."
+  "next": "Analyze actual CPU/JFR and frame-time baseline, then benchmark result-preserving texture uploads with same work.",
+  "failed_routes": [
+    {
+      "run": 37171148505,
+      "jobs": [
+        111344191024,
+        111344191095
+      ],
+      "artifact_ids": [
+        11291497293,
+        11290908922
+      ],
+      "cause": "PortableMC splits comma-delimited JVM-argument options, treating JFR filename as main class; failed before game startup",
+      "fix": "Single-option StartFlightRecording filename; default low-overhead JFR events, no comma-split ambiguity",
+      "no_product_failure": true
+    }
+  ]
 }

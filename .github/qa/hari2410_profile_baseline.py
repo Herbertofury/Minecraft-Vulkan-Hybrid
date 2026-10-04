@@ -17,7 +17,7 @@ def replace_once(old, new):
 
 replace_once('"VK_INSTANCE_LAYERS": "VK_LAYER_KHRONOS_validation",', '"VK_INSTANCE_LAYERS": "",')
 replace_once('"VK_LAYER_ENABLES": "VK_VALIDATION_FEATURE_ENABLE_SYNCHRONIZATION_VALIDATION_EXT",', '"VK_LAYER_ENABLES": "",')
-replace_once('"--jvm-arg=-Dharimt.qa.captureFrames=true",', '''"--jvm-arg=-XX:StartFlightRecording=settings=profile,filename=" + str(evidence / "minecraft.jfr"),
+replace_once('"--jvm-arg=-Dharimt.qa.captureFrames=true",', '''"--jvm-arg=-XX:StartFlightRecording=filename=" + str(evidence / "minecraft.jfr"),
             "--jvm-arg=-Dharimt.qa.captureFrames=true",''')
 start = source.index('        if args.expect == "vulkan":\n            expected_library =')
 end = source.index('\n        shot =', start)
