@@ -1,0 +1,22 @@
+{
+  "status": "Native flight input followup active, no candidate mutation",
+  "jar_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+  "preserved_failures": [
+    {
+      "run": 37164668802,
+      "jobs": [
+        111325036709,
+        111325036485,
+        111325036571
+      ]
+    },
+    {
+      "run": 37164668733,
+      "jobs": [
+        111325036097
+      ]
+    }
+  ],
+  "observed_cause": "Original double-Space rising edges19-28client ticks apart in DH; original seven-tick toggle window expires. Actual key/input/state preserved.",
+  "repair": "Real mouse looks upward for native input, poll actual key states at10ms; every full1280x720 scene, view, shader, sample and original flight gate preserved. No flying-state or timer mutation."
+}
