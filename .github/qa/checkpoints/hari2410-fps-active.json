@@ -1,5 +1,5 @@
 {
-  "status": "baseline_profile_in_progress",
+  "status": "candidate_compile_and_baseline_profile",
   "accepted_floor": {
     "version": "2.4.9-noxviola.1-vulkan-hybrid",
     "commit": "357e3d8a30f973a654fd493a589ae77053e2d168",
@@ -22,9 +22,16 @@
       "dimensions-c2me",
       "optimized-stack"
     ],
-    "trials": 3
+    "trials": 3,
+    "run": 37171408076
   },
-  "candidate": "Not implemented or promoted",
+  "candidate": {
+    "version": "2.4.10-noxviola.1-vulkan-hybrid",
+    "not_promoted": true,
+    "source_files": 1001,
+    "recipe_steps": 24,
+    "implementation": "Exact texture upload source spans; original copy calls, all animations and image barriers retained; Ctrl+F9 frame capture"
+  },
   "hardware_gpu_exposed_locally": false,
   "next": "Analyze actual CPU/JFR and frame-time baseline, then benchmark result-preserving texture uploads with same work.",
   "failed_routes": [
@@ -42,5 +49,51 @@
       "fix": "Single-option StartFlightRecording filename; default low-overhead JFR events, no comma-split ambiguity",
       "no_product_failure": true
     }
-  ]
+  ],
+  "component_result": {
+    "passed": true,
+    "exact_pixel_cases": 800,
+    "uploads_per_sample": 10000,
+    "baseline_bytes_per_upload": 524288,
+    "candidate_bytes_per_upload": 16384,
+    "baseline_median_ns": 152581025,
+    "candidate_median_ns": 1787717,
+    "baseline_samples_ns": [
+      145196610,
+      146148013,
+      150706748,
+      151030717,
+      152581025,
+      153820205,
+      156367273,
+      162153684,
+      164025964
+    ],
+    "candidate_samples_ns": [
+      1583600,
+      1594891,
+      1659862,
+      1772435,
+      1787717,
+      1802431,
+      1872561,
+      2026752,
+      2124355
+    ],
+    "scope": "Actual production StagingBuffer + TextureUploadSpan and real native libc memcpy; buffer allocation doubled; component gain is not Minecraft FPS",
+    "inputs": [
+      {
+        "url": "https://repo.maven.apache.org/maven2/org/lwjgl/lwjgl/3.3.1/lwjgl-3.3.1.jar",
+        "sha256": "cf83f90e32fb973ff5edfca4ef35f55ca51bb70a579b6a1f290744f552e8e484",
+        "bytes": 724243
+      },
+      {
+        "url": "https://repo.maven.apache.org/maven2/org/lwjgl/lwjgl/3.3.1/lwjgl-3.3.1-natives-linux.jar",
+        "sha256": "22ef2afa31a1740a337ec9c6806c6b8d97e931a63e2c43270cbaf14fb3f6fc4e",
+        "bytes": 110704
+      }
+    ],
+    "upload_calls_unchanged": true,
+    "image_barriers_unchanged": true
+  }
 }
