@@ -1,0 +1,7 @@
+# Scoped Modrinth benchmark helper
+
+Built locally against official `modrinth/code` tag `v0.21.6`, commit `23ab5cdc331e40712f12b9026979359aec1e404d`. It uses Theseus installation and normal authenticated launch APIs. It never reads or exports account/token records. Only benchmark instances whose names start `MVH isolated ` are eligible for edits/launch; imports are restricted to the two prepared benchmark pack paths.
+
+The workspace backend initialization is limited to database/settings/content-store setup. Legacy profile conversion, directory movement and global recovery/maintenance loops are skipped so unrelated instances are not touched. No installed app binary is modified. Native thread stacks are increased for the large Rust installer futures on Windows. Public Forge metadata can be force-refreshed with cache bypass. The launch path requires the locally verified official latest Forge installer metadata and libraries and refuses differing existing runtime metadata.
+
+This source records the exact helper used on this computer; current absolute workspace paths are explicit and must be adapted for reproduction. `runtime-backend.patch` records the narrow official backend changes. Build with public `.env.prod` endpoint variables, `cargo build -p theseus --bin mvh_instance_cli --jobs 4` from the official checkout. The original project's license and attribution remain applicable; this helper is GPL-3.0-only.

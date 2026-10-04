@@ -1,0 +1,14 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="GPL-3.0-only"
+[[mods]]
+modId="mvhbench"
+version="1.0.0"
+displayName="MVH isolated benchmark control"
+description="Same helper in both variants: screenshot evidence and clean exit after real FPS capture; no game-performance change."
+[[dependencies.mvhbench]]
+modId="forge"
+mandatory=true
+versionRange="[47.4.23,)"
+ordering="NONE"
+side="CLIENT"
