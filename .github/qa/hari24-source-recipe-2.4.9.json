@@ -3,7 +3,7 @@
   "version": "2.4.9-noxviola.1-vulkan-hybrid",
   "upstream_hari": "f381611c2d71a85192e2028f9e30c03823a6482b",
   "upstream_vulkan": "0ceac5d47f84c910d2f5f6d007b0ffe266c6f736",
-  "product_commit": "22010e6b0f308e46fb250761d72147b8a60711bf",
+  "product_commit": "3bd2621048e166cf24c8a782c79edc77b8b5b2ab",
   "recipe_commands": [
     [
       "python3",
@@ -467,7 +467,7 @@
     "forge/runTestData.launch": "d904b7270a4aba44c4cafe2a2351ff94c824822e6598d37911eb787c3a82f5d8",
     "forge/runTestServer.launch": "5aa779d05d923a07801a9ddc55007508b010e6902734172cb05152b071c086d6",
     "forge/src/main/java/com/axalotl/async/forge/AsyncForge.java": "abcec7425fd315b18f4695a3e31f5690769577e657e2f8a816886ff0b83ac35c",
-    "forge/src/main/java/com/axalotl/async/forge/client/C2meLightTicketLevels.java": "2ecd439f0928363c6950d4afcf809384894a0fe1e1c424e58fc1e10449c28a1d",
+    "forge/src/main/java/com/axalotl/async/forge/client/C2meLightTicketLevels.java": "6ee492e01af1c9684415598fd71df1a484d5996efa4eaaa78c68501bcc869a95",
     "forge/src/main/java/com/axalotl/async/forge/client/HariFrameCapture.java": "0b1bb4064fb3a83b41a40a1490c29837dddf05c0f4b83cff4d1d55bd456761d9",
     "forge/src/main/java/com/axalotl/async/forge/client/ModdedBiomeTint.java": "345e0112786b4106c00319262c16994623895806da7de86226ab1cd661b96d91",
     "forge/src/main/java/com/axalotl/async/forge/client/OwnedLoadingLogo.java": "a23f90176d66c5fe2f11d7c7572ad20ccffe82a0705be1eaa4de1f75ea0b7914",

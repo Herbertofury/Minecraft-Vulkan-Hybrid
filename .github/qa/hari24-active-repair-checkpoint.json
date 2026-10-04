@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "updated_at": "2026-10-04T00:05:00Z",
-  "status": "Semantic LIGHT release repair passes real ASM/plugin tests; new exact build and native acceptance required.",
+  "updated_at": "2026-10-04T00:16:00Z",
+  "status": "Exact semantic LIGHT candidate built reproducibly; standard native dedicated and packaged production PASS; full13+dedicated and original9.8 focused acceptance pending.",
   "source_parent": "f619f92b2d59ecd0cbca916a055a422de3d7aa51",
   "save_policy": "Non-force GitHub commits after each concrete repair and validation checkpoint; exact original provider bytes and test failures retained.",
   "completed": {
@@ -59,6 +59,36 @@
       "run": 37162935881,
       "job": 111319951074,
       "result": "PASS"
+    },
+    "semantic_candidate_compile": {
+      "status": "native_modpack_pending",
+      "product_commit": "3bd2621048e166cf24c8a782c79edc77b8b5b2ab",
+      "compile_run": 37163922566,
+      "artifact_id": 11289070883,
+      "artifact_digest": "sha256:fd805e2f63f6ea21e51e0d9fcbd49bf8b3fcb85c8e32e3429ccf70e51b71026c",
+      "artifact_bytes": 61084471,
+      "jar": "HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar",
+      "jar_bytes": 30750839,
+      "jar_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+      "reproducible": true,
+      "actual_compiled_postapply_verified": true,
+      "source_files": 998,
+      "recipe_steps": 23,
+      "focused_regression_suites": 23,
+      "version": "2.4.9-noxviola.1-vulkan-hybrid",
+      "early_plugin_merge_timing_regression": true,
+      "duplicate_entity_tracking_cancellation_removed": true,
+      "semantic_srg_and_optifine_release_match": true
+    },
+    "semantic_native_dedicated": {
+      "run": 37163922589,
+      "job": 111322855528,
+      "result": "PASS"
+    },
+    "semantic_packaged_production": {
+      "run": 37163922551,
+      "job": 111322856332,
+      "result": "PASS"
     }
   },
   "current_causal_repair": {
@@ -89,11 +119,10 @@
     "semantic_regression": "PASS: development and SRG release names, owner-thread redirect, existing C2ME removal helper, disabled module, idempotence, exact original removal failure identity, actual plugin late-merge lifecycle and original529-ticket-leak negative control."
   },
   "remaining": [
-    "Compile semantic release repair, refresh exact JAR/source pins and run all13+dedicated native lanes plus original9.8 focused lanes; do not reuse2fe2db89 acceptance.",
-    "Run all13 client lanes plus dedicated and original9.8 focused checks with actual double-Space input and native movement after reopen.",
-    "Verify complete fresh998-file source/23steps and final JAR/proof, upload to authorized Drive release folder and update actual Wiki after full acceptance."
+    "All13 client lanes plus dedicated and original9.8 focused checks with exact c1082c82 JAR, actual double-Space input and native movement after reopen.",
+    "Verify final source/JAR/proof, upload to authorized Drive folder, update actual Wiki only after full acceptance."
   ],
-  "known_blocker": "Local exec transport disconnected; currently using connected GitHub source and native CI without losing progress.",
+  "known_blocker": null,
   "guardrails": [
     "No manual ticket clearing or shutdown suppression",
     "No NoAI replacement or despawn respawn cheats",

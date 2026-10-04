@@ -28,7 +28,7 @@ LANES = {
     "optimized-stack": {"mods": DIMENSIONS + ["modernfix", "ferrite-core", "servercore",
                                                "entityculling", "immediatelyfast"], "c2me": True},
 }
-CANDIDATE_SHA = "2fe2db8900f0810e581fd1ea6d7cfd82f3aca73a64f23da394c4e10abfaf7811"
+CANDIDATE_SHA = "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396"
 C2ME = {"filename": "c2meforge-0.2.0-forge.9.6-all.jar", "size": 1343566,
         "url": "https://edge.forgecdn.net/files/8929/972/c2meforge-0.2.0-forge.9.6-all.jar",
         "hashes": {"sha256": "97401e625906dc7dbe7719c4915d5aa88830e64e5aa6f90831ee45a61373f8d3"}}

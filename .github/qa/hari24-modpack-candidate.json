@@ -1,13 +1,13 @@
 {
   "status": "native_modpack_pending",
-  "product_commit": "22010e6b0f308e46fb250761d72147b8a60711bf",
-  "compile_run": 37162935847,
-  "artifact_id": 11288003795,
-  "artifact_digest": "sha256:a51c29e38d410c90d48403cc3b8bbdd8bee17c8122299cf2a17ae113a636c55c",
-  "artifact_bytes": 61083155,
+  "product_commit": "3bd2621048e166cf24c8a782c79edc77b8b5b2ab",
+  "compile_run": 37163922566,
+  "artifact_id": 11289070883,
+  "artifact_digest": "sha256:fd805e2f63f6ea21e51e0d9fcbd49bf8b3fcb85c8e32e3429ccf70e51b71026c",
+  "artifact_bytes": 61084471,
   "jar": "HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar",
-  "jar_bytes": 30750208,
-  "jar_sha256": "2fe2db8900f0810e581fd1ea6d7cfd82f3aca73a64f23da394c4e10abfaf7811",
+  "jar_bytes": 30750839,
+  "jar_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
   "reproducible": true,
   "actual_compiled_postapply_verified": true,
   "source_files": 998,
@@ -15,5 +15,6 @@
   "focused_regression_suites": 23,
   "version": "2.4.9-noxviola.1-vulkan-hybrid",
   "early_plugin_merge_timing_regression": true,
-  "duplicate_entity_tracking_cancellation_removed": true
+  "duplicate_entity_tracking_cancellation_removed": true,
+  "semantic_srg_and_optifine_release_match": true
 }
