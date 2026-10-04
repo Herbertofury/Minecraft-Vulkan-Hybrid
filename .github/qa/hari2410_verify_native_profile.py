@@ -26,7 +26,13 @@ new = r"""        startup = list(directory.glob('jvm-thread-startup-*.txt'))
             assert (directory / f'native-validation-library-maps-{native_pid}.txt').is_file()
         pids.append(native_pid)"""
 assert body.count(old) == 1
-exec(compile(body.replace(old, new), str(Path(original.__file__)), 'exec'), original.__dict__)
+body = body.replace(old, new)
+# Installing the SDK on a host does not load a Vulkan library in a GL client.
+# Require the complete pinned native library receipt for every Vulkan phase.
+validation_guard = "        if (root / 'pinned-validation-sdk.json').is_file():"
+assert body.count(validation_guard) == 1
+body = body.replace(validation_guard, "        if expected == 'VULKAN':\n            assert (root / 'pinned-validation-sdk.json').is_file()")
+exec(compile(body, str(Path(original.__file__)), 'exec'), original.__dict__)
 
 
 def verify(root):

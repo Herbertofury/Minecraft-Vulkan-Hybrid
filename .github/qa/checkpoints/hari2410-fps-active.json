@@ -37,7 +37,7 @@
     "reproducible": true
   },
   "hardware_gpu_exposed_locally": false,
-  "next": "Run same-host A/B of stock and 8x original animated textures, all compatibility profiles with exact candidate, then publish accepted result.",
+  "next": "Reconcile twelve longer-warmup stock A/B trials per renderer lane, then finalize acceptance and publication.",
   "failed_routes": [
     {
       "run": 37171148505,
@@ -108,12 +108,298 @@
   },
   "remaining": [
     "12-trial longer-warmup stock confirmation in both renderer paths",
-    "remaining native compatibility profiles",
-    "Ctrl+F9 control proof",
-    "final proof/source/install/Drive/Wiki publication"
+    "final accepted proof/source/install/Drive/Wiki publication"
   ],
   "no_repeat": [
     "Initial profiling JVM-option split failure; already corrected",
     "No unchanged candidate rebuild or re-run of completed compatibility lanes"
+  ],
+  "native_acceptance": {
+    "run": 37191427463,
+    "profiles": 13,
+    "all_native_jobs_success": true,
+    "independent_original_evidence_reconciliation": true,
+    "dedicated_server_passed": true
+  },
+  "c2me98_acceptance": {
+    "run": 37191427447,
+    "profiles": 3,
+    "all_native_jobs_success": true,
+    "independent_original_evidence_reconciliation": true
+  },
+  "ctrl_f9_acceptance": {
+    "run": 37191858794,
+    "artifact": 11299377340,
+    "passed": true,
+    "native_key_event_with_no_auto_property": true
+  },
+  "stock_confirmation": {
+    "run": 37192813688,
+    "candidate_bytes_unchanged": true,
+    "warmup_seconds": 60,
+    "seconds_per_capture": 30,
+    "retained_trials_per_lane": 12,
+    "lanes": [
+      "dimensions-c2me",
+      "optimized-stack"
+    ]
+  },
+  "native_proof_backups": [
+    {
+      "path": "/workspace/scratch/90b6f2ab1002/hari2410-progress/Hari-2.4.10-NATIVE-PROOF-01.zip",
+      "name": "Hari-2.4.10-NATIVE-PROOF-01.zip",
+      "bytes": 28122260,
+      "sha256": "62fa18cadb9d28cebdb2a49c98643eae7df9fd4ccc976fd3ddb2b23b5e4da0eb",
+      "artifact_ids": [
+        11299965503,
+        11299715577,
+        11299377340,
+        11298639108
+      ],
+      "drive": {
+        "accepted_input": "file_uri",
+        "success": true,
+        "id": "1sWQ937jlhGA2E0K2hVTNBpLpzVBBZ7P8",
+        "title": "Hari-2.4.10-NATIVE-PROOF-01.zip",
+        "file_name": "Hari-2.4.10-NATIVE-PROOF-01.zip",
+        "mime_type": "application/zip",
+        "url": "https://drive.google.com/file/d/1sWQ937jlhGA2E0K2hVTNBpLpzVBBZ7P8/view?usp=drivesdk",
+        "parent_id": "1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B",
+        "structuredContent": {
+          "accepted_input": "file_uri",
+          "success": true,
+          "id": "1sWQ937jlhGA2E0K2hVTNBpLpzVBBZ7P8",
+          "title": "Hari-2.4.10-NATIVE-PROOF-01.zip",
+          "file_name": "Hari-2.4.10-NATIVE-PROOF-01.zip",
+          "mime_type": "application/zip",
+          "url": "https://drive.google.com/file/d/1sWQ937jlhGA2E0K2hVTNBpLpzVBBZ7P8/view?usp=drivesdk",
+          "parent_id": "1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B"
+        }
+      },
+      "readback": {
+        "path": "/workspace/scratch/90b6f2ab1002/attachments/f39d3129-4afc-4929-90a3-42f5e161d8bf/Hari-2.4.10-NATIVE-PROOF-01.zip",
+        "size_bytes": 28122260
+      },
+      "raw_drive_readback_sha256_verified": true,
+      "all_original_artifact_hashes_verified": true
+    },
+    {
+      "path": "/workspace/scratch/90b6f2ab1002/hari2410-progress/Hari-2.4.10-NATIVE-PROOF-02.zip",
+      "name": "Hari-2.4.10-NATIVE-PROOF-02.zip",
+      "bytes": 25238701,
+      "sha256": "cb515cd0cedad48281275d2858c648d9b49a424c2b5b5f2279c1a05eeb5c436f",
+      "artifact_ids": [
+        11299447605,
+        11299242927
+      ],
+      "drive": {
+        "accepted_input": "file_uri",
+        "success": true,
+        "id": "1aT3GVwg0f9-bduduqt2LlLtZqFwDtuJk",
+        "title": "Hari-2.4.10-NATIVE-PROOF-02.zip",
+        "file_name": "Hari-2.4.10-NATIVE-PROOF-02.zip",
+        "mime_type": "application/zip",
+        "url": "https://drive.google.com/file/d/1aT3GVwg0f9-bduduqt2LlLtZqFwDtuJk/view?usp=drivesdk",
+        "parent_id": "1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B",
+        "structuredContent": {
+          "accepted_input": "file_uri",
+          "success": true,
+          "id": "1aT3GVwg0f9-bduduqt2LlLtZqFwDtuJk",
+          "title": "Hari-2.4.10-NATIVE-PROOF-02.zip",
+          "file_name": "Hari-2.4.10-NATIVE-PROOF-02.zip",
+          "mime_type": "application/zip",
+          "url": "https://drive.google.com/file/d/1aT3GVwg0f9-bduduqt2LlLtZqFwDtuJk/view?usp=drivesdk",
+          "parent_id": "1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B"
+        }
+      },
+      "readback": {
+        "path": "/workspace/scratch/90b6f2ab1002/attachments/eebaac29-b265-4bf1-b9d6-1486b7b8e550/Hari-2.4.10-NATIVE-PROOF-02.zip",
+        "size_bytes": 25238701
+      },
+      "raw_drive_readback_sha256_verified": true,
+      "all_original_artifact_hashes_verified": true
+    },
+    {
+      "path": "/workspace/scratch/90b6f2ab1002/hari2410-progress/Hari-2.4.10-NATIVE-PROOF-03.zip",
+      "name": "Hari-2.4.10-NATIVE-PROOF-03.zip",
+      "bytes": 23311154,
+      "sha256": "c52471d5b63162d9a6c5851d06acea2428500f932768136c60f2a8a4c9d4a2ab",
+      "artifact_ids": [
+        11298809800,
+        11299895003
+      ],
+      "drive": {
+        "accepted_input": "file_uri",
+        "success": true,
+        "id": "1ZnsilI16f7rNZZddtK7c_wbyRAWOOngd",
+        "title": "Hari-2.4.10-NATIVE-PROOF-03.zip",
+        "file_name": "Hari-2.4.10-NATIVE-PROOF-03.zip",
+        "mime_type": "application/zip",
+        "url": "https://drive.google.com/file/d/1ZnsilI16f7rNZZddtK7c_wbyRAWOOngd/view?usp=drivesdk",
+        "parent_id": "1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B",
+        "structuredContent": {
+          "accepted_input": "file_uri",
+          "success": true,
+          "id": "1ZnsilI16f7rNZZddtK7c_wbyRAWOOngd",
+          "title": "Hari-2.4.10-NATIVE-PROOF-03.zip",
+          "file_name": "Hari-2.4.10-NATIVE-PROOF-03.zip",
+          "mime_type": "application/zip",
+          "url": "https://drive.google.com/file/d/1ZnsilI16f7rNZZddtK7c_wbyRAWOOngd/view?usp=drivesdk",
+          "parent_id": "1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B"
+        }
+      },
+      "readback": {
+        "path": "/workspace/scratch/90b6f2ab1002/attachments/87107ef2-2ba1-496a-a350-d2016fa7b4eb/Hari-2.4.10-NATIVE-PROOF-03.zip",
+        "size_bytes": 23311154
+      },
+      "raw_drive_readback_sha256_verified": true,
+      "all_original_artifact_hashes_verified": true
+    },
+    {
+      "path": "/workspace/scratch/90b6f2ab1002/hari2410-progress/Hari-2.4.10-NATIVE-PROOF-04.zip",
+      "name": "Hari-2.4.10-NATIVE-PROOF-04.zip",
+      "bytes": 30871869,
+      "sha256": "57a26900025dd291cad69e9209cccc8d25b5f5d13ded79951f3b8fa98467d406",
+      "artifact_ids": [
+        11298739584,
+        11298819789,
+        11299282654
+      ],
+      "drive": {
+        "accepted_input": "file_uri",
+        "success": true,
+        "id": "1D5NFmFVV7R2TJwWLgrU1hZB8U2oMIWTe",
+        "title": "Hari-2.4.10-NATIVE-PROOF-04.zip",
+        "file_name": "Hari-2.4.10-NATIVE-PROOF-04.zip",
+        "mime_type": "application/zip",
+        "url": "https://drive.google.com/file/d/1D5NFmFVV7R2TJwWLgrU1hZB8U2oMIWTe/view?usp=drivesdk",
+        "parent_id": "1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B",
+        "structuredContent": {
+          "accepted_input": "file_uri",
+          "success": true,
+          "id": "1D5NFmFVV7R2TJwWLgrU1hZB8U2oMIWTe",
+          "title": "Hari-2.4.10-NATIVE-PROOF-04.zip",
+          "file_name": "Hari-2.4.10-NATIVE-PROOF-04.zip",
+          "mime_type": "application/zip",
+          "url": "https://drive.google.com/file/d/1D5NFmFVV7R2TJwWLgrU1hZB8U2oMIWTe/view?usp=drivesdk",
+          "parent_id": "1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B"
+        }
+      },
+      "readback": {
+        "path": "/workspace/scratch/90b6f2ab1002/attachments/1e1e023d-5b36-420a-9f28-28668e4fa97c/Hari-2.4.10-NATIVE-PROOF-04.zip",
+        "size_bytes": 30871869
+      },
+      "raw_drive_readback_sha256_verified": true,
+      "all_original_artifact_hashes_verified": true
+    },
+    {
+      "path": "/workspace/scratch/90b6f2ab1002/hari2410-progress/Hari-2.4.10-NATIVE-PROOF-05.zip",
+      "name": "Hari-2.4.10-NATIVE-PROOF-05.zip",
+      "bytes": 30624564,
+      "sha256": "3422ae8fc499e210e8d4637c657ef209c767ec29e1464484931e717f5fa0fb6e",
+      "artifact_ids": [
+        11299368739,
+        11299497153,
+        11299765411
+      ],
+      "drive": {
+        "accepted_input": "file_uri",
+        "success": true,
+        "id": "1mnukhZmFCpU47KPMWPB6eTxCfLY8SBSl",
+        "title": "Hari-2.4.10-NATIVE-PROOF-05.zip",
+        "file_name": "Hari-2.4.10-NATIVE-PROOF-05.zip",
+        "mime_type": "application/zip",
+        "url": "https://drive.google.com/file/d/1mnukhZmFCpU47KPMWPB6eTxCfLY8SBSl/view?usp=drivesdk",
+        "parent_id": "1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B",
+        "structuredContent": {
+          "accepted_input": "file_uri",
+          "success": true,
+          "id": "1mnukhZmFCpU47KPMWPB6eTxCfLY8SBSl",
+          "title": "Hari-2.4.10-NATIVE-PROOF-05.zip",
+          "file_name": "Hari-2.4.10-NATIVE-PROOF-05.zip",
+          "mime_type": "application/zip",
+          "url": "https://drive.google.com/file/d/1mnukhZmFCpU47KPMWPB6eTxCfLY8SBSl/view?usp=drivesdk",
+          "parent_id": "1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B"
+        }
+      },
+      "readback": {
+        "path": "/workspace/scratch/90b6f2ab1002/attachments/01d8e496-fd97-46df-945b-10e56910fa23/Hari-2.4.10-NATIVE-PROOF-05.zip",
+        "size_bytes": 30624564
+      },
+      "raw_drive_readback_sha256_verified": true,
+      "all_original_artifact_hashes_verified": true
+    },
+    {
+      "path": "/workspace/scratch/90b6f2ab1002/hari2410-progress/Hari-2.4.10-NATIVE-PROOF-06.zip",
+      "name": "Hari-2.4.10-NATIVE-PROOF-06.zip",
+      "bytes": 29859558,
+      "sha256": "a8987fe8164152290c2ca0c3a569302d2a58b6e2e15d8db5d96007f5656e1006",
+      "artifact_ids": [
+        11299641929,
+        11299671056,
+        11299312193
+      ],
+      "drive": {
+        "accepted_input": "file_uri",
+        "success": true,
+        "id": "1SgJfYsOCrPPA5QcF3rdJdzdp0rY9ix1P",
+        "title": "Hari-2.4.10-NATIVE-PROOF-06.zip",
+        "file_name": "Hari-2.4.10-NATIVE-PROOF-06.zip",
+        "mime_type": "application/zip",
+        "url": "https://drive.google.com/file/d/1SgJfYsOCrPPA5QcF3rdJdzdp0rY9ix1P/view?usp=drivesdk",
+        "parent_id": "1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B",
+        "structuredContent": {
+          "accepted_input": "file_uri",
+          "success": true,
+          "id": "1SgJfYsOCrPPA5QcF3rdJdzdp0rY9ix1P",
+          "title": "Hari-2.4.10-NATIVE-PROOF-06.zip",
+          "file_name": "Hari-2.4.10-NATIVE-PROOF-06.zip",
+          "mime_type": "application/zip",
+          "url": "https://drive.google.com/file/d/1SgJfYsOCrPPA5QcF3rdJdzdp0rY9ix1P/view?usp=drivesdk",
+          "parent_id": "1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B"
+        }
+      },
+      "readback": {
+        "path": "/workspace/scratch/90b6f2ab1002/attachments/f431440a-7625-493d-8d6d-9b3c84b6279e/Hari-2.4.10-NATIVE-PROOF-06.zip",
+        "size_bytes": 29859558
+      },
+      "raw_drive_readback_sha256_verified": true,
+      "all_original_artifact_hashes_verified": true
+    },
+    {
+      "path": "/workspace/scratch/90b6f2ab1002/hari2410-progress/Hari-2.4.10-NATIVE-PROOF-07.zip",
+      "name": "Hari-2.4.10-NATIVE-PROOF-07.zip",
+      "bytes": 9648703,
+      "sha256": "47c82256dd51e36004180b7a1562ab28f87b3aad9065f0780ba4b846b6513fc8",
+      "artifact_ids": [
+        11298759885
+      ],
+      "drive": {
+        "accepted_input": "file_uri",
+        "success": true,
+        "id": "10xwhHcVKL6KofVIvTWlkfpQN-wDe7vwI",
+        "title": "Hari-2.4.10-NATIVE-PROOF-07.zip",
+        "file_name": "Hari-2.4.10-NATIVE-PROOF-07.zip",
+        "mime_type": "application/zip",
+        "url": "https://drive.google.com/file/d/10xwhHcVKL6KofVIvTWlkfpQN-wDe7vwI/view?usp=drivesdk",
+        "parent_id": "1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B",
+        "structuredContent": {
+          "accepted_input": "file_uri",
+          "success": true,
+          "id": "10xwhHcVKL6KofVIvTWlkfpQN-wDe7vwI",
+          "title": "Hari-2.4.10-NATIVE-PROOF-07.zip",
+          "file_name": "Hari-2.4.10-NATIVE-PROOF-07.zip",
+          "mime_type": "application/zip",
+          "url": "https://drive.google.com/file/d/10xwhHcVKL6KofVIvTWlkfpQN-wDe7vwI/view?usp=drivesdk",
+          "parent_id": "1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B"
+        }
+      },
+      "readback": {
+        "path": "/workspace/scratch/90b6f2ab1002/attachments/5074653b-a490-4333-8a25-6be74efafd7e/Hari-2.4.10-NATIVE-PROOF-07.zip",
+        "size_bytes": 9648703
+      },
+      "raw_drive_readback_sha256_verified": true,
+      "all_original_artifact_hashes_verified": true
+    }
   ]
 }

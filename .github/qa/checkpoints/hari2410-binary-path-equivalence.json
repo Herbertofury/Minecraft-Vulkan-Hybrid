@@ -1,0 +1,28 @@
+{
+  "all_class_file_differences": [
+    "net/vulkanmod/vulkan/memory/StagingBuffer.class",
+    "net/vulkanmod/vulkan/texture/VulkanImage$1.class",
+    "net/vulkanmod/vulkan/texture/VulkanImage$Builder.class",
+    "net/vulkanmod/vulkan/texture/VulkanImage.class"
+  ],
+  "changed_source_classes": [
+    "StagingBuffer",
+    "VulkanImage"
+  ],
+  "nested_class_disassembled_code_unchanged": [
+    "net.vulkanmod.vulkan.texture.VulkanImage$1",
+    "net.vulkanmod.vulkan.texture.VulkanImage$Builder"
+  ],
+  "all_resource_differences": [
+    "META-INF/MANIFEST.MF",
+    "META-INF/mods.toml",
+    "net/vulkanmod/vulkan/memory/StagingBuffer.class",
+    "net/vulkanmod/vulkan/texture/VulkanImage$1.class",
+    "net/vulkanmod/vulkan/texture/VulkanImage$Builder.class",
+    "net/vulkanmod/vulkan/texture/VulkanImage.class"
+  ],
+  "identical_measurement_and_probe_classes": true,
+  "gl_renderer_class_bytes_unchanged": true,
+  "candidate_sha256": "8b593bac1ac77670849ed992c808d327dd6d9f188ddfdea341ac88f16edf8c9f",
+  "baseline_sha256": "4b0c07eabbf3265bf6592d4aeb607ac1a62f91c83a0f74a846c9532a2f8192ec"
+}
