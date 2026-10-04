@@ -1,5 +1,5 @@
 {
-  "status": "accepted_final_publication_in_progress",
+  "status": "complete_accepted_published",
   "accepted_floor": {
     "version": "2.4.9-noxviola.1-vulkan-hybrid",
     "commit": "357e3d8a30f973a654fd493a589ae77053e2d168",
@@ -37,7 +37,7 @@
     "reproducible": true
   },
   "hardware_gpu_exposed_locally": false,
-  "next": "Finish accepted source/proof/upload readback and replace Wiki progress header with accepted 2.4.10; preserve all historical flags.",
+  "next": "Use the published 2.4.10 release; Ctrl+F9 supports new measurements on the actual hardware GPU.",
   "failed_routes": [
     {
       "run": 37171148505,
@@ -106,9 +106,7 @@
     "artifact_id": 11299237378,
     "run": 37191427448
   },
-  "remaining": [
-    "Final source/install/proof Drive readback and accepted Wiki publication"
-  ],
+  "remaining": [],
   "no_repeat": [
     "Initial profiling JVM-option split failure; already corrected",
     "No unchanged candidate rebuild or re-run of completed compatibility lanes"
@@ -418,5 +416,22 @@
     "gc_not_removed_from_original_frame_samples": true,
     "completed": true,
     "accepted": true
+  },
+  "accepted_release": {
+    "version": "2.4.10-noxviola.1-vulkan-hybrid",
+    "jar_sha256": "8b593bac1ac77670849ed992c808d327dd6d9f188ddfdea341ac88f16edf8c9f",
+    "drive_folder": "16zuPwFiiKZ5ewPIE11keigFUaJvsd717",
+    "jar_drive_id": "1o0W5q3myKKPbSqjWEwxIwC0Jt_m0x4ST",
+    "source_drive_id": "1NFGVZeurxOaIEkbBvLW94gZFT7YSVs5A",
+    "proof_index_drive_id": "1jA9mSOCVw7wceV3HFH5kUHZUDalOIBdg",
+    "wiki": {
+      "main_source_commit": "e8ae300677fbc03e0a10b95d6cb5226b06a21ec1",
+      "actual_wiki_commit": "d067c951663d83dd35118633635e184f10e87a20",
+      "page_sha256": "451c083d6fa2a09f979ab7f42dcd49b537c0a8d87820d99035d0280bb2eceed6",
+      "source_equals_actual_published_bytes": true,
+      "other_wiki_project_pages_unchanged": true,
+      "publisher_run": 37196402628,
+      "publisher_job": 111419086183
+    }
   }
 }
