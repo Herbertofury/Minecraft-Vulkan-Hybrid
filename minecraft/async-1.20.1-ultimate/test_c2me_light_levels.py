@@ -30,6 +30,8 @@ public final DistanceManager manager=new DistanceManager();public final List<Run
 private int redirect$zie000$redirectAddLightTicketDistance(ChunkStatus status){
 return status==ChunkStatus.LIGHT?ChunkLevel.byStatus(ChunkStatus.FEATURES)-2:ChunkLevel.byStatus(status);}
 public void add(ChunkPos pos){manager.addTicket(TicketType.LIGHT,pos,redirect$zie000$redirectAddLightTicketDistance(ChunkStatus.LIGHT),pos);}
+private void redirect$lighting000$redirectRemoveLightTicket(DistanceManager manager,TicketType type,ChunkPos pos,int level,Object argument){manager.removeTicket(type,pos,level,argument);}
+private int redirect$worldgen000$redirectRemoveLightTicketDistance(ChunkStatus status){return redirect$zie000$redirectAddLightTicketDistance(status);}
 public void release(ChunkPos pos){ownerQueue.add(()->lambda$releaseLightTicket$30(pos));}
 private void lambda$releaseLightTicket$30(ChunkPos pos){
 manager.removeTicket(TicketType.LIGHT,pos,ChunkLevel.byStatus(ChunkStatus.LIGHT),pos);}
@@ -88,7 +90,7 @@ public class LightProbe {
  }
  }
  static ClassNode variant(byte[] original,int suffix,boolean mapped,boolean alreadyRedirected){
- ClassNode n=read(original);String releaseName="lambda$releaseLightTicket$"+suffix;
+ ClassNode n=read(original);String releaseName=mapped?"m_"+(214900+suffix)+"_":"lambda$releaseLightTicket$"+suffix;
  String providerName="redirect$anotherPrefix000$redirectAddLightTicketDistance";
  for(MethodNode m:n.methods){
  if(m.name.equals("lambda$releaseLightTicket$30"))m.name=releaseName;
@@ -126,7 +128,7 @@ public class LightProbe {
  int variants=0;
  for(int suffix:new int[]{7,30,57})for(boolean mapped:new boolean[]{false,true}){
  ClassNode n=variant(original,suffix,mapped,false);
- MethodNode release=n.methods.stream().filter(m->m.name.startsWith("lambda$releaseLightTicket$")).findFirst().orElseThrow();
+ MethodNode release=n.methods.stream().filter(m->m.name.equals(mapped?"m_"+(214900+suffix)+"_":"lambda$releaseLightTicket$"+suffix)).findFirst().orElseThrow();
  Map<MethodNode,List<AbstractInsnNode>> unchanged=new IdentityHashMap<>();
  for(MethodNode m:n.methods)if(m!=release)unchanged.put(m,Arrays.asList(m.instructions.toArray()));
  AbstractInsnNode remove=Arrays.stream(release.instructions.toArray()).filter(i->i instanceof MethodInsnNode c && (c.name.equals("removeTicket")||c.name.equals("m_140823_"))).findFirst().orElseThrow();
@@ -139,11 +141,25 @@ public class LightProbe {
  ClassNode paired=variant(original,suffix,mapped,true);
  check(!C2meLightTicketLevels.apply(paired),"already paired original changed");exercise(write(paired),true);
  }
+ // Original C2ME preserves owner-thread removal through a private redirect
+ // and computes the same level in its removal helper. Retain both bodies.
+ ClassNode owner=variant(original,31,true,false);
+ MethodNode ownerRelease=owner.methods.stream().filter(m->m.name.equals("m_214931_")).findFirst().orElseThrow();
+ ownerRelease.instructions.insertBefore(ownerRelease.instructions.getFirst(),new VarInsnNode(Opcodes.ALOAD,0));ownerRelease.maxStack++;
+ for(AbstractInsnNode i:ownerRelease.instructions.toArray())if(i instanceof MethodInsnNode c && c.name.equals("m_140823_")){
+ ownerRelease.instructions.set(c,new MethodInsnNode(Opcodes.INVOKESPECIAL,owner.name,"redirect$lighting000$redirectRemoveLightTicket","(Lnet/minecraft/server/level/DistanceManager;Lnet/minecraft/server/level/TicketType;Lnet/minecraft/world/level/ChunkPos;ILjava/lang/Object;)V",false));}
+ check(C2meLightTicketLevels.apply(owner),"original owner-thread redirect not retained and paired");exercise(write(owner),true);
+ ClassNode removeHelper=variant(original,32,true,true);
+ MethodNode correct=removeHelper.methods.stream().filter(m->m.name.equals("m_214932_")).findFirst().orElseThrow();
+ for(AbstractInsnNode i:correct.instructions.toArray())if(i instanceof MethodInsnNode c && c.name.endsWith("$redirectAddLightTicketDistance"))c.name="redirect$worldgen000$redirectRemoveLightTicketDistance";
+ check(C2meLightTicketLevels.apply(removeHelper),"original C2ME removal-level helper not paired");exercise(write(removeHelper),true);
  ClassNode disabled=read(original);disabled.methods.removeIf(m->m.name.endsWith("$redirectAddLightTicketDistance"));
  check(!C2meLightTicketLevels.apply(disabled),"disabled worldgen module changed");
  ClassNode duplicate=read(original);MethodNode provider=duplicate.methods.stream().filter(m->m.name.endsWith("$redirectAddLightTicketDistance")).findFirst().orElseThrow();
  duplicate.methods.add(provider);expectDrift(duplicate);
- ClassNode drift=read(original);drift.methods.stream().filter(m->m.name.startsWith("lambda$releaseLightTicket$")).findFirst().orElseThrow().name="unsupportedRelease";expectDrift(drift);
+ ClassNode drift=read(original);MethodNode unsupported=drift.methods.stream().filter(m->m.name.startsWith("lambda$releaseLightTicket$")).findFirst().orElseThrow();
+ for(AbstractInsnNode i:unsupported.instructions)if(i instanceof FieldInsnNode f && f.owner.equals("net/minecraft/server/level/TicketType"))f.name="UNSUPPORTED_TICKET";
+ expectDrift(drift);
  // Mixin 0.8.5 MixinApplicatorStandard applies all pre hooks, then all
  // merge/injection passes, then all post hooks. Invoke the production plugin
  // around that actual lifecycle, with the provider absent before the merge.
@@ -199,9 +215,9 @@ def main():
         "early_plugin_before_provider_merge_negative_control":True,
         "actual_postapply_plugin_after_provider_merge":True,
         "original_negative_control_retained_LIGHT_tickets":529,"fixed_variants":6,
-        "lambda_suffixes":[7,30,57],"development_and_native_names":True,
+        "lambda_suffixes":[7,30,57],"development_and_native_names":True,"srg_renamed_release_operations":True,
         "already_paired_idempotent":True,"worldgen_disabled_noop":True,
-        "original_owner_queue_and_529_removal_operations":True,
+        "original_owner_queue_and_529_removal_operations":True,"original_owner_thread_removal_redirect_retained":True,"existing_C2ME_removal_level_helper_retained":True,
         "original_exception_identity_preserved":True,"unsupported_drift_fails":True,
         "scope":"Real ASM and compiled Minecraft ticket-key causal fixtures matching exported original OptiFine+C2ME native instructions. Does not substitute for real native save/close/reopen."}
     a.report.parent.mkdir(parents=True,exist_ok=True);a.report.write_text(json.dumps(report,indent=2)+"\n");print("\n".join(outputs));print(json.dumps(report,indent=2))

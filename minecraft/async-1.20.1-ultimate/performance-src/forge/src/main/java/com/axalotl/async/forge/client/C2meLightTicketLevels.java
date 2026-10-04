@@ -34,10 +34,13 @@ public final class C2meLightTicketLevels {
             throw drift("addition-level helper signature");
 
         List<MethodNode> releases = target.methods.stream()
-                .filter(m -> m.name.startsWith("lambda$releaseLightTicket$"))
                 .filter(m -> m.desc.equals("(L" + POSITION + ";)V"))
+                .filter(m -> (m.access & Opcodes.ACC_STATIC) == 0)
+                .filter(C2meLightTicketLevels::hasLightType)
+                .filter(m -> java.util.Arrays.stream(m.instructions.toArray())
+                        .anyMatch(i -> i instanceof MethodInsnNode call && isRemoval(call, target.name)))
                 .toList();
-        if (releases.size() != 1) throw drift("original LIGHT release lambda");
+        if (releases.size() != 1) throw drift("original LIGHT release operation: " + releases.size());
         MethodNode release = releases.get(0);
         if ((release.access & Opcodes.ACC_STATIC) != 0) throw drift("static release lambda");
         boolean lightType = false;
@@ -48,11 +51,7 @@ public final class C2meLightTicketLevels {
                     && field.owner.equals(TYPE) && (field.name.equals("LIGHT") || field.name.equals("f_9446_")))
                 lightType = true;
             if (instruction instanceof MethodInsnNode call) {
-                if ((call.owner.equals("net/minecraft/server/level/DistanceManager")
-                        || call.owner.equals(target.name + "$DistanceManager"))
-                        && (call.name.equals("removeTicket") || call.name.equals("m_140823_"))
-                        && call.desc.equals(REMOVE_DESC) && call.getOpcode() == Opcodes.INVOKEVIRTUAL)
-                    removals++;
+                if (isRemoval(call, target.name)) removals++;
                 if (call.desc.equals(LEVEL_DESC) && (
                         call.owner.equals(LEVEL) && (call.name.equals("byStatus") || call.name.equals("m_287141_"))
                         || call.owner.equals(target.name) && (
@@ -85,6 +84,26 @@ public final class C2meLightTicketLevels {
                 target.name, provider.name, LEVEL_DESC, false));
         System.out.println("[Hari/Compat] LIGHT release uses the original C2ME addition-level helper");
         return true;
+    }
+
+    private static boolean hasLightType(MethodNode method) {
+        return java.util.Arrays.stream(method.instructions.toArray())
+                .anyMatch(i -> i instanceof FieldInsnNode field && field.getOpcode() == Opcodes.GETSTATIC
+                        && field.owner.equals(TYPE) && (field.name.equals("LIGHT") || field.name.equals("f_9446_")));
+    }
+
+    private static boolean isRemoval(MethodInsnNode call, String owner) {
+        if ((call.owner.equals("net/minecraft/server/level/DistanceManager")
+                || call.owner.equals(owner + "$DistanceManager"))
+                && (call.name.equals("removeTicket") || call.name.equals("m_140823_"))
+                && call.desc.equals(REMOVE_DESC) && call.getOpcode() == Opcodes.INVOKEVIRTUAL)
+            return true;
+        // C2ME may preserve removal through its original owner-thread redirect.
+        // Validate that redirect's exact original receiver and ticket signature.
+        return call.owner.equals(owner) && call.name.endsWith("$redirectRemoveLightTicket")
+                && call.getOpcode() == Opcodes.INVOKESPECIAL
+                && (call.desc.equals("(Lnet/minecraft/server/level/DistanceManager;" + REMOVE_DESC.substring(1))
+                    || call.desc.equals("(L" + owner + "$DistanceManager;" + REMOVE_DESC.substring(1)));
     }
 
     private static AbstractInsnNode previousCode(AbstractInsnNode instruction) {

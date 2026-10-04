@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "updated_at": "2026-10-03T23:56:00Z",
-  "status": "Corrected postApply2.4.9 compiled, 23regressions and byte-identical rebuild passed; final complete native matrix pending.",
+  "updated_at": "2026-10-04T00:05:00Z",
+  "status": "Semantic LIGHT release repair passes real ASM/plugin tests; new exact build and native acceptance required.",
   "source_parent": "f619f92b2d59ecd0cbca916a055a422de3d7aa51",
   "save_policy": "Non-force GitHub commits after each concrete repair and validation checkpoint; exact original provider bytes and test failures retained.",
   "completed": {
@@ -76,10 +76,20 @@
     "regression": "PASS in hosted actual reconstructed source and local production helper: old code leaks529, six repaired variants release through original owner queue; original failure identity retained.",
     "late_integration_fix": "SpongePowered Mixin0.8.5 invokes ALL preApply callbacks before merge/injection passes; installed C2ME helper only exists in postApply. Moved original level-pairing callback to postApply.",
     "lifecycle_source": "https://github.com/SpongePowered/Mixin/blob/0.8.5/src/main/java/org/spongepowered/asm/mixin/transformer/MixinApplicatorStandard.java",
-    "integration_regression": "PASS: compiled actual early plugin retains529 tickets when provider is merged after preApply; compiled actual corrected plugin releases529 via original removal after postApply; six mapped/development shape variants and exception identity also pass."
+    "integration_regression": "PASS: compiled actual early plugin retains529 tickets when provider is merged after preApply; compiled actual corrected plugin releases529 via original removal after postApply; six mapped/development shape variants and exception identity also pass.",
+    "native_remap_fix": "Final native tests rejected lambda-name-only matching in normal Forge profiles. Match actual LIGHT field, original ticket-removal operation/owner redirect and exact JVM descriptor; retain original C2ME removal-helper body and original queues.",
+    "preserved_native_failure": {
+      "run": 37163367170,
+      "example_job": 111321244895,
+      "error": "C2ME LIGHT ticket source drift: original LIGHT release lambda",
+      "binary_sha256": "2fe2db8900f0810e581fd1ea6d7cfd82f3aca73a64f23da394c4e10abfaf7811",
+      "status": "superseded, not accepted"
+    },
+    "verified_original_provider": "Original SHA-pinned C2ME Forge9.6 worldgen bytecode computes FEATURES-2 in both its add and remove helpers; original bodies retained.",
+    "semantic_regression": "PASS: development and SRG release names, owner-thread redirect, existing C2ME removal helper, disabled module, idempotence, exact original removal failure identity, actual plugin late-merge lifecycle and original529-ticket-leak negative control."
   },
   "remaining": [
-    "Execute all13+dedicated final native lanes and original C2ME9.8 focused lanes on exact2fe2db89 JAR; retain actual input, portal, mobAI, NBT, pixels, Vulkan validation, save and reopen gates.",
+    "Compile semantic release repair, refresh exact JAR/source pins and run all13+dedicated native lanes plus original9.8 focused lanes; do not reuse2fe2db89 acceptance.",
     "Run all13 client lanes plus dedicated and original9.8 focused checks with actual double-Space input and native movement after reopen.",
     "Verify complete fresh998-file source/23steps and final JAR/proof, upload to authorized Drive release folder and update actual Wiki after full acceptance."
   ],
@@ -108,5 +118,13 @@
     "source_files": 998,
     "all998_local_source_hashes_match_actual_hosted_compile": true,
     "native_acceptance_pending": true
+  },
+  "compiled_progress_checkpoint": {
+    "drive_id": "1Jxd6n0HkIAeoRimuvE4BEF-IeytYNJch",
+    "url": "https://drive.google.com/file/d/1Jxd6n0HkIAeoRimuvE4BEF-IeytYNJch/view?usp=drivesdk",
+    "bytes": 30598794,
+    "sha256": "9655f71cfb7f978d38f5ce3b9754cd590f27e951fd9a0be3935bb07dae4ca763",
+    "downloaded_byte_readback_match": true,
+    "status": "Preserved22010e6 compiled checkpoint, superseded by semantic repair; not promoted."
   }
 }
