@@ -1,0 +1,467 @@
+{
+  "status": "Exact candidate acceptance pending4native client lanes and original9.8DH/dimensions; preserved accepted subset is complete",
+  "product_commit": "3bd2621048e166cf24c8a782c79edc77b8b5b2ab",
+  "profiles": [
+    {
+      "artifact_id": 11289187333,
+      "artifact_bytes": 8769536,
+      "artifact_sha256": "sha256:21f56c476534786cfd5667d55051112277c6face944383ad5c2f2e60aeec8fbc",
+      "run": 37164668802,
+      "qa_head": "490504c756ff001be12ae78f08d2fa35dde3452d",
+      "lane": "aether",
+      "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+      "passed": true,
+      "two_distinct_original_client_pids": [
+        3916,
+        4663
+      ],
+      "phases": [
+        {
+          "phase": "client-first",
+          "c2me_versions": [],
+          "dimensions": {
+            "aether": 18
+          },
+          "frame_samples": 300,
+          "renderer": "VULKAN",
+          "original_portals": true,
+          "save_and_clean_close": true
+        },
+        {
+          "phase": "client-reopen",
+          "c2me_versions": [],
+          "dimensions": {
+            "aether": 18
+          },
+          "frame_samples": 300,
+          "renderer": "VULKAN",
+          "original_portals": false,
+          "save_and_clean_close": true
+        }
+      ],
+      "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+      "complete_evidence_file_count": 93
+    },
+    {
+      "artifact_id": 11289137697,
+      "artifact_bytes": 10396023,
+      "artifact_sha256": "sha256:8c852b2855526b7ee5d04abb5044eb75a47d7d2abfdae32f102017e6c251f9d9",
+      "run": 37164668802,
+      "qa_head": "490504c756ff001be12ae78f08d2fa35dde3452d",
+      "lane": "oculus-embeddium",
+      "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+      "passed": true,
+      "two_distinct_original_client_pids": [
+        3920,
+        4854
+      ],
+      "phases": [
+        {
+          "phase": "client-first",
+          "c2me_versions": [
+            "9.6"
+          ],
+          "dimensions": {
+            "aether": 18,
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "OPENGL_FALLBACK",
+          "original_portals": true,
+          "save_and_clean_close": true
+        },
+        {
+          "phase": "client-reopen",
+          "c2me_versions": [
+            "9.6"
+          ],
+          "dimensions": {
+            "aether": 18,
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "OPENGL_FALLBACK",
+          "original_portals": false,
+          "save_and_clean_close": true
+        }
+      ],
+      "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+      "complete_evidence_file_count": 123
+    },
+    {
+      "artifact_id": 11288553588,
+      "artifact_bytes": 10508702,
+      "artifact_sha256": "sha256:dad04c0da97b5eee9fbe85eb1bd9a6091463a8b182e73d4ad71dd67d272f5e9b",
+      "run": 37164668802,
+      "qa_head": "490504c756ff001be12ae78f08d2fa35dde3452d",
+      "lane": "optimized-stack",
+      "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+      "passed": true,
+      "two_distinct_original_client_pids": [
+        3892,
+        4847
+      ],
+      "phases": [
+        {
+          "phase": "client-first",
+          "c2me_versions": [
+            "9.6"
+          ],
+          "dimensions": {
+            "aether": 18,
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "OPENGL_FALLBACK",
+          "original_portals": true,
+          "save_and_clean_close": true
+        },
+        {
+          "phase": "client-reopen",
+          "c2me_versions": [
+            "9.6"
+          ],
+          "dimensions": {
+            "aether": 18,
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "OPENGL_FALLBACK",
+          "original_portals": false,
+          "save_and_clean_close": true
+        }
+      ],
+      "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+      "complete_evidence_file_count": 123
+    },
+    {
+      "artifact_id": 11289486929,
+      "artifact_bytes": 10210802,
+      "artifact_sha256": "sha256:eefad2df796ff9e2952a45237317c75eb977480b3da950209f01f25873bb956c",
+      "run": 37164668802,
+      "qa_head": "490504c756ff001be12ae78f08d2fa35dde3452d",
+      "lane": "rubidium",
+      "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+      "passed": true,
+      "two_distinct_original_client_pids": [
+        4144,
+        5123
+      ],
+      "phases": [
+        {
+          "phase": "client-first",
+          "c2me_versions": [
+            "9.6"
+          ],
+          "dimensions": {
+            "aether": 18,
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "OPENGL_FALLBACK",
+          "original_portals": true,
+          "save_and_clean_close": true
+        },
+        {
+          "phase": "client-reopen",
+          "c2me_versions": [
+            "9.6"
+          ],
+          "dimensions": {
+            "aether": 18,
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "OPENGL_FALLBACK",
+          "original_portals": false,
+          "save_and_clean_close": true
+        }
+      ],
+      "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+      "complete_evidence_file_count": 129
+    },
+    {
+      "artifact_id": 11289456983,
+      "artifact_bytes": 11736816,
+      "artifact_sha256": "sha256:e469516a6d18003f032cd63d011ecce7f2c3d5b0fa2da6f4748417d9e7c57877",
+      "run": 37164668802,
+      "qa_head": "490504c756ff001be12ae78f08d2fa35dde3452d",
+      "lane": "lazurite",
+      "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+      "passed": true,
+      "two_distinct_original_client_pids": [
+        4143,
+        5160
+      ],
+      "phases": [
+        {
+          "phase": "client-first",
+          "c2me_versions": [
+            "9.6"
+          ],
+          "dimensions": {
+            "aether": 18,
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "OPENGL_FALLBACK",
+          "original_portals": true,
+          "save_and_clean_close": true
+        },
+        {
+          "phase": "client-reopen",
+          "c2me_versions": [
+            "9.6"
+          ],
+          "dimensions": {
+            "aether": 18,
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "OPENGL_FALLBACK",
+          "original_portals": false,
+          "save_and_clean_close": true
+        }
+      ],
+      "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+      "complete_evidence_file_count": 135
+    },
+    {
+      "artifact_id": 11288962222,
+      "artifact_bytes": 10591437,
+      "artifact_sha256": "sha256:de2dd688d194ec29a1ca9a8c931c0b49aefcb58d31a328646a9b9cf4148b33a6",
+      "run": 37164668802,
+      "qa_head": "490504c756ff001be12ae78f08d2fa35dde3452d",
+      "lane": "entityculling",
+      "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+      "passed": true,
+      "two_distinct_original_client_pids": [
+        4103,
+        5067
+      ],
+      "phases": [
+        {
+          "phase": "client-first",
+          "c2me_versions": [
+            "9.6"
+          ],
+          "dimensions": {
+            "aether": 18,
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "OPENGL_FALLBACK",
+          "original_portals": true,
+          "save_and_clean_close": true
+        },
+        {
+          "phase": "client-reopen",
+          "c2me_versions": [
+            "9.6"
+          ],
+          "dimensions": {
+            "aether": 18,
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "OPENGL_FALLBACK",
+          "original_portals": false,
+          "save_and_clean_close": true
+        }
+      ],
+      "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+      "complete_evidence_file_count": 123
+    },
+    {
+      "artifact_id": 11288773262,
+      "artifact_bytes": 10332343,
+      "artifact_sha256": "sha256:43de4a130aebff928517afd85ecdad3d1f7ccc66ab0e24e941b69293878a62a7",
+      "run": 37164668802,
+      "qa_head": "490504c756ff001be12ae78f08d2fa35dde3452d",
+      "lane": "optifine",
+      "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+      "passed": true,
+      "two_distinct_original_client_pids": [
+        4106,
+        5133
+      ],
+      "phases": [
+        {
+          "phase": "client-first",
+          "c2me_versions": [
+            "9.6"
+          ],
+          "dimensions": {
+            "aether": 18,
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "OPENGL_FALLBACK",
+          "original_portals": true,
+          "save_and_clean_close": true
+        },
+        {
+          "phase": "client-reopen",
+          "c2me_versions": [
+            "9.6"
+          ],
+          "dimensions": {
+            "aether": 18,
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "OPENGL_FALLBACK",
+          "original_portals": false,
+          "save_and_clean_close": true
+        }
+      ],
+      "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+      "complete_evidence_file_count": 123
+    },
+    {
+      "artifact_id": 11288648418,
+      "artifact_bytes": 10549224,
+      "artifact_sha256": "sha256:cf34b83b63ae35d7f6b980c1a96d67dbe6eb429297ee25767472c05759c97fba",
+      "run": 37164668802,
+      "qa_head": "490504c756ff001be12ae78f08d2fa35dde3452d",
+      "lane": "immediatelyfast",
+      "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+      "passed": true,
+      "two_distinct_original_client_pids": [
+        4070,
+        4969
+      ],
+      "phases": [
+        {
+          "phase": "client-first",
+          "c2me_versions": [
+            "9.6"
+          ],
+          "dimensions": {
+            "aether": 18,
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "OPENGL_FALLBACK",
+          "original_portals": true,
+          "save_and_clean_close": true
+        },
+        {
+          "phase": "client-reopen",
+          "c2me_versions": [
+            "9.6"
+          ],
+          "dimensions": {
+            "aether": 18,
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "OPENGL_FALLBACK",
+          "original_portals": false,
+          "save_and_clean_close": true
+        }
+      ],
+      "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+      "complete_evidence_file_count": 123
+    },
+    {
+      "artifact_id": 11288493863,
+      "artifact_bytes": 11813199,
+      "artifact_sha256": "sha256:5c6c1a706ae3afab3218f20c22e139527950af971665fcc001b8235d49c5d6cc",
+      "run": 37164668802,
+      "qa_head": "490504c756ff001be12ae78f08d2fa35dde3452d",
+      "lane": "continuity",
+      "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+      "passed": true,
+      "two_distinct_original_client_pids": [
+        3911,
+        4898
+      ],
+      "phases": [
+        {
+          "phase": "client-first",
+          "c2me_versions": [
+            "9.6"
+          ],
+          "dimensions": {
+            "aether": 18,
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "OPENGL_FALLBACK",
+          "original_portals": true,
+          "save_and_clean_close": true
+        },
+        {
+          "phase": "client-reopen",
+          "c2me_versions": [
+            "9.6"
+          ],
+          "dimensions": {
+            "aether": 18,
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "OPENGL_FALLBACK",
+          "original_portals": false,
+          "save_and_clean_close": true
+        }
+      ],
+      "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+      "complete_evidence_file_count": 135
+    },
+    {
+      "artifact_id": 11289426919,
+      "artifact_bytes": 10260935,
+      "artifact_sha256": "sha256:545d106331bb98eaa65173e080bd77124b8a679a48b88b1b9aa525889586adda",
+      "run": 37164668733,
+      "qa_head": "490504c756ff001be12ae78f08d2fa35dde3452d",
+      "lane": "optifine",
+      "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+      "passed": true,
+      "two_distinct_original_client_pids": [
+        4030,
+        5029
+      ],
+      "phases": [
+        {
+          "phase": "client-first",
+          "c2me_versions": [
+            "9.8"
+          ],
+          "dimensions": {
+            "aether": 18,
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "OPENGL_FALLBACK",
+          "original_portals": true,
+          "save_and_clean_close": true
+        },
+        {
+          "phase": "client-reopen",
+          "c2me_versions": [
+            "9.8"
+          ],
+          "dimensions": {
+            "aether": 18,
+            "midnight": 10
+          },
+          "frame_samples": 300,
+          "renderer": "OPENGL_FALLBACK",
+          "original_portals": false,
+          "save_and_clean_close": true
+        }
+      ],
+      "scope": "Linux software Vulkan/OpenGL; original mob AI, native first-JVM portals, unload/return, NBT and same-world second JVM; not all boss combat phases or hardware FPS.",
+      "complete_evidence_file_count": 123
+    }
+  ],
+  "dedicated_dimension_proof": {
+    "artifact_id": 11288877206,
+    "artifact_sha256": "369b895bd43b5fc642b607b094af1f31e110d0287fb1ede99b6e110c263120b8",
+    "run": 37164668802,
+    "job": 111325036397,
+    "conclusion": "success"
+  }
+}

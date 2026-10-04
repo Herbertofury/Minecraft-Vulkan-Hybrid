@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "updated_at": "2026-10-04T00:16:00Z",
-  "status": "Exact semantic LIGHT candidate built reproducibly; standard native dedicated and packaged production PASS; full13+dedicated and original9.8 focused acceptance pending.",
+  "updated_at": "2026-10-04T00:56:47.112301+00:00",
+  "status": "Exact2.4.9 semantic LIGHT binary:23suites and reproducibility PASS, standard server/production PASS, full9/13client+dedicated and original9.8OptiPASS byte-verified. Remaining4client+9.8DH/dimensions native gates active.",
   "source_parent": "f619f92b2d59ecd0cbca916a055a422de3d7aa51",
   "save_policy": "Non-force GitHub commits after each concrete repair and validation checkpoint; exact original provider bytes and test failures retained.",
   "completed": {
@@ -89,6 +89,26 @@
       "run": 37163922551,
       "job": 111322856332,
       "result": "PASS"
+    },
+    "native_materialized_profiles": {
+      "run": 37164668802,
+      "lanes": [
+        "aether",
+        "immediatelyfast",
+        "entityculling",
+        "oculus-embeddium",
+        "optifine",
+        "rubidium",
+        "lazurite",
+        "continuity",
+        "optimized-stack"
+      ],
+      "dedicated": true,
+      "original98_optifine": {
+        "run": 37164668733,
+        "job": 111325035935
+      },
+      "all10_profiles_full_evidence_bytes_checked": true
     }
   },
   "current_causal_repair": {
@@ -119,8 +139,9 @@
     "semantic_regression": "PASS: development and SRG release names, owner-thread redirect, existing C2ME removal helper, disabled module, idempotence, exact original removal failure identity, actual plugin late-merge lifecycle and original529-ticket-leak negative control."
   },
   "remaining": [
-    "All13 client lanes plus dedicated and original9.8 focused checks with exact c1082c82 JAR, actual double-Space input and native movement after reopen.",
-    "Verify final source/JAR/proof, upload to authorized Drive folder, update actual Wiki only after full acceptance."
+    "Preserve live DH9.6/9.8 tests37165635433/37165635449 and finish original X11 input followups for Midnight, OculusShaders, dimensions-C2ME9.6/9.8 on same immutablec1082c82binary.",
+    "Reconcile all13clients+dedicated+3original9.8focused proofs; upload remaining complete evidence and exact standaloneJAR/finalsource/install instructions.",
+    "Update release acceptance receipt and only main Wiki mirror, verify actual liveWiki bytes through SyncWiki."
   ],
   "known_blocker": null,
   "guardrails": [
@@ -155,5 +176,83 @@
     "sha256": "9655f71cfb7f978d38f5ce3b9754cd590f27e951fd9a0be3935bb07dae4ca763",
     "downloaded_byte_readback_match": true,
     "status": "Preserved22010e6 compiled checkpoint, superseded by semantic repair; not promoted."
+  },
+  "latest_qa_commit": "f401af76cb790466538ae72244b905a20bc6bcdb",
+  "complete_semantic_drive_checkpoints": {
+    "product_commit": "3bd2621048e166cf24c8a782c79edc77b8b5b2ab",
+    "jar_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+    "status": "Progress checkpoint; native full matrix pending; not promoted",
+    "compiled": {
+      "drive_id": "1sc8tCZWxzlzRRty6VAf2VogTZbxgp1CI",
+      "bytes": 30599475,
+      "sha256": "c62d3fb97fce1767a766194797544fda13db878a0b92dfb32d9b779ead14c9b8",
+      "raw_byte_readback_verified": true
+    },
+    "source": {
+      "drive_id": "1poqprboC3jCpUxtsw8ypo5ZVtXVFP5n2",
+      "bytes": 2495476,
+      "sha256": "1eabb48c880f25f4238f2e731b8a2ab92b686352d7d36685d0c2efe83b485bef",
+      "raw_byte_readback_verified": true,
+      "all998_source_hashes_match_hosted_build": true,
+      "recipe_steps": 23
+    },
+    "native_runs": {
+      "full13_and_dedicated": 37164668802,
+      "original_c2me98_focused": 37164668733,
+      "commit": "490504c756ff001be12ae78f08d2fa35dde3452d"
+    }
+  },
+  "complete_native_drive_checkpoints": [
+    {
+      "bytes": 29862197,
+      "sha256": "e1772a9d19aad82d61705366544a68fe3cd7a07f4d3f5cd04f8f36574a34c1e0",
+      "artifact_ids": [
+        11289187333,
+        11289137697,
+        11288553588,
+        11288877206
+      ],
+      "drive_id": "1BI5ZYa0NtTu-9hBKNjVQvWmFW3gPo7B_",
+      "url": "https://drive.google.com/file/d/1BI5ZYa0NtTu-9hBKNjVQvWmFW3gPo7B_/view",
+      "raw_byte_readback_verified": true
+    },
+    {
+      "bytes": 32638848,
+      "sha256": "004803f1b285bd97513615b9cb65416a48bf8f518fa47d9733bd03e660cc7475",
+      "artifact_ids": [
+        11289486929,
+        11288962222,
+        11288493863
+      ],
+      "drive_id": "1JHVQtsUbBvTVdgI_xE-FUM715tCmQY4m",
+      "url": "https://drive.google.com/file/d/1JHVQtsUbBvTVdgI_xE-FUM715tCmQY4m/view",
+      "raw_byte_readback_verified": true
+    },
+    {
+      "bytes": 32641588,
+      "sha256": "4784509405514fa9bfa9fda1fa9ebaf954b487b4ee59732826b18d59cf99c713",
+      "artifact_ids": [
+        11288648418,
+        11289456983,
+        11288773262
+      ],
+      "drive_id": "1YC9KFjCDTz3-vSqp0IoC2ESSalrcDK3k",
+      "url": "https://drive.google.com/file/d/1YC9KFjCDTz3-vSqp0IoC2ESSalrcDK3k/view",
+      "raw_byte_readback_verified": true
+    },
+    {
+      "bytes": 10270325,
+      "sha256": "47346313296d70d2449d97750d7051a9f2644e0e531e1db744ae6ab0565c2c70",
+      "artifact_ids": [
+        11289426919
+      ],
+      "drive_id": "1qf1zLYqun3umbR7cDkgNWUDU_sMIG61r",
+      "url": "https://drive.google.com/file/d/1qf1zLYqun3umbR7cDkgNWUDU_sMIG61r/view",
+      "raw_byte_readback_verified": true
+    }
+  ],
+  "active_X11_input_runs": {
+    "C2ME96_three_failed_profiles": 37166299130,
+    "C2ME98_dimensions": 37166299120
   }
 }
