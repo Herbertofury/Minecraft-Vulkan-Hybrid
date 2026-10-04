@@ -1,6 +1,12 @@
 # Minecraft Vulkan Hybrid
 
-This is the migrated project record. Current source, recipes, tests, licensing and provenance are in [Minecraft-Vulkan-Hybrid](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/tree/migration/projectdump-20261004). Migration is on a feature branch pending review. The source below preserves original Linux software-driver acceptance; new Windows hardware measurement is a separate gate.
+The canonical project is [Minecraft-Vulkan-Hybrid](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/tree/migration/projectdump-20261004), with complete source, recipes, tests, assets, licenses and filtered project history in [draft PR #1](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/pull/1). Main remains unchanged pending review.
+
+[Actual Windows/RTX 4090 benchmark report](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/blob/migration/projectdump-20261004/benchmarks/results/windows-20261004/REPORT.md): six matched real Minecraft runs, median FPS 2,432.29 → 2,470.06; 1% low 440.41 → 503.56; p99 0.8864 → 1.0483 ms. These mixed observations and overlapping ranges do not establish a reliable new FPS gain. Latest official Forge 47.4.26 is running in the two isolated Modrinth instances. Original packaged GPU texture readback passed separately. Personal profiles/worlds and other projects were left untouched.
+
+The original release record below is preserved for provenance. Its Linux software-driver results and historical ProjectDump workflow runs are not new destination/Windows test results.
+
+---
 
 # HariMultiThread Ultimate — Vulkan hybrid
 

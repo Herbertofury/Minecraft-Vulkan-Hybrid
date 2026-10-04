@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "scope": "Actual Vulkan buffer-to-image uploads and GPU readback in the original packaged Minecraft JVM",
+  "overlapping_writes": true,
+  "padded_rows_and_nonzero_buffer_position": true,
+  "results": [
+    {
+      "format": 37,
+      "mip": 0,
+      "bytes": 4096,
+      "expected_and_actual_sha256": "dedb114e73c81a1fa1a0db60874a37b87dd3a9e243045ab4c277cd2b4026b702"
+    },
+    {
+      "format": 37,
+      "mip": 1,
+      "bytes": 1024,
+      "expected_and_actual_sha256": "b3aa9cea6c820d5a71a1d36e8892d1ff000e617aae8fde13b3b78030b479b080"
+    },
+    {
+      "format": 37,
+      "mip": 2,
+      "bytes": 256,
+      "expected_and_actual_sha256": "41f6687051d4c06eba6cf955619b3ed872b8eb92f97defdc20458cc85301bd3a"
+    },
+    {
+      "format": 9,
+      "mip": 0,
+      "bytes": 1024,
+      "expected_and_actual_sha256": "38920e6df518b35ac8d4b8b69c9ad952b5a6e2286058474da2175808d9a08a74"
+    },
+    {
+      "format": 9,
+      "mip": 1,
+      "bytes": 256,
+      "expected_and_actual_sha256": "938d48950019d5bfaf2c9ce1f98431dac47d1b3157234fd054492c19dcd92d97"
+    },
+    {
+      "format": 9,
+      "mip": 2,
+      "bytes": 64,
+      "expected_and_actual_sha256": "6ee86da59324652ec89b70ee1cf90d6bc5e9e3e5cc40803437ef493a7e3c2501"
+    }
+  ]
+}

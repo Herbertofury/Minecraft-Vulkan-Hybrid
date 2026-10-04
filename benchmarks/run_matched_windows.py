@@ -13,7 +13,7 @@ def tree_manifest(p):return {str(f.relative_to(p)):hashlib.sha256(f.read_bytes()
 if not pristine.exists():
  source=owned(Path(by['baseline']['path'])/'saves/MVH-Benchmark-20261004');assert (source/'region').is_dir(),'Preparatory run must finish and save its world first'
  report=json.loads((source.parent.parent/'harimt-fps-last.json').read_text());assert report['renderer']=='VULKAN' # Preparatory capture is discarded; world was generated and saved
- assert not subprocess.run(['powershell','-NoProfile','-Command',"Get-Process javaw -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Id"],capture_output=True,text=True).stdout.strip(),'First benchmark client must exit before world snapshot'
+ assert 'PROCESS_FINISHED' in Path('inventory/modrinth-baseline-prepare-launch-latest-4.log').read_text(),'Preparatory client must exit before world snapshot'
  shutil.copytree(source,pristine)
 (R/'pristine-world-sha256.json').write_text(json.dumps(tree_manifest(pristine),indent=2))
 for n,kind in enumerate(['baseline','candidate','candidate','baseline','baseline','candidate'],1):
@@ -39,7 +39,7 @@ for n,kind in enumerate(['baseline','candidate','candidate','baseline','baseline
    if time.time()*1000-start>360000:raise RuntimeError('Benchmark client exceeded six minutes; leave scoped process for diagnosis')
    time.sleep(max(0,1-(time.monotonic()-tick)))
  if not (p/'harimt-fps-last.json').exists():raise RuntimeError('No real FPS report after game exit: '+label)
- f=json.loads((p/'harimt-fps-last.json').read_text());shutil.copy2(p/'harimt-fps-last.json',out/'fps.json');assert f['status']=='complete',(label,f.get('invalid_reason'));assert f['renderer']=='VULKAN'
+ f=json.loads((p/'harimt-fps-last.json').read_text());shutil.copy2(p/'harimt-fps-last.json',out/'fps.json');assert f['status']=='complete',(label,f.get('invalid_reason'));assert f['renderer']=='VULKAN';assert f['position']==[0.5,110.5,0.5];assert abs(f['yaw']+68.7007)<0.001 and abs(f['pitch']-9.999512)<0.001,'Camera mismatch invalidates comparison'
  text=(p/'logs/latest.log').read_text(errors='replace');lines=[l for l in text.splitlines() if not any(x in l for x in ['arguments','accessToken','xuid','username','uuid','Setting user:','logged in with entity','joined the game','left the game'])];(out/'minecraft-sanitized.log').write_text('\n'.join(lines)+'\n',encoding='utf-8')
  for shot in (p/'screenshots').glob('*.png'):shutil.copy2(shot,out/shot.name)
  print('DONE',label,'FPS',round(f['average_fps'],2),'1%LOW',round(f['one_percent_low_fps'],2),flush=True)
