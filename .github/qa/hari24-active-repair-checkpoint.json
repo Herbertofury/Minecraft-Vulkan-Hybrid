@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "updated_at": "2026-10-04T00:56:47.112301+00:00",
-  "status": "Exact2.4.9 semantic LIGHT binary:23suites and reproducibility PASS, standard server/production PASS, full9/13client+dedicated and original9.8OptiPASS byte-verified. Remaining4client+9.8DH/dimensions native gates active.",
+  "updated_at": "2026-10-04T01:34:10.687478+00:00",
+  "status": "Exact2.4.9 candidate 11/13 full clients plusdedicated PASS; original9.8Opti and DH PASS; Midnight and original9.6/9.8dimensions native flight timing unresolved-active.",
   "source_parent": "f619f92b2d59ecd0cbca916a055a422de3d7aa51",
   "save_policy": "Non-force GitHub commits after each concrete repair and validation checkpoint; exact original provider bytes and test failures retained.",
   "completed": {
@@ -109,6 +109,17 @@
         "job": 111325035935
       },
       "all10_profiles_full_evidence_bytes_checked": true
+    },
+    "exact_candidate_shader_lane": {
+      "run": 37166903303,
+      "job": 111331590303,
+      "artifact": 11290815998,
+      "sha256": "sha256:4f083fb62562222c9d5e4eacf101ca7ff0a119671895d46c610a4f1609fa2075",
+      "pids": [
+        4130,
+        5231
+      ],
+      "full_evidence_reconciled": true
     }
   },
   "current_causal_repair": {
@@ -254,5 +265,30 @@
   "active_X11_input_runs": {
     "C2ME96_three_failed_profiles": 37166299130,
     "C2ME98_dimensions": 37166299120
-  }
+  },
+  "active_software_input_runs": {
+    "oculus_shaders": 37166903303,
+    "midnight_and_dimensions96": 37167237796,
+    "dimensions98": 37167237787
+  },
+  "current_head": "fb3b0278435f8a160b5dfb422f5c24c9a068eaa9",
+  "DH_full_native_backup": {
+    "drive_id": "1NaQBTamqlzrslOxJkRaeiyb8Fn-82EQX",
+    "bytes": 25761303,
+    "sha256": "43fcde4a0117c1b188eff19d6178f7014201113a2f7de9d391d48e89f94de58d",
+    "raw_byte_readback_verified": true,
+    "artifact_ids": [
+      11289499096,
+      11289469066
+    ]
+  },
+  "staged_standalone_candidate": {
+    "drive_folder": "1TZCi84twLpXuRPULJ0rvxTSdfcvt91W-",
+    "drive_jar": "1Kpk-RaWGtc8O1Da3J0xeuLP_g9xw4fmg",
+    "jar_bytes": 30750839,
+    "jar_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+    "status": "Standalone exact candidate byte-verified, final native acceptance pending",
+    "raw_byte_readback_verified": true
+  },
+  "next_action": "Upgrade pinned Khronos validation tooling after official source review; preserve full synchronization validation and native flight controls, diagnose queue-submit overhead. Do not retry unchanged software viewport failures or mutate flight state."
 }
