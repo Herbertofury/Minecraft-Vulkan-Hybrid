@@ -68,5 +68,24 @@
     "run": 37164668733,
     "job": 111325035935,
     "result": "PASS; LIGHT shutdown fix proven in both original provider versions"
-  }
+  },
+  "queued_mouse_native_followup": {
+    "head": "51f09bb673a1c86f844580e4811b78ef4e6651be",
+    "runs": [
+      37165635433,
+      37165635449,
+      37165635441
+    ],
+    "failures": [
+      111327879115,
+      111327879214,
+      111327880585,
+      111327880730
+    ],
+    "native_view_artifact": 11288853750,
+    "artifact_sha256": "ff4b74b26c832666f4c0a4a6b07e865a6a069e9542a68f8aac2f96f86e8cc0af",
+    "observation": "Actual native input-view screenshot retains original forest-facing camera despite four synthetic mouse motions; flight edge gaps still exceed original window."
+  },
+  "next_input_route": "Only disposable X11 fixture selects rawMouseInput:false, preserves all other options, uses normal same-position camera command initially and actual mouse/Space input with original flying-state assertion. Preserve live DH9.6/9.8 full tests, rerun only failed3+9.8dimension profiles.",
+  "all9_and_original98_optifine_full_proof": "All ten profiles verified after actual artifact materialization: exact candidate, unchanged original mods, 300frames/120warmup/1280x720, all persistent mob types and NBT, original portals, cleanclose, same launch/world and distinct JVM PIDs. Full evidence raw-byte-verified in4Drive archives; receipt at hari249-complete-native-drive-readback.json."
 }
