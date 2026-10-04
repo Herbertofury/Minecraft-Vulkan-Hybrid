@@ -1,5 +1,5 @@
 {
-  "status": "One shader software-input acceptance gate pending; native12?onlyprior10/13accepted untilotherprofilesfinish",
+  "status": "Full10/13clients plusdedicated, original9.8OptiandDH PASS. Three clients plusoriginal9.8dimensions remain pending; no product mutation.",
   "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
   "native_DH_passes": [
     {
@@ -36,5 +36,29 @@
     "Original portals, mobs/AI, real chunk unload/return, originalNBT, clean saved-world secondJVM",
     "All actual scene captures1280x720, original pixel thresholds and strict fatal/error gates"
   ],
-  "strategy": "Only flight operating viewport temporarily resized through normal X11 controls; restored1280x720 in finally before scene checks. No product mutation or graphics/shader settings reduction."
+  "strategy": "Only flight operating viewport temporarily resized through normal X11 controls; restored1280x720 in finally before scene checks. No product mutation or graphics/shader settings reduction.",
+  "retained_X11_other_failures": {
+    "runs": [
+      37166299130,
+      37166299120
+    ],
+    "jobs": [
+      111329770647,
+      111329770783,
+      111329770478
+    ],
+    "cause": "Original flight state never enables on low-FPS software input; Midnight initial flight and original rift entrance did succeed with normal X11 cursor backend, then original flight reset on actual arrival and slow input failed. No original portal bypass or state mutation."
+  },
+  "same_input_protocol_reused": "Use exact same isolated software-input actor for remaining Midnight and original9.6/9.8dimension profiles; original fullscene/shader/NoAI/unload/secondJVM/failure gates remain intact.",
+  "shader_run": 37166903303,
+  "DH_complete_drive_backup": {
+    "drive_id": "1NaQBTamqlzrslOxJkRaeiyb8Fn-82EQX",
+    "bytes": 25761303,
+    "sha256": "43fcde4a0117c1b188eff19d6178f7014201113a2f7de9d391d48e89f94de58d",
+    "raw_byte_readback_verified": true,
+    "artifact_ids": [
+      11289499096,
+      11289469066
+    ]
+  }
 }
