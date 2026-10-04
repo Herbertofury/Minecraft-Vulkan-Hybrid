@@ -1,0 +1,30 @@
+{
+  "status": "baseline_profile_in_progress",
+  "accepted_floor": {
+    "version": "2.4.9-noxviola.1-vulkan-hybrid",
+    "commit": "357e3d8a30f973a654fd493a589ae77053e2d168",
+    "product_commit": "3bd2621048e166cf24c8a782c79edc77b8b5b2ab",
+    "jar_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396"
+  },
+  "request": "Measure and improve FPS without regression or quality loss",
+  "protected": [
+    "rendered pixels and texture animation fidelity",
+    "simulation and mob AI",
+    "chunk and C2ME ownership",
+    "resource reload/save/reopen/shader compatibility",
+    "memory and tail latency"
+  ],
+  "baseline_profile": {
+    "validation_layers": false,
+    "jfr": true,
+    "final_ab": false,
+    "lanes": [
+      "dimensions-c2me",
+      "optimized-stack"
+    ],
+    "trials": 3
+  },
+  "candidate": "Not implemented or promoted",
+  "hardware_gpu_exposed_locally": false,
+  "next": "Analyze actual CPU/JFR and frame-time baseline, then benchmark result-preserving texture uploads with same work."
+}
