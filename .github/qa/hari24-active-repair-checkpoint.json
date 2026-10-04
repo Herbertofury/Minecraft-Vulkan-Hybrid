@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-10-04T01:34:10.687478+00:00",
+  "updated_at": "2026-10-04T01:42:39.805580+00:00",
   "status": "Exact2.4.9 candidate 11/13 full clients plusdedicated PASS; original9.8Opti and DH PASS; Midnight and original9.6/9.8dimensions native flight timing unresolved-active.",
   "source_parent": "f619f92b2d59ecd0cbca916a055a422de3d7aa51",
   "save_policy": "Non-force GitHub commits after each concrete repair and validation checkpoint; exact original provider bytes and test failures retained.",
@@ -290,5 +290,47 @@
     "status": "Standalone exact candidate byte-verified, final native acceptance pending",
     "raw_byte_readback_verified": true
   },
-  "next_action": "Upgrade pinned Khronos validation tooling after official source review; preserve full synchronization validation and native flight controls, diagnose queue-submit overhead. Do not retry unchanged software viewport failures or mutate flight state."
+  "next_action": "Observe exact SDK1.4.363 native runs37168634595 and37168634593; reconcile original Midnight and original9.6/9.8dimension acceptance. Exact JAR unchanged. If validation reports real hazards, fix original causal product path and invalidate affected evidence.",
+  "current_validation_native_runs": {
+    "head": "e94b6189968d4954431b230af62b5862376fcf30",
+    "sdk_version": "1.4.363.0",
+    "sdk_sha256": "197962f5cbf80baf2775a03336a01cee7c8745686c65aaa70d3f751ade4d7e43",
+    "runs": [
+      37168634595,
+      37168634593
+    ],
+    "jobs": {
+      "midnight": 111336814178,
+      "dimensions9.6": 111336814285,
+      "dimensions9.8": 111336814171
+    },
+    "sdk_install_passed_all_jobs": true,
+    "product_jar_unchanged": true
+  },
+  "drive_backups": {
+    "complete_shader_proof": {
+      "drive_id": "1ZqNJolI8MkHKFVXiXKiC6vTVxKSBfWI_",
+      "name": "HariMultiThread-2.4.9-Complete-Native-Checkpoint-06.zip",
+      "bytes": 21927365,
+      "sha256": "2d27a3feb262b1f82d9e8d222b32818db1b161559931667864c2dcb525eb1bf9",
+      "raw_byte_readback_verified": true,
+      "artifact_ids": [
+        11290815998
+      ],
+      "checked_at": "2026-10-04T01:36:12.466654+00:00"
+    },
+    "native_input_diagnostics": {
+      "drive_id": "1WzuJG42R_VAwW7-yI3aCUw9hwYnZL5qc",
+      "name": "HariMultiThread-2.4.9-Native-Input-Diagnostics-Checkpoint.zip",
+      "bytes": 3493575,
+      "sha256": "561fd12f40b03e6d9a863eecb0f8a78873bf72c48413c4fa8fe01a9dfdb38174",
+      "raw_byte_readback_verified": true,
+      "artifact_ids": [
+        11290096152,
+        11289817801,
+        11290192039
+      ],
+      "status": "FAILED diagnostics retained, no accepted profile"
+    }
+  }
 }
