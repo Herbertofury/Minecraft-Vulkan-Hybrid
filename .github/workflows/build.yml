@@ -54,10 +54,17 @@ jobs:
           java -cp qa-out/fieldguide-split BiomeQuerySplitRegression
           javac -encoding UTF-8 -cp qa-out/fieldguide-split -d qa-out/fieldguide-split compat/fieldguide-query-split/src/main/java/mvhstartupcompat/BiomeModifierIndex.java compat/fieldguide-query-split/tests/BiomeModifierIndexRegression.java
           java -ea -cp qa-out/fieldguide-split BiomeModifierIndexRegression
+      - name: Build optional exact grass distance compatibility mod
+        run: ./source/gradlew -p compat/grass-distance-sort build --no-daemon --max-workers=4
+      - name: Verify exact stable grass section ordering and bounded scratch
+        run: |
+          mkdir -p qa-out/grass-distance
+          javac -encoding UTF-8 -d qa-out/grass-distance compat/grass-distance-sort/src/main/java/mvhgrasscompat/DistanceSort.java compat/grass-distance-sort/tests/DistanceSortRegression.java
+          java -ea -cp qa-out/grass-distance DistanceSortRegression
       - name: Build isolated native benchmark recorder
         run: ./source/gradlew -p benchmarks/control-forge build --no-daemon --max-workers=4
       - name: Verify packaged Minecraft resource metadata
-        run: python tools/verify_pack_metadata.py 'source/forge/build/libs/*-all.jar' '../hari-integrated-ci/forge/build/libs/*-all.jar' 'compat/opengl-texture-lookup/build/libs/*.jar' 'compat/fieldguide-query-split/build/libs/*.jar' 'benchmarks/control-forge/build/libs/*.jar'
+        run: python tools/verify_pack_metadata.py 'source/forge/build/libs/*-all.jar' '../hari-integrated-ci/forge/build/libs/*-all.jar' 'compat/opengl-texture-lookup/build/libs/*.jar' 'compat/fieldguide-query-split/build/libs/*.jar' 'benchmarks/control-forge/build/libs/*.jar' 'compat/grass-distance-sort/build/libs/*.jar'
       - name: Run portable production regressions
         run: |
           set -euo pipefail
@@ -79,5 +86,6 @@ jobs:
             compat/opengl-texture-lookup/build/libs/*.jar
             compat/fieldguide-query-split/build/libs/*.jar
             benchmarks/control-forge/build/libs/*.jar
+            compat/grass-distance-sort/build/libs/*.jar
             qa-out/
             LICENSE

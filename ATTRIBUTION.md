@@ -56,3 +56,5 @@ The DimThreads engine is imported from SrRapero720/dimthreads, branch 1.20.1, co
 The GeckoLib lookup and Field Guide query compatibility addons, benchmark control, and preload agent are new GPL-3.0-only code. They depend on the pinned original mods without redistributing those mods' source/assets. Restrictively licensed Automotives and Cataclysm compatibility JARs remain private; only hash-pinned repair recipes are supplied.
 
 The optional OpenGL-over-Vulkan driver is Mesa Zink 26.2.4, commit `96cb43121031992b85767f9c1be8f3f48e22b1d2`. Mesa's per-component licenses and source-file notices remain applicable. The WGL patch preserves its upstream MIT header; it does not relicense Mesa under Hari's GPL. Source/build pins and the original Mesa license texts accompany the bridge.
+
+The exact grass distance compatibility addon is new GPL-3.0-only code. It calls the original private Grassier Grass distance function and retains that mod's rendering behavior; no original Grassier Grass assets or implementation are redistributed. The inspected input checksum and version are required.

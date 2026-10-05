@@ -39,3 +39,5 @@ Ctrl+F9 records 30 seconds of real frame intervals after warmup. Preserve each `
 ## Integrated Noxviola development
 
 [Hari + DimThreads source and build instructions](integration/dimensions/README.md) describe the single artifact that replaces both standalone engines while preserving the `dimthread` compatibility identity. [Development evidence](benchmarks/results/noxviola-development-20261005/STATUS.md) separates native playability checks from matched performance measurements. The live personal Noxviola profile remains untouched while these gates run. This full pack has not demonstrated 2400 FPS or zero hitching.
+
+The latest full-pack [matched Noxviola measurements](benchmarks/results/noxviola-matched-20261005/REPORT.md) reject promotion: median FPS 219.39→175.22 despite repeated-launch startup 166.40→152.82 seconds. Native feature smoke checks pass within their recorded scope. Cumulative mod-addition testing and the isolated grass sort experiment are still in progress; full-pack 2,400 FPS is unproven.

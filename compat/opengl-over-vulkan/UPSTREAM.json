@@ -7,7 +7,7 @@
   "patch_sha256": "9673987606d09c0102b31403c8def6ffd42ad6098ee54c3910c0479f028963a7",
   "scope": "Windows WGL loader-info initialization and late swap-interval forwarding; upstream Zink semantics retained",
   "native_probe": "OpenGL 4.6 / NVIDIA RTX 4090 / Vulkan 1.4; interval 0/1/0, 48 presents each, readback parity and zero GL errors",
-  "minecraft_status": "Matched measurements pending; not promoted",
+  "minecraft_status": "Actual hardware Minecraft Zink diagnostic: 142.55 FPS, 1% low 59.67; apparent refresh-rate behavior unresolved; not promoted",
   "binaries": [
     {
       "file": "libgallium_wgl.dll",

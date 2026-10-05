@@ -1,0 +1,21 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="GPL-3.0-only"
+[[mods]]
+modId="mvhgrasscompat"
+version="1.0.0"
+displayName="MVH Grass Distance Compatibility"
+authors="Minecraft Vulkan Hybrid contributors"
+description="Computes exact grass section sort distances once per entry, preserving stable order and visual behavior."
+[[dependencies.mvhgrasscompat]]
+modId="grassiergrass"
+mandatory=true
+versionRange="[1.4.5]"
+ordering="AFTER"
+side="CLIENT"
+[[dependencies.mvhgrasscompat]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.20.2)"
+ordering="NONE"
+side="CLIENT"

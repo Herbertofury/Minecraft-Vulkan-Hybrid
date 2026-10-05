@@ -1,0 +1,7 @@
+# Exact grass distance sort experiment
+
+The scoped native profile identified `LongArrays.mergeSort` beneath the existing custom Grassier Grass section cache. This addon retains that renderer and all its geometry, density, range, animation, light and rebuild behavior. It redirects only two stable section-priority sorts, calling the original pure distance function once per entry, then sorting the primitive values by those exact keys. Equal keys retain original order. Camera changes are handled on every call; no stale cross-frame/world/resource result is reused. Per-owner scratch is capped at 65,536 entries; larger inputs use temporary arrays.
+
+Only the inspected private `Grassier-Grass-1.4.5-Render-Performance-Fix-REPLACEMENT-2.jar` (SHA256 `91006e8220e65572d7e9e1e54b6058526c4adf908faedc750c9f19f13623df8c`) is supported. Its assets/source are not redistributed. The new addon is GPL-3.0-only. Two exact injection matches and an input JAR hash check fail closed for unsupported versions.
+
+Build with Java 17: `source/gradlew -p compat/grass-distance-sort build`. The result is `build/libs/mvh-grass-distance-compat-1.0.0.jar`. This is an isolated development experiment; no native performance gain or promotion is established yet. The independent JDK stable-sort regression checks random inputs, duplicate/tied keys, NaN/infinity/signed zero, prefix bounds and scratch limits. Reducing distance computations is an algorithm property, not an FPS measurement.
