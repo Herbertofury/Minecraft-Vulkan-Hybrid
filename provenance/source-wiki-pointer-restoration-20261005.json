@@ -1,0 +1,13 @@
+{
+  "before_commit": "24c0747d9040990695adbc3b5185a7c68c906bdd",
+  "pushed_commit": "0b3741d0a8ef87d1bad49194a057ec6120d9139e",
+  "only_page": "HariMultiThread-Vulkan-Hybrid.md",
+  "original_sha256": "7697db55c3783811b943d5a942cdc2e97cc9b62da73b220f1a856457990aaebe",
+  "prepared_sha256": "0bbe59db15c8dd54e1d184353e7951e908b748e6042dcad0befd717bc8354688",
+  "original_bytes_preserved": true,
+  "durable_pointer_pending_pr": "https://github.com/Herbertofury/ProjectDump/pull/30",
+  "hourly_mirror_overwrite_risk_remaining": true,
+  "published_original_git_blob_sha256": "451c083d6fa2a09f979ab7f42dcd49b537c0a8d87820d99035d0280bb2eceed6",
+  "published_prepared_git_blob_sha256": "c6d044d6816161c095ad49e7ecf5654f1d00d92b3d755e16517de9b38c18bfe5",
+  "published_original_git_blob_preserved": true
+}

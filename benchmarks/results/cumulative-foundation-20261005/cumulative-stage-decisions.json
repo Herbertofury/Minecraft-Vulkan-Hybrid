@@ -361,5 +361,52 @@
     "grass_playability_checks": 7,
     "purpose_retention_decision": "INPUT_POLLING_BENEFIT_NOT_ESTABLISHED",
     "decision_limits": "Three native compatibility captures are not a matched input-polling purpose comparison. One capture missed 2432 FPS. No causal performance regression is inferred. Disabled only in the owned continuation pending a demonstrated purpose benefit; original JAR and repair source retained."
+  },
+  {
+    "stage": "016-fieldguide",
+    "file": "fieldguide-forge-1.20.1-1.17.0.jar",
+    "mod_ids": [
+      "fieldguide"
+    ],
+    "original_sha256": "2b52b0b22a92aef9f6401def0dfad21d803962964bbbd3f0161e30a14077dd6d",
+    "installed_sha256": "2b52b0b22a92aef9f6401def0dfad21d803962964bbbd3f0161e30a14077dd6d",
+    "previous_median_fps": 2522.1210499039244,
+    "median_fps": 2569.3231588135723,
+    "change_percent": 1.8715243232058976,
+    "renderer": "VULKAN",
+    "repeats": 1,
+    "status": "PASS_WITH_RECORDED_LIMITS",
+    "official_updated_version": "1.20.4+1.20.1-forge",
+    "official_updated_sha256": "1613b3ad057d2d0bc1955e7d35fdcaac9583fc780840f5c3c74ccddc232f6825",
+    "latest_native_capability": {
+      "version": "1.20.4+1.20.1-forge",
+      "official_sha512_verified": true,
+      "sha256": "1613b3ad057d2d0bc1955e7d35fdcaac9583fc780840f5c3c74ccddc232f6825",
+      "native_runs": 3,
+      "original_recipe_error_absent": true,
+      "complete_guide_feature_parity_accepted": false,
+      "original_private_files_preserved": true,
+      "scope": "Latest official version alone; no startup addon installed. Create temporarily disabled and restored after these scoped native tests."
+    },
+    "effective_trial_dirs": [
+      "016-fieldguide-latest-native/01-cumulative",
+      "016-fieldguide-latest-native/02-cumulative",
+      "016-fieldguide-latest-native/03-cumulative"
+    ]
+  },
+  {
+    "stage": "017-create",
+    "file": "create-1.20.1-6.0.8.jar",
+    "mod_ids": [
+      "create"
+    ],
+    "original_sha256": "6fbb910c367dbce8e4fc7e5bf64b6edd4de980906ed00af8e47e4af843c0d9b0",
+    "installed_sha256": "6fbb910c367dbce8e4fc7e5bf64b6edd4de980906ed00af8e47e4af843c0d9b0",
+    "previous_median_fps": 2569.3231588135723,
+    "median_fps": 498.9907204359032,
+    "change_percent": -80.57890387496758,
+    "renderer": "OPENGL_FALLBACK",
+    "repeats": 1,
+    "status": "RENDERER_TRANSITION_REQUIRES_COMPATIBILITY_WORK"
   }
 ]
