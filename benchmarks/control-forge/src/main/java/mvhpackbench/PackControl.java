@@ -11,10 +11,10 @@ import java.util.*;
 import java.lang.management.*;
 @Mod("mvhpackbench")
 public final class PackControl {
- private long joined,started,last,completed; private boolean initialShot,done; private double[] frames=new double[131072];private int count;private long captureEpoch;
+ private long joined,started,last,completed,lastLoadState; private boolean initialShot,done; private double[] frames=new double[131072];private int count;private long captureEpoch;
  public PackControl(){verifyIsolatedProfile();MinecraftForge.EVENT_BUS.addListener(net.minecraftforge.eventbus.api.EventPriority.NORMAL,false,TickEvent.ClientTickEvent.class,this::tick);MinecraftForge.EVENT_BUS.addListener(net.minecraftforge.eventbus.api.EventPriority.NORMAL,false,TickEvent.RenderTickEvent.class,this::render);System.out.println("[MVH Pack] recorder initialized with explicit event types");}
  private void tick(TickEvent.ClientTickEvent e){
-  if(e.phase!=TickEvent.Phase.END)return;Minecraft mc=Minecraft.getInstance();if(mc.level==null||mc.player==null)return;
+  if(e.phase!=TickEvent.Phase.END)return;Minecraft mc=Minecraft.getInstance();if(joined==0)recordLoadState(mc);if(mc.level==null||mc.player==null)return;
   if(mc.screen instanceof PauseScreen){mc.setScreen(null);mc.mouseHandler.releaseMouse();}
   if(mc.screen!=null)return;SmokeChecks.tick(mc);if(joined==0){joined=System.nanoTime();System.out.println("[MVH Pack] stable scene warmup started");}if(mc.mouseHandler.isMouseGrabbed())mc.mouseHandler.releaseMouse();
   mc.player.setPos(0.5,110.5,0.5);mc.player.setDeltaMovement(0,0,0);mc.player.setYRot(-68.7007f);mc.player.setXRot(9.999512f);mc.player.yRotO=-68.7007f;mc.player.xRotO=9.999512f;
@@ -38,6 +38,11 @@ public final class PackControl {
   try{Files.writeString(mc.gameDirectory.toPath().resolve("mvh-pack-fps.json"),new GsonBuilder().setPrettyPrinting().create().toJson(o));}catch(java.io.IOException ex){throw new java.io.UncheckedIOException(ex);}
   Screenshot.grab(mc.gameDirectory,mc.getMainRenderTarget(),c->{});
  }
+ private void recordLoadState(Minecraft mc){
+  long now=System.currentTimeMillis();if(now-lastLoadState<5000)return;lastLoadState=now;
+  JsonObject state=new JsonObject();state.addProperty("epoch_ms",now);state.addProperty("screen_class",mc.screen==null?"none":mc.screen.getClass().getName());state.addProperty("client_level_present",mc.level!=null);state.addProperty("client_player_present",mc.player!=null);state.addProperty("maximum_heap_mib",Runtime.getRuntime().maxMemory()/1048576L);
+  try{Files.writeString(mc.gameDirectory.toPath().resolve("mvh-load-state.json"),state.toString());}catch(java.io.IOException e){throw new java.io.UncheckedIOException(e);}
+ }
  private static void verifyIsolatedProfile(){
   var root=Minecraft.getInstance().gameDirectory.toPath();
   boolean owned=false;
@@ -46,8 +51,9 @@ public final class PackControl {
  }
  private static void recordRenderer(JsonObject o){
   try{
-   boolean vulkan=(Boolean)Class.forName("net.vulkanmod.compat.UniversalRendererGate").getMethod("vulkanRendererEnabled").invoke(null);
-   o.addProperty("api_renderer",vulkan?"VULKAN":"OPENGL_FALLBACK");
+   boolean vulkan=false;boolean hasHari=true;
+   try{vulkan=(Boolean)Class.forName("net.vulkanmod.compat.UniversalRendererGate").getMethod("vulkanRendererEnabled").invoke(null);}catch(ClassNotFoundException absent){hasHari=false;}
+   o.addProperty("api_renderer",vulkan?"VULKAN":(hasHari?"OPENGL_FALLBACK":"OPENGL"));
    if(vulkan){o.addProperty("gl_vendor","not queried in a native Vulkan session");o.addProperty("gl_renderer","not queried in a native Vulkan session");o.addProperty("gl_version","not queried in a native Vulkan session");}
    else{
     var query=Class.forName("org.lwjgl.opengl.GL11").getMethod("glGetString",int.class);

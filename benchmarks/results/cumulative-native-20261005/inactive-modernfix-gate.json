@@ -1,0 +1,66 @@
+{
+  "passed": true,
+  "scope": "Actual production gate and pinned JAR scans; modeled effective ModernFix state, repeated cache reuse, active/unknown/tampered negative controls. Native gameplay is separate.",
+  "cases": [
+    {
+      "version": "5.27.85+mc1.20.1",
+      "case": "disabled",
+      "expected_vulkan": true,
+      "output": "[Hari/Vulkan] renderer=VULKAN reason=all active discovered direct OpenGL calls are translated; pinned inactive ModernFix class audited\nREASON=all active discovered direct OpenGL calls are translated; pinned inactive ModernFix class audited"
+    },
+    {
+      "version": "5.27.85+mc1.20.1",
+      "case": "enabled",
+      "expected_vulkan": false,
+      "output": "[Hari/Vulkan] renderer=OPENGL_FALLBACK reason=untranslated OpenGL call(s): GL#createCapabilities()Lorg/lwjgl/opengl/GLCapabilities;@modernfix-forge-5.27.85+mc1.20.1.jar,GL#setCapabilities(Lorg/lwjgl/opengl/GLCapabilities;)V@modernfix-forge-5.27.85+mc1.20.1.jar\nREASON=untranslated OpenGL call(s): GL#createCapabilities()Lorg/lwjgl/opengl/GLCapabilities;@modernfix-forge-5.27.85+mc1.20.1.jar,GL#setCapabilities(Lorg/lwjgl/opengl/GLCapabilities;)V@modernfix-forge-5.27.85+mc1.20.1.jar"
+    },
+    {
+      "version": "5.27.85+mc1.20.1",
+      "case": "unknown",
+      "expected_vulkan": false,
+      "output": "[Hari/Vulkan] renderer=OPENGL_FALLBACK reason=untranslated OpenGL call(s): GL#createCapabilities()Lorg/lwjgl/opengl/GLCapabilities;@modernfix-forge-5.27.85+mc1.20.1.jar,GL#setCapabilities(Lorg/lwjgl/opengl/GLCapabilities;)V@modernfix-forge-5.27.85+mc1.20.1.jar\nREASON=untranslated OpenGL call(s): GL#createCapabilities()Lorg/lwjgl/opengl/GLCapabilities;@modernfix-forge-5.27.85+mc1.20.1.jar,GL#setCapabilities(Lorg/lwjgl/opengl/GLCapabilities;)V@modernfix-forge-5.27.85+mc1.20.1.jar"
+    },
+    {
+      "version": "5.27.85+mc1.20.1",
+      "case": "disabled-again",
+      "expected_vulkan": true,
+      "output": "[Hari/Vulkan] renderer=VULKAN reason=all active discovered direct OpenGL calls are translated; pinned inactive ModernFix class audited\nREASON=all active discovered direct OpenGL calls are translated; pinned inactive ModernFix class audited"
+    },
+    {
+      "version": "5.27.85+mc1.20.1",
+      "case": "modified-input-same-size-time",
+      "expected_vulkan": false,
+      "output": "[Hari/Vulkan] renderer=OPENGL_FALLBACK reason=untranslated OpenGL call(s): GL#createCapabilities()Lorg/lwjgl/opengl/GLCapabilities;@modernfix-forge-5.27.85+mc1.20.1.jar,GL#setCapabilities(Lorg/lwjgl/opengl/GLCapabilities;)V@modernfix-forge-5.27.85+mc1.20.1.jar\nREASON=untranslated OpenGL call(s): GL#createCapabilities()Lorg/lwjgl/opengl/GLCapabilities;@modernfix-forge-5.27.85+mc1.20.1.jar,GL#setCapabilities(Lorg/lwjgl/opengl/GLCapabilities;)V@modernfix-forge-5.27.85+mc1.20.1.jar"
+    },
+    {
+      "version": "5.27.83+mc1.20.1",
+      "case": "disabled",
+      "expected_vulkan": true,
+      "output": "[Hari/Vulkan] renderer=VULKAN reason=all active discovered direct OpenGL calls are translated; pinned inactive ModernFix class audited\nREASON=all active discovered direct OpenGL calls are translated; pinned inactive ModernFix class audited"
+    },
+    {
+      "version": "5.27.83+mc1.20.1",
+      "case": "enabled",
+      "expected_vulkan": false,
+      "output": "[Hari/Vulkan] renderer=OPENGL_FALLBACK reason=untranslated OpenGL call(s): GL#createCapabilities()Lorg/lwjgl/opengl/GLCapabilities;@modernfix-forge-5.27.83+mc1.20.1.jar,GL#setCapabilities(Lorg/lwjgl/opengl/GLCapabilities;)V@modernfix-forge-5.27.83+mc1.20.1.jar\nREASON=untranslated OpenGL call(s): GL#createCapabilities()Lorg/lwjgl/opengl/GLCapabilities;@modernfix-forge-5.27.83+mc1.20.1.jar,GL#setCapabilities(Lorg/lwjgl/opengl/GLCapabilities;)V@modernfix-forge-5.27.83+mc1.20.1.jar"
+    },
+    {
+      "version": "5.27.83+mc1.20.1",
+      "case": "unknown",
+      "expected_vulkan": false,
+      "output": "[Hari/Vulkan] renderer=OPENGL_FALLBACK reason=untranslated OpenGL call(s): GL#createCapabilities()Lorg/lwjgl/opengl/GLCapabilities;@modernfix-forge-5.27.83+mc1.20.1.jar,GL#setCapabilities(Lorg/lwjgl/opengl/GLCapabilities;)V@modernfix-forge-5.27.83+mc1.20.1.jar\nREASON=untranslated OpenGL call(s): GL#createCapabilities()Lorg/lwjgl/opengl/GLCapabilities;@modernfix-forge-5.27.83+mc1.20.1.jar,GL#setCapabilities(Lorg/lwjgl/opengl/GLCapabilities;)V@modernfix-forge-5.27.83+mc1.20.1.jar"
+    },
+    {
+      "version": "5.27.83+mc1.20.1",
+      "case": "disabled-again",
+      "expected_vulkan": true,
+      "output": "[Hari/Vulkan] renderer=VULKAN reason=all active discovered direct OpenGL calls are translated; pinned inactive ModernFix class audited\nREASON=all active discovered direct OpenGL calls are translated; pinned inactive ModernFix class audited"
+    },
+    {
+      "version": "5.27.83+mc1.20.1",
+      "case": "modified-input-same-size-time",
+      "expected_vulkan": false,
+      "output": "[Hari/Vulkan] renderer=OPENGL_FALLBACK reason=untranslated OpenGL call(s): GL#createCapabilities()Lorg/lwjgl/opengl/GLCapabilities;@modernfix-forge-5.27.83+mc1.20.1.jar,GL#setCapabilities(Lorg/lwjgl/opengl/GLCapabilities;)V@modernfix-forge-5.27.83+mc1.20.1.jar\nREASON=untranslated OpenGL call(s): GL#createCapabilities()Lorg/lwjgl/opengl/GLCapabilities;@modernfix-forge-5.27.83+mc1.20.1.jar,GL#setCapabilities(Lorg/lwjgl/opengl/GLCapabilities;)V@modernfix-forge-5.27.83+mc1.20.1.jar"
+    }
+  ]
+}

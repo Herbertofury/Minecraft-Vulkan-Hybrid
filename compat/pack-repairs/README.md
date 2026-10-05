@@ -10,3 +10,12 @@ python compat/pack-repairs/repair.py models "PATH/TO/create-automotives-1.20.1-V
 ```
 
 The generated manifests record changed entries and hashes. Disable the corresponding original only in a backed-up test instance before using its replacement. Both repairs were used in the baseline and candidate to keep the comparison playable and matched.
+
+The private resource overlay adds eight byte-identical Midnight sign texture aliases, including the original `dark_wilow.png` spelling, and moves two Mowzie Grottol JSON comments out of the texture map. It preserves all original texture pixels, model properties, UVs and geometry. Only the public generator is committed; generated copyrighted assets remain private. The overlay includes Minecraft 1.20.1 `pack.mcmeta` format 15, a change manifest and attribution.
+
+```powershell
+python compat/pack-repairs/resource_pack.py "PATH/TO/midnight-custom-original.jar" "PATH/TO/mowziesmobs-1.8.2.jar" "PRIVATE/NEW/Hari-Noxviola-Resource-Repairs-1.0.0.zip"
+python tools/verify_pack_metadata.py "PRIVATE/NEW/Hari-Noxviola-Resource-Repairs-1.0.0.zip"
+```
+
+Generation verifies whole-JAR hashes, exact PNG bytes/dimensions, reversal of the JSON comment relocation, every written ZIP entry and unchanged sources. Asset correctness and pack metadata pass locally. Actual resource reload and visual validation with the affected mods remain required before promotion.

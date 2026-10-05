@@ -38,6 +38,8 @@ jobs:
           java -ea -cp qa-out/dimensions OwnershipRegression
           python integration/dimensions/tests/test_waiter.py ../hari-integrated-ci --report qa-out/dimension-waiter.json
           python integration/dimensions/tests/test_mts_removal.py --report qa-out/mts-removal.json
+      - name: Verify inactive ModernFix GL audit and cache invalidation
+        run: python integration/dimensions/tests/test_inactive_modernfix.py --report qa-out/inactive-modernfix-gate.json
       - name: Build optional OpenGL texture compatibility mod
         run: ./source/gradlew -p compat/opengl-texture-lookup build --no-daemon --max-workers=4
       - name: Verify texture lookup ownership and original failure propagation
