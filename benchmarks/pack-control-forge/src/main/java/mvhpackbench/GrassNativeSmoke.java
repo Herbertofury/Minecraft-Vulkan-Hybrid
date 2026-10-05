@@ -20,6 +20,9 @@ final class GrassNativeSmoke {
     private static long started,phaseStarted;
     private static int step;
     private static float phase;
+    private static Integer originalFov;
+    private static long capturesBeforeFov;
+    private static final JsonObject fovEvidence=new JsonObject();
     private static boolean written;
     private static String renderer="UNKNOWN";
     private static CompletableFuture<Void> reload;
@@ -59,12 +62,15 @@ final class GrassNativeSmoke {
             if(step==2&&ground.get()!=null&&seconds>=10&&meshCount()>0){
                 peakMeshes=meshCount();phase=animationPhase();checks.add("original_native_grass_meshes_and_shader_available");
                 snapshot(mc,"grass_ground_scene");
-                shot(mc);phaseStarted=System.nanoTime();step=3;
+                shot(mc);originalFov=mc.options.fov().get();capturesBeforeFov=visibilityCaptures();fovEvidence.addProperty("original_degrees",originalFov);fovEvidence.addProperty("test_degrees",110);fovEvidence.addProperty("captures_before",capturesBeforeFov);mc.options.fov().set(110);phaseStarted=System.nanoTime();step=3;
                 return;
             }
             if(step==3&&seconds>=4){
                 float next=animationPhase();if(!Float.isFinite(next)||Float.floatToRawIntBits(next)==Float.floatToRawIntBits(phase))throw new IllegalStateException("Animation phase did not advance");
                 checks.add("original_animation_phase_advanced");shot(mc);mc.options.keyUp.setDown(true);phaseStarted=System.nanoTime();step=4;
+                long capturesAfterFov=visibilityCaptures();fovEvidence.addProperty("captures_after",capturesAfterFov);
+                if(capturesAfterFov<=capturesBeforeFov)throw new IllegalStateException("Stationary FOV change did not refresh native visibility");
+                checks.add("native_visibility_updated_after_stationary_fov_change");mc.options.fov().set(originalFov);
                 return;
             }
             if(step==4){
@@ -119,14 +125,20 @@ final class GrassNativeSmoke {
         state.addProperty("native_terrain_tasks_idle",(Boolean)tasks.getClass().getMethod("isIdle").invoke(tasks));
         cacheSnapshots.add(state);
     }
+    private static long visibilityCaptures() throws Exception {
+        var type=Class.forName("net.vulkanmod.render.chunk.WorldRenderer");var renderer=type.getMethod("getInstance").invoke(null);
+        var field=type.getDeclaredField("visibilityState");field.setAccessible(true);var state=field.get(renderer);
+        return (Long)state.getClass().getMethod("captures").invoke(state);
+    }
     private static void shot(Minecraft mc){Screenshot.grab(mc.gameDirectory,mc.getMainRenderTarget(),c->{});}
     private static void server(Minecraft mc,java.util.function.Consumer<ServerPlayer> action){mc.getSingleplayerServer().execute(()->{try{action.accept(mc.getSingleplayerServer().getPlayerList().getPlayers().get(0));}catch(Throwable e){failure.compareAndSet(null,e);}});}
     private static void finish(Minecraft mc,Throwable error){
-        if(written)return;written=true;mc.options.keyUp.setDown(false);
+        if(written)return;written=true;mc.options.keyUp.setDown(false);if(originalFov!=null)mc.options.fov().set(originalFov);
         try{if(mc.level!=null&&mc.player!=null)snapshot(mc,"finish");}catch(Exception ignored){}
         JsonObject report=new JsonObject();report.addProperty("completed",step==7);report.addProperty("passed",step==7&&error==null);report.addProperty("api_renderer",renderer);report.addProperty("step",step);report.addProperty("error_type",error==null?"":error.getClass().getName());report.addProperty("peak_original_meshes",peakMeshes);report.addProperty("peak_original_active_trail_cells",peakTrailCells);report.addProperty("scope","Resource reload, original animation state, real client movement/trail state and dimension roundtrip; screenshots require visual review; no FPS or all-style/shader-provider parity acceptance");
         JsonArray passed=new JsonArray();synchronized(checks){checks.forEach(passed::add);}report.add("checks",passed);
         report.add("cache_snapshots",cacheSnapshots);
+        report.add("fov_evidence",fovEvidence);
         try{Files.writeString(mc.gameDirectory.toPath().resolve("mvh-grass-native-smoke.json"),new GsonBuilder().setPrettyPrinting().create().toJson(report));}catch(Exception e){throw new IllegalStateException("Unable to retain grass smoke report",e);}
         if(error!=null)error.printStackTrace();System.out.println("[MVH Grass Smoke] "+report);mc.stop();
     }

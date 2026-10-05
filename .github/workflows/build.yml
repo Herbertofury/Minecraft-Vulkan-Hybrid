@@ -42,6 +42,8 @@ jobs:
         run: python integration/dimensions/tests/test_palette_monitor.py --report qa-out/palette-monitor.json
       - name: Verify retained native rebuild scheduling and original failure identity
         run: python integration/dimensions/tests/test_pending_rebuilds.py --report qa-out/pending-rebuilds.json
+      - name: Verify exact frustum projection and visibility mode changes
+        run: python integration/dimensions/tests/test_frustum_visibility.py --report qa-out/frustum-visibility.json
       - name: Verify inactive ModernFix GL audit and cache invalidation
         run: python integration/dimensions/tests/test_inactive_modernfix.py --report qa-out/inactive-modernfix-gate.json
       - name: Verify optional vertex-memory repair against the pinned original API

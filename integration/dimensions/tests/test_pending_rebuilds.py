@@ -15,7 +15,8 @@ body=method('private void scheduleRebuilds()')
 continuation=method('public void continuePendingRebuilds()')
 queue=(I/'overlay/forge/src/main/java/net/vulkanmod/render/chunk/util/ResettableQueue.java').read_text()
 world=(I/'overlay/forge/src/main/java/net/vulkanmod/render/chunk/WorldRenderer.java').read_text()
-assert 'this.sectionGraph.update(camera, frustum, spectator);\n            } else {\n                this.sectionGraph.continuePendingRebuilds();' in world
+assert 'this.sectionGraph.update(camera, frustum, spectator);' in world
+assert '} else {\n                this.sectionGraph.continuePendingRebuilds();' in world
 prefix='''import java.util.*;import net.vulkanmod.render.chunk.util.ResettableQueue;
 public class PendingProbe {
  final ResettableQueue<RenderSection> rebuildQueue=new ResettableQueue<>();

@@ -179,10 +179,10 @@
     "change_percent": -87.26892522867621,
     "renderer": "OPENGL_FALLBACK",
     "repeats": 1,
-    "status": "NATIVE_TARGET_SHORTFALL_REQUIRES_OPTIMIZATION",
+    "status": "PASS_WITH_RECORDED_LIMITS",
     "previous_attempt_status": "RENDERER_TRANSITION_REQUIRES_COMPATIBILITY_WORK",
     "effective_run_stage": "011-grassiergrass-native-compat-v9",
-    "native_visible_grass_fps": 1221.1916226254532,
+    "native_visible_grass_fps": 2529.276452436198,
     "native_renderer": "VULKAN",
     "extended_feature_parity_accepted": false,
     "rejected_fast_captures": ".7/.8 omit grass geometry and cannot establish target capability",
@@ -192,12 +192,24 @@
       "native_client_resource_reload",
       "original_native_grass_meshes_and_shader_available",
       "original_animation_phase_advanced",
+      "native_visibility_updated_after_stationary_fov_change",
       "client_movement_stamped_original_trail_field",
       "client_entered_native_nether",
       "native_overworld_grass_rebuilt_after_roundtrip"
     ],
     "native_invalidation_median_fps": 1845.636213669173,
     "native_invalidation_incremental_gain_percent": 12.57770181818396,
-    "current_grass_addon": "1.0.3"
+    "current_grass_addon": "1.0.3",
+    "effective_trial_dirs": [
+      "011-grass-fov-native-capability-v11/01-cumulative",
+      "011-grass-fov-native-capability-v11/02-cumulative",
+      "011-grass-fov-native-capability-v11/03-cumulative"
+    ],
+    "latest_reference_median_fps": 2529.276452436198,
+    "latest_reference_renderer": "VULKAN",
+    "current_hari": ".11",
+    "native_terrain_gain_percent": 40.19246269246699,
+    "scoped_native_target_reached": true,
+    "scope": "Native subset with original grass and seven bounded checks; complete pack, active shader provider, all styles and no-hitch acceptance remain pending"
   }
 ]

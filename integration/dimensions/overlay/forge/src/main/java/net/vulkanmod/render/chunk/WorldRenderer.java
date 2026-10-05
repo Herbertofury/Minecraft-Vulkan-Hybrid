@@ -24,6 +24,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import net.vulkanmod.Initializer;
+import net.vulkanmod.interfaces.FrustumMixed;
+import net.vulkanmod.render.chunk.frustum.FrustumVisibilityState;
 import net.vulkanmod.render.PipelineManager;
 import net.vulkanmod.render.chunk.buffer.DrawBuffers;
 import net.vulkanmod.render.chunk.build.BlockRenderer;
@@ -73,6 +75,7 @@ public class WorldRenderer {
 
     private SectionGraph sectionGraph;
     private boolean graphNeedsUpdate;
+    private final FrustumVisibilityState visibilityState = new FrustumVisibilityState();
 
     private final Set<BlockEntity> globalBlockEntities = Sets.newHashSet();
 
@@ -184,6 +187,8 @@ public class WorldRenderer {
 
         cameraMoved |= cameraX != this.lastCameraX || cameraY != this.lastCameraY || cameraZ != this.lastCameraZ;
         this.graphNeedsUpdate |= cameraMoved;
+        VFrustum nativeFrustum = ((FrustumMixed) frustum).customFrustum();
+        this.graphNeedsUpdate |= !nativeFrustum.matchesVisibilityState(this.visibilityState, this.minecraft.smartCull, spectator);
 
         if (!isCapturedFrustum) {
             //Debug
@@ -198,6 +203,7 @@ public class WorldRenderer {
                 this.lastCamRotY = camera.getYRot();
 
                 this.sectionGraph.update(camera, frustum, spectator);
+                nativeFrustum.captureVisibilityState(this.visibilityState, this.minecraft.smartCull, spectator);
             } else {
                 this.sectionGraph.continuePendingRebuilds();
             }
@@ -243,6 +249,7 @@ public class WorldRenderer {
     }
 
     public void allChanged() {
+        this.visibilityState.invalidate();
         if (this.level != null) {
 //            this.graphicsChanged();
             this.level.clearTintCaches();

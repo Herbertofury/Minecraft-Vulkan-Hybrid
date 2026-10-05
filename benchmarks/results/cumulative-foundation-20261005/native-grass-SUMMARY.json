@@ -390,6 +390,102 @@
       "median_fps": 1845.636213669173
     },
     {
+      "stage": "grass-terrain-native-01-v9",
+      "captures": [
+        {
+          "trial": "01-cumulative",
+          "average_fps": 1857.6819123704906,
+          "one_percent_low_fps": 481.3030996782174,
+          "p95_ms": 0.5989,
+          "p99_ms": 1.9526,
+          "max_ms": 4.005,
+          "api_renderer": "VULKAN",
+          "assessment": "NATIVE_VISIBLE_GRASS_TARGET_SHORTFALL_REQUIRES_OPTIMIZATION"
+        }
+      ],
+      "median_fps": 1857.6819123704906
+    },
+    {
+      "stage": "grass-terrain-native-02-v10",
+      "captures": [
+        {
+          "trial": "01-cumulative",
+          "average_fps": 2625.6417405743996,
+          "one_percent_low_fps": 616.7549142765458,
+          "p95_ms": 0.4506,
+          "p99_ms": 0.7233,
+          "max_ms": 3.3978,
+          "api_renderer": "VULKAN",
+          "assessment": "SCOPED_NATIVE_CAPABILITY_FULL_FEATURE_ACCEPTANCE_PENDING"
+        }
+      ],
+      "median_fps": 2625.6417405743996
+    },
+    {
+      "stage": "grass-terrain-native-03-v10",
+      "captures": [
+        {
+          "trial": "01-cumulative",
+          "average_fps": 2617.0926459696084,
+          "one_percent_low_fps": 620.4359280711099,
+          "p95_ms": 0.4513,
+          "p99_ms": 0.734,
+          "max_ms": 3.37,
+          "api_renderer": "VULKAN",
+          "assessment": "SCOPED_NATIVE_CAPABILITY_FULL_FEATURE_ACCEPTANCE_PENDING"
+        }
+      ],
+      "median_fps": 2617.0926459696084
+    },
+    {
+      "stage": "grass-terrain-native-04-v9",
+      "captures": [
+        {
+          "trial": "01-cumulative",
+          "average_fps": 1866.7855573024565,
+          "one_percent_low_fps": 490.5794320244477,
+          "p95_ms": 0.6093,
+          "p99_ms": 1.9118,
+          "max_ms": 2.882,
+          "api_renderer": "VULKAN",
+          "assessment": "NATIVE_VISIBLE_GRASS_TARGET_SHORTFALL_REQUIRES_OPTIMIZATION"
+        }
+      ],
+      "median_fps": 1866.7855573024565
+    },
+    {
+      "stage": "grass-terrain-native-05-v9",
+      "captures": [
+        {
+          "trial": "01-cumulative",
+          "average_fps": 1879.0585616607575,
+          "one_percent_low_fps": 516.725790846991,
+          "p95_ms": 0.593,
+          "p99_ms": 1.8432,
+          "max_ms": 2.897,
+          "api_renderer": "VULKAN",
+          "assessment": "NATIVE_VISIBLE_GRASS_TARGET_SHORTFALL_REQUIRES_OPTIMIZATION"
+        }
+      ],
+      "median_fps": 1879.0585616607575
+    },
+    {
+      "stage": "grass-terrain-native-06-v10",
+      "captures": [
+        {
+          "trial": "01-cumulative",
+          "average_fps": 2597.749729338433,
+          "one_percent_low_fps": 599.6285531739446,
+          "p95_ms": 0.4575,
+          "p99_ms": 0.7473,
+          "max_ms": 2.5956,
+          "api_renderer": "VULKAN",
+          "assessment": "SCOPED_NATIVE_CAPABILITY_FULL_FEATURE_ACCEPTANCE_PENDING"
+        }
+      ],
+      "median_fps": 2597.749729338433
+    },
+    {
       "stage": "011-grass-invalidation-native-probe",
       "captures": [
         {
@@ -420,6 +516,78 @@
         }
       ],
       "median_fps": 2423.9134330041225
+    },
+    {
+      "stage": "minimal-native-v10-capability",
+      "captures": [
+        {
+          "trial": "01-cumulative",
+          "average_fps": 4293.837311132222,
+          "one_percent_low_fps": 902.8525728601676,
+          "p95_ms": 0.2954,
+          "p99_ms": 0.4571,
+          "max_ms": 3.3194,
+          "api_renderer": "VULKAN",
+          "assessment": "SCOPED_NATIVE_CAPABILITY_FULL_FEATURE_ACCEPTANCE_PENDING"
+        },
+        {
+          "trial": "02-cumulative",
+          "average_fps": 4456.730926698734,
+          "one_percent_low_fps": 977.581099046645,
+          "p95_ms": 0.2829,
+          "p99_ms": 0.4292,
+          "max_ms": 2.1783,
+          "api_renderer": "VULKAN",
+          "assessment": "SCOPED_NATIVE_CAPABILITY_FULL_FEATURE_ACCEPTANCE_PENDING"
+        },
+        {
+          "trial": "03-cumulative",
+          "average_fps": 4451.338059400807,
+          "one_percent_low_fps": 965.6970807757898,
+          "p95_ms": 0.2848,
+          "p99_ms": 0.4348,
+          "max_ms": 7.4189,
+          "api_renderer": "VULKAN",
+          "assessment": "SCOPED_NATIVE_CAPABILITY_FULL_FEATURE_ACCEPTANCE_PENDING"
+        }
+      ],
+      "median_fps": 4451.338059400807
+    },
+    {
+      "stage": "011-grass-fov-native-capability-v11",
+      "captures": [
+        {
+          "trial": "01-cumulative",
+          "average_fps": 2529.276452436198,
+          "one_percent_low_fps": 579.5426042079065,
+          "p95_ms": 0.4622,
+          "p99_ms": 0.7582,
+          "max_ms": 3.5663,
+          "api_renderer": "VULKAN",
+          "assessment": "SCOPED_NATIVE_CAPABILITY_FULL_FEATURE_ACCEPTANCE_PENDING"
+        },
+        {
+          "trial": "02-cumulative",
+          "average_fps": 2590.7628496093703,
+          "one_percent_low_fps": 584.2634863107364,
+          "p95_ms": 0.4547,
+          "p99_ms": 0.7292,
+          "max_ms": 3.5395,
+          "api_renderer": "VULKAN",
+          "assessment": "SCOPED_NATIVE_CAPABILITY_FULL_FEATURE_ACCEPTANCE_PENDING"
+        },
+        {
+          "trial": "03-cumulative",
+          "average_fps": 2502.0354829644543,
+          "one_percent_low_fps": 566.3945659909242,
+          "p95_ms": 0.4649,
+          "p99_ms": 0.7918,
+          "max_ms": 2.3844,
+          "api_renderer": "VULKAN",
+          "assessment": "SCOPED_NATIVE_CAPABILITY_FULL_FEATURE_ACCEPTANCE_PENDING"
+        }
+      ],
+      "median_fps": 2529.276452436198
     }
   ],
   "failed_attempts": [
