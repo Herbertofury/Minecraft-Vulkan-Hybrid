@@ -1,0 +1,49 @@
+{
+  "passed": true,
+  "renderer": "VULKAN",
+  "scope": "Pinned repaired Iris reference compiler produces two explicit position-only/constant-magenta native shaders in a separate Java17/LWJGL3.3.6 process. Exact portable SPIR-V is consumed by the original Hari .13 GraphicsPipeline in actual Minecraft, native vertex buffer/index draw, actual image readback; all1024 pixels match magenta. This is a primitive compiler/GPU handoff, not an installed Oculus/Iris mod or shader pack.",
+  "shader_inputs": [
+    {
+      "stage": "vertex",
+      "source_sha256": "c0de542c64a28f499439da6ecbe135039f80185bc873464bab3526795aa61e53",
+      "portable_spirv_sha256": "722256123b22ca75cb600249d7991e9d25138ec553099053fbe83f81ad51e51c",
+      "portable_spirv_bytes": 636
+    },
+    {
+      "stage": "fragment",
+      "source_sha256": "15f638fe28b80d9df9a4055ac4fec403831dbe0b8002d8eb07b75f4e809d7013",
+      "portable_spirv_sha256": "f88e3f6183a61d199aa355ddd5a2e325d165dc73f4b8cf7f81ccd949cd31d059",
+      "portable_spirv_bytes": 304
+    }
+  ],
+  "actual_gpu_case": {
+    "case": "iris_reference_spirv_actual_native_draw",
+    "matched": true,
+    "compared_pixels": 1024,
+    "mismatched_pixels": 0,
+    "actual_rgba_sha256": "f9d747758d7de51321560d5bdcfe64af0dbd8f16304ba69b7141643c9491469b",
+    "actual_samples_xy_rgba": [
+      [
+        0,
+        0,
+        255,
+        0,
+        255,
+        255
+      ],
+      [
+        16,
+        16,
+        255,
+        0,
+        255,
+        255
+      ]
+    ]
+  },
+  "game_native_libraries_upgraded": false,
+  "game_shader_provider_installed": false,
+  "fps_or_startup_gain_accepted": false,
+  "full_mod_or_shader_pack_accepted": false,
+  "remaining": "Shader-pack transformations, resource binding/layout, uniforms, framebuffer/MRT/images, terrain/shadows/postFX, compute dispatch and complete lifecycle/Forge port; Flywheel135 unsupported references still gate cumulative stage17."
+}

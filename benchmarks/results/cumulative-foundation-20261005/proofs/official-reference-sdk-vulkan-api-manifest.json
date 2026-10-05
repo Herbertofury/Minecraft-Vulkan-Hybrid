@@ -1,0 +1,8 @@
+{
+  "artifact": "lwjgl-vulkan-3.3.6.jar",
+  "official_maven_central_url": "https://repo.maven.apache.org/maven2/org/lwjgl/lwjgl-vulkan/3.3.6/lwjgl-vulkan-3.3.6.jar",
+  "published_sha1_verified": "a403e0931b03b138854bb2ba9c48dab646cba6d8",
+  "sha256": "07501098acdfe784f55f4f5ea2e99e33e89a1d18128ddbcd41571434b5e848e4",
+  "bytes": 7262256,
+  "scope": "Supplementary reference SDK API classes, compiled by javac; no Vulkan GPU call via this SDK. Actual game GPU uses its existing libraries."
+}

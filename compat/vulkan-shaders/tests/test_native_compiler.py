@@ -16,7 +16,7 @@ def fixture(root,compiler,cache):
         p=root/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(body,encoding='utf8');sources.append(str(p))
     return sources
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--reference-source',type=Path);ap.add_argument('--download-reference',action='store_true');ap.add_argument('--lwjgl-classpath',required=True);ap.add_argument('--legacy-lwjgl-classpath');ap.add_argument('--report',type=Path);ap.add_argument('--write-patch',type=Path);a=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument('--reference-source',type=Path);ap.add_argument('--download-reference',action='store_true');ap.add_argument('--lwjgl-classpath',required=True);ap.add_argument('--legacy-lwjgl-classpath');ap.add_argument('--report',type=Path);ap.add_argument('--write-patch',type=Path);ap.add_argument('--export-spv',type=Path);a=ap.parse_args()
     assert bool(a.reference_source)!=a.download_reference
     original=a.reference_source.read_bytes() if a.reference_source else urllib.request.urlopen(URL,timeout=40).read()
     assert hashlib.sha256(original).hexdigest()==SHA,'Pinned compiler changed'
@@ -37,7 +37,8 @@ def main():
             compiled=subprocess.run(['javac','--release','17','-cp',a.lwjgl_classpath,'-d',str(classes),*sources],capture_output=True,text=True)
             assert compiled.returncode==0,(name,compiled.stderr)
             cp=str(classes)+os.pathsep+a.lwjgl_classpath
-            first=subprocess.run(['java','-ea','-cp',cp,'NativeCompilerProbe'],capture_output=True,text=True,timeout=60)
+            export=[str(a.export_spv.resolve())] if name=='repaired' and a.export_spv else []
+            first=subprocess.run(['java','-ea','-cp',cp,'NativeCompilerProbe',*export],capture_output=True,text=True,timeout=60)
             second=subprocess.run(['java','-ea','-cp',cp,'net.irisshaders.iris.vulkan.shader.NativeCacheProbe'],capture_output=True,text=True,timeout=30)
             passed=first.returncode==0 and second.returncode==0
             assert passed==expected,(name,first.stdout,first.stderr,second.stdout,second.stderr)
