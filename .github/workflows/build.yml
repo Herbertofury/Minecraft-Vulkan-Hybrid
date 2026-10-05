@@ -66,13 +66,16 @@ jobs:
             python minecraft/async-1.20.1-ultimate/test_${suite}.py source --report qa-out/${suite}.json
           done
           python minecraft/async-1.20.1-ultimate/test_task_failures.py source/common/src/main/java/com/axalotl/async/common/TaskFailures.java --report qa-out/task_failures.json
+      - name: Collect integrated artifact inside the workspace
+        run: |
+          mkdir -p qa-out/artifacts
+          cp ../hari-integrated-ci/forge/build/libs/*-all.jar qa-out/artifacts/
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: source-build-and-focused-proof
           path: |
             source/forge/build/libs/*-all.jar
-            ../hari-integrated-ci/forge/build/libs/*-all.jar
             compat/opengl-texture-lookup/build/libs/*.jar
             compat/fieldguide-query-split/build/libs/*.jar
             benchmarks/control-forge/build/libs/*.jar
