@@ -93,7 +93,7 @@ public class VulkanImage {
     public static VulkanImage createDepthImage(int format, int width, int height, int usage, boolean blur, boolean clamp) {
         VulkanImage image = VulkanImage.builder(width, height)
                 .setFormat(format)
-                .setUsage(usage)
+                .setUsage(usage | VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT)
                 .setLinearFiltering(blur)
                 .setClamp(clamp)
                 .createVulkanImage();
@@ -405,6 +405,8 @@ public class VulkanImage {
         this.id = 0L;
         this.allocation = 0L;
     }
+
+    public boolean hasUsage(int flags) { return (usage & flags) == flags; }
 
     public int getCurrentLayout() {
         return currentLayout;

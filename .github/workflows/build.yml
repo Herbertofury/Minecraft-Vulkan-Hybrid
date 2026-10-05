@@ -31,6 +31,16 @@ jobs:
         run: |
           python integration/dimensions/assemble.py ../hari-integrated-ci
           ./source/gradlew -p ../hari-integrated-ci :forge:build --no-daemon --max-workers=4
+      - name: Fetch exact official Flywheel API and build native engine library
+        run: |
+          python compat/native-flywheel-backend/download_reference.py qa-out/references/flywheel-forge-1.20.1-1.0.5.jar
+          mvh_hari_reference=$(find "$GITHUB_WORKSPACE/../hari-integrated-ci/forge/build/libs" -maxdepth 1 -name '*-all.jar' -print -quit)
+          test -f "$mvh_hari_reference"
+          ./source/gradlew -p compat/native-flywheel-backend build "-PmvhHariReference=$mvh_hari_reference" "-PmvhFlywheelReference=$GITHUB_WORKSPACE/qa-out/references/flywheel-forge-1.20.1-1.0.5.jar" --no-daemon --max-workers=4
+      - name: Verify native framebuffer affine clipping and behavior mutations
+        run: python integration/dimensions/tests/test_framebuffer_blit.py --report qa-out/framebuffer-blit-axis.json
+      - name: Verify immutable native light snapshots and fence-owned retirement
+        run: python compat/native-flywheel-backend/tests/test_light_snapshot.py --report qa-out/native-light-snapshot.json
       - name: Verify dimension ownership, failures and queue boundaries
         run: |
           mkdir -p qa-out/dimensions
@@ -116,7 +126,7 @@ jobs:
           test -f "$mvh_hari_reference"
           ./source/gradlew -p benchmarks/pack-control-forge build "-PmvhHariReference=$mvh_hari_reference" --no-daemon --max-workers=4
       - name: Verify packaged Minecraft resource metadata
-        run: python tools/verify_pack_metadata.py 'source/forge/build/libs/*-all.jar' '../hari-integrated-ci/forge/build/libs/*-all.jar' 'compat/opengl-texture-lookup/build/libs/*.jar' 'compat/fieldguide-query-split/build/libs/*.jar' 'benchmarks/control-forge/build/libs/*.jar' 'benchmarks/pack-control-forge/build/libs/*.jar' 'compat/grass-distance-sort/build/libs/*.jar' 'compat/trender-scissor/build/libs/*.jar'
+        run: python tools/verify_pack_metadata.py 'source/forge/build/libs/*-all.jar' '../hari-integrated-ci/forge/build/libs/*-all.jar' 'compat/opengl-texture-lookup/build/libs/*.jar' 'compat/fieldguide-query-split/build/libs/*.jar' 'benchmarks/control-forge/build/libs/*.jar' 'benchmarks/pack-control-forge/build/libs/*.jar' 'compat/grass-distance-sort/build/libs/*.jar' 'compat/trender-scissor/build/libs/*.jar' 'compat/native-flywheel-backend/build/libs/*.jar'
       - name: Run portable production regressions
         run: |
           set -euo pipefail
@@ -141,6 +151,7 @@ jobs:
             benchmarks/pack-control-forge/build/libs/*.jar
             compat/grass-distance-sort/build/libs/*.jar
             compat/trender-scissor/build/libs/*.jar
+            compat/native-flywheel-backend/build/libs/*.jar
             qa-out/
             LICENSE
             compat/native-flywheel/FLYWHEEL-LICENSE-MIT.txt
