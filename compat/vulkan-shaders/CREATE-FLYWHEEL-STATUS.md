@@ -14,3 +14,13 @@ Checked 2026-10-05 against primary sources:
 These sources are inspected as references; no third-party executable/build is run. Original Create and personal Noxviola remain unchanged. A functioning port and actual machine/contraption/Ponder/blueprint/shader scenes are still required before feature/FPS acceptance.
 
 The native `.13` stencil pipeline and exact Ponder bridge now pass actual GPU readback, including the original component default-method lifecycle. [Repair/evidence](../ponder-stencil/README.md) describes the bounded scope and resource-format correction. The private repaired Create byte scan retains135 untranslated Flywheel references across116 APIs, so cumulative stage17 remains unresolved. No complete machine, contraption, blueprint or shader-pack result is accepted.
+
+## Native cull and indirect component
+
+Hari `.15` now ships a working native compute/storage/indexed-instancing batch. Actual Minecraft runs the pinned original Flywheel cull/apply/transformed shader components against original Create shaft JSON/textures. All seven complete24,576-pixel comparisons pass; nonzero first instance,live pose/tint/light,compacted targets,frustum and sampled-depth rejection are checked. Original owned mods are SHA256-restored. [Implementation and exact scope](../native-flywheel/README.md), [GPU/compiler proof](../../benchmarks/results/cumulative-foundation-20261005/proofs/flywheel-native-cull-gpu-summary.json).
+
+The Java OpenGL backend,complete materials/light/depth-pyramid/OIT and active Forge shader provider still require integration. Original Create still selects the guarded OpenGL fallback; the135/116 repaired-bytecode inventory was not force-approved. No full native Create/Ponder/contraption/blueprint/active shaderpack/FPS acceptance follows from the component.
+
+## Native Ponder and original shaft composition
+
+Hari `.16` combines original Ponder default stencil methods with original Create shaft content through the real native Flywheel batch. Two complete image clips match independent CPU crops and cleanup restores unclipped output. All ten native GPU cases pass with original owned SHA256 restoration. [Implementation and limits](../native-flywheel/README.md), [exact proof](../../benchmarks/results/cumulative-foundation-20261005/proofs/flywheel-ponder-native-gpu-summary.json). This does not load the complete Create/Flywheel/Ponder entrypoints or bypass135/116 remaining untranslated static references. Full backend/provider integration remains ordinary code work.

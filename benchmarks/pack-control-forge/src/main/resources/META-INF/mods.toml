@@ -3,7 +3,7 @@ loaderVersion="[47,)"
 license="GPL-3.0-only"
 [[mods]]
 modId="mvhpackbench"
-version="1.0.17"
+version="1.0.22"
 displayName="MVH isolated Noxviola benchmark control"
 description="Same standalone all-frame recorder and locked camera in baseline/candidate; only for isolated tests."
 [[dependencies.mvhpackbench]]

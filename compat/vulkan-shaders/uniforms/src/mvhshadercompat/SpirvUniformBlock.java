@@ -21,13 +21,23 @@ public final class SpirvUniformBlock {
     private record Member(int type,int ordinal) {}
     private static final int MAX_BYTES=16*1024*1024, MAX_IDS=1_000_000;
     private final List<Field> fields;
+    private final List<List<Integer>> paths;
     private final int bytes;
-    private SpirvUniformBlock(List<Field> fields,int bytes) {this.fields=List.copyOf(fields);this.bytes=bytes;}
+    private SpirvUniformBlock(List<Field> fields,List<List<Integer>> paths,int bytes) {this.fields=List.copyOf(fields);this.paths=List.copyOf(paths);this.bytes=bytes;}
     public List<Field> fields(){return fields;}
     public int bytes(){return bytes;}
     public ByteBuffer allocate(){return ByteBuffer.allocateDirect(bytes).order(ByteOrder.LITTLE_ENDIAN);}
+    public List<Integer> memberPath(int ordinal){return paths.get(ordinal);}
+    public int fieldOrdinal(int... path){List<Integer> p=Arrays.stream(path).boxed().toList();int i=paths.indexOf(p);require(i>=0,"Unknown structured member path");return i;}
 
     public static SpirvUniformBlock reflect(ByteBuffer module,int descriptorSet,int binding){
+        return reflect(module,descriptorSet,binding,false);
+    }
+    /** Explicit opt-in for bounded static nested structs, addressed by member-index paths. */
+    public static SpirvUniformBlock reflectStructured(ByteBuffer module,int descriptorSet,int binding){
+        return reflect(module,descriptorSet,binding,true);
+    }
+    private static SpirvUniformBlock reflect(ByteBuffer module,int descriptorSet,int binding,boolean structured){
         if(descriptorSet<0||binding<0)throw bad("Negative descriptor identity");
         ByteBuffer source=module.slice().order(ByteOrder.LITTLE_ENDIAN);
         if(source.remaining()<20||source.remaining()>MAX_BYTES||(source.remaining()&3)!=0||source.getInt(0)!=0x07230203)throw bad("Invalid SPIR-V size/header");
@@ -75,11 +85,13 @@ public final class SpirvUniformBlock {
         }
         require(struct!=null,"Uniform descriptor absent");
         Type block=type(types,struct,30);require(block.arguments.length>0&&block.arguments.length<=4096,"Unsupported member count");
+        List<Integer> leafTypes=new ArrayList<>();List<Map<Integer,Integer>> layouts=new ArrayList<>();List<List<Integer>> paths=new ArrayList<>();
+        flatten(struct,0,List.of(),structured,types,members,leafTypes,layouts,paths);
         List<Field> result=new ArrayList<>();int end=0;
-        for(int i=0;i<block.arguments.length;i++){
-            Map<Integer,Integer> d=members.getOrDefault(new Member(struct,i),Map.of());
+        for(int i=0;i<leafTypes.size();i++){
+            Map<Integer,Integer> d=layouts.get(i);
             require(d.containsKey(35)&&d.get(35)>=0&&(d.get(35)&3)==0,"Missing/invalid member Offset");
-            int offset=d.get(35),typeId=block.arguments[i],arrayLength=1,arrayStride=0,matrixStride=0,columns=1,rows=1;
+            int offset=d.get(35),typeId=leafTypes.get(i),arrayLength=1,arrayStride=0,matrixStride=0,columns=1,rows=1;
             Type t=types.get(typeId);require(t!=null,"Missing member type");
             if(t.opcode==28){
                 require(t.arguments.length==2,"Array type operands");
@@ -106,7 +118,16 @@ public final class SpirvUniformBlock {
             require(offset>=end,"Overlapping or reordered member offsets");end=Math.addExact(offset,extent);require(end<=MAX_BYTES,"Block size limit");
             result.add(new Field(i,offset,floating,rows,columns,arrayLength,arrayStride,matrixStride,extent));
         }
-        int size=Math.addExact(end,15)&~15;return new SpirvUniformBlock(result,size);
+        int size=Math.addExact(end,15)&~15;return new SpirvUniformBlock(result,paths,size);
+    }
+    private static void flatten(int struct,int base,List<Integer> path,boolean structured,Map<Integer,Type> types,Map<Member,Map<Integer,Integer>> members,List<Integer> leaves,List<Map<Integer,Integer>> layouts,List<List<Integer>> paths){
+        require(path.size()<8,"Structured block nesting limit");Type block=type(types,struct,30);require(block.arguments.length>0&&block.arguments.length<=4096,"Unsupported structured member count");
+        for(int i=0;i<block.arguments.length;i++){
+            Map<Integer,Integer> source=members.getOrDefault(new Member(struct,i),Map.of());require(source.containsKey(35)&&source.get(35)>=0&&(source.get(35)&3)==0,"Missing/invalid structured Offset");
+            int offset=Math.addExact(base,source.get(35));require(offset<=MAX_BYTES,"Structured block size limit");List<Integer> child=new ArrayList<>(path);child.add(i);Type t=types.get(block.arguments[i]);require(t!=null,"Missing structured member type");
+            if(t.opcode==30){require(structured,"Nested structs require explicit structured reflection");require(!source.containsKey(4)&&!source.containsKey(5)&&!source.containsKey(7),"Matrix decorations on struct");flatten(block.arguments[i],offset,child,true,types,members,leaves,layouts,paths);}
+            else{require(leaves.size()<4096,"Structured leaf count limit");Map<Integer,Integer> d=new HashMap<>(source);d.put(35,offset);leaves.add(block.arguments[i]);layouts.add(d);paths.add(List.copyOf(child));}
+        }
     }
     /** Values use column-major order within each matrix and array declaration order. */
     public void writeFloats(ByteBuffer target,int member,float... values){

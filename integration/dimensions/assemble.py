@@ -21,4 +21,6 @@ for rel in ['assets','icon.png']:
 shutil.copy2(V/'LICENSE',W/'forge/src/main/resources/DIMTHREADS-LICENSE.txt')
 for src in (I/'overlay').rglob('*'):
  if src.is_file():dst=W/src.relative_to(I/'overlay');dst.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(src,dst)
+for src in (R/'compat/native-flywheel/src').rglob('*.java'):
+ dst=W/'forge/src/main/java'/src.relative_to(R/'compat/native-flywheel/src');dst.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(src,dst)
 print(f'Assembled {len(manifest)} verified Hari files and pinned DimThreads into {W}')

@@ -21,7 +21,7 @@ import static org.lwjgl.vulkan.VK10.*;
 
 /** Marker-confined actual GPU draw/readback diagnostic; accepts no FPS. */
 final class NativeStencilSmoke {
-    private static boolean ponderRoute,irisReferenceRoute,irisUniformRoute;
+    private static boolean ponderRoute,irisReferenceRoute,irisUniformRoute,flywheelRoute,flywheelCullRoute,flywheelPonderRoute;
     private static final boolean ENABLED=verifyRequest();
     private static long joined,finished;
     private static boolean attempted;
@@ -33,7 +33,10 @@ final class NativeStencilSmoke {
         try{
             JsonObject marker=JsonParser.parseString(Files.readString(root.resolve("MVH-CUMULATIVE-IDENTITY.json"))).getAsJsonObject();
             JsonObject q=JsonParser.parseString(Files.readString(request)).getAsJsonObject();
-            if(marker.size()!=3||!marker.get("task").getAsString().equals("mvh-cumulative-20261005")||!marker.get("id").getAsString().equals("local:b6985be9-ded6-4a96-85cd-5a2548b1d900")||!marker.get("source").getAsString().equals("local:2c68d7c5-8fae-4984-ad3e-c76db50b66c3")||root.getFileName().toString().equalsIgnoreCase("Noxviola")||!(q.size()==2||q.size()==3&&q.has("route")&&Set.of("PONDER_DEFAULT_METHODS","IRIS_REFERENCE_SPIRV","IRIS_REFERENCE_UNIFORMS").contains(q.get("route").getAsString()))||!q.get("task").getAsString().equals("mvh-native-stencil-purpose-20261005")||!q.get("expected_renderer").getAsString().equals("VULKAN"))throw new IllegalStateException("Wrong owned stencil request");
+            if(marker.size()!=3||!marker.get("task").getAsString().equals("mvh-cumulative-20261005")||!marker.get("id").getAsString().equals("local:b6985be9-ded6-4a96-85cd-5a2548b1d900")||!marker.get("source").getAsString().equals("local:2c68d7c5-8fae-4984-ad3e-c76db50b66c3")||root.getFileName().toString().equalsIgnoreCase("Noxviola")||!(q.size()==2||q.size()==3&&q.has("route")&&Set.of("PONDER_DEFAULT_METHODS","IRIS_REFERENCE_SPIRV","IRIS_REFERENCE_UNIFORMS","FLYWHEEL_NATIVE_BATCH","FLYWHEEL_NATIVE_CULL_BATCH","FLYWHEEL_NATIVE_PONDER_BATCH").contains(q.get("route").getAsString()))||!q.get("task").getAsString().equals("mvh-native-stencil-purpose-20261005")||!q.get("expected_renderer").getAsString().equals("VULKAN"))throw new IllegalStateException("Wrong owned stencil request");
+            flywheelPonderRoute=q.has("route")&&q.get("route").getAsString().equals("FLYWHEEL_NATIVE_PONDER_BATCH");
+            flywheelCullRoute=flywheelPonderRoute||q.has("route")&&q.get("route").getAsString().equals("FLYWHEEL_NATIVE_CULL_BATCH");
+            flywheelRoute=flywheelCullRoute||q.has("route")&&q.get("route").getAsString().equals("FLYWHEEL_NATIVE_BATCH");
             ponderRoute=q.has("route")&&q.get("route").getAsString().equals("PONDER_DEFAULT_METHODS");
             irisUniformRoute=q.has("route")&&q.get("route").getAsString().equals("IRIS_REFERENCE_UNIFORMS");
             irisReferenceRoute=irisUniformRoute||q.has("route")&&q.get("route").getAsString().equals("IRIS_REFERENCE_SPIRV");
@@ -52,9 +55,10 @@ final class NativeStencilSmoke {
         try{
             if(!UniversalRendererGate.vulkanRendererEnabled()||!Renderer.isRecording())throw new IllegalStateException("Not native recording");
             run();report(cases.asList().stream().allMatch(v->v.getAsJsonObject().get("matched").getAsBoolean()),"");
-        }catch(Throwable error){report(false,error.getClass().getName());}
+        }catch(Throwable error){error.printStackTrace();report(false,error.getClass().getName());}
     }
     private static void run()throws Exception {
+        if(flywheelRoute){NativeFlywheelSmoke.run(cases,flywheelCullRoute,flywheelPonderRoute);return;}
         Renderer renderer=Renderer.getInstance();RenderPass previous=renderer.getBoundRenderPass();
         if(previous==null)throw new IllegalStateException("No owned frame render pass");
         State state=new State();Matrix4f projection=new Matrix4f(RenderSystem.getProjectionMatrix());
@@ -188,10 +192,10 @@ final class NativeStencilSmoke {
         }finally{MemoryUtil.memFree(pixels);}
     }
     private static void report(boolean passed,String error){
-        JsonObject out=new JsonObject();out.addProperty("passed",passed);out.addProperty("route",ponderRoute?"PONDER_DEFAULT_METHODS":irisUniformRoute?"IRIS_REFERENCE_UNIFORMS":irisReferenceRoute?"IRIS_REFERENCE_SPIRV":"DIRECT_NATIVE_STATE");out.addProperty("completed",true);out.addProperty("fps_accepted",false);out.addProperty("error_type",error);out.addProperty("scope","Actual native shader draws and RGBA Vulkan image readback: clipping, write mask, disable; optional pinned repaired Iris reference compiler SPIR-V through the actual Hari graphics pipeline. Original full Ponder/Create/shader-pack feature scenes remain separate.");out.add("cases",cases);PackControl.recordRenderer(out);
+        JsonObject out=new JsonObject();out.addProperty("passed",passed);out.addProperty("route",flywheelPonderRoute?"FLYWHEEL_NATIVE_PONDER_BATCH":flywheelCullRoute?"FLYWHEEL_NATIVE_CULL_BATCH":flywheelRoute?"FLYWHEEL_NATIVE_BATCH":ponderRoute?"PONDER_DEFAULT_METHODS":irisUniformRoute?"IRIS_REFERENCE_UNIFORMS":irisReferenceRoute?"IRIS_REFERENCE_SPIRV":"DIRECT_NATIVE_STATE");out.addProperty("completed",true);out.addProperty("fps_accepted",false);out.addProperty("error_type",error);out.addProperty("scope",flywheelRoute?"Actual original Create shaft model/textures and original Flywheel apply/transformed shader,76-byte instances,36-byte GPU-generated indirect commands,explicit indexed reference and complete RGBA comparison. Optional original cull compaction,explicit frustum/depth fixtures and reflected864-byte46-leaf frame UBO. Optional original Ponder lifecycle clips original native shaft pixels against an independent CPU crop and restores unclipped drawing. Full depth pyramid/material/light/OIT backend and active shader pack remain separate.":"Actual native shader draws and RGBA Vulkan image readback: clipping, write mask, disable; optional pinned repaired Iris reference compiler SPIR-V through the actual Hari graphics pipeline. Original full Ponder/Create/shader-pack feature scenes remain separate.");out.add("cases",cases);PackControl.recordRenderer(out);
         try{Files.writeString(Minecraft.getInstance().gameDirectory.toPath().resolve("mvh-stencil-purpose.json"),new GsonBuilder().setPrettyPrinting().create().toJson(out));}catch(java.io.IOException e){throw new java.io.UncheckedIOException(e);}finished=System.nanoTime();System.out.println("[MVH Stencil] GPU draw/readback complete passed="+passed+" cases="+cases.size());
     }
-    private static final class State{
+    static final class State{
         final boolean depthTest=VRenderSystem.depthTest,depthMask=VRenderSystem.depthMask,stencil=VRenderSystem.stencilTest,cull=VRenderSystem.cull,blend=net.vulkanmod.vulkan.shader.PipelineState.blendInfo.enabled;
         final int func=VRenderSystem.stencilFunc,ref=VRenderSystem.stencilRef,compare=VRenderSystem.stencilFuncMask,fail=VRenderSystem.stencilFailOp,depthFail=VRenderSystem.stencilDepthFailOp,pass=VRenderSystem.stencilPassOp,write=VRenderSystem.stencilWriteMask,color=VRenderSystem.colorMask,clear=VRenderSystem.clearStencilValue;
         final float clearDepth=VRenderSystem.clearDepthValue;final float[] clearColor=new float[4];State(){for(int i=0;i<4;i++)clearColor[i]=VRenderSystem.clearColor.get(i);}

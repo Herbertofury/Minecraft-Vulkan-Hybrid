@@ -1,0 +1,70 @@
+#version 450
+#define _FLW_SUBGROUP_SIZE 32
+// Per culling group
+#define _FLW_PAGE_FRAME_DESCRIPTOR_BUFFER_BINDING 0// cull
+#define _FLW_INSTANCE_BUFFER_BINDING 1// cull, draw
+#define _FLW_DRAW_INSTANCE_INDEX_BUFFER_BINDING 2// cull, draw
+#define _FLW_MODEL_BUFFER_BINDING 3// cull, apply
+#define _FLW_DRAW_BUFFER_BINDING 4// apply, draw
+
+// Global to the engine
+#define _FLW_LIGHT_LUT_BUFFER_BINDING 5
+#define _FLW_LIGHT_SECTIONS_BUFFER_BINDING 6
+
+#define _FLW_MATRIX_BUFFER_BINDING 7
+
+struct MeshDrawCommand {
+    uint indexCount;
+    uint instanceCount;
+    uint firstIndex;
+    uint vertexOffset;
+    uint baseInstance;
+
+    uint modelIndex;
+    uint matrixIndex;
+
+    uint packedFogAndCutout;
+    uint packedMaterialProperties;
+};
+
+struct BoundingSphere {
+    float x;
+    float y;
+    float z;
+    float radius;
+};
+
+struct ModelDescriptor {
+    uint instanceCount;
+    uint baseInstance;
+    uint matrixIndex;
+    BoundingSphere boundingSphere;
+};
+
+void _flw_unpackBoundingSphere(in BoundingSphere sphere, out vec3 center, out float radius) {
+    center = vec3(sphere.x, sphere.y, sphere.z);
+    radius = sphere.radius;
+}
+
+
+layout(local_size_x = _FLW_SUBGROUP_SIZE) in;
+
+layout(std430, binding = _FLW_MODEL_BUFFER_BINDING) restrict readonly buffer ModelBuffer {
+    ModelDescriptor models[];
+};
+
+layout(std430, binding = _FLW_DRAW_BUFFER_BINDING) restrict buffer DrawBuffer {
+    MeshDrawCommand drawCommands[];
+};
+
+// Apply the results of culling to the draw commands.
+void main() {
+    uint drawIndex = gl_GlobalInvocationID.x;
+
+    if (drawIndex >= drawCommands.length()) {
+        return;
+    }
+
+    uint modelIndex = drawCommands[drawIndex].modelIndex;
+    drawCommands[drawIndex].instanceCount = models[modelIndex].instanceCount;
+}
