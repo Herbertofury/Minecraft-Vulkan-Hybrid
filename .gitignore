@@ -40,3 +40,4 @@ compat/ponder-stencil/build/
 compat/ponder-stencil/.gradle/
 compat/vulkan-shaders/native-test-sdk/build/
 compat/vulkan-shaders/native-test-sdk/.gradle/
+compat/vulkan-shaders/tests/__pycache__/

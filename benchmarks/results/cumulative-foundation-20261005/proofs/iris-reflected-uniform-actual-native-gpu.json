@@ -1,0 +1,164 @@
+{
+  "passed": true,
+  "route": "IRIS_REFERENCE_UNIFORMS",
+  "completed": true,
+  "fps_accepted": false,
+  "error_type": "",
+  "scope": "Actual native shader draws and RGBA Vulkan image readback: clipping, write mask, disable; optional pinned repaired Iris reference compiler SPIR-V through the actual Hari graphics pipeline. Original full Ponder/Create/shader-pack feature scenes remain separate.",
+  "cases": [
+    {
+      "case": "replace_equal_clip",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "actual_rgba_sha256": "88dfcd2f5244be8541629fb5f2c92011d9cdaa5122cd5668a781127b1443cfc0",
+      "actual_samples_xy_rgba": [
+        [
+          0,
+          0,
+          0,
+          0,
+          255,
+          255
+        ],
+        [
+          16,
+          16,
+          0,
+          255,
+          0,
+          255
+        ]
+      ]
+    },
+    {
+      "case": "masked_replace_preserves_high_bits",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "actual_rgba_sha256": "88dfcd2f5244be8541629fb5f2c92011d9cdaa5122cd5668a781127b1443cfc0",
+      "actual_samples_xy_rgba": [
+        [
+          0,
+          0,
+          0,
+          0,
+          255,
+          255
+        ],
+        [
+          16,
+          16,
+          0,
+          255,
+          0,
+          255
+        ]
+      ]
+    },
+    {
+      "case": "disable_restores_unclipped_draw",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "actual_rgba_sha256": "4ab589b8423c13f8f33994356d5b696d9b3b56d968e1939f2088c53b5149e6cf",
+      "actual_samples_xy_rgba": [
+        [
+          0,
+          0,
+          255,
+          0,
+          0,
+          255
+        ],
+        [
+          16,
+          16,
+          255,
+          0,
+          0,
+          255
+        ]
+      ]
+    },
+    {
+      "case": "iris_reference_spirv_actual_native_draw",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "actual_rgba_sha256": "f9d747758d7de51321560d5bdcfe64af0dbd8f16304ba69b7141643c9491469b",
+      "actual_samples_xy_rgba": [
+        [
+          0,
+          0,
+          255,
+          0,
+          255,
+          255
+        ],
+        [
+          16,
+          16,
+          255,
+          0,
+          255,
+          255
+        ]
+      ]
+    },
+    {
+      "case": "iris_reference_reflected_uniforms_valid",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "actual_rgba_sha256": "56419a079049271b37eea3515c12bbafb46578e6ac4db012c61395ef8b2e5a68",
+      "actual_samples_xy_rgba": [
+        [
+          0,
+          0,
+          0,
+          255,
+          0,
+          255
+        ],
+        [
+          16,
+          16,
+          0,
+          255,
+          0,
+          255
+        ]
+      ]
+    },
+    {
+      "case": "iris_reference_reflected_uniforms_changed_matrix",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "actual_rgba_sha256": "4ab589b8423c13f8f33994356d5b696d9b3b56d968e1939f2088c53b5149e6cf",
+      "actual_samples_xy_rgba": [
+        [
+          0,
+          0,
+          255,
+          0,
+          0,
+          255
+        ],
+        [
+          16,
+          16,
+          255,
+          0,
+          0,
+          255
+        ]
+      ]
+    }
+  ],
+  "api_renderer": "VULKAN",
+  "gl_vendor": "not queried in a native Vulkan session",
+  "gl_renderer": "not queried in a native Vulkan session",
+  "gl_version": "not queried in a native Vulkan session"
+}

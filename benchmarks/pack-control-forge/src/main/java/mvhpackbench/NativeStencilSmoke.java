@@ -21,7 +21,7 @@ import static org.lwjgl.vulkan.VK10.*;
 
 /** Marker-confined actual GPU draw/readback diagnostic; accepts no FPS. */
 final class NativeStencilSmoke {
-    private static boolean ponderRoute,irisReferenceRoute;
+    private static boolean ponderRoute,irisReferenceRoute,irisUniformRoute;
     private static final boolean ENABLED=verifyRequest();
     private static long joined,finished;
     private static boolean attempted;
@@ -33,9 +33,10 @@ final class NativeStencilSmoke {
         try{
             JsonObject marker=JsonParser.parseString(Files.readString(root.resolve("MVH-CUMULATIVE-IDENTITY.json"))).getAsJsonObject();
             JsonObject q=JsonParser.parseString(Files.readString(request)).getAsJsonObject();
-            if(marker.size()!=3||!marker.get("task").getAsString().equals("mvh-cumulative-20261005")||!marker.get("id").getAsString().equals("local:b6985be9-ded6-4a96-85cd-5a2548b1d900")||!marker.get("source").getAsString().equals("local:2c68d7c5-8fae-4984-ad3e-c76db50b66c3")||root.getFileName().toString().equalsIgnoreCase("Noxviola")||!(q.size()==2||q.size()==3&&q.has("route")&&Set.of("PONDER_DEFAULT_METHODS","IRIS_REFERENCE_SPIRV").contains(q.get("route").getAsString()))||!q.get("task").getAsString().equals("mvh-native-stencil-purpose-20261005")||!q.get("expected_renderer").getAsString().equals("VULKAN"))throw new IllegalStateException("Wrong owned stencil request");
+            if(marker.size()!=3||!marker.get("task").getAsString().equals("mvh-cumulative-20261005")||!marker.get("id").getAsString().equals("local:b6985be9-ded6-4a96-85cd-5a2548b1d900")||!marker.get("source").getAsString().equals("local:2c68d7c5-8fae-4984-ad3e-c76db50b66c3")||root.getFileName().toString().equalsIgnoreCase("Noxviola")||!(q.size()==2||q.size()==3&&q.has("route")&&Set.of("PONDER_DEFAULT_METHODS","IRIS_REFERENCE_SPIRV","IRIS_REFERENCE_UNIFORMS").contains(q.get("route").getAsString()))||!q.get("task").getAsString().equals("mvh-native-stencil-purpose-20261005")||!q.get("expected_renderer").getAsString().equals("VULKAN"))throw new IllegalStateException("Wrong owned stencil request");
             ponderRoute=q.has("route")&&q.get("route").getAsString().equals("PONDER_DEFAULT_METHODS");
-            irisReferenceRoute=q.has("route")&&q.get("route").getAsString().equals("IRIS_REFERENCE_SPIRV");
+            irisUniformRoute=q.has("route")&&q.get("route").getAsString().equals("IRIS_REFERENCE_UNIFORMS");
+            irisReferenceRoute=irisUniformRoute||q.has("route")&&q.get("route").getAsString().equals("IRIS_REFERENCE_SPIRV");
             return true;
         }catch(java.io.IOException e){throw new java.io.UncheckedIOException(e);}
     }
@@ -80,6 +81,7 @@ final class NativeStencilSmoke {
             VRenderSystem.colorMask(true,true,true,true);VRenderSystem.stencilFunc(514,0xa5,0xff);VRenderSystem.stencilMask(0);quad(0,0,32,32,0,1,0);check(color,"masked_replace_preserves_high_bits",true,0,1,0);
             VRenderSystem.disableStencilTest();quad(0,0,32,32,1,0,0);check(color,"disable_restores_unclipped_draw",false,1,0,0);
             if(irisReferenceRoute)referenceShaderDraw(color);
+            if(irisUniformRoute)referenceUniformDraw(color);
         }finally{
             renderer.endRenderPass();renderer.beginRendering(previous,previous.getFramebuffer());Renderer.setInvertedViewport(0,0,previous.getFramebuffer().getWidth(),previous.getFramebuffer().getHeight());Renderer.setScissor(0,0,previous.getFramebuffer().getWidth(),previous.getFramebuffer().getHeight());
             state.restore();RenderSystem.setProjectionMatrix(projection,VertexSorting.ORTHOGRAPHIC_Z);model.popPose();RenderSystem.applyModelViewMatrix();RenderSystem.setShader(()->oldShader);RenderSystem.setShaderColor(shaderColor[0],shaderColor[1],shaderColor[2],shaderColor[3]);
@@ -106,6 +108,39 @@ final class NativeStencilSmoke {
         }finally{
             if(pipeline!=null)pipeline.scheduleCleanUp();MemoryUtil.memFree(vertex);MemoryUtil.memFree(fragment);
         }
+    }
+    private static void referenceUniformDraw(VulkanImage image)throws Exception {
+        Path root=Minecraft.getInstance().gameDirectory.toPath();
+        byte[] vs=Files.readAllBytes(root.resolve("mvh-iris-reference-vertex.spv")),fs=Files.readAllBytes(root.resolve("mvh-iris-reference-uniform-fragment.spv"));
+        if(!HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(vs)).equals("722256123b22ca75cb600249d7991e9d25138ec553099053fbe83f81ad51e51c")||!HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(fs)).equals("2e5b1bf1414e5a2bbe4bc8328d4e4c9a33f5bd38c7f8eaa4c1e7490cdc21ea80"))throw new IllegalStateException("Reference uniform SPIR-V fixture changed");
+        ByteBuffer vertex=MemoryUtil.memAlloc(vs.length).put(vs).flip(),fragment=MemoryUtil.memAlloc(fs.length).put(fs).flip(),data=null;
+        net.vulkanmod.vulkan.shader.GraphicsPipeline pipeline=null;
+        try{
+            var block=mvhshadercompat.SpirvUniformBlock.reflect(fragment,0,0);
+            if(block.bytes()!=192||block.fields().size()!=7)throw new IllegalStateException("Unexpected native uniform block");
+            data=MemoryUtil.memCalloc(block.bytes()).order(ByteOrder.LITTLE_ENDIAN);
+            block.writeFloats(data,0,0.25f,0.5f,0.75f);block.writeFloats(data,1,1);
+            block.writeFloats(data,2,1,2,3,4,5,6,7,8,9);block.writeFloats(data,3,0.125f,0.25f,0.5f);
+            block.writeFloats(data,4,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16);
+            block.writeInts(data,5,17,23);block.writeInts(data,6,31);
+            var ubo=new net.vulkanmod.vulkan.shader.descriptor.ManualUBO(0,VK_SHADER_STAGE_FRAGMENT_BIT,block.bytes()/4);
+            ubo.setSrc(MemoryUtil.memAddress(data),block.bytes());
+            var builder=new net.vulkanmod.vulkan.shader.Pipeline.Builder(DefaultVertexFormat.POSITION,"mvh-iris-reference-reflected-uniform-gpu-proof");
+            builder.setUniforms(new ArrayList<>(List.of(ubo)),new ArrayList<>());
+            builder.setSPIRVs(new net.vulkanmod.vulkan.shader.SPIRVUtils.SPIRV(0,vertex),new net.vulkanmod.vulkan.shader.SPIRVUtils.SPIRV(0,fragment));
+            pipeline=builder.createGraphicsPipeline();
+            uniformQuad(pipeline);check(image,"iris_reference_reflected_uniforms_valid",false,0,1,0);
+            // A changed live matrix element must produce the shader's rejection color.
+            // This detects a constant output, omitted resource, stale upload or wrong ABI.
+            block.writeFloats(data,2,1,2,3,4,5,99,7,8,9);
+            uniformQuad(pipeline);check(image,"iris_reference_reflected_uniforms_changed_matrix",false,1,0,0);
+        }finally{if(pipeline!=null)pipeline.scheduleCleanUp();MemoryUtil.memFree(vertex);MemoryUtil.memFree(fragment);if(data!=null)MemoryUtil.memFree(data);}
+    }
+    private static void uniformQuad(net.vulkanmod.vulkan.shader.GraphicsPipeline pipeline){
+        Renderer renderer=Renderer.getInstance();renderer.bindGraphicsPipeline(pipeline);renderer.uploadAndBindUBOs(pipeline);
+        BufferBuilder v=Tesselator.getInstance().getBuilder();v.begin(VertexFormat.Mode.QUADS,DefaultVertexFormat.POSITION);
+        v.vertex(-1,-1,0).endVertex();v.vertex(1,-1,0).endVertex();v.vertex(1,1,0).endVertex();v.vertex(-1,1,0).endVertex();var buffer=v.end();
+        try{Renderer.getDrawer().draw(buffer.vertexBuffer(),VertexFormat.Mode.QUADS,DefaultVertexFormat.POSITION,4);}finally{buffer.release();}
     }
     private static void ponderDefaultClip()throws Exception {
         Path jar=Minecraft.getInstance().gameDirectory.toPath().resolve("mvh-ponder-stencil-diagnostic.jar");
@@ -153,7 +188,7 @@ final class NativeStencilSmoke {
         }finally{MemoryUtil.memFree(pixels);}
     }
     private static void report(boolean passed,String error){
-        JsonObject out=new JsonObject();out.addProperty("passed",passed);out.addProperty("route",ponderRoute?"PONDER_DEFAULT_METHODS":irisReferenceRoute?"IRIS_REFERENCE_SPIRV":"DIRECT_NATIVE_STATE");out.addProperty("completed",true);out.addProperty("fps_accepted",false);out.addProperty("error_type",error);out.addProperty("scope","Actual native shader draws and RGBA Vulkan image readback: clipping, write mask, disable; optional pinned repaired Iris reference compiler SPIR-V through the actual Hari graphics pipeline. Original full Ponder/Create/shader-pack feature scenes remain separate.");out.add("cases",cases);PackControl.recordRenderer(out);
+        JsonObject out=new JsonObject();out.addProperty("passed",passed);out.addProperty("route",ponderRoute?"PONDER_DEFAULT_METHODS":irisUniformRoute?"IRIS_REFERENCE_UNIFORMS":irisReferenceRoute?"IRIS_REFERENCE_SPIRV":"DIRECT_NATIVE_STATE");out.addProperty("completed",true);out.addProperty("fps_accepted",false);out.addProperty("error_type",error);out.addProperty("scope","Actual native shader draws and RGBA Vulkan image readback: clipping, write mask, disable; optional pinned repaired Iris reference compiler SPIR-V through the actual Hari graphics pipeline. Original full Ponder/Create/shader-pack feature scenes remain separate.");out.add("cases",cases);PackControl.recordRenderer(out);
         try{Files.writeString(Minecraft.getInstance().gameDirectory.toPath().resolve("mvh-stencil-purpose.json"),new GsonBuilder().setPrettyPrinting().create().toJson(out));}catch(java.io.IOException e){throw new java.io.UncheckedIOException(e);}finished=System.nanoTime();System.out.println("[MVH Stencil] GPU draw/readback complete passed="+passed+" cases="+cases.size());
     }
     private static final class State{

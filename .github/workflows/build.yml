@@ -56,6 +56,8 @@ jobs:
         run: ./source/gradlew -p compat/vulkan-shaders/native-test-sdk writeTestClasspaths --no-daemon --max-workers=4
       - name: Verify real native shader compilation and bytecode cache isolation
         run: python compat/vulkan-shaders/tests/test_native_compiler.py --download-reference --lwjgl-classpath "$(cat compat/vulkan-shaders/native-test-sdk/build/reference-classpath.txt)" --legacy-lwjgl-classpath "$(cat compat/vulkan-shaders/native-test-sdk/build/legacy-classpath.txt)" --report qa-out/iris-native-compiler.json
+      - name: Verify reflected native uniform offsets and padded matrix/array writes
+        run: python compat/vulkan-shaders/tests/test_uniform_abi.py --download-reference --lwjgl-classpath "$(cat compat/vulkan-shaders/native-test-sdk/build/reference-classpath.txt)" --report qa-out/iris-native-uniform-abi.json
       - name: Verify inactive grass compute policy and shader declaration conversion
         run: |
           python integration/dimensions/tests/test_inactive_grass.py --report qa-out/inactive-grass.json

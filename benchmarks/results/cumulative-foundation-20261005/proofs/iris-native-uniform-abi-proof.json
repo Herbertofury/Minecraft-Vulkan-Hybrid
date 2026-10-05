@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "compiler_sha256": "b357f577888b91696a01e592779fd5d5e70f781243c4b0c72a753eb47c9fc86d",
+  "helper_sha256": "bc1d442a0c5cce8c47ab44a2169f30f0ab15ecd7e2be0d96b21986af2bf771e9",
+  "shader_sha256": "f763490f62d403b9f32a3b562f7d9571775a0601fd86d75c2fb956487df89981",
+  "native_sdk": "Official shaderc/LWJGL3.3.6, Java17, isolated CPU process",
+  "members": 7,
+  "ubo_bytes": 192,
+  "member_offsets": [
+    0,
+    12,
+    16,
+    64,
+    112,
+    176,
+    184
+  ],
+  "matrix_stride": 16,
+  "array_stride": 16,
+  "cases": [
+    {
+      "variant": "reflected_production",
+      "passed": true,
+      "expected": true
+    },
+    {
+      "variant": "packed_mat3",
+      "passed": false,
+      "expected": false
+    },
+    {
+      "variant": "packed_array",
+      "passed": false,
+      "expected": false
+    },
+    {
+      "variant": "matrix_transposed",
+      "passed": false,
+      "expected": false
+    }
+  ],
+  "scope": "Actual compiled SPIR-V descriptor/block/member/stride reflection and CPU writes; 32-bit scalar/vector, column-major float matrices and one-dimensional fixed arrays only. Unsupported layouts reject before upload. No full SPIR-V validator, arbitrary shader-provider, name-to-uniform mapping, GPU/FPS/shader-pack acceptance."
+}
