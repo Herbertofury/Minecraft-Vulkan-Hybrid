@@ -13,3 +13,17 @@ artifacts/*.jar
 artifacts/*.zip
 __pycache__/
 *.pyc
+
+compat/opengl-texture-lookup/.gradle/
+compat/opengl-texture-lookup/build/
+compat/opengl-texture-lookup/test-out/
+
+/compat/fieldguide-query-split/.gradle/
+/compat/fieldguide-query-split/build/
+/compat/fieldguide-query-split/test-out/
+
+/compat/opengl-over-vulkan/build/
+/integration/dimensions/__pycache__/
+
+benchmarks/control-forge/build/
+benchmarks/control-forge/.gradle/

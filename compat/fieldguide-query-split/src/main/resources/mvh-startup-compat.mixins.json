@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8.5",
+  "package": "mvhstartupcompat.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "FieldGuideBiomeSplitMixin",
+    "FieldGuideManagerAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

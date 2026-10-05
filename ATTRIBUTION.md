@@ -48,3 +48,11 @@ The `2.1.0-noxviola.1` release line adds/changes, among other things:
 The canonical HariMultiThread repository includes a GNU GPL v3 license. HariMultiThread Ultimate therefore publishes its derivative source under **GPL-3.0-only** and keeps the upstream `LICENSE` in the merged source package.
 
 The original HMT `gradle.properties` advertised `CC0-1.0`; this release intentionally corrects generated mod metadata to match the repository's GPL-3.0 license rather than propagating conflicting metadata.
+
+## Integrated dimension engine and compatibility work
+
+The DimThreads engine is imported from SrRapero720/dimthreads, branch 1.20.1, commit `542b900e6a1f634d4bf339c38d90189de538e6d9`. Original credits include WearBlackAllDay, CCr4ft3r, SrRapero720 and 2No2Name. Its LGPL-3.0 license, source manifest, logo and original source are retained under `integration/dimensions/vendor/dimthreads/`; the reviewed overlay identifies the new ownership, barrier and budget changes. The packaged artifact retains a separate DimThreads license notice.
+
+The GeckoLib lookup and Field Guide query compatibility addons, benchmark control, and preload agent are new GPL-3.0-only code. They depend on the pinned original mods without redistributing those mods' source/assets. Restrictively licensed Automotives and Cataclysm compatibility JARs remain private; only hash-pinned repair recipes are supplied.
+
+The optional OpenGL-over-Vulkan driver is Mesa Zink 26.2.4, commit `96cb43121031992b85767f9c1be8f3f48e22b1d2`. Mesa's per-component licenses and source-file notices remain applicable. The WGL patch preserves its upstream MIT header; it does not relicense Mesa under Hari's GPL. Source/build pins and the original Mesa license texts accompany the bridge.

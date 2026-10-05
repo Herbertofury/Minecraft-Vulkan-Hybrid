@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="GPL-3.0-only"
+[[mods]]
+modId="mvhstartupcompat"
+version="1.1.1"
+displayName="MVH Field Guide Query Compatibility"
+authors="Minecraft Vulkan Hybrid contributors"
+description="Reuses exact read-only pipe parsing for the current Field Guide biome search. No category, model, texture or spawn changes."
+[[dependencies.mvhstartupcompat]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.20.2)"
+ordering="NONE"
+side="CLIENT"
+[[dependencies.mvhstartupcompat]]
+modId="forge"
+mandatory=true
+versionRange="[47.4.23,)"
+ordering="NONE"
+side="CLIENT"
+[[dependencies.mvhstartupcompat]]
+modId="fieldguide"
+mandatory=true
+versionRange="[1.20.4+1.20.1]"
+ordering="AFTER"
+side="CLIENT"

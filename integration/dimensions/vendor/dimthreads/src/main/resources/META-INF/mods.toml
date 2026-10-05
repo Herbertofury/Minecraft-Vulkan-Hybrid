@@ -1,0 +1,26 @@
+modLoader = "javafml" #mandatory
+loaderVersion = "${fgloaderrange}" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+license = "$modlicense"
+
+[[mods]] #mandatory
+    modId="${modid}"
+    version="${modversion}"
+    displayName="${modname}"
+    logoFile="icon.png" #optional
+    displayURL="https://www.curseforge.com/minecraft/mc-mods/dimensional-threads" #optional
+    authors="${modauthor}" #optional
+    credits="${modcredits}" #optional
+    displayTest="MATCH_VERSION"
+    description = '''${mod_description}'''
+[[dependencies.${modid}]] #optional
+    modId = "forge"
+    mandatory = true
+    versionRange="${fgrange}"
+    ordering = "NONE"
+    side = "BOTH"
+[[dependencies.${modid}]]
+    modId = "minecraft"
+    mandatory = true
+    versionRange="${mcrange}"
+    ordering = "NONE"
+    side = "BOTH"

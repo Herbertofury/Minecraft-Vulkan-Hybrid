@@ -1,11 +1,13 @@
 # Minecraft Vulkan Hybrid
 
-Canonical project repository for **HariMultiThread Ultimate 2.4.10 Vulkan Hybrid**, Minecraft **1.20.1**, Forge **47.4.23**, and **Java 17**. Migration is prepared on `migration/projectdump-20261004`; `main` remains unchanged until review.
+Canonical repository for **Minecraft Vulkan Hybrid / HariMultiThread**, Minecraft **1.20.1** and **Java 17**. The immutable accepted 2.4.10 source targets Forge **47.4.23**; the rebuildable 2.4.11 dimension integration targets latest Forge **47.4.26**. Migration is prepared on `migration/projectdump-20261004`; `main` remains unchanged until review.
 
 The complete merged Java/Gradle project, shaders, assets and upstream licenses are in [`source/`](source/). The accepted production JAR SHA256 is `8b593bac1ac77670849ed992c808d327dd6d9f188ddfdea341ac88f16edf8c9f`. The renderer is included; do not add a separate VulkanMod JAR to this instance.
 
 | Directory | Contents |
 | --- | --- |
+| `integration/dimensions/` | Rebuildable Hari + DimThreads artifact, pinned upstream source, ownership fixes and shared simulation budget |
+| `compat/` | Narrow GeckoLib/Field Guide repairs and the optional development OpenGL-over-Vulkan bridge |
 | `source/` | 1,001 hash-verified merged source files; build this project directly |
 | `minecraft/async-1.20.1-ultimate/` | Original pinned reconstruction recipe, overlays, regression tests and historical project documents; original paths remain executable |
 | `.github/qa/` | Project-specific original native QA actors and checkpoints |
@@ -33,3 +35,7 @@ Use the isolated Modrinth benchmark instances and [matched protocol](benchmarks/
 Ctrl+F9 records 30 seconds of real frame intervals after warmup. Preserve each `harimt-fps-last.json`. Compare average FPS, 1% low, p95/p99 frametimes, actual rendering, and clean save/restart, with identical world copies/settings/mods and balanced alternating runs. Never stop GameSync, AoA, Enderloom or other workloads for a cleaner number; record overlap.
 
 [Canonical wiki](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/wiki) · [Original artifact folder, unchanged access](https://drive.google.com/drive/folders/16zuPwFiiKZ5ewPIE11keigFUaJvsd717) · [Full provenance and scope](docs/MIGRATION.md)
+
+## Integrated Noxviola development
+
+[Hari + DimThreads source and build instructions](integration/dimensions/README.md) describe the single artifact that replaces both standalone engines while preserving the `dimthread` compatibility identity. [Development evidence](benchmarks/results/noxviola-development-20261005/STATUS.md) separates native playability checks from matched performance measurements. The live personal Noxviola profile remains untouched while these gates run. This full pack has not demonstrated 2400 FPS or zero hitching.

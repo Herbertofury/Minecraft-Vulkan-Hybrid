@@ -1,0 +1,28 @@
+{
+  "upstream": "https://gitlab.freedesktop.org/mesa/mesa",
+  "tag": "mesa-26.2.4",
+  "commit": "96cb43121031992b85767f9c1be8f3f48e22b1d2",
+  "archive_sha256": "bce5f7fbebb934373b86c999a064d52fb5065878dc57f287f95346648ec832e9",
+  "patch": "wgl-zink-swap-interval.patch",
+  "patch_sha256": "9673987606d09c0102b31403c8def6ffd42ad6098ee54c3910c0479f028963a7",
+  "scope": "Windows WGL loader-info initialization and late swap-interval forwarding; upstream Zink semantics retained",
+  "native_probe": "OpenGL 4.6 / NVIDIA RTX 4090 / Vulkan 1.4; interval 0/1/0, 48 presents each, readback parity and zero GL errors",
+  "minecraft_status": "Matched measurements pending; not promoted",
+  "binaries": [
+    {
+      "file": "libgallium_wgl.dll",
+      "size": 17440768,
+      "sha256": "675bbd608cf6e043b325edaa9dbe8b5e80466f34a16188fc90df3daacb9b84da"
+    },
+    {
+      "file": "opengl32.dll",
+      "size": 136704,
+      "sha256": "beddcbf6eebdefc58c4b9de6157d2dec8d3133867ed2bc72229aa095218b6523"
+    },
+    {
+      "file": "z-1.dll",
+      "size": 223232,
+      "sha256": "0917ecf9b3f1081e31721d4c39b82e6ad3fe694244ec76b5936c4b21e76f70e5"
+    }
+  ]
+}

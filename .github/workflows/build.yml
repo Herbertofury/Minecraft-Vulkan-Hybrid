@@ -2,7 +2,7 @@ name: Standalone source build and focused regressions
 on:
   push:
     branches: ['migration/**']
-    paths: ['source/**', 'tools/**', 'provenance/**', 'minecraft/**', '.github/workflows/build.yml']
+    paths: ['integration/**', 'compat/**', 'source/**', 'tools/**', 'provenance/**', 'minecraft/**', '.github/workflows/build.yml']
   pull_request:
   workflow_dispatch:
 permissions:
@@ -27,6 +27,37 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew --no-daemon --max-workers=4 :forge:build --stacktrace
+      - name: Assemble and build the integrated dimension scheduler
+        run: |
+          python integration/dimensions/assemble.py ../hari-integrated-ci
+          ./source/gradlew -p ../hari-integrated-ci :forge:build --no-daemon --max-workers=4
+      - name: Verify dimension ownership, failures and queue boundaries
+        run: |
+          mkdir -p qa-out/dimensions
+          javac -cp ../hari-integrated-ci/forge/build/classes/java/main -d qa-out/dimensions integration/dimensions/overlay/forge/src/main/java/me/srrapero720/dimthread/ParallelThreadSwap.java integration/dimensions/vendor/dimthreads/src/main/java/me/srrapero720/dimthread/thread/IMutableMainThread.java integration/dimensions/overlay/forge/src/main/java/me/srrapero720/dimthread/thread/ThreadPool.java integration/dimensions/tests/OwnershipRegression.java
+          java -ea -cp qa-out/dimensions OwnershipRegression
+          python integration/dimensions/tests/test_waiter.py ../hari-integrated-ci --report qa-out/dimension-waiter.json
+          python integration/dimensions/tests/test_mts_removal.py --report qa-out/mts-removal.json
+      - name: Build optional OpenGL texture compatibility mod
+        run: ./source/gradlew -p compat/opengl-texture-lookup build --no-daemon --max-workers=4
+      - name: Verify texture lookup ownership and original failure propagation
+        run: |
+          mkdir -p qa-out/texture-lookup
+          javac -d qa-out/texture-lookup compat/opengl-texture-lookup/src/main/java/mvhglcompat/TextureLookup.java compat/opengl-texture-lookup/tests/TextureLookupRegression.java
+          java -cp qa-out/texture-lookup TextureLookupRegression
+      - name: Build optional Field Guide startup compatibility mod
+        run: ./source/gradlew -p compat/fieldguide-query-split build --no-daemon --max-workers=4
+      - name: Verify exact biome parsing parity and bounded ownership
+        run: |
+          mkdir -p qa-out/fieldguide-split
+          javac -encoding UTF-8 -d qa-out/fieldguide-split compat/fieldguide-query-split/src/main/java/mvhstartupcompat/BiomeQuerySplitCache.java compat/fieldguide-query-split/tests/BiomeQuerySplitRegression.java
+          java -cp qa-out/fieldguide-split BiomeQuerySplitRegression
+          javac -encoding UTF-8 -cp qa-out/fieldguide-split -d qa-out/fieldguide-split compat/fieldguide-query-split/src/main/java/mvhstartupcompat/BiomeModifierIndex.java compat/fieldguide-query-split/tests/BiomeModifierIndexRegression.java
+          java -ea -cp qa-out/fieldguide-split BiomeModifierIndexRegression
+      - name: Build isolated native benchmark recorder
+        run: ./source/gradlew -p benchmarks/control-forge build --no-daemon --max-workers=4
+      - name: Verify packaged Minecraft resource metadata
+        run: python tools/verify_pack_metadata.py 'source/forge/build/libs/*-all.jar' '../hari-integrated-ci/forge/build/libs/*-all.jar' 'compat/opengl-texture-lookup/build/libs/*.jar' 'compat/fieldguide-query-split/build/libs/*.jar' 'benchmarks/control-forge/build/libs/*.jar'
       - name: Run portable production regressions
         run: |
           set -euo pipefail
@@ -41,4 +72,9 @@ jobs:
           name: source-build-and-focused-proof
           path: |
             source/forge/build/libs/*-all.jar
+            ../hari-integrated-ci/forge/build/libs/*-all.jar
+            compat/opengl-texture-lookup/build/libs/*.jar
+            compat/fieldguide-query-split/build/libs/*.jar
+            benchmarks/control-forge/build/libs/*.jar
             qa-out/
+            LICENSE

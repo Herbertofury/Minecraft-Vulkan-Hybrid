@@ -1,0 +1,14 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="GPL-3.0-only"
+[[mods]]
+modId="mvhpackbench"
+version="1.0.3"
+displayName="MVH isolated Noxviola benchmark control"
+description="Same standalone all-frame recorder and locked camera in baseline/candidate; only for isolated tests."
+[[dependencies.mvhpackbench]]
+modId="forge"
+mandatory=true
+versionRange="[47.4.23,)"
+ordering="NONE"
+side="CLIENT"
