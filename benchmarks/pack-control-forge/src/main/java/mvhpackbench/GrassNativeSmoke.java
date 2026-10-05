@@ -160,6 +160,7 @@ final class GrassNativeSmoke {
         try{if(mc.level!=null&&mc.player!=null)snapshot(mc,"finish");}catch(Exception ignored){}
         JsonObject report=new JsonObject();report.addProperty("completed",completed);report.addProperty("passed",completed&&error==null);report.addProperty("api_renderer",renderer);report.addProperty("step",step);report.addProperty("error_type",error==null?"":error.getClass().getName());report.addProperty("peak_original_meshes",peakMeshes);report.addProperty("peak_original_active_trail_cells",peakTrailCells);report.addProperty("scope","Resource reload, original animation/trail/FOV/dimension state; pinned Entity settings UI when installed. Screenshots require visual review; no FPS or all-style/shader-provider parity acceptance");
         JsonArray passed=new JsonArray();synchronized(checks){checks.forEach(passed::add);}report.add("checks",passed);
+        JsonObject frustum=new JsonObject();for(String name:new String[]{"CACHE_HITS","CACHE_MISSES","STATE_CAPTURES","STATE_CHANGES"})try{frustum.addProperty(name,Class.forName("mvhgrasscompat.ExactFrustumCache").getField(name).getLong(null));}catch(ReflectiveOperationException absent){frustum.add(name,com.google.gson.JsonNull.INSTANCE);}report.add("pure_frustum_cache_counters",frustum);
         report.add("cache_snapshots",cacheSnapshots);
         report.add("fov_evidence",fovEvidence);
         report.add("ui_evidence",uiEvidence);

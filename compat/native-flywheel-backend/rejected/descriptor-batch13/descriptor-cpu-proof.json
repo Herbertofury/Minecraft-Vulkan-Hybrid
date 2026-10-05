@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "source_sha256": "9005c0ae6a6d301c211d08f70dfb05091b3433face49e5dd987b184895b959a0",
+  "variants": [
+    {
+      "variant": "production",
+      "behavior_passed": true,
+      "expected": true,
+      "stdout": "DESCRIPTOR_PAYLOAD_CONTROLS=36 NATIVE_CALLS=2"
+    },
+    {
+      "variant": "shifts_binding",
+      "behavior_passed": false,
+      "expected": false,
+      "stdout": ""
+    },
+    {
+      "variant": "loses_range",
+      "behavior_passed": false,
+      "expected": false,
+      "stdout": ""
+    },
+    {
+      "variant": "loses_sampler",
+      "behavior_passed": false,
+      "expected": false,
+      "stdout": ""
+    },
+    {
+      "variant": "accepts_partial",
+      "behavior_passed": false,
+      "expected": false,
+      "stdout": ""
+    }
+  ],
+  "scope": "Actual descriptor builder and update guard with checked Vulkan structure doubles and an independent expected payload. Compute6UBO+8SSBO and graphics6UBO+4SSBO+4image retain all slots/resource extents/samplers. Four behavior mutations rejected. Not actual GPU or FPS evidence."
+}

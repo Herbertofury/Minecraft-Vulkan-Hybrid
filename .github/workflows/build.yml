@@ -41,6 +41,8 @@ jobs:
         run: python integration/dimensions/tests/test_framebuffer_blit.py --report qa-out/framebuffer-blit-axis.json
       - name: Verify immutable native light snapshots and fence-owned retirement
         run: python compat/native-flywheel-backend/tests/test_light_snapshot.py --report qa-out/native-light-snapshot.json
+      - name: Verify concurrent native instance ownership and deleted embedding retirement
+        run: python compat/native-flywheel-backend/tests/test_instance_lifecycle.py --report qa-out/native-instance-lifecycle.json
       - name: Verify dimension ownership, failures and queue boundaries
         run: |
           mkdir -p qa-out/dimensions

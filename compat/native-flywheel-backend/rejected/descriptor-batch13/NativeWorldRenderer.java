@@ -100,10 +100,12 @@ public final class NativeWorldRenderer {
             for(var instances:requests){var snapshot=prepared.get(instances);if(snapshot==null)continue;
                 var code=NativeShaderSources.compute(instances.type);long[] programs=computePrograms.computeIfAbsent(code,this::computePipelines);
                 long[] sets=frame.descriptors(new long[]{layouts[0],computeStorageLayout});
-                for(int i=0;i<5;i++)writeBuffer(s,sets[0],i,uniforms[i],VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER);
-                writeBuffer(s,sets[0],5,frame.allocate(128),VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER);
+                var writes=VkWriteDescriptorSet.calloc(14,s);
+                for(int i=0;i<5;i++)writeBuffer(s,writes,i,sets[0],i,uniforms[i],VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER);
+                writeBuffer(s,writes,5,sets[0],5,frame.allocate(128),VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER);
                 Slice[] storage={snapshot.data,snapshot.targets,lightLut,lightSections,snapshot.models,snapshot.commands,snapshot.pages,snapshot.matrices};
-                for(int i=0;i<storage.length;i++)writeBuffer(s,sets[1],i,storage[i],VK_DESCRIPTOR_TYPE_STORAGE_BUFFER);
+                for(int i=0;i<storage.length;i++)writeBuffer(s,writes,6+i,sets[1],i,storage[i],VK_DESCRIPTOR_TYPE_STORAGE_BUFFER);
+                updateDescriptors(writes);
                 vkCmdBindDescriptorSets(command,VK_PIPELINE_BIND_POINT_COMPUTE,computeLayout,0,s.longs(sets),null);
                 vkCmdBindPipeline(command,VK_PIPELINE_BIND_POINT_COMPUTE,programs[0]);vkCmdDispatch(command,snapshot.pages.bytes/8,1,1);NativeEngine.GPU_CULL_DISPATCHES.incrementAndGet();
                 var cull=VkMemoryBarrier.calloc(1,s).sType$Default().srcAccessMask(VK_ACCESS_SHADER_WRITE_BIT).dstAccessMask(VK_ACCESS_SHADER_READ_BIT);
@@ -134,17 +136,19 @@ public final class NativeWorldRenderer {
             Matrix4f pose=new Matrix4f();Matrix3f normal=new Matrix3f();context.compose(pose,normal);pose.get(p+16,b);
             for(int col=0;col<3;col++)for(int row=0;row<3;row++)b.putFloat(p+80+col*16+row*4,normal.get(col,row));
             long[] sets=frame.descriptors();try(MemoryStack s=MemoryStack.stackPush()){
-                for(int i=0;i<5;i++){if(uniforms[i]==null)throw new IllegalStateException("Missing original frame uniform "+i);writeBuffer(s,sets[0],i,uniforms[i],VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER);}
-                writeBuffer(s,sets[0],5,draw,VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER);
-                Slice[] ssbos={data,targets,lightLut,lightSections};for(int i=0;i<4;i++)writeBuffer(s,sets[1],i,ssbos[i],VK_DESCRIPTOR_TYPE_STORAGE_BUFFER);
+                var writes=VkWriteDescriptorSet.calloc(14,s);
+                for(int i=0;i<5;i++){if(uniforms[i]==null)throw new IllegalStateException("Missing original frame uniform "+i);writeBuffer(s,writes,i,sets[0],i,uniforms[i],VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER);}
+                writeBuffer(s,writes,5,sets[0],5,draw,VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER);
+                Slice[] ssbos={data,targets,lightLut,lightSections};for(int i=0;i<4;i++)writeBuffer(s,writes,6+i,sets[1],i,ssbos[i],VK_DESCRIPTOR_TYPE_STORAGE_BUFFER);
                 Minecraft mc=Minecraft.getInstance();VulkanImage diffuse=((VAbstractTextureI)mc.getTextureManager().getTexture(material.texture())).getVulkanImage();
                 VulkanImage overlay=VTextureSelector.getImage(1),light=VTextureSelector.getImage(2);
                 VulkanImage breaking=crumble<0?diffuse:((VAbstractTextureI)mc.getTextureManager().getTexture(new ResourceLocation("minecraft","textures/block/destroy_stage_"+crumble+".png"))).getVulkanImage();
                 VulkanImage[] textures={diffuse,overlay,light,breaking};
                 for(int i=0;i<4;i++){
                     if(textures[i]==null)throw new IllegalStateException("Original Flywheel texture missing at binding "+i);
-                    writeImage(s,sets[2],i,textures[i],i==0?sampler(material.blur(),material.mipmap()):sampler(i==2,false));
+                    writeImage(s,writes,10+i,sets[2],i,textures[i],i==0?sampler(material.blur(),material.mipmap()):sampler(i==2,false));
                 }
+                updateDescriptors(writes);
                 VkCommandBuffer command=Renderer.getCommandBuffer();vkCmdBindPipeline(command,VK_PIPELINE_BIND_POINT_GRAPHICS,pipeline);
                 vkCmdBindDescriptorSets(command,VK_PIPELINE_BIND_POINT_GRAPHICS,layout,0,s.longs(sets),null);
                 vkCmdBindVertexBuffers(command,0,s.longs(gpu.vertices.buffer),s.longs(0));vkCmdBindIndexBuffer(command,gpu.indices.buffer,0,VK_INDEX_TYPE_UINT32);
@@ -152,13 +156,9 @@ public final class NativeWorldRenderer {
                 vkCmdSetStencilWriteMask(command,VK_STENCIL_FACE_FRONT_AND_BACK,VRenderSystem.stencilWriteMask);
                 vkCmdSetStencilReference(command,VK_STENCIL_FACE_FRONT_AND_BACK,VRenderSystem.stencilRef);
                 vkCmdDrawIndexedIndirect(command,snapshot.commands.buffer.buffer,snapshot.commands.offset+meshIndex*36L,1,36);
-                NativeEngine.MODEL_DRAWS.incrementAndGet();if(context.embedded())NativeEngine.EMBEDDED_MODEL_DRAWS.incrementAndGet();if(crumble>=0)NativeEngine.CRUMBLING_DRAWS.incrementAndGet();
+                NativeEngine.MODEL_DRAWS.incrementAndGet();if(crumble>=0)NativeEngine.CRUMBLING_DRAWS.incrementAndGet();
             }finally{Renderer.getInstance().invalidateRenderState();}
         }
-    }
-    void retireUnusedMeshes(Collection<NativeEngine.NativeInstancer<?>> owners){
-        live();Set<Mesh> alive=Collections.newSetFromMap(new IdentityHashMap<>());for(var owner:owners)for(var part:owner.model.meshes())alive.add(part.mesh());
-        for(var it=meshes.entrySet().iterator();it.hasNext();){var entry=it.next();if(!alive.contains(entry.getKey())){GpuMesh retired=entry.getValue();it.remove();MemoryManager.getInstance().addFrameOp(()->{retired.vertices.destroy();retired.indices.destroy();});}}
     }
     private long sampler(boolean blur,boolean mipmap){int key=(blur?1:0)|(mipmap?2:0);return samplers.computeIfAbsent(key,k->{try(MemoryStack s=MemoryStack.stackPush()){
         LongBuffer out=s.mallocLong(1);int filter=blur?VK_FILTER_LINEAR:VK_FILTER_NEAREST;
@@ -166,10 +166,11 @@ public final class NativeWorldRenderer {
             .addressModeU(VK_SAMPLER_ADDRESS_MODE_REPEAT).addressModeV(VK_SAMPLER_ADDRESS_MODE_REPEAT).addressModeW(VK_SAMPLER_ADDRESS_MODE_REPEAT).minLod(0).maxLod(mipmap?VK_LOD_CLAMP_NONE:0).maxAnisotropy(1),null,out),"material sampler");return out.get(0);}});}
     private long descriptorLayout(MemoryStack s,int count,int type){var bindings=VkDescriptorSetLayoutBinding.calloc(count,s);for(int i=0;i<count;i++)bindings.get(i).binding(i).descriptorType(type).descriptorCount(1).stageFlags(VK_SHADER_STAGE_VERTEX_BIT|VK_SHADER_STAGE_FRAGMENT_BIT|VK_SHADER_STAGE_COMPUTE_BIT);
         LongBuffer out=s.mallocLong(1);check(vkCreateDescriptorSetLayout(device,VkDescriptorSetLayoutCreateInfo.calloc(s).sType$Default().pBindings(bindings),null,out),"descriptor layout");return out.get(0);}
-    private void writeBuffer(MemoryStack s,long set,int binding,Slice slice,int type){var info=VkDescriptorBufferInfo.calloc(1,s).buffer(slice.buffer.buffer).offset(slice.offset).range(slice.bytes);
-        vkUpdateDescriptorSets(device,VkWriteDescriptorSet.calloc(1,s).sType$Default().dstSet(set).dstBinding(binding).descriptorCount(1).descriptorType(type).pBufferInfo(info),null);}
-    private void writeImage(MemoryStack s,long set,int binding,VulkanImage image,long sampler){var info=VkDescriptorImageInfo.calloc(1,s).imageView(image.getImageView()).sampler(sampler).imageLayout(VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
-        vkUpdateDescriptorSets(device,VkWriteDescriptorSet.calloc(1,s).sType$Default().dstSet(set).dstBinding(binding).descriptorCount(1).descriptorType(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER).pImageInfo(info),null);}
+    private void writeBuffer(MemoryStack s,VkWriteDescriptorSet.Buffer writes,int index,long set,int binding,Slice slice,int type){var info=VkDescriptorBufferInfo.calloc(1,s).buffer(slice.buffer.buffer).offset(slice.offset).range(slice.bytes);
+        writes.get(index).sType$Default().dstSet(set).dstBinding(binding).descriptorCount(1).descriptorType(type).pBufferInfo(info);}
+    private void writeImage(MemoryStack s,VkWriteDescriptorSet.Buffer writes,int index,long set,int binding,VulkanImage image,long sampler){var info=VkDescriptorImageInfo.calloc(1,s).imageView(image.getImageView()).sampler(sampler).imageLayout(VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+        writes.get(index).sType$Default().dstSet(set).dstBinding(binding).descriptorCount(1).descriptorType(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER).pImageInfo(info);}
+    private void updateDescriptors(VkWriteDescriptorSet.Buffer writes){if(writes.position()!=0||writes.remaining()!=14)throw new IllegalStateException("Incomplete original material/compute descriptor batch");vkUpdateDescriptorSets(device,writes,null);NativeEngine.DESCRIPTOR_UPDATE_CALLS.incrementAndGet();NativeEngine.DESCRIPTORS_WRITTEN.addAndGet(writes.remaining());}
     private long module(byte[] bytes){ByteBuffer b=MemoryUtil.memAlloc(bytes.length).put(bytes).flip();try(MemoryStack s=MemoryStack.stackPush()){
         LongBuffer out=s.mallocLong(1);check(vkCreateShaderModule(device,VkShaderModuleCreateInfo.calloc(s).sType$Default().pCode(b),null,out),"shader module");return out.get(0);
     }finally{MemoryUtil.memFree(b);}}

@@ -48,5 +48,13 @@ final class NativeCreateBenchmark {
         }catch(Throwable error){failure.set(error);}});}
         return verified.get();
     }
+    static com.google.gson.JsonObject counters(){
+        var q=new com.google.gson.JsonObject();
+        for(String name:new String[]{"WORLD_FRAMES","MODEL_DRAWS","GPU_CULL_DISPATCHES","GPU_APPLY_DISPATCHES","GPU_LAST_VISIBLE","GPU_LAST_SUBMITTED","LIGHT_UPLOADS","LIGHT_UPLOAD_BYTES","LIGHT_CACHE_HITS","DESCRIPTOR_UPDATE_CALLS","DESCRIPTORS_WRITTEN"})try{
+            q.addProperty(name,((AtomicLong)Class.forName("mvhflywheelbackend.NativeEngine").getField(name).get(null)).get());
+        }catch(NoSuchFieldException absent){q.add(name,com.google.gson.JsonNull.INSTANCE);}catch(ReflectiveOperationException failure){throw new IllegalStateException("Cannot report original native machinery counters",failure);}
+        for(String name:new String[]{"CACHE_HITS","CACHE_MISSES","STATE_CAPTURES","STATE_CHANGES"})try{q.addProperty("GRASS_FRUSTUM_"+name,Class.forName("mvhgrasscompat.ExactFrustumCache").getField(name).getLong(null));}catch(ClassNotFoundException|NoSuchFieldException absent){q.add("GRASS_FRUSTUM_"+name,com.google.gson.JsonNull.INSTANCE);}catch(ReflectiveOperationException failure){throw new IllegalStateException("Cannot report grass visibility counters",failure);}
+        return q;
+    }
     static void camera(Minecraft mc){mc.player.setPos(.5,112,.5);mc.player.setDeltaMovement(0,0,0);mc.player.setYRot(-90);mc.player.setXRot(16);mc.player.yRotO=-90;mc.player.xRotO=16;}
 }

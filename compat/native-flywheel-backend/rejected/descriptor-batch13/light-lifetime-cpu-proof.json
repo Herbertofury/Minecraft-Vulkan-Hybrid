@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "source_sha256": "9005c0ae6a6d301c211d08f70dfb05091b3433face49e5dd987b184895b959a0",
+  "variants": [
+    {
+      "variant": "production",
+      "behavior_passed": true,
+      "expected": true,
+      "stdout": "LIGHT_SNAPSHOT_CONTROLS=18"
+    },
+    {
+      "variant": "overwrites_in_flight",
+      "behavior_passed": false,
+      "expected": false,
+      "stdout": ""
+    },
+    {
+      "variant": "ignores_light_revision",
+      "behavior_passed": false,
+      "expected": false,
+      "stdout": ""
+    },
+    {
+      "variant": "retires_during_same_epoch",
+      "behavior_passed": false,
+      "expected": false,
+      "stdout": ""
+    },
+    {
+      "variant": "leaks_partial_allocation",
+      "behavior_passed": false,
+      "expected": false,
+      "stdout": ""
+    }
+  ],
+  "scope": "Actual production methods with checked CPU memory allocator; immutable revisions, same-epoch protection, frame-fence retirement, owner isolation, capacity growth, empty input and partial allocation cleanup. Four behavior mutations rejected. No GPU, visual-parity or FPS claim."
+}
