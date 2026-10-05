@@ -410,4 +410,3 @@ public abstract class DeviceManager {
     }
 
 }
-
