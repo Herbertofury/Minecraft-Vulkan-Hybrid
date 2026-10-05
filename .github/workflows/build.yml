@@ -38,8 +38,19 @@ jobs:
           java -ea -cp qa-out/dimensions OwnershipRegression
           python integration/dimensions/tests/test_waiter.py ../hari-integrated-ci --report qa-out/dimension-waiter.json
           python integration/dimensions/tests/test_mts_removal.py --report qa-out/mts-removal.json
+      - name: Verify palette snapshot, reentrancy and writer exclusion
+        run: python integration/dimensions/tests/test_palette_monitor.py --report qa-out/palette-monitor.json
       - name: Verify inactive ModernFix GL audit and cache invalidation
         run: python integration/dimensions/tests/test_inactive_modernfix.py --report qa-out/inactive-modernfix-gate.json
+      - name: Verify optional vertex-memory repair against the pinned original API
+        run: python compat/oculus-memory-copy/tests/test_memory_copy.py --download-reference --report qa-out/oculus-memory-parity.json
+      - name: Verify inactive grass compute policy and shader declaration conversion
+        run: |
+          python integration/dimensions/tests/test_inactive_grass.py --report qa-out/inactive-grass.json
+          python integration/dimensions/tests/test_glsl_comments.py --report qa-out/glsl-comments.json
+          python integration/dimensions/tests/test_glsl_varyings.py --report qa-out/glsl-varyings.json
+          python integration/dimensions/tests/test_legacy_shader_matrices.py --report qa-out/legacy-shader-matrices.json
+          python integration/dimensions/tests/test_forge_render_stage.py --report qa-out/forge-render-stage.json
       - name: Build optional OpenGL texture compatibility mod
         run: ./source/gradlew -p compat/opengl-texture-lookup build --no-daemon --max-workers=4
       - name: Verify texture lookup ownership and original failure propagation
@@ -63,6 +74,7 @@ jobs:
           mkdir -p qa-out/grass-distance
           javac -encoding UTF-8 -d qa-out/grass-distance compat/grass-distance-sort/src/main/java/mvhgrasscompat/DistanceSort.java compat/grass-distance-sort/tests/DistanceSortRegression.java
           java -ea -cp qa-out/grass-distance DistanceSortRegression
+          python compat/grass-distance-sort/tests/test_memoized_distance.py --report qa-out/grass-memo-parity.json
       - name: Build isolated native benchmark recorder
         run: ./source/gradlew -p benchmarks/control-forge build --no-daemon --max-workers=4
       - name: Verify packaged Minecraft resource metadata

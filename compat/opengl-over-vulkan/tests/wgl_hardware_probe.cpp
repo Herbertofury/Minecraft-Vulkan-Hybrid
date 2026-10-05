@@ -3,6 +3,7 @@
 #include <GL/gl.h>
 #include <cstdio>
 #include <cstring>
+#include <cwchar>
 #include <vector>
 #include <string>
 #include <chrono>
@@ -13,12 +14,18 @@ template<class F> F load(HMODULE module, const char* name) {
     return reinterpret_cast<F>(p);
 }
 int wmain(int argc,wchar_t** argv) {
-    if(argc!=2) return 2;
+    if(argc<2||argc>4) return 2;
+    bool systemSwap=argc>=3&&std::wcscmp(argv[2],L"--gdi")==0;
+    if(argc>=3&&!systemSwap&&std::wcscmp(argv[2],L"--mesa")!=0)return 2;
+    bool gameSize=argc==4&&std::wcscmp(argv[3],L"--game-size")==0;
+    if(argc==4&&!gameSize)return 2;
     HMODULE mesa=LoadLibraryExW(argv[1],nullptr,LOAD_WITH_ALTERED_SEARCH_PATH);
     if(!mesa) { std::fprintf(stderr,"Mesa load failed: %lu\n",GetLastError());return 3; }
     WNDCLASSW cls{};cls.style=CS_OWNDC;cls.lpfnWndProc=DefWindowProcW;cls.hInstance=GetModuleHandleW(nullptr);cls.lpszClassName=L"MVH isolated Zink probe";
     if(!RegisterClassW(&cls)) return 4;
-    HWND win=CreateWindowW(cls.lpszClassName,L"MVH Zink hardware validation",WS_OVERLAPPEDWINDOW,0,0,256,256,nullptr,nullptr,cls.hInstance,nullptr);
+    RECT rect{0,0,gameSize?1920:256,gameSize?1080:256};
+    AdjustWindowRect(&rect,WS_OVERLAPPEDWINDOW,FALSE);
+    HWND win=CreateWindowW(cls.lpszClassName,L"MVH Zink hardware validation",WS_OVERLAPPEDWINDOW,0,0,rect.right-rect.left,rect.bottom-rect.top,nullptr,nullptr,cls.hInstance,nullptr);
     HDC dc=GetDC(win);
     auto choose=load<int(WINAPI*)(HDC,const PIXELFORMATDESCRIPTOR*)>(mesa,"wglChoosePixelFormat");
     auto set=load<BOOL(WINAPI*)(HDC,int,const PIXELFORMATDESCRIPTOR*)>(mesa,"wglSetPixelFormat");
@@ -26,7 +33,9 @@ int wmain(int argc,wchar_t** argv) {
     auto make=load<BOOL(WINAPI*)(HDC,HGLRC)>(mesa,"wglMakeCurrent");
     auto destroy=load<BOOL(WINAPI*)(HGLRC)>(mesa,"wglDeleteContext");
     auto get=load<PROC(WINAPI*)(LPCSTR)>(mesa,"wglGetProcAddress");
-    auto swap=load<BOOL(WINAPI*)(HDC)>(mesa,"wglSwapBuffers");
+    auto mesaSwap=load<BOOL(WINAPI*)(HDC)>(mesa,"wglSwapBuffers");
+    auto swap=systemSwap?&::SwapBuffers:mesaSwap;
+    std::printf("SWAP_ROUTE %s CLIENT_SIZE %dx%d\n",systemSwap?"system-GDI32":"Mesa-WGL",gameSize?1920:256,gameSize?1080:256);
     PIXELFORMATDESCRIPTOR pfd{};pfd.nSize=sizeof(pfd);pfd.nVersion=1;pfd.dwFlags=PFD_DRAW_TO_WINDOW|PFD_SUPPORT_OPENGL|PFD_DOUBLEBUFFER;pfd.iPixelType=PFD_TYPE_RGBA;pfd.cColorBits=32;pfd.cAlphaBits=8;pfd.cDepthBits=24;
     int format=choose(dc,&pfd);
     if(!format||!set(dc,format,&pfd)) return 5;

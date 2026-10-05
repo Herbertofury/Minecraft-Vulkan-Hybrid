@@ -1,0 +1,62 @@
+{
+  "repository": "https://github.com/trptrk/Iris-Vulkan",
+  "commit": "9bae8e9a3c8b6ec34f871657b36331ebcd9f1a84",
+  "source_license": "LGPL-3.0; dependency licenses must be reviewed separately",
+  "scope": "Text inspection only; no build, installation, compatibility or performance acceptance",
+  "files": [
+    {
+      "path": "src/main/java/net/irisshaders/iris/mixin/vulkan/MixinVulkanValidation.java",
+      "sha256": "208744219817ba3f4b924d46a28a5149b0cefb719a7baebd582f8b0c4b0b7e08",
+      "bytes": 5868,
+      "source_url": "https://github.com/trptrk/Iris-Vulkan/blob/9bae8e9a3c8b6ec34f871657b36331ebcd9f1a84/src/main/java/net/irisshaders/iris/mixin/vulkan/MixinVulkanValidation.java"
+    },
+    {
+      "path": "src/main/java/net/irisshaders/iris/mixin/vulkan/MixinVulkanWorldRenderer.java",
+      "sha256": "8377f3f1deb7026e6b2cbc6163cb3295780c066918f1b2afcb5cd2e3af2605ac",
+      "bytes": 1594,
+      "source_url": "https://github.com/trptrk/Iris-Vulkan/blob/9bae8e9a3c8b6ec34f871657b36331ebcd9f1a84/src/main/java/net/irisshaders/iris/mixin/vulkan/MixinVulkanWorldRenderer.java"
+    },
+    {
+      "path": "src/main/java/net/irisshaders/iris/pipeline/VulkanTerrainPipeline.java",
+      "sha256": "79be2f63830b9d474d20fea704a0cfe98f074fed96f65ec661b1ddc2a6723973",
+      "bytes": 25333,
+      "source_url": "https://github.com/trptrk/Iris-Vulkan/blob/9bae8e9a3c8b6ec34f871657b36331ebcd9f1a84/src/main/java/net/irisshaders/iris/pipeline/VulkanTerrainPipeline.java"
+    },
+    {
+      "path": "src/main/java/net/irisshaders/iris/vulkan/pipeline/IrisGraphicsPipeline.java",
+      "sha256": "4a4794b5e1380f5f2b32d1ccb19ddd35679b866c16bd40aaa62080d4cdb31781",
+      "bytes": 6294,
+      "source_url": "https://github.com/trptrk/Iris-Vulkan/blob/9bae8e9a3c8b6ec34f871657b36331ebcd9f1a84/src/main/java/net/irisshaders/iris/vulkan/pipeline/IrisGraphicsPipeline.java"
+    },
+    {
+      "path": "src/main/java/net/irisshaders/iris/vulkan/pipeline/IrisPipelineManager.java",
+      "sha256": "1ce243a1f46299c264ad40ffb9bfa885d625ade06b3dd5618bf6150481bfcbfe",
+      "bytes": 4237,
+      "source_url": "https://github.com/trptrk/Iris-Vulkan/blob/9bae8e9a3c8b6ec34f871657b36331ebcd9f1a84/src/main/java/net/irisshaders/iris/vulkan/pipeline/IrisPipelineManager.java"
+    },
+    {
+      "path": "src/main/java/net/irisshaders/iris/vulkan/pipeline/PipelineStateKey.java",
+      "sha256": "cee46388df11de96c837d64e26c6945dad2c876414d7ee150f5abb6a6066a128",
+      "bytes": 7082,
+      "source_url": "https://github.com/trptrk/Iris-Vulkan/blob/9bae8e9a3c8b6ec34f871657b36331ebcd9f1a84/src/main/java/net/irisshaders/iris/vulkan/pipeline/PipelineStateKey.java"
+    },
+    {
+      "path": "src/main/java/net/irisshaders/iris/vulkan/shader/IrisSPIRVCompiler.java",
+      "sha256": "c9d9aeb7bc7cad48f2c2deeb44bd47aea6cea2c7b902e8a8949ea1ec1af53e35",
+      "bytes": 40287,
+      "source_url": "https://github.com/trptrk/Iris-Vulkan/blob/9bae8e9a3c8b6ec34f871657b36331ebcd9f1a84/src/main/java/net/irisshaders/iris/vulkan/shader/IrisSPIRVCompiler.java"
+    },
+    {
+      "path": "src/main/java/net/irisshaders/iris/vulkan/uniform/IrisUniformBuffer.java",
+      "sha256": "cf8f40b7d85b4ca834aeca717138b4d6a29e2595f18e80dfb693df4e22534c54",
+      "bytes": 6309,
+      "source_url": "https://github.com/trptrk/Iris-Vulkan/blob/9bae8e9a3c8b6ec34f871657b36331ebcd9f1a84/src/main/java/net/irisshaders/iris/vulkan/uniform/IrisUniformBuffer.java"
+    },
+    {
+      "path": "src/main/java/net/irisshaders/iris/vulkan/uniform/UniformLayout.java",
+      "sha256": "601ee3cde4daa000a754dc3420aff58e809cce2195e89c3e2b1d3ae94e5f9942",
+      "bytes": 3689,
+      "source_url": "https://github.com/trptrk/Iris-Vulkan/blob/9bae8e9a3c8b6ec34f871657b36331ebcd9f1a84/src/main/java/net/irisshaders/iris/vulkan/uniform/UniformLayout.java"
+    }
+  ]
+}

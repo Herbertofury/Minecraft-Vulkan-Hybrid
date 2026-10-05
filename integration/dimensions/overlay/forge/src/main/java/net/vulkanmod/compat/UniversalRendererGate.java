@@ -127,7 +127,8 @@ public final class UniversalRendererGate {
         }
 
         InactiveModernFixGlAudit inactiveAudit = InactiveModernFixGlAudit.inspect(jars);
-        String signature = signature(jars, loadedIds, indigoOnClasspath) + ":" + inactiveAudit.cacheKey();
+        InactiveGrassComputeGlAudit grassAudit = InactiveGrassComputeGlAudit.inspect(jars, loadedIds);
+        String signature = signature(jars, loadedIds, indigoOnClasspath) + ":" + inactiveAudit.cacheKey() + ":" + grassAudit.cacheKey();
         boolean useCache = Boolean.parseBoolean(System.getProperty(CACHE_PROPERTY, "true"));
         if (useCache) {
             Decision cached = readCache(signature);
@@ -160,7 +161,7 @@ public final class UniversalRendererGate {
                     ZipEntry entry = entries.nextElement();
                     if (entry.isDirectory()) continue;
                     if (entry.getName().endsWith(".class")) {
-                        if (inactiveAudit.excludes(jar, entry.getName())) continue;
+                        if (inactiveAudit.excludes(jar, entry.getName()) || grassAudit.excludes(jar, entry.getName())) continue;
                         try (InputStream input = zip.getInputStream(entry)) {
                             collectUnsupported(openGlMethodRefs(input), contracts, unsupported, jar.getFileName().toString());
                         }

@@ -1,0 +1,215 @@
+{
+  "status": "Partial foundation; visible native grass implemented, target and complete pack/shader/feature acceptance pending",
+  "groups": [
+    {
+      "stage": "011-grassiergrass",
+      "captures": [
+        {
+          "trial": "01-cumulative",
+          "average_fps": 327.328585977742,
+          "one_percent_low_fps": 134.88159235485688,
+          "p95_ms": 4.9127,
+          "p99_ms": 6.3254,
+          "max_ms": 11.4738,
+          "api_renderer": "OPENGL_FALLBACK",
+          "assessment": "OPENGL_ONLY_NATIVE_GOAL_UNMET"
+        }
+      ],
+      "median_fps": 327.328585977742
+    },
+    {
+      "stage": "011-grassiergrass-native-compat-v7-retry2",
+      "captures": [
+        {
+          "trial": "01-cumulative",
+          "average_fps": 2348.558196200148,
+          "one_percent_low_fps": 482.22600448531745,
+          "p95_ms": 0.6136,
+          "p99_ms": 1.241,
+          "max_ms": 4.656,
+          "api_renderer": "VULKAN",
+          "assessment": "REJECTED_MISSING_GRASS_GEOMETRY"
+        },
+        {
+          "trial": "02-cumulative",
+          "average_fps": 2401.307591315969,
+          "one_percent_low_fps": 517.0892251443062,
+          "p95_ms": 0.5903,
+          "p99_ms": 1.2203,
+          "max_ms": 4.7598,
+          "api_renderer": "VULKAN",
+          "assessment": "REJECTED_MISSING_GRASS_GEOMETRY"
+        },
+        {
+          "trial": "03-cumulative",
+          "average_fps": 2388.0141496196634,
+          "one_percent_low_fps": 496.32618252135774,
+          "p95_ms": 0.5639,
+          "p99_ms": 1.1885,
+          "max_ms": 10.2099,
+          "api_renderer": "VULKAN",
+          "assessment": "REJECTED_MISSING_GRASS_GEOMETRY"
+        }
+      ],
+      "median_fps": 2388.0141496196634
+    },
+    {
+      "stage": "011-grassiergrass-native-compat-v8",
+      "captures": [
+        {
+          "trial": "01-cumulative",
+          "average_fps": 2616.386918065337,
+          "one_percent_low_fps": 584.5986480802527,
+          "p95_ms": 0.4841,
+          "p99_ms": 0.7791,
+          "max_ms": 3.4631,
+          "api_renderer": "VULKAN",
+          "assessment": "REJECTED_MISSING_GRASS_GEOMETRY"
+        }
+      ],
+      "median_fps": 2616.386918065337
+    },
+    {
+      "stage": "011-grassiergrass-native-compat-v9",
+      "captures": [
+        {
+          "trial": "01-cumulative",
+          "average_fps": 1221.1916226254532,
+          "one_percent_low_fps": 432.2949028661621,
+          "p95_ms": 0.9126,
+          "p99_ms": 2.2231,
+          "max_ms": 3.9119,
+          "api_renderer": "VULKAN",
+          "assessment": "NATIVE_VISIBLE_GRASS_TARGET_SHORTFALL_REQUIRES_OPTIMIZATION"
+        }
+      ],
+      "median_fps": 1221.1916226254532
+    },
+    {
+      "stage": "011-grass-native-v9-profile",
+      "captures": [
+        {
+          "trial": "01-cumulative",
+          "average_fps": 1222.9471688122958,
+          "one_percent_low_fps": 419.3741246850692,
+          "p95_ms": 0.927,
+          "p99_ms": 2.2657,
+          "max_ms": 4.441,
+          "api_renderer": "VULKAN",
+          "assessment": "NATIVE_VISIBLE_GRASS_TARGET_SHORTFALL_REQUIRES_OPTIMIZATION"
+        }
+      ],
+      "median_fps": 1222.9471688122958
+    },
+    {
+      "stage": "grass-sort-native-01-absent",
+      "captures": [
+        {
+          "trial": "01-cumulative",
+          "average_fps": 1215.4632917302706,
+          "one_percent_low_fps": 405.9917711585667,
+          "p95_ms": 0.9839,
+          "p99_ms": 2.2301,
+          "max_ms": 10.4303,
+          "api_renderer": "VULKAN",
+          "assessment": "NATIVE_VISIBLE_GRASS_TARGET_SHORTFALL_REQUIRES_OPTIMIZATION"
+        }
+      ],
+      "median_fps": 1215.4632917302706
+    },
+    {
+      "stage": "grass-sort-native-02-present",
+      "captures": [
+        {
+          "trial": "01-cumulative",
+          "average_fps": 1377.5155496075954,
+          "one_percent_low_fps": 426.78863612371987,
+          "p95_ms": 0.8428,
+          "p99_ms": 2.1676,
+          "max_ms": 4.3266,
+          "api_renderer": "VULKAN",
+          "assessment": "NATIVE_VISIBLE_GRASS_TARGET_SHORTFALL_REQUIRES_OPTIMIZATION"
+        }
+      ],
+      "median_fps": 1377.5155496075954
+    },
+    {
+      "stage": "grass-sort-native-03-present",
+      "captures": [
+        {
+          "trial": "01-cumulative",
+          "average_fps": 1307.872251310418,
+          "one_percent_low_fps": 380.58608126006743,
+          "p95_ms": 0.9338,
+          "p99_ms": 2.4296,
+          "max_ms": 5.7566,
+          "api_renderer": "VULKAN",
+          "assessment": "NATIVE_VISIBLE_GRASS_TARGET_SHORTFALL_REQUIRES_OPTIMIZATION"
+        }
+      ],
+      "median_fps": 1307.872251310418
+    },
+    {
+      "stage": "grass-sort-native-04-absent",
+      "captures": [
+        {
+          "trial": "01-cumulative",
+          "average_fps": 1237.8981967949849,
+          "one_percent_low_fps": 420.44972523271394,
+          "p95_ms": 0.9944,
+          "p99_ms": 2.2165,
+          "max_ms": 7.2498,
+          "api_renderer": "VULKAN",
+          "assessment": "NATIVE_VISIBLE_GRASS_TARGET_SHORTFALL_REQUIRES_OPTIMIZATION"
+        }
+      ],
+      "median_fps": 1237.8981967949849
+    },
+    {
+      "stage": "grass-sort-native-05-absent",
+      "captures": [
+        {
+          "trial": "01-cumulative",
+          "average_fps": 1054.9479659557246,
+          "one_percent_low_fps": 330.958989691828,
+          "p95_ms": 1.2918,
+          "p99_ms": 2.655,
+          "max_ms": 6.8669,
+          "api_renderer": "VULKAN",
+          "assessment": "NATIVE_VISIBLE_GRASS_TARGET_SHORTFALL_REQUIRES_OPTIMIZATION"
+        }
+      ],
+      "median_fps": 1054.9479659557246
+    },
+    {
+      "stage": "grass-sort-native-06-present",
+      "captures": [
+        {
+          "trial": "01-cumulative",
+          "average_fps": 1283.2758744135697,
+          "one_percent_low_fps": 375.2501017561317,
+          "p95_ms": 1.1742,
+          "p99_ms": 2.2889,
+          "max_ms": 4.416,
+          "api_renderer": "VULKAN",
+          "assessment": "NATIVE_VISIBLE_GRASS_TARGET_SHORTFALL_REQUIRES_OPTIMIZATION"
+        }
+      ],
+      "median_fps": 1283.2758744135697
+    }
+  ],
+  "failed_attempts": [
+    {
+      "stage": "011-grassiergrass-native-compat-v5",
+      "reason": "Original trailing GLSL comment was parsed as a uniform type; no frame capture"
+    },
+    {
+      "stage": "011-grassiergrass-native-compat-v6",
+      "reason": "Custom varying interpolation/location conversion failed SPIR-V compilation; no frame capture"
+    },
+    {
+      "stage": "011-grassiergrass-native-compat-v7",
+      "reason": "Exited normally before capture; cause not established; no accepted FPS"
+    }
+  ]
+}

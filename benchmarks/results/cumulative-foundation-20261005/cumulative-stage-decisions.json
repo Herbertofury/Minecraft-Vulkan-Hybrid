@@ -1,0 +1,190 @@
+[
+  {
+    "stage": "002-modernfix",
+    "file": "modernfix-forge-5.27.83+mc1.20.1.jar",
+    "status": "PASS_WITH_RECORDED_LIMITS",
+    "effective_run_stage": "002-modernfix-native-warning-repaired",
+    "previous_attempt_status": "FAILED_LAUNCH_OR_CAPTURE_REQUIRES_DIAGNOSIS",
+    "resolution": "Exact inactive ModernFix GL class audit in integrated Hari .3 plus missing-performance-mod advisory disabled only in cumulative profile; failures retained; all repeats actual VULKAN, normal save/exit",
+    "previous_median_fps": 2527.352269183205,
+    "median_fps": 2559.4887382495467,
+    "change_percent": 1.2715468855763357,
+    "repeats": 3,
+    "renderer": "VULKAN",
+    "performance_keep_status": "Provisional pending independent startup/memory/hitch benefit comparisons; not credited as an FPS speedup"
+  },
+  {
+    "stage": "003-architectury",
+    "file": "architectury-9.2.14-forge.jar",
+    "mod_ids": [
+      "architectury"
+    ],
+    "original_sha256": "218b471d0b8a1f6cda14cfc1beb9eeb0df54304500acc6c5613d9b88ec65d9af",
+    "installed_sha256": "218b471d0b8a1f6cda14cfc1beb9eeb0df54304500acc6c5613d9b88ec65d9af",
+    "previous_median_fps": 2559.4887382495467,
+    "median_fps": 2452.912328227443,
+    "change_percent": -4.163972610209332,
+    "renderer": "VULKAN",
+    "repeats": 3,
+    "status": "PASS_WITH_RECORDED_LIMITS"
+  },
+  {
+    "stage": "004-cloth_config",
+    "file": "cloth-config-11.1.136-forge.jar",
+    "mod_ids": [
+      "cloth_config"
+    ],
+    "original_sha256": "1e895e85cf5b1e1905ef3178ec155c8badfe22a1577b92c09143a5aa1f4ce0f2",
+    "installed_sha256": "1e895e85cf5b1e1905ef3178ec155c8badfe22a1577b92c09143a5aa1f4ce0f2",
+    "previous_median_fps": 2452.912328227443,
+    "median_fps": 2433.010130526841,
+    "change_percent": -0.811370119982413,
+    "renderer": "VULKAN",
+    "repeats": 1,
+    "status": "PASS_WITH_RECORDED_LIMITS"
+  },
+  {
+    "stage": "005-geckolib",
+    "file": "geckolib-forge-1.20.1-4.8.4.jar",
+    "mod_ids": [
+      "geckolib"
+    ],
+    "original_sha256": "c04abba4fd354dd8c0e8a732f1f05f4dca893d2e1d962b2ab128bbd411478747",
+    "installed_sha256": "c04abba4fd354dd8c0e8a732f1f05f4dca893d2e1d962b2ab128bbd411478747",
+    "previous_median_fps": 2433.010130526841,
+    "median_fps": 2542.7306719418807,
+    "change_percent": 4.509662333024522,
+    "renderer": "VULKAN",
+    "repeats": 1,
+    "status": "PASS_WITH_RECORDED_LIMITS"
+  },
+  {
+    "stage": "006-citadel",
+    "file": "citadel-2.6.3-1.20.1.jar",
+    "mod_ids": [
+      "citadel"
+    ],
+    "original_sha256": "56c7ab87348a5292583aac787b6cf11b5193e77f02af1d17ea75a96f8640b3ce",
+    "installed_sha256": "56c7ab87348a5292583aac787b6cf11b5193e77f02af1d17ea75a96f8640b3ce",
+    "previous_median_fps": 2542.7306719418807,
+    "median_fps": 2405.9635469339487,
+    "change_percent": -5.378749960312668,
+    "renderer": "VULKAN",
+    "repeats": 3,
+    "status": "PASS_WITH_RECORDED_LIMITS",
+    "matched_resolution": {
+      "status": "Earlier decline did not reproduce in isolated ABBAAB; required library retained; no causal speedup claim",
+      "results": "citadel-only-abbaab-20261005/SUMMARY.json",
+      "median_absent_fps": 2319.6072222880834,
+      "median_present_fps": 2490.0372842267348
+    }
+  },
+  {
+    "stage": "007-curios",
+    "file": "curios-forge-5.14.1+1.20.1-Noxviola-PerfLeakFix-v3.jar",
+    "mod_ids": [
+      "curios"
+    ],
+    "original_sha256": "4c4b668d4ddca09504f1aa80341e9a90e4405f2969178a5fa5e4542cbbff9803",
+    "installed_sha256": "4c4b668d4ddca09504f1aa80341e9a90e4405f2969178a5fa5e4542cbbff9803",
+    "previous_median_fps": 2405.9635469339487,
+    "median_fps": 2499.1295763085964,
+    "change_percent": 3.872295966136896,
+    "renderer": "VULKAN",
+    "repeats": 1,
+    "status": "PASS_WITH_RECORDED_LIMITS",
+    "effective_trial_dirs": [
+      "citadel-cost-02-present/01-cumulative",
+      "citadel-cost-03-present-retry2/01-cumulative",
+      "citadel-cost-06-present/01-cumulative"
+    ],
+    "latest_reference_reason": "Same full foundation mod set, Citadel present trials from the isolated library ABBAAB study",
+    "latest_reference_median_fps": 2490.0372842267348
+  },
+  {
+    "stage": "008-embeddium",
+    "file": "embeddium-0.3.31+mc1.20.1.jar",
+    "mod_ids": [
+      "embeddium",
+      "rubidium"
+    ],
+    "original_sha256": "eed3d1325f2acc2fd4e69bb495e5ccb91d962126ac5330f0582ebc2a3daf47fb",
+    "installed_sha256": "eed3d1325f2acc2fd4e69bb495e5ccb91d962126ac5330f0582ebc2a3daf47fb",
+    "previous_median_fps": 2490.0372842267348,
+    "median_fps": 2418.1678222469327,
+    "change_percent": -2.8862805563218963,
+    "renderer": "OPENGL_FALLBACK",
+    "repeats": 1,
+    "status": "EXCLUDED_BY_USER",
+    "exclusion_reason": "User explicitly excludes Embeddium and Zink and requests native continuation after Citadel",
+    "effective_trial_dirs": [
+      "citadel-cost-02-present/01-cumulative",
+      "citadel-cost-03-present-retry2/01-cumulative",
+      "citadel-cost-06-present/01-cumulative"
+    ]
+  },
+  {
+    "stage": "009-immediatelyfast",
+    "file": "ImmediatelyFast-Forge-1.5.5+1.20.4.jar",
+    "mod_ids": [
+      "immediatelyfast"
+    ],
+    "original_sha256": "82db19cc65b5c11a444498fb4b8cbcb0393c043e794cb5bf368631a0af765035",
+    "installed_sha256": "82db19cc65b5c11a444498fb4b8cbcb0393c043e794cb5bf368631a0af765035",
+    "previous_median_fps": 2490.0372842267348,
+    "median_fps": 759.7088555140145,
+    "change_percent": -69.49006103938973,
+    "renderer": "OPENGL_FALLBACK",
+    "repeats": 1,
+    "status": "REJECTED_NATIVE_PERFORMANCE_MOD",
+    "decision_reason": "Performance mod selects OpenGL and fails native target; no accepted native benefit; removed from isolated native build",
+    "effective_trial_dirs": [
+      "009-immediatelyfast-removed-native-check/01-cumulative",
+      "009-immediatelyfast-removed-native-check/02-cumulative",
+      "009-immediatelyfast-removed-native-check/03-cumulative"
+    ],
+    "latest_reference_median_fps": 2571.0993915064882,
+    "latest_reference_renderer": "VULKAN"
+  },
+  {
+    "stage": "010-oculus",
+    "file": "oculus-mc1.20.1-1.8.0-Noxviola-SAME-DIM-FIX.jar",
+    "status": "DEFERRED_SHADER_COMPATIBILITY",
+    "previous_attempt_status": "FAILED_LAUNCH_OR_CAPTURE_REQUIRES_DIAGNOSIS",
+    "exclusion_reason": "Required Oculus/Iris native interoperation is pending; disabled only during the isolated native grass repair",
+    "startup_repair_result": {
+      "stage": "010-oculus-memory-api-repaired",
+      "renderer": "OPENGL_FALLBACK",
+      "average_fps": 513.6082487064684,
+      "native_shader_accepted": false
+    },
+    "effective_trial_dirs": [
+      "009-immediatelyfast-removed-native-check/01-cumulative",
+      "009-immediatelyfast-removed-native-check/02-cumulative",
+      "009-immediatelyfast-removed-native-check/03-cumulative"
+    ],
+    "shader_replacement_status": "No verified Forge 1.20.1 Beryl artifact; experimental source ports are reference candidates only",
+    "latest_user_direction": "Oculus/Iris interoperability and comparable performance are required; keep native grass repair progressing first; no permanent exclusion or functioning shader replacement claimed"
+  },
+  {
+    "stage": "011-grassiergrass",
+    "file": "Grassier-Grass-1.4.5-Render-Performance-Fix-REPLACEMENT-2.jar",
+    "mod_ids": [
+      "grassiergrass"
+    ],
+    "original_sha256": "91006e8220e65572d7e9e1e54b6058526c4adf908faedc750c9f19f13623df8c",
+    "installed_sha256": "91006e8220e65572d7e9e1e54b6058526c4adf908faedc750c9f19f13623df8c",
+    "previous_median_fps": 2571.0993915064882,
+    "median_fps": 327.328585977742,
+    "change_percent": -87.26892522867621,
+    "renderer": "OPENGL_FALLBACK",
+    "repeats": 1,
+    "status": "NATIVE_TARGET_SHORTFALL_REQUIRES_OPTIMIZATION",
+    "previous_attempt_status": "RENDERER_TRANSITION_REQUIRES_COMPATIBILITY_WORK",
+    "effective_run_stage": "011-grassiergrass-native-compat-v9",
+    "native_visible_grass_fps": 1221.1916226254532,
+    "native_renderer": "VULKAN",
+    "extended_feature_parity_accepted": false,
+    "rejected_fast_captures": ".7/.8 omit grass geometry and cannot establish target capability"
+  }
+]

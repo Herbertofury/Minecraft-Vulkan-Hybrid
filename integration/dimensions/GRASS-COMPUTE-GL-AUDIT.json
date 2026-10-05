@@ -1,0 +1,20 @@
+{
+  "jar_sha256": "91006e8220e65572d7e9e1e54b6058526c4adf908faedc750c9f19f13623df8c",
+  "jar_bytes": 2300791,
+  "excluded_class": "com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class",
+  "class_sha256": "cbaccf8f51183ae0c5df485877df97a46b4cadb69e601856183226853bc62d85",
+  "direct_gl_classes": 1,
+  "scope": "Only this pinned inactive Iris compute class when neither exact Iris API can load or be found in direct/nested JARs and no Oculus/Iris mod ID is loaded. All other original grass code/assets/settings preserved. Shader provider present, unavailable or changed JAR always uses the ordinary gate. No GL call advertised translated.",
+  "reviewed_callers": [
+    "GrassRenderPass: IrisCompat.isShaderPackInUse && GrassComputeAnimator.isAvailable",
+    "GrassDrawDispatcher: Iris-only animated/shadow dispatch",
+    "GrassSectionBuildBuffers: Iris-only compute-input buffers",
+    "GrassSectionMesh: buffer IDs remain zero on ordinary ShaderInstance path; deleteBuffer(0) performs no GL call"
+  ],
+  "native_path": "GrassRenderType registers original grass/plant ShaderInstances; Hari ShaderInstanceM converts original resource GLSL to SPIR-V, preserves mod-owned uniforms, and VertexBufferM submits actual Vulkan draws",
+  "shader_api_classes": [
+    "net.irisshaders.iris.api.v0.IrisApi",
+    "net.coderbot.iris.api.v0.IrisApi"
+  ],
+  "runtime_status": ".9 restores original Forge terrain callback and converted shader matrices; actual native visible grass captured at 1221.19 FPS with normal save/exit. Target FPS, extended feature parity and active Oculus/Iris interoperation remain unaccepted. .5/.6 shader failures and .7/.8 missing-geometry captures remain rejected."
+}
