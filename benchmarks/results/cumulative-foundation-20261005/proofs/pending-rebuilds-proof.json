@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "scope": "Actual production scheduler body and queue with MC API stubs; budget, original task/failure identities, readiness transition, clean-section skip and visibility-range reset. Runtime GPU/terrain parity separate.",
+  "results": [
+    {
+      "variant": "production",
+      "semantic_regression_passed": true,
+      "expected_pass": true
+    },
+    {
+      "variant": "deferred_builds_lost",
+      "semantic_regression_passed": false,
+      "expected_pass": false
+    },
+    {
+      "variant": "clean_sections_resubmitted",
+      "semantic_regression_passed": false,
+      "expected_pass": false
+    }
+  ]
+}

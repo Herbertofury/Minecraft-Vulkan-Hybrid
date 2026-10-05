@@ -1,0 +1,8 @@
+{
+  "grass_geometry_present": true,
+  "target_fps_accepted": false,
+  "overall_accepted": false,
+  "scope": "Still scene and normal save/exit; extended grass features, shader interoperability and complete pack acceptance pending",
+  "reason": "NATIVE_VISIBLE_GRASS_TARGET_SHORTFALL_REQUIRES_OPTIMIZATION",
+  "automated_playability_limit": "PLAYABILITY.json checks four critical log patterns only; it does not establish visual parity or target acceptance"
+}

@@ -2,7 +2,7 @@ name: Standalone source build and focused regressions
 on:
   push:
     branches: ['migration/**']
-    paths: ['integration/**', 'compat/**', 'source/**', 'tools/**', 'provenance/**', 'minecraft/**', '.github/workflows/build.yml']
+    paths: ['integration/**', 'compat/**', 'source/**', 'tools/**', 'benchmarks/pack-control-forge/**', 'provenance/**', 'minecraft/**', '.github/workflows/build.yml']
   pull_request:
   workflow_dispatch:
 permissions:
@@ -40,10 +40,14 @@ jobs:
           python integration/dimensions/tests/test_mts_removal.py --report qa-out/mts-removal.json
       - name: Verify palette snapshot, reentrancy and writer exclusion
         run: python integration/dimensions/tests/test_palette_monitor.py --report qa-out/palette-monitor.json
+      - name: Verify retained native rebuild scheduling and original failure identity
+        run: python integration/dimensions/tests/test_pending_rebuilds.py --report qa-out/pending-rebuilds.json
       - name: Verify inactive ModernFix GL audit and cache invalidation
         run: python integration/dimensions/tests/test_inactive_modernfix.py --report qa-out/inactive-modernfix-gate.json
       - name: Verify optional vertex-memory repair against the pinned original API
         run: python compat/oculus-memory-copy/tests/test_memory_copy.py --download-reference --report qa-out/oculus-memory-parity.json
+      - name: Verify reference Iris shader source cache identity
+        run: python compat/vulkan-shaders/tests/test_compile_key.py --report qa-out/iris-source-cache-key.json
       - name: Verify inactive grass compute policy and shader declaration conversion
         run: |
           python integration/dimensions/tests/test_inactive_grass.py --report qa-out/inactive-grass.json
@@ -75,10 +79,13 @@ jobs:
           javac -encoding UTF-8 -d qa-out/grass-distance compat/grass-distance-sort/src/main/java/mvhgrasscompat/DistanceSort.java compat/grass-distance-sort/tests/DistanceSortRegression.java
           java -ea -cp qa-out/grass-distance DistanceSortRegression
           python compat/grass-distance-sort/tests/test_memoized_distance.py --report qa-out/grass-memo-parity.json
+          python compat/grass-distance-sort/tests/test_invalidation_lifecycle.py --report qa-out/grass-invalidation-lifecycle.json
       - name: Build isolated native benchmark recorder
         run: ./source/gradlew -p benchmarks/control-forge build --no-daemon --max-workers=4
+      - name: Build marker-confined cumulative recorder and native grass smoke
+        run: ./source/gradlew -p benchmarks/pack-control-forge build --no-daemon --max-workers=4
       - name: Verify packaged Minecraft resource metadata
-        run: python tools/verify_pack_metadata.py 'source/forge/build/libs/*-all.jar' '../hari-integrated-ci/forge/build/libs/*-all.jar' 'compat/opengl-texture-lookup/build/libs/*.jar' 'compat/fieldguide-query-split/build/libs/*.jar' 'benchmarks/control-forge/build/libs/*.jar' 'compat/grass-distance-sort/build/libs/*.jar'
+        run: python tools/verify_pack_metadata.py 'source/forge/build/libs/*-all.jar' '../hari-integrated-ci/forge/build/libs/*-all.jar' 'compat/opengl-texture-lookup/build/libs/*.jar' 'compat/fieldguide-query-split/build/libs/*.jar' 'benchmarks/control-forge/build/libs/*.jar' 'benchmarks/pack-control-forge/build/libs/*.jar' 'compat/grass-distance-sort/build/libs/*.jar'
       - name: Run portable production regressions
         run: |
           set -euo pipefail
@@ -100,6 +107,7 @@ jobs:
             compat/opengl-texture-lookup/build/libs/*.jar
             compat/fieldguide-query-split/build/libs/*.jar
             benchmarks/control-forge/build/libs/*.jar
+            benchmarks/pack-control-forge/build/libs/*.jar
             compat/grass-distance-sort/build/libs/*.jar
             qa-out/
             LICENSE

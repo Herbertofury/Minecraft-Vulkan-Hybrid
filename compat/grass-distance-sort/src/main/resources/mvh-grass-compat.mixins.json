@@ -4,7 +4,8 @@
   "package": "mvhgrasscompat.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "GrassDistanceMixin"
+    "GrassDistanceMixin",
+    "GrassInvalidationMixin"
   ],
   "injectors": {
     "defaultRequire": 1

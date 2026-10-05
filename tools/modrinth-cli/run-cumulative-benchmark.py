@@ -1,6 +1,6 @@
 from pathlib import Path
 import argparse,datetime,hashlib,json,msvcrt,psutil,re,shutil,sqlite3,subprocess,time,os,ctypes
-D=Path('C:/Users/Owner/Desktop/Minecraft Vulkan Hybrid/benchmarks');N=D/'cumulative';ap=argparse.ArgumentParser();ap.add_argument('--stage',required=True);ap.add_argument('--zink',action='store_true');ap.add_argument('--profile',action='store_true');ap.add_argument('--export-palette',action='store_true');ap.add_argument('--zink-descriptors',choices=['auto','lazy','db'],default='auto');ap.add_argument('--repeat',type=int,default=1);a=ap.parse_args();assert re.fullmatch('[A-Za-z0-9_-]+',a.stage);assert 1<=a.repeat<=6
+D=Path('C:/Users/Owner/Desktop/Minecraft Vulkan Hybrid/benchmarks');N=D/'cumulative';ap=argparse.ArgumentParser();ap.add_argument('--stage',required=True);ap.add_argument('--zink',action='store_true');ap.add_argument('--profile',action='store_true');ap.add_argument('--grass-smoke',action='store_true');ap.add_argument('--owned-gpu',action='store_true');ap.add_argument('--export-palette',action='store_true');ap.add_argument('--zink-descriptors',choices=['auto','lazy','db'],default='auto');ap.add_argument('--repeat',type=int,default=1);a=ap.parse_args();assert re.fullmatch('[A-Za-z0-9_-]+',a.stage);assert 1<=a.repeat<=6;assert not a.owned_gpu or (a.profile and not a.zink);assert not a.grass_smoke or (a.repeat==1 and not a.profile and not a.zink and not a.export_palette)
 R=N/'runs'/a.stage;R.mkdir(parents=True,exist_ok=True);row=json.loads((N/'instance.json').read_text());rows=[row];by={'cumulative':row}
 assert row['id']=='local:b6985be9-ded6-4a96-85cd-5a2548b1d900'
 P=D/'pristine-world';exe=D/'tools/mvh_pack_cli.exe';opts=N/'matched-options.txt';worldname='MVH-Benchmark-20261004';db=Path('C:/Users/Owner/AppData/Roaming/ModrinthApp/app.db')
@@ -52,6 +52,7 @@ for num,kind in enumerate(['cumulative']*a.repeat,1):
   archive(world,N/'archived-worlds'/a.stage/label)
  shutil.copytree(P,world);assert manifest(world)==expected
  if (p/'mvh-pack-fps.json').exists():archive(p/'mvh-pack-fps.json',out/'previous-fps.json')
+ if a.grass_smoke and (p/'mvh-grass-native-smoke.json').exists():archive(p/'mvh-grass-native-smoke.json',out/'previous-grass-smoke.json')
  for shot in (p/'screenshots').glob('*.png'):archive(shot,N/'archived-screenshots'/a.stage/label/shot.name)
  shutil.copy2(opts,p/'options.txt');shutil.copy2(opts,out/'options.txt')
  mods=[{'name':f.name,'sha256':hashlib.file_digest(f.open('rb'),'sha256').hexdigest()} for f in sorted((p/'mods').glob('*.jar'))]
@@ -59,16 +60,18 @@ for num,kind in enumerate(['cumulative']*a.repeat,1):
  for line in opts.read_text().splitlines():
   key,_,v=line.partition(':')
   if key in ['renderDistance','simulationDistance','graphicsMode','mipmapLevels','entityDistanceScaling','biomeBlendRadius','particles','fov','maxFps','enableVsync','pauseOnLostFocus','resourcePacks']:visual[key]=v
- inputs={'instrumented_diagnostic':a.profile or a.export_palette,'zink_translation_requested':a.zink,'kind':kind,'stage':a.stage,'renderer_experiment':'actual renderer recorded in fps.json','minecraft':'1.20.1','forge':'47.4.26','java':'Temurin 17.0.20.1','maximum_heap_mib':8192,'jvm':['-Dorg.lwjgl.system.stackSize=1024'],'resolution':[1920,1080],'visual_options':visual,'world':worldname,'warmup_s':60,'capture_s':30,'mods':mods,'config_sha256':manifest(p/'config')}
+ inputs={'instrumented_diagnostic':a.profile or a.export_palette or a.grass_smoke,'zink_translation_requested':a.zink,'kind':kind,'stage':a.stage,'renderer_experiment':'actual renderer recorded in fps.json or native smoke report','minecraft':'1.20.1','forge':'47.4.26','java':'Temurin 17.0.20.1','maximum_heap_mib':8192,'jvm':['-Dorg.lwjgl.system.stackSize=1024'],'resolution':[1920,1080],'visual_options':visual,'world':worldname,'warmup_s':60,'capture_s':30,'mods':mods,'config_sha256':manifest(p/'config')}
+ if a.grass_smoke:inputs.update({'scenario':'Native grass reload/animation/trail/dimension smoke; no FPS acceptance','warmup_s':None,'capture_s':None});inputs['jvm'].append('-Dmvh.pack.grass.smoke=true')
  if a.zink:
   mesa=Path('C:/Users/Owner/Documents/Codex/2026-10-04/task-4/mesa-zink-install/bin');pins={'opengl32.dll':'beddcbf6eebdefc58c4b9de6157d2dec8d3133867ed2bc72229aa095218b6523','libgallium_wgl.dll':'675bbd608cf6e043b325edaa9dbe8b5e80466f34a16188fc90df3daacb9b84da','z-1.dll':'0917ecf9b3f1081e31721d4c39b82e6ad3fe694244ec76b5936c4b21e76f70e5'}
   hashes={name:hashlib.file_digest((mesa/name).open('rb'),'sha256').hexdigest() for name in pins};assert hashes==pins,'Translation driver changed after verification';inputs['mesa_driver_sha256']=hashes;inputs['zink_descriptors']=a.zink_descriptors;inputs['jvm'].append('Verified local MesaBridgeAgent with Mesa 26.2.4 presentation patch; per-child GALLIUM_DRIVER=zink and private shader cache')
  if a.profile:inputs['jvm'].append('StartFlightRecording: private sanitized settings, dumponexit=true; diagnostic timing excluded from promotion comparisons')
  (out/'inputs-private.json').write_text(json.dumps(inputs,indent=2));print('START',label,flush=True)
- start=int(time.time()*1000);owned_pids={};java_start=None;observed_screen=None;blocked_since=None
+ start=int(time.time()*1000);owned_pids={};java_start=None;observed_screen=None;blocked_since=None;gpu_collector=None
  with (out/'launcher-private.log').open('w') as log,(out/'gpu.csv').open('w') as gpu,(out/'cpu.csv').open('w') as cpu:
   gpu.write('epoch_ms,timestamp,gpu_percent,memory_percent,memory_mib,power_w,temperature_c,graphics_mhz\n');cpu.write('epoch_ms,system_cpu_percent,java_cpu_percent,java_rss_mib\n')
   childenv=os.environ.copy();command=('launch-cumulative-zink-profile' if a.profile else 'launch-cumulative-zink') if a.zink else ('launch-cumulative-profile' if a.profile else 'launch-cumulative')
+  if a.grass_smoke:command='launch-cumulative-grass-smoke'
   if a.zink:
    childenv['GALLIUM_DRIVER']='zink';childenv['ZINK_DESCRIPTORS']=a.zink_descriptors;childenv['MESA_SHADER_CACHE_DIR']=str(N/'zink-shader-cache');childenv['PATH']=str(mesa)+os.pathsep+childenv.get('PATH','')
   if a.export_palette:
@@ -82,6 +85,10 @@ for num,kind in enumerate(['cumulative']*a.repeat,1):
     if pid not in owned_pids:
      try:
       jp=psutil.Process(pid);assert Path(jp.exe()).name.lower()=='javaw.exe' and abs(jp.create_time()-created)<3;owned_pids[pid]=jp;java_start=round(jp.create_time()*1000)
+      if a.owned_gpu:
+       assert gpu_collector is None
+       counter=N/'diagnostics'/(a.stage+'-'+label+'-owned-gpu.csv');assert not counter.exists()
+       gpu_collector=subprocess.Popen(['powershell.exe','-NoProfile','-NonInteractive','-WindowStyle','Hidden','-File',str(Path(__file__).resolve().parent/'Get-Owned-GpuCounters.ps1'),'-TaskJavaProcessId',str(pid),'-TaskJavaStartEpochMs',str(java_start),'-TaskOutputCsv',str(counter)],stdout=log,stderr=log,creationflags=subprocess.CREATE_NO_WINDOW)
      except psutil.NoSuchProcess:pass
    jpct=rss=0.
    for jp in owned_pids.values():
@@ -103,6 +110,15 @@ for num,kind in enumerate(['cumulative']*a.repeat,1):
     retain_failed_log(p,out);raise RuntimeError('Owned test exceeded 10 minutes; inspect retained loading diagnostics')
    time.sleep(max(0,1-(time.monotonic()-tick)))
  assert proc.returncode==0,'Modrinth backend launch failed'
+ if gpu_collector is not None:assert gpu_collector.wait(timeout=15)==0,'Owned GPU counter collector failed; retain its private diagnostics'
+ if a.grass_smoke:
+  report=p/'mvh-grass-native-smoke.json';assert report.exists(),'Grass smoke exited without a report'
+  result=json.loads(report.read_text());shutil.copy2(report,out/'GRASS-SMOKE.json');retain_failed_log(p,out)
+  for shot in (p/'screenshots').glob('*.png'):shutil.copy2(shot,out/shot.name)
+  (out/'DONE-SMOKE.json').write_text(json.dumps({'launcher_start_epoch_ms':start,'java_start_epoch_ms':java_start,'normal_helper_exit':True,'passed':result['passed'],'no_fps_accepted':True},indent=2))
+  print('GRASS_SMOKE_RESULT',result['passed'],'STEP',result['step'],'RENDERER',result['api_renderer'],flush=True)
+  assert result['passed'] and result['api_renderer']=='VULKAN','Grass smoke failed; retained report and screenshots require diagnosis'
+  continue
  if not (p/'mvh-pack-fps.json').exists():
   retain_failed_log(p,out);(out/'REJECTED.json').write_text(json.dumps({'reason':'Game exited without a frame capture; retained loading/crash diagnostics; no accepted FPS','epoch_ms':int(time.time()*1000)},indent=2));raise RuntimeError('Game exited before benchmark; inspect retained diagnostics')
  f=json.loads((p/'mvh-pack-fps.json').read_text());assert f['status']=='complete' and f['frames']>1000;assert f['camera']=='0.5,110.5,0.5 / yaw -68.7007 / pitch 9.999512'

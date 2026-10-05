@@ -58,3 +58,7 @@ The GeckoLib lookup and Field Guide query compatibility addons, benchmark contro
 The optional OpenGL-over-Vulkan driver is Mesa Zink 26.2.4, commit `96cb43121031992b85767f9c1be8f3f48e22b1d2`. Mesa's per-component licenses and source-file notices remain applicable. The WGL patch preserves its upstream MIT header; it does not relicense Mesa under Hari's GPL. Source/build pins and the original Mesa license texts accompany the bridge.
 
 The exact grass distance compatibility addon is new GPL-3.0-only code. It calls the original private Grassier Grass distance function and retains that mod's rendering behavior; no original Grassier Grass assets or implementation are redistributed. The inspected input checksum and version are required.
+
+## Iris reference patch
+
+The source-only SPIR-V cache-key patch derives from trptrk/Iris-Vulkan commit `9bae8e9a3c8b6ec34f871657b36331ebcd9f1a84`, under LGPL-3.0. Upstream Iris and port author credits remain applicable. The original license, source URL and hashes accompany the patch under `compat/vulkan-shaders/reference-patches/`. The reference port is not installed or represented as Forge 1.20.1-compatible.

@@ -13,3 +13,7 @@ A separate WGL presentation patch initializes Vulkan loader metadata and forward
 The completed [native OpenGL ABBAAB series](../noxviola-matched-20261005/REPORT.md) measured median 219.39→175.22 FPS and median startup 166.40→152.82 seconds. Promotion was rejected for frame-performance regressions. Seven OpenGL feature smoke checks passed; full-pack 2,400 FPS and no hitching remain unproven.
 
 An exact-distance Grassier Grass sort experiment passed algorithm parity tests; native performance validation is pending. A cumulative mod-by-mod study starts from the accepted checksummed vanilla scene. Live Noxviola remains untouched.
+
+## Native grass continuation
+
+The [partial native Vulkan grass data](../cumulative-foundation-20261005/REPORT.md) now includes six sole-addon 1.0.1 captures: median FPS 1,202.96 to 1,611.06 (+33.92%), with improved median lows/p99. Six reload/animation/trail/dimension smoke checks passed and reviewed native close-ups show the original grass. This is not a full Noxviola result, all-style/shader-provider parity or zero-hitch acceptance. Embeddium/Zink remain excluded and Oculus/Iris native interoperability remains required but unfinished. The owner-drain invalidation and pending terrain scheduler experiments have separate validation.

@@ -1,0 +1,7 @@
+{
+  "reviewed": true,
+  "native_grass_visible": true,
+  "original_mesh_count": 1253,
+  "original_trail_cells": 28,
+  "scope": "Same six native smoke checks pass; all-style/shader/full-pack parity remains unfinished; no smoke FPS accepted"
+}

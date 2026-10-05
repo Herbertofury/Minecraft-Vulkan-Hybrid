@@ -28,7 +28,7 @@ async fn async_main() -> Result<(), Box<dyn std::error::Error>> {
        },InstallJobStatus::Failed|InstallJobStatus::Interrupted|InstallJobStatus::Canceled=>return Err("Cumulative clone job failed; preserve diagnostics".into()),_=>tokio::time::sleep(Duration::from_millis(500)).await}
       }
     }
-    if arg=="add-cumulative"||arg=="launch-cumulative"||arg=="launch-cumulative-profile"||arg=="launch-cumulative-zink"||arg=="launch-cumulative-zink-profile"||arg=="launch-cumulative-zink-export"||arg=="configure-cumulative" {
+    if arg=="add-cumulative"||arg=="launch-cumulative"||arg=="launch-cumulative-profile"||arg=="launch-cumulative-grass-smoke"||arg=="launch-cumulative-zink"||arg=="launch-cumulative-zink-profile"||arg=="launch-cumulative-zink-export"||arg=="configure-cumulative" {
       let ledger:serde_json::Value=serde_json::from_slice(&std::fs::read("C:/Users/Owner/Desktop/Minecraft Vulkan Hybrid/benchmarks/cumulative/instance.json")?)?;
       let id=ledger["id"].as_str().ok_or("Missing owned cumulative ID")?;
       eprintln!("MVH_PHASE cumulative_state_init");
@@ -55,6 +55,7 @@ async fn async_main() -> Result<(), Box<dyn std::error::Error>> {
         }return Ok(());
       }
       let mut args=vec!["-Dorg.lwjgl.system.stackSize=1024".to_string()];
+      if arg=="launch-cumulative-grass-smoke"{args.push("-Dmvh.pack.grass.smoke=true".into());}
       if arg.starts_with("launch-cumulative-zink") {
         let workspace="C:/Users/Owner/Documents/Codex/2026-10-04/task-4";
         let bin=format!("{}/mesa-zink-install/bin",workspace);

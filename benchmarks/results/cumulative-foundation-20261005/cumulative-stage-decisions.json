@@ -185,6 +185,19 @@
     "native_visible_grass_fps": 1221.1916226254532,
     "native_renderer": "VULKAN",
     "extended_feature_parity_accepted": false,
-    "rejected_fast_captures": ".7/.8 omit grass geometry and cannot establish target capability"
+    "rejected_fast_captures": ".7/.8 omit grass geometry and cannot establish target capability",
+    "native_sort_memo_median_fps": 1611.0552926162964,
+    "sort_memo_fps_change_percent": 33.92463102985137,
+    "native_smoke_checks_passed": [
+      "native_client_resource_reload",
+      "original_native_grass_meshes_and_shader_available",
+      "original_animation_phase_advanced",
+      "client_movement_stamped_original_trail_field",
+      "client_entered_native_nether",
+      "native_overworld_grass_rebuilt_after_roundtrip"
+    ],
+    "native_invalidation_median_fps": 1845.636213669173,
+    "native_invalidation_incremental_gain_percent": 12.57770181818396,
+    "current_grass_addon": "1.0.3"
   }
 ]
