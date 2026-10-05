@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "variants": [
+    {
+      "variant": "production_shape",
+      "repair_accepted": true,
+      "expected": true
+    },
+    {
+      "variant": "unknown_capability",
+      "repair_accepted": false,
+      "expected": false
+    },
+    {
+      "variant": "lost_disable",
+      "repair_accepted": false,
+      "expected": false
+    },
+    {
+      "variant": "unknown_call_owner",
+      "repair_accepted": false,
+      "expected": false
+    },
+    {
+      "variant": "unknown_call_site",
+      "repair_accepted": false,
+      "expected": false
+    }
+  ],
+  "scope": "Actual ASM patcher rejects capability, owner, site and count mutations. Successful shape retains every disassembled instruction except four call owners. Whole-input/nested/class hashes and private-original byte parity are checked separately by recipe."
+}

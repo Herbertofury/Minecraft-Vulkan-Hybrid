@@ -52,6 +52,10 @@ jobs:
         run: python compat/oculus-memory-copy/tests/test_memory_copy.py --download-reference --report qa-out/oculus-memory-parity.json
       - name: Verify reference Iris shader source cache identity
         run: python compat/vulkan-shaders/tests/test_compile_key.py --report qa-out/iris-source-cache-key.json
+      - name: Resolve isolated official reference shader compiler SDK
+        run: ./source/gradlew -p compat/vulkan-shaders/native-test-sdk writeTestClasspaths --no-daemon --max-workers=4
+      - name: Verify real native shader compilation and bytecode cache isolation
+        run: python compat/vulkan-shaders/tests/test_native_compiler.py --download-reference --lwjgl-classpath "$(cat compat/vulkan-shaders/native-test-sdk/build/reference-classpath.txt)" --legacy-lwjgl-classpath "$(cat compat/vulkan-shaders/native-test-sdk/build/legacy-classpath.txt)" --report qa-out/iris-native-compiler.json
       - name: Verify inactive grass compute policy and shader declaration conversion
         run: |
           python integration/dimensions/tests/test_inactive_grass.py --report qa-out/inactive-grass.json
@@ -81,6 +85,13 @@ jobs:
         run: ./source/gradlew -p compat/trender-scissor build --no-daemon --max-workers=4
       - name: Verify native scissor coordinate, owner and failure contracts
         run: python compat/trender-scissor/tests/test_scissor_bridge.py --report qa-out/trender-scissor-bridge.json
+      - name: Build exact Ponder stencil helper and regression dependencies
+        run: ./source/gradlew -p compat/ponder-stencil build writeNativeStencilTestClasspath --no-daemon --max-workers=4
+      - name: Verify native stencil operations and exact Ponder bridge contracts
+        run: |
+          python integration/dimensions/tests/test_native_stencil.py --lwjgl-classpath "$(cat compat/ponder-stencil/build/native-stencil-test-classpath.txt)" --report qa-out/native-stencil.json
+          python compat/ponder-stencil/tests/test_bridge.py --report qa-out/ponder-stencil-bridge.json
+          python compat/ponder-stencil/tests/test_patch.py --asm-classpath "$(cat compat/ponder-stencil/build/native-stencil-test-classpath.txt)" --report qa-out/ponder-stencil-patch.json
       - name: Verify exact stable grass section ordering and bounded scratch
         run: |
           mkdir -p qa-out/grass-distance

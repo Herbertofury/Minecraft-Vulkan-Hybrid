@@ -36,3 +36,7 @@ benchmarks/pack-control-forge/.gradle/
 compat/trender-scissor/build/
 compat/trender-scissor/.gradle/
 compat/trender-scissor/__pycache__/
+compat/ponder-stencil/build/
+compat/ponder-stencil/.gradle/
+compat/vulkan-shaders/native-test-sdk/build/
+compat/vulkan-shaders/native-test-sdk/.gradle/
