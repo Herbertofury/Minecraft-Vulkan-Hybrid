@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "scope": "Actual helper with modeled renderer state, 1000 unchanged coordinate/state cycles, unknown capabilities, render owner and original failure propagation. Actual Vulkan UI/game and FPS remain separate.",
+  "variants": [
+    {
+      "variant": "production",
+      "passed": true,
+      "expected_pass": true
+    },
+    {
+      "variant": "enable_dropped",
+      "passed": false,
+      "expected_pass": false
+    },
+    {
+      "variant": "owner_assertions_removed",
+      "passed": false,
+      "expected_pass": false
+    }
+  ]
+}

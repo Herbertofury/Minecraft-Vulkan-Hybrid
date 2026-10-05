@@ -8,7 +8,7 @@ def main():
   root=Path(tmp);classes=root/'classes';sources=[]
   def source(name,text):
    f=root/name;f.parent.mkdir(parents=True,exist_ok=True);f.write_text(text,encoding='utf8');sources.append(str(f))
-  for name in ['UniversalRendererGate.java','InactiveModernFixGlAudit.java','InactiveGrassComputeGlAudit.java']:
+  for name in ['UniversalRendererGate.java','InactiveModernFixGlAudit.java','InactiveGrassComputeGlAudit.java','InactiveIxerisMacOsGlAudit.java']:
    f=root/name;f.write_bytes((I/'overlay/forge/src/main/java/net/vulkanmod/compat'/name).read_bytes());sources.append(str(f))
   source('FMLPaths.java','package net.minecraftforge.fml.loading;public enum FMLPaths {GAMEDIR;public java.nio.file.Path get(){return java.nio.file.Path.of(System.getProperty("user.dir"));}}')
   source('ModernFixMixinPlugin.java','package org.embeddedt.modernfix.core;public class ModernFixMixinPlugin {public static ModernFixMixinPlugin instance=Boolean.getBoolean("fixture.unknown")?null:new ModernFixMixinPlugin();public Object config=new Object();public boolean isOptionEnabled(String mixin){if(!mixin.equals("feature.registry_event_progress.GameDataMixin"))throw new AssertionError(mixin);return Boolean.getBoolean("fixture.enabled");}}')

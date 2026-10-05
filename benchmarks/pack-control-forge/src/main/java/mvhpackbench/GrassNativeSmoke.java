@@ -24,6 +24,10 @@ final class GrassNativeSmoke {
     private static long capturesBeforeFov;
     private static final JsonObject fovEvidence=new JsonObject();
     private static boolean written;
+    private static boolean completed;
+    private static long[] uiCountsBefore;
+    private static Class<?> uiBridge;
+    private static final JsonObject uiEvidence=new JsonObject();
     private static String renderer="UNKNOWN";
     private static CompletableFuture<Void> reload;
     private static final AtomicReference<Throwable> failure=new AtomicReference<>();
@@ -42,7 +46,7 @@ final class GrassNativeSmoke {
         try {
             boolean nativeApi=(Boolean)Class.forName("net.vulkanmod.compat.UniversalRendererGate").getMethod("vulkanRendererEnabled").invoke(null);
             renderer=nativeApi?"VULKAN":"OPENGL_FALLBACK";if(!nativeApi)throw new IllegalStateException("Native renderer required");
-            if(mc.screen!=null&&step!=1)return;
+            if(mc.screen!=null&&step!=1&&step!=7)return;
             double seconds=(System.nanoTime()-phaseStarted)/1e9;
             if(step==0&&seconds>=2){snapshot(mc,"before_reload");reload=mc.reloadResourcePacks();step=1;return;}
             if(step==1&&reload.isDone()){
@@ -89,7 +93,26 @@ final class GrassNativeSmoke {
                 return;
             }
             if(step==6&&mc.level.dimension().equals(Level.OVERWORLD)&&seconds>=12&&meshCount()>0){
-                checks.add("native_overworld_grass_rebuilt_after_roundtrip");shot(mc);step=7;finish(mc,null);
+                checks.add("native_overworld_grass_rebuilt_after_roundtrip");shot(mc);step=7;
+                try{uiBridge=Class.forName("mvhtrendercompat.NativeScissorBridge");}
+                catch(ClassNotFoundException absent){completed=true;finish(mc,null);return;}
+                uiCountsBefore=(long[])uiBridge.getMethod("callCounts").invoke(null);
+                var factory=Class.forName("dev.tr7zw.entityculling.config.ConfigScreenProvider").getMethod("createConfigScreen",net.minecraft.client.gui.screens.Screen.class);
+                mc.setScreen((net.minecraft.client.gui.screens.Screen)factory.invoke(null,new Object[]{null}));
+                uiEvidence.addProperty("screen_class",mc.screen.getClass().getName());phaseStarted=System.nanoTime();return;
+            }
+            if(step==7&&uiBridge!=null&&seconds>=5){
+                if(mc.screen==null)throw new IllegalStateException("Entity settings UI did not remain open");
+                long[] after=(long[])uiBridge.getMethod("callCounts").invoke(null);
+                long enables=after[0]-uiCountsBefore[0],disables=after[1]-uiCountsBefore[1],boxes=after[2]-uiCountsBefore[2];
+                if(enables<=0||disables!=enables||boxes<=0)throw new IllegalStateException("Actual native UI scissor calls not balanced");
+                uiEvidence.addProperty("native_ui_enable_calls",enables);uiEvidence.addProperty("native_ui_disable_calls",disables);uiEvidence.addProperty("native_ui_box_calls",boxes);
+                checks.add("entity_settings_ui_rendered_through_balanced_native_scissor_bridge");shot(mc);mc.setScreen(null);phaseStarted=System.nanoTime();step=8;return;
+            }
+            if(step==8&&seconds>=2){
+                if((Boolean)Class.forName("net.vulkanmod.vulkan.Renderer").getMethod("isScissorEnabled").invoke(null))throw new IllegalStateException("UI leaked scissor state into world");
+                if(mc.screen!=null||meshCount()<=0)throw new IllegalStateException("Native grass world did not resume after UI");
+                checks.add("native_grass_world_resumed_after_ui_without_scissor_state_leak");shot(mc);step=9;completed=true;finish(mc,null);
             }
         } catch(Throwable error){finish(mc,error);}
     }
@@ -135,10 +158,11 @@ final class GrassNativeSmoke {
     private static void finish(Minecraft mc,Throwable error){
         if(written)return;written=true;mc.options.keyUp.setDown(false);if(originalFov!=null)mc.options.fov().set(originalFov);
         try{if(mc.level!=null&&mc.player!=null)snapshot(mc,"finish");}catch(Exception ignored){}
-        JsonObject report=new JsonObject();report.addProperty("completed",step==7);report.addProperty("passed",step==7&&error==null);report.addProperty("api_renderer",renderer);report.addProperty("step",step);report.addProperty("error_type",error==null?"":error.getClass().getName());report.addProperty("peak_original_meshes",peakMeshes);report.addProperty("peak_original_active_trail_cells",peakTrailCells);report.addProperty("scope","Resource reload, original animation state, real client movement/trail state and dimension roundtrip; screenshots require visual review; no FPS or all-style/shader-provider parity acceptance");
+        JsonObject report=new JsonObject();report.addProperty("completed",completed);report.addProperty("passed",completed&&error==null);report.addProperty("api_renderer",renderer);report.addProperty("step",step);report.addProperty("error_type",error==null?"":error.getClass().getName());report.addProperty("peak_original_meshes",peakMeshes);report.addProperty("peak_original_active_trail_cells",peakTrailCells);report.addProperty("scope","Resource reload, original animation/trail/FOV/dimension state; pinned Entity settings UI when installed. Screenshots require visual review; no FPS or all-style/shader-provider parity acceptance");
         JsonArray passed=new JsonArray();synchronized(checks){checks.forEach(passed::add);}report.add("checks",passed);
         report.add("cache_snapshots",cacheSnapshots);
         report.add("fov_evidence",fovEvidence);
+        report.add("ui_evidence",uiEvidence);
         try{Files.writeString(mc.gameDirectory.toPath().resolve("mvh-grass-native-smoke.json"),new GsonBuilder().setPrettyPrinting().create().toJson(report));}catch(Exception e){throw new IllegalStateException("Unable to retain grass smoke report",e);}
         if(error!=null)error.printStackTrace();System.out.println("[MVH Grass Smoke] "+report);mc.stop();
     }

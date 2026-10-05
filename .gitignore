@@ -33,3 +33,6 @@ compat/grass-distance-sort/.gradle/
 compat/grass-distance-sort/test-out/
 benchmarks/pack-control-forge/build/
 benchmarks/pack-control-forge/.gradle/
+compat/trender-scissor/build/
+compat/trender-scissor/.gradle/
+compat/trender-scissor/__pycache__/

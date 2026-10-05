@@ -12,9 +12,9 @@ import java.lang.management.*;
 @Mod("mvhpackbench")
 public final class PackControl {
  private long joined,started,last,completed,lastLoadState; private boolean initialShot,done; private double[] frames=new double[131072];private int count;private long captureEpoch;
- public PackControl(){verifyIsolatedProfile();MinecraftForge.EVENT_BUS.addListener(net.minecraftforge.eventbus.api.EventPriority.NORMAL,false,TickEvent.ClientTickEvent.class,this::tick);MinecraftForge.EVENT_BUS.addListener(net.minecraftforge.eventbus.api.EventPriority.NORMAL,false,TickEvent.RenderTickEvent.class,this::render);System.out.println("[MVH Pack] recorder initialized with explicit event types");}
+ public PackControl(){verifyIsolatedProfile();MinecraftForge.EVENT_BUS.addListener(net.minecraftforge.eventbus.api.EventPriority.NORMAL,false,TickEvent.ClientTickEvent.class,this::tick);MinecraftForge.EVENT_BUS.addListener(net.minecraftforge.eventbus.api.EventPriority.NORMAL,false,TickEvent.RenderTickEvent.class,this::render);MinecraftForge.EVENT_BUS.addListener(net.minecraftforge.eventbus.api.EventPriority.NORMAL,false,TickEvent.ServerTickEvent.class,ChunkPurpose::serverTick);System.out.println("[MVH Pack] recorder initialized with explicit event types");}
  private void tick(TickEvent.ClientTickEvent e){
-  if(e.phase!=TickEvent.Phase.END)return;Minecraft mc=Minecraft.getInstance();if(joined==0)recordLoadState(mc);if(GrassNativeSmoke.enabled()){GrassNativeSmoke.tick(mc);return;}if(mc.level==null||mc.player==null)return;
+  if(e.phase!=TickEvent.Phase.END)return;Minecraft mc=Minecraft.getInstance();if(joined==0)recordLoadState(mc);if(ChunkPurpose.enabled()){ChunkPurpose.tick(mc);return;}if(GrassNativeSmoke.enabled()){GrassNativeSmoke.tick(mc);return;}if(mc.level==null||mc.player==null)return;
   if(mc.screen instanceof PauseScreen){mc.setScreen(null);mc.mouseHandler.releaseMouse();}
   if(mc.screen!=null)return;SmokeChecks.tick(mc);if(joined==0){joined=System.nanoTime();System.out.println("[MVH Pack] stable scene warmup started");}if(mc.mouseHandler.isMouseGrabbed())mc.mouseHandler.releaseMouse();
   mc.player.setPos(0.5,110.5,0.5);mc.player.setDeltaMovement(0,0,0);mc.player.setYRot(-68.7007f);mc.player.setXRot(9.999512f);mc.player.yRotO=-68.7007f;mc.player.xRotO=9.999512f;
@@ -22,7 +22,7 @@ public final class PackControl {
   if(done&&now-completed>=3_000_000_000L)mc.stop();
  }
  private void render(TickEvent.RenderTickEvent e){
-  if(e.phase!=TickEvent.Phase.END||done)return;Minecraft mc=Minecraft.getInstance();long now=System.nanoTime();
+  if(e.phase!=TickEvent.Phase.END||done||ChunkPurpose.enabled())return;Minecraft mc=Minecraft.getInstance();long now=System.nanoTime();
   if(joined==0||mc.level==null||mc.player==null)return;
   if(mc.screen!=null){if(started!=0)finish("invalid","screen opened during capture");return;}
   if(now-joined<60_000_000_000L)return;
@@ -49,7 +49,7 @@ public final class PackControl {
   for(String marker:new String[]{"MVH-NOXVIOLA-IDENTITY.json","MVH-CUMULATIVE-IDENTITY.json","MVH-BENCHMARK-IDENTITY.json"})if(Files.isRegularFile(root.resolve(marker)))owned=true;
   if(!owned||root.getFileName().toString().equalsIgnoreCase("Noxviola"))throw new IllegalStateException("Benchmark control requires a task-owned disposable profile");
  }
- private static void recordRenderer(JsonObject o){
+ static void recordRenderer(JsonObject o){
   try{
    boolean vulkan=false;boolean hasHari=true;
    try{vulkan=(Boolean)Class.forName("net.vulkanmod.compat.UniversalRendererGate").getMethod("vulkanRendererEnabled").invoke(null);}catch(ClassNotFoundException absent){hasHari=false;}

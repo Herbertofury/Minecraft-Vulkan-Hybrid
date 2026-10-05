@@ -46,6 +46,8 @@ jobs:
         run: python integration/dimensions/tests/test_frustum_visibility.py --report qa-out/frustum-visibility.json
       - name: Verify inactive ModernFix GL audit and cache invalidation
         run: python integration/dimensions/tests/test_inactive_modernfix.py --report qa-out/inactive-modernfix-gate.json
+      - name: Verify pinned inactive Ixeris macOS calls and platform cache invalidation
+        run: python integration/dimensions/tests/test_inactive_ixeris.py --report qa-out/inactive-ixeris-platform.json
       - name: Verify optional vertex-memory repair against the pinned original API
         run: python compat/oculus-memory-copy/tests/test_memory_copy.py --download-reference --report qa-out/oculus-memory-parity.json
       - name: Verify reference Iris shader source cache identity
@@ -75,6 +77,10 @@ jobs:
           java -ea -cp qa-out/fieldguide-split BiomeModifierIndexRegression
       - name: Build optional exact grass distance compatibility mod
         run: ./source/gradlew -p compat/grass-distance-sort build --no-daemon --max-workers=4
+      - name: Build native TRender scissor compatibility helper
+        run: ./source/gradlew -p compat/trender-scissor build --no-daemon --max-workers=4
+      - name: Verify native scissor coordinate, owner and failure contracts
+        run: python compat/trender-scissor/tests/test_scissor_bridge.py --report qa-out/trender-scissor-bridge.json
       - name: Verify exact stable grass section ordering and bounded scratch
         run: |
           mkdir -p qa-out/grass-distance
@@ -87,7 +93,7 @@ jobs:
       - name: Build marker-confined cumulative recorder and native grass smoke
         run: ./source/gradlew -p benchmarks/pack-control-forge build --no-daemon --max-workers=4
       - name: Verify packaged Minecraft resource metadata
-        run: python tools/verify_pack_metadata.py 'source/forge/build/libs/*-all.jar' '../hari-integrated-ci/forge/build/libs/*-all.jar' 'compat/opengl-texture-lookup/build/libs/*.jar' 'compat/fieldguide-query-split/build/libs/*.jar' 'benchmarks/control-forge/build/libs/*.jar' 'benchmarks/pack-control-forge/build/libs/*.jar' 'compat/grass-distance-sort/build/libs/*.jar'
+        run: python tools/verify_pack_metadata.py 'source/forge/build/libs/*-all.jar' '../hari-integrated-ci/forge/build/libs/*-all.jar' 'compat/opengl-texture-lookup/build/libs/*.jar' 'compat/fieldguide-query-split/build/libs/*.jar' 'benchmarks/control-forge/build/libs/*.jar' 'benchmarks/pack-control-forge/build/libs/*.jar' 'compat/grass-distance-sort/build/libs/*.jar' 'compat/trender-scissor/build/libs/*.jar'
       - name: Run portable production regressions
         run: |
           set -euo pipefail
@@ -111,5 +117,6 @@ jobs:
             benchmarks/control-forge/build/libs/*.jar
             benchmarks/pack-control-forge/build/libs/*.jar
             compat/grass-distance-sort/build/libs/*.jar
+            compat/trender-scissor/build/libs/*.jar
             qa-out/
             LICENSE

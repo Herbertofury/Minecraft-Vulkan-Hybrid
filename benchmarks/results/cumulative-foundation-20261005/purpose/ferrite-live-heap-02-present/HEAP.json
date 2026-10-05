@@ -1,0 +1,14 @@
+{
+  "status": "complete",
+  "command": "GC.class_histogram default live objects",
+  "managed_live_objects": 7228898,
+  "managed_live_bytes": 409502904,
+  "managed_live_mib": 390.5324020385742,
+  "diagnostic_duration_ms": 993,
+  "capture_recovery_s": 32.353,
+  "actual_renderer": "VULKAN",
+  "only_marker_owned_client_targeted": true,
+  "object_contents_or_heap_dump_collected": false,
+  "fps_promotion_accepted": false,
+  "scope": "Managed Java live-object histogram, not native memory, VRAM or working set. Intrusive diagnostic run; timing excluded from performance promotion."
+}

@@ -1,0 +1,8 @@
+{
+  "semantic_config_unchanged": true,
+  "visual_options_unchanged": true,
+  "world_identity_unchanged": true,
+  "semantic_config_manifest_sha256": "f17013deda2c867022d9b74a54e6e103193690a50f13a3dc6c8b4e2117f86ad9",
+  "excluded_derived_cache": "Only harimt-vulkan-compat.properties: regenerated gate decision/signature timestamp, not game content or a user setting",
+  "full_pack_accepted": false
+}

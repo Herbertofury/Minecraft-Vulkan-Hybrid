@@ -1,14 +1,23 @@
 # Minecraft Vulkan Hybrid
 
-Canonical repository: [Minecraft-Vulkan-Hybrid](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid). Complete migration: [migration/projectdump-20261004](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/tree/migration/projectdump-20261004) in [draft PR #1](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/pull/1). Main remains unchanged pending review.
+Canonical repository: [Minecraft-Vulkan-Hybrid](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid). Complete migration and development source are in [draft PR #1](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/pull/1), on [migration/projectdump-20261004](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/tree/migration/projectdump-20261004). No main merge or release occurred.
 
-- [Project and historical release evidence](HariMultiThread-Vulkan-Hybrid)
-- [Build and Windows launch instructions](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/blob/migration/projectdump-20261004/docs/BUILD.md)
-- [Migration scope, licenses and history](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/blob/migration/projectdump-20261004/docs/MIGRATION.md)
-- [Completed actual Windows/RTX 4090 benchmark](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/blob/migration/projectdump-20261004/benchmarks/results/windows-20261004/REPORT.md)
+The project retains 1,001 hash-verified accepted source files, 402 relevant commits across 43 filtered branches, original recipes/assets/licenses and provenance. Desktop: `C:\Users\Owner\Desktop\Minecraft Vulkan Hybrid`. Minecraft 1.20.1 / Java 17; accepted source Forge 47.4.23, isolated development Forge 47.4.26 through the logged-in official Modrinth backend.
 
-The migrated source includes 1,001 verified accepted files, reconstruction recipes, tests, shaders/assets and attribution. 43 filtered project branches retain 402 relevant commits. Windows Java 17 build and focused regressions passed, and destination CI builds the complete source.
+- [Build and Windows launch](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/blob/migration/projectdump-20261004/docs/BUILD.md)
+- [Hari + DimThreads current .11 integration](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/blob/migration/projectdump-20261004/integration/dimensions/README.md)
+- [Migration, licenses and preserved history](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/blob/migration/projectdump-20261004/docs/MIGRATION.md)
+- [Native grass measurements, raw frames and limits](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/blob/migration/projectdump-20261004/benchmarks/results/cumulative-foundation-20261005/REPORT.md)
+- [Historical Windows matched vanilla results](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/blob/migration/projectdump-20261004/benchmarks/results/windows-20261004/REPORT.md)
+- [Historical rejected full Noxviola comparison](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/blob/migration/projectdump-20261004/benchmarks/results/noxviola-matched-20261005/REPORT.md)
+- [Original project release record](HariMultiThread-Vulkan-Hybrid)
 
-Actual Minecraft 1.20.1 tests used Java 17, Modrinth 0.21.6 and latest official Forge 47.4.26 in isolated instances on i9-13900K / RTX 4090 (driver 610.88). Six matched runs produced median FPS 2,432.29 → 2,470.06 (+1.55%), 1% low 440.41 → 503.56 (+14.34%), but p99 0.8864 → 1.0483 ms. Overlapping ranges, mixed tails and concurrent GPU work prevent a reliable new FPS improvement claim; a performance promotion is rejected. No lower visual settings or workload termination was used. A separate original packaged Minecraft JVM passed exact RGBA/R8 GPU upload/readback across three mip levels.
+Native grass remains visible with its original private JAR, density/range and visual settings. Six ABBAAB .9/.10 captures, toggling only Hari, measured median **1,866.79 to 2,617.09 FPS (+40.19%)**, 1% low 490.58 to 616.75, p99 1.9118 to 0.7340 ms. Latest .11 additionally invalidates exact frustum/FOV/mode changes; its capability repeats were **2,529.28 / 2,590.76 / 2,502.04 FPS**, with seven bounded reload/animation/trail/FOV/dimension checks passing. Reviewed screenshots show original grass at 70 and 110 degrees. Separate minimal .10 plus recorder-only vanilla scene measured median **4,451.34 FPS**.
 
-Historical Linux software-driver acceptance is preserved separately below the project page and must not be presented as this PC's performance. The source acceptance build stays pinned to Forge 47.4.23; the requested latest loader has a separately verified installed-runtime route in Modrinth because its upstream catalog is stale at 47.4.20.
+These are still-scene CPU RenderTick END intervals at unchanged 1920x1080, RD16/SD12 Fancy settings, not GPU timestamps or presented-frame throughput. Other workloads remained active and contamination is retained. The 350-mod cumulative rebuild continues. Full Noxviola, active Oculus/Iris native interoperability, every grass style and zero hitching remain unfinished. Embeddium and Zink are excluded by user direction. New desktop development artifacts include hashes and no automatic recorder; personal Noxviola and GameSync/AoA/Enderloom remain untouched.
+
+The earlier complete-pack NVIDIA OpenGL candidate remains rejected: median FPS 219.39 to 175.22, despite repeated startup 166.40 to 152.82 seconds. Historical Linux/Mesa or rejected missing-grass captures do not establish current native success. Original accepted 2.4.10 and archives remain unchanged.
+
+Current published source: [16f39e03da1fcfe404b781191fe94d0fd1bc52bd](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/commit/16f39e03da1fcfe404b781191fe94d0fd1bc52bd). Its build/production checks are [passed in CI](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/actions/runs/37284313250); the prior 4049e54 runs passed. All development resource metadata is format 15.
+
+The durable source pointer is prepared in [ProjectDump PR #30](https://github.com/Herbertofury/ProjectDump/pull/30). ProjectDump's hourly wiki mirror overwrites direct edits; that pointer still awaits separately authorized merge. This migration does not change access permissions or publish private mod assets.

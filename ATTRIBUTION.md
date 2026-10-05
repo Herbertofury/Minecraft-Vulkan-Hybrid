@@ -62,3 +62,7 @@ The exact grass distance compatibility addon is new GPL-3.0-only code. It calls 
 ## Iris reference patch
 
 The source-only SPIR-V cache-key patch derives from trptrk/Iris-Vulkan commit `9bae8e9a3c8b6ec34f871657b36331ebcd9f1a84`, under LGPL-3.0. Upstream Iris and port author credits remain applicable. The original license, source URL and hashes accompany the patch under `compat/vulkan-shaders/reference-patches/`. The reference port is not installed or represented as Forge 1.20.1-compatible.
+
+## TRender scissor repair
+
+The pinned TRender 1.0.17 library derives from tr7zw/TRender and CottonMC/LibGui under MIT licensing. Its original nested license, code/assets and credits remain unchanged in private repairs; the upstream MIT text accompanies the recipe. New scissor helper/recipe source is GPL-3.0-only. Original EntityCulling and TRender JARs are not redistributed by this source recipe.

@@ -11,7 +11,7 @@ def main():
         root=Path(tmp);classes=root/'classes';sources=[]
         def source(name,text):
             f=root/name;f.parent.mkdir(parents=True,exist_ok=True);f.write_text(text);sources.append(str(f))
-        for name in ['UniversalRendererGate.java','InactiveModernFixGlAudit.java','InactiveGrassComputeGlAudit.java']:
+        for name in ['UniversalRendererGate.java','InactiveModernFixGlAudit.java','InactiveGrassComputeGlAudit.java','InactiveIxerisMacOsGlAudit.java']:
             f=root/name;f.write_bytes((I/'overlay/forge/src/main/java/net/vulkanmod/compat'/name).read_bytes());sources.append(str(f))
         source('FMLPaths.java','package net.minecraftforge.fml.loading;public enum FMLPaths {GAMEDIR;public java.nio.file.Path get(){return java.nio.file.Path.of(System.getProperty("user.dir"));}}')
         source('Probe.java','import net.vulkanmod.compat.UniversalRendererGate;public class Probe{public static void main(String[]a){boolean expected=Boolean.parseBoolean(a[0]);boolean actual=UniversalRendererGate.vulkanRendererEnabled();System.out.println("REASON="+UniversalRendererGate.reason());if(actual!=expected)throw new AssertionError("gate="+actual+" expected="+expected);}}')

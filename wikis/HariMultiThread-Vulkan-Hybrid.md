@@ -1,10 +1,10 @@
 # Minecraft Vulkan Hybrid
 
-The canonical project is [Minecraft-Vulkan-Hybrid](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/tree/migration/projectdump-20261004), with complete source, recipes, tests, assets, licenses and filtered project history in [draft PR #1](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/pull/1). Main remains unchanged pending review.
+Canonical [repository](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid) and [draft migration PR #1](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/pull/1). Complete accepted source/history/assets/licensing are preserved on the feature branch; no merge or release occurred. [Current build](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/blob/migration/projectdump-20261004/integration/dimensions/README.md), [native grass data](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/blob/migration/projectdump-20261004/benchmarks/results/cumulative-foundation-20261005/REPORT.md), and [canonical status](Home) describe actual Windows validation.
 
-[Actual Windows/RTX 4090 benchmark report](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/blob/migration/projectdump-20261004/benchmarks/results/windows-20261004/REPORT.md): six matched real Minecraft runs, median FPS 2,432.29 → 2,470.06; 1% low 440.41 → 503.56; p99 0.8864 → 1.0483 ms. These mixed observations and overlapping ranges do not establish a reliable new FPS gain. Latest official Forge 47.4.26 is running in the two isolated Modrinth instances. Original packaged GPU texture readback passed separately. Personal profiles/worlds and other projects were left untouched.
+Native .9/.10 six-run ABBAAB measured 1,866.79 to 2,617.09 median FPS (+40.19%), preserving original grass/settings. Current .11 native subset measured 2,529.28 / 2,590.76 / 2,502.04 FPS and passed seven bounded native checks, including stationary FOV changes. Minimal integrated .10 capability measured median 4,451.34 FPS. These CPU interval results are scoped; full Noxviola, active Oculus/Iris, all grass styles and zero hitching remain unfinished. Other projects remain active; Embeddium/Zink are excluded.
 
-The original release record below is preserved for provenance. Its Linux software-driver results and historical ProjectDump workflow runs are not new destination/Windows test results.
+The original release record below is preserved byte for byte for provenance. Its historical Linux software-driver evidence and ProjectDump workflows are separate from current Windows results.
 
 ---
 

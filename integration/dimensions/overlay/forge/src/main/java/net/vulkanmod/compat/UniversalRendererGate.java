@@ -36,7 +36,7 @@ import java.util.zip.ZipInputStream;
 public final class UniversalRendererGate {
     public static final String MODE_PROPERTY = "harimt.vulkan.mode"; // auto | force | off
     public static final String CACHE_PROPERTY = "harimt.vulkan.compatCache"; // default true
-    private static final String CACHE_SCHEMA = "2.4.11-vulkan-gate-v11-audited-inactive-modernfix";
+    private static final String CACHE_SCHEMA = "2.4.11-vulkan-gate-v12-audited-inactive-platform";
 
     private static final Pattern MOD_ID = Pattern.compile("(?m)^\\s*modId\\s*=\\s*[\\\"']([^\\\"']+)[\\\"']");
     private static final Pattern FABRIC_ID = Pattern.compile("\"id\"\\s*:\\s*\"([^\"]+)\"");
@@ -128,7 +128,8 @@ public final class UniversalRendererGate {
 
         InactiveModernFixGlAudit inactiveAudit = InactiveModernFixGlAudit.inspect(jars);
         InactiveGrassComputeGlAudit grassAudit = InactiveGrassComputeGlAudit.inspect(jars, loadedIds);
-        String signature = signature(jars, loadedIds, indigoOnClasspath) + ":" + inactiveAudit.cacheKey() + ":" + grassAudit.cacheKey();
+        InactiveIxerisMacOsGlAudit ixerisAudit = InactiveIxerisMacOsGlAudit.inspect(jars);
+        String signature = signature(jars, loadedIds, indigoOnClasspath) + ":" + inactiveAudit.cacheKey() + ":" + grassAudit.cacheKey() + ":" + ixerisAudit.cacheKey();
         boolean useCache = Boolean.parseBoolean(System.getProperty(CACHE_PROPERTY, "true"));
         if (useCache) {
             Decision cached = readCache(signature);
@@ -161,7 +162,7 @@ public final class UniversalRendererGate {
                     ZipEntry entry = entries.nextElement();
                     if (entry.isDirectory()) continue;
                     if (entry.getName().endsWith(".class")) {
-                        if (inactiveAudit.excludes(jar, entry.getName()) || grassAudit.excludes(jar, entry.getName())) continue;
+                        if (inactiveAudit.excludes(jar, entry.getName()) || grassAudit.excludes(jar, entry.getName()) || ixerisAudit.excludes(jar, entry.getName())) continue;
                         try (InputStream input = zip.getInputStream(entry)) {
                             collectUnsupported(openGlMethodRefs(input), contracts, unsupported, jar.getFileName().toString());
                         }
@@ -184,7 +185,7 @@ public final class UniversalRendererGate {
         } else if (!unreadable.isEmpty()) {
             result = new Decision(false, "unreadable mod jar(s): " + summarize(unreadable, 8));
         } else {
-            result = new Decision(true, "all active discovered direct OpenGL calls are translated; pinned inactive ModernFix class audited");
+            result = new Decision(true, "all active discovered direct OpenGL calls are translated; pinned inactive classes audited");
         }
         if (useCache) writeCache(signature, result);
         return result;
