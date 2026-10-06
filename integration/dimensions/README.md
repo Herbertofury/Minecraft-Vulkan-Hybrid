@@ -15,7 +15,7 @@ python integration/dimensions/assemble.py ../hari-dimensions-build
 .\source\gradlew.bat -p ../hari-dimensions-build :forge:build --no-daemon --max-workers=4
 ```
 
-The result is `../hari-dimensions-build/forge/build/libs/harimt-forge-1.20.1-2.4.11-noxviola.22-dimensions-vulkan-hybrid-all.jar`, targeting Forge 47.4.26. A new output path is required on each assembly; existing trees are never overwritten.
+The result is `../hari-dimensions-build/forge/build/libs/harimt-forge-1.20.1-2.4.11-noxviola.23-dimensions-vulkan-hybrid-all.jar`, targeting Forge 47.4.26. A new output path is required on each assembly; existing trees are never overwritten.
 
 Status: local source build, resource metadata and focused ownership/failure regressions pass. The integrated `.2` artifact passed seven actual full-pack smoke checks including resource reload, animated entity death and Nether round trip, and saved/exited normally. The log reported three dimension workers and seven entity workers with no audited ownership exception. However, [matched NVIDIA OpenGL performance](../../benchmarks/results/noxviola-matched-20261005/REPORT.md) regressed from median 219.39 to 175.22 FPS despite startup improving 166.40Ã¢â€ â€™152.82 seconds. Promotion is rejected. Later native subset and minimal capability comparisons are recorded below; this historical full-pack rejection remains valid and personal saves are not promoted.
 
@@ -39,7 +39,7 @@ The production scheduler and actual queue pass readiness, budget, range reset, d
 
 Development `.11` snapshots the exact frustum matrix and smart-cull/spectator modes after a graph update, on the render owner. FOV, aspect, small rotation, mode or world/resource reset invalidates visibility. The matrix is copied, nonfinite inputs are rejected, and matching allocates no per-frame object. Actual production state with pinned JOML passes 1,000 matrix cases and two unsafe variants fail. The actual native test widens stationary FOV from 70 to 110 degrees, verifies capture advancement, restores FOV and retains reviewed original grass/terrain screenshots. Seven bounded play checks pass. Three .11 capability repeats measured 2,529.28 / 2,590.76 / 2,502.04 FPS, not a same-recorder causal .10/.11 comparison.
 
-The fresh assembly now produces `.22`; preceding `.13` grass evidence remains historical. Accepted source remains immutable, historical .9/.10 builds and evidence remain available, and the original personal pack is untouched. [All retained captures](../../benchmarks/results/cumulative-foundation-20261005/REPORT.md) distinguish early missing-geometry rejections, incremental matched fixes, minimal capability and current subset capability. Active shader providers, complete pack/all-style parity and zero hitching remain unfinished.
+The fresh assembly now produces `.23`; preceding `.13` grass evidence remains historical. Accepted source remains immutable, historical .9/.10 builds and evidence remain available, and the original personal pack is untouched. [All retained captures](../../benchmarks/results/cumulative-foundation-20261005/REPORT.md) distinguish early missing-geometry rejections, incremental matched fixes, minimal capability and current subset capability. Active shader providers, complete pack/all-style parity and zero hitching remain unfinished.
 
 
 ## Windows platform audit and measured performance-mod retention
@@ -68,7 +68,7 @@ The native Engine library replaces only the private original Create internal ren
 
 The same integrated `.22` now loads the352-JAR isolated full Noxviola candidate with original gameplay content, original Create6.0.8 and repaired Oculus/Celestials/Physics provider handling. Both ordinary and optional ModernFix lazy-loading variants pass the original seven reload/octopus-death/dimension checks. The actual complete-pack gate still chooses OpenGL fallback; native-only repaired Create copies must not be installed into it. [All complete-pack failures, actual FPS/startup and remaining work](../../benchmarks/results/fullpack-20261005/REPORT.md). No full-pack1500/2400FPS or active shaderpack acceptance is inferred from the native subset.
 
-The subsequent user-directed full baseline recoverably removes all20 auxiliary performance mods, including ModernFix and the separate grass helper. The prior352-JAR observations remain historical evidence, not the current active set. Original Grassier Grass/gameplay/correctness fixes remain. [Fresh optimizer-free baseline](../../benchmarks/results/fullpack-20261005/no-aux-performance/REPORT.md).
+The subsequent user-directed full baseline initially removed 20 auxiliary performance mods, including ModernFix and the separate grass helper. A follow-up also disables the optional Field Guide query cache: the current baseline has 21 auxiliary optimizers disabled and 327 active JARs without the recorder. Original Field Guide remains. The prior352-JAR observations remain historical evidence, not the current active set. Original Grassier Grass/gameplay/correctness fixes remain. [Fresh optimizer-free baseline](../../benchmarks/results/fullpack-20261005/no-aux-performance/REPORT.md).
 
 ## Native-required development23
 
