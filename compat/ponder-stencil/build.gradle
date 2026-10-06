@@ -1,0 +1,23 @@
+plugins { id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'; id 'java' }
+version='1.0.0';group='mvhpondercompat';base { archivesName='mvh-ponder-stencil-library' }
+java.toolchain.languageVersion=JavaLanguageVersion.of(17)
+minecraft { mappings channel:'official',version:'1.20.1' }
+repositories { mavenCentral() }
+configurations { nativeStencilRegression }
+dependencies { minecraft 'net.minecraftforge:forge:1.20.1-47.4.23'; compileOnly files(findProperty('mvhHariReference') ?: fileTree('../../source/forge/build/libs') { include '*-all.jar' }) }
+def nativePlatform=System.getProperty('os.name').toLowerCase().contains('windows')?'windows':'linux'
+dependencies {
+    nativeStencilRegression 'org.lwjgl:lwjgl:3.3.1'
+    nativeStencilRegression 'org.lwjgl:lwjgl-vulkan:3.3.1'
+    nativeStencilRegression "org.lwjgl:lwjgl:3.3.1:natives-${nativePlatform}"
+    nativeStencilRegression 'org.ow2.asm:asm:9.7.1'
+    nativeStencilRegression 'org.ow2.asm:asm-tree:9.7.1'
+}
+tasks.register('writeNativeStencilTestClasspath') {
+    def target=layout.buildDirectory.file('native-stencil-test-classpath.txt')
+    outputs.file(target)
+    doLast { target.get().asFile.parentFile.mkdirs();target.get().asFile.text=configurations.nativeStencilRegression.asPath }
+}
+jar.finalizedBy('reobfJar')
+tasks.withType(AbstractArchiveTask).configureEach { preserveFileTimestamps=false; reproducibleFileOrder=true }
+tasks.withType(JavaCompile).configureEach { options.encoding='UTF-8' }

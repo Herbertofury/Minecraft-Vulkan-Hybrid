@@ -1,0 +1,120 @@
+{
+  "commit": "610b1683f3ed0fef5cd387a126bd2c530a9c2ead",
+  "files": [
+    {
+      "path": "common/src/main/java/dev/engine_room/flywheel/impl/mixin/BlockEntityTypeMixin.java",
+      "git_blob": "a3e178fac99ebcf16ba567f8c9a53689b0b52f19",
+      "sha256": "a25b01d78a284860c48aaa01ddaa3f8d8787f0ff6b5382f939a90df97c9aadde"
+    },
+    {
+      "path": "common/src/main/java/dev/engine_room/flywheel/impl/mixin/ClientChunkCacheMixin.java",
+      "git_blob": "41bb31c01678a7e016fca397b9872bcd01372c85",
+      "sha256": "ba01a8dea4877f0995a552d6ac790c85af644c56ea8079805a4d7d3b079d9b0b"
+    },
+    {
+      "path": "common/src/main/java/dev/engine_room/flywheel/impl/mixin/EntityTypeMixin.java",
+      "git_blob": "91676872f499634cf11af57dbc326d39841235e1",
+      "sha256": "8bc7df4346d8386c62835ee351cb2c8f89887795032f44c1437eb0bf8ec2d40f"
+    },
+    {
+      "path": "common/src/main/java/dev/engine_room/flywheel/impl/mixin/LevelMixin.java",
+      "git_blob": "024cb530a6b1d672d5632c4d81a37d48ebb79233",
+      "sha256": "d777b386d08995a00f0ffc836aa09dd8b1d7383defb6c51bafc12c4d47b4518c"
+    },
+    {
+      "path": "common/src/main/java/dev/engine_room/flywheel/impl/mixin/LevelRendererMixin.java",
+      "git_blob": "e0ba70f492d24885cad13148f9d5551b9ee809bf",
+      "sha256": "c499266b3258e3069a7814a6a7d2b46dae94f06031602f6e0711fc7f23430f61"
+    },
+    {
+      "path": "common/src/main/java/dev/engine_room/flywheel/impl/mixin/ModelPartAccessor.java",
+      "git_blob": "274e7a829a0b49e8362746e35118881f631a1cdb",
+      "sha256": "c35a8e35d18211ead8cface3735c08cbe5f8a01534bb6c89156deaba498d3a16"
+    },
+    {
+      "path": "common/src/main/java/dev/engine_room/flywheel/impl/mixin/PoseStackAccessor.java",
+      "git_blob": "22478d2a3a847992b7b3dac9fdc8f3a810280712",
+      "sha256": "200b38693171fcf622aa3fd98741bb8a59a70915389754b3455505bbfc355a29"
+    },
+    {
+      "path": "common/src/main/java/dev/engine_room/flywheel/impl/mixin/PoseStackMixin.java",
+      "git_blob": "89cc0fef2043ebb4f0bbf07ff68e25378dee1ece",
+      "sha256": "5ea449f1c0591ae817729f83f6a465056a2c64fb37a6a1ddaf20147d3060d2a3"
+    },
+    {
+      "path": "common/src/main/java/dev/engine_room/flywheel/impl/mixin/fix/FixFabulousDepthMixin.java",
+      "git_blob": "e8c79651d76b9b0d8c7a5e5110cd1839862efe1e",
+      "sha256": "b3edd4e8b5bce1d2f5496d193dc1b7836ebf78e5ef895b3ab057777fa8394966"
+    },
+    {
+      "path": "common/src/main/java/dev/engine_room/flywheel/impl/mixin/fix/FixNormalScalingMixin.java",
+      "git_blob": "f6a9ca88713d805330f624b44feecb08734bde5c",
+      "sha256": "de869ed3cf960ff065a3dac5ac565de60a3fa95b10a2f1b0a94da8329e479612"
+    },
+    {
+      "path": "common/src/main/java/dev/engine_room/flywheel/impl/mixin/visualmanage/BlockEntityMixin.java",
+      "git_blob": "5d6ae99eff3c5385ed6f486a3668f90c1e84327b",
+      "sha256": "f84dd898236b42ee4292459dbc334a6dd2a61cbb4e7c94fbf11031ee1bedd7b3"
+    },
+    {
+      "path": "common/src/main/java/dev/engine_room/flywheel/impl/mixin/visualmanage/LevelChunkMixin.java",
+      "git_blob": "8fc45f82b831e770a0c3766901b017955c3a6f88",
+      "sha256": "654ffb826d531ad3f38500b2e65484583fac8f090309af356bf61f4d02d04067"
+    },
+    {
+      "path": "common/src/main/java/dev/engine_room/flywheel/impl/mixin/visualmanage/LevelRendererMixin.java",
+      "git_blob": "53f3900962d53eaa027add4cc47d4a12c4820bb5",
+      "sha256": "8a628aad950720a88544d2997a07b7d1824654a5d698b872ea292ef77578609b"
+    },
+    {
+      "path": "common/src/main/java/dev/engine_room/flywheel/impl/mixin/visualmanage/RebuildTaskMixin.java",
+      "git_blob": "89546e170176767814cf1603665ebf2015557d28",
+      "sha256": "bac4c1ed7f77bb0b0b018cba4458d8d1444fa68053b65d8921d5686bc0ff9267"
+    },
+    {
+      "path": "common/src/main/java/dev/engine_room/flywheel/impl/visualization/VisualizationEventHandler.java",
+      "git_blob": "ab102e6d65df9a38c53bfed0b9470e1f336a3045",
+      "sha256": "371dc03e0c5b8d4fe2a2ac8845e5b2e9aa0bc70dca672e8a58e2a4797488071c"
+    },
+    {
+      "path": "fabric/src/main/java/dev/engine_room/flywheel/impl/mixin/MinecraftMixin.java",
+      "git_blob": "f96a685954aa91adef7cd1e81ab751df302275ce",
+      "sha256": "7995a2e7c53ef81b92f1e1f64c47a30a18b84a0353bc40da59d516bc83fbe695"
+    },
+    {
+      "path": "fabric/src/main/java/dev/engine_room/flywheel/impl/mixin/fabric/ArgumentTypeInfosAccessor.java",
+      "git_blob": "d471aea3341d7001980425f218d75fcb0cf9e631",
+      "sha256": "c42e120ab41b68d640120a294b27839ff17b9bb96f521c2d7f283848f303b039"
+    },
+    {
+      "path": "fabric/src/main/java/dev/engine_room/flywheel/impl/mixin/fabric/DebugScreenOverlayMixin.java",
+      "git_blob": "c8201cfcefeacbf2d891782f3aed38f0232f87ed",
+      "sha256": "0d5d95c23291af3ace0273cb03f5e854e7964b565425beff1e73caf89741242f"
+    },
+    {
+      "path": "fabric/src/main/java/dev/engine_room/flywheel/impl/mixin/fabric/MinecraftMixin.java",
+      "git_blob": "e7d8b7af20773192cc74fc45d59554780742d8e8",
+      "sha256": "34826bd3227e961137e2549ca0286340450afaeab76ada3d905a90cd836e5633"
+    },
+    {
+      "path": "fabric/src/main/java/dev/engine_room/flywheel/impl/mixin/fabric/SystemReportMixin.java",
+      "git_blob": "89f5b1ac7c1ae57b94e1ced38b654076e1393ab5",
+      "sha256": "2a7f555ea5b65c8d08dab6a2e30497477bb8f524256c757d618b9400fe68a97f"
+    },
+    {
+      "path": "fabric/src/main/java/dev/engine_room/flywheel/impl/mixin/sodium/ChunkBuilderMeshingTaskMixin.java",
+      "git_blob": "18b7772dea6237e3fdb1c06ea2f0dcb4ab98e84c",
+      "sha256": "ce1c586aabb2e167f1480261d668bbd1abefeb3a60bb2853bbb6bd01feed880c"
+    },
+    {
+      "path": "fabric/src/main/java/dev/engine_room/flywheel/impl/mixin/sodium/SodiumMixinPlugin.java",
+      "git_blob": "d96386dad6d080a4817eceb75da0beb7e8b509cf",
+      "sha256": "aeaf1ef90a2daa40c28369a552bb5543b272ab00b98b6b41c28f25e08edd8399"
+    },
+    {
+      "path": "forge/src/main/java/dev/engine_room/flywheel/impl/mixin/MinecraftMixin.java",
+      "git_blob": "99ca5d570ef3a7058d6e0e1bb853807c3941cd3c",
+      "sha256": "11ad241174a96dc87a3173b57e133a0d319ea2107aa08956fdd6743af6702c44"
+    }
+  ]
+}

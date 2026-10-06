@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "output": [
+    "FORGE_ORIGINAL_SELECTED=Create!META-INF\\jarjar\\flywheel-forge-1.20.1-1.0.5.jar",
+    "FORGE_NATIVE_SELECTED=Create!META-INF\\jarjar\\flywheel-forge-1.20.1-1.0.5.jar",
+    "FORGE_NEWER_NATIVE_ONLY=CasualSwing!META-INF\\jarjar\\flywheel-forge-1.20.1-1.0.6-beta-266.jar",
+    "REAL_NATIVE_FACTORY_AND_SELECTED_STENCIL_PASS"
+  ],
+  "native_create_sha256": "cc2ddeefa78e5eb999f2643277b4b639851b260d24171ff7fe886d15dba88b77",
+  "original_casual_sha256": "cb76cc4af706de4d6387b555e36fbb755579a1248a395b7b4d1da29f9535af42",
+  "native_casual_sha256": "70f580131b86ea87682bea609f22ab2409055b14ebe6fe6434819eadfa0c8c7e",
+  "official_selector_and_dependencies": {
+    "JarJarSelector-0.3.19.jar": "f7acfbafc9a715ee7d7ce2d539815b3ebccebc5064e0a7252c4a6a1c71d1e740",
+    "JarJarMetadata-0.3.19.jar": "6141c710b5b7b673bd544740a31339f0754d7a794cc46b952b7ef7897b7ce265",
+    "maven-artifact-3.8.5.jar": "91172bc294d6eab02fc9f45f4ea01fd0e418962d128cf489abea7b6957d988ee",
+    "guava-31.1-jre.jar": "a42edc9cab792e39fe39bb94f3fca655ed157ff87a8af78e1d6ba5b07c4a00ab",
+    "gson-2.10.jar": "0cdd163ce3598a20fc04eee71b140b24f6f2a3b35f0a499dbbdd9852e83fbfaf",
+    "slf4j-api-1.7.30.jar": "cdba07964d1bb40a0761485c6b1e8c2f8fd9eb1d19c53928ac0d7f9510105c57",
+    "noexception-1.7.1.jar": "3d70aaea3904918587a21bdf99ab6ade9ab1dd0eaf6119344ba513f60f575816",
+    "commons-lang3-3.12.0.jar": "d919d904486c037f8d193412da0c92e22a9fa24230b9d67a57855c5c31c7e94e"
+  },
+  "mod_classes_loaded": false,
+  "minecraft_or_opengl_launched": false,
+  "scope": "Actual official Forge0.3.19 JarSelector reads original/repaired archive metadata and bytes. Tests both source orders and the newer-only source. Whichever copy is selected now links real NativeEngine and accepted Ponder stencil bridge; original newer-only control remains legacy. A newer bundle is not assumed always selected. Not Minecraft/visual/FPS acceptance."
+}

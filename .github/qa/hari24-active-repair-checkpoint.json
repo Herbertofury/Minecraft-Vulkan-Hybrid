@@ -1,0 +1,470 @@
+{
+  "schema": 1,
+  "updated_at": "2026-10-04T02:12:13.144460+00:00",
+  "status": "release_verified:2.4.9 exact candidate accepted, all16client/dedicated/native proof artifacts source/JAR/notes/checksums uploaded and raw-verified, actual live Wiki bytes verified.",
+  "source_parent": "f619f92b2d59ecd0cbca916a055a422de3d7aa51",
+  "save_policy": "Non-force GitHub commits after each concrete repair and validation checkpoint; exact original provider bytes and test failures retained.",
+  "completed": {
+    "duplicate_entity_exception_cancellation": "Removed; compiled guard, native dedicated, packaged production, intentional entity-fault propagation and reopen passed.",
+    "candidate_compile": {
+      "run": 37146256589,
+      "head": "811bfcbe0a5544875d734e664219567117979a62",
+      "artifact": 11282770354,
+      "artifact_sha256": "7f8bffe104fb44222508b4b2da84ae6890edaca306cde75c9ec95825d3666763"
+    },
+    "provider_c2me98_dh": {
+      "run": 37145402840,
+      "job": 111268174544,
+      "result": "PASS, unchanged 2.4.8; not transferred to new binary"
+    },
+    "current_compile": {
+      "version": "2.4.9-noxviola.1-vulkan-hybrid",
+      "product_commit": "d087b4d17358d1ad94ac1362799769c7e677a862",
+      "compile_run": 37147380723,
+      "artifact_id": 11282926531,
+      "artifact_digest": "sha256:9cd6509c3fc1136b56af2a72d53c4380b33f671e0fe8b366cab51a749ebc5dd0",
+      "jar": "HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar",
+      "jar_sha256": "5b5b6a8d7961dc43ce8213fc8a01821f66628640d70358379986ec13e80b3b99",
+      "reproducible": true,
+      "source_files": 998,
+      "recipe_steps": 23,
+      "focused_regression_suites": 23,
+      "c2me_LIGHT_pairing_regression": "PASS: 529-ticket original negative control; six mapped/development variants; original queue/removal/failure identity retained",
+      "duplicate_entity_tracking_cancellation_removed": true,
+      "status": "native_modpack_pending",
+      "standard_dedicated_run": 37147380703,
+      "standard_packaged_production_run": 37147380701
+    },
+    "early_249_native_result": "9/13 client lanes plus dedicated passed; remaining original failures preserved in checkpoints/hari249-early-native-results.json. Do not transfer acceptance to new binary.",
+    "final_candidate_compile": {
+      "status": "native_modpack_pending",
+      "product_commit": "22010e6b0f308e46fb250761d72147b8a60711bf",
+      "compile_run": 37162935847,
+      "artifact_id": 11288003795,
+      "artifact_digest": "sha256:a51c29e38d410c90d48403cc3b8bbdd8bee17c8122299cf2a17ae113a636c55c",
+      "artifact_bytes": 61083155,
+      "jar": "HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar",
+      "jar_bytes": 30750208,
+      "jar_sha256": "2fe2db8900f0810e581fd1ea6d7cfd82f3aca73a64f23da394c4e10abfaf7811",
+      "reproducible": true,
+      "actual_compiled_postapply_verified": true,
+      "source_files": 998,
+      "recipe_steps": 23,
+      "focused_regression_suites": 23,
+      "version": "2.4.9-noxviola.1-vulkan-hybrid",
+      "early_plugin_merge_timing_regression": true,
+      "duplicate_entity_tracking_cancellation_removed": true
+    },
+    "final_native_dedicated_run": {
+      "run": 37162935881,
+      "job": 111319951074,
+      "result": "PASS"
+    },
+    "semantic_candidate_compile": {
+      "status": "native_modpack_accepted",
+      "product_commit": "3bd2621048e166cf24c8a782c79edc77b8b5b2ab",
+      "compile_run": 37163922566,
+      "artifact_id": 11289070883,
+      "artifact_digest": "sha256:fd805e2f63f6ea21e51e0d9fcbd49bf8b3fcb85c8e32e3429ccf70e51b71026c",
+      "artifact_bytes": 61084471,
+      "jar": "HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar",
+      "jar_bytes": 30750839,
+      "jar_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+      "reproducible": true,
+      "actual_compiled_postapply_verified": true,
+      "source_files": 998,
+      "recipe_steps": 23,
+      "focused_regression_suites": 23,
+      "version": "2.4.9-noxviola.1-vulkan-hybrid",
+      "early_plugin_merge_timing_regression": true,
+      "duplicate_entity_tracking_cancellation_removed": true,
+      "semantic_srg_and_optifine_release_match": true
+    },
+    "semantic_native_dedicated": {
+      "run": 37163922589,
+      "job": 111322855528,
+      "result": "PASS"
+    },
+    "semantic_packaged_production": {
+      "run": 37163922551,
+      "job": 111322856332,
+      "result": "PASS"
+    },
+    "native_materialized_profiles": {
+      "run": 37164668802,
+      "lanes": [
+        "aether",
+        "immediatelyfast",
+        "entityculling",
+        "oculus-embeddium",
+        "optifine",
+        "rubidium",
+        "lazurite",
+        "continuity",
+        "optimized-stack"
+      ],
+      "dedicated": true,
+      "original98_optifine": {
+        "run": 37164668733,
+        "job": 111325035935
+      },
+      "all10_profiles_full_evidence_bytes_checked": true
+    },
+    "exact_candidate_shader_lane": {
+      "run": 37166903303,
+      "job": 111331590303,
+      "artifact": 11290815998,
+      "sha256": "sha256:4f083fb62562222c9d5e4eacf101ca7ff0a119671895d46c610a4f1609fa2075",
+      "pids": [
+        4130,
+        5231
+      ],
+      "full_evidence_reconciled": true
+    },
+    "exact_candidate_midnight_native": {
+      "lane": "midnight",
+      "run": 37168634595,
+      "job": 111336814178,
+      "artifact": 11290144710,
+      "artifact_sha256": "sha256:b7f476508ccb2b19348e0c924a4e0f05bedf0eb0fd2127f8b1ec001df39cf620",
+      "two_original_client_pids": [
+        4256,
+        4951
+      ],
+      "initial_doubleSpace_first_release_flying_ticks": [
+        1225,
+        1226,
+        1227
+      ],
+      "attempt": 1,
+      "full_frame_median_ms": [
+        79.284541,
+        94.594053
+      ],
+      "native_reconciler_with_library_pin_passed": true,
+      "validation_library_sha256": "ea3395cdad554bd92e0f2ee6a7558d2094262c9695355ae0f4815843c504dbf4",
+      "product_jar_unchanged": true,
+      "interpretation": "Old validation overhead caused the software input starvation. This is a QA tool recovery, not an attributable hardware FPS speedup of the unchanged mod."
+    },
+    "all_native_compatibility": {
+      "full_profiles": 13,
+      "original_c2me98_focus": 3,
+      "new_combined_jobs": [
+        111336814285,
+        111336814171
+      ],
+      "new_artifacts": [
+        11290990011,
+        11290763698
+      ],
+      "distinct_pids": [
+        [
+          4049,
+          5010
+        ],
+        [
+          4271,
+          5231
+        ]
+      ],
+      "all_exact_candidate_proofs_reconciled": true
+    }
+  },
+  "current_causal_repair": {
+    "problem": "OptiFine renumbers releaseLightTicket lambda; C2ME LIGHT add-level redirect remains but original vanilla remove level persists.",
+    "actual_native_add": "redirect$zie000$redirectAddLightTicketDistance: ChunkLevel.byStatus(FEATURES)-2 for LIGHT",
+    "actual_native_remove": "lambda$releaseLightTicket$30: ChunkLevel.byStatus(LIGHT)",
+    "observed_leak": "529 LIGHT tickets and 9025 ChunkHolders retained during failed 120-second close; original Vulkan+C2ME control closes.",
+    "native_evidence": {
+      "run": 37145601216,
+      "artifact": 11281704693,
+      "sha256": "2be5089d50113b92fd8dc7e2a4cccdcfe475413e875f999673f2d0c21b031cd4"
+    },
+    "planned_fix": "Reuse actual original C2ME addition-level helper in semantically identified original LIGHT removal; preserve original queue, ticket arguments, removal operation and errors.",
+    "implementation": "Semantically matches the original release lambda independent of numeric suffix, reuses installed C2ME add helper, validates actual original LIGHT removal shape, disabled worldgen no-op. Actual compiled semantic negative controls and native provider profiles passed.",
+    "regression": "PASS in hosted actual reconstructed source and local production helper: old code leaks529, six repaired variants release through original owner queue; original failure identity retained.",
+    "late_integration_fix": "SpongePowered Mixin0.8.5 invokes ALL preApply callbacks before merge/injection passes; installed C2ME helper only exists in postApply. Moved original level-pairing callback to postApply.",
+    "lifecycle_source": "https://github.com/SpongePowered/Mixin/blob/0.8.5/src/main/java/org/spongepowered/asm/mixin/transformer/MixinApplicatorStandard.java",
+    "integration_regression": "PASS: compiled actual early plugin retains529 tickets when provider is merged after preApply; compiled actual corrected plugin releases529 via original removal after postApply; six mapped/development shape variants and exception identity also pass.",
+    "native_remap_fix": "Final native tests rejected lambda-name-only matching in normal Forge profiles. Match actual LIGHT field, original ticket-removal operation/owner redirect and exact JVM descriptor; retain original C2ME removal-helper body and original queues.",
+    "preserved_native_failure": {
+      "run": 37163367170,
+      "example_job": 111321244895,
+      "error": "C2ME LIGHT ticket source drift: original LIGHT release lambda",
+      "binary_sha256": "2fe2db8900f0810e581fd1ea6d7cfd82f3aca73a64f23da394c4e10abfaf7811",
+      "status": "superseded, not accepted"
+    },
+    "verified_original_provider": "Original SHA-pinned C2ME Forge9.6 worldgen bytecode computes FEATURES-2 in both its add and remove helpers; original bodies retained.",
+    "semantic_regression": "PASS: development and SRG release names, owner-thread redirect, existing C2ME removal helper, disabled module, idempotence, exact original removal failure identity, actual plugin late-merge lifecycle and original529-ticket-leak negative control.",
+    "status": "Implemented, compiled and native-verified on actual Forge, OptiFine and stock original C2ME9.6/9.8"
+  },
+  "remaining": [],
+  "known_blocker": null,
+  "guardrails": [
+    "No manual ticket clearing or shutdown suppression",
+    "No NoAI replacement or despawn respawn cheats",
+    "No transfer of 2.4.8 acceptance to 2.4.9",
+    "No force push; retain 63 projects and accepted 2.4.1"
+  ],
+  "progress_backup": {
+    "drive_id": "1aaHZdRVEY7_t0_avrkVbKMYl4QKRl2zV",
+    "url": "https://drive.google.com/file/d/1aaHZdRVEY7_t0_avrkVbKMYl4QKRl2zV/view?usp=drivesdk",
+    "bytes": 909330,
+    "sha256": "2a4a00c33dc6b9d014ddd724e97a755e31fb247901595d82d95c7d9f10715730",
+    "downloaded_byte_readback_match": true,
+    "contents": "235 integration code and QA files plus original-causal LIGHT regression; native acceptance pending"
+  },
+  "complete_source_checkpoint": {
+    "drive_id": "1Qr25eBZuWtXZ_CtMYECHLDWePUkEdNex",
+    "url": "https://drive.google.com/file/d/1Qr25eBZuWtXZ_CtMYECHLDWePUkEdNex/view?usp=drivesdk",
+    "bytes": 3127237,
+    "sha256": "0107aefdf1e681249c21bdfd2c93eb09a39f1cef09d812f1da1d4a11d266dea7",
+    "downloaded_byte_readback_match": true,
+    "fresh_original_recipe_steps": 23,
+    "source_files": 998,
+    "all998_local_source_hashes_match_actual_hosted_compile": true,
+    "native_acceptance_pending": true
+  },
+  "compiled_progress_checkpoint": {
+    "drive_id": "1Jxd6n0HkIAeoRimuvE4BEF-IeytYNJch",
+    "url": "https://drive.google.com/file/d/1Jxd6n0HkIAeoRimuvE4BEF-IeytYNJch/view?usp=drivesdk",
+    "bytes": 30598794,
+    "sha256": "9655f71cfb7f978d38f5ce3b9754cd590f27e951fd9a0be3935bb07dae4ca763",
+    "downloaded_byte_readback_match": true,
+    "status": "Preserved22010e6 compiled checkpoint, superseded by semantic repair; not promoted."
+  },
+  "latest_qa_commit": "e94b6189968d4954431b230af62b5862376fcf30",
+  "complete_semantic_drive_checkpoints": {
+    "product_commit": "3bd2621048e166cf24c8a782c79edc77b8b5b2ab",
+    "jar_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+    "status": "Progress checkpoint; native full matrix pending; not promoted",
+    "compiled": {
+      "drive_id": "1sc8tCZWxzlzRRty6VAf2VogTZbxgp1CI",
+      "bytes": 30599475,
+      "sha256": "c62d3fb97fce1767a766194797544fda13db878a0b92dfb32d9b779ead14c9b8",
+      "raw_byte_readback_verified": true
+    },
+    "source": {
+      "drive_id": "1poqprboC3jCpUxtsw8ypo5ZVtXVFP5n2",
+      "bytes": 2495476,
+      "sha256": "1eabb48c880f25f4238f2e731b8a2ab92b686352d7d36685d0c2efe83b485bef",
+      "raw_byte_readback_verified": true,
+      "all998_source_hashes_match_hosted_build": true,
+      "recipe_steps": 23
+    },
+    "native_runs": {
+      "full13_and_dedicated": 37164668802,
+      "original_c2me98_focused": 37164668733,
+      "commit": "490504c756ff001be12ae78f08d2fa35dde3452d"
+    }
+  },
+  "complete_native_drive_checkpoints": [
+    {
+      "bytes": 29862197,
+      "sha256": "e1772a9d19aad82d61705366544a68fe3cd7a07f4d3f5cd04f8f36574a34c1e0",
+      "artifact_ids": [
+        11289187333,
+        11289137697,
+        11288553588,
+        11288877206
+      ],
+      "drive_id": "1BI5ZYa0NtTu-9hBKNjVQvWmFW3gPo7B_",
+      "url": "https://drive.google.com/file/d/1BI5ZYa0NtTu-9hBKNjVQvWmFW3gPo7B_/view",
+      "raw_byte_readback_verified": true
+    },
+    {
+      "bytes": 32638848,
+      "sha256": "004803f1b285bd97513615b9cb65416a48bf8f518fa47d9733bd03e660cc7475",
+      "artifact_ids": [
+        11289486929,
+        11288962222,
+        11288493863
+      ],
+      "drive_id": "1JHVQtsUbBvTVdgI_xE-FUM715tCmQY4m",
+      "url": "https://drive.google.com/file/d/1JHVQtsUbBvTVdgI_xE-FUM715tCmQY4m/view",
+      "raw_byte_readback_verified": true
+    },
+    {
+      "bytes": 32641588,
+      "sha256": "4784509405514fa9bfa9fda1fa9ebaf954b487b4ee59732826b18d59cf99c713",
+      "artifact_ids": [
+        11288648418,
+        11289456983,
+        11288773262
+      ],
+      "drive_id": "1YC9KFjCDTz3-vSqp0IoC2ESSalrcDK3k",
+      "url": "https://drive.google.com/file/d/1YC9KFjCDTz3-vSqp0IoC2ESSalrcDK3k/view",
+      "raw_byte_readback_verified": true
+    },
+    {
+      "bytes": 10270325,
+      "sha256": "47346313296d70d2449d97750d7051a9f2644e0e531e1db744ae6ab0565c2c70",
+      "artifact_ids": [
+        11289426919
+      ],
+      "drive_id": "1qf1zLYqun3umbR7cDkgNWUDU_sMIG61r",
+      "url": "https://drive.google.com/file/d/1qf1zLYqun3umbR7cDkgNWUDU_sMIG61r/view",
+      "raw_byte_readback_verified": true
+    }
+  ],
+  "DH_full_native_backup": {
+    "drive_id": "1NaQBTamqlzrslOxJkRaeiyb8Fn-82EQX",
+    "bytes": 25761303,
+    "sha256": "43fcde4a0117c1b188eff19d6178f7014201113a2f7de9d391d48e89f94de58d",
+    "raw_byte_readback_verified": true,
+    "artifact_ids": [
+      11289499096,
+      11289469066
+    ]
+  },
+  "staged_standalone_candidate": {
+    "drive_folder": "1TZCi84twLpXuRPULJ0rvxTSdfcvt91W-",
+    "drive_jar": "1Kpk-RaWGtc8O1Da3J0xeuLP_g9xw4fmg",
+    "jar_bytes": 30750839,
+    "jar_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+    "status": "Accepted verified release; same exact byte-verified JAR promoted by metadata only",
+    "raw_byte_readback_verified": true
+  },
+  "next_action": "Release2.4.9 is complete. Preserve exact product3bd and all original proof/failed-route history; handle new user reports against verified JAR SHA, original mod inputs and driver. Do not silently reuse old1.3.275 software flight QA or overwrite the63project catalogue.",
+  "current_validation_native_runs": {
+    "head": "e94b6189968d4954431b230af62b5862376fcf30",
+    "sdk_version": "1.4.363.0",
+    "sdk_sha256": "197962f5cbf80baf2775a03336a01cee7c8745686c65aaa70d3f751ade4d7e43",
+    "runs": [
+      37168634595,
+      37168634593
+    ],
+    "jobs": {
+      "midnight": 111336814178,
+      "dimensions9.6": 111336814285,
+      "dimensions9.8": 111336814171
+    },
+    "sdk_install_passed_all_jobs": true,
+    "product_jar_unchanged": true,
+    "status": "All three native jobs succeeded; every original artifact, actual loaded library, portals/AI/NBT/save and second JVM independently reconciled"
+  },
+  "drive_backups": {
+    "complete_shader_proof": {
+      "drive_id": "1ZqNJolI8MkHKFVXiXKiC6vTVxKSBfWI_",
+      "name": "HariMultiThread-2.4.9-Complete-Native-Checkpoint-06.zip",
+      "bytes": 21927365,
+      "sha256": "2d27a3feb262b1f82d9e8d222b32818db1b161559931667864c2dcb525eb1bf9",
+      "raw_byte_readback_verified": true,
+      "artifact_ids": [
+        11290815998
+      ],
+      "checked_at": "2026-10-04T01:36:12.466654+00:00"
+    },
+    "native_input_diagnostics": {
+      "drive_id": "1WzuJG42R_VAwW7-yI3aCUw9hwYnZL5qc",
+      "name": "HariMultiThread-2.4.9-Native-Input-Diagnostics-Checkpoint.zip",
+      "bytes": 3493575,
+      "sha256": "561fd12f40b03e6d9a863eecb0f8a78873bf72c48413c4fa8fe01a9dfdb38174",
+      "raw_byte_readback_verified": true,
+      "artifact_ids": [
+        11290096152,
+        11289817801,
+        11290192039
+      ],
+      "status": "FAILED diagnostics retained, no accepted profile"
+    },
+    "complete_midnight_proof": {
+      "drive_id": "1bJEBAWILujJkf3VYAK1zsGZEs81drhOU",
+      "name": "HariMultiThread-2.4.9-Complete-Native-Checkpoint-07.zip",
+      "bytes": 4717184,
+      "sha256": "4d3c5f52706bcc0005203bc118d3e9ae40a28b6bde6219d129f60866bc69c2a4",
+      "raw_byte_readback_verified": true,
+      "artifact_ids": [
+        11290144710
+      ]
+    },
+    "complete_final_dimensions": {
+      "drive_id": "1RwqEG8Ok5jEXRi6FfqvfObT-eoSGJOI4",
+      "name": "HariMultiThread-2.4.9-Complete-Native-Checkpoint-08.zip",
+      "bytes": 19827921,
+      "sha256": "46fe9e584399371e8accb529441c69d4f06ca8c7c9c6850bfb8736236cd9636e",
+      "raw_byte_readback_verified": true,
+      "artifact_ids": [
+        11290990011,
+        11290763698
+      ]
+    }
+  },
+  "final_source_install": [
+    {
+      "name": "HariMultiThread-Ultimate-1.20.1-2.4.9-SOURCE.zip",
+      "drive_id": "1-EqZEtEE5MEkvtzplkSliUEl8zPKUTup",
+      "bytes": 2495844,
+      "sha256": "da2d70879738bdca8b7b97074fdd09771449cd38b208f5538249225e864874eb",
+      "raw_byte_readback_verified": true,
+      "source_entries_verified": 998
+    },
+    {
+      "name": "INSTALL.txt",
+      "drive_id": "1k1Ls3lXClvHP1d8YeJTo4t-KPH0VJmGu",
+      "bytes": 4480,
+      "sha256": "b56f90a54d2bed6f6c984f6b54d8c58ba33f0bb4fc6e0f3c7550ad50bca28603",
+      "raw_byte_readback_verified": true
+    }
+  ],
+  "standalone_candidate_renamed_verified": {
+    "id": "1Kpk-RaWGtc8O1Da3J0xeuLP_g9xw4fmg",
+    "name": "HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar",
+    "bytes": 30750839,
+    "sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+    "same_verified_bytes": true
+  },
+  "verified_release_folder": {
+    "id": "1TZCi84twLpXuRPULJ0rvxTSdfcvt91W-",
+    "name": "HariMultiThread-2.4.9-Verified-Release"
+  },
+  "historical_input_checkpoint_head": "fb3b0278435f8a160b5dfb422f5c24c9a068eaa9",
+  "checkpoint_parent": "53a7a601239e40072e713c1dedd2681e6c2e6d38",
+  "current_product_commit": "3bd2621048e166cf24c8a782c79edc77b8b5b2ab",
+  "canonical_branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+  "prior_input_run_history": {
+    "active_X11_input_runs": {
+      "C2ME96_three_failed_profiles": 37166299130,
+      "C2ME98_dimensions": 37166299120
+    },
+    "active_software_input_runs": {
+      "oculus_shaders": 37166903303,
+      "midnight_and_dimensions96": 37167237796,
+      "dimensions98": 37167237787
+    }
+  },
+  "latest_accepted_release": {
+    "version": "2.4.9-noxviola.1-vulkan-hybrid",
+    "jar_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+    "product_commit": "3bd2621048e166cf24c8a782c79edc77b8b5b2ab",
+    "full_client_profiles": 13,
+    "additional_original_c2me98_profiles": 3,
+    "release_folder": "1TZCi84twLpXuRPULJ0rvxTSdfcvt91W-",
+    "jar_drive_id": "1Kpk-RaWGtc8O1Da3J0xeuLP_g9xw4fmg",
+    "source_drive_id": "1-EqZEtEE5MEkvtzplkSliUEl8zPKUTup",
+    "full_proof_index": {
+      "drive_id": "1PASbnvio3werzVKfZR9wDNb_g_ewVssZ",
+      "name": "PROOF-INDEX.json",
+      "bytes": 282029,
+      "sha256": "a0d670a43352d302a01c6f597b054ab80c5ddbacd95fd1108f3594605773d194",
+      "raw_byte_readback_verified": true
+    },
+    "checksums": {
+      "drive_id": "1SX23nxNIkWBexS8VQkBbW8zkYXo11-zx",
+      "name": "SHA256SUMS.txt",
+      "bytes": 398,
+      "sha256": "6431033d55b7443e9c9d310107c0be53433670704ec7cc6a3daadb726d605e12",
+      "raw_byte_readback_verified": true
+    },
+    "wiki": {
+      "head": "2af2bb424b465acde1034ed4176a006a85e00677",
+      "page_sha256": "2a8765fc20996c73178b00022e6fb21b4b02da339db81fdb79b7c2699ce24029",
+      "publisher_run": 37170095652,
+      "publisher_job": 111341120954,
+      "source_main_commit": "9ff2f213daeab4a651f8f0b5ece01dda42ada145",
+      "actual_wiki_git_readback": true,
+      "fresh_clone_publisher_verified": true,
+      "url": "https://github.com/Herbertofury/ProjectDump/wiki/HariMultiThread-Vulkan-Hybrid"
+    }
+  }
+}

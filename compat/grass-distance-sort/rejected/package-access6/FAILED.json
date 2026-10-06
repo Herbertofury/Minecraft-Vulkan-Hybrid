@@ -1,0 +1,10 @@
+{
+  "candidate": "1.0.6",
+  "verdict": "REJECTED_RUNTIME_PACKAGE_ACCESS",
+  "failure": "IllegalAccessError linking static invoker to original package-private GrassDrawDispatcher",
+  "all_original_owned_active_hashes_restored": true,
+  "fps_accepted": false,
+  "candidate_sha256": "88519c91d6b650b991fe5adb81c3d7cec2cd8ff1ffbe3bec46560a06ea7a6c24",
+  "fixed_candidate": "1.0.7",
+  "original_grass_sha256": "91006e8220e65572d7e9e1e54b6058526c4adf908faedc750c9f19f13623df8c"
+}

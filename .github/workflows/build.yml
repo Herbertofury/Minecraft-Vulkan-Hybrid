@@ -1,0 +1,177 @@
+name: Standalone source build and focused regressions
+on:
+  pull_request:
+  workflow_dispatch:
+concurrency:
+  group: migration-build-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The newer native port rebuilds the retained stable engine from its exact feature-history commit.
+          fetch-depth: 0
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Verify all 1001 source files
+        run: python tools/verify_source.py
+      - name: Build complete merged source
+        working-directory: source
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon --max-workers=4 :forge:build --stacktrace
+      - name: Assemble and build the integrated dimension scheduler
+        run: |
+          python integration/dimensions/assemble.py ../hari-integrated-ci
+          ./source/gradlew -p ../hari-integrated-ci :forge:build --no-daemon --max-workers=4
+      - name: Fetch exact official Flywheel API and build native engine library
+        run: |
+          python compat/native-flywheel-backend/download_reference.py qa-out/references/flywheel-forge-1.20.1-1.0.5.jar
+          mvh_hari_reference=$(find "$GITHUB_WORKSPACE/../hari-integrated-ci/forge/build/libs" -maxdepth 1 -name '*-all.jar' -print -quit)
+          test -f "$mvh_hari_reference"
+          ./source/gradlew -p compat/native-flywheel-backend build "-PmvhHariReference=$mvh_hari_reference" "-PmvhFlywheelReference=$GITHUB_WORKSPACE/qa-out/references/flywheel-forge-1.20.1-1.0.5.jar" --no-daemon --max-workers=4
+      - name: Build the retained stable native engine against newer bundled Flywheel
+        run: |
+          python compat/native-flywheel-backend/download_newer_reference.py qa-out/references/flywheel-newer.jar qa-out/references/flywheel-newer-sources.jar
+          python compat/native-flywheel-backend/prepare_newer.py qa-out/references/flywheel-newer-sources.jar ../flywheel-newer-ci
+          mvh_hari_reference=$(find "$GITHUB_WORKSPACE/../hari-integrated-ci/forge/build/libs" -maxdepth 1 -name '*-all.jar' -print -quit)
+          ./source/gradlew -p ../flywheel-newer-ci build "-PmvhHariReference=$mvh_hari_reference" "-PmvhFlywheelReference=$GITHUB_WORKSPACE/qa-out/references/flywheel-newer.jar" --no-daemon --max-workers=4
+      - name: Verify native framebuffer affine clipping and behavior mutations
+        run: python integration/dimensions/tests/test_framebuffer_blit.py --report qa-out/framebuffer-blit-axis.json
+      - name: Verify immutable native light snapshots and fence-owned retirement
+        run: python compat/native-flywheel-backend/tests/test_light_snapshot.py --report qa-out/native-light-snapshot.json
+      - name: Verify concurrent native instance ownership and deleted embedding retirement
+        run: python compat/native-flywheel-backend/tests/test_instance_lifecycle.py --report qa-out/native-instance-lifecycle.json
+      - name: Verify original sparse native instance packing and meaningful mutations
+        run: python compat/native-flywheel-backend/tests/test_original_packing.py --report qa-out/native-original-packing.json
+      - name: Verify dimension ownership, failures and queue boundaries
+        run: |
+          mkdir -p qa-out/dimensions
+          javac -cp ../hari-integrated-ci/forge/build/classes/java/main -d qa-out/dimensions integration/dimensions/overlay/forge/src/main/java/me/srrapero720/dimthread/ParallelThreadSwap.java integration/dimensions/vendor/dimthreads/src/main/java/me/srrapero720/dimthread/thread/IMutableMainThread.java integration/dimensions/overlay/forge/src/main/java/me/srrapero720/dimthread/thread/ThreadPool.java integration/dimensions/tests/OwnershipRegression.java
+          java -ea -cp qa-out/dimensions OwnershipRegression
+          python integration/dimensions/tests/test_waiter.py ../hari-integrated-ci --report qa-out/dimension-waiter.json
+          python integration/dimensions/tests/test_mts_removal.py --report qa-out/mts-removal.json
+      - name: Verify palette snapshot, reentrancy and writer exclusion
+        run: python integration/dimensions/tests/test_palette_monitor.py --report qa-out/palette-monitor.json
+      - name: Verify retained native rebuild scheduling and original failure identity
+        run: python integration/dimensions/tests/test_pending_rebuilds.py --report qa-out/pending-rebuilds.json
+      - name: Verify exact frustum projection and visibility mode changes
+        run: python integration/dimensions/tests/test_frustum_visibility.py --report qa-out/frustum-visibility.json
+      - name: Verify inactive ModernFix GL audit and cache invalidation
+        run: python integration/dimensions/tests/test_inactive_modernfix.py --report qa-out/inactive-modernfix-gate.json
+      - name: Verify pinned inactive Ixeris macOS calls and platform cache invalidation
+        run: python integration/dimensions/tests/test_inactive_ixeris.py --report qa-out/inactive-ixeris-platform.json
+      - name: Verify required native renderer blocks fallback and forced bypass
+        run: python integration/dimensions/tests/test_native_requirement.py --report qa-out/native-requirement.json
+      - name: Verify optional vertex-memory repair against the pinned original API
+        run: python compat/oculus-memory-copy/tests/test_memory_copy.py --download-reference --report qa-out/oculus-memory-parity.json
+      - name: Verify reference Iris shader source cache identity
+        run: python compat/vulkan-shaders/tests/test_compile_key.py --report qa-out/iris-source-cache-key.json
+      - name: Resolve isolated official reference shader compiler SDK
+        run: ./source/gradlew -p compat/vulkan-shaders/native-test-sdk writeTestClasspaths --no-daemon --max-workers=4
+      - name: Verify real native shader compilation and bytecode cache isolation
+        run: python compat/vulkan-shaders/tests/test_native_compiler.py --download-reference --lwjgl-classpath "$(cat compat/vulkan-shaders/native-test-sdk/build/reference-classpath.txt)" --legacy-lwjgl-classpath "$(cat compat/vulkan-shaders/native-test-sdk/build/legacy-classpath.txt)" --report qa-out/iris-native-compiler.json
+      - name: Verify reflected native uniform offsets and padded matrix/array writes
+        run: python compat/vulkan-shaders/tests/test_uniform_abi.py --download-reference --lwjgl-classpath "$(cat compat/vulkan-shaders/native-test-sdk/build/reference-classpath.txt)" --report qa-out/iris-native-uniform-abi.json
+      - name: Compile original Flywheel native shaders and verify nested frame ABI
+        run: python compat/native-flywheel/tests/compile_fixture.py --download-reference --lwjgl-classpath "$(cat compat/vulkan-shaders/native-test-sdk/build/reference-classpath.txt)" --output qa-out/native-flywheel-compiler-only --report qa-out/native-flywheel-structured-frame.json
+      - name: Verify inactive grass compute policy and shader declaration conversion
+        run: |
+          python integration/dimensions/tests/test_inactive_grass.py --report qa-out/inactive-grass.json
+          python integration/dimensions/tests/test_glsl_comments.py --report qa-out/glsl-comments.json
+          python integration/dimensions/tests/test_glsl_varyings.py --report qa-out/glsl-varyings.json
+          python integration/dimensions/tests/test_legacy_shader_matrices.py --report qa-out/legacy-shader-matrices.json
+          python integration/dimensions/tests/test_forge_render_stage.py --report qa-out/forge-render-stage.json
+      - name: Build optional OpenGL texture compatibility mod
+        run: ./source/gradlew -p compat/opengl-texture-lookup build --no-daemon --max-workers=4
+      - name: Verify texture lookup ownership and original failure propagation
+        run: |
+          mkdir -p qa-out/texture-lookup
+          javac -d qa-out/texture-lookup compat/opengl-texture-lookup/src/main/java/mvhglcompat/TextureLookup.java compat/opengl-texture-lookup/tests/TextureLookupRegression.java
+          java -cp qa-out/texture-lookup TextureLookupRegression
+      - name: Build optional Field Guide startup compatibility mod
+        run: ./source/gradlew -p compat/fieldguide-query-split build --no-daemon --max-workers=4
+      - name: Verify exact biome parsing parity and bounded ownership
+        run: |
+          mkdir -p qa-out/fieldguide-split
+          javac -encoding UTF-8 -d qa-out/fieldguide-split compat/fieldguide-query-split/src/main/java/mvhstartupcompat/BiomeQuerySplitCache.java compat/fieldguide-query-split/tests/BiomeQuerySplitRegression.java
+          java -cp qa-out/fieldguide-split BiomeQuerySplitRegression
+          javac -encoding UTF-8 -cp qa-out/fieldguide-split -d qa-out/fieldguide-split compat/fieldguide-query-split/src/main/java/mvhstartupcompat/BiomeModifierIndex.java compat/fieldguide-query-split/tests/BiomeModifierIndexRegression.java
+          java -ea -cp qa-out/fieldguide-split BiomeModifierIndexRegression
+      - name: Build optional exact grass distance compatibility mod
+        run: ./source/gradlew -p compat/grass-distance-sort build --no-daemon --max-workers=4
+      - name: Verify exact grass visibility against independent JOML projection
+        run: |
+          mvh_joml=$(find "$HOME/.gradle/caches/modules-2/files-2.1/org.joml/joml/1.10.5" -name '*.jar' -print -quit)
+          test -f "$mvh_joml"
+          python compat/grass-distance-sort/tests/test_exact_frustum.py --joml "$mvh_joml" > qa-out/grass-exact-frustum.json
+      - name: Build native TRender scissor compatibility helper
+        run: ./source/gradlew -p compat/trender-scissor build --no-daemon --max-workers=4
+      - name: Verify native scissor coordinate, owner and failure contracts
+        run: python compat/trender-scissor/tests/test_scissor_bridge.py --report qa-out/trender-scissor-bridge.json
+      - name: Build exact Ponder stencil helper and regression dependencies
+        run: ./source/gradlew -p compat/ponder-stencil build writeNativeStencilTestClasspath --no-daemon --max-workers=4
+      - name: Verify native stencil operations and exact Ponder bridge contracts
+        run: |
+          python integration/dimensions/tests/test_native_stencil.py --lwjgl-classpath "$(cat compat/ponder-stencil/build/native-stencil-test-classpath.txt)" --report qa-out/native-stencil.json
+          python compat/ponder-stencil/tests/test_bridge.py --report qa-out/ponder-stencil-bridge.json
+          python compat/ponder-stencil/tests/test_patch.py --asm-classpath "$(cat compat/ponder-stencil/build/native-stencil-test-classpath.txt)" --report qa-out/ponder-stencil-patch.json
+      - name: Verify float and integer image upload footprints
+        run: |
+          mkdir -p qa-out/float-texture
+          javac -cp "$(cat compat/ponder-stencil/build/native-stencil-test-classpath.txt)" -d qa-out/float-texture integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/vulkan/texture/UncompressedTexelSize.java source/forge/src/main/java/net/vulkanmod/vulkan/texture/TextureUploadSpan.java integration/dimensions/tests/UncompressedTexelRegression.java
+          java -ea -cp "qa-out/float-texture:$(cat compat/ponder-stencil/build/native-stencil-test-classpath.txt)" UncompressedTexelRegression
+      - name: Verify exact stable grass section ordering and bounded scratch
+        run: |
+          mkdir -p qa-out/grass-distance
+          javac -encoding UTF-8 -d qa-out/grass-distance compat/grass-distance-sort/src/main/java/mvhgrasscompat/DistanceSort.java compat/grass-distance-sort/tests/DistanceSortRegression.java
+          java -ea -cp qa-out/grass-distance DistanceSortRegression
+          python compat/grass-distance-sort/tests/test_memoized_distance.py --report qa-out/grass-memo-parity.json
+          python compat/grass-distance-sort/tests/test_invalidation_lifecycle.py --report qa-out/grass-invalidation-lifecycle.json
+      - name: Build isolated native benchmark recorder
+        run: ./source/gradlew -p benchmarks/control-forge build --no-daemon --max-workers=4
+      - name: Build marker-confined cumulative recorder and native grass smoke
+        run: |
+          mvh_hari_reference=$(find "$GITHUB_WORKSPACE/../hari-integrated-ci/forge/build/libs" -maxdepth 1 -name '*-all.jar' -print -quit)
+          test -f "$mvh_hari_reference"
+          ./source/gradlew -p benchmarks/pack-control-forge build "-PmvhHariReference=$mvh_hari_reference" --no-daemon --max-workers=4
+      - name: Verify packaged Minecraft resource metadata
+        run: python tools/verify_pack_metadata.py 'source/forge/build/libs/*-all.jar' '../hari-integrated-ci/forge/build/libs/*-all.jar' 'compat/opengl-texture-lookup/build/libs/*.jar' 'compat/fieldguide-query-split/build/libs/*.jar' 'benchmarks/control-forge/build/libs/*.jar' 'benchmarks/pack-control-forge/build/libs/*.jar' 'compat/grass-distance-sort/build/libs/*.jar' 'compat/trender-scissor/build/libs/*.jar' 'compat/native-flywheel-backend/build/libs/*.jar'
+      - name: Run portable production regressions
+        run: |
+          set -euo pipefail
+          mkdir -p qa-out
+          for suite in vulkan_performance chunk_workers audio_reload gl_contract gl_shader_source c2me_boundary c2me_spawn_lock c2me_task_waiter c2me_chunk_access; do
+            python minecraft/async-1.20.1-ultimate/test_${suite}.py source --report qa-out/${suite}.json
+          done
+          python minecraft/async-1.20.1-ultimate/test_task_failures.py source/common/src/main/java/com/axalotl/async/common/TaskFailures.java --report qa-out/task_failures.json
+      - name: Collect integrated artifact inside the workspace
+        run: |
+          mkdir -p qa-out/artifacts
+          cp ../hari-integrated-ci/forge/build/libs/*-all.jar qa-out/artifacts/
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: source-build-and-focused-proof
+          path: |
+            source/forge/build/libs/*-all.jar
+            compat/opengl-texture-lookup/build/libs/*.jar
+            compat/fieldguide-query-split/build/libs/*.jar
+            benchmarks/control-forge/build/libs/*.jar
+            benchmarks/pack-control-forge/build/libs/*.jar
+            compat/grass-distance-sort/build/libs/*.jar
+            compat/trender-scissor/build/libs/*.jar
+            compat/native-flywheel-backend/build/libs/*.jar
+            qa-out/
+            LICENSE
+            compat/native-flywheel/FLYWHEEL-LICENSE-MIT.txt

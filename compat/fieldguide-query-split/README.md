@@ -1,0 +1,13 @@
+# Field Guide query parsing compatibility
+
+This optional client addon improves **Field Guide 1.20.4+1.20.1**, the latest official Forge 1.20.1 release verified on 2026-10-04. A private native startup JFR from Noxviola identified `SearchManager.matchByBiome` repeatedly splitting the same addition/removal strings on the render thread. The upstream search still performs these splits inside its entry loops.
+
+Version 1.1.0 also indexes the original biome modifier lists once per query by the exact first split field. The existing upstream loops still validate and apply every matching modifier in its original order, including duplicates. The index is discarded at query return and recreated at the next query, so resource reload data is reread. The inspected getters return stable lists throughout a synchronous query. The regression compares 15,000 seeded entry/list cases to the original scan and checks ordering, duplicates, malformed delimiters and replacement data.
+
+The two `String.split("\\|")` calls in that method use a bounded cache of the exact original results. Upstream reads the returned arrays without mutating them. All matching, ordering, biome additions/removals, registry access and reload behavior remain upstream operations. Cache keys include the complete string contents, so changing a datapack produces a different entry. Each calling thread owns its cache, capped at 4096 strings. Other regex operations use the original implementation. The exact dependency version and injection count prevent silently applying the change to a different search implementation.
+
+Source inspected: [Field Guide](https://github.com/evanbones/Field-Guide/tree/5a4bb603595a9eb3fafc30c51107192b2157e0dd), `SearchManager.java`. Field Guide code is MIT (Evan Bowness); its assets remain reserved to their authors and are not redistributed here. This addon contains new interoperation code under the repository GPL-3.0 license.
+
+Build with Java 17 using `../../source/gradlew.bat -p . build`. The pure Java regression compares 5000 seeded randomized strings to JDK split, including trailing delimiters, Unicode, cache eviction, changed data and exception behavior. Native startup and full-pack performance verification are ongoing. Parsing regression timings are not game startup measurements.
+
+The latest remove-all-auxiliary-optimizers instruction also disables this optional cache recoverably in the isolated candidate. It is a performance helper, not a required correctness repair; original Field Guide remains. CPU parsing/index regression parity alone does not establish a matched complete-pack startup or FPS benefit. [Final decision and exact hash](../../benchmarks/results/fullpack-20261005/no-aux-performance/fieldguide-removal.json).

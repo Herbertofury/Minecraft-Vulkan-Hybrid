@@ -1,0 +1,559 @@
+{
+  "repository": "Engine-Room/Flywheel",
+  "commit": "610b1683f3ed0fef5cd387a126bd2c530a9c2ead",
+  "license": "MIT; existing notice retained",
+  "files": [
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/backend/Backend.java",
+      "git_blob": "6cc6228f9bf53c59a3a2e12de36decc6f55d8cc3",
+      "sha256": "0b49a104fa2b876953cbdc65e5636e71ada1018d9762e7b597e8bcc2d8714382",
+      "bytes": 871
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/backend/BackendImplemented.java",
+      "git_blob": "69765d6cf88a069e5f3b05fb132650a6d72f9412",
+      "sha256": "22bdcefaa6680082e281d8e5d7573b51ce9745b430b66b677a9c5abb365745de",
+      "bytes": 1106
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/backend/BackendManager.java",
+      "git_blob": "039b2a52868b37f6b3e9ecc8386f9ba2f1a2bcee",
+      "sha256": "7dbc21e8b8044e89b59ebd63542504996585feb1404acfd09aca64efe479cc0f",
+      "bytes": 580
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/backend/Engine.java",
+      "git_blob": "b44ee31ff80197cb9376aab508c24eed12a37759",
+      "sha256": "d4bcf64cd93c24b9a12405d174b64da299ef48236053003f70b49607157fc731",
+      "bytes": 3255
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/backend/RenderContext.java",
+      "git_blob": "842f7a2664d11ce8a80fe8257b888874176e94bc",
+      "sha256": "8775838e02e3d4082d393b5eb7762ccbf5e5acb9d50efbd2e58efe2dbcca7121",
+      "bytes": 545
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/instance/Instance.java",
+      "git_blob": "bd81a34711bdae24b914084fd4ba7e2437539a36",
+      "sha256": "bf3f52100c017767f307046995f03b95374d97be37693c8c49638d0ee4869225",
+      "bytes": 322
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/instance/InstanceHandle.java",
+      "git_blob": "3815f5f7e3f7ede3f560ba6d029fe7ae0a336935",
+      "sha256": "2dc716f90bb9f8baf7c039dc4b51918d19f54335cd8d198bcd9b9cd874f04aeb",
+      "bytes": 269
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/instance/InstanceType.java",
+      "git_blob": "fd5c726b1d7831c417d19159ddc5ee8cedd2e495",
+      "sha256": "492b4ffb783002aef0141863913d70b48ce8ae1654be614f1c4c9edfab0e71a3",
+      "bytes": 2186
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/instance/InstanceWriter.java",
+      "git_blob": "c02f59bf4d9df25eab265062c23f30af3e81728c",
+      "sha256": "d5fa07bd8543c7e6150c3bccee912a7ae5c9de23b856d83576aadd594829dfe3",
+      "bytes": 320
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/instance/Instancer.java",
+      "git_blob": "704f0a9b4c4e9d5ff9561dc09558ea645e565554",
+      "sha256": "35f8f1af11c083a2ea26fbd4edde5dc37047972ac14565f61bd25abef32e230e",
+      "bytes": 2118
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/instance/InstancerProvider.java",
+      "git_blob": "d228eea3cc54a04afd232c2c470723647637246c",
+      "sha256": "1bd2731378de00dace037cb0950bc8a96c4860b2f88de000bbe8e6f5fcad79db",
+      "bytes": 2289
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/material/CardinalLightingMode.java",
+      "git_blob": "c55c82798efd5f1d4646679c4441e2c556bd0299",
+      "sha256": "39f51c1fa12e57a33affd73df99fdf6bb76ac30868b8c05078da1ccaf2dbe62a",
+      "bytes": 554
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/material/CutoutShader.java",
+      "git_blob": "d98910cd5b0edf71ad9638e7e1b7ce411fd179ea",
+      "sha256": "b9352df42946616eff3b527adf38b0e0146143cb46e04dd6dc8481bc0ae67e56",
+      "bytes": 354
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/material/DepthTest.java",
+      "git_blob": "4d12b8deb9087d6cd310cf22bf0f99d1c9878335",
+      "sha256": "f58a2e660b37620a5a7aa0a8f158e3175f258d7d92ebd29ea8ba70e7b41b240f",
+      "bytes": 151
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/material/FogShader.java",
+      "git_blob": "9a77a873ab2e1d5413e3a56dcdac13b087b2a882",
+      "sha256": "a2372c41ba1e8c49fa887afe51529b202927857297981176837a2db382fc27fb",
+      "bytes": 326
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/material/LightShader.java",
+      "git_blob": "977d16764cd59f71ed4e83b3f9e1669a40f69309",
+      "sha256": "40a30cbe9c04a8046ea57085d22426112f1ca4e287ec4fddd796facb2e03967c",
+      "bytes": 333
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/material/Material.java",
+      "git_blob": "ae72a2fb3e50b4a53cf81292092855e069759350",
+      "sha256": "c53ac77b55862b45f843d9320660a5599fdd4e4de00875c7f52798a73a2a1631",
+      "bytes": 1116
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/material/MaterialShaders.java",
+      "git_blob": "bb8dc76ad4a875fd180b74984c2b2da66b0294c7",
+      "sha256": "733687f502d92eeec068fb25cc9640710a9cf4658a2ef698e950181b9246a32d",
+      "bytes": 497
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/material/Transparency.java",
+      "git_blob": "06de4550f3128d551a25dfba61f86a40174d6289",
+      "sha256": "14d8c9fd88f3dfbe0b20061f1c7c4da8faacfe48c27799e64955025a6bf5c1a3",
+      "bytes": 1730
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/material/WriteMask.java",
+      "git_blob": "2dc4c070d68fc35fb13c32e265d1bd547e2044ca",
+      "sha256": "a2cc282a142af7829730571d6a1aaadbc62e3eefa31587333e3a517d86f37ebe",
+      "bytes": 410
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/model/IndexSequence.java",
+      "git_blob": "698e11fbe7a75e29a1d33b880da5b0f180c62472",
+      "sha256": "a64e2817a4591ca1ddbc8b61bef986dc38781d4fa4a43a408d0ad41fa5ce7473",
+      "bytes": 318
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/model/Mesh.java",
+      "git_blob": "1072d3956cc056391a9a89b8ec659f31bb758284",
+      "sha256": "871d97fab6f50658cd7f81d125f702d194bcba672bc93c67cb7b689064f92bbc",
+      "bytes": 819
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/model/Model.java",
+      "git_blob": "e3d42fdd5bd9afef3666e251ef96b2e8b7a0ab4a",
+      "sha256": "266b33e5b0e6652102ea157aa2fe0487b2377325889c98a1130a48a066ce347c",
+      "bytes": 956
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/task/Plan.java",
+      "git_blob": "401d890eb1ae536144a9c1d44a13f98f55a23b79",
+      "sha256": "55373d5f74bd87e413031ed750eb850dcbd45fcb60d623aaa024f107b8818069",
+      "bytes": 1361
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/task/TaskExecutor.java",
+      "git_blob": "f8fd35cb2f850e2efb0c916e73fac509f76c53ad",
+      "sha256": "5235ef5cf4364ef5372c42f6c6cb41b88da1316fbf907153e82cb04882ed3d97",
+      "bytes": 432
+    },
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/visualization/VisualEmbedding.java",
+      "git_blob": "b4f626590905e54634099ac3f8396e5dec798d2f",
+      "sha256": "c3e5cc94701d735123325b281916dac45314d0ae691fdd78aeb678b0eaba7d9f",
+      "bytes": 1526
+    },
+    {
+      "path": "common/src/backend/java/dev/engine_room/flywheel/backend/Backends.java",
+      "git_blob": "d796248ae92727c05a789ebdefee9addab4c510b",
+      "sha256": "e777726044691a03a967a020937c51246808f4a5de98fec946225184c84c65c3",
+      "bytes": 1996
+    },
+    {
+      "path": "common/src/backend/java/dev/engine_room/flywheel/backend/FlwBackend.java",
+      "git_blob": "6e1dac1249d7ece7e81ad69e95fd7f65d6b40292",
+      "sha256": "f5e4c715aa940bea24d8bb6eed9de5bc0a99d17ec3d863cee851794e7482e795",
+      "bytes": 573
+    },
+    {
+      "path": "common/src/backend/java/dev/engine_room/flywheel/backend/engine/AbstractInstancer.java",
+      "git_blob": "605ee04412cae4071993c0b20501583a43c6d25a",
+      "sha256": "7e4d9585423fc5ceb7906aec86c6057b1282944314eece3ecbe6cfd8ba3b1869",
+      "bytes": 1192
+    },
+    {
+      "path": "common/src/backend/java/dev/engine_room/flywheel/backend/engine/DrawManager.java",
+      "git_blob": "00393ed56ca6d3293121de43b8e99e8b99ffdc35",
+      "sha256": "9f1fd2b3b0e235b6f16b8c88ff07c5bd1b2c862922f864ec2d352ae8d9d1e4f3",
+      "bytes": 6869
+    },
+    {
+      "path": "common/src/backend/java/dev/engine_room/flywheel/backend/engine/EngineImpl.java",
+      "git_blob": "b32fed15fcbdc9e350676f6b985a00920070843e",
+      "sha256": "ddaacc4183069d4115bb70af8682fb9e9e1669b3903b348af2f9546652b80ed8",
+      "bytes": 4824
+    },
+    {
+      "path": "common/src/backend/java/dev/engine_room/flywheel/backend/engine/InstanceHandleImpl.java",
+      "git_blob": "e83936b0c0762b941c128344a49abeb7b5e80a94",
+      "sha256": "25d1ff6a2cf0c9b18d84659a2a08a8c97e97c8fb6bbef22074cb78f54fed3d09",
+      "bytes": 2141
+    },
+    {
+      "path": "common/src/backend/java/dev/engine_room/flywheel/backend/engine/InstancerKey.java",
+      "git_blob": "843d1075ba9e5258d5e7b103908f1f7df191cfc0",
+      "sha256": "56fa8fee496ed0938807c81f15bbbb3f3bacbf03433fb09a8d5eb0098eedab7a",
+      "bytes": 401
+    },
+    {
+      "path": "common/src/backend/java/dev/engine_room/flywheel/backend/engine/LightStorage.java",
+      "git_blob": "8462cdb9b009f399e0579b7d2dc9087f1aac2393",
+      "sha256": "99600c030f1fd618e9aaadb91ee62aca8633c0fcd97640898e0da23b3ff6c093",
+      "bytes": 11515
+    },
+    {
+      "path": "common/src/backend/java/dev/engine_room/flywheel/backend/engine/TextureBinder.java",
+      "git_blob": "5d5f48da21cc4dc312f456766c25e534485279e8",
+      "sha256": "622aa4cb4fd06634bd3daf7ce24c14c99e4c7fa409b72cdea50ea44ec9916f9c",
+      "bytes": 1323
+    },
+    {
+      "path": "common/src/backend/java/dev/engine_room/flywheel/backend/engine/embed/EmbeddedEnvironment.java",
+      "git_blob": "e45dceec03a927e03903654dc013af6eb9c699a5",
+      "sha256": "c2670eec7bac7ee54556755c419ea4fccc9209753d1e7fa75be303ed59b3a553",
+      "bytes": 3474
+    },
+    {
+      "path": "common/src/backend/java/dev/engine_room/flywheel/backend/engine/embed/EmbeddingUniforms.java",
+      "git_blob": "e1c4c19784e36dda6ce4a4a5cd8ca88f8ca632cc",
+      "sha256": "8c60f027f3be69fe5daaeb728bd1d781bb6c47335481035b8f9d7fc21f210a01",
+      "bytes": 274
+    },
+    {
+      "path": "common/src/backend/java/dev/engine_room/flywheel/backend/engine/embed/Environment.java",
+      "git_blob": "8afcf61258815a041501cda7845bd25e5ccf77b9",
+      "sha256": "ab2973f058c70e46ef05e242beaaf0006f3dd82d28d368e3dab9acdb92fbf146",
+      "bytes": 308
+    },
+    {
+      "path": "common/src/backend/java/dev/engine_room/flywheel/backend/engine/embed/EnvironmentStorage.java",
+      "git_blob": "85ad5538771106c354f56ad083dc4ffef536e116",
+      "sha256": "6c16bdd40cb4a51e5ff0f4f7959c849408a3c20114ee8494af9b9ab3760afee2",
+      "bytes": 1422
+    },
+    {
+      "path": "common/src/backend/java/dev/engine_room/flywheel/backend/engine/embed/GlobalEnvironment.java",
+      "git_blob": "7b9919bafcc76fd653d64d9be9ca0de6dd026a7e",
+      "sha256": "36a39bb0d77949bd8f79e28f132b1e0b0200d70c6155e51fff728a3d9cc3a92e",
+      "bytes": 554
+    },
+    {
+      "path": "common/src/backend/java/dev/engine_room/flywheel/backend/gl/GlCompat.java",
+      "git_blob": "897af67fd94f92d52dbe7649783f95385bff2206",
+      "sha256": "7219a64530b85b33a1ae4ad0790c1fbeafbac010491779b6589caa318c17c974",
+      "bytes": 7481
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/instance/AbstractInstance.java",
+      "git_blob": "80f5442d3d2670cff0e7e13d1b4e5924f8f779d2",
+      "sha256": "537b6ee11a46106c5ef90a23115eb25c0b644433d8197decce2fea3d4a8189c5",
+      "bytes": 951
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/instance/ColoredLitInstance.java",
+      "git_blob": "e8f95baf56273ed969f59827f38f5195cbd68697",
+      "sha256": "05a5556d80349a185a3131c928da2c192c967a54fcf205c1dbcc723601be5805",
+      "bytes": 1966
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/instance/ColoredLitOverlayInstance.java",
+      "git_blob": "ab0725d9bc434f750982cca66a772b646a7e717b",
+      "sha256": "25e7686956f5aed05b6b6fb124c753753e5e1038f7d23c9acff2d9710b27535c",
+      "bytes": 602
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/instance/FlatLit.java",
+      "git_blob": "7cd26dab5466fb4a762d6e2e6adb87c3e20fec17",
+      "sha256": "ccf4db688bee5b5c2fefd1f5c79a417540467b2153910047f3ee499f443067e5",
+      "bytes": 1926
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/instance/InstanceTypes.java",
+      "git_blob": "9e9152e1a51bb90f7a1d41de9424122353885a86",
+      "sha256": "251e31df730cee9a4fb61e051458ee0f597e04ac7ca92b5d610c9eece1007729",
+      "bytes": 4729
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/instance/OrientedInstance.java",
+      "git_blob": "db59429e2e9fadc42b80a6979947ddf0d5dbf91d",
+      "sha256": "02d5c4ba74ed39bbb855d83e688bfca64872a9c20f9b84b86aa3e1c8fed6ca9f",
+      "bytes": 2519
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/instance/PosedInstance.java",
+      "git_blob": "f00a6ac5d19dc02d74b307d73afa33f650f4cda4",
+      "sha256": "d343a63b1e870867dc6ee3a79c1d688beb5b7e519b22ea2245de002c93b96dd8",
+      "bytes": 2564
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/instance/ShadowInstance.java",
+      "git_blob": "c14bad363ba617f6353f06eb58b8f3c0ff8da6da",
+      "sha256": "8dfc4a28928c0644f266f255cad5aaa1ace510ce2d218a3ea889394ab5d62d38",
+      "bytes": 472
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/instance/SimpleInstanceType.java",
+      "git_blob": "81b14082ecf43b1860a943c5dabbe0514c8a3e06",
+      "sha256": "f87f6072eb296d1a9fb4f7c5b84b53a739deb16b97b2d04b27f949d442cf0996",
+      "bytes": 2641
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/instance/TransformedInstance.java",
+      "git_blob": "e8bd4d20f73b3ab5b11747e2aa70eb6658bbea8f",
+      "sha256": "37b25eaa34d76a403034f7f8d10189c6613a27e460a893fa4e454581bbb4a431",
+      "bytes": 3755
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/EmptyModel.java",
+      "git_blob": "fd38a686f26b50a131489ae729cf3a19a332d17d",
+      "sha256": "bf601158aecb847975411ab4f17b764288e5f35ab3fb278d4556f0da005751a6",
+      "bytes": 558
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/LineModelBuilder.java",
+      "git_blob": "1012ae04f84125cc2a1e97adc5a3a67212caac3b",
+      "sha256": "3d7ec0604cd2a4a1dd62e6af9554926422bc3ffc21f51e8f0e35154fa2378825",
+      "bytes": 5342
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/ModelUtil.java",
+      "git_blob": "48acb921f7fdec69068e569e30a2e7a436a8e22d",
+      "sha256": "96318c692c73b5f14606399c64e1d6597f6e587df9b7eb21b5224830419d1a65",
+      "bytes": 4659
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/Models.java",
+      "git_blob": "b7645516f7ae4bb5bf793c99e0e4e4f328957082",
+      "sha256": "66436d288463550d7fee32f7e8fcfce86aed89bb7518544df1461f43cb1e6ab1",
+      "bytes": 3995
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/QuadIndexSequence.java",
+      "git_blob": "0853ed1c27e7d6f7ea6d9ab268633eb0de239459",
+      "sha256": "1108460e790d5629618b202aaed84cc4a7042878afacf174063457706e91211c",
+      "bytes": 832
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/QuadMesh.java",
+      "git_blob": "03893d255a21e4891995c2959a20feb8ae0b021e",
+      "sha256": "1f1ac35b40aca9e110bec8aaf8a2f8d62eadc1b999ea4688a9efdbda2209bd13",
+      "bytes": 361
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/RetexturedMesh.java",
+      "git_blob": "2aa476891918a3ad62d54a96c7ee98196657ba12",
+      "sha256": "3780e9e4d88d33f45279139c1fb993b14b3ef83099f7d2b54a9c763bd89edc85",
+      "bytes": 918
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/SimpleModel.java",
+      "git_blob": "494e0639343a9c794566a5cc060f513ed618caed",
+      "sha256": "2957430985db0fc6150420855df5b76e65478cede8b4c3f8b5931eafabc5a07e",
+      "bytes": 571
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/SimpleQuadMesh.java",
+      "git_blob": "e7ff25a5ba5c0bbfabe94c3f8ba7126f818a3a63",
+      "sha256": "fea0a073fb7b41dca51009ed10b478d3a69ece4086b7b1707d71578d4a7b9b0c",
+      "bytes": 1117
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/SingleMeshModel.java",
+      "git_blob": "84ba0b5a39de0bbac1319b0f07ade48c5921447a",
+      "sha256": "6e868bd31d654957a3286e15edfcaa2c049fedfa7bcf74ae5f9c617250934c09",
+      "bytes": 735
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/baked/BakedModelBuilder.java",
+      "git_blob": "3eed07db253392392fad0ecbeda4c3f366c48e89",
+      "sha256": "ee6da97b5c066fdd861439c147602911d5d812c3e9d1aa6264155018c7ed42cf",
+      "bytes": 1589
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/baked/BlockModelBuilder.java",
+      "git_blob": "67f2eb0a6d2b62d620b970ddc682788ee102819e",
+      "sha256": "27fd83d8aeadff8a8909e17c0104542fc579690030b62ecba1efb947692752b8",
+      "bytes": 1546
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/baked/EmptyVirtualBlockGetter.java",
+      "git_blob": "a5439444d0acd7135e2a5e18b2ede0da8c992833",
+      "sha256": "cd11af2083df736008a7163f4dc584b66450c97f2c7328bdd33201fc09637a0b",
+      "bytes": 1320
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/baked/MeshHelper.java",
+      "git_blob": "05bff07e018eea6c91066494ee579af3201c0a3d",
+      "sha256": "b8d73bfe76448e6bd0e8216624b3038070fc662be26c49526c62ffeff45ab811",
+      "bytes": 1828
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/baked/PartialModel.java",
+      "git_blob": "0b80329e93829f095ed8d0f5f0ae4439d85b7caf",
+      "sha256": "fc0cc311fb3ddb8e4940772e9fcde8309473052aea73ba78fb11b6ca0c66a4c3",
+      "bytes": 1515
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/baked/SinglePosVirtualBlockGetter.java",
+      "git_blob": "21d248724f69d3ccfbf2958b47d3eb55cff86b4d",
+      "sha256": "be292464b0f4e28f8f86e450e2b8cc49aa0cfeccad224458219bd28ea72c9255",
+      "bytes": 1749
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/baked/TransformingVertexConsumer.java",
+      "git_blob": "d40a4df79c4b08c0b69ace0a1201875d5c8e09c9",
+      "sha256": "e77da94a8f08cc320e8d816c52515f4e9ee5ff97452b644bc7336794e24f8bb3",
+      "bytes": 2186
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/baked/VirtualBlockGetter.java",
+      "git_blob": "1b5782d4305c68cfd45ff66e12602b3a25b6bef3",
+      "sha256": "3ea04c27c3cb965111ad332943f1f1c8e73d6b7dd81899fd5d4ee87df4eda1d7",
+      "bytes": 1439
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/baked/VirtualLightEngine.java",
+      "git_blob": "e8b0723843de178190c2e58f788947a7aba5e784",
+      "sha256": "2b45febee1bd06817af0df676af7c9ad18e6f4b034778917131d601281fdb326",
+      "bytes": 2541
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/part/InstanceTree.java",
+      "git_blob": "87776ec0b027c5bd9b2c94b6ade913514194b042",
+      "sha256": "f51578d6ab06de385d62f0fda6b81d45520266209d848d2ea7b3b6c347650574",
+      "bytes": 11136
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/part/MeshTree.java",
+      "git_blob": "c79bb8c83f9b638be98a011114e777249968a9c1",
+      "sha256": "741c0460603aabef19e0f0b593a2cd2fc7d49bddfc22096c8e318e76dfc8237e",
+      "bytes": 4081
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/part/ModelTree.java",
+      "git_blob": "5774ebf442b54b488b3e66d5b138bfdc7ba95ae4",
+      "sha256": "8198800e98dad48d83615d251dc3b980c4defc1a40d12bfcbca1447ed6a489e8",
+      "bytes": 2008
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/part/ModelTrees.java",
+      "git_blob": "1f26053f413cd549e039651a8c9bdddbd980603f",
+      "sha256": "17970baf7cfd69e14ef09a6d76c304c3399bad037157c0303d1c624b174d9025",
+      "bytes": 2909
+    },
+    {
+      "path": "common/src/lib/java/dev/engine_room/flywheel/lib/model/part/VertexWriter.java",
+      "git_blob": "9f247cfa9675789ff988a1a6de766a351e2303c6",
+      "sha256": "c36f0c7ebafd406bcd6bcb3dd51d0f09b6fb52e06e8ace4c79625f0fa5a410c1",
+      "bytes": 2766
+    },
+    {
+      "path": "common/src/main/java/dev/engine_room/flywheel/impl/BackendManagerImpl.java",
+      "git_blob": "df4262e5a825cb7391bdfb39ff5d87741e1249b8",
+      "sha256": "e2449a5b723e03aa234e9ba980871c96868d135e15f37a0b45c70651c09960e0",
+      "bytes": 2877
+    },
+    {
+      "path": "common/src/main/java/dev/engine_room/flywheel/impl/FlwImpl.java",
+      "git_blob": "a2332d4f9f99aaf1c7543c5d0d662c71b41ceffd",
+      "sha256": "a85fa20d5d5aaf0dc599b490102fc8ffb0a889974d60cba96b5d9e8c831382f8",
+      "bytes": 700
+    },
+    {
+      "path": "common/src/main/java/dev/engine_room/flywheel/impl/visualization/VisualizationManagerImpl.java",
+      "git_blob": "9ad215370d7fd55bfb0a8eac1c61ea9e685b7949",
+      "sha256": "7726e3e3f062ee4ec7df214a3fb36c5da2d897762b42d138f844b2ca0e1ec044",
+      "bytes": 12480
+    },
+    {
+      "path": "fabric/src/lib/java/dev/engine_room/flywheel/lib/model/baked/BakedModelBufferer.java",
+      "git_blob": "e97c5154e312ec73abfbcbfef3e0391cf8f850a3",
+      "sha256": "d9b2eb2fc22f672a3a58a09efbf468073c2f651a961ff767cd662cda0fc18790",
+      "bytes": 5809
+    },
+    {
+      "path": "fabric/src/lib/java/dev/engine_room/flywheel/lib/model/baked/ChunkLayerSortedListBuilder.java",
+      "git_blob": "eae9dad1522d7d0685fad0b0c4f9c0a689ca9270",
+      "sha256": "c385b3a78f60908d3741afa0d5e8cdc6afd7c2e151b2ca9f4f5d501aaa0594ef",
+      "bytes": 1931
+    },
+    {
+      "path": "fabric/src/lib/java/dev/engine_room/flywheel/lib/model/baked/FabricBakedModelBuilder.java",
+      "git_blob": "acf01934ca83d43051e76875692ce47f075c769a",
+      "sha256": "14ffa924d176d1820232500fe9660892b2e6a474f1201ddbd43dff21b1fa8f8c",
+      "bytes": 2186
+    },
+    {
+      "path": "fabric/src/lib/java/dev/engine_room/flywheel/lib/model/baked/FabricBlockModelBuilder.java",
+      "git_blob": "6e3bb09110181276db2b272e40411cc6b199aac7",
+      "sha256": "bc75390ee2625356016aeb9342e97767182d181e39a19493b9454d57a0869a2c",
+      "bytes": 1897
+    },
+    {
+      "path": "fabric/src/lib/java/dev/engine_room/flywheel/lib/model/baked/FabricSinglePosVirtualBlockGetter.java",
+      "git_blob": "7a860daf3358078d651969f8a545b813547843a0",
+      "sha256": "a0bb8637ac16ab6bb648af0503b2c8ebfd178aa3f437e48ffc8f9dd6608cd879",
+      "bytes": 1638
+    },
+    {
+      "path": "fabric/src/lib/java/dev/engine_room/flywheel/lib/model/baked/MeshEmitter.java",
+      "git_blob": "13bdfc521100f62a6e83a797bbda14c4f8071d70",
+      "sha256": "51e03d796f31dcd63ea64583b6550a1243af61993e2e9c1f71d7ab8792af961c",
+      "bytes": 1523
+    },
+    {
+      "path": "fabric/src/lib/java/dev/engine_room/flywheel/lib/model/baked/PartialModelEventHandler.java",
+      "git_blob": "62fb40ac3365b4bcabb558e51a6c998a9296ede1",
+      "sha256": "d78f816a4ff3a4fe085da68d42c38e5864d3eb29e746f0489526c46c38e7ef31",
+      "bytes": 1722
+    },
+    {
+      "path": "fabric/src/lib/java/dev/engine_room/flywheel/lib/model/baked/UniversalMeshEmitter.java",
+      "git_blob": "feb560bcccfdc4b281d120b6820314938d330e9b",
+      "sha256": "0f3b7021f8064d60152af122fadf71f5dcd3c52f0b9cc09148cd4907ca15f590",
+      "bytes": 4563
+    },
+    {
+      "path": "forge/src/lib/java/dev/engine_room/flywheel/lib/model/baked/BakedModelBufferer.java",
+      "git_blob": "99614480569ed5ff12e830298c25b40001e2c18b",
+      "sha256": "bab77a5f0583a7c48b21bb23bcc04ba1111270a6901b998699d93241635e3031",
+      "bytes": 5681
+    },
+    {
+      "path": "forge/src/lib/java/dev/engine_room/flywheel/lib/model/baked/ChunkLayerSortedListBuilder.java",
+      "git_blob": "4026ff0083a0ed779aaa6273a3542e3d32a9cb7d",
+      "sha256": "2cbe060692bdab7a30dbd9b7d19f6e4169c6a4d599feae50e7692f681e66f9e9",
+      "bytes": 1634
+    },
+    {
+      "path": "forge/src/lib/java/dev/engine_room/flywheel/lib/model/baked/ForgeBakedModelBuilder.java",
+      "git_blob": "2162dd6343c804a24685c1fda274c33a9ed31817",
+      "sha256": "dedb5f6fa5c680c204f3ac8212fdb887a86742f2baf7d8fef9c87c2a45c61336",
+      "bytes": 2724
+    },
+    {
+      "path": "forge/src/lib/java/dev/engine_room/flywheel/lib/model/baked/ForgeBlockModelBuilder.java",
+      "git_blob": "06da266a48c80a3e2b2333820fb4202042e2a929",
+      "sha256": "fbe2e9a166698774682b7500b9de62b17a148bdb62d026b18e764fe34decc4d5",
+      "bytes": 2503
+    },
+    {
+      "path": "forge/src/lib/java/dev/engine_room/flywheel/lib/model/baked/MeshEmitter.java",
+      "git_blob": "e878ae95cd71a413ea6d3f676164d81e65baf3c3",
+      "sha256": "86cb38a24910c24d148682b0742bfb2d4c4d31b58488ee7aa8fb28eaea4c5d6d",
+      "bytes": 4396
+    },
+    {
+      "path": "forge/src/lib/java/dev/engine_room/flywheel/lib/model/baked/PartialModelEventHandler.java",
+      "git_blob": "d39cb6e9209a9556cc049601d560b7c6307afb97",
+      "sha256": "a82ecbd27601fed8e5b68bc9436a9d198aacbb09625b9e61ae948b2e394e5374",
+      "bytes": 881
+    }
+  ]
+}

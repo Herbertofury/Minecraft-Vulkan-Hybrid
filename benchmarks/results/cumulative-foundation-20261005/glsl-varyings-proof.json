@@ -1,0 +1,4 @@
+{
+  "passed": true,
+  "scope": "Actual production varying parser with type stubs; original flat/noperspective/centroid qualifiers, vertex-format integer attribute locations, fragment linkage and declaration state. Native shader compilation/rendering separate."
+}

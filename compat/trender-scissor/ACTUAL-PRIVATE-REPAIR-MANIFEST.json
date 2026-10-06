@@ -1,0 +1,21 @@
+{
+  "source_sha256": "5d5dc228dc18422fd8a81cff63e654abb07ca4507b317db114b220aa3fc67d3b",
+  "nested_original_sha256": "fdfe53b0eff6d7a23f6a785698fc531ef47d026e9ed4fa7a8560b51ba6d32337",
+  "helper_jar_sha256": "b0e0e7f85591d2eaf12f9640ec6cd993def8e9e8600f4c2d758b9fed06601b50",
+  "helper_class_sha256": "56a312068c17af1b6afc7d7d9ac4c14cf9871443fb531378fd41c1dc61e4cb9f",
+  "operation": "Only four INVOKESTATIC owners change, exact descriptors/capability retained; original clipping math, flush, widgets/assets remain intact",
+  "renderer_included": false,
+  "full_pack_or_performance_accepted": false,
+  "changed_classes": {
+    "dev/tr7zw/trender/gui/client/CottonClientScreen.class": {
+      "before_sha256": "a5e92a312231d049cb6f3d6d51764ae3df5f5645a88dcf65780b0fd28c1258f3",
+      "after_sha256": "755c4c237fa262e4a5736ed70d6bc2a502931e32c3e49f937720ebc711a24066"
+    },
+    "dev/tr7zw/trender/gui/client/Scissors.class": {
+      "before_sha256": "a6893d6816d0336a7c52de5e47a6d3e1f2e6fe3a9ea65ee79bc22812d2222ed7",
+      "after_sha256": "ebc41896c6f874fbb67a9b0a9f08b3b52dc649d941fb7efc1e2bed45ef46b4bb"
+    }
+  },
+  "nested_patched_sha256": "0d01e9c09e725d68d01d859819b051416730698b663194e343f8f905153e5982",
+  "output_sha256": "4d8e4bc63bc5520fc7a9c9631bf0cdb2199c9b93e65883b5a0cc62e46bacd60e"
+}

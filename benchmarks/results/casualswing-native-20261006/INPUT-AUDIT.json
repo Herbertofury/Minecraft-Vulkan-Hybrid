@@ -1,0 +1,76 @@
+{
+  "source_file": "casualswing-0.1.0-1.20.1-Forge.jar",
+  "source_sha256": "cb76cc4af706de4d6387b555e36fbb755579a1248a395b7b4d1da29f9535af42",
+  "nested_entry": "META-INF/jarjar/flywheel-forge-1.20.1-1.0.6-beta-266.jar",
+  "nested_sha256": "4e3667f3ddf413425eaf85a2380fb65496cf8c7d80a738e279d295b6c02d8ee5",
+  "comparisons": {
+    "dev/engine_room/flywheel/api/": {
+      "same_bytes": 82,
+      "changed": [
+        "dev/engine_room/flywheel/api/material/Material.class"
+      ],
+      "new": [],
+      "removed": []
+    },
+    "dev/engine_room/flywheel/lib/": {
+      "same_bytes": 157,
+      "changed": [
+        "dev/engine_room/flywheel/lib/material/Materials.class",
+        "dev/engine_room/flywheel/lib/material/SimpleMaterial$Builder.class",
+        "dev/engine_room/flywheel/lib/material/SimpleMaterial.class",
+        "dev/engine_room/flywheel/lib/model/ModelUtil.class",
+        "dev/engine_room/flywheel/lib/model/baked/BakedModelBufferer$ThreadLocalObjects.class",
+        "dev/engine_room/flywheel/lib/model/baked/BakedModelBufferer.class",
+        "dev/engine_room/flywheel/lib/model/baked/BakedModelBuilder.class",
+        "dev/engine_room/flywheel/lib/model/baked/BlockModelBuilder.class",
+        "dev/engine_room/flywheel/lib/model/baked/ForgeBakedModelBuilder.class",
+        "dev/engine_room/flywheel/lib/model/baked/ForgeBlockModelBuilder.class",
+        "dev/engine_room/flywheel/lib/model/baked/MeshEmitter.class"
+      ],
+      "new": [
+        "dev/engine_room/flywheel/lib/model/baked/BlockMaterialFunction.class",
+        "dev/engine_room/flywheel/lib/model/baked/BufferBuilderStack.class",
+        "dev/engine_room/flywheel/lib/model/baked/ForgeMeshEmitter.class",
+        "dev/engine_room/flywheel/lib/model/baked/MeshEmitterManager.class"
+      ],
+      "removed": [
+        "dev/engine_room/flywheel/lib/model/baked/BakedModelBufferer$ResultConsumer.class",
+        "dev/engine_room/flywheel/lib/model/baked/ChunkLayerSortedListBuilder.class"
+      ]
+    },
+    "dev/engine_room/flywheel/impl/": {
+      "same_bytes": 100,
+      "changed": [
+        "dev/engine_room/flywheel/impl/FlwDebugInfo.class",
+        "dev/engine_room/flywheel/impl/visualization/VisualizationManagerImpl$CrumblingBlockImpl.class",
+        "dev/engine_room/flywheel/impl/visualization/VisualizationManagerImpl$LateInit.class",
+        "dev/engine_room/flywheel/impl/visualization/VisualizationManagerImpl$RenderDispatcherImpl.class",
+        "dev/engine_room/flywheel/impl/visualization/VisualizationManagerImpl.class"
+      ],
+      "new": [
+        "dev/engine_room/flywheel/impl/mixin/forge/",
+        "dev/engine_room/flywheel/impl/mixin/forge/ModelBlockRendererMixin.class"
+      ],
+      "removed": []
+    },
+    "assets/": {
+      "same_bytes": 85,
+      "changed": [
+        "assets/flywheel/flywheel/internal/material.glsl",
+        "assets/flywheel/flywheel/internal/packed_material.glsl",
+        "assets/flywheel/flywheel/light/smooth.glsl",
+        "assets/flywheel/flywheel/light/smooth_when_embedded.glsl"
+      ],
+      "new": [],
+      "removed": []
+    }
+  },
+  "root_class_count": 82,
+  "native14_backup_jars": [
+    {
+      "file": "inventory\\native-backend14-before-small15\\mvh-flywheel-native-backend-0.1.0-native-engine.jar",
+      "sha256": "0ff87109ffe6d0b424bf3a33828d1169769ed22a5905deaf063b57dc51db85b2"
+    }
+  ],
+  "casualswing_flywheel_reference_classes": []
+}

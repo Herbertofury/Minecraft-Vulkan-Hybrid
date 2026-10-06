@@ -1,0 +1,48 @@
+{
+  "passed": true,
+  "upstream_repository": "https://github.com/trptrk/Iris-Vulkan",
+  "upstream_commit": "9bae8e9a3c8b6ec34f871657b36331ebcd9f1a84",
+  "original_compiler_sha256": "c9d9aeb7bc7cad48f2c2deeb44bd47aea6cea2c7b902e8a8949ea1ec1af53e35",
+  "key_only_compiler_sha256": "9bbc74584464a9b42a20d9709c0b486fcd2db70e9b48786919fe6b6d1d995fc1",
+  "repaired_compiler_sha256": "b357f577888b91696a01e592779fd5d5e70f781243c4b0c72a753eb47c9fc86d",
+  "cache_source_sha256": "d338fe7c0b17ef1b78656119a2b7044d54edcf8f750adbbb41e4a004bd0e9bbd",
+  "native_sdk": "Official LWJGL/shaderc 3.3.6; Java 17; isolated CPU native compilation, no GPU draw or Minecraft integration",
+  "cases": [
+    {
+      "variant": "repaired",
+      "native_compiler_passed": true,
+      "cache_bounds_passed": true,
+      "expected_combined": true
+    },
+    {
+      "variant": "previous_key_only_shared_buffer",
+      "native_compiler_passed": false,
+      "cache_bounds_passed": true,
+      "expected_combined": false
+    },
+    {
+      "variant": "source_hash_collision",
+      "native_compiler_passed": false,
+      "cache_bounds_passed": true,
+      "expected_combined": false
+    },
+    {
+      "variant": "entry_bound_removed",
+      "native_compiler_passed": true,
+      "cache_bounds_passed": false,
+      "expected_combined": false
+    },
+    {
+      "variant": "byte_bound_doubled",
+      "native_compiler_passed": true,
+      "cache_bounds_passed": false,
+      "expected_combined": false
+    }
+  ],
+  "legacy_runtime_api": {
+    "compiled": false,
+    "missing_binding": "shaderc_compile_options_set_vulkan_rules_relaxed",
+    "scope": "Actual complete compiler against Hari shaderc 3.3.3 bindings. No option removed and no game/runtime dependency changed."
+  },
+  "scope": "Actual vertex/fragment/compute SPIR-V, invalid GLSL rejection, real Java source hash collision, raw/preprocessed/name keys, writable direct-buffer content/cursor isolation, reload clear, entry/LRU/payload bounds; previous key-only compiler and three mutations rejected. Logger and Iris enum are fixtures. Original preprocessing and native shaderc execute. No active shader pack, Forge compatibility, FPS/startup/hitch gain or full Iris/Flywheel acceptance."
+}

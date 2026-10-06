@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "rng_sequence_cases": 1400,
+  "owner_lifecycle_calls": 1100,
+  "unsafe_delegate_calls": 0,
+  "original_failure_identity": true,
+  "scope": "Actual production boundary and RNG wrapper; real worker/owner threads, checked Minecraft interfaces. Native C2ME mixin/runtime proof is separate."
+}

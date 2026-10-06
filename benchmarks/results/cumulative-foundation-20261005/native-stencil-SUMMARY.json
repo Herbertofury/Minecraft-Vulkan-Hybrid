@@ -1,0 +1,239 @@
+{
+  "status": "Scoped native stencil repair and preserved original-grass capability; full pack/Create/Flywheel/active Oculus-Iris remains unfinished",
+  "order": "ABBAAB",
+  "sole_changed_mod": "Hari .12 -> .13; controller 1.0.12 unchanged; original grass and addon1.0.3; Create temporarily absent for both groups",
+  "trials": [
+    {
+      "stage": "017-stencil-grass-01-A-v12",
+      "trial": "01-cumulative",
+      "average_fps": 2555.5423634587323,
+      "one_percent_low_fps": 608.7389516261273,
+      "p95_ms": 0.4697,
+      "p99_ms": 0.7217,
+      "max_ms": 2.5796,
+      "api_renderer": "VULKAN",
+      "gl_renderer": "not queried in a native Vulkan session",
+      "group": "A",
+      "p50_ms": 0.3659,
+      "frames": 76667,
+      "duration_ms": 30000.2853
+    },
+    {
+      "stage": "017-stencil-grass-02-B-v13",
+      "trial": "01-cumulative",
+      "average_fps": 2525.2965403436815,
+      "one_percent_low_fps": 591.2092795834144,
+      "p95_ms": 0.4783,
+      "p99_ms": 0.776,
+      "max_ms": 2.6473,
+      "api_renderer": "VULKAN",
+      "gl_renderer": "not queried in a native Vulkan session",
+      "group": "B",
+      "p50_ms": 0.3683,
+      "frames": 75759,
+      "duration_ms": 30000.0411
+    },
+    {
+      "stage": "017-stencil-grass-03-B-v13",
+      "trial": "01-cumulative",
+      "average_fps": 2562.8427382582777,
+      "one_percent_low_fps": 597.9871550181772,
+      "p95_ms": 0.4645,
+      "p99_ms": 0.7584,
+      "max_ms": 2.5351,
+      "api_renderer": "VULKAN",
+      "gl_renderer": "not queried in a native Vulkan session",
+      "group": "B",
+      "p50_ms": 0.3647,
+      "frames": 76886,
+      "duration_ms": 30000.2801
+    },
+    {
+      "stage": "017-stencil-grass-04-A-v12",
+      "trial": "01-cumulative",
+      "average_fps": 2543.554661088643,
+      "one_percent_low_fps": 578.1270620369689,
+      "p95_ms": 0.47,
+      "p99_ms": 0.7414,
+      "max_ms": 4.4114,
+      "api_renderer": "VULKAN",
+      "gl_renderer": "not queried in a native Vulkan session",
+      "group": "A",
+      "p50_ms": 0.3666,
+      "frames": 76307,
+      "duration_ms": 30000.1416
+    },
+    {
+      "stage": "017-stencil-grass-05-A-v12",
+      "trial": "01-cumulative",
+      "average_fps": 2442.9815554892784,
+      "one_percent_low_fps": 541.1786768218268,
+      "p95_ms": 0.5266,
+      "p99_ms": 0.9751,
+      "max_ms": 5.9434,
+      "api_renderer": "VULKAN",
+      "gl_renderer": "not queried in a native Vulkan session",
+      "group": "A",
+      "p50_ms": 0.3748,
+      "frames": 73290,
+      "duration_ms": 30000.2265
+    },
+    {
+      "stage": "017-stencil-grass-06-B-v13",
+      "trial": "01-cumulative",
+      "average_fps": 2554.2278247152967,
+      "one_percent_low_fps": 591.4922439326355,
+      "p95_ms": 0.4671,
+      "p99_ms": 0.7386,
+      "max_ms": 3.5011,
+      "api_renderer": "VULKAN",
+      "gl_renderer": "not queried in a native Vulkan session",
+      "group": "B",
+      "p50_ms": 0.3655,
+      "frames": 76627,
+      "duration_ms": 30000.0647
+    }
+  ],
+  "summary": {
+    "A": {
+      "average_fps": 2543.554661088643,
+      "one_percent_low_fps": 578.1270620369689,
+      "p50_ms": 0.3666,
+      "p95_ms": 0.47,
+      "p99_ms": 0.7414,
+      "max_ms": 4.4114,
+      "fps_range": [
+        2442.9815554892784,
+        2555.5423634587323
+      ]
+    },
+    "B": {
+      "average_fps": 2554.2278247152967,
+      "one_percent_low_fps": 591.4922439326355,
+      "p50_ms": 0.3655,
+      "p95_ms": 0.4671,
+      "p99_ms": 0.7584,
+      "max_ms": 2.6473,
+      "fps_range": [
+        2525.2965403436815,
+        2562.8427382582777
+      ]
+    },
+    "median_fps_change_percent": 0.4196160511087843
+  },
+  "native_stencil_gpu_proofs": {
+    "017-native-stencil-v12-negative": {
+      "file": "native-stencil-017-native-stencil-v12-negative.json",
+      "passed": false,
+      "mismatched_pixels": [
+        768,
+        768,
+        0
+      ]
+    },
+    "017-native-stencil-v13-positive": {
+      "file": "native-stencil-017-native-stencil-v13-positive.json",
+      "passed": true,
+      "mismatched_pixels": [
+        0,
+        0,
+        0
+      ]
+    },
+    "017-ponder-stencil-component-v13": {
+      "file": "native-stencil-017-ponder-stencil-component-v13.json",
+      "passed": true,
+      "mismatched_pixels": [
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "grass_checks": [
+    "native_client_resource_reload",
+    "original_native_grass_meshes_and_shader_available",
+    "original_animation_phase_advanced",
+    "native_visibility_updated_after_stationary_fov_change",
+    "client_movement_stamped_original_trail_field",
+    "client_entered_native_nether",
+    "native_overworld_grass_rebuilt_after_roundtrip"
+  ],
+  "performance_acceptance": "All three .13 scene trial means exceed 2470 FPS; A/B ranges overlap, so no new causal FPS gain is credited. Existing scope gains are preserved. CPU RenderTick END intervals, not presentation timing. No zero-hitch/full-pack guarantee.",
+  "contamination": "Other projects/processes were not stopped. Whole-device GPU and CPU telemetry accompanies every capture. Local source/helper builds and tests also remained active during part of this series.",
+  "whole_device_gpu_percent_range": [
+    3.0,
+    84.0
+  ],
+  "same_inputs_checked": {
+    "visual_options": {
+      "fov": "0.0",
+      "renderDistance": "16",
+      "simulationDistance": "12",
+      "entityDistanceScaling": "1.0",
+      "maxFps": "260",
+      "enableVsync": "false",
+      "graphicsMode": "1",
+      "mipmapLevels": "4",
+      "particles": "0",
+      "biomeBlendRadius": "2",
+      "pauseOnLostFocus": "false",
+      "resourcePacks": "[]"
+    },
+    "resolution": [
+      1920,
+      1080
+    ],
+    "world": "MVH-Benchmark-20261004",
+    "warmup_s": 60,
+    "capture_s": 30,
+    "maximum_heap_mib": 8192,
+    "mods_except_sole_hari": [
+      {
+        "name": "architectury-9.2.14-forge.jar",
+        "sha256": "218b471d0b8a1f6cda14cfc1beb9eeb0df54304500acc6c5613d9b88ec65d9af"
+      },
+      {
+        "name": "citadel-2.6.3-1.20.1.jar",
+        "sha256": "56c7ab87348a5292583aac787b6cf11b5193e77f02af1d17ea75a96f8640b3ce"
+      },
+      {
+        "name": "cloth-config-11.1.136-forge.jar",
+        "sha256": "1e895e85cf5b1e1905ef3178ec155c8badfe22a1577b92c09143a5aa1f4ce0f2"
+      },
+      {
+        "name": "curios-forge-5.14.1+1.20.1-Noxviola-PerfLeakFix-v3.jar",
+        "sha256": "4c4b668d4ddca09504f1aa80341e9a90e4405f2969178a5fa5e4542cbbff9803"
+      },
+      {
+        "name": "ferritecore-6.0.1-forge.jar",
+        "sha256": "9c2c9396a49e796d88497758caa4637d2bcbb433c318e2dd9cebcffbaf0f6c54"
+      },
+      {
+        "name": "fieldguide-1.20.4+1.20.1-forge.jar",
+        "sha256": "1613b3ad057d2d0bc1955e7d35fdcaac9583fc780840f5c3c74ccddc232f6825"
+      },
+      {
+        "name": "geckolib-forge-1.20.1-4.8.4.jar",
+        "sha256": "c04abba4fd354dd8c0e8a732f1f05f4dca893d2e1d962b2ab128bbd411478747"
+      },
+      {
+        "name": "Grassier-Grass-1.4.5-Render-Performance-Fix-REPLACEMENT-2.jar",
+        "sha256": "91006e8220e65572d7e9e1e54b6058526c4adf908faedc750c9f19f13623df8c"
+      },
+      {
+        "name": "modernfix-forge-5.27.83+mc1.20.1.jar",
+        "sha256": "954ff22f601be8de3978a0d7636a138dc93801c6ac55cfd71ef1cd2895de8e5f"
+      },
+      {
+        "name": "mvh-grass-distance-compat-1.0.3.jar",
+        "sha256": "45d0067072c608eccf6ebafc06990a7ca5661c08bd5828118834f1b1a0eb325a"
+      },
+      {
+        "name": "mvh-noxviola-control-1.0.12.jar",
+        "sha256": "e1b6171f04bff0c2f4741718ce707a36477f5ff38a632875f990d72732780deb"
+      }
+    ]
+  },
+  "visual_limits": "Two ground/wide-FOV grass views reviewed; animation/clouds/HUD are not pixel-identical and all styles/shader-provider scenes remain separate."
+}

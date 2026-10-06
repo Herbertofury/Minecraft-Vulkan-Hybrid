@@ -1,0 +1,10 @@
+{
+  "file": "harimt-forge-1.20.1-2.4.11-noxviola.12-dimensions-vulkan-hybrid-all.jar",
+  "sha256": "d7310642625bad18f6347d04926b6ab576b42b76839403559adc20536943baf1",
+  "build": "Java 17, original pinned source + DimThreads + reviewed .12 overlay; local Forge build passed",
+  "resource_pack_format": 15,
+  "native_game_accepted": true,
+  "source_code_gate_control_proofs": "ixeris-platform-gate-proof.json; modernfix-after-ixeris-gate-proof.json; grass-after-ixeris-gate-proof.json",
+  "native_game_scope": "Three native original-grass subset capability captures and seven-step native playability; no full pack, shader, zero-hitch or Ixeris purpose-benefit acceptance.",
+  "full_pack_performance_promotion_accepted": false
+}

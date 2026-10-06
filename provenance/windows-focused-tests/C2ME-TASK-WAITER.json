@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "old_chunk_only_queue_stall_reproduced": true,
+  "cross_queue_chunk_requests": 1100,
+  "worker_counts": [
+    1,
+    2,
+    8
+  ],
+  "overdue_owner_tasks_progress": true,
+  "original_worker_and_owner_failures": true,
+  "all_worker_barrier": true,
+  "interruption_and_cancellation_preserved": true,
+  "scope": "Actual production waiter and failure barrier, real worker threads; checked Minecraft event-loop interfaces model overdue eligibility and cross-world/server queue dependencies. Native C2ME is a separate gate."
+}

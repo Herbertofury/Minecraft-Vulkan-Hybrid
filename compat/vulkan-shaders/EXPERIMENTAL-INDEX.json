@@ -1,0 +1,161 @@
+{
+  "checked_utc_date": "2026-10-05",
+  "repos": [
+    {
+      "repository": "https://github.com/aaaapai/Iris-Vulkan-Port",
+      "commit": "47babb4aac66b16084fb419e8d85c2e14e70d41e",
+      "commit_date": "2026-02-21T01:12:41Z",
+      "default_branch": "main",
+      "license_api": "LGPL-3.0",
+      "source_path_count": 913,
+      "vulkan_source_paths": [
+        "src/main/java/net/irisshaders/iris/mixin/vulkan/MixinVulkanValidation.java",
+        "src/main/java/net/irisshaders/iris/mixin/vulkan/MixinVulkanWorldRenderer.java",
+        "src/main/java/net/irisshaders/iris/pipeline/VulkanTerrainPipeline.java",
+        "src/main/java/net/irisshaders/iris/vulkan/pipeline/IrisGraphicsPipeline.java",
+        "src/main/java/net/irisshaders/iris/vulkan/pipeline/IrisPipelineManager.java",
+        "src/main/java/net/irisshaders/iris/vulkan/pipeline/PipelineStateKey.java",
+        "src/main/java/net/irisshaders/iris/vulkan/shader/IrisSPIRVCompiler.java",
+        "src/main/java/net/irisshaders/iris/vulkan/uniform/IrisUniformBuffer.java",
+        "src/main/java/net/irisshaders/iris/vulkan/uniform/UniformLayout.java"
+      ],
+      "inspection_only": true,
+      "installed": false,
+      "files": {
+        "README.md": {
+          "sha256": "4f0436ebaa1102eccbbb1e7a9fbaed2cdf2c8484121a6dabe77afcff73fc172a",
+          "url": "https://github.com/aaaapai/Iris-Vulkan-Port/blob/47babb4aac66b16084fb419e8d85c2e14e70d41e/README.md"
+        },
+        "gradle.properties": {
+          "sha256": "e964eb4544a92779385a213c234cb6207978ef7331419092c3b02d9383a5904a",
+          "url": "https://github.com/aaaapai/Iris-Vulkan-Port/blob/47babb4aac66b16084fb419e8d85c2e14e70d41e/gradle.properties"
+        },
+        "build.gradle.kts": {
+          "sha256": "741b749c88e4f4f99be334a24b326d67f354f131f9a95a059a56fd1284c29232",
+          "url": "https://github.com/aaaapai/Iris-Vulkan-Port/blob/47babb4aac66b16084fb419e8d85c2e14e70d41e/build.gradle.kts"
+        },
+        "LICENSE": {
+          "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118",
+          "url": "https://github.com/aaaapai/Iris-Vulkan-Port/blob/47babb4aac66b16084fb419e8d85c2e14e70d41e/LICENSE"
+        },
+        "LICENSE-DEPENDENCIES": {
+          "sha256": "db0a4c1dc73667fe96f55d2741b5c503166900800dafbc21f413c631da8c4a77",
+          "url": "https://github.com/aaaapai/Iris-Vulkan-Port/blob/47babb4aac66b16084fb419e8d85c2e14e70d41e/LICENSE-DEPENDENCIES"
+        },
+        "src/main/resources/fabric.mod.json": {
+          "sha256": "f7b384169b0aa2c5485a77e7c5bc2a4533383f44c87f191fabeb993a171a7171",
+          "url": "https://github.com/aaaapai/Iris-Vulkan-Port/blob/47babb4aac66b16084fb419e8d85c2e14e70d41e/src/main/resources/fabric.mod.json"
+        }
+      }
+    },
+    {
+      "repository": "https://github.com/trptrk/Iris-Vulkan",
+      "commit": "9bae8e9a3c8b6ec34f871657b36331ebcd9f1a84",
+      "commit_date": "2026-07-09T01:24:45Z",
+      "default_branch": "main",
+      "license_api": "LGPL-3.0",
+      "source_path_count": 913,
+      "vulkan_source_paths": [
+        "src/main/java/net/irisshaders/iris/mixin/vulkan/MixinVulkanValidation.java",
+        "src/main/java/net/irisshaders/iris/mixin/vulkan/MixinVulkanWorldRenderer.java",
+        "src/main/java/net/irisshaders/iris/pipeline/VulkanTerrainPipeline.java",
+        "src/main/java/net/irisshaders/iris/vulkan/pipeline/IrisGraphicsPipeline.java",
+        "src/main/java/net/irisshaders/iris/vulkan/pipeline/IrisPipelineManager.java",
+        "src/main/java/net/irisshaders/iris/vulkan/pipeline/PipelineStateKey.java",
+        "src/main/java/net/irisshaders/iris/vulkan/shader/IrisSPIRVCompiler.java",
+        "src/main/java/net/irisshaders/iris/vulkan/uniform/IrisUniformBuffer.java",
+        "src/main/java/net/irisshaders/iris/vulkan/uniform/UniformLayout.java"
+      ],
+      "inspection_only": true,
+      "installed": false,
+      "files": {
+        "README.md": {
+          "sha256": "4f0436ebaa1102eccbbb1e7a9fbaed2cdf2c8484121a6dabe77afcff73fc172a",
+          "url": "https://github.com/trptrk/Iris-Vulkan/blob/9bae8e9a3c8b6ec34f871657b36331ebcd9f1a84/README.md"
+        },
+        "gradle.properties": {
+          "sha256": "e964eb4544a92779385a213c234cb6207978ef7331419092c3b02d9383a5904a",
+          "url": "https://github.com/trptrk/Iris-Vulkan/blob/9bae8e9a3c8b6ec34f871657b36331ebcd9f1a84/gradle.properties"
+        },
+        "build.gradle.kts": {
+          "sha256": "741b749c88e4f4f99be334a24b326d67f354f131f9a95a059a56fd1284c29232",
+          "url": "https://github.com/trptrk/Iris-Vulkan/blob/9bae8e9a3c8b6ec34f871657b36331ebcd9f1a84/build.gradle.kts"
+        },
+        "LICENSE": {
+          "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118",
+          "url": "https://github.com/trptrk/Iris-Vulkan/blob/9bae8e9a3c8b6ec34f871657b36331ebcd9f1a84/LICENSE"
+        },
+        "LICENSE-DEPENDENCIES": {
+          "sha256": "db0a4c1dc73667fe96f55d2741b5c503166900800dafbc21f413c631da8c4a77",
+          "url": "https://github.com/trptrk/Iris-Vulkan/blob/9bae8e9a3c8b6ec34f871657b36331ebcd9f1a84/LICENSE-DEPENDENCIES"
+        },
+        "src/main/resources/fabric.mod.json": {
+          "sha256": "f7b384169b0aa2c5485a77e7c5bc2a4533383f44c87f191fabeb993a171a7171",
+          "url": "https://github.com/trptrk/Iris-Vulkan/blob/9bae8e9a3c8b6ec34f871657b36331ebcd9f1a84/src/main/resources/fabric.mod.json"
+        }
+      }
+    },
+    {
+      "repository": "https://github.com/gitersa-boop/IrisforVulkan",
+      "commit": "328655a88202e3bfcf69f36d616cbc555ec53875",
+      "commit_date": "2026-06-27T17:22:19Z",
+      "default_branch": "26.1",
+      "license_api": "LGPL-3.0",
+      "source_path_count": 909,
+      "vulkan_source_paths": [],
+      "inspection_only": true,
+      "installed": false,
+      "files": {
+        "README.md": {
+          "sha256": "73339c9682cea991b160a7d12f2547267c8009884731f4cd0fba913e74fd967c",
+          "url": "https://github.com/gitersa-boop/IrisforVulkan/blob/328655a88202e3bfcf69f36d616cbc555ec53875/README.md"
+        },
+        "gradle.properties": {
+          "sha256": "2dfb317f75f02f245e982e0b4b67cfc8a265d2feb0b2d5fdac28e1b36f7b4903",
+          "url": "https://github.com/gitersa-boop/IrisforVulkan/blob/328655a88202e3bfcf69f36d616cbc555ec53875/gradle.properties"
+        },
+        "build.gradle.kts": {
+          "sha256": "78ce4c2e9d724e9f730f5ade48eae80b5703d557911dc148a5512546e191f098",
+          "url": "https://github.com/gitersa-boop/IrisforVulkan/blob/328655a88202e3bfcf69f36d616cbc555ec53875/build.gradle.kts"
+        },
+        "LICENSE": {
+          "sha256": "a5681bf9b05db14d86776930017c647ad9e6e56ff6bbcfdf21e5848288dfaf1b",
+          "url": "https://github.com/gitersa-boop/IrisforVulkan/blob/328655a88202e3bfcf69f36d616cbc555ec53875/LICENSE"
+        },
+        "LICENSE-DEPENDENCIES": {
+          "sha256": "db0a4c1dc73667fe96f55d2741b5c503166900800dafbc21f413c631da8c4a77",
+          "url": "https://github.com/gitersa-boop/IrisforVulkan/blob/328655a88202e3bfcf69f36d616cbc555ec53875/LICENSE-DEPENDENCIES"
+        }
+      }
+    },
+    {
+      "repository": "https://github.com/Asek3/Oculus",
+      "commit": "a2ed79988284940bf3f72e1321f6c36530ccbf97",
+      "commit_date": "2024-03-19T07:50:29Z",
+      "default_branch": "1.16.5",
+      "license_api": "LGPL-3.0",
+      "source_path_count": 680,
+      "vulkan_source_paths": [],
+      "inspection_only": true,
+      "installed": false,
+      "files": {
+        "README.md": {
+          "sha256": "6eae4ca518184d13024f4d6ffd28682e7a1929cb3edc200893037c0c36ffd57d",
+          "url": "https://github.com/Asek3/Oculus/blob/a2ed79988284940bf3f72e1321f6c36530ccbf97/README.md"
+        },
+        "gradle.properties": {
+          "sha256": "7d3318a8f35d297ea30ed927eeecb800ad26f616dbbb5b4a2ad3a32e72917ba6",
+          "url": "https://github.com/Asek3/Oculus/blob/a2ed79988284940bf3f72e1321f6c36530ccbf97/gradle.properties"
+        },
+        "build.gradle": {
+          "sha256": "6c9e9c1dfffa938d25f09457851f3877ebc78c7f0089b400427c7f74fd31729b",
+          "url": "https://github.com/Asek3/Oculus/blob/a2ed79988284940bf3f72e1321f6c36530ccbf97/build.gradle"
+        },
+        "LICENSE": {
+          "sha256": "a5681bf9b05db14d86776930017c647ad9e6e56ff6bbcfdf21e5848288dfaf1b",
+          "url": "https://github.com/Asek3/Oculus/blob/a2ed79988284940bf3f72e1321f6c36530ccbf97/LICENSE"
+        }
+      }
+    }
+  ]
+}

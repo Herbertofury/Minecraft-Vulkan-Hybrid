@@ -1,0 +1,160 @@
+{
+  "auxiliary_archives_disabled": 20,
+  "archives": [
+    {
+      "file": "asynclogger-2.2.2+1.20.1-forge.jar",
+      "sha256": "9eb411d1021ce6cb6f651d8f0ebe3f531f577634501ef45782580bafc3d56b02",
+      "ids": [
+        "asynclogger"
+      ]
+    },
+    {
+      "file": "AsyncParticles-20.1.4.0-beta.2+1.20.1.jar",
+      "sha256": "eb9425f4da916c5850a852e2b040fed432a8bbac3c08ca5ca65251b177ece64e",
+      "ids": [
+        "asyncparticles",
+        "mixinsquared"
+      ]
+    },
+    {
+      "file": "BadOptimizations-2.4.1-1.20.1.jar",
+      "sha256": "3da53cdf856757d9ec7df0be86bc23b2c7d67a019b490f8f64317d4d9b77cac8",
+      "ids": [
+        "badoptimizations",
+        "com_github_llamalad7_mixinextras",
+        "mixinextras"
+      ]
+    },
+    {
+      "file": "c2meforge-0.2.0-forge.9.1-all-DimThread-Interop-v4.1.jar",
+      "sha256": "536097d1a6e1b8e639d6f5e4a37f27a60cfee72989e677171b8d261a21580867",
+      "ids": [
+        "c2me",
+        "c2meforge",
+        "mixinextras"
+      ]
+    },
+    {
+      "file": "collections_of_optimizations-4.1-all.jar",
+      "sha256": "249eb64a3ef2f476b55b31fc63dfca57b26b18078eb2476b6a4447074f792903",
+      "ids": [
+        "collections_of_optimizations",
+        "mixinsquared"
+      ]
+    },
+    {
+      "file": "create-optimized-trains-1.3.2.jar",
+      "sha256": "1c72fc37dfeddd859b84fcdfe14f0a4a297633349e9ed42fad5b778dd7d9b968",
+      "ids": [
+        "create_optimized_trains"
+      ]
+    },
+    {
+      "file": "entityculling-forge-1.11.2-mc1.20.1.jar",
+      "sha256": "5d5dc228dc18422fd8a81cff63e654abb07ca4507b317db114b220aa3fc67d3b",
+      "ids": [
+        "entityculling",
+        "transition",
+        "trender"
+      ]
+    },
+    {
+      "file": "fastboot-1.20.x-1.2.jar",
+      "sha256": "66c44b0648a3e3d4115c37593208b85668a97ce012355bad3d33f3cd8142a11f",
+      "ids": [
+        "fastboot"
+      ]
+    },
+    {
+      "file": "FastSuite-1.20.1-5.1.2.jar",
+      "sha256": "5e05cb3ce05785a0061a41b7a83443074a6c26dd7d9db75c453fa2487481d54e",
+      "ids": [
+        "fastsuite"
+      ]
+    },
+    {
+      "file": "ferritecore-6.0.1-forge.jar",
+      "sha256": "9c2c9396a49e796d88497758caa4637d2bcbb433c318e2dd9cebcffbaf0f6c54",
+      "ids": [
+        "ferritecore"
+      ]
+    },
+    {
+      "file": "gnetum-2.5.0+1.20.1-forge.jar",
+      "sha256": "1648db58fb7594938d64b439d47ec8ca0de0f4137c0cd39cbd3e44bb3c58353c",
+      "ids": [
+        "gnetum"
+      ]
+    },
+    {
+      "file": "GPUTape-1.18x-1.21x-1.0.5.1.jar",
+      "sha256": "73b92c4f1d4bf3a99320ae9f936698974cbee44caf278d3a349f172ec85dcb17",
+      "ids": [
+        "gpu_tape"
+      ]
+    },
+    {
+      "file": "Ixeris-4.6.8+1.20.1-forge.jar",
+      "sha256": "6cc7e1bfad6a2e82983a41535accf919a1027ca7087f1e6fcc955df22f7d91e1",
+      "ids": [
+        "ixeris"
+      ]
+    },
+    {
+      "file": "jasione-1.0.8+1.20.1-forge.jar",
+      "sha256": "2ea2cff2d76e39cf6d08904caec0a5a2cba9deb7e603c84707d091f270d03418",
+      "ids": [
+        "jasione"
+      ]
+    },
+    {
+      "file": "Kerria-1.3.2+1.20.1-forge.jar",
+      "sha256": "57b588bbc82fd6aa1e26b6fa680439e3c62315379293e0c6a86b5e6efebeba4b",
+      "ids": [
+        "kerria"
+      ]
+    },
+    {
+      "file": "Krypton Reno-forge-1.20.1-26.1.1-1.20.1.jar",
+      "sha256": "e0f6da577a9b4b4089a5dfa6e89f56483d7c0e8290c8339b4ac598ea3f09e6ce",
+      "ids": [
+        "kreno"
+      ]
+    },
+    {
+      "file": "modernfix-forge-5.27.85+mc1.20.1.jar",
+      "sha256": "12b76f627e34ddf9211766ad7a1d5f2bb3de8d0807935d2d20f357b907f481b8",
+      "ids": [
+        "mixinextras",
+        "modernfix"
+      ]
+    },
+    {
+      "file": "mvh-grass-distance-compat-1.0.5.jar",
+      "sha256": "d7d623db11aac1f96acae7a532e037645ff72e54651c02960c78b06efaf52bb0",
+      "ids": [
+        "mvhgrasscompat"
+      ]
+    },
+    {
+      "file": "obe+1.20.1-forge-1.1.45-srg.jar",
+      "sha256": "bd5a3fa88981d18f7a59c822c4e76864c5e425e687863eb4471c27889f9dc1d9",
+      "ids": [
+        "obe"
+      ]
+    },
+    {
+      "file": "servercore-forge-1.5.2+1.20.1.jar",
+      "sha256": "d9ad4f456b6c36bac17a71cd12935fdccae69ca1e1fcd33857210758cb58e586",
+      "ids": [
+        "mixinextras",
+        "servercore"
+      ]
+    }
+  ],
+  "request": "Remove all auxiliary performance mods; re-add only after matched evidence of benefit.",
+  "required_dependency_blockers": [],
+  "retained": "Hari integrated core, all gameplay mods and content/library/correctness interoperability helpers. Original Grassier Grass kept; separate grass optimization helper removed. Panoptic/Jupiter/NukaTeamGunLib/Slimum/TACZAttributes/world-generation balancing addons are gameplay or libraries, not optimizers.",
+  "personal_profile_modified": false,
+  "other_processes_stopped": false
+}

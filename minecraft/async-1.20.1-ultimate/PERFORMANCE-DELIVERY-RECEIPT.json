@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "product_commit": "6594c6cc652db554213c52ae02f7acd8f439644c",
+  "verification_complete": true,
+  "jar_sha256": "58ceda73c9328c78fc3d82eb652475cb4c7ddd91f3078d6d31717eb0ea9d432f",
+  "jar_drive": {
+    "file": "HariMultiThread-Ultimate-1.20.1-2.4.1-vulkan-hybrid.jar",
+    "drive_id": "1IHdqge9h6a8OZprWP6HAdoMO3ekXqLzV",
+    "url": "https://drive.google.com/file/d/1IHdqge9h6a8OZprWP6HAdoMO3ekXqLzV/view",
+    "bytes": 30730495,
+    "sha256": "58ceda73c9328c78fc3d82eb652475cb4c7ddd91f3078d6d31717eb0ea9d432f",
+    "raw_drive_readback_sha_and_crc_verified": true
+  },
+  "archives": [
+    {
+      "file": "Hari-2.4.1-complete-release.zip",
+      "bytes": 33000692,
+      "sha256": "30dbbb88b6f1a270d36ed0f3517f91db4f8ce7ea701baddd03c796d95ee33624",
+      "manifest_entries": 1145,
+      "every_entry_sha_and_crc_verified": true
+    },
+    {
+      "file": "Hari-2.4.1-complete-source.zip",
+      "bytes": 2648291,
+      "sha256": "8bbd34531682c446514aa1b3ae63c090bdb727eea075625630a15d45b4d0f8e6",
+      "manifest_entries": 1159,
+      "every_entry_sha_and_crc_verified": true
+    },
+    {
+      "file": "Hari-2.4.1-current-QA.zip",
+      "bytes": 74461126,
+      "sha256": "200c1e6a5ca0bdcfa169fcc2079884c3fa4a63aef545aea566f8e4b115734ef2",
+      "manifest_entries": 339,
+      "every_entry_sha_and_crc_verified": true
+    },
+    {
+      "file": "Hari-2.4.1-historical-diagnostics-01.zip",
+      "bytes": 93316700,
+      "sha256": "8b622a3316f3ae24462b20e400121898643072cb5103f51c05ecf76163a6d0a9",
+      "manifest_entries": 789,
+      "every_entry_sha_and_crc_verified": true
+    },
+    {
+      "file": "Hari-2.4.1-historical-diagnostics-02.zip",
+      "bytes": 81962768,
+      "sha256": "54365de0a496df90649c698effde1ed67e23f2c2a0996acc3316a6ab8c1832e7",
+      "manifest_entries": 381,
+      "every_entry_sha_and_crc_verified": true
+    }
+  ],
+  "complete_source_files": 989,
+  "historical_diagnostic_files": 1168,
+  "historical_provider_runs": 29,
+  "historical_union_verified": true,
+  "current_evidence_union_verified": true,
+  "native_gates": {
+    "compile_17_suites": 36899664277,
+    "native_server_c2me": 36899664082,
+    "seven_production_clients": 36899664091,
+    "khronos_audio_49_chunks": 36900474237,
+    "khronos_audio_169_chunks_distance8_two_workers": 36906027597
+  },
+  "source_drive_upload": "blocked_by_automatic_review_specific_payload_destination_approval_required",
+  "historical_drive_upload": "blocked_by_automatic_review_specific_payload_destination_approval_required",
+  "pending_upload_folder": "1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B",
+  "no_blocked_file_created_on_drive": true,
+  "privacy_audit": "Text and compressed-log scan of all 1168 historic files: zero unclassified credentials, signed URLs or personal emails; public Java module stack traces and GITHUB_TOKEN variable names classified. Screenshots are offline generated CI terrain.",
+  "scope_limit": "Installed Minecraft/Forge runtime correctness on Linux Mesa software drivers; no measured Windows RTX4090 FPS or universal modpack claim",
+  "latest_archive_approval_attempt": {
+    "date": "2026-10-02",
+    "user_response": "Cotinue",
+    "accepted_by_automatic_reviewer": false,
+    "upload_attempted": "Hari-2.4.1-complete-source.zip",
+    "file_created_on_drive": false,
+    "reason": "Automatic reviewer explicitly says continue is not approval of this sensitive archive and Drive destination",
+    "specific_required_approval": "Yes, upload all five ZIPs to my existing Hari Drive folder 1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B",
+    "do_not_retry_or_reroute_without_that_approval": true
+  },
+  "latest_recovery_verification": {
+    "date": "2026-10-02",
+    "all_five_zip_bytes_and_sha256_match_frozen_receipt": true,
+    "all_338_current_evidence_entries_match": true,
+    "all_1168_historical_entries_match": true,
+    "all_989_product_source_files_match": true,
+    "jar_bytes_and_sha256_match": true,
+    "product_unchanged": true
+  },
+  "wiki_publication": {
+    "state": "published_and_byte_verified",
+    "page": "HariMultiThread-Vulkan-Hybrid",
+    "url": "https://github.com/Herbertofury/ProjectDump/wiki/HariMultiThread-Vulkan-Hybrid",
+    "source_commit": "76613a1d1cfd68c5d5935221d01118fe6fc40625",
+    "run": 37065625868,
+    "job": 111032602469,
+    "published_wiki_commit": "1417b9f13925903b480a32d6afbc6e89272b0514",
+    "commit_status": "wiki-publication=success",
+    "native_page_readback_matches": true
+  }
+}

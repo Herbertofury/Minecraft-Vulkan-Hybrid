@@ -1,0 +1,362 @@
+{
+  "source_url": "https://api.modrinth.com/v2/project/beryl",
+  "license": {
+    "id": "LicenseRef-All-Rights-Reserved",
+    "name": "",
+    "url": null
+  },
+  "source_url_project": null,
+  "versions": [
+    {
+      "id": "Wgi6wkQ4",
+      "version": "0.2.1-alpha",
+      "game_versions": [
+        "26.1",
+        "26.1.1",
+        "26.1.2"
+      ],
+      "loaders": [
+        "fabric"
+      ],
+      "date_published": "2026-06-14T22:54:14.863173Z",
+      "files": [
+        {
+          "url": "https://cdn.modrinth.com/data/rYeGeBaO/versions/Wgi6wkQ4/beryl_26.1.2-0.2.1-alpha.jar",
+          "filename": "beryl_26.1.2-0.2.1-alpha.jar",
+          "hashes": {
+            "sha1": "584d2e0df94ed9dcc5b2b557828309f6a702ae89",
+            "sha512": "15a133d5da438026f060f9cc43fe6e1d9a70708ff3d6f54fffce6b29333cc9c431a1214792ff4796514dac16317aae3365afc4f1e038c508e2b241cc4056bbc6"
+          }
+        }
+      ]
+    },
+    {
+      "id": "UJ7cWso7",
+      "version": "0.2.1-alpha",
+      "game_versions": [
+        "1.21.11"
+      ],
+      "loaders": [
+        "fabric"
+      ],
+      "date_published": "2026-06-14T22:53:14.281303Z",
+      "files": [
+        {
+          "url": "https://cdn.modrinth.com/data/rYeGeBaO/versions/UJ7cWso7/beryl_1.21.11-0.2.1-alpha.jar",
+          "filename": "beryl_1.21.11-0.2.1-alpha.jar",
+          "hashes": {
+            "sha512": "f351b0eabb62973028489320af361413952c0d0c2062b2bb71c03f435944f8036e27ba2ca3a3dfc8e56f8b4dad1471a337782fef4414a1a5820d7097b434bee5",
+            "sha1": "6d028ada5d8466236d69d38613b4ea9e20433036"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ctik2Mfd",
+      "version": "0.2.0-alpha",
+      "game_versions": [
+        "1.21",
+        "1.21.1"
+      ],
+      "loaders": [
+        "fabric"
+      ],
+      "date_published": "2026-05-31T22:30:31.524399Z",
+      "files": [
+        {
+          "url": "https://cdn.modrinth.com/data/rYeGeBaO/versions/ctik2Mfd/beryl_1.21.1-0.2.0-alpha.jar",
+          "filename": "beryl_1.21.1-0.2.0-alpha.jar",
+          "hashes": {
+            "sha1": "9d1f004323ee5ce9198a33017862a6667eed5581",
+            "sha512": "99e88b625b14f75135683520c890f89d7c80f592b528f1f4e25812f56f1f0cff8ee2263b2ed884d729007cceac00200ea2fc1c375b296403a9642939f63e2c19"
+          }
+        }
+      ]
+    },
+    {
+      "id": "vnmoGCT6",
+      "version": "0.2.0-alpha",
+      "game_versions": [
+        "26.1",
+        "26.1.1",
+        "26.1.2"
+      ],
+      "loaders": [
+        "fabric"
+      ],
+      "date_published": "2026-05-17T15:04:41.730590Z",
+      "files": [
+        {
+          "url": "https://cdn.modrinth.com/data/rYeGeBaO/versions/vnmoGCT6/beryl_26.1.2-0.2.0-alpha.jar",
+          "filename": "beryl_26.1.2-0.2.0-alpha.jar",
+          "hashes": {
+            "sha1": "0e7ac42c6886bd69991043795ce05c48da394a80",
+            "sha512": "d2e2a3f45edcd39516ecc917ca422f32c932d8415e64b8a699b1ed63066a6ad3b68fbffea839f937a684ef4bf07e0955b944435afb358f35bca0e263cfb47b23"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tKDGpDVW",
+      "version": "0.2.0-alpha",
+      "game_versions": [
+        "1.21.11"
+      ],
+      "loaders": [
+        "fabric"
+      ],
+      "date_published": "2026-05-17T15:03:33.811190Z",
+      "files": [
+        {
+          "url": "https://cdn.modrinth.com/data/rYeGeBaO/versions/tKDGpDVW/beryl_1.21.11-0.2.0-alpha.jar",
+          "filename": "beryl_1.21.11-0.2.0-alpha.jar",
+          "hashes": {
+            "sha512": "5528acfcdeff2868123890b319750424c1da0cdec1b467ec5903c58f410732256f17113357df41e196b6b8112f4799d5a3f54c3306f1056b58d7ebfb401f7e2e",
+            "sha1": "e19e6b7e16f3fd88a4a6fc4ee8adfd1ba0f2c30b"
+          }
+        }
+      ]
+    },
+    {
+      "id": "gSFbpAmT",
+      "version": "0.1.3-alpha+1",
+      "game_versions": [
+        "1.21.9",
+        "1.21.10"
+      ],
+      "loaders": [
+        "fabric"
+      ],
+      "date_published": "2026-04-30T14:53:32.557Z",
+      "files": [
+        {
+          "url": "https://cdn.modrinth.com/data/rYeGeBaO/versions/gSFbpAmT/beryl_1.21.10-0.1.3-alpha%2B1.jar",
+          "filename": "beryl_1.21.10-0.1.3-alpha+1.jar",
+          "hashes": {
+            "sha1": "10f95a2d1548d532264963ca5386d4ee9165ea2e",
+            "sha512": "0631d92871a6313c3676db368bef4c81ec19de212662326875357f69b64d5f0957fae7ee1aea02d53c810d227f411b0c49216b2865475f48128e4ef0ff34f97f"
+          }
+        }
+      ]
+    },
+    {
+      "id": "LmzCbYMm",
+      "version": "0.1.3-alpha+1",
+      "game_versions": [
+        "26.1",
+        "26.1.1",
+        "26.1.2"
+      ],
+      "loaders": [
+        "fabric"
+      ],
+      "date_published": "2026-04-25T12:09:55.865363Z",
+      "files": [
+        {
+          "url": "https://cdn.modrinth.com/data/rYeGeBaO/versions/LmzCbYMm/beryl_26.1.2-0.1.3-alpha%2B1.jar",
+          "filename": "beryl_26.1.2-0.1.3-alpha+1.jar",
+          "hashes": {
+            "sha1": "a6c7386131dd7db4d47835410a92bf289ce8dad8",
+            "sha512": "584f2cf5783ee5e5a965be224d64b5df8698e276b7e56a14c6feac75685744b43c992bd8ca040833393c1ea11f79bca06d2a1a044177a6f1c2668b6cd2786b36"
+          }
+        }
+      ]
+    },
+    {
+      "id": "PsI3R5oe",
+      "version": "0.1.3-alpha+1",
+      "game_versions": [
+        "1.21.11"
+      ],
+      "loaders": [
+        "fabric"
+      ],
+      "date_published": "2026-04-25T12:09:25.836987Z",
+      "files": [
+        {
+          "url": "https://cdn.modrinth.com/data/rYeGeBaO/versions/PsI3R5oe/beryl_1.21.11-0.1.3-alpha%2B1.jar",
+          "filename": "beryl_1.21.11-0.1.3-alpha+1.jar",
+          "hashes": {
+            "sha1": "acb3d4911b87519c332e5a02bba68bc06066e73d",
+            "sha512": "8119222bf49286afb036d6087978819a71328e1493444815bbe8db08d24f41dc39810e6650801da37921d14d29d6e3a58c965efb73b8688866e6134a31b66370"
+          }
+        }
+      ]
+    },
+    {
+      "id": "GzKHtHxz",
+      "version": "0.1.3-alpha",
+      "game_versions": [
+        "26.1",
+        "26.1.1",
+        "26.1.2"
+      ],
+      "loaders": [
+        "fabric"
+      ],
+      "date_published": "2026-04-24T21:15:08.509315Z",
+      "files": [
+        {
+          "url": "https://cdn.modrinth.com/data/rYeGeBaO/versions/GzKHtHxz/beryl_26.1.2-0.1.3-alpha.jar",
+          "filename": "beryl_26.1.2-0.1.3-alpha.jar",
+          "hashes": {
+            "sha1": "4c02a50c3582a1c0c7a084561b35cf3270d337e5",
+            "sha512": "b6e5969d8575cef858b177fe308ae0b089d1379da417048acbb8f77eed3508070c94b2224762218c0265ebd787b795313144c1f3687fa7ce40db85ea6a65e9f9"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ozNfBPQx",
+      "version": "0.1.3-alpha",
+      "game_versions": [
+        "1.21.11"
+      ],
+      "loaders": [
+        "fabric"
+      ],
+      "date_published": "2026-04-24T21:14:52.740431Z",
+      "files": [
+        {
+          "url": "https://cdn.modrinth.com/data/rYeGeBaO/versions/ozNfBPQx/beryl_1.21.11-0.1.3-alpha.jar",
+          "filename": "beryl_1.21.11-0.1.3-alpha.jar",
+          "hashes": {
+            "sha1": "378498cba723bda4590cc33058fb8d7a1b27ee4d",
+            "sha512": "98fe320ebc181053a338068b459b010cd33ead56ebe4f6d90d3f2a7d051d96482fc8cb7ad8c533ccba6713f18f123cc2e90fbc035462074086c2d1f158beadc3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "71ljNT8G",
+      "version": "0.1.2-alpha",
+      "game_versions": [
+        "26.1",
+        "26.1.1",
+        "26.1.2"
+      ],
+      "loaders": [
+        "fabric"
+      ],
+      "date_published": "2026-04-15T16:01:36.574319Z",
+      "files": [
+        {
+          "url": "https://cdn.modrinth.com/data/rYeGeBaO/versions/71ljNT8G/beryl_26.1.2-0.1.2-alpha.jar",
+          "filename": "beryl_26.1.2-0.1.2-alpha.jar",
+          "hashes": {
+            "sha512": "d105a06f12ab7ab20eec3fd9e8bc20d52b6b8979a9dc9128fa2dbcee1c68358527846727a7cd7e3b98f52b1b8f89f45f4aa94e81f1bec0d8c6c6bc26b7a1061f",
+            "sha1": "4edbfb489a2028f61c65f202488451ed35b3110b"
+          }
+        }
+      ]
+    },
+    {
+      "id": "qZfMWJZF",
+      "version": "0.1.2-alpha",
+      "game_versions": [
+        "1.21.11"
+      ],
+      "loaders": [
+        "fabric"
+      ],
+      "date_published": "2026-04-15T16:01:14.631869Z",
+      "files": [
+        {
+          "url": "https://cdn.modrinth.com/data/rYeGeBaO/versions/qZfMWJZF/beryl_1.21.11-0.1.2-alpha.jar",
+          "filename": "beryl_1.21.11-0.1.2-alpha.jar",
+          "hashes": {
+            "sha1": "7ef32237acc415e74880cc8dd29537ebbb660415",
+            "sha512": "56de7d8e6b7b44c615f555e3934ed0db83e7e76dc38584e4613a3b13f675e12206b0a46fe3d86484acff06b830164ee9f62208d997e1c4759125d65fc6b52f6a"
+          }
+        }
+      ]
+    },
+    {
+      "id": "Wr5vEhUd",
+      "version": "0.1.2-alpha",
+      "game_versions": [
+        "1.21.9",
+        "1.21.10"
+      ],
+      "loaders": [
+        "fabric"
+      ],
+      "date_published": "2026-04-15T16:00:52.785149Z",
+      "files": [
+        {
+          "url": "https://cdn.modrinth.com/data/rYeGeBaO/versions/Wr5vEhUd/beryl_1.21.10-0.1.2-alpha.jar",
+          "filename": "beryl_1.21.10-0.1.2-alpha.jar",
+          "hashes": {
+            "sha512": "646dfb194539eab19e81cf412eb7f8ef9edc0b99b2d5f2e72355978affbddc14e71dd43d2446d4c4a272d7dce742c47317256ad8ac6063238cf5e793d33d2a3d",
+            "sha1": "e24773906f7ed0730e0b7dd1eac6c096bb4227eb"
+          }
+        }
+      ]
+    },
+    {
+      "id": "TFGuGCMK",
+      "version": "0.1.1-alpha",
+      "game_versions": [
+        "1.21.11"
+      ],
+      "loaders": [
+        "fabric"
+      ],
+      "date_published": "2026-03-28T16:28:27.121680Z",
+      "files": [
+        {
+          "url": "https://cdn.modrinth.com/data/rYeGeBaO/versions/TFGuGCMK/beryl_1.21.11-0.1.1-alpha.jar",
+          "filename": "beryl_1.21.11-0.1.1-alpha.jar",
+          "hashes": {
+            "sha1": "7e472a438bfac523cdc021a9976ec5684a45bf25",
+            "sha512": "846f22eb0d2b4b106d6a5b6a991a9504d9833707152322b393bed6377190693e774696e1f588051478e99044a4e7a715e9540a4b617f7b314c822cc79f456337"
+          }
+        }
+      ]
+    },
+    {
+      "id": "EUFR8IAD",
+      "version": "0.1.1-alpha",
+      "game_versions": [
+        "1.21.9",
+        "1.21.10"
+      ],
+      "loaders": [
+        "fabric"
+      ],
+      "date_published": "2026-03-28T16:23:16.857873Z",
+      "files": [
+        {
+          "url": "https://cdn.modrinth.com/data/rYeGeBaO/versions/EUFR8IAD/beryl_1.21.10-0.1.1-alpha.jar",
+          "filename": "beryl_1.21.10-0.1.1-alpha.jar",
+          "hashes": {
+            "sha1": "dc8f6578401e79a0a4a78bda3467d5b7a421256f",
+            "sha512": "d0acad6f9b9d373f659d14e2d10d6d01fbb3754843a1f0c275c025d94d6250bd2ae96e7c64676cc919a6000af3bbc1400ff59c09d2b8f48327e01e8e34ebd9ab"
+          }
+        }
+      ]
+    },
+    {
+      "id": "TBjifIda",
+      "version": "0.1.0-alpha",
+      "game_versions": [
+        "1.21.9",
+        "1.21.10"
+      ],
+      "loaders": [
+        "fabric"
+      ],
+      "date_published": "2026-03-13T11:59:41.279267Z",
+      "files": [
+        {
+          "url": "https://cdn.modrinth.com/data/rYeGeBaO/versions/TBjifIda/beryl_1.21.10-0.1.0-alpha.jar",
+          "filename": "beryl_1.21.10-0.1.0-alpha.jar",
+          "hashes": {
+            "sha512": "147436381130e8b744414b638d7bd7527336bbf42071f460e7c62313989d6a98086aecb38dfea0eb280f184b44c0fe88b8b70f632666b533bcb03dc49a17129d",
+            "sha1": "1d30b54eb0c745816cf5a2a2294e5ad156af361e"
+          }
+        }
+      ]
+    }
+  ]
+}

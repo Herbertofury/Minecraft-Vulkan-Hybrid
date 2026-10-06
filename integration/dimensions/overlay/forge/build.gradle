@@ -1,0 +1,449 @@
+plugins {
+    id 'multiloader-loader'
+    id 'net.minecraftforge.gradle'
+    id 'org.spongepowered.mixin' version '0.7.+'
+    id 'java-library'
+    id 'idea'
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(java_version)
+
+println "Java: ${providers.systemProperty('java.version').get()}, " +
+        "JVM: ${providers.systemProperty('java.vm.version').get()} (${providers.systemProperty('java.vendor').get()}), " +
+        "Arch: ${providers.systemProperty('os.arch').get()}"
+
+minecraft {
+    mappings channel: 'official', version: minecraft_version
+
+    accessTransformer = file("${rootProject.projectDir}/common/src/main/resources/META-INF/accesstransformer.cfg")
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.console.level', 'debug'
+            property 'eventbus.api.strictRuntimeChecks', 'true'
+            property 'forge.enabledGameTestNamespaces', mod_id
+
+        }
+
+        server {
+            workingDirectory project.file('run')
+            property 'forge.logging.console.level', 'debug'
+            property 'eventbus.api.strictRuntimeChecks', 'true'
+            property 'forge.enabledGameTestNamespaces', mod_id
+            args '--nogui'
+
+        }
+
+        data {
+            workingDirectory project.file('run-data')
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources'), '--existing', file('src/main/resources')
+        }
+    }
+}
+
+// Production Forge refmap + Mixin config registration.
+mixin {
+    add sourceSets.main, "${mod_id}.refmap.json"
+    config 'harimt.common.mixins.json'
+    config 'harimt.forge.mixins.json'
+    config 'vulkanmod.mixins.json'
+    config 'harimt.gpu.mixins.json'
+    config 'dimthread.mixin.json'
+}
+// Expected production JAR manifest contribution from MixinGradle:
+// 'MixinConfigs': 'harimt.common.mixins.json,harimt.forge.mixins.json,harimt.gpu.mixins.json'
+
+repositories {
+    maven { name = 'CurseMaven'; url = 'https://cursemaven.com'; content { includeGroup 'curse.maven' } }
+    maven { name = 'Sponge'; url = 'https://repo.spongepowered.org/repository/maven-public' }
+    mavenCentral()
+    mavenLocal()
+}
+
+configurations {
+    harimtEmbeddedLwjgl
+}
+
+dependencies {
+    // 1. Core
+    minecraft "net.minecraftforge:forge:$minecraft_version-$forge_version"
+
+    // 2. Mixin Extras & Squared
+    implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixinextras_version}"))
+    annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
+    implementation(jarJar("io.github.llamalad7:mixinextras-forge:${mixinextras_version}")) {
+        jarJar.ranged(it, "[${mixinextras_version},)")
+    }
+
+    // compileOnly("com.github.bawnorton.mixinsquared:mixinsquared-forge:0.1.1")
+    // compileOnly("com.github.bawnorton.mixinsquared:mixinsquared-common:0.1.1")
+    // annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:0.1.1")
+
+    // 3. Utilities (Lombok)
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+
+    // 4. Optional: Harium for navigation integration
+    compileOnly files("../common/libs/Harium-1.0.0.jar")
+
+    // 6. Optional client compile target: Hari's GPU-driven 26.3 terrain bridge.
+    // Runtime remains optional and the mixin plugin fail-closes when Embeddium is absent.
+    compileOnly fg.deobf("curse.maven:embeddium-908741:5681725") // Embeddium 0.3.31+mc1.20.1
+
+    // 5. GPU classes compile in common. Runtime LWJGL JARs are embedded as
+    // ordinary resources below, NOT JarJar modules, so dedicated servers can
+    // boot even when their module layer does not provide org.lwjgl.
+    harimtEmbeddedLwjgl("org.lwjgl:lwjgl:3.3.1") { transitive = false }
+    harimtEmbeddedLwjgl("org.lwjgl:lwjgl-vulkan:3.3.1") { transitive = false }
+    harimtEmbeddedLwjgl("org.lwjgl:lwjgl:3.3.1:natives-linux") { transitive = false }
+    harimtEmbeddedLwjgl("org.lwjgl:lwjgl:3.3.1:natives-linux-arm32") { transitive = false }
+    harimtEmbeddedLwjgl("org.lwjgl:lwjgl:3.3.1:natives-linux-arm64") { transitive = false }
+    harimtEmbeddedLwjgl("org.lwjgl:lwjgl:3.3.1:natives-macos") { transitive = false }
+    harimtEmbeddedLwjgl("org.lwjgl:lwjgl:3.3.1:natives-macos-arm64") { transitive = false }
+    harimtEmbeddedLwjgl("org.lwjgl:lwjgl:3.3.1:natives-windows") { transitive = false }
+    harimtEmbeddedLwjgl("org.lwjgl:lwjgl:3.3.1:natives-windows-arm64") { transitive = false }
+    harimtEmbeddedLwjgl("org.lwjgl:lwjgl:3.3.1:natives-windows-x86") { transitive = false }
+}
+
+tasks.named('processResources') {
+    from(configurations.harimtEmbeddedLwjgl) {
+        into 'META-INF/harimt-libs'
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+// Reproducible archives are part of the release contract. Gradle otherwise
+// preserves per-build timestamps in the outer mod JAR and nested backend JARs,
+// producing different SHA-256 values from identical source.
+tasks.withType(org.gradle.api.tasks.bundling.AbstractArchiveTask).configureEach {
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+}
+
+// Ensure Mixin AP side outputs are first-class Gradle cache outputs.
+// Otherwise compileJava may be restored FROM-CACHE while the AP-generated
+// refmap + hard-reference mappings are absent from the workspace.
+afterEvaluate {
+    def hariCompileJava = tasks.named('compileJava')
+    hariCompileJava.configure {
+        inputs.property('harimtMixinSideOutputContract', 'v3-reproducible')
+        outputs.file(layout.buildDirectory.file('tmp/compileJava/compileJava-refmap.json'))
+        outputs.file(layout.buildDirectory.file('tmp/compileJava/compileJava-mappings.tsrg'))
+    }
+
+    // Mixin's annotation processor emits logically stable JSON through maps whose
+    // iteration order is not guaranteed. Canonicalize every object key recursively
+    // after compileJava, then feed that exact named refmap to all JAR tasks.
+    def normalizeHariMixinRefmap = tasks.register('normalizeHariMixinRefmap') {
+        dependsOn hariCompileJava
+        outputs.upToDateWhen { false }
+        doLast {
+            File raw = hariCompileJava.get().ext.refMapFile as File
+            if (!raw.isFile()) {
+                throw new GradleException("Missing Mixin AP refmap for deterministic packaging: " + raw)
+            }
+
+            File named = new File(raw.parentFile, hariCompileJava.get().ext.refMap.toString())
+            named.parentFile.mkdirs()
+            named.bytes = raw.bytes
+
+            def canonicalize
+            canonicalize = { Object node ->
+                if (node instanceof Map) {
+                    def sorted = new java.util.TreeMap()
+                    node.each { key, value -> sorted.put(key.toString(), canonicalize(value)) }
+                    return sorted
+                }
+                if (node instanceof List) {
+                    return node.collect { value -> canonicalize(value) }
+                }
+                return node
+            }
+
+            [raw, named].each { File refmap ->
+                def parsed = new groovy.json.JsonSlurper().parse(refmap)
+                def canonical = canonicalize(parsed)
+                refmap.setText(
+                        groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(canonical)) + System.lineSeparator(),
+                        'UTF-8')
+            }
+        }
+    }
+
+    // MixinGradle creates addMixinsTo* tasks in its earlier afterEvaluate hook.
+    // Make them consume the canonical named refmap rather than racing compileJava's
+    // non-deterministic doLast copy.
+    tasks.matching { it.name.startsWith('addMixinsTo') }.configureEach {
+        dependsOn normalizeHariMixinRefmap
+    }
+    tasks.withType(org.gradle.jvm.tasks.Jar).configureEach {
+        dependsOn normalizeHariMixinRefmap
+    }
+
+    tasks.configureReobfTaskForReobfJar.mustRunAfter(normalizeHariMixinRefmap)
+    tasks.configureReobfTaskForReobfJarJar.mustRunAfter(normalizeHariMixinRefmap)
+}
+
+// FG6 automatically creates the reobfJar task for SRG reobfuscation
+jar.finalizedBy('reobfJar')
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+idea.module { downloadJavadoc = downloadSources = true }
+
+layout.buildDirectory.set(file("build"))
+
+// HariMultiThread Ultimate isolated backend packaging
+// A dedicated pure-Java source set compiles the child-loaded backend against
+// the tiny common-side API + LWJGL. It is NOT a Forge mod/source set and is never
+// placed on ModLauncher's module path.
+sourceSets {
+    harimtVulkanBackend {
+        java.srcDir file('../vulkan-backend/src/main/java')
+    }
+}
+
+dependencies {
+    harimtVulkanBackendCompileOnly project(':common')
+    harimtVulkanBackendImplementation 'org.lwjgl:lwjgl:3.3.1'
+    harimtVulkanBackendImplementation 'org.lwjgl:lwjgl-vulkan:3.3.1'
+}
+
+tasks.named('compileHarimtVulkanBackendJava') {
+    options.encoding = 'UTF-8'
+    options.release = 17
+}
+
+def harimtVulkanBackendJar = tasks.register('harimtVulkanBackendJar', Jar) {
+    archiveBaseName.set('harimt-vulkan-backend')
+    archiveVersion.set('3.3.1')
+    from sourceSets.harimtVulkanBackend.output
+    manifest {
+        attributes(
+                'Implementation-Title': 'HariMultiThread Ultimate Vulkan Backend',
+                'Implementation-Version': '3.3.1'
+        )
+    }
+}
+
+tasks.named('processResources') {
+    dependsOn harimtVulkanBackendJar
+    from(harimtVulkanBackendJar.flatMap { it.archiveFile }) {
+        into 'META-INF/harimt-libs'
+    }
+}
+
+
+// Hari 2.4 merged Vulkan renderer
+def harimtLwjglVersion = '3.3.3'
+def harimtMergedMixinConfigs = 'harimt.common.mixins.json,harimt.forge.mixins.json,harimt.gpu.mixins.json,vulkanmod.mixins.json,dimthread.mixin.json'
+
+// Forge 1.20.1 discovers Mixin configs from the distributable JAR manifest.
+// Hari's reconstructed manifest already owns the three Hari configs; the merged
+// Vulkan renderer must be registered there too or its window/render mixins are
+// packaged but never applied at runtime.
+tasks.named('jar').configure {
+    manifest {
+        attributes 'MixinConfigs': harimtMergedMixinConfigs
+    }
+}
+
+
+configurations {
+    harimtVulkanNativesWindows { canBeResolved = true; canBeConsumed = false; transitive = false }
+    harimtVulkanNativesLinux { canBeResolved = true; canBeConsumed = false; transitive = false }
+    harimtVulkanNativesLinuxArm64 { canBeResolved = true; canBeConsumed = false; transitive = false }
+    harimtVulkanNativesMacos { canBeResolved = true; canBeConsumed = false; transitive = false }
+    harimtVulkanNativesMacosArm64 { canBeResolved = true; canBeConsumed = false; transitive = false }
+}
+
+repositories {
+    maven { name = 'Sinytra'; url = 'https://maven.su5ed.dev/releases' }
+}
+
+dependencies {
+    // Android/FCL EGL handoff uses JNA; desktop paths do not load it.
+    compileOnly "net.java.dev.jna:jna:5.13.0"
+
+    // Keep the three Vulkan-side LWJGL modules on the exact version proven by the
+    // Forge 1.20.1 renderer port. Do not replace Minecraft's core/GLFW/OpenGL modules.
+    implementation "org.lwjgl:lwjgl-vulkan:" + harimtLwjglVersion
+    implementation "org.lwjgl:lwjgl-shaderc:" + harimtLwjglVersion
+    implementation "org.lwjgl:lwjgl-vma:" + harimtLwjglVersion
+    implementation(jarJar("org.lwjgl:lwjgl-vulkan:[3.3.3,3.3.4)"))
+    implementation(jarJar("org.lwjgl:lwjgl-shaderc:[3.3.3,3.3.4)"))
+    implementation(jarJar("org.lwjgl:lwjgl-vma:[3.3.3,3.3.4)"))
+
+    compileOnly fg.deobf("dev.su5ed.sinytra.fabric-api:fabric-renderer-api-v1:3.2.1+1d29b44577")
+    compileOnly fg.deobf("dev.su5ed.sinytra.fabric-api:fabric-api-base:0.4.31+ef105b4977")
+
+    harimtVulkanNativesWindows "org.lwjgl:lwjgl-shaderc:" + harimtLwjglVersion + ":natives-windows"
+    harimtVulkanNativesWindows "org.lwjgl:lwjgl-vma:" + harimtLwjglVersion + ":natives-windows"
+    harimtVulkanNativesLinux "org.lwjgl:lwjgl-shaderc:" + harimtLwjglVersion + ":natives-linux"
+    harimtVulkanNativesLinux "org.lwjgl:lwjgl-vma:" + harimtLwjglVersion + ":natives-linux"
+    harimtVulkanNativesLinuxArm64 "org.lwjgl:lwjgl-shaderc:" + harimtLwjglVersion + ":natives-linux-arm64"
+    harimtVulkanNativesLinuxArm64 "org.lwjgl:lwjgl-vma:" + harimtLwjglVersion + ":natives-linux-arm64"
+    harimtVulkanNativesMacos "org.lwjgl:lwjgl-shaderc:" + harimtLwjglVersion + ":natives-macos"
+    harimtVulkanNativesMacos "org.lwjgl:lwjgl-vma:" + harimtLwjglVersion + ":natives-macos"
+    harimtVulkanNativesMacos "org.lwjgl:lwjgl-vulkan:" + harimtLwjglVersion + ":natives-macos"
+    harimtVulkanNativesMacosArm64 "org.lwjgl:lwjgl-shaderc:" + harimtLwjglVersion + ":natives-macos-arm64"
+    harimtVulkanNativesMacosArm64 "org.lwjgl:lwjgl-vma:" + harimtLwjglVersion + ":natives-macos-arm64"
+    harimtVulkanNativesMacosArm64 "org.lwjgl:lwjgl-vulkan:" + harimtLwjglVersion + ":natives-macos-arm64"
+}
+
+// Match the Forge port's split-LWJGL contract: embed only the Vulkan-side modules.
+// Minecraft keeps ownership of core LWJGL/GLFW/OpenGL/STB to avoid classpath replacement.
+configurations.jarJar {
+    exclude group: 'org.lwjgl', module: 'lwjgl'
+    exclude group: 'org.lwjgl', module: 'lwjgl-glfw'
+    exclude group: 'org.lwjgl', module: 'lwjgl-opengl'
+    exclude group: 'org.lwjgl', module: 'lwjgl-stb'
+}
+
+// Stage bundled shaderc/VMA natives as normal resources so ForgeGradle runClient
+// and the shipped JAR exercise the exact same resource layout. The production
+// server collision shader is pinned in the overlay; CI recompiles GLSL and
+// byte-compares it to prove source/binary parity.
+def harimtCollisionSpirv = rootProject.file('common/src/main/resources/assets/async/shaders/collision_broadphase.comp.spv')
+tasks.named('processResources').configure {
+    inputs.file(harimtCollisionSpirv)
+    doFirst {
+        if (!harimtCollisionSpirv.isFile() || harimtCollisionSpirv.length() < 4L) {
+            throw new GradleException('Missing production collision SPIR-V: ' + harimtCollisionSpirv)
+        }
+        def bytes = harimtCollisionSpirv.bytes
+        def magic = [0, 1, 2, 3].collect { ((int) bytes[it]) & 0xff }
+        if (magic != [0x03, 0x02, 0x23, 0x07]) {
+            throw new GradleException('Invalid collision SPIR-V magic: ' + magic)
+        }
+    }
+    into('assets/vulkanmod/natives/windows/x64') {
+        from { configurations.harimtVulkanNativesWindows.collect { zipTree(it) } }
+        include 'windows/x64/org/lwjgl/**'
+    }
+    into('assets/vulkanmod/natives/linux/x64') {
+        from { configurations.harimtVulkanNativesLinux.collect { zipTree(it) } }
+        include 'linux/x64/org/lwjgl/**'
+    }
+    into('assets/vulkanmod/natives/linux/arm64') {
+        from { configurations.harimtVulkanNativesLinuxArm64.collect { zipTree(it) } }
+        include 'linux/arm64/org/lwjgl/**'
+    }
+    into('assets/vulkanmod/natives/macos/x64') {
+        from { configurations.harimtVulkanNativesMacos.collect { zipTree(it) } }
+        include 'macos/x64/org/lwjgl/**'
+    }
+    into('assets/vulkanmod/natives/macos/arm64') {
+        from { configurations.harimtVulkanNativesMacosArm64.collect { zipTree(it) } }
+        include 'macos/arm64/org/lwjgl/**'
+    }
+}
+
+// Forge's Jar-in-Jar module layer cannot resolve LWJGL 3.3.3's Java-9 module
+// descriptors against Minecraft's launcher-owned org.lwjgl core module. The
+// pinned Forge renderer solves this by stripping module-info from every nested
+// LWJGL jar while leaving the normal classes intact. Preserve that exact split:
+// Minecraft owns core LWJGL; Hari owns only Vulkan/shaderc/VMA as JIJ metadata.
+tasks.named('jarJar').configure {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    doFirst {
+        def mixinConfigs = tasks.named('jar').get().manifest.attributes.get('MixinConfigs')?.toString()
+        if (mixinConfigs == null || !mixinConfigs.split(',').collect { it.trim() }.contains('vulkanmod.mixins.json')) {
+            throw new GradleException('Merged Vulkan renderer missing from JAR MixinConfigs manifest: ' + mixinConfigs)
+        }
+    }
+    exclude 'module-info.class'
+    exclude 'META-INF/versions/*/module-info.class'
+    exclude 'META-INF/*.SF'
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+
+    doLast {
+        def jarFile = archiveFile.get().asFile
+        def tmpDir = new File(temporaryDir, 'harimt-lwjgl-repack')
+        tmpDir.deleteDir()
+        tmpDir.mkdirs()
+        ant.unzip(src: jarFile, dest: tmpDir)
+
+        def jarjarDir = new File(tmpDir, 'META-INF/jarjar')
+        if (jarjarDir.exists()) {
+            jarjarDir.listFiles().findAll {
+                it.name.endsWith('.jar') && it.name.startsWith('lwjgl-')
+            }.each { embeddedJar ->
+                def stripped = new File(temporaryDir, "stripped-${embeddedJar.name}")
+                // Ant repacks are outside AbstractArchiveTask's timestamp policy.
+                // Pin their entry times as well or each clean/cached build differs.
+                ant.zip(destfile: stripped, modificationtime: '1980-02-01T00:00:00', encoding: 'UTF-8') {
+                    zipfileset(src: embeddedJar) {
+                        exclude(name: 'module-info.class')
+                        exclude(name: 'META-INF/versions/*/module-info.class')
+                    }
+                }
+                if (!embeddedJar.delete()) {
+                    throw new GradleException("Could not replace nested LWJGL jar: ${embeddedJar}")
+                }
+                if (!stripped.renameTo(embeddedJar)) {
+                    throw new GradleException("Could not install stripped nested LWJGL jar: ${embeddedJar}")
+                }
+            }
+        }
+
+        // JarJar owns its own final manifest snapshot. Rewrite that exact
+        // distributable manifest during the same deterministic repack that strips
+        // nested LWJGL module descriptors, so the final shipped bytes cannot lose
+        // the merged Vulkan Mixin registration even if Gradle task-manifest
+        // inheritance changes.
+        def manifestFile = new File(tmpDir, 'META-INF/MANIFEST.MF')
+        if (!manifestFile.isFile()) {
+            throw new GradleException('Final JarJar staging tree is missing META-INF/MANIFEST.MF')
+        }
+        def mergedManifest
+        manifestFile.withInputStream { input ->
+            mergedManifest = new java.util.jar.Manifest(input)
+        }
+        mergedManifest.mainAttributes.putValue('MixinConfigs', harimtMergedMixinConfigs)
+        manifestFile.withOutputStream { output ->
+            mergedManifest.write(output)
+        }
+
+        if (!jarFile.delete()) {
+            throw new GradleException("Could not replace jarJar output: ${jarFile}")
+        }
+        ant.zip(destfile: jarFile, basedir: tmpDir,
+                modificationtime: '1980-02-01T00:00:00', encoding: 'UTF-8')
+
+        // Verify the exact distributable bytes, not just Gradle task state.
+        def finalZip = new java.util.zip.ZipFile(jarFile)
+        try {
+            def manifestEntry = finalZip.getEntry('META-INF/MANIFEST.MF')
+            def configEntry = finalZip.getEntry('vulkanmod.mixins.json')
+            def refmapEntry = finalZip.getEntry('harimt.refmap.json')
+            if (manifestEntry == null || configEntry == null || refmapEntry == null) {
+                throw new GradleException('Merged Vulkan mixin packaging incomplete in final jarJar output')
+            }
+
+            def manifestText = finalZip.getInputStream(manifestEntry).getText('UTF-8')
+                    .replaceAll('\\r?\\n ', '')
+            if (!manifestText.contains('vulkanmod.mixins.json')) {
+                throw new GradleException('Final JAR manifest does not register vulkanmod.mixins.json')
+            }
+
+            def configText = finalZip.getInputStream(configEntry).getText('UTF-8')
+            if (!configText.contains('"refmap": "harimt.refmap.json"')) {
+                throw new GradleException('Final Vulkan mixin config does not use merged harimt.refmap.json')
+            }
+
+            def refmapText = finalZip.getInputStream(refmapEntry).getText('UTF-8')
+            if (!refmapText.contains('net/vulkanmod/mixin/')) {
+                throw new GradleException('Merged harimt.refmap.json contains no Vulkan mixin mappings')
+            }
+        } finally {
+            finalZip.close()
+        }
+    }
+}

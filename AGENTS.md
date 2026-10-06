@@ -1,0 +1,3 @@
+# Minecraft Vulkan Hybrid
+
+Use the complete merged project under `source/`. The pinned 24-step recipe, overlays and focused regressions remain at `minecraft/async-1.20.1-ultimate/` for historical command compatibility. Project-specific runtime QA is in `.github/qa/`; old workflows are archived in `legacy-workflows/`. Preserve licenses, source manifests, original diagnostics and benchmark raw frames. Never substitute Linux software-driver evidence for this computer's GPU measurements. Keep test instances, saves, launcher profiles and caches isolated. Do not touch GameSync, AoA or Enderloom. Publish feature branches and draft PRs only unless explicitly authorized to merge/release.

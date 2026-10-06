@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "original_components_verified": 15,
+  "compiler_commit": "9bae8e9a3c8b6ec34f871657b36331ebcd9f1a84",
+  "native_sdk": "Official LWJGL/shaderc3.3.6; Java17; CPU compile/reflection only",
+  "frame_uniform_bytes": 864,
+  "frame_uniform_leaves": 46,
+  "nested_base_offset_mutation_rejected": true,
+  "pinned_windows_gpu_fixture_matches": true,
+  "private_original_assets_supplied": true,
+  "outputs": {
+    "apply.comp": "533332a8a1af12c06fe45e769d203faa0b33fab34a4b8f592d6938278831b839",
+    "apply.comp.spv": "a05dff0202ecfbae45dca110cb479f540fa7dac63afe233998fd96e127536983",
+    "axis.png": "0ae58aa6fcc369fee5a49270827bfa572631078f57163b8344f97ea5fcde2441",
+    "axis_top.png": "d96400565f72e7270eeb9daaab2b1cf2a450e9491bbd488d217ed5f7e49c4bc3",
+    "cull.comp": "81f67495815cd9a90abc9b4a526a1765062edf33601efc45d638fc43a9dc456f",
+    "cull.comp.spv": "ffe4ce00280ca224e2d395b11e6302ca92408a2981a6808a66040e332b7d3d28",
+    "FRAME-ABI.json": "5d790d0ff62e5e05b6432ababc9fe6b842cb5b2cfd79e058143c3186bfcbff82",
+    "shaft.frag": "50d7d10576743784f8e0bdfade5f9ea82eecabfba44fb14d65203e3c158a9886",
+    "shaft.frag.spv": "f94c99692c7ad626299b7b3ed8b908f3c26d2fb5ff11e84323cc3b28a385ffed",
+    "shaft.indices": "15e4544087ac886e83ea2c6f84406b56b09370208d305b0ed3c2a2cae4bdf76b",
+    "shaft.json": "ac0dde5366052600cb94b3414a4d5283706c0a6dd4c76196b2aa35c3cc75a997",
+    "shaft.vertices": "a47fc7173cfe574d2c1af9b9e2710df4211a84ca7809d9ef00743b5ceb7cf937",
+    "transformed.vert": "656b08715490dceacaadbd60a448625e5103b52a6bb655277d12c5848aa21cd7",
+    "transformed.vert.spv": "6bbbad746fd1276da6248a9babf6a4c45b4cdae86a09bce6d9c598d07651a690"
+  },
+  "scope": "Four real shader stages,original vendor hashes,structured frame paths/writes and negative control. No GPU or complete Create/provider/FPS acceptance; private asset output must never be redistributed."
+}

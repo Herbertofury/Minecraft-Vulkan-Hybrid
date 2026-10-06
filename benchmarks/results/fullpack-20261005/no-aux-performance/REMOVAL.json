@@ -1,0 +1,101 @@
+{
+  "disabled_recoverably": [
+    {
+      "file": "Enhanced-Celestials-2-Shaders-Forge-1.20.1-1.0.0.4-MVH-OptionalRenderer-v1.jar",
+      "sha256": "1da6252aebf8edd276af09078a22304e5be87df0329cc2b688a160662fddd8ed",
+      "reason": "Explicit user removal of Oculus/Indigo, or shader-only addon requiring the removed provider"
+    },
+    {
+      "file": "IrisSearch-1.8.1-forge.jar",
+      "sha256": "d3666e00c5875a24ac33c864ed988dbf0087b497b1afac25dc03774b11c12bc4",
+      "reason": "Explicit user removal of Oculus/Indigo, or shader-only addon requiring the removed provider"
+    },
+    {
+      "file": "oculus-mc1.20.1-1.8.0-Noxviola-SAME-DIM-FIX-MVH-MemoryCopy-v1.jar",
+      "sha256": "39ce418fd9da79a82bf82ef6e58ad5a7965954fbc2b39605f15051c8fbcb4b51",
+      "reason": "Explicit user removal of Oculus/Indigo, or shader-only addon requiring the removed provider"
+    }
+  ],
+  "original_ffapi_backup": {
+    "file": "fabric-api-0.92.6+1.11.15+1.20.1.jar.disabled",
+    "sha256": "3dd3f93c31122d928297220601f521e6a8a20356bafc7819bf4ddce4c2bb085d"
+  },
+  "repaired_ffapi": {
+    "source_sha256": "3dd3f93c31122d928297220601f521e6a8a20356bafc7819bf4ddce4c2bb085d",
+    "output_sha256": "5b0d282a45ee67897518660ec6d2f0ae3c737c50fa3bac749f2483a74caed63d",
+    "removed_module": {
+      "identifier": {
+        "group": "dev.su5ed.sinytra.fabric-api",
+        "artifact": "fabric-renderer-indigo"
+      },
+      "version": {
+        "range": "[1.5.3+b5b2da4177,)",
+        "artifactVersion": "1.5.3+b5b2da4177"
+      },
+      "path": "META-INF/jarjar/fabric-renderer-indigo-1.5.3+b5b2da4177.jar"
+    },
+    "removed_module_sha256": "c4da5cf224f8cbaadd280d0b695aa8c54b925cd2eca967fb5d48fe16e8c0d491",
+    "changed_entries": [
+      "META-INF/jarjar/metadata.json"
+    ],
+    "added_entries": [],
+    "retained_modules": {
+      "META-INF/jarjar/fabric-loader-2.6.0+0.15.0+1.20.1-full.jar": "b3fe630604fbf72022ceff74d8420c1bd39f51b6cec760cb00185ab56fd98df7",
+      "META-INF/jarjar/mixinextras-forge-0.4.1.jar": "9d48cb0a40299d283248fdad8b02c6d175c45b27f9bec48ef63d7ee8a4ee3066",
+      "META-INF/jarjar/fabric-api-base-0.4.32+ef105b4977.jar": "1118cde683b469fae3d1bf20d3c1df9135e1b0d81ba5748b26ad9408cdbd961a",
+      "META-INF/jarjar/fabric-api-lookup-api-v1-1.6.37+67f9824077.jar": "ec6605d6b2e06b15181401bae05b938edb9855121fc152cc52db464647d0b999",
+      "META-INF/jarjar/fabric-biome-api-v1-13.0.14+dc36698e77.jar": "1627f236f6deb4ef2e6e32128d4349998e605d8e6e4463f41d0ece2cc70e6a40",
+      "META-INF/jarjar/fabric-block-api-v1-1.0.12+0e6cb7f777.jar": "d4a4346a5af3ad6474d918f1321770180a265cb8d30a38854ea44dd301926e88",
+      "META-INF/jarjar/fabric-block-view-api-v2-1.0.3+53347ba977.jar": "6275fa26f572afe4a558017c21991e22a0af9b8979d4713aaef7bf7766b14559",
+      "META-INF/jarjar/fabric-blockrenderlayer-v1-1.1.42+1d0da21e77.jar": "36f9f50c2082406b897db887296591070a55c8d076eab5c3027fdf026c8af928",
+      "META-INF/jarjar/fabric-client-tags-api-v1-1.1.3+5d6761b877.jar": "ae9fa9c8334df431460526104a8da910a41023f52cd94ab9f42464294ebc23eb",
+      "META-INF/jarjar/fabric-command-api-v2-2.2.14+561530ec77.jar": "cb7a2ce2e86c5b1d14769148279256f3391ccf0b81d668e45df96be02756e364",
+      "META-INF/jarjar/fabric-content-registries-v0-4.0.13+a670df1e77.jar": "8e70b802e464a89e56765d5462522a101223909107a5c2309750b06b22971953",
+      "META-INF/jarjar/fabric-convention-tags-v1-1.5.6+fa3d1c0177.jar": "86176a8d1d337fd1417c0391049561e001a7cca91046527e5709426b1a7ea6a2",
+      "META-INF/jarjar/fabric-data-attachment-api-v1-1.0.2+30ef839e77.jar": "2611415f88f3a25f866d0e41ced6abdceaace87b7bf825cb94f5c9a1f8948b6e",
+      "META-INF/jarjar/fabric-data-generation-api-v1-12.3.7+369cb3a477.jar": "c493c646261faa245c15c1202deb99cff64afc6163e9e869e358fdd2cc3cd670",
+      "META-INF/jarjar/fabric-dimensions-v1-2.1.55+8005d10d77.jar": "07f0972444ec30f1293a1cca2e265a99d16265c45da81cda2a59ada14bca60cb",
+      "META-INF/jarjar/fabric-entity-events-v1-1.6.1+4ca7515277.jar": "75a90a71f53e806ae30309a5025838148c8d11238e3db76457e0aad2a0b281b7",
+      "META-INF/jarjar/fabric-events-interaction-v0-0.6.5+0f26153f77.jar": "29250796a77e69ce32e986f3ff25277c12ed9d176f1cce76937c5cae3f137290",
+      "META-INF/jarjar/fabric-game-rule-api-v1-1.0.41+683d4da877.jar": "2fdd65dd18edeec2476d8164118a9f7bb71431d29aa3d4120c913330823e5759",
+      "META-INF/jarjar/fabric-item-api-v1-2.1.29+4d0bbcfa77.jar": "e19b63168ccc2b668d85f169d3c2c3d0d963e12aa924186a98912ea75897599a",
+      "META-INF/jarjar/fabric-item-group-api-v1-4.0.14+c9161c2d77.jar": "52a749b925924d9fc5cc9c1ea2bc958096b12d649b9ce85a6c9ce38d681308ae",
+      "META-INF/jarjar/fabric-key-binding-api-v1-1.0.38+561530ec77.jar": "7310d587f5108651514913ff2163590dcd9be19fac725afe1340cd6b4dd5eb47",
+      "META-INF/jarjar/fabric-lifecycle-events-v1-2.2.23+afab492177.jar": "ea5ff59ba3946e08b1d5e447f4bbb74233445bd17f7bab078a89b40a37380747",
+      "META-INF/jarjar/fabric-loot-api-v2-1.2.3+eb28f93e77.jar": "f31bce525c86e9093cfc25ed6bc830a9eb11dd720446627710bf91542d2788db",
+      "META-INF/jarjar/fabric-message-api-v1-5.1.10+52cc178c77.jar": "a42a875b22496208a42db4e53383ed011da99705d74d665d8252f276abc4baa5",
+      "META-INF/jarjar/fabric-mining-level-api-v1-2.1.52+561530ec77.jar": "1a0587950849e2bfc6ec95d2926659f5ce3d546becb78f540b8e1774bea62301",
+      "META-INF/jarjar/fabric-model-loading-api-v1-1.0.4+6274ab9d77.jar": "447b84f79b82a470a08f49f7f36b607dfa0ec211be1749bf69c205e293cca2ad",
+      "META-INF/jarjar/fabric-networking-api-v1-1.3.14+fb7c822677.jar": "5d4d97ae6fa2199713a0dac2a9e2c2bdab3dfb036571c5d97202adc750d964ff",
+      "META-INF/jarjar/fabric-object-builder-api-v1-11.1.5+f8c414ce77.jar": "bc63cf0a56666c1bf55b4f6e3fb2376968c6b1e9bccbcab35af2bd562f3b0cdc",
+      "META-INF/jarjar/fabric-particles-v1-1.1.3+78e1ecb877.jar": "3c6116093ca74190c22d7ab576e0eddf980cb8b60f4f4b7cab595465458e0dc2",
+      "META-INF/jarjar/fabric-recipe-api-v1-1.0.24+514a076577.jar": "2fe2d319fbea9d3f5801e265157715d4e4438604ec37336f9fd65a8e37d1af50",
+      "META-INF/jarjar/fabric-registry-sync-v0-2.3.6+1c0ea72177.jar": "2483dfaffdc83356c9817718c2d85f2f98d14b3e22242ae1512bdc54c3bf7b29",
+      "META-INF/jarjar/fabric-renderer-api-v1-3.2.2+cf68abbe77.jar": "9df9a35851b9aae4150a051a8f217fab7af3f9e47411ad602fede72efdd170d2",
+      "META-INF/jarjar/fabric-rendering-fluids-v1-3.0.29+4ac5e37a77.jar": "b03a1a9cd4eeefed49e2cf9b67b8a04d9ea189f8a0430df0fdb4c541102f29ee",
+      "META-INF/jarjar/fabric-rendering-v1-3.0.9+66e9a48f77.jar": "1446e68c2dfae3fa7a702249856305cdbe44843963623e2ce9685451f859db16",
+      "META-INF/jarjar/fabric-resource-conditions-api-v1-2.3.9+996d00b277.jar": "485ba8e16355255780837934654cdd50afedea5f4db0190128812e74195dbab3",
+      "META-INF/jarjar/fabric-resource-loader-v0-0.11.12+4b4151c077.jar": "1ed2609ba386cefcdf4792f5e4d884aa0b5670a135079cb5203527a73ac0d85b",
+      "META-INF/jarjar/fabric-screen-api-v1-2.0.9+45a670a577.jar": "c80e3f78737faa97ec0f62146963bfa5aebc99c97ec63b72b4bc9472b11c3ccd",
+      "META-INF/jarjar/fabric-screen-handler-api-v1-1.3.33+561530ec77.jar": "424e4673a44831a4a70fa793a94b3a49321d5e238385b26e7957ac61b1d206dd",
+      "META-INF/jarjar/fabric-sound-api-v1-1.0.14+4f23bd8477.jar": "7f3edac5731988793e62502bec1813fe7728950359761aad3f19b38d4a27f1be",
+      "META-INF/jarjar/fabric-transfer-api-v1-3.3.6+25eff73b77.jar": "cbc963d56d9b7443451264435454f65e4f2c5b86315e4247fa6c1e039926ed3d",
+      "META-INF/jarjar/fabric-transitive-access-wideners-v1-4.3.2+1880499877.jar": "45ae6fe54e70487703713c708632357d108bd2ddf46078b68ff9408b4012134c",
+      "META-INF/jarjar/fabric-command-api-v1-1.2.35+f71b366f77.jar": "9b9f83b1c43a5289b642f75641b1b9a478cef7f60e97bfc33ac9837e292dcadb",
+      "META-INF/jarjar/fabric-models-v0-0.4.3+7c3892a477.jar": "e7792551c4938252491fd5585de934124527acc02c515538da1f0887c78a20c3",
+      "META-INF/jarjar/fabric-rendering-data-attachment-v1-0.3.39+a6081afc77.jar": "175b0289471ea17481ed0871262717a2f4e8d19bb573452bd14c887b767bd492"
+    },
+    "remaining_module_count": 44,
+    "all_other_code_assets_notices_equal": true,
+    "native_runtime_accepted": false,
+    "scope": "Explicit user removal of Indigo only, not removal of FFAPI or the Fabric Rendering API. Native renderer still requires production gate and actual feature validation."
+  },
+  "remaining_active_with_recorder": 329,
+  "native_required_policy": true,
+  "policy_requires_hari23_build_install": true,
+  "remaining_required_metadata_dependencies_on_removed_providers": false,
+  "gameplay_cores_preserved": true,
+  "personal_profile_modified": false,
+  "other_processes_stopped": false,
+  "new_game_launch_performed": false
+}

@@ -1,0 +1,17 @@
+{
+  "status": "REJECTED_PERFORMANCE_REGRESSION",
+  "files": [
+    {
+      "file": "NativeEngine.java",
+      "sha256": "6f2b9c2529d36b87a0bd393b7852008a512d59d0c2c6fc5e18606d2f231c04fe"
+    },
+    {
+      "file": "NativeWorldRenderer.java",
+      "sha256": "9005c0ae6a6d301c211d08f70dfb05091b3433face49e5dd987b184895b959a0"
+    }
+  ],
+  "source_only_not_in_active_build": true,
+  "cached_backend12_retained": true,
+  "median_fps_change_percent": -4.256173267074681,
+  "reason": "Batched native updates preserved actual GPU pixels and reduced calls but failed the matched performance requirement: medians1990.60 ->1905.87 FPS (-4.26%), overlapping run ranges, lower median1%low. Complete source, focused tests, runtime proof, anonymous frames and private jars remain preserved."
+}

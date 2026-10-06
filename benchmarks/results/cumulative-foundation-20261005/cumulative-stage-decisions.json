@@ -1,0 +1,412 @@
+[
+  {
+    "stage": "002-modernfix",
+    "file": "modernfix-forge-5.27.83+mc1.20.1.jar",
+    "status": "PASS_WITH_RECORDED_LIMITS",
+    "effective_run_stage": "002-modernfix-native-warning-repaired",
+    "previous_attempt_status": "FAILED_LAUNCH_OR_CAPTURE_REQUIRES_DIAGNOSIS",
+    "resolution": "Exact inactive ModernFix GL class audit in integrated Hari .3 plus missing-performance-mod advisory disabled only in cumulative profile; failures retained; all repeats actual VULKAN, normal save/exit",
+    "previous_median_fps": 2527.352269183205,
+    "median_fps": 2559.4887382495467,
+    "change_percent": 1.2715468855763357,
+    "repeats": 3,
+    "renderer": "VULKAN",
+    "performance_keep_status": "Provisional pending independent startup/memory/hitch benefit comparisons; not credited as an FPS speedup"
+  },
+  {
+    "stage": "003-architectury",
+    "file": "architectury-9.2.14-forge.jar",
+    "mod_ids": [
+      "architectury"
+    ],
+    "original_sha256": "218b471d0b8a1f6cda14cfc1beb9eeb0df54304500acc6c5613d9b88ec65d9af",
+    "installed_sha256": "218b471d0b8a1f6cda14cfc1beb9eeb0df54304500acc6c5613d9b88ec65d9af",
+    "previous_median_fps": 2559.4887382495467,
+    "median_fps": 2452.912328227443,
+    "change_percent": -4.163972610209332,
+    "renderer": "VULKAN",
+    "repeats": 3,
+    "status": "PASS_WITH_RECORDED_LIMITS"
+  },
+  {
+    "stage": "004-cloth_config",
+    "file": "cloth-config-11.1.136-forge.jar",
+    "mod_ids": [
+      "cloth_config"
+    ],
+    "original_sha256": "1e895e85cf5b1e1905ef3178ec155c8badfe22a1577b92c09143a5aa1f4ce0f2",
+    "installed_sha256": "1e895e85cf5b1e1905ef3178ec155c8badfe22a1577b92c09143a5aa1f4ce0f2",
+    "previous_median_fps": 2452.912328227443,
+    "median_fps": 2433.010130526841,
+    "change_percent": -0.811370119982413,
+    "renderer": "VULKAN",
+    "repeats": 1,
+    "status": "PASS_WITH_RECORDED_LIMITS"
+  },
+  {
+    "stage": "005-geckolib",
+    "file": "geckolib-forge-1.20.1-4.8.4.jar",
+    "mod_ids": [
+      "geckolib"
+    ],
+    "original_sha256": "c04abba4fd354dd8c0e8a732f1f05f4dca893d2e1d962b2ab128bbd411478747",
+    "installed_sha256": "c04abba4fd354dd8c0e8a732f1f05f4dca893d2e1d962b2ab128bbd411478747",
+    "previous_median_fps": 2433.010130526841,
+    "median_fps": 2542.7306719418807,
+    "change_percent": 4.509662333024522,
+    "renderer": "VULKAN",
+    "repeats": 1,
+    "status": "PASS_WITH_RECORDED_LIMITS"
+  },
+  {
+    "stage": "006-citadel",
+    "file": "citadel-2.6.3-1.20.1.jar",
+    "mod_ids": [
+      "citadel"
+    ],
+    "original_sha256": "56c7ab87348a5292583aac787b6cf11b5193e77f02af1d17ea75a96f8640b3ce",
+    "installed_sha256": "56c7ab87348a5292583aac787b6cf11b5193e77f02af1d17ea75a96f8640b3ce",
+    "previous_median_fps": 2542.7306719418807,
+    "median_fps": 2405.9635469339487,
+    "change_percent": -5.378749960312668,
+    "renderer": "VULKAN",
+    "repeats": 3,
+    "status": "PASS_WITH_RECORDED_LIMITS",
+    "matched_resolution": {
+      "status": "Earlier decline did not reproduce in isolated ABBAAB; required library retained; no causal speedup claim",
+      "results": "citadel-only-abbaab-20261005/SUMMARY.json",
+      "median_absent_fps": 2319.6072222880834,
+      "median_present_fps": 2490.0372842267348
+    }
+  },
+  {
+    "stage": "007-curios",
+    "file": "curios-forge-5.14.1+1.20.1-Noxviola-PerfLeakFix-v3.jar",
+    "mod_ids": [
+      "curios"
+    ],
+    "original_sha256": "4c4b668d4ddca09504f1aa80341e9a90e4405f2969178a5fa5e4542cbbff9803",
+    "installed_sha256": "4c4b668d4ddca09504f1aa80341e9a90e4405f2969178a5fa5e4542cbbff9803",
+    "previous_median_fps": 2405.9635469339487,
+    "median_fps": 2499.1295763085964,
+    "change_percent": 3.872295966136896,
+    "renderer": "VULKAN",
+    "repeats": 1,
+    "status": "PASS_WITH_RECORDED_LIMITS",
+    "effective_trial_dirs": [
+      "citadel-cost-02-present/01-cumulative",
+      "citadel-cost-03-present-retry2/01-cumulative",
+      "citadel-cost-06-present/01-cumulative"
+    ],
+    "latest_reference_reason": "Same full foundation mod set, Citadel present trials from the isolated library ABBAAB study",
+    "latest_reference_median_fps": 2490.0372842267348
+  },
+  {
+    "stage": "008-embeddium",
+    "file": "embeddium-0.3.31+mc1.20.1.jar",
+    "mod_ids": [
+      "embeddium",
+      "rubidium"
+    ],
+    "original_sha256": "eed3d1325f2acc2fd4e69bb495e5ccb91d962126ac5330f0582ebc2a3daf47fb",
+    "installed_sha256": "eed3d1325f2acc2fd4e69bb495e5ccb91d962126ac5330f0582ebc2a3daf47fb",
+    "previous_median_fps": 2490.0372842267348,
+    "median_fps": 2418.1678222469327,
+    "change_percent": -2.8862805563218963,
+    "renderer": "OPENGL_FALLBACK",
+    "repeats": 1,
+    "status": "EXCLUDED_BY_USER",
+    "exclusion_reason": "User explicitly excludes Embeddium and Zink and requests native continuation after Citadel",
+    "effective_trial_dirs": [
+      "citadel-cost-02-present/01-cumulative",
+      "citadel-cost-03-present-retry2/01-cumulative",
+      "citadel-cost-06-present/01-cumulative"
+    ]
+  },
+  {
+    "stage": "009-immediatelyfast",
+    "file": "ImmediatelyFast-Forge-1.5.5+1.20.4.jar",
+    "mod_ids": [
+      "immediatelyfast"
+    ],
+    "original_sha256": "82db19cc65b5c11a444498fb4b8cbcb0393c043e794cb5bf368631a0af765035",
+    "installed_sha256": "82db19cc65b5c11a444498fb4b8cbcb0393c043e794cb5bf368631a0af765035",
+    "previous_median_fps": 2490.0372842267348,
+    "median_fps": 759.7088555140145,
+    "change_percent": -69.49006103938973,
+    "renderer": "OPENGL_FALLBACK",
+    "repeats": 1,
+    "status": "REJECTED_NATIVE_PERFORMANCE_MOD",
+    "decision_reason": "Performance mod selects OpenGL and fails native target; no accepted native benefit; removed from isolated native build",
+    "effective_trial_dirs": [
+      "009-immediatelyfast-removed-native-check/01-cumulative",
+      "009-immediatelyfast-removed-native-check/02-cumulative",
+      "009-immediatelyfast-removed-native-check/03-cumulative"
+    ],
+    "latest_reference_median_fps": 2571.0993915064882,
+    "latest_reference_renderer": "VULKAN"
+  },
+  {
+    "stage": "010-oculus",
+    "file": "oculus-mc1.20.1-1.8.0-Noxviola-SAME-DIM-FIX.jar",
+    "status": "DEFERRED_SHADER_COMPATIBILITY",
+    "previous_attempt_status": "FAILED_LAUNCH_OR_CAPTURE_REQUIRES_DIAGNOSIS",
+    "exclusion_reason": "Required Oculus/Iris native interoperation is pending; disabled only during the isolated native grass repair",
+    "startup_repair_result": {
+      "stage": "010-oculus-memory-api-repaired",
+      "renderer": "OPENGL_FALLBACK",
+      "average_fps": 513.6082487064684,
+      "native_shader_accepted": false
+    },
+    "effective_trial_dirs": [
+      "009-immediatelyfast-removed-native-check/01-cumulative",
+      "009-immediatelyfast-removed-native-check/02-cumulative",
+      "009-immediatelyfast-removed-native-check/03-cumulative"
+    ],
+    "shader_replacement_status": "No verified Forge 1.20.1 Beryl artifact; experimental source ports are reference candidates only",
+    "latest_user_direction": "Oculus/Iris interoperability and comparable performance are required; keep native grass repair progressing first; no permanent exclusion or functioning shader replacement claimed"
+  },
+  {
+    "stage": "011-grassiergrass",
+    "file": "Grassier-Grass-1.4.5-Render-Performance-Fix-REPLACEMENT-2.jar",
+    "mod_ids": [
+      "grassiergrass"
+    ],
+    "original_sha256": "91006e8220e65572d7e9e1e54b6058526c4adf908faedc750c9f19f13623df8c",
+    "installed_sha256": "91006e8220e65572d7e9e1e54b6058526c4adf908faedc750c9f19f13623df8c",
+    "previous_median_fps": 2571.0993915064882,
+    "median_fps": 327.328585977742,
+    "change_percent": -87.26892522867621,
+    "renderer": "OPENGL_FALLBACK",
+    "repeats": 1,
+    "status": "PASS_WITH_RECORDED_LIMITS",
+    "previous_attempt_status": "RENDERER_TRANSITION_REQUIRES_COMPATIBILITY_WORK",
+    "effective_run_stage": "011-grassiergrass-native-compat-v9",
+    "native_visible_grass_fps": 2529.276452436198,
+    "native_renderer": "VULKAN",
+    "extended_feature_parity_accepted": false,
+    "rejected_fast_captures": ".7/.8 omit grass geometry and cannot establish target capability",
+    "native_sort_memo_median_fps": 1611.0552926162964,
+    "sort_memo_fps_change_percent": 33.92463102985137,
+    "native_smoke_checks_passed": [
+      "native_client_resource_reload",
+      "original_native_grass_meshes_and_shader_available",
+      "original_animation_phase_advanced",
+      "native_visibility_updated_after_stationary_fov_change",
+      "client_movement_stamped_original_trail_field",
+      "client_entered_native_nether",
+      "native_overworld_grass_rebuilt_after_roundtrip"
+    ],
+    "native_invalidation_median_fps": 1845.636213669173,
+    "native_invalidation_incremental_gain_percent": 12.57770181818396,
+    "current_grass_addon": "1.0.3",
+    "effective_trial_dirs": [
+      "011-grass-fov-native-capability-v11/01-cumulative",
+      "011-grass-fov-native-capability-v11/02-cumulative",
+      "011-grass-fov-native-capability-v11/03-cumulative"
+    ],
+    "latest_reference_median_fps": 2529.276452436198,
+    "latest_reference_renderer": "VULKAN",
+    "current_hari": ".11",
+    "native_terrain_gain_percent": 40.19246269246699,
+    "scoped_native_target_reached": true,
+    "scope": "Native subset with original grass and seven bounded checks; complete pack, active shader provider, all styles and no-hitch acceptance remain pending"
+  },
+  {
+    "stage": "012-entityculling",
+    "file": "entityculling-forge-1.11.2-mc1.20.1.jar",
+    "mod_ids": [
+      "entityculling"
+    ],
+    "original_sha256": "5d5dc228dc18422fd8a81cff63e654abb07ca4507b317db114b220aa3fc67d3b",
+    "installed_sha256": "5d5dc228dc18422fd8a81cff63e654abb07ca4507b317db114b220aa3fc67d3b",
+    "previous_median_fps": 2529.276452436198,
+    "median_fps": 574.3233094771704,
+    "change_percent": -77.29298001711192,
+    "renderer": "OPENGL_FALLBACK",
+    "repeats": 1,
+    "status": "REJECTED_NATIVE_PERFORMANCE_MOD",
+    "previous_attempt_status": "RENDERER_TRANSITION_REQUIRES_COMPATIBILITY_WORK",
+    "installed_repair_sha256": "4d8e4bc63bc5520fc7a9c9631bf0cdb2199c9b93e65883b5a0cc62e46bacd60e",
+    "native_renderer": "VULKAN",
+    "native_ui_checks": [
+      "native_client_resource_reload",
+      "original_native_grass_meshes_and_shader_available",
+      "original_animation_phase_advanced",
+      "native_visibility_updated_after_stationary_fov_change",
+      "client_movement_stamped_original_trail_field",
+      "client_entered_native_nether",
+      "native_overworld_grass_rebuilt_after_roundtrip",
+      "entity_settings_ui_rendered_through_balanced_native_scissor_bridge",
+      "native_grass_world_resumed_after_ui_without_scissor_state_leak"
+    ],
+    "purpose_retention_decision": "NO_ACCEPTED_NATIVE_SCENE_BENEFIT_DEFERRED_DENSE_OCCLUSION_PURPOSE",
+    "effective_trial_dirs": [
+      "entity-native-retention-01-absent/01-cumulative",
+      "entity-native-retention-04-absent/01-cumulative",
+      "entity-native-retention-05-absent/01-cumulative"
+    ],
+    "latest_reference_median_fps": 2561.154910965578,
+    "scope": "Native UI interoperability proven for pinned source; retained only if this scene shows separable FPS ranges with improved lows/tails. Dense occlusion benefit pending; no permanent content removal."
+  },
+  {
+    "stage": "013-ferritecore",
+    "file": "ferritecore-6.0.1-forge.jar",
+    "mod_ids": [
+      "ferritecore"
+    ],
+    "original_sha256": "9c2c9396a49e796d88497758caa4637d2bcbb433c318e2dd9cebcffbaf0f6c54",
+    "installed_sha256": "9c2c9396a49e796d88497758caa4637d2bcbb433c318e2dd9cebcffbaf0f6c54",
+    "previous_median_fps": 2561.154910965578,
+    "median_fps": 2545.513189838921,
+    "change_percent": -0.6107292089083338,
+    "renderer": "VULKAN",
+    "repeats": 1,
+    "status": "PASS_WITH_RECORDED_LIMITS",
+    "purpose_retention_decision": "RETAINED_FOR_MEASURED_LIVE_MANAGED_HEAP_REDUCTION",
+    "memory_purpose_summary": {
+      "absent": {
+        "managed_live_objects": 8142246,
+        "managed_live_bytes": 444981704,
+        "managed_live_mib": 424.3676223754883,
+        "diagnostic_duration_ms": 1010
+      },
+      "present": {
+        "managed_live_objects": 7254949,
+        "managed_live_bytes": 411180952,
+        "managed_live_mib": 392.1327133178711,
+        "diagnostic_duration_ms": 1002
+      },
+      "managed_live_heap_change_percent": -7.5959869127563024
+    },
+    "heap_study": "ferrite-live-heap-abbaab-20261005",
+    "fps_improvement_claimed": false
+  },
+  {
+    "stage": "014-c2meforge",
+    "file": "c2meforge-0.2.0-forge.9.1-all-DimThread-Interop-v4.1.jar",
+    "mod_ids": [
+      "c2meforge",
+      "c2me"
+    ],
+    "original_sha256": "536097d1a6e1b8e639d6f5e4a37f27a60cfee72989e677171b8d261a21580867",
+    "installed_sha256": "536097d1a6e1b8e639d6f5e4a37f27a60cfee72989e677171b8d261a21580867",
+    "previous_median_fps": 2545.513189838921,
+    "median_fps": 2466.5461861114986,
+    "change_percent": -3.1022036751818693,
+    "renderer": "VULKAN",
+    "repeats": 1,
+    "status": "REJECTED_NATIVE_PERFORMANCE_MOD",
+    "effective_trial_dirs": [
+      "014-c2me-removed-native-reference-v11/01-cumulative",
+      "014-c2me-removed-native-reference-v11/02-cumulative",
+      "014-c2me-removed-native-reference-v11/03-cumulative"
+    ],
+    "native_capability_median_fps": 2599.2686354298535,
+    "native_capability_config_limit": "Three native capability captures of the current sparse original-grass subset, not a C2ME causal FPS comparison. Controller 1.0.10, JARs/visual settings and pristine checksum world fixed. Initial-to-repeat config/cache hashes differ; their semantic equivalence is not inferred. The two repeats have identical config hashes except the generated gate signature cache. Concurrent workloads retained.",
+    "native_grass_smoke_checks": [
+      "native_client_resource_reload",
+      "original_native_grass_meshes_and_shader_available",
+      "original_animation_phase_advanced",
+      "native_visibility_updated_after_stationary_fov_change",
+      "client_movement_stamped_original_trail_field",
+      "client_entered_native_nether",
+      "native_overworld_grass_rebuilt_after_roundtrip"
+    ],
+    "purpose_retention_decision": "REJECTED_UNPROVEN_CHUNK_PURPOSE_AND_UNACCEPTED_PARITY",
+    "chunk_purpose_analysis": {
+      "scope": "Stopped intended six-run study: one absent and one present paired native chunk diagnostic, plus two fresh absent repeatability diagnostics and one earlier C2ME-present probe. No FPS acceptance. C2ME remains disabled in the owned continuation because primary benefit and terrain parity are unestablished. Original files and all diagnostics retained.",
+      "decision": "REJECTED_UNPROVEN_CHUNK_PURPOSE_AND_UNACCEPTED_PARITY",
+      "complete_six_run_causal_speedup_or_regression_accepted": false,
+      "initial_absent_generation_wall_s": 2.7258886,
+      "initial_present_generation_wall_s": 54.378421,
+      "earlier_present_probe_wall_s": 46.7359132,
+      "absent_repeat_generation_wall_s": [
+        2.453423,
+        2.5356317
+      ],
+      "absent_terrain_digests_repeatable": false,
+      "initial_absent_present_digests_equal": false,
+      "registry_id_mapping_equality_verified": false,
+      "full_pack_accepted": false,
+      "next_work": "Resolve C2ME scheduling/terrain parity before any future performance retention. Baseline native capability restored separately."
+    }
+  },
+  {
+    "stage": "015-ixeris",
+    "file": "Ixeris-4.6.8+1.20.1-forge.jar",
+    "mod_ids": [
+      "ixeris"
+    ],
+    "original_sha256": "6cc7e1bfad6a2e82983a41535accf919a1027ca7087f1e6fcc955df22f7d91e1",
+    "installed_sha256": "6cc7e1bfad6a2e82983a41535accf919a1027ca7087f1e6fcc955df22f7d91e1",
+    "previous_median_fps": 2579.4032402954954,
+    "median_fps": 559.3936769868043,
+    "change_percent": -78.3130582978286,
+    "renderer": "OPENGL_FALLBACK",
+    "repeats": 1,
+    "status": "REJECTED_NATIVE_PERFORMANCE_MOD",
+    "effective_trial_dirs": [
+      "015-ixeris-removed-native-reference-v12/01-cumulative",
+      "015-ixeris-removed-native-reference-v12/02-cumulative",
+      "015-ixeris-removed-native-reference-v12/03-cumulative"
+    ],
+    "native_compatibility_repaired": true,
+    "native_capability_fps": [
+      2484.1600215847543,
+      2510.040394910486,
+      2411.5651473806715
+    ],
+    "native_capability_median_fps": 2484.1600215847543,
+    "grass_playability_checks": 7,
+    "purpose_retention_decision": "INPUT_POLLING_BENEFIT_NOT_ESTABLISHED",
+    "decision_limits": "Three native compatibility captures are not a matched input-polling purpose comparison. One capture missed 2432 FPS. No causal performance regression is inferred. Disabled only in the owned continuation pending a demonstrated purpose benefit; original JAR and repair source retained."
+  },
+  {
+    "stage": "016-fieldguide",
+    "file": "fieldguide-forge-1.20.1-1.17.0.jar",
+    "mod_ids": [
+      "fieldguide"
+    ],
+    "original_sha256": "2b52b0b22a92aef9f6401def0dfad21d803962964bbbd3f0161e30a14077dd6d",
+    "installed_sha256": "2b52b0b22a92aef9f6401def0dfad21d803962964bbbd3f0161e30a14077dd6d",
+    "previous_median_fps": 2522.1210499039244,
+    "median_fps": 2569.3231588135723,
+    "change_percent": 1.8715243232058976,
+    "renderer": "VULKAN",
+    "repeats": 1,
+    "status": "PASS_WITH_RECORDED_LIMITS",
+    "official_updated_version": "1.20.4+1.20.1-forge",
+    "official_updated_sha256": "1613b3ad057d2d0bc1955e7d35fdcaac9583fc780840f5c3c74ccddc232f6825",
+    "latest_native_capability": {
+      "version": "1.20.4+1.20.1-forge",
+      "official_sha512_verified": true,
+      "sha256": "1613b3ad057d2d0bc1955e7d35fdcaac9583fc780840f5c3c74ccddc232f6825",
+      "native_runs": 3,
+      "original_recipe_error_absent": true,
+      "complete_guide_feature_parity_accepted": false,
+      "original_private_files_preserved": true,
+      "scope": "Latest official version alone; no startup addon installed. Create temporarily disabled and restored after these scoped native tests."
+    },
+    "effective_trial_dirs": [
+      "016-fieldguide-latest-native/01-cumulative",
+      "016-fieldguide-latest-native/02-cumulative",
+      "016-fieldguide-latest-native/03-cumulative"
+    ]
+  },
+  {
+    "stage": "017-create",
+    "file": "create-1.20.1-6.0.8.jar",
+    "mod_ids": [
+      "create"
+    ],
+    "original_sha256": "6fbb910c367dbce8e4fc7e5bf64b6edd4de980906ed00af8e47e4af843c0d9b0",
+    "installed_sha256": "6fbb910c367dbce8e4fc7e5bf64b6edd4de980906ed00af8e47e4af843c0d9b0",
+    "previous_median_fps": 2569.3231588135723,
+    "median_fps": 498.9907204359032,
+    "change_percent": -80.57890387496758,
+    "renderer": "OPENGL_FALLBACK",
+    "repeats": 1,
+    "status": "RENDERER_TRANSITION_REQUIRES_COMPATIBILITY_WORK"
+  }
+]

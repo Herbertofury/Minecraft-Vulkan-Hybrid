@@ -1,0 +1,174 @@
+[
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate",
+    "commit": "3ff0fc39fea03921a9551ad57ee82a27b5952de0"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-2.1.1-finalize-20260913",
+    "commit": "3ff0fc39fea03921a9551ad57ee82a27b5952de0"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-2.3.0-gpu-terrain-20260917",
+    "commit": "651a7c2337ba7e43b66dd7bc70da0cf146072e57"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-2.3.0-persistent-scene-20260918",
+    "commit": "b70e8b605e9d177b09644ebbcdb85dcd1876d45e"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+    "commit": "43bf39661c66354609e542fc8de61b3f3b662fcc"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-2.4.0-vulkan-modernization-20260927",
+    "commit": "3c98c0c132c84a4d40565dc818274abefdc9ea7d"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-2.4.0-vulkan-reproducible-20260927",
+    "commit": "3fb2887ff80eefbfe7967faf15f4d24086a099ad"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-client-evidence-prep",
+    "commit": "f697fbc867c0d73c7d7a095e784abd8adc09a3ed"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-entitysection-perf-dev-20260912",
+    "commit": "102ae9658665dc468493023cec6d2cd4a53313cb"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-final-fix-20260912",
+    "commit": "cf06677851a25321f3828d570a704cec8cf238bc"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-fresh-diag",
+    "commit": "a9a258815f1d0737b1ce0b94a0b094bc928352bf"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-mc263-20260917",
+    "commit": "6c485f24ec60cd022177baf3b7f65bec688b0b4b"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-mc263-client-publish-recovery-20260917",
+    "commit": "9920779cc4e26a4ccd6463dd9862d5e434a0cc74"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-mc263-compat-audit-20260917",
+    "commit": "fabdc6f3d9a997abb7f8c3a1a442d4151825eca5"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-mc263-perf-lab",
+    "commit": "2d96004ed2ff7338fee895fd147a6c47f977a2e8"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-mc263-release-20260917",
+    "commit": "b0808ce6b00084e00b7348bcaae257565691cd5e"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-mc263-release-asset-repair-20260917",
+    "commit": "97617e4b6ee554a26e183d7a59ce9cbd63ee6b5d"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-mc263-release-evidence-fix-20260917",
+    "commit": "cdc7512e9ecee11bee233fef1b72c93de8df5b7b"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-mc263-release-recovery-20260917",
+    "commit": "d10138287f704afe9c7400ca7a56954c80d302f3"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-perf-acceptance-fix-20260913",
+    "commit": "a5733940777a8397bb0441ac7869b7707092d258"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-perf-harness-sustained-20260912",
+    "commit": "efd8b77cd7653048caf82a0a72c36f17d9c7470f"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-perf-lab-20260912",
+    "commit": "a5733940777a8397bb0441ac7869b7707092d258"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-perf-lab-20260913-adjacency",
+    "commit": "72f1b4e060db47c49d7bd13f0291338ba97437a1"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-perf-lab-20260913-max",
+    "commit": "6bb9e62f65c097fc270e72e7b969f9e045da1dd3"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-perf-lab-20260913-source-pairs",
+    "commit": "63044e9ab82d09def64f009245d75bf28c97fc47"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-perf-lab-20260913-ultra-prep",
+    "commit": "13709af6e583cada0f1f449e46dab466f8f2ca17"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-perf-lab-20260913-ultra-run",
+    "commit": "760b1805e372bd8507d2e1814597ee9d474f8e8d"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-perf-lab-20260913-ultra-v2",
+    "commit": "e9870fac28372b22b466fd8cb8bf9095a51f98b2"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-perf-next-entitysection-20260912",
+    "commit": "e49e50bc6d2e1c249defddc15bab167ef271db4a"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-perf-telemetry-fix-20260912",
+    "commit": "7c6553df5ac7374fd81e903b78f22b8d9807063e"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-perf-telemetry-stdout-20260912",
+    "commit": "0f89d3098d21a787c7373fdaa9b26eec07dfaa4c"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-perf-tools-extract-20260913",
+    "commit": "a16c08b09e042337e22398a93e9d16e6dbc1e6c2"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-perf-v2-dev-20260912",
+    "commit": "60b852235d28834d481e389c80850dffad9f4895"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-promotion-prep",
+    "commit": "d85405588d57780b141e6124f9c0be48c3294904"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-promotion-prep-blobs",
+    "commit": "18cc85565454ab37615e5220116f187f1282a672"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-release-candidate",
+    "commit": "65749dca3f41d18893f2ade63ce613b31e6b5e9d"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-rtx-global-scene-20260918",
+    "commit": "b70e8b605e9d177b09644ebbcdb85dcd1876d45e"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-runtime-fixture",
+    "commit": "2a7a6856c617feb7f01b6470ce50802efb9a5a5a"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-source-pairs-exact-prep",
+    "commit": "451edd2bee6cd3103da526ea352e58a4040c83c2"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-source-pairs-fastpath-exact-prep",
+    "commit": "d6f67c01c082683b1fa29228b18ab6a0eed6db19"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-source-pairs-fastpath-prep",
+    "commit": "75192fa8ce1d5cef2aa6664f225392e61c6b39bc"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-spatial-promotion-20260913",
+    "commit": "4f65a642856de2cbdb79da2b8a8dbdd1dfe62692"
+  },
+  {
+    "ref": "refs/remotes/origin/async-1.20.1-ultimate-spatial-promotion-qa-20260913",
+    "commit": "2482729f8d8848ad9019a538d68972fafc27b152"
+  }
+]

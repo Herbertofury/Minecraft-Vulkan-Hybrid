@@ -1,0 +1,81 @@
+{
+  "comparison": "Only grass addon changed; A=1.0.1, B=1.0.3; pinned Hari .9 and original grass JAR retained; all settings/world/camera held constant; six ABBAAB native captures",
+  "sort_addon_version": "1.0.3",
+  "sort_addon_sha256": "45d0067072c608eccf6ebafc06990a7ca5661c08bd5828118834f1b1a0eb325a",
+  "baseline_addon_version": "1.0.1",
+  "baseline_addon_sha256": "9f5bd7d3ca98b63ae6905f65bbe30f1b97526add4306fab80024c7abe494ed79",
+  "trials": [
+    {
+      "stage": "grass-invalidation-native-01-absent",
+      "sort_addon_present": false,
+      "average_fps": 1639.4331949056177,
+      "one_percent_low_fps": 466.4802641871153,
+      "p95_ms": 0.6683,
+      "p99_ms": 2.0307,
+      "max_ms": 3.9895
+    },
+    {
+      "stage": "grass-invalidation-native-02-present",
+      "sort_addon_present": true,
+      "average_fps": 1841.7954139294673,
+      "one_percent_low_fps": 473.9581021037736,
+      "p95_ms": 0.5997,
+      "p99_ms": 1.9904,
+      "max_ms": 3.9275
+    },
+    {
+      "stage": "grass-invalidation-native-03-present",
+      "sort_addon_present": true,
+      "average_fps": 1893.8658775559093,
+      "one_percent_low_fps": 512.5599713182608,
+      "p95_ms": 0.5846,
+      "p99_ms": 1.838,
+      "max_ms": 3.9969
+    },
+    {
+      "stage": "grass-invalidation-native-04-absent",
+      "sort_addon_present": false,
+      "average_fps": 1628.242036792139,
+      "one_percent_low_fps": 469.1459318235981,
+      "p95_ms": 0.6738,
+      "p99_ms": 2.0271,
+      "max_ms": 4.1452
+    },
+    {
+      "stage": "grass-invalidation-native-05-absent",
+      "sort_addon_present": false,
+      "average_fps": 1682.7485322466641,
+      "one_percent_low_fps": 473.08728235525894,
+      "p95_ms": 0.6537,
+      "p99_ms": 2.0078,
+      "max_ms": 4.0351
+    },
+    {
+      "stage": "grass-invalidation-native-06-present",
+      "sort_addon_present": true,
+      "average_fps": 1845.636213669173,
+      "one_percent_low_fps": 469.5958314130624,
+      "p95_ms": 0.5987,
+      "p99_ms": 1.9179,
+      "max_ms": 12.1904
+    }
+  ],
+  "summary": {
+    "absent": {
+      "average_fps": 1639.4331949056177,
+      "one_percent_low_fps": 469.1459318235981,
+      "p95_ms": 0.6683,
+      "p99_ms": 2.0271,
+      "max_ms": 4.0351
+    },
+    "present": {
+      "average_fps": 1845.636213669173,
+      "one_percent_low_fps": 473.9581021037736,
+      "p95_ms": 0.5987,
+      "p99_ms": 1.9179,
+      "max_ms": 3.9969
+    },
+    "fps_change_percent": 12.57770181818396
+  },
+  "acceptance": "Requires screenshots, feature checks and contamination review; target success not inferred from unit parity"
+}

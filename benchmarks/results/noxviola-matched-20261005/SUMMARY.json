@@ -1,0 +1,95 @@
+{
+  "order": "ABBAAB",
+  "runs": [
+    {
+      "trial": "01-baseline",
+      "average_fps": 223.83093355033174,
+      "one_percent_low_fps": 80.40649741256622,
+      "p50_ms": 3.829,
+      "p95_ms": 10.2302,
+      "p99_ms": 11.6543,
+      "max_ms": 15.1949,
+      "startup_s": 152.7234
+    },
+    {
+      "trial": "02-candidate",
+      "average_fps": 168.9095503056185,
+      "one_percent_low_fps": 56.72515660592255,
+      "p50_ms": 5.0613,
+      "p95_ms": 12.9039,
+      "p99_ms": 15.6793,
+      "max_ms": 23.2763,
+      "startup_s": 152.8156
+    },
+    {
+      "trial": "03-candidate",
+      "average_fps": 208.88111227355824,
+      "one_percent_low_fps": 72.23450208757708,
+      "p50_ms": 4.1123,
+      "p95_ms": 10.915,
+      "p99_ms": 12.6912,
+      "max_ms": 17.1013,
+      "startup_s": 140.85936
+    },
+    {
+      "trial": "04-baseline",
+      "average_fps": 219.38955705708435,
+      "one_percent_low_fps": 76.1454701521294,
+      "p50_ms": 3.9628,
+      "p95_ms": 10.305,
+      "p99_ms": 11.9764,
+      "max_ms": 18.9652,
+      "startup_s": 166.39566
+    },
+    {
+      "trial": "05-baseline",
+      "average_fps": 208.15890789030632,
+      "one_percent_low_fps": 72.58623965372446,
+      "p50_ms": 4.1512,
+      "p95_ms": 10.6308,
+      "p99_ms": 12.6698,
+      "max_ms": 26.7679,
+      "startup_s": 168.88596
+    },
+    {
+      "trial": "06-candidate",
+      "average_fps": 175.22267979440196,
+      "one_percent_low_fps": 62.82914172073134,
+      "p50_ms": 4.9105,
+      "p95_ms": 12.1155,
+      "p99_ms": 14.1935,
+      "max_ms": 24.7911,
+      "startup_s": 155.50406
+    }
+  ],
+  "median": {
+    "baseline": {
+      "average_fps": 219.38955705708435,
+      "one_percent_low_fps": 76.1454701521294,
+      "p50_ms": 3.9628,
+      "p95_ms": 10.305,
+      "p99_ms": 11.9764,
+      "max_ms": 18.9652,
+      "startup_s": 166.39566
+    },
+    "candidate": {
+      "average_fps": 175.22267979440196,
+      "one_percent_low_fps": 62.82914172073134,
+      "p50_ms": 4.9105,
+      "p95_ms": 12.1155,
+      "p99_ms": 14.1935,
+      "max_ms": 23.2763,
+      "startup_s": 152.8156
+    }
+  },
+  "median_change_percent": {
+    "average_fps": -20.1317135852507,
+    "one_percent_low_fps": -17.488011308871897,
+    "p50_ms": 23.914908650449163,
+    "p95_ms": 17.56914119359536,
+    "p99_ms": 18.51224074012223,
+    "max_ms": 22.731634783709097,
+    "startup_s": -8.16130661100175
+  },
+  "decision": "REJECTED: startup improved but FPS and frame tails regressed"
+}

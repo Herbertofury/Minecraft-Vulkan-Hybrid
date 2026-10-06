@@ -1,0 +1,32 @@
+{
+  "reviewed_utc_date": "2026-10-05",
+  "modernfix": {
+    "repository": "https://github.com/embeddedt/ModernFix",
+    "official_version": "5.27.85+mc1.20.1",
+    "modrinth_version_id": "hHwYTQwa",
+    "official_sha512": "b4e1ff4cb01c38f6f4a0093fabe56b36d9fcdebccda708379deca0dea33af3e250dc8fddbb98bb6fb0b30ee6fec40ae1679ab91e2bdfcf6971fe16504ce03ad2",
+    "installed_publisher_hash_matches": true,
+    "dynamic_resources_docs": "https://github.com/embeddedt/ModernFix/wiki/Dynamic-Resources-FAQ",
+    "profiling_docs": "https://github.com/embeddedt/ModernFix/wiki/Profiling-game-launches",
+    "inspected_repository_head": "aa3fff5971affbce1ca0501960158d41c11349b3",
+    "repository_head_is_not_an_installed_binary_source_claim": true
+  },
+  "alternatives": [
+    {
+      "repository": "https://github.com/mynamexiaopiao/LightLoad",
+      "status": "Read initial public source/architecture; not installed or benchmarked",
+      "mechanisms": "fingerprinted resource index, bounded caches, reload routing; invasive agent and overlap need review"
+    },
+    {
+      "repository": "https://github.com/MineRealms/WarpLoad",
+      "status": "Read initial public source/architecture; not installed or benchmarked",
+      "mechanisms": "resource index/reload parallelism; failure isolation and AI gating conflict with parity without narrower review"
+    },
+    {
+      "repository": "https://github.com/BumbleSoftware/Fastload",
+      "status": "Not installed or benchmarked",
+      "mechanisms": "defers spawn-region work; cannot count deferred work or resulting entry hitches as free gain"
+    }
+  ],
+  "rules": "Never suppress initialization errors, remove gameplay mods or reduce world preparation/visuals to manufacture a startup/FPS result. Local diagnostic recordings only; no default Spark upload."
+}

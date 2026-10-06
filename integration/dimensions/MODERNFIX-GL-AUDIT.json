@@ -1,0 +1,28 @@
+{
+  "scope": "Only AsyncLoadingScreen.class when the exact pinned ModernFix JAR is present and the already-initialized ModernFix plugin reports registry_event_progress disabled. No active GL calls are advertised as translated. Enabled/unknown state, different classes, changed JARs and nested copies remain subject to the ordinary contract. Effective state and whole-JAR digest participate in the cache signature.",
+  "source_review": {
+    "repository": "https://github.com/embeddedt/ModernFix",
+    "commit": "aa3fff5971affbce1ca0501960158d41c11349b3",
+    "class": "src/main/java/org/embeddedt/modernfix/forge/util/AsyncLoadingScreen.java",
+    "caller": "src/main/java/org/embeddedt/modernfix/common/mixin/feature/registry_event_progress/GameDataMixin.java",
+    "effective_api": "ModernFixMixinPlugin.instance.isOptionEnabled(\"feature.registry_event_progress.GameDataMixin\")"
+  },
+  "pins": [
+    {
+      "version": "5.27.85+mc1.20.1",
+      "url": "https://cdn.modrinth.com/data/nmDcB62a/versions/hHwYTQwa/modernfix-forge-5.27.85%2Bmc1.20.1.jar",
+      "file": "modernfix-forge-5.27.85+mc1.20.1.jar",
+      "bytes": 1003271,
+      "sha256": "12b76f627e34ddf9211766ad7a1d5f2bb3de8d0807935d2d20f357b907f481b8",
+      "sha512": "b4e1ff4cb01c38f6f4a0093fabe56b36d9fcdebccda708379deca0dea33af3e250dc8fddbb98bb6fb0b30ee6fec40ae1679ab91e2bdfcf6971fe16504ce03ad2"
+    },
+    {
+      "version": "5.27.83+mc1.20.1",
+      "url": "https://cdn.modrinth.com/data/nmDcB62a/versions/jAZ7Ge3d/modernfix-forge-5.27.83%2Bmc1.20.1.jar",
+      "file": "modernfix-forge-5.27.83+mc1.20.1.jar",
+      "bytes": 1003230,
+      "sha256": "954ff22f601be8de3978a0d7636a138dc93801c6ac55cfd71ef1cd2895de8e5f",
+      "sha512": "2987d43ab991c31c94e53d16fe0694dd29a405fc7cdf6be69f5bf5b3d6a06a5d1b82ba8f5d8ecb4df45e592c649e39bc69787caa62b3417b5548392793be6e55"
+    }
+  ]
+}

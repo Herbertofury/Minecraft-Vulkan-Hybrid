@@ -1,0 +1,65 @@
+{
+  "completed": true,
+  "passed": true,
+  "api_renderer": "VULKAN",
+  "step": 7,
+  "error_type": "",
+  "peak_original_meshes": 1253,
+  "peak_original_active_trail_cells": 28,
+  "scope": "Resource reload, original animation state, real client movement/trail state and dimension roundtrip; screenshots require visual review; no FPS or all-style/shader-provider parity acceptance",
+  "checks": [
+    "native_client_resource_reload",
+    "original_native_grass_meshes_and_shader_available",
+    "original_animation_phase_advanced",
+    "client_movement_stamped_original_trail_field",
+    "client_entered_native_nether",
+    "native_overworld_grass_rebuilt_after_roundtrip"
+  ],
+  "cache_snapshots": [
+    {
+      "scope": "before_reload",
+      "DIRTY_SECTIONS": 0,
+      "LIGHT_DIRTY_SECTIONS": 0,
+      "RELOD_PENDING": 0,
+      "IN_FLIGHT": 2,
+      "TO_BUILD": 2239,
+      "TO_REFRESH": 0,
+      "TO_RELOD": 0,
+      "camera_x": 0.5,
+      "camera_y": 112.11999988555908,
+      "camera_z": 0.5,
+      "native_graph_needs_update": true,
+      "native_terrain_tasks_idle": false
+    },
+    {
+      "scope": "grass_ground_scene",
+      "DIRTY_SECTIONS": 0,
+      "LIGHT_DIRTY_SECTIONS": 0,
+      "RELOD_PENDING": 0,
+      "IN_FLIGHT": 0,
+      "TO_BUILD": 1600,
+      "TO_REFRESH": 0,
+      "TO_RELOD": 0,
+      "camera_x": 0.5,
+      "camera_y": 64.61999988555908,
+      "camera_z": 40.5,
+      "native_graph_needs_update": true,
+      "native_terrain_tasks_idle": true
+    },
+    {
+      "scope": "finish",
+      "DIRTY_SECTIONS": 0,
+      "LIGHT_DIRTY_SECTIONS": 1,
+      "RELOD_PENDING": 0,
+      "IN_FLIGHT": 0,
+      "TO_BUILD": 1792,
+      "TO_REFRESH": 0,
+      "TO_RELOD": 0,
+      "camera_x": 0.5,
+      "camera_y": 57.61999988555908,
+      "camera_z": 0.5,
+      "native_graph_needs_update": true,
+      "native_terrain_tasks_idle": true
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "reviewed": true,
+  "images": [
+    "2026-10-05_17.43.43.png",
+    "2026-10-05_17.44.33.png"
+  ],
+  "scope": "Original fixed camera terrain, water, trees, structures, held journal/books/minimap visible. Tutorial overlay appears before capture and is absent at end. OpenGL-only historical diagnostic; not every model, native parity or active shader acceptance."
+}

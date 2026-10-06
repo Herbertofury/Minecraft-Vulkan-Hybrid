@@ -1,0 +1,509 @@
+name: Hari 1.20.1 Ultimate 2.4 Vulkan Hybrid Compile and Complete Source QA
+run-name: Hari 2.4 compile @ ${{ github.sha }}
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926]
+    paths:
+      - 'minecraft/async-1.20.1-ultimate/**'
+      - '.github/workflows/async-1.20.1-ultimate-2.4.0-vulkan-hybrid.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: hari-2.4-vulkan-hybrid-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  compile-and-gate:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - name: Checkout ProjectDump integration
+        uses: actions/checkout@v4
+
+      - name: Checkout canonical HariMultiThread
+        uses: actions/checkout@v4
+        with:
+          repository: JustHari01/HariMultiThread
+          ref: f381611c2d71a85192e2028f9e30c03823a6482b
+          path: upstream
+          fetch-depth: 1
+
+      - name: Checkout pinned Forge Vulkan renderer
+        uses: actions/checkout@v4
+        with:
+          repository: kzktor/Forgified-VulkanMod
+          ref: 0ceac5d47f84c910d2f5f6d007b0ffe266c6f736
+          path: vulkan-forge
+          fetch-depth: 1
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Install shader validation tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends glslang-tools
+
+      - name: Reconstruct accepted Hari 2.3 persistent-scene base
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x upstream/gradlew
+          python3 minecraft/async-1.20.1-ultimate/apply_overlay.py upstream minecraft/async-1.20.1-ultimate/overlay
+          python3 minecraft/async-1.20.1-ultimate/apply_hardening.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_lifecycle.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_platform.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_interop.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_lwjgl_runtime.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_backend_architecture.py upstream minecraft/async-1.20.1-ultimate/backend-overlay
+          python3 minecraft/async-1.20.1-ultimate/apply_spawn_interop.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_world_batch.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_spatial_gpu.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_backports.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_worldgen_cache.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_region_read.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_provider_precedence.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_diagnostics.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_region_diagnostics.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_release_identity.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mixin_packaging.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_gpu_terrain.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_persistent_gpu_scene.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_persistent_mixin_namespace_fix.py upstream
+          grep -F 'version=2.3.0-noxviola.1' upstream/gradle.properties
+
+      - name: Merge Forge Vulkan renderer into Hari
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/apply_vulkan_hybrid.py upstream vulkan-forge
+          python3 minecraft/async-1.20.1-ultimate/apply_vulkan_performance.py upstream
+          git -C upstream diff --check
+          python3 .github/qa/hari24_record_source_recipe.py --source upstream --baseline .github/qa/hari24-source-recipe-2.4.8.json --output qa-out/SOURCE-RECIPE-2.4.9.json
+          cp upstream/forge/src/main/java/net/vulkanmod/vulkan/texture/VulkanImage.java /tmp/hari249-VulkanImage.java
+          cp upstream/forge/src/main/java/net/vulkanmod/vulkan/memory/StagingBuffer.java /tmp/hari249-StagingBuffer.java
+          python3 minecraft/async-1.20.1-ultimate/apply_texture_upload_span.py upstream
+          python3 .github/qa/hari2410_record_source_recipe.py --source upstream --baseline qa-out/SOURCE-RECIPE-2.4.9.json --output qa-out/SOURCE-RECIPE-2.4.10.json
+          grep -F 'version=2.4.10-noxviola.1-vulkan-hybrid' upstream/gradle.properties
+          grep -F 'config = "vulkanmod.mixins.json"' upstream/forge/src/main/resources/META-INF/mods.toml
+          grep -F 'UniversalRendererGate.vulkanRendererEnabled()' upstream/forge/src/main/java/net/vulkanmod/mixin/MixinPlugin.java
+          grep -F 'new net.vulkanmod.Initializer()' upstream/forge/src/main/java/com/axalotl/async/forge/AsyncForge.java
+          if grep -F 'UpdateChecker.checkForUpdates()' upstream/forge/src/main/java/net/vulkanmod/Initializer.java; then
+            echo '::error::Standalone Vulkan update check survived merge'
+            exit 1
+          fi
+          if grep -R -F '@Mod("vulkanmod")' upstream/forge/src/main/java/net/vulkanmod; then
+            echo '::error::Standalone Vulkan mod identity survived merge'
+            exit 1
+          fi
+          test -s upstream/forge/src/main/resources/assets/vulkanmod/compat/harimt_supported_gl_methods.properties
+          grep -E '^GL(11|15|20|30|45)C?=' upstream/forge/src/main/resources/assets/vulkanmod/compat/harimt_supported_gl_methods.properties
+          echo '===== HARI_RENDER_STATE_BEGIN ====='
+          sed -n '1,320p' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/HariRenderState.java
+          echo '===== HARI_RENDER_STATE_END ====='
+          echo '===== HARI_COMPUTE_PIPELINE_BEGIN ====='
+          sed -n '1,360p' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/compute/ComputePipeline.java
+          echo '===== HARI_COMPUTE_PIPELINE_END ====='
+          echo '===== HARI_TERRAIN_RENDERER_BEGIN ====='
+          sed -n '1,420p' upstream/forge/src/main/java/com/axalotl/async/forge/client/hari263/render/HariTerrainRenderer.java
+          echo '===== HARI_TERRAIN_RENDERER_END ====='
+          rm -rf qa-preflight
+          mkdir -p qa-preflight
+          javac -d qa-preflight upstream/forge/src/main/java/net/vulkanmod/compat/UniversalRendererGate.java
+          test -f qa-preflight/net/vulkanmod/compat/UniversalRendererGate.class
+          shader=upstream/common/src/main/resources/assets/async/shaders/collision_broadphase.comp
+          canonical="${shader}.spv"
+          rebuilt="${shader}.ci-rebuilt.spv"
+          test -s "$shader"
+          test -s "$canonical"
+          test "$(xxd -p -l 4 "$canonical")" = '03022307'
+          glslangValidator -V "$shader" -o "$rebuilt"
+          test "$(xxd -p -l 4 "$rebuilt")" = '03022307'
+          cmp "$canonical" "$rebuilt"
+          rm -f "$rebuilt"
+
+      - name: Check VBO resource ownership against pinned negative controls
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/test_vulkan_vbo.py \
+            upstream/forge/src/main/java/net/vulkanmod/render/VBO.java \
+            --baseline vulkan-forge/src/main/java/net/vulkanmod/render/VBO.java \
+            --report qa-out/VBO-REGRESSION.json
+          python3 minecraft/async-1.20.1-ultimate/test_vulkan_auto_index.py \
+            upstream/forge/src/main/java/net/vulkanmod/vulkan/memory/AutoIndexBuffer.java \
+            --baseline vulkan-forge/src/main/java/net/vulkanmod/vulkan/memory/AutoIndexBuffer.java \
+            --report qa-out/AUTO-INDEX-REGRESSION.json
+
+      - name: Verify simulation failure propagation and worker barrier
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/test_task_failures.py \
+            upstream/common/src/main/java/com/axalotl/async/common/TaskFailures.java \
+            --report qa-out/TASK-FAILURE-REGRESSION.json
+
+      - name: Verify graphics settings and actual Forge game-directory routing
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/test_vulkan_graphics_gate.py \
+            upstream/forge/src/main/java/net/vulkanmod/compat/UniversalRendererGate.java \
+            upstream/forge/src/main/resources/assets/vulkanmod/compat/harimt_supported_gl_methods.properties \
+            --report qa-out/GRAPHICS-GATE-REGRESSION.json
+
+      - name: Verify shader uniform cleanup and idempotent close
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/test_shader_close.py \
+            upstream/forge/src/main/java/net/vulkanmod/mixin/render/ShaderInstanceM.java \
+            --baseline vulkan-forge/src/main/java/net/vulkanmod/mixin/render/ShaderInstanceM.java \
+            --report qa-out/SHADER-CLOSE-REGRESSION.json
+
+      - name: Verify indexed scheduling, upload ordering and worker wakeups
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/test_vulkan_performance.py upstream --report qa-out/CPU-UPLOAD-REGRESSIONS.json
+          python3 minecraft/async-1.20.1-ultimate/test_chunk_workers.py upstream --report qa-out/CHUNK-WORKERS.json
+          python3 minecraft/async-1.20.1-ultimate/test_audio_reload.py upstream --report qa-out/AUDIO-RELOAD.json
+          python3 minecraft/async-1.20.1-ultimate/test_gl_contract.py upstream --report qa-out/GL-TRANSLATION-CONTRACT.json
+          python3 minecraft/async-1.20.1-ultimate/test_gl_shader_source.py upstream --report qa-out/GL-SHADER-SOURCE.json
+          cp upstream/forge/src/main/resources/assets/vulkanmod/compat/harimt_gl_translation_audit.json qa-out/GL-TRANSLATION-AUDIT.json
+          python3 minecraft/async-1.20.1-ultimate/test_section_graph.py upstream \
+            --baseline vulkan-forge/src/main/java/net/vulkanmod/render/chunk/graph/SectionGraph.java \
+            --report qa-out/SECTION-GRAPH.json
+          python3 minecraft/async-1.20.1-ultimate/test_c2me_boundary.py upstream --report qa-out/C2ME-BOUNDARY.json
+          python3 minecraft/async-1.20.1-ultimate/test_c2me_spawn_lock.py upstream --report qa-out/C2ME-SPAWN-LOCK.json
+          python3 minecraft/async-1.20.1-ultimate/test_c2me_task_waiter.py upstream --report qa-out/C2ME-TASK-WAITER.json
+          python3 minecraft/async-1.20.1-ultimate/test_c2me_chunk_access.py upstream --report qa-out/C2ME-CHUNK-ACCESS.json
+          mkdir -p sensor-original/common/src/main/java/com/axalotl/async/common/mixin/entity/sensor
+          for sensor in NearestLivingEntitySensorMixin NearestItemSensorMixin PlayerSensorMixin; do
+            path="common/src/main/java/com/axalotl/async/common/mixin/entity/sensor/${sensor}.java"
+            git -C upstream show f381611c2d71a85192e2028f9e30c03823a6482b:"$path" > "sensor-original/$path"
+          done
+          python3 minecraft/async-1.20.1-ultimate/test_sensor_comparators.py upstream --baseline sensor-original --report qa-out/SENSOR-COMPARATORS.json
+
+      - name: Byte-exact texture layouts and native-copy component benchmark
+        run: python3 minecraft/async-1.20.1-ultimate/test_texture_upload_span.py upstream --report qa-out/TEXTURE-SPAN-REGRESSION.json --cache qa-native-copy-inputs
+
+      - name: Build merged Forge artifact
+        working-directory: upstream
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon :forge:build --stacktrace
+          find forge/build/libs -maxdepth 1 -type f -name '*.jar' -print -exec ls -lh {} \;
+
+      - name: Verify atomic command config saves against the real NightConfig library
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL https://repo.maven.apache.org/maven2/com/electronwill/night-config/core/3.6.3/core-3.6.3.jar -o /tmp/night-core-3.6.3.jar
+          curl -fsSL https://repo.maven.apache.org/maven2/com/electronwill/night-config/toml/3.6.3/toml-3.6.3.jar -o /tmp/night-toml-3.6.3.jar
+          printf '14e9554e9c48abfe7449e4451e597bfc0d85074fc6c80a377488c067c313fd7c  /tmp/night-core-3.6.3.jar\n721b9484f2c35e1a051d5d72254b76ab98ae799858bd5daa8217a7124ef728df  /tmp/night-toml-3.6.3.jar\n' | sha256sum -c -
+          python3 minecraft/async-1.20.1-ultimate/test_atomic_config.py \
+            upstream/forge/src/main/java/com/axalotl/async/forge/config/AtomicConfigPersistence.java \
+            /tmp/night-core-3.6.3.jar /tmp/night-toml-3.6.3.jar \
+            --report qa-out/ATOMIC-CONFIG-REGRESSION.json
+
+      - name: Compile actual Midnight rift shaders and reproduce the old sampler failure
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p shader-mod-cache
+          python3 - <<'PY'
+          import hashlib, json, sys, urllib.request
+          from pathlib import Path
+          sys.path.insert(0, '.github/qa')
+          from hari24_modpack_inputs import verified_file
+          records = json.load(open('.github/qa/hari24-mod-input-lock.json'))['records']
+          record = next(r for r in records.values() if r['project']['slug'] == 'the-midnight')
+          spec = next(f for f in record['version']['files'] if f['primary'])
+          verified_file(spec, Path('shader-mod-cache'))
+          client = Path('shader-mod-cache/minecraft-1.20.1-client.jar')
+          client.write_bytes(urllib.request.urlopen('https://piston-data.mojang.com/v1/objects/0c3ec587af28e5a785c0b4a7b8a30f9a8f78f838/client.jar', timeout=180).read())
+          assert client.stat().st_size == 23028853
+          assert hashlib.sha1(client.read_bytes()).hexdigest() == '0c3ec587af28e5a785c0b4a7b8a30f9a8f78f838'
+          PY
+          jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.4.10-noxviola.1-vulkan-hybrid-all.jar' | head -n 1)"
+          python3 minecraft/async-1.20.1-ultimate/test_shared_samplers.py upstream \
+            --baseline vulkan-forge/src/main/java/net/vulkanmod/vulkan/shader/parser/UniformParser.java \
+            --runtime-jar "$jarfile" --midnight-jar shader-mod-cache/midnight-1.20.1-0.6.7.jar \
+            --minecraft-client shader-mod-cache/minecraft-1.20.1-client.jar \
+            --report qa-out/SHARED-SAMPLER-REGRESSION.json
+
+      - name: Execute actual renderer early-flush acquire and presentation regression
+        run: |
+          python3 minecraft/async-1.20.1-ultimate/test_swapchain_submissions.py \
+            upstream/forge/src/main/java/net/vulkanmod/vulkan/Renderer.java \
+            --baseline vulkan-forge/src/main/java/net/vulkanmod/vulkan/Renderer.java \
+            --report qa-out/SWAPCHAIN-SUBMISSION-REGRESSION.json
+          python3 minecraft/async-1.20.1-ultimate/test_modpack_render_integrity.py upstream \
+            --report qa-out/MODPACK-RENDER-INTEGRITY.json
+          python3 minecraft/async-1.20.1-ultimate/test_client_lifetimes.py upstream --report qa-out/CLIENT-LIFETIMES.json --cache qa-client-lifetime-inputs
+          python3 minecraft/async-1.20.1-ultimate/test_c2me_light_levels.py upstream --report qa-out/C2ME-LIGHT-LEVELS.json --cache qa-client-lifetime-inputs
+
+      - name: Verify one-mod packaging and Vulkan payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.4.10-noxviola.1-vulkan-hybrid-all.jar' | sort | head -n 1)"
+          test -s "$jarfile"
+          unzip -t "$jarfile" | grep -F 'No errors detected'
+          mkdir -p qa-out
+          cp "$jarfile" qa-out/HariMultiThread-Ultimate-1.20.1-2.4.10-vulkan-hybrid.jar
+          python3 - "$jarfile" <<'PY_SENSOR_JAR'
+          import sys, zipfile
+          with zipfile.ZipFile(sys.argv[1]) as archive:
+              broken = [name for name in archive.namelist() if name.endswith('.class') and b'Decompilation failed' in archive.read(name)]
+          assert not broken, broken
+          print('PASS: no executable decompiler throw stubs in the packaged JAR')
+          PY_SENSOR_JAR
+          jar tf "$jarfile" > qa-out/JAR-CONTENTS.txt
+          test "$(grep -cx 'META-INF/mods.toml' qa-out/JAR-CONTENTS.txt)" -eq 1
+          grep -Fx 'net/vulkanmod/compat/UniversalRendererGate.class' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'net/vulkanmod/mixin/MixinPlugin.class' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'vulkanmod.mixins.json' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'META-INF/harimt-vulkan/SOURCE.txt' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/compat/harimt_supported_gl_methods.properties' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/async/shaders/collision_broadphase.comp.spv' qa-out/JAR-CONTENTS.txt
+          unzip -p "$jarfile" assets/async/shaders/collision_broadphase.comp.spv | xxd -p -l 4 | grep -Fx '03022307'
+          grep -Fx 'harimt.refmap.json' qa-out/JAR-CONTENTS.txt
+          unzip -p "$jarfile" harimt.refmap.json > qa-out/HARIMT-REFMAP.json
+          test -s qa-out/HARIMT-REFMAP.json
+          grep -F '"reloadResources": "Lnet/minecraft/server/MinecraftServer;m_129861_' qa-out/HARIMT-REFMAP.json
+          grep -Fx 'assets/vulkanmod/natives/windows/x64/windows/x64/org/lwjgl/shaderc/shaderc.dll' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/windows/x64/windows/x64/org/lwjgl/vma/lwjgl_vma.dll' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/linux/x64/linux/x64/org/lwjgl/shaderc/libshaderc.so' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/linux/x64/linux/x64/org/lwjgl/vma/liblwjgl_vma.so' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/linux/arm64/linux/arm64/org/lwjgl/shaderc/libshaderc.so' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/linux/arm64/linux/arm64/org/lwjgl/vma/liblwjgl_vma.so' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/macos/x64/macos/x64/org/lwjgl/shaderc/libshaderc.dylib' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/macos/x64/macos/x64/org/lwjgl/vma/liblwjgl_vma.dylib' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/macos/x64/macos/x64/org/lwjgl/vulkan/libMoltenVK.dylib' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/macos/arm64/macos/arm64/org/lwjgl/shaderc/libshaderc.dylib' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/macos/arm64/macos/arm64/org/lwjgl/vma/liblwjgl_vma.dylib' qa-out/JAR-CONTENTS.txt
+          grep -Fx 'assets/vulkanmod/natives/macos/arm64/macos/arm64/org/lwjgl/vulkan/libMoltenVK.dylib' qa-out/JAR-CONTENTS.txt
+          grep -E '^META-INF/jarjar/lwjgl-vulkan-[^/]+\.jar$' qa-out/JAR-CONTENTS.txt
+          grep -E '^META-INF/jarjar/lwjgl-shaderc-[^/]+\.jar$' qa-out/JAR-CONTENTS.txt
+          grep -E '^META-INF/jarjar/lwjgl-vma-[^/]+\.jar$' qa-out/JAR-CONTENTS.txt
+          unzip -p "$jarfile" META-INF/jarjar/metadata.json > qa-out/JARJAR-METADATA.json
+          grep -F '"artifact": "lwjgl-vulkan"' qa-out/JARJAR-METADATA.json
+          grep -F '"artifact": "lwjgl-shaderc"' qa-out/JARJAR-METADATA.json
+          grep -F '"artifact": "lwjgl-vma"' qa-out/JARJAR-METADATA.json
+          if grep -F '"artifact": "lwjgl"' qa-out/JARJAR-METADATA.json; then
+            echo '::error::Core LWJGL must remain launcher-owned, not Jar-in-Jar metadata'
+            exit 1
+          fi
+          if grep -E '"artifact": "lwjgl-(glfw|opengl|stb)"' qa-out/JARJAR-METADATA.json; then
+            echo '::error::Minecraft launcher-owned LWJGL modules leaked into Jar-in-Jar metadata'
+            exit 1
+          fi
+          nested_dir="$(mktemp -d)"
+          while IFS= read -r nested; do
+            nested_file="$nested_dir/$(basename "$nested")"
+            unzip -p "$jarfile" "$nested" > "$nested_file"
+            if jar tf "$nested_file" | grep -Eq '(^|/)module-info\.class$'; then
+              echo "::error::Nested LWJGL module descriptor survived strip: $nested"
+              exit 1
+            fi
+          done < <(grep -E '^META-INF/jarjar/lwjgl[^/]*\.jar$' qa-out/JAR-CONTENTS.txt)
+          rm -rf "$nested_dir"
+          grep -Fx 'com/axalotl/async/forge/client/hari263/render/PersistentRegionSceneCache.class' qa-out/JAR-CONTENTS.txt
+          unzip -p "$jarfile" META-INF/mods.toml > qa-out/MODS-TOML.txt
+          grep -F 'modId = "harimt"' qa-out/MODS-TOML.txt
+          if grep -F 'modId="vulkanmod"' qa-out/MODS-TOML.txt; then
+            echo '::error::Packaged mods.toml still exposes vulkanmod as a second mod'
+            exit 1
+          fi
+          unzip -p "$jarfile" META-INF/harimt-vulkan/SOURCE.txt > qa-out/VULKAN-SOURCE.txt
+
+      - name: Prove byte-for-byte reproducible rebuild
+        shell: bash
+        run: |
+          set -euo pipefail
+          first=qa-out/HariMultiThread-Ultimate-1.20.1-2.4.10-vulkan-hybrid.jar
+          test -s "$first"
+          cp "$first" /tmp/hari24-first.jar
+          sha256sum /tmp/hari24-first.jar | tee qa-out/REPRO-FIRST-SHA256.txt
+
+          (cd upstream && ./gradlew --no-daemon clean :forge:build --stacktrace) 2>&1 | tee qa-out/REPRO-REBUILD.log
+          second="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.4.10-noxviola.1-vulkan-hybrid-all.jar' | sort | head -n 1)"
+          test -s "$second"
+          sha256sum "$second" | tee qa-out/REPRO-SECOND-SHA256.txt
+          cp "$second" qa-out/REPRO-SECOND.jar
+          cmp /tmp/hari24-first.jar "$second"
+
+          first_sha="$(sha256sum /tmp/hari24-first.jar | awk '{print $1}')"
+          second_sha="$(sha256sum "$second" | awk '{print $1}')"
+          test "$first_sha" = "$second_sha"
+          printf 'reproducible_jar_sha256=%s\n' "$first_sha" | tee qa-out/REPRODUCIBLE.txt
+
+      - name: Preserve original entity tracking failures in actual packaged mixin
+        run: |
+          python3 .github/qa/hari24_tracking_guard_probe.py \
+            --jar qa-out/HariMultiThread-Ultimate-1.20.1-2.4.10-vulkan-hybrid.jar \
+            --upstream upstream --report qa-out/TRACKING-FAILURE-GUARD.json
+
+      - name: Compile renderer decision probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/src qa-probe/classes
+          cat > qa-probe/src/GateProbe.java <<'JAVA'
+          public final class GateProbe {
+              public static void main(String[] args) {
+                  var d = net.vulkanmod.compat.UniversalRendererGate.decision();
+                  System.out.println("enabled=" + d.enabled());
+                  System.out.println("reason=" + d.reason());
+              }
+          }
+          JAVA
+          javac -cp qa-out/HariMultiThread-Ultimate-1.20.1-2.4.10-vulkan-hybrid.jar \
+            -d qa-probe/classes qa-probe/src/GateProbe.java
+
+      - name: Prove clean pack selects Vulkan
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/clean/mods qa-probe/clean/config
+          (
+            cd qa-probe/clean
+            java -cp "../classes:../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.10-vulkan-hybrid.jar" GateProbe
+          ) | tee qa-out/GATE-CLEAN.txt
+          grep -F 'enabled=true' qa-out/GATE-CLEAN.txt
+
+      - name: Prove renderer conflict selects OpenGL fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/conflict/mods/fake/META-INF qa-probe/conflict/config
+          cat > qa-probe/conflict/mods/fake/META-INF/mods.toml <<'EOF'
+          modLoader="javafml"
+          loaderVersion="[47,)"
+          license="test"
+          [[mods]]
+          modId="embeddium"
+          version="0"
+          displayName="compatibility-fixture"
+          EOF
+          (cd qa-probe/conflict/mods/fake && zip -qr ../fake-embeddium.jar META-INF)
+          rm -rf qa-probe/conflict/mods/fake
+          (
+            cd qa-probe/conflict
+            java -cp "../classes:../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.10-vulkan-hybrid.jar" GateProbe
+          ) | tee qa-out/GATE-CONFLICT.txt
+          grep -F 'enabled=false' qa-out/GATE-CONFLICT.txt
+          grep -F 'embeddium' qa-out/GATE-CONFLICT.txt
+
+      - name: Prove Continuity selects OpenGL fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/continuity/mods/fake qa-probe/continuity/config
+          cat > qa-probe/continuity/mods/fake/fabric.mod.json <<'EOF'
+          {
+            "schemaVersion": 1,
+            "id": "continuity",
+            "version": "0",
+            "name": "compatibility-fixture"
+          }
+          EOF
+          (cd qa-probe/continuity/mods/fake && zip -qr ../fake-continuity.jar fabric.mod.json)
+          rm -rf qa-probe/continuity/mods/fake
+          (
+            cd qa-probe/continuity
+            java -cp "../classes:../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.10-vulkan-hybrid.jar" GateProbe
+          ) | tee qa-out/GATE-CONTINUITY.txt
+          grep -F 'enabled=false' qa-out/GATE-CONTINUITY.txt
+          grep -F 'continuity' qa-out/GATE-CONTINUITY.txt
+
+      - name: Prove nested Indigo renderer selects OpenGL fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p qa-probe/indigo/mods/outer/META-INF/jarjar                    qa-probe/indigo/mods/inner/net/fabricmc/fabric/impl/client/indigo                    qa-probe/indigo/config
+          printf 'fixture' > qa-probe/indigo/mods/inner/net/fabricmc/fabric/impl/client/indigo/IndigoMixinConfigPlugin.class
+          (cd qa-probe/indigo/mods/inner && zip -qr ../outer/META-INF/jarjar/fabric-renderer-indigo.jar .)
+          cat > qa-probe/indigo/mods/outer/META-INF/mods.toml <<'EOF'
+          modLoader="javafml"
+          loaderVersion="[47,)"
+          license="test"
+          [[mods]]
+          modId="forgified_fabric_api"
+          version="0"
+          displayName="compatibility-fixture"
+          EOF
+          (cd qa-probe/indigo/mods/outer && zip -qr ../fake-forgified-fabric-api.jar META-INF)
+          rm -rf qa-probe/indigo/mods/outer qa-probe/indigo/mods/inner
+          (
+            cd qa-probe/indigo
+            java -cp "../classes:../../qa-out/HariMultiThread-Ultimate-1.20.1-2.4.10-vulkan-hybrid.jar" GateProbe
+          ) | tee qa-out/GATE-INDIGO.txt
+          grep -F 'enabled=false' qa-out/GATE-INDIGO.txt
+          grep -F 'fabric-renderer-indigo' qa-out/GATE-INDIGO.txt
+
+      - name: Build fair instrumented baseline with original accepted rendering classes
+        run: |
+          set -euo pipefail
+          cp upstream/forge/src/main/java/net/vulkanmod/vulkan/texture/VulkanImage.java /tmp/hari2410-VulkanImage.java
+          cp upstream/forge/src/main/java/net/vulkanmod/vulkan/memory/StagingBuffer.java /tmp/hari2410-StagingBuffer.java
+          cp /tmp/hari249-VulkanImage.java upstream/forge/src/main/java/net/vulkanmod/vulkan/texture/VulkanImage.java
+          cp /tmp/hari249-StagingBuffer.java upstream/forge/src/main/java/net/vulkanmod/vulkan/memory/StagingBuffer.java
+          sed -i 's/version=2.4.10-noxviola.1-vulkan-hybrid/version=2.4.9-noxviola.1-vulkan-hybrid/' upstream/gradle.properties
+          (cd upstream && ./gradlew --no-daemon clean :forge:build --stacktrace)
+          baseline="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.4.9-noxviola.1-vulkan-hybrid-all.jar' | head -n 1)"
+          cp "$baseline" qa-out/HariMultiThread-2.4.9-FPS-INSTRUMENTED-BASELINE.jar
+          cp /tmp/hari2410-VulkanImage.java upstream/forge/src/main/java/net/vulkanmod/vulkan/texture/VulkanImage.java
+          cp /tmp/hari2410-StagingBuffer.java upstream/forge/src/main/java/net/vulkanmod/vulkan/memory/StagingBuffer.java
+          sed -i 's/version=2.4.9-noxviola.1-vulkan-hybrid/version=2.4.10-noxviola.1-vulkan-hybrid/' upstream/gradle.properties
+
+      - name: Package compile acceptance evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo 'HariMultiThread Ultimate 2.4 Vulkan Hybrid compile acceptance'
+            echo "source_commit=$GITHUB_SHA"
+            echo 'hari_upstream=f381611c2d71a85192e2028f9e30c03823a6482b'
+            echo 'vulkan_forge=0ceac5d47f84c910d2f5f6d007b0ffe266c6f736'
+            echo 'gate_clean=VULKAN'
+            echo 'gate_conflict=OPENGL_FALLBACK'
+            echo 'gate_continuity=OPENGL_FALLBACK'
+            echo 'gate_nested_indigo=OPENGL_FALLBACK'
+            echo 'collision_spirv=PASS'
+            echo 'production_refmap=PASS'
+          } > qa-out/ACCEPTANCE.txt
+          (cd qa-out && sha256sum * > SHA256SUMS.txt)
+
+      - name: Upload compile acceptance
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-Ultimate-1.20.1-2.4.0-VULKAN-HYBRID-COMPILE
+          path: qa-out/
+          if-no-files-found: error
+
+      - name: Upload failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-2.4.0-vulkan-hybrid-compile-failure
+          path: |
+            upstream/forge/build/reports/
+            upstream/forge/build/tmp/
+            upstream/forge/run/logs/
+            qa-out/
+          if-no-files-found: warn

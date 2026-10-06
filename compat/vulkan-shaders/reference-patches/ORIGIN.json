@@ -1,0 +1,9 @@
+{
+  "repository": "https://github.com/trptrk/Iris-Vulkan",
+  "commit": "9bae8e9a3c8b6ec34f871657b36331ebcd9f1a84",
+  "path": "src/main/java/net/irisshaders/iris/vulkan/shader/IrisSPIRVCompiler.java",
+  "original_sha256": "c9d9aeb7bc7cad48f2c2deeb44bd47aea6cea2c7b902e8a8949ea1ec1af53e35",
+  "modified_text_sha256": "9bbc74584464a9b42a20d9709c0b486fcd2db70e9b48786919fe6b6d1d995fc1",
+  "license": "LGPL-3.0",
+  "scope": "Source patch only. Neither this reference port nor this patch is installed. Forge 1.20.1 Vulkan/Oculus/Iris interoperability remains unfinished."
+}

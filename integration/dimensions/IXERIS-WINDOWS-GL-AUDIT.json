@@ -1,0 +1,34 @@
+{
+  "upstream": "https://github.com/decce6/Ixeris",
+  "version": "4.6.8+1.20.1-forge",
+  "jar_sha256": "6cc7e1bfad6a2e82983a41535accf919a1027ca7087f1e6fcc955df22f7d91e1",
+  "source_license": "LGPL-3.0-only; upstream source is inspected, not redistributed here",
+  "official_source": {
+    "project": "https://github.com/decce6/Ixeris",
+    "version": "4.6.8+1.20.1-forge",
+    "source_artifact_url": "https://cdn.modrinth.com/data/p8RJPJIC/versions/ieNxE3h5/Ixeris-4.6.8%2B1.20.1-forge-sources.jar",
+    "source_sha256": "d1d2162e908804e1d3c880e685f3335a32e6ab1d40ac7a3b6bd7346f1f3ea45b",
+    "scope": "Official published source text only; no upstream build or executable executed",
+    "files": [
+      {
+        "source_path": "me/decce/ixeris/IxerisMinecraftAccessorImpl.java",
+        "local_name": "IxerisMinecraftAccessorImpl.java",
+        "sha256": "8de91ef3f285ad4af2d9cdd2cedc60e87b0ca1aa3e4cf0dea14cd67440d9fea6"
+      },
+      {
+        "source_path": "me/decce/ixeris/mixins/macos/MinecraftMixin.java",
+        "local_name": "MinecraftMixin.java",
+        "sha256": "159b6515a289098725421084cb9cf586f17ca3040e1b5cb1413f4e1b059c6029"
+      }
+    ]
+  },
+  "scope": "Only two whole-JAR-pinned macOS CGL call-site classes may be excluded on immutable LWJGL Windows. Pinned PlatformHelper stores Platform.get(); macOS injections require MACOSX and contain the only assignments to lockedContext. The accessor checks this initially zero field. All runtime references to it are confined to accessor, mod and macOS mixin. No Windows GL draw/compute call is skipped; other/unknown platform, changed JAR and nested content retain ordinary scanning.",
+  "class_sha256": {
+    "me/decce/ixeris/core/util/PlatformHelper.class": "cb43c350bb86cb9359b2416c075e2d70e610b334fbe9637f90a8dd95db2c29f2",
+    "me/decce/ixeris/IxerisMinecraftAccessorImpl.class": "3957e6b22f24779a5d092f5bb6f0524aa5fda5fb01c69cd362034cd36f19cf9e",
+    "me/decce/ixeris/mixins/macos/MinecraftMixin.class": "0a8f161bd731b8a34246e4bd35d22bb0d7595d24fb8656b6c7603a76b6f6a0ce",
+    "me/decce/ixeris/IxerisMod.class": "ec8cddd0b643f9719465568d471552229f995441479cfd98a6d144aead26c263"
+  },
+  "unknown_modified_platform_negative_controls_passed": true,
+  "native_full_pack_or_performance_promotion_accepted": false
+}

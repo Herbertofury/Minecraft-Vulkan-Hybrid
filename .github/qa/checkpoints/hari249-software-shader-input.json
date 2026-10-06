@@ -1,0 +1,64 @@
+{
+  "status": "Full10/13clients plusdedicated, original9.8OptiandDH PASS. Three clients plusoriginal9.8dimensions remain pending; no product mutation.",
+  "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+  "native_DH_passes": [
+    {
+      "run": 37165635433,
+      "job": 111327879276,
+      "artifact": 11289499096,
+      "artifact_sha256": "dbf623dce44c6b07fa35635b01a9aa6e7b2799fe4f7896236387e2633470830a"
+    },
+    {
+      "run": 37165635449,
+      "job": 111327837239,
+      "artifact": 11289469066,
+      "artifact_sha256": "b44c67712a832c38f5302fdb28741a8d46e44dd1d57bff6a7455064ab00d0edb"
+    }
+  ],
+  "retained_X11_shader_failure": {
+    "run": 37166299130,
+    "job": 111329770738,
+    "artifact": 11289662465,
+    "artifact_sha256": "8e565e9cc842add178f4e2a2a37b5eed46f92156b95843117d20eb576b634894"
+  },
+  "temporary_input_viewport": [
+    480,
+    270
+  ],
+  "required_scene_and_frame_sample_viewport": [
+    1280,
+    720
+  ],
+  "acceptance_preserved": [
+    "Original double-Space and observed flight, no timer or state override",
+    "MakeUp9.5f always enabled, both original realms and after reload",
+    "Full300frames after120warmup at1280x720",
+    "Original portals, mobs/AI, real chunk unload/return, originalNBT, clean saved-world secondJVM",
+    "All actual scene captures1280x720, original pixel thresholds and strict fatal/error gates"
+  ],
+  "strategy": "Only flight operating viewport temporarily resized through normal X11 controls; restored1280x720 in finally before scene checks. No product mutation or graphics/shader settings reduction.",
+  "retained_X11_other_failures": {
+    "runs": [
+      37166299130,
+      37166299120
+    ],
+    "jobs": [
+      111329770647,
+      111329770783,
+      111329770478
+    ],
+    "cause": "Original flight state never enables on low-FPS software input; Midnight initial flight and original rift entrance did succeed with normal X11 cursor backend, then original flight reset on actual arrival and slow input failed. No original portal bypass or state mutation."
+  },
+  "same_input_protocol_reused": "Use exact same isolated software-input actor for remaining Midnight and original9.6/9.8dimension profiles; original fullscene/shader/NoAI/unload/secondJVM/failure gates remain intact.",
+  "shader_run": 37166903303,
+  "DH_complete_drive_backup": {
+    "drive_id": "1NaQBTamqlzrslOxJkRaeiyb8Fn-82EQX",
+    "bytes": 25761303,
+    "sha256": "43fcde4a0117c1b188eff19d6178f7014201113a2f7de9d391d48e89f94de58d",
+    "raw_byte_readback_verified": true,
+    "artifact_ids": [
+      11289499096,
+      11289469066
+    ]
+  }
+}

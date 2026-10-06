@@ -1,0 +1,13 @@
+plugins { id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'; id 'java' }
+version='1.0.38';group='mvhpackbench';base { archivesName='mvh-noxviola-control' }
+java.toolchain.languageVersion=JavaLanguageVersion.of(17)
+minecraft { mappings channel:'official',version:'1.20.1' }
+repositories { mavenCentral() }
+dependencies { compileOnly 'org.lwjgl:lwjgl-vulkan:3.3.1'; minecraft 'net.minecraftforge:forge:1.20.1-47.4.23'; compileOnly files(findProperty('mvhHariReference') ?: fileTree('../../source/forge/build/libs') { include '*-all.jar' }) }
+jar.finalizedBy('reobfJar')
+tasks.withType(AbstractArchiveTask).configureEach { preserveFileTimestamps=false; reproducibleFileOrder=true }
+tasks.withType(JavaCompile).configureEach { options.encoding='UTF-8' }
+
+sourceSets.main.java.srcDir("../../compat/vulkan-shaders/uniforms/src")
+
+// NativeFlywheelBatch is shipped by the integrated Hari reference.

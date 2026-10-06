@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "exact_pixel_cases": 800,
+  "uploads_per_sample": 10000,
+  "baseline_bytes_per_upload": 524288,
+  "candidate_bytes_per_upload": 16384,
+  "baseline_median_ns": 69044000,
+  "candidate_median_ns": 641101,
+  "baseline_samples_ns": [
+    68968601,
+    68984800,
+    69033301,
+    69041200,
+    69044000,
+    69115700,
+    69153799,
+    69395599,
+    69914800
+  ],
+  "candidate_samples_ns": [
+    618101,
+    619200,
+    624400,
+    640300,
+    641101,
+    672200,
+    709000,
+    1188000,
+    1207601
+  ],
+  "scope": "Actual production StagingBuffer + TextureUploadSpan and real native libc memcpy; buffer allocation doubled; component gain is not Minecraft FPS",
+  "inputs": [
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/lwjgl/lwjgl/3.3.1/lwjgl-3.3.1.jar",
+      "sha256": "cf83f90e32fb973ff5edfca4ef35f55ca51bb70a579b6a1f290744f552e8e484",
+      "bytes": 724243
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/lwjgl/lwjgl/3.3.1/lwjgl-3.3.1-natives-windows.jar",
+      "sha256": "093d13d62a6434bc656bf10a3b37e2530fd9af3b0bc20f8e9545be58659d1443",
+      "bytes": 159361
+    }
+  ],
+  "upload_calls_unchanged": true,
+  "image_barriers_unchanged": true
+}

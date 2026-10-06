@@ -1,0 +1,10 @@
+{
+  "head": "2af2bb424b465acde1034ed4176a006a85e00677",
+  "page_sha256": "2a8765fc20996c73178b00022e6fb21b4b02da339db81fdb79b7c2699ce24029",
+  "publisher_run": 37170095652,
+  "publisher_job": 111341120954,
+  "source_main_commit": "9ff2f213daeab4a651f8f0b5ece01dda42ada145",
+  "actual_wiki_git_readback": true,
+  "fresh_clone_publisher_verified": true,
+  "url": "https://github.com/Herbertofury/ProjectDump/wiki/HariMultiThread-Vulkan-Hybrid"
+}

@@ -1,0 +1,16 @@
+SWAP_ROUTE system-GDI32 CLIENT_SIZE 256x256
+VENDOR Mesa
+RENDERER zink Vulkan 1.4(NVIDIA GeForce RTX 4090 (NVIDIA_PROPRIETARY))
+VERSION 4.6 (Core Profile) Mesa 26.2.4 (git-96cb431210)
+FUNCTION glBufferStorage PASS
+FUNCTION glMultiDrawElementsIndirect PASS
+FUNCTION glDispatchCompute PASS
+FUNCTION glBindBufferBase PASS
+FUNCTION glFenceSync PASS
+FUNCTION glTexStorage2D PASS
+FUNCTION glGetProgramResourceIndex PASS
+READBACK 64 127 191 255 ERROR 0
+PRESENT interval=0 swaps=48 elapsed_ms=16.637 readback=PASS error=0
+PRESENT interval=1 swaps=48 elapsed_ms=381.841 readback=PASS error=0
+PRESENT interval=0 swaps=48 elapsed_ms=16.296 readback=PASS error=0
+HARDWARE_ZINK_OPENGL46_READBACK_PASS

@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "scope": "Actual source-patch key record only; no shader compilation, installed port, GPU draw, FPS or Forge compatibility inference",
+  "results": [
+    {
+      "variant": "production",
+      "semantic_regression_passed": true,
+      "expected_pass": true
+    },
+    {
+      "variant": "original_hash_only_key",
+      "semantic_regression_passed": false,
+      "expected_pass": false
+    },
+    {
+      "variant": "input_form_lost",
+      "semantic_regression_passed": false,
+      "expected_pass": false
+    }
+  ]
+}

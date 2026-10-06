@@ -1,0 +1,61 @@
+modLoader = "javafml"
+loaderVersion = "${forge_loader_version_range}"
+license = "${license}"
+
+[[mods]]
+modId = "${mod_id}"
+version = "${version}"
+displayName = "${mod_name}"
+displayURL = "https://discord.gg/atKQ3KrAK3"
+logoFile="async/icon.png"
+authors = "${mod_authors}"
+description = '''${description}'''
+
+[[mixins]]
+config = "harimt.common.mixins.json"
+
+[[mixins]]
+config = "harimt.forge.mixins.json"
+
+[[mixins]]
+config = "harimt.gpu.mixins.json"
+
+[[mixins]]
+config = "vulkanmod.mixins.json"
+
+[[dependencies."${mod_id}"]]
+modId = "forge"
+mandatory = true
+versionRange = "${forge_loader_version_range}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "minecraft"
+mandatory = true
+versionRange = "${minecraft_version_range}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "harium"
+mandatory = false
+versionRange = "[1.0.0,)"
+ordering = "AFTER"
+side = "BOTH"
+# Compatibility identity retained for existing DimThreads-aware mods.
+[[mods]]
+modId = "dimthread"
+version = "1.2.1-hari-integrated.1"
+displayName = "Hari Integrated Dimension Scheduler"
+authors = "SrRapero720, CCr4ft3r, WearBlackAllDay, 2No2Name; Hari integration contributors"
+description = "DimThreads dimension scheduling integrated with Hari ownership and CPU budgeting. LGPL-3.0 source and notices included."
+[[mixins]]
+config = "dimthread.mixin.json"
+
+[[dependencies.harimt]]
+modId = "mts"
+mandatory = false
+versionRange = "[24.0.0]"
+ordering = "NONE"
+side = "BOTH"

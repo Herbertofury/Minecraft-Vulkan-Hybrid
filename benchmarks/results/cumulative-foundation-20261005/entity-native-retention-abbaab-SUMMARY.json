@@ -1,0 +1,104 @@
+{
+  "scope": "Only pinned repaired EntityCulling toggled in six ABBAAB native captures; Hari .11, original grass, addon 1.0.3, controller 1.0.10, checksum world/settings/camera fixed. Concurrent workloads remain active. Still village benchmark, not a purpose-built dense occlusion scene.",
+  "trials": [
+    {
+      "stage": "entity-native-retention-01-absent",
+      "entity_present": false,
+      "average_fps": 2561.154910965578,
+      "one_percent_low_fps": 592.8780466819366,
+      "p95_ms": 0.457,
+      "p99_ms": 0.7539,
+      "max_ms": 2.423,
+      "capture_median_java_rss_mib": 3164.345703125,
+      "capture_rss_samples": 30
+    },
+    {
+      "stage": "entity-native-retention-02-present",
+      "entity_present": true,
+      "average_fps": 2621.5938742089047,
+      "one_percent_low_fps": 651.1317820401307,
+      "p95_ms": 0.4583,
+      "p99_ms": 0.7524,
+      "max_ms": 3.6292,
+      "capture_median_java_rss_mib": 2470.83984375,
+      "capture_rss_samples": 30
+    },
+    {
+      "stage": "entity-native-retention-03-present",
+      "entity_present": true,
+      "average_fps": 2614.3374558027936,
+      "one_percent_low_fps": 654.4050337001923,
+      "p95_ms": 0.4558,
+      "p99_ms": 0.7096,
+      "max_ms": 2.5043,
+      "capture_median_java_rss_mib": 2693.419921875,
+      "capture_rss_samples": 30
+    },
+    {
+      "stage": "entity-native-retention-04-absent",
+      "entity_present": false,
+      "average_fps": 2630.953354042672,
+      "one_percent_low_fps": 626.9246189012531,
+      "p95_ms": 0.4534,
+      "p99_ms": 0.7249,
+      "max_ms": 3.6735,
+      "capture_median_java_rss_mib": 2426.298828125,
+      "capture_rss_samples": 30
+    },
+    {
+      "stage": "entity-native-retention-05-absent",
+      "entity_present": false,
+      "average_fps": 2530.036913432548,
+      "one_percent_low_fps": 599.7114125555266,
+      "p95_ms": 0.4763,
+      "p99_ms": 0.8471,
+      "max_ms": 3.7167,
+      "capture_median_java_rss_mib": 3328.060546875,
+      "capture_rss_samples": 30
+    },
+    {
+      "stage": "entity-native-retention-06-present",
+      "entity_present": true,
+      "average_fps": 2533.9132309550423,
+      "one_percent_low_fps": 604.309017108457,
+      "p95_ms": 0.4879,
+      "p99_ms": 0.9374,
+      "max_ms": 4.8833,
+      "capture_median_java_rss_mib": 2401.048828125,
+      "capture_rss_samples": 30
+    }
+  ],
+  "summary": {
+    "absent": {
+      "average_fps": 2561.154910965578,
+      "one_percent_low_fps": 599.7114125555266,
+      "p95_ms": 0.457,
+      "p99_ms": 0.7539,
+      "max_ms": 3.6735,
+      "capture_median_java_rss_mib": 3164.345703125
+    },
+    "present": {
+      "average_fps": 2614.3374558027936,
+      "one_percent_low_fps": 651.1317820401307,
+      "p95_ms": 0.4583,
+      "p99_ms": 0.7524,
+      "max_ms": 3.6292,
+      "capture_median_java_rss_mib": 2470.83984375
+    },
+    "fps_change_percent": 2.07650636865091
+  },
+  "decision": "NO_ACCEPTED_NATIVE_SCENE_BENEFIT_DEFERRED_DENSE_OCCLUSION_PURPOSE",
+  "native_ui_smoke_checks": [
+    "native_client_resource_reload",
+    "original_native_grass_meshes_and_shader_available",
+    "original_animation_phase_advanced",
+    "native_visibility_updated_after_stationary_fov_change",
+    "client_movement_stamped_original_trail_field",
+    "client_entered_native_nether",
+    "native_overworld_grass_rebuilt_after_roundtrip",
+    "entity_settings_ui_rendered_through_balanced_native_scissor_bridge",
+    "native_grass_world_resumed_after_ui_without_scissor_state_leak"
+  ],
+  "full_pack_accepted": false,
+  "dense_occlusion_benefit_accepted": false
+}
