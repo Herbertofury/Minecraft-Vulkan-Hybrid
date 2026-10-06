@@ -1,0 +1,14 @@
+{
+  "official_base": "https://maven.createmod.net/dev/engine-room/flywheel/flywheel-forge-1.20.1/1.0.6-beta-266/",
+  "binary_sha256": "4e3667f3ddf413425eaf85a2380fb65496cf8c7d80a738e279d295b6c02d8ee5",
+  "sources_sha256": "9f45eeb4ba8608eec6ab13994a06a755eedb2753cf4fd078de5f371ed38bb6ca",
+  "retained_official_source_files": [
+    "dev/engine_room/flywheel/backend/engine/MaterialEncoder.java",
+    "dev/engine_room/flywheel/api/material/Material.java",
+    "dev/engine_room/flywheel/impl/visualization/VisualizationManagerImpl.java",
+    "dev/engine_room/flywheel/impl/FlwDebugInfo.java",
+    "dev/engine_room/flywheel/lib/model/baked/ForgeMeshEmitter.java",
+    "dev/engine_room/flywheel/lib/model/baked/MeshEmitterManager.java"
+  ],
+  "third_party_code_executed": false
+}

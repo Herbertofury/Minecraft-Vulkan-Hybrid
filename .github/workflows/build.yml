@@ -13,6 +13,9 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
+        with:
+          # The newer native port rebuilds the retained stable engine from its exact feature-history commit.
+          fetch-depth: 0
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
@@ -37,6 +40,12 @@ jobs:
           mvh_hari_reference=$(find "$GITHUB_WORKSPACE/../hari-integrated-ci/forge/build/libs" -maxdepth 1 -name '*-all.jar' -print -quit)
           test -f "$mvh_hari_reference"
           ./source/gradlew -p compat/native-flywheel-backend build "-PmvhHariReference=$mvh_hari_reference" "-PmvhFlywheelReference=$GITHUB_WORKSPACE/qa-out/references/flywheel-forge-1.20.1-1.0.5.jar" --no-daemon --max-workers=4
+      - name: Build the retained stable native engine against newer bundled Flywheel
+        run: |
+          python compat/native-flywheel-backend/download_newer_reference.py qa-out/references/flywheel-newer.jar qa-out/references/flywheel-newer-sources.jar
+          python compat/native-flywheel-backend/prepare_newer.py qa-out/references/flywheel-newer-sources.jar ../flywheel-newer-ci
+          mvh_hari_reference=$(find "$GITHUB_WORKSPACE/../hari-integrated-ci/forge/build/libs" -maxdepth 1 -name '*-all.jar' -print -quit)
+          ./source/gradlew -p ../flywheel-newer-ci build "-PmvhHariReference=$mvh_hari_reference" "-PmvhFlywheelReference=$GITHUB_WORKSPACE/qa-out/references/flywheel-newer.jar" --no-daemon --max-workers=4
       - name: Verify native framebuffer affine clipping and behavior mutations
         run: python integration/dimensions/tests/test_framebuffer_blit.py --report qa-out/framebuffer-blit-axis.json
       - name: Verify immutable native light snapshots and fence-owned retirement

@@ -1,4 +1,6 @@
-# Current complete-pack state: native Vulkan required
+# Native-required checkpoint before the newer CasualSwing port
+
+The [subsequent real newer-Flywheel port](../../casualswing-native-20261006/REPORT.md) clears all137 CasualSwing references; current preflight is532 references/263 APIs across21 archives. Every other flag is unchanged, fullpack still blocks and no game/FPS capture follows. The complete669/360/22 checkpoint below is preserved historically.
 
 The user's latest instruction removes Oculus and Indigo and forbids OpenGL fallback. The isolated candidate now contains 327 active archives without the recorder: all 21 auxiliary optimizers are recoverably disabled; Oculus plus its required shader-only IrisSearch/EnhancedCelestials shader addon are disabled; only Indigo is removed from ForgifiedFabricAPI's bundle. Original gameplay cores, original Grassier Grass, necessary libraries and correctness helpers remain. No optimizer has been re-added. The optional Field Guide query/index cache is the21st removal; original Field Guide remains. [Exact final active hashes and all21 disabled optimizer hashes](FINAL-INVENTORY.json), [Field Guide removal](fieldguide-removal.json). Personal Noxviola is untouched.
 
