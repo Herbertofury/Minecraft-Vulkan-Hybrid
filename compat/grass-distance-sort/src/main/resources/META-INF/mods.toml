@@ -3,7 +3,7 @@ loaderVersion="[47,)"
 license="GPL-3.0-only"
 [[mods]]
 modId="mvhgrasscompat"
-version="1.0.3"
+version="1.0.5"
 displayName="MVH Grass Distance Compatibility"
 authors="Minecraft Vulkan Hybrid contributors"
 description="Exact stable grass ordering and owner-thread invalidation retention for cached or in-flight snapshots."

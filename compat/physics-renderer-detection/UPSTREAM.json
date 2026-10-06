@@ -1,0 +1,8 @@
+{
+  "original_file": "physics-mod-3.0.20-mc-1.20.1-forge.jar",
+  "sha256": "d5a08637bd3a3c77486fc42908f2aaada730e86e443f86483e1b52023872ec3b",
+  "license": "All Rights Reserved",
+  "redistributed": false,
+  "changed_entry": "net/diebuddies/physics/StarterClient.class",
+  "expected_change": "one boolean iris-implies-sodium branch replaced by false; real providers retained"
+}

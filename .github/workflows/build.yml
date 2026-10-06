@@ -1,10 +1,10 @@
 name: Standalone source build and focused regressions
 on:
-  push:
-    branches: ['migration/**']
-    paths: ['integration/**', 'compat/**', 'source/**', 'tools/**', 'benchmarks/pack-control-forge/**', 'provenance/**', 'minecraft/**', '.github/workflows/build.yml']
   pull_request:
   workflow_dispatch:
+concurrency:
+  group: migration-build-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
@@ -43,6 +43,8 @@ jobs:
         run: python compat/native-flywheel-backend/tests/test_light_snapshot.py --report qa-out/native-light-snapshot.json
       - name: Verify concurrent native instance ownership and deleted embedding retirement
         run: python compat/native-flywheel-backend/tests/test_instance_lifecycle.py --report qa-out/native-instance-lifecycle.json
+      - name: Verify original sparse native instance packing and meaningful mutations
+        run: python compat/native-flywheel-backend/tests/test_original_packing.py --report qa-out/native-original-packing.json
       - name: Verify dimension ownership, failures and queue boundaries
         run: |
           mkdir -p qa-out/dimensions
@@ -60,6 +62,8 @@ jobs:
         run: python integration/dimensions/tests/test_inactive_modernfix.py --report qa-out/inactive-modernfix-gate.json
       - name: Verify pinned inactive Ixeris macOS calls and platform cache invalidation
         run: python integration/dimensions/tests/test_inactive_ixeris.py --report qa-out/inactive-ixeris-platform.json
+      - name: Verify required native renderer blocks fallback and forced bypass
+        run: python integration/dimensions/tests/test_native_requirement.py --report qa-out/native-requirement.json
       - name: Verify optional vertex-memory repair against the pinned original API
         run: python compat/oculus-memory-copy/tests/test_memory_copy.py --download-reference --report qa-out/oculus-memory-parity.json
       - name: Verify reference Iris shader source cache identity
@@ -97,6 +101,11 @@ jobs:
           java -ea -cp qa-out/fieldguide-split BiomeModifierIndexRegression
       - name: Build optional exact grass distance compatibility mod
         run: ./source/gradlew -p compat/grass-distance-sort build --no-daemon --max-workers=4
+      - name: Verify exact grass visibility against independent JOML projection
+        run: |
+          mvh_joml=$(find "$HOME/.gradle/caches/modules-2/files-2.1/org.joml/joml/1.10.5" -name '*.jar' -print -quit)
+          test -f "$mvh_joml"
+          python compat/grass-distance-sort/tests/test_exact_frustum.py --joml "$mvh_joml" > qa-out/grass-exact-frustum.json
       - name: Build native TRender scissor compatibility helper
         run: ./source/gradlew -p compat/trender-scissor build --no-daemon --max-workers=4
       - name: Verify native scissor coordinate, owner and failure contracts

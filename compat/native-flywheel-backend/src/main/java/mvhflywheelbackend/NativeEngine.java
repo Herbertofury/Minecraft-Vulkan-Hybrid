@@ -33,6 +33,12 @@ public final class NativeEngine implements Engine {
     public static final AtomicLong GPU_CULL_DISPATCHES=new AtomicLong(),GPU_APPLY_DISPATCHES=new AtomicLong(),GPU_LAST_VISIBLE=new AtomicLong(),GPU_LAST_SUBMITTED=new AtomicLong();
     public static final AtomicLong LIGHT_UPLOADS=new AtomicLong(),LIGHT_UPLOAD_BYTES=new AtomicLong(),LIGHT_CACHE_HITS=new AtomicLong();
     public static final AtomicLong EMBEDDED_MODEL_DRAWS=new AtomicLong();
+    public static final AtomicLong DIRECT_INSTANCE_DRAWS=new AtomicLong(),DIRECT_MODEL_SNAPSHOTS=new AtomicLong();
+    private static boolean diagnosticComputeOnly;
+    static boolean useDirectInstances(int count){return count<32&&!diagnosticComputeOnly;}
+    /** Owned diagnostics exercise the retained native compute path independently of adaptive small batches. */
+    public static void useComputeForDiagnostics(boolean value){RenderSystem.assertOnRenderThread();diagnosticComputeOnly=value;}
+
     public NativeEngine(LevelAccessor level){light=new LightStorage(level);ENGINES.incrementAndGet();}
     public static boolean selectedForCurrentSession(){return dev.engine_room.flywheel.impl.BackendManagerImpl.currentBackend()==dev.engine_room.flywheel.backend.Backends.NATIVE;}
     public LightStorage lightStorage(){return light;}

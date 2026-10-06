@@ -34,7 +34,7 @@ import java.util.zip.ZipInputStream;
  * Vulkan mixins apply. Results are cached by the mods-folder signature.</p>
  */
 public final class UniversalRendererGate {
-    public static final String MODE_PROPERTY = "harimt.vulkan.mode"; // auto | force | off
+    public static final String MODE_PROPERTY = "harimt.vulkan.mode"; // auto | require | force | off
     public static final String CACHE_PROPERTY = "harimt.vulkan.compatCache"; // default true
     private static final String CACHE_SCHEMA = "2.4.11-vulkan-gate-v12-audited-inactive-platform";
 
@@ -51,6 +51,7 @@ public final class UniversalRendererGate {
 
     private static final AtomicBoolean LOGGED = new AtomicBoolean();
     private static volatile Decision decision;
+    private static volatile Boolean nativeRequired;
 
     private UniversalRendererGate() {}
 
@@ -58,6 +59,7 @@ public final class UniversalRendererGate {
     public static String reason() { return decision().reason(); }
 
     public static Decision decision() {
+        boolean required = nativeRequired();
         Decision current = decision;
         if (current == null) {
             synchronized (UniversalRendererGate.class) {
@@ -66,8 +68,39 @@ public final class UniversalRendererGate {
             }
         }
         if (LOGGED.compareAndSet(false, true)) {
-            System.out.println("[Hari/Vulkan] renderer=" + (current.enabled() ? "VULKAN" : "OPENGL_FALLBACK")
+            System.out.println("[Hari/Vulkan] renderer=" + (current.enabled() ? "VULKAN" : required ? "NATIVE_REQUIREMENT_FAILED" : "OPENGL_FALLBACK")
                     + " reason=" + current.reason());
+        }
+        if (required && !current.enabled()) {
+            throw new IllegalStateException("Native Vulkan is required; launch blocked before an OpenGL fallback: " + current.reason());
+        }
+        return current;
+    }
+
+    private static boolean nativeRequired() {
+        Boolean current = nativeRequired;
+        if (current == null) {
+            synchronized (UniversalRendererGate.class) {
+                if (nativeRequired == null) {
+                    boolean required = "require".equals(System.getProperty(MODE_PROPERTY, "auto").trim().toLowerCase(Locale.ROOT));
+                    Path policy = gameDirectory().resolve("config/harimt-native-required.properties");
+                    if (Files.exists(policy)) {
+                        Properties properties = new Properties();
+                        try (InputStream input = Files.newInputStream(policy)) {
+                            properties.load(input);
+                            String value = properties.getProperty("requireNative");
+                            if (!"true".equals(value) && !"false".equals(value)) {
+                                throw new IllegalStateException("Invalid native renderer policy: requireNative must be true or false");
+                            }
+                            required |= Boolean.parseBoolean(value);
+                        } catch (IOException failure) {
+                            throw new IllegalStateException("Cannot inspect required native renderer policy", failure);
+                        }
+                    }
+                    nativeRequired = required;
+                }
+                current = nativeRequired;
+            }
         }
         return current;
     }
@@ -75,8 +108,10 @@ public final class UniversalRendererGate {
     private static Decision evaluate() {
         String mode = System.getProperty(MODE_PROPERTY, "auto").trim().toLowerCase(Locale.ROOT);
         if ("off".equals(mode)) return new Decision(false, "forced off");
-        if ("force".equals(mode)) return new Decision(true, "forced on; compatibility gate bypassed");
-        if (!"auto".equals(mode)) return new Decision(false, "invalid harimt.vulkan.mode=" + mode);
+        if ("force".equals(mode)) return new Decision(!nativeRequired(), nativeRequired()
+                ? "forced compatibility bypass is forbidden by the native requirement"
+                : "forced on; compatibility gate bypassed");
+        if (!"auto".equals(mode) && !"require".equals(mode)) return new Decision(false, "invalid harimt.vulkan.mode=" + mode);
 
         Boolean forgeProduction = forgeProductionRuntime();
         if (Boolean.FALSE.equals(forgeProduction)) {

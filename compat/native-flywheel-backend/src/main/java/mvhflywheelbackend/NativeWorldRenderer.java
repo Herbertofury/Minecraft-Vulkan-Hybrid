@@ -42,7 +42,7 @@ public final class NativeWorldRenderer {
     private Frame frame;
     private Slice lightLut,lightSections;
     private final Slice[] uniforms=new Slice[5];
-    private record Prepared(Slice data,Slice targets,Slice models,Slice commands,Slice pages,Slice matrices,int submitted,int meshCount) {}
+    private record Prepared(Slice data,Slice targets,Slice models,Slice commands,Slice pages,Slice matrices,int submitted,int meshCount,boolean direct) {}
     private record Slice(Buffer buffer,int offset,int bytes) { long pointer(){return MemoryUtil.memAddress(buffer.mapped)+offset;} }
     private record PipelineKey(NativeShaderSources.Code code,long pass,int depthFormat,int cull,boolean offset,
                                DepthTest depth,WriteMask writes,Transparency blend,int stencil,int externalColor) {}
@@ -81,9 +81,8 @@ public final class NativeWorldRenderer {
             int stride=instances.type.layout().byteSize(),pages=(instances.handles.size()+31)/32;
             Slice data=frame.allocate(Math.max(4,Math.multiplyExact(instances.handles.size(),stride))),targets=frame.allocate(Math.max(4,Math.multiplyExact(count,4)));
             Slice model=frame.allocate(28),pageData=frame.allocate(Math.multiplyExact(pages,8)),matrices=frame.allocate(224);
-            BitSet selected=null;if(selection!=null){selected=new BitSet();for(int i:selection)selected.set(i);}
-            for(int i=0;i<instances.handles.size();i++){var h=instances.handles.get(i);if(h==null||h.deleted)continue;instances.write(i,data.pointer()+i*(long)stride);
-                if(h.visible&&(selected==null||selected.get(i))){long ptr=pageData.pointer()+(i/32)*8L+4;MemoryUtil.memPutInt(ptr,MemoryUtil.memGetInt(ptr)|(1<<(i&31)));}}
+            boolean direct=NativeEngine.useDirectInstances(count);
+            int visible=packOriginalInstances(instances,selection,data.pointer(),pageData.pointer(),targets.pointer(),stride,direct);
             var sphere=instances.model.boundingSphere();long p=model.pointer();MemoryUtil.memPutInt(p+8,instances.context.embedded()?1:0);
             MemoryUtil.memPutFloat(p+12,sphere.x());MemoryUtil.memPutFloat(p+16,sphere.y());MemoryUtil.memPutFloat(p+20,sphere.z());MemoryUtil.memPutFloat(p+24,sphere.w());
             Matrix4f pose=new Matrix4f();Matrix3f normal=new Matrix3f();instances.context.compose(pose,normal);
@@ -91,13 +90,14 @@ public final class NativeWorldRenderer {
             for(int col=0;col<3;col++)for(int row=0;row<3;row++)matrix.putFloat(m+64+col*16+row*4,normal.get(col,row));
             int meshes=instances.model.meshes().size();if(meshes==0)continue;Slice commands=frame.allocate(Math.multiplyExact(meshes,36));
             for(int i=0;i<meshes;i++)MemoryUtil.memPutInt(commands.pointer()+i*36L,instances.model.meshes().get(i).mesh().indexCount());
-            var snapshot=new Prepared(data,targets,model,commands,pageData,matrices,count,meshes);prepared.put(instances,snapshot);frame.feedback.add(snapshot);
+            var snapshot=new Prepared(data,targets,model,commands,pageData,matrices,direct?visible:count,meshes,direct);prepared.put(instances,snapshot);
+            if(direct)NativeEngine.DIRECT_MODEL_SNAPSHOTS.incrementAndGet();else frame.feedback.add(snapshot);
         }
         if(prepared.isEmpty())return;
         Renderer.getInstance().runOutsideRenderPass(command->{try(MemoryStack s=MemoryStack.stackPush()){
             var host=VkMemoryBarrier.calloc(1,s).sType$Default().srcAccessMask(VK_ACCESS_HOST_WRITE_BIT).dstAccessMask(VK_ACCESS_SHADER_READ_BIT|VK_ACCESS_SHADER_WRITE_BIT|VK_ACCESS_UNIFORM_READ_BIT);
-            vkCmdPipelineBarrier(command,VK_PIPELINE_STAGE_HOST_BIT,VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,0,host,null,null);
-            for(var instances:requests){var snapshot=prepared.get(instances);if(snapshot==null)continue;
+            vkCmdPipelineBarrier(command,VK_PIPELINE_STAGE_HOST_BIT,VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT|VK_PIPELINE_STAGE_VERTEX_SHADER_BIT|VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT,0,host,null,null);
+            for(var instances:requests){var snapshot=prepared.get(instances);if(snapshot==null||snapshot.direct)continue;
                 var code=NativeShaderSources.compute(instances.type);long[] programs=computePrograms.computeIfAbsent(code,this::computePipelines);
                 long[] sets=frame.descriptors(new long[]{layouts[0],computeStorageLayout});
                 for(int i=0;i<5;i++)writeBuffer(s,sets[0],i,uniforms[i],VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER);
@@ -113,6 +113,19 @@ public final class NativeWorldRenderer {
             var ready=VkMemoryBarrier.calloc(1,s).sType$Default().srcAccessMask(VK_ACCESS_SHADER_WRITE_BIT).dstAccessMask(VK_ACCESS_SHADER_READ_BIT|VK_ACCESS_INDIRECT_COMMAND_READ_BIT|VK_ACCESS_HOST_READ_BIT);
             vkCmdPipelineBarrier(command,VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,VK_PIPELINE_STAGE_VERTEX_SHADER_BIT|VK_PIPELINE_STAGE_DRAW_INDIRECT_BIT|VK_PIPELINE_STAGE_HOST_BIT,0,ready,null,null);
         }});
+    }
+    /** Same original sparse writers and logical visibility feed either hardware instances or native cull pages. */
+    static int packOriginalInstances(NativeEngine.NativeInstancer<?> instances,List<Integer> selection,long data,long pages,long targets,int stride,boolean direct){
+        BitSet selected=null;if(selection!=null){selected=new BitSet();for(int i:selection){if(i<0||i>=instances.handles.size())throw new IllegalArgumentException("Original selection outside live storage");selected.set(i);}}
+        int visible=0;
+        for(int i=0;i<instances.handles.size();i++){var h=instances.handles.get(i);if(h==null||h.deleted)continue;instances.write(i,data+i*(long)stride);
+            if(h.visible&&(selected==null||selected.get(i))){
+                if(direct)MemoryUtil.memPutInt(targets+visible*4L,i);
+                else {long ptr=pages+(i/32)*8L+4;MemoryUtil.memPutInt(ptr,MemoryUtil.memGetInt(ptr)|(1<<(i&31)));}
+                visible++;
+            }
+        }
+        return visible;
     }
     void render(NativeEngine.Context context,NativeEngine.NativeInstancer<?> instances,List<Integer> selection,int crumble){
         live();int count=selection==null?instances.count():selection.size();if(count==0)return;
@@ -151,7 +164,8 @@ public final class NativeWorldRenderer {
                 vkCmdSetStencilCompareMask(command,VK_STENCIL_FACE_FRONT_AND_BACK,VRenderSystem.stencilFuncMask);
                 vkCmdSetStencilWriteMask(command,VK_STENCIL_FACE_FRONT_AND_BACK,VRenderSystem.stencilWriteMask);
                 vkCmdSetStencilReference(command,VK_STENCIL_FACE_FRONT_AND_BACK,VRenderSystem.stencilRef);
-                vkCmdDrawIndexedIndirect(command,snapshot.commands.buffer.buffer,snapshot.commands.offset+meshIndex*36L,1,36);
+                if(snapshot.direct){vkCmdDrawIndexed(command,mesh.indexCount(),snapshot.submitted,0,0,0);NativeEngine.DIRECT_INSTANCE_DRAWS.incrementAndGet();}
+                else vkCmdDrawIndexedIndirect(command,snapshot.commands.buffer.buffer,snapshot.commands.offset+meshIndex*36L,1,36);
                 NativeEngine.MODEL_DRAWS.incrementAndGet();if(context.embedded())NativeEngine.EMBEDDED_MODEL_DRAWS.incrementAndGet();if(crumble>=0)NativeEngine.CRUMBLING_DRAWS.incrementAndGet();
             }finally{Renderer.getInstance().invalidateRenderState();}
         }

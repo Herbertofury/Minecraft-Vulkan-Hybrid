@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "case": "clean-native",
+      "result": "[Hari/Vulkan] renderer=VULKAN reason=no external mods directory and no loaded renderer conflicts\nRESULT=true"
+    },
+    {
+      "case": "legacy-auto-conflict",
+      "result": "[Hari/Vulkan] renderer=OPENGL_FALLBACK reason=mutually-exclusive renderer(s): oculus\nRESULT=false"
+    },
+    {
+      "case": "required-conflict",
+      "result": "[Hari/Vulkan] renderer=NATIVE_REQUIREMENT_FAILED reason=mutually-exclusive renderer(s): oculus\nEXPECTED_BLOCK=Native Vulkan is required; launch blocked before an OpenGL fallback: mutually-exclusive renderer(s): oculus"
+    },
+    {
+      "case": "file-requires-auto",
+      "result": "[Hari/Vulkan] renderer=NATIVE_REQUIREMENT_FAILED reason=mutually-exclusive renderer(s): oculus\nEXPECTED_BLOCK=Native Vulkan is required; launch blocked before an OpenGL fallback: mutually-exclusive renderer(s): oculus"
+    },
+    {
+      "case": "file-forbids-force",
+      "result": "[Hari/Vulkan] renderer=NATIVE_REQUIREMENT_FAILED reason=forced compatibility bypass is forbidden by the native requirement\nEXPECTED_BLOCK=Native Vulkan is required; launch blocked before an OpenGL fallback: forced compatibility bypass is forbidden by the native requirement"
+    },
+    {
+      "case": "required-off",
+      "result": "[Hari/Vulkan] renderer=NATIVE_REQUIREMENT_FAILED reason=forced off\nEXPECTED_BLOCK=Native Vulkan is required; launch blocked before an OpenGL fallback: forced off"
+    },
+    {
+      "case": "file-cannot-weaken-require",
+      "result": "[Hari/Vulkan] renderer=NATIVE_REQUIREMENT_FAILED reason=mutually-exclusive renderer(s): oculus\nEXPECTED_BLOCK=Native Vulkan is required; launch blocked before an OpenGL fallback: mutually-exclusive renderer(s): oculus"
+    },
+    {
+      "case": "invalid-policy",
+      "result": "EXPECTED_BLOCK=Invalid native renderer policy: requireNative must be true or false"
+    },
+    {
+      "case": "unreadable-policy",
+      "result": "EXPECTED_BLOCK=Cannot inspect required native renderer policy"
+    }
+  ],
+  "scope": "Actual production renderer gate; conflict/native/config/forced-bypass/I/O controls. No Minecraft, GPU, gameplay compatibility or performance claim."
+}
