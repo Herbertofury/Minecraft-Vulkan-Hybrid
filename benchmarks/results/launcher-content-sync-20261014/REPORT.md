@@ -1,0 +1,22 @@
+# Native benchmark launcher content-sync improvement
+
+**The benchmark helper now starts Java in2.89-3.40seconds, versus57.14seconds in the clean baseline.** Actual same-profile Minecraft/Forge native menu launches confirm the change. Content sync falls56.06seconds to1.92-2.00seconds. Only compilation of the existing SHA-512/SHA-1 packages is optimized; file integrity, native policy, locks, recovery, runtime checks, errors and graphics settings remain intact. [Measurements](SUMMARY.json), [clean baseline](RUN-baseline-3.json), [optimized repeats](RUN-digest-opt-1.json), [second repeat](RUN-digest-opt-2.json).
+
+| Launch | Content sync (s) | Java starts (s) | First unloaded menu (s) |
+| --- | ---: | ---: | ---: |
+| Baseline2, concurrent project build |56.201|57.642|84.476|
+| Baseline3, no project build |56.056|57.136|80.655|
+| Optimized1 |2.000|3.395|27.229|
+| Optimized2 |1.919|2.889|26.703|
+
+Thirty-one fixed nonsecret phase timings locate the previous delay in content sync, rather than metadata/network, Java probes or launch ownership checks. This debug helper checks a retained mod folder of134 files/1,510,968,120bytes, including inactive historical JARs. It previously compiled SHA2/SHA1 without optimization. Set Cargo `profile.dev.package.sha2.opt-level=3` and `profile.dev.package.sha1_smol.opt-level=3`; no source digest algorithm or validation policy changes. The clean baseline and both optimized runs had no concurrent task compiler. External GPU workloads stayed running: about38%/4.1GB/~63W before those runs, with variation retained in receipts. Warm filesystem and fresh helper processes were used; this is not a cold-disk claim.
+
+Five actual production cache controls pass: unchanged files avoid rereading, edits with restored size/mtime invalidate the digest, replacements with matching size/mtime are rehashed, changes during verification are not cached, and SHA-512 matches the standard `abc` known answer. [Controls](CACHE-CONTROLS.json), [output](cache-controls-output.txt). The wrapper includes the unchanged production VerifiedFiles source, compiled against the actual optimized library. It preserves Windows file identity and ChangeTime checks.
+
+The retained preliminary run found58.864seconds of content sync but its title-screen automation waited on first-run accessibility onboarding. Its timeout is preserved in[RUN.json](RUN.json); the owned window was advanced, normally closed and restored. Subsequent probes close automatically at the identical fresh unloaded onboarding screen. Their menu times do not include world entry. No screen warning is hidden or native compatibility weakened.
+
+All runs use the same pinned Hari38/11-JAR selection, native-required preflight, Minecraft1.20.1/Forge47.4.26/Java17.0.20.1,8GiB heap, stack1024,1920x1080 and RTX4090/610.88. The selected-device/native-backend evidence is in each receipt. Original options/config/mod bytes restore, all327 full-candidate hashes remain unchanged, and every owned client exits normally. Other projects/Sims tests, worlds/accounts, installed Modrinth app and the older launcher executable remain unchanged.
+
+**Limits:** this improves the project's self-built benchmark helper. An official release launcher already compiles differently; no installed-app, complete-pack mod-loading, hitch, FPS or world-entry speedup is claimed. Full native Noxviola remains blocked by472 references/235 APIs in21 archives, led by Physics197, Essential133 and Xaero73. Complete-pack2,000FPS remains unachieved. No renderer source/artifact changes or OpenGL fallback occur.
+
+Reproduction uses the pinned official[Modrinth source](https://github.com/modrinth/code/tree/23ab5cdc331e40712f12b9026979359aec1e404d), existing ownership-scoped[helper/backend recipe](../../../tools/modrinth-cli/README.md), supplied[fixed-phase patch](launch-timing.patch) and[helper source](mvh_pack_cli.rs). Build the `mvh_pack_cli` binary with the two Cargo package overrides above. The diagnostic helper accepts `MVH_LAUNCH_PHASE_TIMING=1` for fixed labels and `MVH_LAUNCH_MENU_ONLY=1` to stop before world entry; keep those settings local to the diagnostic process. Use reviewed public build URL constants, never account credentials. These launcher sources remain GPL-3.0-only under the upstream license. No executables, credentials, private mod classes/controllers or raw launcher logs are published to Git.

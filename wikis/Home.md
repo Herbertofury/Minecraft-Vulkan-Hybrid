@@ -1,5 +1,9 @@
 # Minecraft Vulkan Hybrid
 
+## Benchmark launcher continuation (2026-10-14)
+
+The owned native test launcher now starts Java in2.89-3.40s versus57.14s for a clean baseline; optimizing existing SHA2/SHA1 code reduces content sync56.06s to1.92-2.00s without dropping integrity checks. Five cache controls and two actual native menu repeats pass. Full327 native loading/FPS remains incomplete. [Evidence and limits](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/blob/migration/projectdump-20261004/benchmarks/results/launcher-content-sync-20261014/REPORT.md).
+
 ## Native pixel-buffer continuation (2026-10-14)
 
 Renderer-only Hari38 passes62 actual native GPU cases/57,632pixels/zero mismatch. Original Xaero map/minimap pixel helpers automatically execute in Forge GAME using real mapped Vulkan buffers;16 original calls and44 method invocations preserve uploads/readbacks, deletion and mipmap ordering. All56 earlier UI/fence/clipping/viewport pixel hashes are unchanged. [Evidence and limits](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/blob/migration/projectdump-20261004/benchmarks/results/native-pixel-buffers-20261014/REPORT.md). A327-JAR shadow still blocks472 references/235 APIs across21 archives (Physics197, Essential133, Xaero73). Installed327 hashes/Hari23 and personal Noxviola remain unchanged. Full-pack2,000FPS/startup/no-hitch acceptance remains unachieved. No OpenGL fallback or unmeasured performance candidate is retained.

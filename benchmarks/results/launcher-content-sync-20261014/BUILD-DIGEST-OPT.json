@@ -1,0 +1,35 @@
+{
+  "build_exit_code": 0,
+  "artifact": "C:\\Users\\Owner\\Documents\\Codex\\2026-10-04\\task-4\\inventory\\launcher-awaits-20261014\\mvh-launch-await-digest-opt.exe",
+  "sha256": "b5f0aa201a51f9d459671a0546edcf15a7ca6d23e1eaa92ef0ebe1f050428ecc",
+  "compiled_source": {
+    "packages/app-lib/src/api/instance/run.rs": "441c7856848e521ee38353eb310a9abf7482ca68095a91326384fc6d02b311a2",
+    "packages/app-lib/src/launcher/mod.rs": "19db0e34cab8f3ad1dfd31f03fbd0c94987c79073d3a4db5742245696aa52644",
+    "packages/app-lib/src/bin/mvh_pack_cli.rs": "8efae77344f7099b3532ac33e2dab171a9a71c518b96fcf6dabd2c9cce5670f3"
+  },
+  "cargo_command": [
+    "cargo",
+    "build",
+    "--offline",
+    "--config",
+    "profile.dev.package.sha2.opt-level=3",
+    "--config",
+    "profile.dev.package.sha1_smol.opt-level=3",
+    "-p",
+    "theseus",
+    "--bin",
+    "mvh_pack_cli",
+    "-j2"
+  ],
+  "source_algorithm_unchanged": true,
+  "optimization_only": [
+    "sha2 opt-level3",
+    "sha1_smol opt-level3"
+  ],
+  "active_launcher_replaced": false,
+  "diagnostic_only": true,
+  "source_restored": true,
+  "debug_cli_restored": true,
+  "active_launcher_unchanged": true,
+  "utc": "2026-10-14T07:30:32.056687+00:00"
+}
