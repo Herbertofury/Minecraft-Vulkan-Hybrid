@@ -441,6 +441,7 @@ public final class UniversalRendererGate {
         if (EssentialClipCallerAudit.translated(entry, bytes)) return;
         if (EssentialSyncCallerAudit.translated(entry, bytes)) return;
         if (EssentialViewportCallerAudit.translated(entry, bytes)) return;
+        if (EssentialManagedStateCallerAudit.translated(entry, bytes)) return;
         if (XaeroPixelCallerAudit.translated(entry, bytes)) return;
         if (PhysicsShaderCallerAudit.translated(entry, bytes)) return;
         if (PhysicsBufferCallerAudit.translated(entry, bytes)) return;

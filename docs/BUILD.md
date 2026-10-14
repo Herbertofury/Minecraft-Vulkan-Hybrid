@@ -60,3 +60,7 @@ Fresh assembly and Java17 `:forge:build` produce `harimt-forge-1.20.1-2.4.11-nox
 ## Native Vulkan logic-operation and depth-bias repair
 
 Fresh assembly/Java17 Forge build produces Hari56. [164 actual GPU cases and paired defect reproduction](../benchmarks/results/native-raster-state-20261014/REPORT.md), [reproduction and artifact hash](../benchmarks/results/native-raster-state-20261014/REPRODUCE.md). Full typed provider/GAME/full327 gameplay remains unfinished. No personal promotion or FPS claim.
+
+## Native original managed-state GAME continuation
+
+Fresh assembly and Java17 Forge build produce Hari58. [191 actual GPU cases, original GAME state and native blend repair](../benchmarks/results/native-managed-state-20261014/REPORT.md), [reproduction and artifact hash](../benchmarks/results/native-managed-state-20261014/REPRODUCE.md). Full typed provider/delayed-loader/features/full327 gameplay remain incomplete. No personal promotion or FPS claim.
