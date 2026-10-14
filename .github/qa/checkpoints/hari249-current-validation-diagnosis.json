@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "status": "Verified recovery: Midnight and original9.6/9.8combined realms full native PASS with all original controls/gameplay and validation gates. Exact product JAR unchanged.",
+  "sdk_version": "1.4.363.0",
+  "sdk_release_date": "2026-09-29",
+  "sdk_sha256": "197962f5cbf80baf2775a03336a01cee7c8745686c65aaa70d3f751ade4d7e43",
+  "official_hash_endpoint": "https://vulkan.lunarg.com/sdk/sha/1.4.363.0/linux/vulkan_sdk.tar.xz.json",
+  "official_config_endpoint": "https://vulkan.lunarg.com/sdk/config/1.4.363.0/linux/config.json",
+  "retained_issues": [
+    {
+      "artifact": 11290096152,
+      "run": 37167237796,
+      "job": 111332611083,
+      "sha256": "bb0b6da56323e5e7aba2fda2df4f3a8736c8fbfbe995569687b480adb95cc68a",
+      "first_release_tick_deltas": [
+        20,
+        20,
+        20,
+        10,
+        10,
+        10,
+        10,
+        10,
+        20,
+        10
+      ],
+      "median_full_viewport_ms": 746.507037,
+      "render_thread_failure_stack": "vkQueueSubmit -> GraphicsQueue.endRecordingAndSubmit -> TextureManager.tick; CPU425001ms /476780ms elapsed",
+      "actual_small_input_view": "480x270 sky-facing, native key events observed; no unknown state injection"
+    },
+    {
+      "artifact": 11289817801,
+      "run": 37167237796,
+      "job": 111332610963,
+      "sha256": "af75ae75d2de549dc696e04c4a9310820c27b225cb9900169c3be1d49407e2e0"
+    },
+    {
+      "artifact": 11290192039,
+      "run": 37167237787,
+      "job": 111332610937,
+      "sha256": "fe97f408a8ecf82f9f1f4ea37d835237d60915f62d34f2b54c0c87a79e6103fc"
+    }
+  ],
+  "unchanged_gates": [
+    "Exact c108 candidate bytes and original dependency closure",
+    "All core and synchronization validation, queue-submit checks remain enabled",
+    "Actual original native doubleSpace flight and portals; no game/timer/NoAI changes",
+    "300 frames after120warmup,1280x720/distance4, all scenes/NBT/unload and secondJVM",
+    "Actual loaded validation .so path/hash independently read from /proc/original-JVM/maps"
+  ],
+  "upstream_issue_reference": "https://github.com/KhronosGroup/Vulkan-ValidationLayers/issues/7285",
+  "official_current_sync_defaults": {
+    "tag": "vulkan-sdk-1.4.363.0",
+    "source": "https://github.com/KhronosGroup/Vulkan-ValidationLayers/blob/vulkan-sdk-1.4.363.0/layers/sync/sync_settings.h",
+    "full_validation": true,
+    "record_time_validation": true,
+    "legacy_VK_LAYER_ENABLES_sync_feature_retained_in_official_manifest": true,
+    "manifest_source": "https://github.com/KhronosGroup/Vulkan-ValidationLayers/blob/vulkan-sdk-1.4.363.0/layers/VkLayer_khronos_validation.json.in"
+  },
+  "current_native_runs": {
+    "midnight_and_9.6_dimensions": 37168634595,
+    "original_9.8_dimensions": 37168634593,
+    "qa_head": "e94b6189968d4954431b230af62b5862376fcf30",
+    "jobs": [
+      111336814178,
+      111336814285,
+      111336814171
+    ]
+  },
+  "verified_recovery": {
+    "lane": "midnight",
+    "run": 37168634595,
+    "job": 111336814178,
+    "artifact": 11290144710,
+    "artifact_sha256": "sha256:b7f476508ccb2b19348e0c924a4e0f05bedf0eb0fd2127f8b1ec001df39cf620",
+    "two_original_client_pids": [
+      4256,
+      4951
+    ],
+    "initial_doubleSpace_first_release_flying_ticks": [
+      1225,
+      1226,
+      1227
+    ],
+    "attempt": 1,
+    "full_frame_median_ms": [
+      79.284541,
+      94.594053
+    ],
+    "native_reconciler_with_library_pin_passed": true,
+    "validation_library_sha256": "ea3395cdad554bd92e0f2ee6a7558d2094262c9695355ae0f4815843c504dbf4",
+    "product_jar_unchanged": true,
+    "interpretation": "Old validation overhead caused the software input starvation. This is a QA tool recovery, not an attributable hardware FPS speedup of the unchanged mod."
+  },
+  "invalidation_conditions": [
+    "Different candidate/mod inputs require the applicable native gates again",
+    "Different SDK bytes/layer or disabled core/sync checks invalidate this tooling proof",
+    "Do not use the older1.3.275 automated software-flight protocol for acceptance"
+  ],
+  "full_recovery_jobs": [
+    111336814178,
+    111336814285,
+    111336814171
+  ],
+  "regression_protection": "Canonical broad and C2ME9.8 workflows install the exact SDK and use the actually validated actor; old failure workflows retained as history."
+}

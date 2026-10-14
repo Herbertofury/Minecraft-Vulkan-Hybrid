@@ -1,0 +1,5 @@
+{
+  "passed": true,
+  "statement_boundary_cases": 10,
+  "scope": "Actual comment lexer and top-level statement boundaries: adjacent declarations, functions/for-loops, macros/continuations, quoted imports, conventional line preservation and unterminated block rejection. Actual shader compiler and rendering checked separately."
+}

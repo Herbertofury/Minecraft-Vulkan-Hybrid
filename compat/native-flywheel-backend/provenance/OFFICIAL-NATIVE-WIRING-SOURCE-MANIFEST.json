@@ -1,0 +1,55 @@
+{
+  "commit": "610b1683f3ed0fef5cd387a126bd2c530a9c2ead",
+  "files": [
+    {
+      "path": "common/src/api/java/dev/engine_room/flywheel/api/material/Transparency.java",
+      "git_blob": "06de4550f3128d551a25dfba61f86a40174d6289",
+      "sha256": "14d8c9fd88f3dfbe0b20061f1c7c4da8faacfe48c27799e64955025a6bf5c1a3"
+    },
+    {
+      "path": "common/src/backend/java/dev/engine_room/flywheel/backend/BackendDebugFlags.java",
+      "git_blob": "66704fecca334e95b61492e68b917a969152e931",
+      "sha256": "f20b5fe98e38aea7f55269911a2a66fb0730412c921e75fb14c84c2843909f47"
+    },
+    {
+      "path": "common/src/backend/java/dev/engine_room/flywheel/backend/compile/LightSmoothness.java",
+      "git_blob": "4ff0b84592feaa8628347dcf1c524571143a9af0",
+      "sha256": "41a15056289d6cfe3c253649145a436864d944f42684fb2877f456a0f4f82104"
+    },
+    {
+      "path": "common/src/backend/java/dev/engine_room/flywheel/backend/gl/GlCompat.java",
+      "git_blob": "897af67fd94f92d52dbe7649783f95385bff2206",
+      "sha256": "7219a64530b85b33a1ae4ad0790c1fbeafbac010491779b6589caa318c17c974"
+    },
+    {
+      "path": "common/src/backend/java/dev/engine_room/flywheel/backend/gl/GlStateTracker.java",
+      "git_blob": "93c40c9c073cf86222d3b28ae5a992fef4e568e6",
+      "sha256": "d63ccc63737811debbb91b352e54d8fad9e91fe351141c305f1553dda4513265"
+    },
+    {
+      "path": "common/src/backend/java/dev/engine_room/flywheel/backend/mixin/GlStateManagerMixin.java",
+      "git_blob": "d1369f93494694c3bd7b24ee920c22431b638f53",
+      "sha256": "29e7ce5fe5d41d062ee57f4926216ec47f4c75e4bd296724891ce56a11f6299a"
+    },
+    {
+      "path": "common/src/backend/java/dev/engine_room/flywheel/backend/mixin/RenderSystemMixin.java",
+      "git_blob": "b08444dc744744a8566b52f3427f526318d82a7d",
+      "sha256": "8d379c27b63fb1edd2278cdee342ee716db5eb398eb5015203ba0649da70c6e0"
+    },
+    {
+      "path": "common/src/main/java/dev/engine_room/flywheel/impl/FlwConfig.java",
+      "git_blob": "7b632adcb880412d4148c5ddc9b236cad524d2c2",
+      "sha256": "ec8cffd79ff77c40fc81a8e0dd2401cda1606ca903aa15de6e357c266d615a4f"
+    },
+    {
+      "path": "fabric/src/main/java/dev/engine_room/flywheel/impl/FabricFlwConfig.java",
+      "git_blob": "9fb97c0d5927fbd0f744904a9cfb0c5c2efb86f3",
+      "sha256": "5bda299054d6d78caea5c1e87f2fec9841c9cd39871b03235556509d16f0e09d"
+    },
+    {
+      "path": "forge/src/main/java/dev/engine_room/flywheel/impl/ForgeFlwConfig.java",
+      "git_blob": "1207c63ac100007a26dba57a5d943f6f6d31bc1e",
+      "sha256": "12265c73c068979d72771660458e6bafbe9009e38ad32ad7706e6f5cc793164f"
+    }
+  ]
+}

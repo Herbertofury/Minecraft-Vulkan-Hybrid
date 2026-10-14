@@ -1,0 +1,29 @@
+# Synchronization and pipeline-hitch research, reconciled against Hari58
+
+User-supplied leads, inspected2026-10-14. These are hypotheses and measurement plans, not new FPS gains or confirmed Hari defects. Baseline feature commit8df974b6b593c4bfccf1bfcdabf7163dc2c5a60b passes199 actual GPU cases; full327 gameplay/performance remains unaccepted.
+
+## Pinned upload-order comparison
+
+Inspected xCollateral/VulkanMod dev revision `087ef24e58e5522dec5ccb44f279768786bfb6da`. [Renderer](https://github.com/xCollateral/VulkanMod/blob/087ef24e58e5522dec5ccb44f279768786bfb6da/src/main/java/net/vulkanmod/vulkan/Renderer.java), [Synchronization](https://github.com/xCollateral/VulkanMod/blob/087ef24e58e5522dec5ccb44f279768786bfb6da/src/main/java/net/vulkanmod/vulkan/Synchronization.java). Renderer.flushCmds collects/consumes existing wait semaphores before submitUploads; Synchronization separately retains semaphore-backed and fence-backed command buffers. A newly registered upload semaphore might be absent from that submission's collected list. This is an upstream dependency-order hypothesis requiring a reproducible hazard, not a proven Hari failure.
+
+The actual fork differs: Synchronization contains a fence list and command-buffer resets, with no getWaitSemaphores/list-consumption API. flushForReadback/flushCmds wait the tracked fences before graphics submit; preInitFrame submits uploads, and newer typed buffer-image transfers record on the existing graphics command stream. Therefore copying the proposed upstream reorder directly is unjustified. Host-wait costs and late upload submission/lifetime still merit measurement. Source inspection alone does not establish staging safety for every path.
+
+Use first-upload/immediate-flush/first-readback with unique texture and vertex data, consecutive flushes and image/buffer replacement. Record graphics/transfer queue identity, submit serials, actual range offsets, ownership/access barriers and completion/reset times. Exercise separate queue families only if available; report unavailability. Finalize required uploads before dependency collection if an actual missing dependency is reproduced. Keep synchronous readback and avoid permanent device-idle synchronization. Immutable native sampler replacement in the current compatibility work keeps old sampler handles alive through existing shutdown cleanup; it does not replace upload-lifetime evidence.
+
+## Shader-hitch measurements
+
+Record host wall time around actual pipeline creation, key/first-use frame/render-thread stall, feedback flags and valid driver duration. Driver duration is nanoseconds; read it only when VALID_BIT is set. Application-cache-hit is about the supplied application cache; its absence does not prove failure of an internal driver cache. [Feedback](https://docs.vulkan.org/refpages/latest/refpages/source/VkPipelineCreationFeedback.html), [flags](https://docs.vulkan.org/refpages/latest/refpages/source/VkPipelineCreationFeedbackFlagBits.html).
+
+The fork lazily creates GraphicsPipeline variants through computeIfAbsent and uses a persisted application pipeline cache; it does not currently publish driver feedback. Measure cold/warm application caches before choosing prewarming or background optimized replacements. Compile-required must not skip a required draw. Feature-gate optional mechanisms and retire replaced handles after GPU completion. Keep executable statistics/internal representations out of clean timing runs. [Creation flags](https://docs.vulkan.org/refpages/latest/refpages/source/VkPipelineCreateFlagBits2.html). No new cache optimization or gain is accepted here.
+
+## Presentation and optional parallel recording
+
+The inspected upstream and this fork select render-finished semaphores by acquired image index; preserve that. A submit fence does not establish presentation-consumer completion. Test unequal frame/image counts, resize/minimize/restore and out-of-date acquisition before changing semaphore reuse. [Khronos guidance](https://docs.vulkan.org/guide/latest/swapchain_semaphore_reuse.html).
+
+Parallel recording is conditional on real CPU profiles. Keep arbitrary Minecraft/mod callbacks on their established thread; capture immutable ordered backend packets. Use per-frame/per-thread pools for independent work and retain generations until retirement. Preserve transparency/GUI/framebuffer order; avoid tiny secondary batches and premature pool resets. [Command buffers](https://docs.vulkan.org/samples/latest/samples/performance/command_buffer_usage/README.html), [threading](https://docs.vulkan.org/guide/latest/threading.html).
+
+## Acceptance and next concrete work
+
+Do not redo verified logic/polygon repairs. Finish real sampler/render-pass/loader compatibility while preserving199 cases and all327 hashes/features/settings. Native sampler work must verify independent U/V wrapping, min/mag filters, LOD, descriptor snapshots and image generation replacement with actual original callers/GPU pixels. Full-pack launcher-to-Java, mod loading/menu, world-entry and frame-time phases must be separately measured. The earlier57s-to3s improvement belongs to the launcher helper; it is not full-pack loading evidence. No2,000FPS claim without representative matched full327 runs and unchanged quality/settings. Leave concurrent GPU work and protected projects untouched.
+
+Confirmed follow-up: Hari61 original GAME sampler transport passes69 new GPU cases,268 total with all199 earlier hashes equal. The real maxLod=0 minification defect is repaired by Khronos' base-only maxLod=0.25 mapping. Independent wrap/min/mag/LOD, queued sampler handles and image replacement are verified; this does not establish upload safety for every path or full327 gameplay/FPS. [Evidence](../../benchmarks/results/native-original-sampler-20261014/REPORT.md).

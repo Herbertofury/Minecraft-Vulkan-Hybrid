@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "work_items_per_sample": 5120000,
+  "baseline_median_ns": 56882043,
+  "candidate_median_ns": 12487106,
+  "baseline_allocated_bytes": 123360000,
+  "candidate_allocated_bytes": 21120000,
+  "disjoint_upload_regions": 128,
+  "candidate_copy_commands": 1,
+  "candidate_disjoint_barriers": 0,
+  "scope": "Actual production Java; real concurrent queue checks and alternating equivalent-work CPU benchmark; Vulkan command recording uses checked doubles. Native Minecraft proof is separate."
+}

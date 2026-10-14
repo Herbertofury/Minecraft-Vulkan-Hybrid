@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "actual_private_grass_checked": false,
+  "scope": "Production gate, exact class/hash/provider controls and unknown compute fixture. Optional pinned real JAR: absent/direct/nested/classpath shader API, cache changes, same-size/time modified input and nested-copy rejection. No renderer features, raw game bytecode or private assets published. Native visual/performance checks separate.",
+  "cases": [
+    {
+      "case": "unknown-build-with-compute-call",
+      "expected_vulkan": false,
+      "output": "[Hari/Vulkan] renderer=OPENGL_FALLBACK reason=untranslated OpenGL call(s): GL43C#glDispatchCompute(III)V@grass.jar\nREASON=untranslated OpenGL call(s): GL43C#glDispatchCompute(III)V@grass.jar"
+    }
+  ]
+}

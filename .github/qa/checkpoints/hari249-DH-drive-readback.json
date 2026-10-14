@@ -1,0 +1,10 @@
+{
+  "drive_id": "1NaQBTamqlzrslOxJkRaeiyb8Fn-82EQX",
+  "bytes": 25761303,
+  "sha256": "43fcde4a0117c1b188eff19d6178f7014201113a2f7de9d391d48e89f94de58d",
+  "raw_byte_readback_verified": true,
+  "artifact_ids": [
+    11289499096,
+    11289469066
+  ]
+}

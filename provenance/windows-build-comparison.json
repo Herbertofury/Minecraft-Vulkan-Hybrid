@@ -1,0 +1,44 @@
+{
+  "original_sha256": "8b593bac1ac77670849ed992c808d327dd6d9f188ddfdea341ac88f16edf8c9f",
+  "windows_build_sha256": "1410671973ada76e20a35f9c469dd2433785f7ee3feede3ac8c9fb5d311bab9d",
+  "entry_differences": [
+    {
+      "path": "META-INF/jarjar/lwjgl-3.3.3.jar",
+      "original_bytes": 792457,
+      "rebuilt_bytes": 792457,
+      "class_file": false
+    },
+    {
+      "path": "META-INF/jarjar/lwjgl-shaderc-3.3.3.jar",
+      "original_bytes": 29964,
+      "rebuilt_bytes": 29964,
+      "class_file": false
+    },
+    {
+      "path": "META-INF/jarjar/lwjgl-vma-3.3.3.jar",
+      "original_bytes": 103315,
+      "rebuilt_bytes": 103315,
+      "class_file": false
+    },
+    {
+      "path": "META-INF/jarjar/lwjgl-vulkan-3.3.3.jar",
+      "original_bytes": 6075399,
+      "rebuilt_bytes": 6075399,
+      "class_file": false
+    },
+    {
+      "path": "META-INF/jarjar/metadata.json",
+      "original_bytes": 1190,
+      "rebuilt_bytes": 1242,
+      "class_file": false
+    },
+    {
+      "path": "harimt.refmap.json",
+      "original_bytes": 94649,
+      "rebuilt_bytes": 94650,
+      "class_file": false
+    }
+  ],
+  "original_only": [],
+  "rebuilt_only": []
+}

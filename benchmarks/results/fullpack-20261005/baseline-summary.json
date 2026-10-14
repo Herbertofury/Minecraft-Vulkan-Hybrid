@@ -1,0 +1,55 @@
+{
+  "hardware": {
+    "cpu": "Intel Core i9-13900K",
+    "ram_gib": 64,
+    "gpu": "NVIDIA RTX4090",
+    "driver": "610.88"
+  },
+  "minecraft": "1.20.1",
+  "forge": "47.4.26",
+  "java": "Temurin17.0.20.1",
+  "active_jars_with_recorder": 352,
+  "full_capture": {
+    "status": "complete",
+    "reason": "",
+    "capture_epoch_ms": 1791241468045,
+    "duration_ms": 30010.3226,
+    "frames": 1695,
+    "average_fps": 56.48056579038577,
+    "one_percent_low_fps": 23.590855740251914,
+    "p50_ms": 18.1374,
+    "p95_ms": 28.1377,
+    "p99_ms": 36.7595,
+    "max_ms": 47.8544,
+    "api_renderer": "OPENGL_FALLBACK",
+    "gl_vendor": "NVIDIA Corporation",
+    "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+    "gl_version": "4.6.0 NVIDIA 610.88",
+    "held_item": "journal:journal",
+    "recorder": "Forge RenderTick END wall intervals; all frames retained; not GPU/presentation timing",
+    "camera": "0.5,110.5,0.5 / yaw -68.7007 / pitch 9.999512",
+    "original_powered_create_fixture_verified": false
+  },
+  "timing": {
+    "launcher_start_epoch_ms": 1791241241336,
+    "java_start_epoch_ms": 1791241247557,
+    "scene_ready_epoch_ms": 1791241408045,
+    "modernfix_game_to_world_s": 173.31079,
+    "modernfix_menu_to_world_s": 38.325783,
+    "cache_state": "Repeated local launch; OS/filesystem caches retained; not a cold boot",
+    "launcher_to_scene_s": 166.709,
+    "java_to_scene_s": 160.488
+  },
+  "all_gameplay_mods_retained": true,
+  "excluded_performance_providers": [
+    "Embeddium (explicit user exclusion)",
+    "ImmediatelyFast (rejected renderer/performance)",
+    "GeckoBetterFPS (unavailable Sodium API; original GeckoLib retained)"
+  ],
+  "personal_pack_promoted": false,
+  "fullpack_1500fps_achieved": false,
+  "fullpack_2400fps_achieved": false,
+  "zero_hitch_accepted": false,
+  "native_full_pack_accepted": false,
+  "limits": "One clean full pack capability run so far; continued unrelated CPU/GPU workloads, repeated local caches, CPU wall intervals rather than presentation; active shaderpack absent as in original profile."
+}

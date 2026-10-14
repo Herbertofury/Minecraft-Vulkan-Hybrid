@@ -1,0 +1,17 @@
+version:3465
+fov:0.0
+renderDistance:16
+simulationDistance:12
+entityDistanceScaling:1.0
+maxFps:260
+enableVsync:false
+graphicsMode:1
+ambientOcclusion:true
+mipmapLevels:4
+particles:0
+biomeBlendRadius:2
+fullscreen:false
+pauseOnLostFocus:false
+clouds:true
+resourcePacks:[]
+incompatibleResourcePacks:[]

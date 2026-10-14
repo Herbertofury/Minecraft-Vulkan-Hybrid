@@ -1,0 +1,26 @@
+{
+  "stage": "017-create",
+  "file": "create-1.20.1-6.0.8.jar",
+  "mod_ids": [
+    "create"
+  ],
+  "original_sha256": "6fbb910c367dbce8e4fc7e5bf64b6edd4de980906ed00af8e47e4af843c0d9b0",
+  "installed_sha256": "6fbb910c367dbce8e4fc7e5bf64b6edd4de980906ed00af8e47e4af843c0d9b0",
+  "previous_median_fps": 2569.3231588135723,
+  "median_fps": 498.9907204359032,
+  "change_percent": -80.57890387496758,
+  "renderer": "OPENGL_FALLBACK",
+  "repeats": 1,
+  "status": "RENDERER_TRANSITION_REQUIRES_COMPATIBILITY_WORK",
+  "native_component_progress": {
+    "hari_version": "2.4.11-noxviola.13",
+    "ponder_native_default_component_gpu_passed": true,
+    "repaired_create_remaining_flywheel_refs": 135,
+    "remaining_unique_apis": 116,
+    "original_create_jar_unchanged": true,
+    "reference_iris_compiler_and_gpu_handoff_passed": true,
+    "active_iris_oculus_or_shader_pack_accepted": false,
+    "full_native_create_accepted": false,
+    "scope": "Primitive/component diagnostics only; remaining full Flywheel engine and shader-pack resources/lifecycle still block dependency-aware progression. Original stage17 OpenGL timing remains historical, not a post-update capture."
+  }
+}

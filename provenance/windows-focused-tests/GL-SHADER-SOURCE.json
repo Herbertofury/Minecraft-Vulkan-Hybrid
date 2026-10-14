@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "cases": 10,
+  "native_lwjgl_memory": true,
+  "full_source_concatenation": true,
+  "utf8_byte_lengths": true,
+  "buffer_positions_preserved": true,
+  "source_sha256": "09dd5a7f845dcd38038857ad7f4da57215473fed21f07fcf0dd7071d451ad58b",
+  "lwjgl_fixture_sha256": {
+    "lwjgl-3.3.1.jar": "cf83f90e32fb973ff5edfca4ef35f55ca51bb70a579b6a1f290744f552e8e484",
+    "lwjgl-3.3.1-natives-windows.jar": "093d13d62a6434bc656bf10a3b37e2530fd9af3b0bc20f8e9545be58659d1443"
+  },
+  "scope": "Actual source helper with real LWJGL 3.3.1 native memory. General external GL shader programs remain unadvertised until their pipeline is translated."
+}

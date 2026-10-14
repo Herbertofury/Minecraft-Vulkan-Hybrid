@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.srrapero720.dimthread.mixin.impl",
+  "plugin": "me.srrapero720.dimthread.mixin.MixinPlugin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "harimt.refmap.json",
+  "mixins": [
+    "EntityMixin",
+    "ILevelMixin",
+    "IntegerValueAccessor",
+    "MinecraftServerMixin",
+    "RedstoneWireBlockMixin",
+    "ServerChunkCacheMixin",
+    "mi_405388.ChunkEventListenerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

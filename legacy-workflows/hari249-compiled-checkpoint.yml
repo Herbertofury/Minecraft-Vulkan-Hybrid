@@ -1,0 +1,29 @@
+name: Hari 2.4.9 semantic LIGHT compiled checkpoint extraction
+"on":
+  push:
+    branches: [async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926]
+    paths: ['.github/workflows/hari249-compiled-checkpoint.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verify-extract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Verify exact completed compile and preserve one byte-reproducible candidate
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 .github/qa/hari249_compiled_checkpoint.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Hari-2.4.9-verified-compiled-checkpoint
+          path: compiled-checkpoint/
+          if-no-files-found: error

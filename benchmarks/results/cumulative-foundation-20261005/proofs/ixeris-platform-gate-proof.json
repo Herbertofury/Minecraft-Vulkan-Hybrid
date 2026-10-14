@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "pinned_jar_sha256": "6cc7e1bfad6a2e82983a41535accf919a1027ca7087f1e6fcc955df22f7d91e1",
+  "scope": "Actual production gate scans the published first-party JAR; modeled immutable LWJGL platform. Changed/unknown/other-platform controls retain ordinary fallback, including cached Windows-to-Mac transitions. Upstream mod code is not executed. Native game/thread/input benefit remains separate.",
+  "cases": [
+    {
+      "case": "WINDOWS",
+      "expected_native": true,
+      "reason": "[Hari/Vulkan] renderer=VULKAN reason=all active discovered direct OpenGL calls are translated; pinned inactive ModernFix class audited\nall active discovered direct OpenGL calls are translated; pinned inactive ModernFix class audited"
+    },
+    {
+      "case": "MACOSX",
+      "expected_native": false,
+      "reason": "[Hari/Vulkan] renderer=OPENGL_FALLBACK reason=untranslated OpenGL call(s): CGL#CGLGetCurrentContext()J@Ixeris-4.6.8+1.20.1-forge.jar,CGL#CGLLockContext(J)I@Ixeris-4.6.8+1.20.1-forge.jar,CGL#CGLUnlockContext(J)I@Ixeris-4.6.8+1.20.1-forge.jar\nuntranslated OpenGL call(s): CGL#CGLGetCurrentContext()J@Ixeris-4.6.8+1.20.1-forge.jar,CGL#CGLLockContext(J)I@Ixeris-4.6.8+1.20.1-forge.jar,CGL#CGLUnlockContext(J)I@Ixeris-4.6.8+1.20.1-forge.jar"
+    },
+    {
+      "case": "LINUX",
+      "expected_native": false,
+      "reason": "[Hari/Vulkan] renderer=OPENGL_FALLBACK reason=cached: untranslated OpenGL call(s): CGL#CGLGetCurrentContext()J@Ixeris-4.6.8+1.20.1-forge.jar,CGL#CGLLockContext(J)I@Ixeris-4.6.8+1.20.1-forge.jar,CGL#CGLUnlockContext(J)I@Ixeris-4.6.8+1.20.1-forge.jar\ncached: untranslated OpenGL call(s): CGL#CGLGetCurrentContext()J@Ixeris-4.6.8+1.20.1-forge.jar,CGL#CGLLockContext(J)I@Ixeris-4.6.8+1.20.1-forge.jar,CGL#CGLUnlockContext(J)I@Ixeris-4.6.8+1.20.1-forge.jar"
+    },
+    {
+      "case": "UNRECOGNIZED",
+      "expected_native": false,
+      "reason": "[Hari/Vulkan] renderer=OPENGL_FALLBACK reason=untranslated OpenGL call(s): CGL#CGLGetCurrentContext()J@Ixeris-4.6.8+1.20.1-forge.jar,CGL#CGLLockContext(J)I@Ixeris-4.6.8+1.20.1-forge.jar,CGL#CGLUnlockContext(J)I@Ixeris-4.6.8+1.20.1-forge.jar\nuntranslated OpenGL call(s): CGL#CGLGetCurrentContext()J@Ixeris-4.6.8+1.20.1-forge.jar,CGL#CGLLockContext(J)I@Ixeris-4.6.8+1.20.1-forge.jar,CGL#CGLUnlockContext(J)I@Ixeris-4.6.8+1.20.1-forge.jar"
+    },
+    {
+      "case": "WINDOWS",
+      "expected_native": true,
+      "reason": "[Hari/Vulkan] renderer=VULKAN reason=all active discovered direct OpenGL calls are translated; pinned inactive ModernFix class audited\nall active discovered direct OpenGL calls are translated; pinned inactive ModernFix class audited"
+    },
+    {
+      "case": "modified-whole-jar-same-size-time",
+      "expected_native": false,
+      "reason": "[Hari/Vulkan] renderer=OPENGL_FALLBACK reason=untranslated OpenGL call(s): CGL#CGLGetCurrentContext()J@Ixeris-4.6.8+1.20.1-forge.jar,CGL#CGLLockContext(J)I@Ixeris-4.6.8+1.20.1-forge.jar,CGL#CGLUnlockContext(J)I@Ixeris-4.6.8+1.20.1-forge.jar\nuntranslated OpenGL call(s): CGL#CGLGetCurrentContext()J@Ixeris-4.6.8+1.20.1-forge.jar,CGL#CGLLockContext(J)I@Ixeris-4.6.8+1.20.1-forge.jar,CGL#CGLUnlockContext(J)I@Ixeris-4.6.8+1.20.1-forge.jar"
+    }
+  ]
+}

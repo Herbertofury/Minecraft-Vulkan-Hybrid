@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "scope": "Production memoized sort compared with independent JDK stable order; three unsafe controls must fail; no game/FPS inference",
+  "results": [
+    {
+      "variant": "production",
+      "semantic_regression_passed": true,
+      "expected_pass": true
+    },
+    {
+      "variant": "camera_check_removed",
+      "semantic_regression_passed": false,
+      "expected_pass": false
+    },
+    {
+      "variant": "input_sequence_check_removed",
+      "semantic_regression_passed": false,
+      "expected_pass": false
+    },
+    {
+      "variant": "failed_sort_invalidation_removed",
+      "semantic_regression_passed": false,
+      "expected_pass": false
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "controls": 18,
+  "source_sha256": "1dd162a307477764bfe987e9ad98daeac626ec9fccc6e74bfe39b5b45c73b985",
+  "variants": [
+    {
+      "variant": "production",
+      "behavior_passed": true,
+      "expected": true
+    },
+    {
+      "variant": "ignores_scissor",
+      "behavior_passed": false,
+      "expected": false
+    },
+    {
+      "variant": "breaks_reverse",
+      "behavior_passed": false,
+      "expected": false
+    },
+    {
+      "variant": "rounds_fractional",
+      "behavior_passed": false,
+      "expected": false
+    }
+  ],
+  "scope": "Unchanged actual production affine clipping and integral-endpoint validation; three behavior mutations rejected. No GPU, UI, FPS or full GL-contract claim."
+}

@@ -1,0 +1,155 @@
+{
+  "scope": "Seven bounded original Grassier Grass reload/animation/trail/FOV/dimension checks in actual native Minecraft with original Create retained; screenshots reviewed, not every style or active shaderpack. No diagnostic FPS accepted.",
+  "result": {
+    "completed": true,
+    "passed": true,
+    "api_renderer": "VULKAN",
+    "step": 7,
+    "error_type": "",
+    "peak_original_meshes": 1253,
+    "peak_original_active_trail_cells": 28,
+    "scope": "Resource reload, original animation/trail/FOV/dimension state; pinned Entity settings UI when installed. Screenshots require visual review; no FPS or all-style/shader-provider parity acceptance",
+    "checks": [
+      "native_client_resource_reload",
+      "original_native_grass_meshes_and_shader_available",
+      "original_animation_phase_advanced",
+      "native_visibility_updated_after_stationary_fov_change",
+      "client_movement_stamped_original_trail_field",
+      "client_entered_native_nether",
+      "native_overworld_grass_rebuilt_after_roundtrip"
+    ],
+    "pure_frustum_cache_counters": {
+      "CACHE_HITS": 51099410,
+      "CACHE_MISSES": 13712800,
+      "STATE_CAPTURES": 42498,
+      "STATE_CHANGES": 10303
+    },
+    "cache_snapshots": [
+      {
+        "scope": "before_reload",
+        "DIRTY_SECTIONS": 0,
+        "LIGHT_DIRTY_SECTIONS": 0,
+        "RELOD_PENDING": 0,
+        "IN_FLIGHT": 3,
+        "TO_BUILD": 2032,
+        "TO_REFRESH": 0,
+        "TO_RELOD": 0,
+        "camera_x": 0.5,
+        "camera_y": 112.11999988555908,
+        "camera_z": 0.5,
+        "native_graph_needs_update": true,
+        "native_terrain_tasks_idle": false
+      },
+      {
+        "scope": "grass_ground_scene",
+        "DIRTY_SECTIONS": 0,
+        "LIGHT_DIRTY_SECTIONS": 0,
+        "RELOD_PENDING": 0,
+        "IN_FLIGHT": 0,
+        "TO_BUILD": 1600,
+        "TO_REFRESH": 0,
+        "TO_RELOD": 0,
+        "camera_x": 0.5,
+        "camera_y": 64.61999988555908,
+        "camera_z": 40.5,
+        "native_graph_needs_update": false,
+        "native_terrain_tasks_idle": true
+      },
+      {
+        "scope": "finish",
+        "DIRTY_SECTIONS": 0,
+        "LIGHT_DIRTY_SECTIONS": 0,
+        "RELOD_PENDING": 0,
+        "IN_FLIGHT": 0,
+        "TO_BUILD": 1792,
+        "TO_REFRESH": 0,
+        "TO_RELOD": 0,
+        "camera_x": 0.5,
+        "camera_y": 57.61999988555908,
+        "camera_z": 0.5,
+        "native_graph_needs_update": false,
+        "native_terrain_tasks_idle": true
+      }
+    ],
+    "fov_evidence": {
+      "original_degrees": 70,
+      "test_degrees": 110,
+      "captures_before": 1388,
+      "captures_after": 1635
+    },
+    "ui_evidence": {}
+  },
+  "original_active_mod_hashes_restored": true,
+  "private_candidate_sha256": "d7d623db11aac1f96acae7a532e037645ff72e54651c02960c78b06efaf52bb0",
+  "cpu_controls": {
+    "scope": "Actual bounded production visibility cache against independent JOML projection oracle; not FPS or full-mod acceptance.",
+    "positive": "EXACT_FRUSTUM_CACHE_CONTROLS 60052",
+    "negative_controls": {
+      "matrix_invalidation_removed": "rejected",
+      "camera_invalidation_removed": "rejected",
+      "sixth_bounds_key_removed": "rejected"
+    }
+  },
+  "sources": {
+    "compat/grass-distance-sort/src/main/java/mvhgrasscompat/DistanceSort.java": "cf8ea7ee042dda6a2467982c19df024cda38aa4a038bfa4a1f8dd8173d43dd90",
+    "compat/grass-distance-sort/src/main/java/mvhgrasscompat/ExactFrustumCache.java": "220166a2580041ec4c712ea6fd85cc6a40eca6bcdb49b9be0bb338522f9a204d",
+    "compat/grass-distance-sort/src/main/java/mvhgrasscompat/FrustumReader.java": "6ee5f47ef392d8ad7c8dd090b719a7d0631784bea2835047fc02278242dab8e1",
+    "compat/grass-distance-sort/src/main/java/mvhgrasscompat/GrassCompat.java": "53f7fa60dfec2dd310283bc2d5c753801e9d85af9ad5224af2c0fbe15d9d653b",
+    "compat/grass-distance-sort/src/main/java/mvhgrasscompat/InvalidationRetention.java": "b8ae6a59aa7e98f97fdc89f0bb1e25bfbd84d6fa347a7a9e61efdb730e3aa23c",
+    "compat/grass-distance-sort/src/main/java/mvhgrasscompat/MemoizedDistanceSort.java": "a89fcd8dcd474791bf31daa63a940ca3e6087121db4b4c0345d9450071a018bb",
+    "compat/grass-distance-sort/src/main/java/mvhgrasscompat/mixin/GrassDistanceMixin.java": "b835fbf6dda622879b0101c4286ac6bd91e76a1bf955dbf20f23886f352eadf3",
+    "compat/grass-distance-sort/src/main/java/mvhgrasscompat/mixin/GrassFrustumMixin.java": "3bc633fe620572ef00e236806899d2453e09b0ab4038ef6c09298f569a176699",
+    "compat/grass-distance-sort/src/main/java/mvhgrasscompat/mixin/GrassInvalidationMixin.java": "c848006840ed00e0f6f5d2d8bf807e790e6ba304ea3fa18eafc80843bf5035e7"
+  },
+  "images": [
+    {
+      "file": "2026-10-05_15.20.26.png",
+      "sha256": "2368997be6bf361605d665cf298f915708d06efbf6cfa59d03f9333b11c2e8f7",
+      "review": "Original dense near-bank grass and original planted path/terrain remain visible; alternate FOV view remains correct. Bounded review."
+    },
+    {
+      "file": "2026-10-05_15.20.31.png",
+      "sha256": "a77b083ecdc96b8564e9a89bc9b743e26dfe39c230a11ed519717ff521480e99",
+      "review": "Original dense near-bank grass and original planted path/terrain remain visible; alternate FOV view remains correct. Bounded review."
+    }
+  ],
+  "published_sources": {
+    "compat/grass-distance-sort/src/main/java/mvhgrasscompat/DistanceSort.java": {
+      "sha256": "cf8ea7ee042dda6a2467982c19df024cda38aa4a038bfa4a1f8dd8173d43dd90",
+      "normalized_text_sha256": "cf8ea7ee042dda6a2467982c19df024cda38aa4a038bfa4a1f8dd8173d43dd90"
+    },
+    "compat/grass-distance-sort/src/main/java/mvhgrasscompat/ExactFrustumCache.java": {
+      "sha256": "220166a2580041ec4c712ea6fd85cc6a40eca6bcdb49b9be0bb338522f9a204d",
+      "normalized_text_sha256": "220166a2580041ec4c712ea6fd85cc6a40eca6bcdb49b9be0bb338522f9a204d"
+    },
+    "compat/grass-distance-sort/src/main/java/mvhgrasscompat/FrustumReader.java": {
+      "sha256": "6ee5f47ef392d8ad7c8dd090b719a7d0631784bea2835047fc02278242dab8e1",
+      "normalized_text_sha256": "6ee5f47ef392d8ad7c8dd090b719a7d0631784bea2835047fc02278242dab8e1"
+    },
+    "compat/grass-distance-sort/src/main/java/mvhgrasscompat/GrassCompat.java": {
+      "sha256": "53f7fa60dfec2dd310283bc2d5c753801e9d85af9ad5224af2c0fbe15d9d653b",
+      "normalized_text_sha256": "53f7fa60dfec2dd310283bc2d5c753801e9d85af9ad5224af2c0fbe15d9d653b"
+    },
+    "compat/grass-distance-sort/src/main/java/mvhgrasscompat/InvalidationRetention.java": {
+      "sha256": "b8ae6a59aa7e98f97fdc89f0bb1e25bfbd84d6fa347a7a9e61efdb730e3aa23c",
+      "normalized_text_sha256": "b8ae6a59aa7e98f97fdc89f0bb1e25bfbd84d6fa347a7a9e61efdb730e3aa23c"
+    },
+    "compat/grass-distance-sort/src/main/java/mvhgrasscompat/MemoizedDistanceSort.java": {
+      "sha256": "a89fcd8dcd474791bf31daa63a940ca3e6087121db4b4c0345d9450071a018bb",
+      "normalized_text_sha256": "a89fcd8dcd474791bf31daa63a940ca3e6087121db4b4c0345d9450071a018bb"
+    },
+    "compat/grass-distance-sort/src/main/java/mvhgrasscompat/mixin/GrassDistanceMixin.java": {
+      "sha256": "b835fbf6dda622879b0101c4286ac6bd91e76a1bf955dbf20f23886f352eadf3",
+      "normalized_text_sha256": "b835fbf6dda622879b0101c4286ac6bd91e76a1bf955dbf20f23886f352eadf3"
+    },
+    "compat/grass-distance-sort/src/main/java/mvhgrasscompat/mixin/GrassFrustumMixin.java": {
+      "sha256": "3bc633fe620572ef00e236806899d2453e09b0ab4038ef6c09298f569a176699",
+      "normalized_text_sha256": "3bc633fe620572ef00e236806899d2453e09b0ab4038ef6c09298f569a176699"
+    },
+    "compat/grass-distance-sort/src/main/java/mvhgrasscompat/mixin/GrassInvalidationMixin.java": {
+      "sha256": "c848006840ed00e0f6f5d2d8bf807e790e6ba304ea3fa18eafc80843bf5035e7",
+      "normalized_text_sha256": "c848006840ed00e0f6f5d2d8bf807e790e6ba304ea3fa18eafc80843bf5035e7"
+    }
+  },
+  "source_line_ending_note": "Original tested hashes remain unchanged; current raw and normalized text hashes disclose Git line-ending preservation. These line-ending-only changes do not alter Java semantics or the tested binaries."
+}

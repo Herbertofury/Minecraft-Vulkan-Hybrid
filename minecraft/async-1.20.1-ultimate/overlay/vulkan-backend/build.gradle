@@ -1,0 +1,33 @@
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
+}
+
+dependencies {
+    compileOnly project(':common')
+    implementation 'org.lwjgl:lwjgl:3.3.1'
+    implementation 'org.lwjgl:lwjgl-vulkan:3.3.1'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 17
+}
+
+jar {
+    archiveBaseName = 'harimt-vulkan-backend'
+    archiveVersion = '3.3.1'
+    manifest {
+        attributes(
+                'Implementation-Title': 'HariMultiThread Ultimate Vulkan Backend',
+                'Implementation-Version': '3.3.1'
+        )
+    }
+}

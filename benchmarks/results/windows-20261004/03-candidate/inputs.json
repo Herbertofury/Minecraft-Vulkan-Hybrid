@@ -1,0 +1,22 @@
+{
+  "kind": "candidate",
+  "loader": "47.4.26",
+  "minecraft": "1.20.1",
+  "java": "17.0.20.1",
+  "jvm": [
+    "-Dorg.lwjgl.system.stackSize=1024",
+    "-Dharimt.fps.auto=true",
+    "-Dharimt.fps.warmupSeconds=60"
+  ],
+  "maximum_heap_mib": 8192,
+  "mods": [
+    {
+      "name": "HariMultiThread-Ultimate-1.20.1-2.4.10-vulkan-hybrid.jar",
+      "sha256": "8b593bac1ac77670849ed992c808d327dd6d9f188ddfdea341ac88f16edf8c9f"
+    },
+    {
+      "name": "mvh-benchmark-control-1.0.0.jar",
+      "sha256": "4e8686862708865a59f04ec20528db0f42b27cad36d6d1f541f3f4fb2e764e78"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+HariMultiThread Ultimate 2.4.10 - Vulkan Hybrid
+Verified release: 24 focused suites, 16 native client profiles, dedicated server, reproducible binary, real Ctrl+F9 and protected FPS/native-memory checks passed.
+Minecraft 1.20.1 / Forge 47.4.23 / Java 17
+
+Installation
+Put one copy of the HariMultiThread-Ultimate-1.20.1-2.4.10-vulkan-hybrid.jar in your Forge profile's mods directory. Replace the previous HariMultiThread/Async JAR. The Forge Vulkan renderer is included; remove a separate VulkanMod JAR. Keep the normal dependencies of your additional mods. Back up your world before changing any modpack.
+
+C2ME Forge is optional. Original unmodified 0.2.0-forge.9.6 (CurseForge file 8929972) and 0.2.0-forge.9.8 (file 9040801) passed the recorded profiles. The broad 13-profile matrix uses 9.6; 9.8 has focused Aether+Midnight, OptiFine and Distant Horizons checks. All third-party JARs retain their original bytes.
+
+FPS measurement
+Press Ctrl+F9 while playing in a loaded world. The capture warms up for five seconds, then records thirty seconds of all frame intervals. The saved report is harimt-fps-last.json in the Minecraft instance folder. Save a copy before starting another capture because the next report replaces it.
+
+Compare average FPS, 1% lows and p95/p99 frame times together. Use the same world, camera, mods, window size, resource/shader packs and render/simulation distances. Let chunks and shaders settle first. Alternate at least three runs per build. For maximum-throughput comparisons use unlimited FPS and VSync off on both builds; for everyday smoothness use your ordinary identical pacing settings. Menus, reloads, dimension changes and graphics/pacing changes invalidate a capture rather than silently dropping slow frames.
+
+The 1% low is 1000 divided by the mean of the slowest ceil(1% of samples) frame times. Average FPS is 1000 divided by the mean of all frame times. This measures actual rendered-frame intervals including pacing and driver waits, rather than GPU execution time. Capture is idle during normal gameplay and does not sample clocks or allocate frame arrays.
+
+Rendering and quality
+The new texture staging copies precisely the byte span consumed by each Vulkan image upload. Every requested pixel, animation update, mip level, transition and transfer barrier remains. Bounds and overflow checks prevent reads beyond the source buffer, and its position is preserved. There are no animation skips or changes to resolution, graphics settings, view distance or simulation.
+
+Compatible profiles use Vulkan rendering. External renderer/shader integrations and Fabulous graphics retain the established complete OpenGL compatibility path; async processing and the separate Vulkan collision backend remain available. The GL contract recognizes 111 exact overloads and selects compatibility rendering for unsupported external shader/compute operations and 2,248 unsupported overloads.
+
+Commands
+/async stats - inspect async work
+/async gpu - inspect the device/collision path
+/async gpu test - compare GPU collision candidates with the CPU reference
+/async gpu toggle - change and persist the GPU collision setting
+
+Verification
+All 13 original broad native profiles and three focused C2ME 9.8 profiles passed with this exact JAR, along with the dedicated server. Tests retain native Aether portals and Midnight rifts, original mob AI and temporary whirlwind expiry, chunk unload/return, chest NBT, resource reload, window resize, and a clean same-world second JVM. The shader profile retains enabled MakeUp-UltraFast 9.5f. Vulkan correctness runs load and hash-check the original checksum-pinned Khronos SDK 1.4.363.0 with full core/synchronization validation. Actual GPU readback verifies RGBA/R8 pixels at three mip levels, padding, nonzero source positions and overlapping writes. The focused native memcpy test passes 800 source-layout cases. Existing C2ME ownership and intentional error propagation tests remain passing.
+
+The release proof includes every original FPS trial, initial short-run stock tail flags, longer independent stock confirmation, native screenshots/logs, exact input hashes and complete artifact backups. Test graphics are Linux Mesa software Vulkan/OpenGL. Hardware GPU FPS, Windows/macOS execution, every boss combat phase and arbitrary modpacks remain outside this proof. Rubidium's upstream Lucent dynamic-lighting restriction is not claimed repaired.
+
+Source and identity
+Product source: Herbertofury/ProjectDump@edc2d2a04b2dd7b48b71eb26ad7bb32aca2f8ad2
+Upstream Hari: JustHari01/HariMultiThread@f381611c2d71a85192e2028f9e30c03823a6482b
+Forge Vulkan: kzktor/Forgified-VulkanMod@0ceac5d47f84c910d2f5f6d007b0ffe266c6f736
+JAR SHA256: 8b593bac1ac77670849ed992c808d327dd6d9f188ddfdea341ac88f16edf8c9f
+JAR bytes: 30763983
+Complete merged source: 1001 hash-checked files, 24 pinned recipe steps, licenses and executable reconstruction/regression scripts. The independent rebuild produces the same JAR bytes.
+
+Measured FPS and resource result
+The animation-heavy Vulkan scene improved average FPS 18.22% and 1% lows 24.55%, with identical quality/settings. Stock average FPS stayed within 1% and the longer stock frame-time checks passed the 5% material threshold. Hardware GPU FPS remains unmeasured; use Ctrl+F9 on your actual PC.
+The initial stock RSS alert remains in the proof. Separate adaptive/fixed heap diagnostics found no material increase in live heap, native committed memory or non-heap RSS; fixed-heap peak RSS was +0.15%. The diagnostic GC ran only after the complete FPS capture, and no release heap/graphics settings change. See the release notes for the original alert and diagnostic interpretation.

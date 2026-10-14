@@ -1,0 +1,79 @@
+{
+  "comparison": "Only exact-distance sort addon toggled; pinned Hari .9 and original grass JAR retained; all settings/world/camera held constant; six ABBAAB native captures",
+  "sort_addon_version": "1.0.1",
+  "sort_addon_sha256": "9f5bd7d3ca98b63ae6905f65bbe30f1b97526add4306fab80024c7abe494ed79",
+  "trials": [
+    {
+      "stage": "grass-memo-native-01-absent",
+      "sort_addon_present": false,
+      "average_fps": 1201.7851539474013,
+      "one_percent_low_fps": 393.36261069861297,
+      "p95_ms": 1.0365,
+      "p99_ms": 2.2736,
+      "max_ms": 9.192
+    },
+    {
+      "stage": "grass-memo-native-02-present",
+      "sort_addon_present": true,
+      "average_fps": 1629.9042667072802,
+      "one_percent_low_fps": 454.4664995456732,
+      "p95_ms": 0.716,
+      "p99_ms": 2.0836,
+      "max_ms": 3.0129
+    },
+    {
+      "stage": "grass-memo-native-03-present",
+      "sort_addon_present": true,
+      "average_fps": 1561.620850777328,
+      "one_percent_low_fps": 444.3404807726106,
+      "p95_ms": 0.8259,
+      "p99_ms": 1.9985,
+      "max_ms": 4.2693
+    },
+    {
+      "stage": "grass-memo-native-04-absent",
+      "sort_addon_present": false,
+      "average_fps": 1202.9566781163633,
+      "one_percent_low_fps": 410.25692311398865,
+      "p95_ms": 0.9167,
+      "p99_ms": 2.3044,
+      "max_ms": 4.0795
+    },
+    {
+      "stage": "grass-memo-native-05-absent",
+      "sort_addon_present": false,
+      "average_fps": 1228.3066463242649,
+      "one_percent_low_fps": 444.5522292848599,
+      "p95_ms": 0.9088,
+      "p99_ms": 2.147,
+      "max_ms": 3.3136
+    },
+    {
+      "stage": "grass-memo-native-06-present",
+      "sort_addon_present": true,
+      "average_fps": 1611.0552926162964,
+      "one_percent_low_fps": 460.738949119189,
+      "p95_ms": 0.6813,
+      "p99_ms": 2.0179,
+      "max_ms": 10.4531
+    }
+  ],
+  "summary": {
+    "absent": {
+      "average_fps": 1202.9566781163633,
+      "one_percent_low_fps": 410.25692311398865,
+      "p95_ms": 0.9167,
+      "p99_ms": 2.2736,
+      "max_ms": 4.0795
+    },
+    "present": {
+      "average_fps": 1611.0552926162964,
+      "one_percent_low_fps": 454.4664995456732,
+      "p95_ms": 0.716,
+      "p99_ms": 2.0179,
+      "max_ms": 4.2693
+    },
+    "fps_change_percent": 33.92463102985137
+  },
+  "acceptance": "Requires screenshots, feature checks and contamination review; target success not inferred from unit parity"
+}

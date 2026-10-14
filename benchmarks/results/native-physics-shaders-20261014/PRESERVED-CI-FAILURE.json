@@ -1,0 +1,9 @@
+{
+  "run": "https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/actions/runs/38547421056",
+  "head": "3628d522b1a1059ee89f02e17e7735f28bbcb130",
+  "cause": "New standalone regression imported GL20 for constants. Windows local SDK included constants-only OpenGL JAR; declared CI native compiler SDK intentionally has no OpenGL binding. Javac stopped before executing the new test.",
+  "renderer_and_original_ui_compiler_builds_passed": true,
+  "fix": "Use five specification integer constants in the test, retaining every behavior assertion. Exact packaged regression now passes with the OpenGL JAR removed. No GL binding/context introduced into native SDK.",
+  "production_renderer_bytes_or_GPU_oracles_changed": false,
+  "local_same_sdk_regression_passed": true
+}

@@ -1,0 +1,1036 @@
+{
+  "accepted": true,
+  "automatic_original_GAME_methods_executed": true,
+  "original_classes": 4,
+  "native_state_call_sites": 21,
+  "original_method_invocations": 686,
+  "original_state_captures": 56,
+  "original_state_activations": 28,
+  "GPU_cases": 27,
+  "original_managed_GPU_cases": 25,
+  "independent_native_separate_equation_cases": 2,
+  "private_loader_only": false,
+  "full_typed_provider_or_FPS_accepted": false,
+  "controls": [
+    {
+      "control": "original-game-owner-gg.essential.universal.render.ManagedGlState",
+      "passed": true
+    },
+    {
+      "control": "fresh-managed-export-gg.essential.universal.render.ManagedGlState",
+      "passed": true
+    },
+    {
+      "control": "exact-managed-transports-gg.essential.universal.render.ManagedGlState",
+      "passed": true
+    },
+    {
+      "control": "original-game-owner-gg.essential.universal.render.ManagedGlState$Companion",
+      "passed": true
+    },
+    {
+      "control": "fresh-managed-export-gg.essential.universal.render.ManagedGlState$Companion",
+      "passed": true
+    },
+    {
+      "control": "exact-managed-transports-gg.essential.universal.render.ManagedGlState$Companion",
+      "passed": true
+    },
+    {
+      "control": "original-game-owner-gg.essential.universal.shader.BlendState",
+      "passed": true
+    },
+    {
+      "control": "fresh-managed-export-gg.essential.universal.shader.BlendState",
+      "passed": true
+    },
+    {
+      "control": "exact-managed-transports-gg.essential.universal.shader.BlendState",
+      "passed": true
+    },
+    {
+      "control": "original-game-owner-gg.essential.universal.shader.BlendState$Companion",
+      "passed": true
+    },
+    {
+      "control": "fresh-managed-export-gg.essential.universal.shader.BlendState$Companion",
+      "passed": true
+    },
+    {
+      "control": "exact-managed-transports-gg.essential.universal.shader.BlendState$Companion",
+      "passed": true
+    },
+    {
+      "control": "all21-original-managed-state-transports",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-1",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-1",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-1",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-1",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-mode-1",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-1",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-1",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-1",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-logic-0",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-2",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-2",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-2",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-2",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-mode-2",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-2",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-2",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-2",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-logic-1",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-3",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-3",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-3",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-3",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-mode-3",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-3",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-3",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-3",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-logic-2",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-4",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-4",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-4",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-4",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-mode-4",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-4",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-4",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-4",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-logic-3",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-5",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-5",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-5",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-5",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-mode-5",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-5",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-5",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-5",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-logic-4",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-6",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-6",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-6",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-6",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-mode-6",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-6",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-6",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-6",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-logic-5",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-7",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-7",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-7",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-7",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-mode-7",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-7",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-7",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-7",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-logic-6",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-8",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-8",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-8",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-8",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-mode-8",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-8",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-8",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-8",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-logic-7",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-9",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-9",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-9",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-9",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-mode-9",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-9",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-9",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-9",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-logic-8",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-10",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-10",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-10",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-10",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-mode-10",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-10",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-10",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-10",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-logic-9",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-11",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-11",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-11",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-11",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-mode-11",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-11",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-11",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-11",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-logic-10",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-12",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-12",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-12",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-12",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-mode-12",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-12",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-12",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-12",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-logic-11",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-13",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-13",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-13",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-13",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-mode-13",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-13",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-13",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-13",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-logic-12",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-14",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-14",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-14",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-14",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-mode-14",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-14",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-14",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-14",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-logic-13",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-15",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-15",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-15",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-15",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-mode-15",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-15",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-15",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-15",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-logic-14",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-16",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-16",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-16",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-16",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-mode-16",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-16",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-16",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-16",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-logic-15",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-17",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-17",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-17",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-17",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-17",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-17",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-17",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-blend-equation-0",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-18",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-18",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-18",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-18",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-18",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-18",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-18",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-blend-equation-1",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-19",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-19",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-19",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-19",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-19",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-19",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-19",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-blend-equation-2",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-20",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-20",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-20",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-20",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-20",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-20",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-20",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-blend-equation-3",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-21",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-21",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-21",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-21",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-21",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-21",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-21",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-blend-equation-4",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-22",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-22",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-22",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-22",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-22",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-22",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-22",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-native-managed-independent-RGB-alpha-equations-0",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-23",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-23",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-23",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-23",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-23",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-23",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-23",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-native-managed-independent-RGB-alpha-equations-1",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-24",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-24",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-24",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-24",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-24",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-24",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-24",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-asymmetric-color-mask",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-25",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-25",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-25",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-25",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-25",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-25",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-factor-25",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-units-25",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-25",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-enable-before-offset-parameters",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-26",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-26",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-26",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-26",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-26",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-26",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-factor-26",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-units-26",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-26",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-active-offset-update",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-test-27",
+      "passed": true
+    },
+    {
+      "control": "capture-depth-mask-27",
+      "passed": true
+    },
+    {
+      "control": "capture-cull-27",
+      "passed": true
+    },
+    {
+      "control": "capture-logic-enable-27",
+      "passed": true
+    },
+    {
+      "control": "capture-mask-27",
+      "passed": true
+    },
+    {
+      "control": "capture-polygon-enable-27",
+      "passed": true
+    },
+    {
+      "control": "capture-original-blend-27",
+      "passed": true
+    },
+    {
+      "control": "actual-managed-state-pixels-original-managed-polygon-disable",
+      "passed": true
+    },
+    {
+      "control": "managed-query-cursor-limit-sentinels",
+      "passed": true
+    },
+    {
+      "control": "unknown-state-query-no-fabricated-capability-0",
+      "passed": true
+    },
+    {
+      "control": "unknown-state-query-no-fabricated-capability-3379",
+      "passed": true
+    },
+    {
+      "control": "invalid-logic-op-preserves-state",
+      "passed": true
+    },
+    {
+      "control": "27-managed-and-independent-equation-GPU-cases",
+      "passed": true
+    },
+    {
+      "control": "managed-native-error-queue-clean",
+      "passed": true
+    }
+  ]
+}

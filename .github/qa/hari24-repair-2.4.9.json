@@ -1,0 +1,14 @@
+{
+  "version": "2.4.9-noxviola.1-vulkan-hybrid",
+  "state": "pending_compile_and_exact_native_acceptance",
+  "previous_binary_sha256": "16ece8513104c9d08014effd734dd9ade73e2f8d42399b988139659940459e7d",
+  "change": "Remove inherited ChunkMapMixin.skipThrowLoadEntity cancellation immediately before Minecraft original duplicate tracking IllegalStateException; retain synchronized original addEntity/removeEntity wrappers.",
+  "cause": "Original source cancelled the callback and silently dropped Minecraft's tracking failure.",
+  "validation": [
+    "Pinned original cancellation negative control vs actual compiled candidate mixin",
+    "All existing compile suites and independent byte reproduction",
+    "Dedicated async entity failure surface and save/reopen",
+    "Full new exact native matrix pending after candidate produced"
+  ],
+  "remaining": "OptiFine+C2ME stranded LIGHT tickets remain under causal diagnosis; no release promotion."
+}

@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "native_struct_combinations": 24576,
+  "variants": [
+    {
+      "variant": "production",
+      "behavior_passed": true,
+      "expected": true
+    },
+    {
+      "variant": "disabled_stencil",
+      "behavior_passed": false,
+      "expected": false
+    },
+    {
+      "variant": "wrong_depth_fail",
+      "behavior_passed": false,
+      "expected": false
+    },
+    {
+      "variant": "back_face_missing",
+      "behavior_passed": false,
+      "expected": false
+    },
+    {
+      "variant": "missing_dynamic_format",
+      "behavior_passed": false,
+      "expected": false
+    }
+  ],
+  "scope": "Actual production GL encoder and Vulkan pipeline helper; actual LWJGL structs, both faces, absent/present stencil, all operation/compare combinations, invalid-enum rejection and four behavior mutation controls. GPU and feature scenes remain separate."
+}

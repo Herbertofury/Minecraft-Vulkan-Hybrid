@@ -1,0 +1,47 @@
+{
+  "archive": "physics-mod-3.0.20-mc-1.20.1-forge-MVH-ProviderDetection-v1.jar",
+  "archive_sha256": "35826b411cee1116443e0992320d4e5158f7e1b64bca88599eea08b41fe21c59",
+  "classes": [
+    {
+      "name": "net/diebuddies/opengl/VAO",
+      "raw_sha256": "146aaff67d44c59cfdec8f325465026d676818cc0dad3091ea2e6fcdbf3b5ea5",
+      "canonical_sha256": "e228130d1d7d8ce27a3cd94f86fa75564fd485f12342cc907e0824f382b2ce15",
+      "GL_sites": 32,
+      "capability_reads": 10,
+      "runtime_field_reads": 24
+    },
+    {
+      "name": "net/diebuddies/opengl/VertexFormat",
+      "raw_sha256": "149370b2b838ab6bc0f064259c19e9b90419b799c63c91a1d4fadafbdf74cbee",
+      "canonical_sha256": "eb76deae65731f0d9da5c8449960723e084b4f658eac1194ac9f808ea230ed77",
+      "GL_sites": 3,
+      "capability_reads": 0,
+      "runtime_field_reads": 0
+    },
+    {
+      "name": "net/diebuddies/opengl/StateTracker",
+      "raw_sha256": "46ec2088eb51d0d751a3146fb04f483fc1f6ed5d6e1d8cb7cee5f533c3e6fcaf",
+      "canonical_sha256": "9694a5faeb446b7e7ed32c8e3d4432a173a6f8dde9616288a9a20a40b1f77693",
+      "GL_sites": 1,
+      "capability_reads": 0,
+      "runtime_field_reads": 0
+    },
+    {
+      "name": "net/diebuddies/opengl/Data",
+      "raw_sha256": "977cecb63cfd1ccaa502c734e40bddadc2a8aeefad15156a480859cf9e463a04",
+      "canonical_sha256": "9f2771792774672388c938ffc4753297cfe6a9e0516d838091179ef9556e76bf",
+      "GL_sites": 0,
+      "capability_reads": 0,
+      "runtime_field_reads": 0
+    },
+    {
+      "name": "net/diebuddies/opengl/VAOHeader",
+      "raw_sha256": "61a8e77cb68d3f8004ccaf91a0b85d9671e06aca859aae3366bc052df69ce795",
+      "canonical_sha256": "96c2b147cce8948d3d062e952747048f65de7da42715b0a7d0a897ec7280ab12",
+      "GL_sites": 0,
+      "capability_reads": 0,
+      "runtime_field_reads": 0
+    }
+  ],
+  "private_originals_only": true
+}

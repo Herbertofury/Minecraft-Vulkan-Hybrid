@@ -1,0 +1,3 @@
+# Preserve the accepted source and provenance byte for byte.
+* -text
+compat/vulkan-shaders/reference-patches/*.patch whitespace=-blank-at-eol,-space-before-tab

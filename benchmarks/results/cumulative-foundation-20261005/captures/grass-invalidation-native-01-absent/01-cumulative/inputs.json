@@ -1,0 +1,75 @@
+{
+  "instrumented_diagnostic": false,
+  "zink_translation_requested": false,
+  "kind": "cumulative",
+  "stage": "grass-invalidation-native-01-absent",
+  "renderer_experiment": "actual renderer recorded in fps.json or native smoke report",
+  "minecraft": "1.20.1",
+  "forge": "47.4.26",
+  "java": "Temurin 17.0.20.1",
+  "maximum_heap_mib": 8192,
+  "resolution": [
+    1920,
+    1080
+  ],
+  "visual_options": {
+    "fov": "0.0",
+    "renderDistance": "16",
+    "simulationDistance": "12",
+    "entityDistanceScaling": "1.0",
+    "maxFps": "260",
+    "enableVsync": "false",
+    "graphicsMode": "1",
+    "mipmapLevels": "4",
+    "particles": "0",
+    "biomeBlendRadius": "2",
+    "pauseOnLostFocus": "false",
+    "resourcePacks": "[]"
+  },
+  "world": "MVH-Benchmark-20261004",
+  "warmup_s": 60,
+  "capture_s": 30,
+  "mods": [
+    {
+      "name": "architectury-9.2.14-forge.jar",
+      "sha256": "218b471d0b8a1f6cda14cfc1beb9eeb0df54304500acc6c5613d9b88ec65d9af"
+    },
+    {
+      "name": "citadel-2.6.3-1.20.1.jar",
+      "sha256": "56c7ab87348a5292583aac787b6cf11b5193e77f02af1d17ea75a96f8640b3ce"
+    },
+    {
+      "name": "cloth-config-11.1.136-forge.jar",
+      "sha256": "1e895e85cf5b1e1905ef3178ec155c8badfe22a1577b92c09143a5aa1f4ce0f2"
+    },
+    {
+      "name": "curios-forge-5.14.1+1.20.1-Noxviola-PerfLeakFix-v3.jar",
+      "sha256": "4c4b668d4ddca09504f1aa80341e9a90e4405f2969178a5fa5e4542cbbff9803"
+    },
+    {
+      "name": "geckolib-forge-1.20.1-4.8.4.jar",
+      "sha256": "c04abba4fd354dd8c0e8a732f1f05f4dca893d2e1d962b2ab128bbd411478747"
+    },
+    {
+      "name": "Grassier-Grass-1.4.5-Render-Performance-Fix-REPLACEMENT-2.jar",
+      "sha256": "91006e8220e65572d7e9e1e54b6058526c4adf908faedc750c9f19f13623df8c"
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.9-dimensions-vulkan-hybrid-all.jar",
+      "sha256": "c1d5d2e5b93ea55c0254843c2c29ee10ca1d1896e8971c1dfed0dba2f8b94cc8"
+    },
+    {
+      "name": "modernfix-forge-5.27.83+mc1.20.1.jar",
+      "sha256": "954ff22f601be8de3978a0d7636a138dc93801c6ac55cfd71ef1cd2895de8e5f"
+    },
+    {
+      "name": "mvh-grass-distance-compat-1.0.1.jar",
+      "sha256": "9f5bd7d3ca98b63ae6905f65bbe30f1b97526add4306fab80024c7abe494ed79"
+    },
+    {
+      "name": "mvh-noxviola-control-1.0.8.jar",
+      "sha256": "684aae8069102d056f2e6d23784716bdd771ec0d3b5e17601855a95d499b2f15"
+    }
+  ],
+  "config_manifest_sha256": "7be2c38a55b3aedb4adb2c893cd70596f04dfa7673d4943b1b42da9b921da998"
+}

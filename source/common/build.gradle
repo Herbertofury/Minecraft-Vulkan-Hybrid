@@ -1,0 +1,66 @@
+plugins {
+    id 'idea'
+    id 'java'
+    id 'net.minecraftforge.gradle'
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(java_version)
+
+minecraft {
+    mappings channel: 'official', version: minecraft_version
+
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    // 1. Core Minecraft/Forge
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+    // 2. Mixin Stack (Extras + Squared)
+    implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixinextras_version}"))
+    // compileOnly(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:0.1.1"))
+    // compileOnly("com.github.bawnorton.mixinsquared:mixinsquared-common:0.1.1")
+
+    // 3. ASM (Required for low-level byte manipulation)
+    implementation "org.ow2.asm:asm:9.5"
+    implementation "org.ow2.asm:asm-tree:9.5"
+
+    // 4. Utilities (Lombok)
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+
+    // 5. Optional: Harium for navigation integration
+    compileOnly files("libs/Harium-1.0.0.jar")
+
+    // 6. GPU: LWJGL Vulkan — must be implementation so classes are available at runtime.
+    // Forge ships LWJGL 3.3.1 core but NOT the Vulkan module.
+    // No separate natives needed — LWJGL Vulkan binds to system's vulkan-1.dll / libvulkan.so.1.
+    implementation "org.lwjgl:lwjgl-vulkan:3.3.1"
+    implementation "org.lwjgl:lwjgl:3.3.1"
+}
+
+// Configuration for sharing source/resources with loader-specific projects
+configurations {
+    commonJava {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+    commonResources {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+}
+
+artifacts {
+    commonJava sourceSets.main.java.sourceDirectories.singleFile
+    commonResources sourceSets.main.resources.sourceDirectories.singleFile
+}
+
+idea.module { downloadJavadoc = downloadSources = true }
+
+layout.buildDirectory.set(file("build"))

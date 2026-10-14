@@ -1,0 +1,106 @@
+--- a/packages/app-lib/src/api/instance/run.rs
++++ b/packages/app-lib/src/api/instance/run.rs
+@@ -26,0 +27,2 @@
++	let mut mvh_phase_clock = std::time::Instant::now();
++	let mvh_phase_timing = std::env::var_os("MVH_LAUNCH_PHASE_TIMING").is_some();
+@@ -38,0 +41,2 @@
++
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING run_quarantine {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
+@@ -41,0 +46,2 @@
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING migration_priority_lock {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
++
+@@ -48,0 +55,2 @@
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING legacy_content_migration {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
++
+@@ -54,0 +63,2 @@
++
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING shared_availability {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
+@@ -58,0 +69,2 @@
++
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING default_account_lookup {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
+@@ -67,0 +80,2 @@
++	let mut mvh_phase_clock = std::time::Instant::now();
++	let mvh_phase_timing = std::env::var_os("MVH_LAUNCH_PHASE_TIMING").is_some();
+@@ -105,0 +120,2 @@
++
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING launch_context_and_preferences {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
+@@ -237,0 +254,2 @@
++
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING prelaunch_hooks {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
+@@ -293,0 +312,2 @@
++
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING server_analytics {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
+@@ -294,0 +315,2 @@
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING pending_skin_flush {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
++
+--- a/packages/app-lib/src/launcher/mod.rs
++++ b/packages/app-lib/src/launcher/mod.rs
+@@ -889,0 +890,2 @@
++	let mut mvh_phase_clock = std::time::Instant::now();
++	let mvh_phase_timing = std::env::var_os("MVH_LAUNCH_PHASE_TIMING").is_some();
+@@ -910,0 +913,2 @@
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING runtime_cache_read_lock {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
++
+@@ -913,0 +918,2 @@
++
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING instance_path {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
+@@ -915,0 +922,2 @@
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING minecraft_manifest {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
++
+@@ -930,0 +939,2 @@
++
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING loader_manifest {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
+@@ -952,0 +963,2 @@
++
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING installed_version_metadata {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
+@@ -972,0 +985,2 @@
++
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING logging_metadata_repair {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
+@@ -974,0 +989,2 @@
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING logging_configuration {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
++
+@@ -984,0 +1001,2 @@
++
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING java_resolution {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
+@@ -987,0 +1006,2 @@
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING java_probe {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
++
+@@ -1034,0 +1055,2 @@
++
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING existing_process_checks {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
+@@ -1046,0 +1069,2 @@
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING runtime_file_validation {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
++
+@@ -1178,0 +1203,2 @@
++
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING command_and_arguments {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
+@@ -1188,0 +1215,2 @@
++
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING game_options_sync {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
+@@ -1194,0 +1223,2 @@
++
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING launcher_options_overrides {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
+@@ -1196,0 +1227,2 @@
++
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING content_sync {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
+@@ -1198,0 +1231,2 @@
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING instance_content_lock {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
++
+@@ -1199,0 +1234,2 @@
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING content_files_lock {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
++
+@@ -1200,0 +1237,2 @@
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING content_store_lease {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
++
+@@ -1201,0 +1240,2 @@
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING content_recovery {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
++
+@@ -1217,0 +1258,2 @@
++
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING process_recheck_and_last_played {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
+@@ -1236,0 +1279,2 @@
++
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING discord_presence {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }
+@@ -1241,0 +1286,2 @@
++
++	if mvh_phase_timing { eprintln!("MVH_LAUNCH_TIMING friends_presence {}", mvh_phase_clock.elapsed().as_nanos()); mvh_phase_clock = std::time::Instant::now(); }

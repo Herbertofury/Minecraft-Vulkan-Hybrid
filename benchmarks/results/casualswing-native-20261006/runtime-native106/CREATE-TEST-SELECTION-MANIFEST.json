@@ -1,0 +1,7 @@
+{
+  "original_native_create_sha256": "cc2ddeefa78e5eb999f2643277b4b639851b260d24171ff7fe886d15dba88b77",
+  "test_only_sha256": "a7a2cfeb01b4f1cb94458086e27af76080e4fc1bcca507c12780c120b5131c08",
+  "removed_duplicate_library": "META-INF/jarjar/flywheel-forge-1.20.1-1.0.5.jar",
+  "all_original_create_gameplay_assets_and_other_bundles_exact": true,
+  "scope": "Disposable runtime selection fixture only. Original Create dependencies stay; CasualSwing supplies actual native1.0.6. Not installed in full candidate."
+}

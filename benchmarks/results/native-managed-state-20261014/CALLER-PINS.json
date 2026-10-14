@@ -1,0 +1,25 @@
+{
+  "classes": [
+    {
+      "class": "gg/essential/universal/render/ManagedGlState",
+      "raw_sha256": "a7133abec441cf1752e84a44677af47a571437ed952d116662b646268fbafbbb",
+      "canonical_sha256": "44da2704e1ecb5d19dff8e48c2eae41c1ff2744d86d914ea2592860dd97496ca"
+    },
+    {
+      "class": "gg/essential/universal/render/ManagedGlState$Companion",
+      "raw_sha256": "1eac59bccdb17d7e31406d1e8503dc6e16eb27d30e94813bdb9ec72ff03a4bbf",
+      "canonical_sha256": "aed33c85dbe2dec11acf74deee0c10afae40a3b2fb61b1248b8a6ba1a612fca3"
+    },
+    {
+      "class": "gg/essential/universal/shader/BlendState",
+      "raw_sha256": "a11ec564705e82ff56312e3674d1ef80bfa3e31e881cb7f1ff6fd88f014be64b",
+      "canonical_sha256": "a7dd3b380cd6dc1836043d7f419da8494459ca9dff2e5c5243eb3803475f4955"
+    },
+    {
+      "class": "gg/essential/universal/shader/BlendState$Companion",
+      "raw_sha256": "49373ed28948a81225a11fbc3123dea8c76df6e67145e223e3cda25e8d81b9ab",
+      "canonical_sha256": "eacdaa998cacf6726b8a5121e54199c8d0677a4aef257bd50121e3fb147942b3"
+    }
+  ],
+  "private_originals_distributed": false
+}

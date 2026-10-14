@@ -1,0 +1,71 @@
+diff --git a/src/gallium/frontends/wgl/stw_context.c b/src/gallium/frontends/wgl/stw_context.c
+index f0f543c..e5b119a 100644
+--- a/src/gallium/frontends/wgl/stw_context.c
++++ b/src/gallium/frontends/wgl/stw_context.c
+@@ -52,6 +52,8 @@
+ #include "stw_tls.h"
+ 
+ #include "main/context.h"
++#include "main/glthread.h"
++#include "util/u_debug.h"
+ 
+ struct stw_context *
+ stw_current_context(void)
+@@ -109,6 +111,8 @@ DrvShareLists(DHGLRC dhglrc1, DHGLRC dhglrc2)
+    ctx2 = stw_lookup_context_locked( dhglrc2 );
+ 
+    if (ctx1 && ctx2) {
++      _mesa_glthread_finish(ctx1->st->ctx);
++      _mesa_glthread_finish(ctx2->st->ctx);
+       ret = _mesa_share_state(ctx2->st->ctx, ctx1->st->ctx);
+       ctx1->shared = true;
+       ctx2->shared = true;
+@@ -252,6 +256,14 @@ stw_create_context_attribs(HDC hdc, INT iLayerPlane, struct stw_context *shareCt
+ 
+    ctx->st->frontend_context = (void *) ctx;
+ 
++   /* Explicit project-scoped experiment. All GL commands retain Mesa semantics;
++    * WGL external operations below drain marshalled work before acquiring
++    * framebuffer locks or changing context ownership. */
++   if (debug_get_bool_option("MVH_WGL_GLTHREAD", false)) {
++      _mesa_glthread_init(ctx->st->ctx);
++      fprintf(stderr, "[MVH Zink] WGL GLthread experiment enabled.\n");
++   }
++
+    if (ctx->st->cso_context) {
+       ctx->hud = hud_create(ctx->st->cso_context, NULL, ctx->st,
+                             st_context_invalidate_state);
+@@ -560,6 +572,10 @@ get_unlocked_refd_framebuffer_from_dc(HDC hDC)
+ BOOL
+ stw_make_current_by_handles(HDC hDrawDC, HDC hReadDC, DHGLRC dhglrc)
+ {
++   /* Drain before framebuffer lookup takes a lock needed by the GL worker. */
++   struct stw_context *previous = stw_current_context();
++   if (previous)
++      _mesa_glthread_finish(previous->st->ctx);
+    struct stw_context *ctx = stw_lookup_context(dhglrc);
+    if (dhglrc && !ctx) {
+       stw_make_current_by_handles(NULL, NULL, 0);
+diff --git a/src/gallium/frontends/wgl/stw_framebuffer.c b/src/gallium/frontends/wgl/stw_framebuffer.c
+index 79f4705..078ada2 100644
+--- a/src/gallium/frontends/wgl/stw_framebuffer.c
++++ b/src/gallium/frontends/wgl/stw_framebuffer.c
+@@ -44,6 +44,7 @@
+ #include "stw_winsys.h"
+ #include "stw_tls.h"
+ #include "stw_context.h"
++#include "main/glthread.h"
+ #include "stw_st.h"
+ 
+ 
+@@ -769,6 +770,10 @@ BOOL APIENTRY
+ DrvSwapBuffers(HDC hdc)
+ {
+    struct stw_framebuffer *fb;
++   /* GL worker validation may need the framebuffer lock. Drain before locking. */
++   struct stw_context *ctx = stw_current_context();
++   if (ctx)
++      _mesa_glthread_finish(ctx->st->ctx);
+ 
+    if (!stw_dev)
+       return false;

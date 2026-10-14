@@ -1,0 +1,630 @@
+{
+  "order": [
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B"
+  ],
+  "variants": {
+    "A": {
+      "path": "create-1.20.1-6.0.8-mvh-native-engine-light-cache-control10.jar",
+      "sha256": "2b5e2f732b7aa0b0560ab4023ceb0ed24214692872d0f6a852a2bb4526a08981",
+      "backend_sha256": "1f15e41431a2c2d6404ca7437d7df4758067923936458f734ca83e2dbe4d80dd"
+    },
+    "B": {
+      "path": "create-1.20.1-6.0.8-mvh-native-engine-light-cache-candidate12.jar",
+      "sha256": "8ae6640e4cdfe101ec4e4a4141e62f5d615fd270209158849f9bcc5a477efa3c",
+      "backend_sha256": "803df081a4a4a0dccaf895fe9e9b242577b83348a458c230c816da0918278032"
+    }
+  },
+  "hari": {
+    "name": "harimt-forge-1.20.1-2.4.11-noxviola.22-dimensions-vulkan-hybrid-all.jar",
+    "sha256": "874a76069045091858bc2c7e740a27c4a93af43b893ab05658951aef1465b7f5"
+  },
+  "controller": {
+    "name": "mvh-noxviola-control-1.0.33.jar",
+    "sha256": "c35f4e2ce3005fb5529fd32fcc3474c15ad6c0199e6ea3bd2decf76e3aa82066"
+  },
+  "trials": [
+    {
+      "order": 1,
+      "variant": "A",
+      "stage": "017-native-create-light-cache-abbaab-v22-20261005-01-A",
+      "metrics": {
+        "average_fps": 1755.4262896501148,
+        "one_percent_low_fps": 402.48360643029844,
+        "p50_ms": 0.5163,
+        "p95_ms": 0.7502,
+        "p99_ms": 2.2056,
+        "max_ms": 5.7073,
+        "duration_ms": 30001.2597,
+        "frames": 52665
+      },
+      "repeated_cache_startup_s": 28.058609,
+      "native_counters_at_capture_end": null,
+      "telemetry_global_and_owned_cpu": {
+        "system_cpu_percent": {
+          "mean": 4.123333333333333,
+          "median": 3.35,
+          "min": 2.0,
+          "max": 9.1,
+          "samples": 30
+        },
+        "java_cpu_percent": {
+          "mean": 57.97666666666667,
+          "median": 56.25,
+          "min": 31.8,
+          "max": 121.8,
+          "samples": 30
+        },
+        "java_rss_mib": {
+          "mean": 2932.682682291667,
+          "median": 2933.203125,
+          "min": 2930.375,
+          "max": 2933.95703125,
+          "samples": 30
+        },
+        "gpu_percent": {
+          "mean": 53.333333333333336,
+          "median": 55.5,
+          "min": 42.0,
+          "max": 58.0,
+          "samples": 30
+        },
+        "memory_percent": {
+          "mean": 35.9,
+          "median": 37.0,
+          "min": 28.0,
+          "max": 39.0,
+          "samples": 30
+        },
+        "memory_mib": {
+          "mean": 2437.2,
+          "median": 2437.0,
+          "min": 2423.0,
+          "max": 2466.0,
+          "samples": 30
+        },
+        "power_w": {
+          "mean": 252.78033333333335,
+          "median": 257.11,
+          "min": 219.13,
+          "max": 267.88,
+          "samples": 30
+        },
+        "temperature_c": {
+          "mean": 57.733333333333334,
+          "median": 58.0,
+          "min": 56.0,
+          "max": 59.0,
+          "samples": 30
+        },
+        "graphics_mhz": {
+          "mean": 2820.0,
+          "median": 2820.0,
+          "min": 2820.0,
+          "max": 2820.0,
+          "samples": 30
+        }
+      },
+      "raw_frame_file": "01-A-frames.csv.gz",
+      "raw_frame_file_sha256": "1abbafb57448b1ea00a068af6c9b874aedb7f9e89181b7827568c4bdc433efa8",
+      "private_original_fps_json_sha256": "e024a15f8d64a06e4f47ac276f7d13fcedbc222f2af51a6c2c0f8f369be6cb7d",
+      "generated_renderer_decision_cache_sha256": "f0ac56023485c243da47c3b21de53a2460a6193b8d84a91e8863a5f2bdb7d162"
+    },
+    {
+      "order": 2,
+      "variant": "B",
+      "stage": "017-native-create-light-cache-abbaab-v22-20261005-02-B",
+      "metrics": {
+        "average_fps": 2024.6620436883377,
+        "one_percent_low_fps": 465.5853192372269,
+        "p50_ms": 0.4604,
+        "p95_ms": 0.5909,
+        "p99_ms": 1.9655,
+        "max_ms": 3.9422,
+        "duration_ms": 30000.0685,
+        "frames": 60740
+      },
+      "repeated_cache_startup_s": 26.390446,
+      "native_counters_at_capture_end": null,
+      "telemetry_global_and_owned_cpu": {
+        "system_cpu_percent": {
+          "mean": 2.93,
+          "median": 2.8,
+          "min": 2.1,
+          "max": 4.6,
+          "samples": 30
+        },
+        "java_cpu_percent": {
+          "mean": 59.98,
+          "median": 59.8,
+          "min": 29.6,
+          "max": 87.5,
+          "samples": 30
+        },
+        "java_rss_mib": {
+          "mean": 2903.725,
+          "median": 2903.521484375,
+          "min": 2901.87109375,
+          "max": 2904.796875,
+          "samples": 30
+        },
+        "gpu_percent": {
+          "mean": 60.13333333333333,
+          "median": 60.0,
+          "min": 57.0,
+          "max": 63.0,
+          "samples": 30
+        },
+        "memory_percent": {
+          "mean": 41.166666666666664,
+          "median": 41.0,
+          "min": 39.0,
+          "max": 43.0,
+          "samples": 30
+        },
+        "memory_mib": {
+          "mean": 2426.3333333333335,
+          "median": 2430.0,
+          "min": 2415.0,
+          "max": 2447.0,
+          "samples": 30
+        },
+        "power_w": {
+          "mean": 279.061,
+          "median": 279.33,
+          "min": 271.92,
+          "max": 282.76,
+          "samples": 30
+        },
+        "temperature_c": {
+          "mean": 59.333333333333336,
+          "median": 59.0,
+          "min": 58.0,
+          "max": 60.0,
+          "samples": 30
+        },
+        "graphics_mhz": {
+          "mean": 2817.5,
+          "median": 2820.0,
+          "min": 2805.0,
+          "max": 2820.0,
+          "samples": 30
+        }
+      },
+      "raw_frame_file": "02-B-frames.csv.gz",
+      "raw_frame_file_sha256": "1ca951ff80e0d046079a1d246304efb5a40b0c8b2684fc0e7a7b480413ff725d",
+      "private_original_fps_json_sha256": "46d2672c24f8498593f104df5497729bdb52afc5845efe69bb64da7a53056c06",
+      "generated_renderer_decision_cache_sha256": "92c2ee075d43234c73a5c3278e75a10cf53b3064edf5e1240d1057aa79a7ac49"
+    },
+    {
+      "order": 3,
+      "variant": "B",
+      "stage": "017-native-create-light-cache-abbaab-v22-20261005-03-B",
+      "metrics": {
+        "average_fps": 2035.176955012922,
+        "one_percent_low_fps": 453.6335303335311,
+        "p50_ms": 0.4614,
+        "p95_ms": 0.5526,
+        "p99_ms": 2.0525,
+        "max_ms": 4.3243,
+        "duration_ms": 30000.3397,
+        "frames": 61056
+      },
+      "repeated_cache_startup_s": 25.488123,
+      "native_counters_at_capture_end": null,
+      "telemetry_global_and_owned_cpu": {
+        "system_cpu_percent": {
+          "mean": 2.25,
+          "median": 2.2,
+          "min": 1.6,
+          "max": 4.0,
+          "samples": 30
+        },
+        "java_cpu_percent": {
+          "mean": 62.25333333333333,
+          "median": 60.3,
+          "min": 42.3,
+          "max": 79.7,
+          "samples": 30
+        },
+        "java_rss_mib": {
+          "mean": 2847.0592447916665,
+          "median": 2847.072265625,
+          "min": 2845.51953125,
+          "max": 2848.1640625,
+          "samples": 30
+        },
+        "gpu_percent": {
+          "mean": 59.4,
+          "median": 59.5,
+          "min": 55.0,
+          "max": 61.0,
+          "samples": 30
+        },
+        "memory_percent": {
+          "mean": 41.2,
+          "median": 41.0,
+          "min": 38.0,
+          "max": 42.0,
+          "samples": 30
+        },
+        "memory_mib": {
+          "mean": 2349.5,
+          "median": 2350.0,
+          "min": 2340.0,
+          "max": 2367.0,
+          "samples": 30
+        },
+        "power_w": {
+          "mean": 281.05966666666666,
+          "median": 281.53499999999997,
+          "min": 276.55,
+          "max": 283.86,
+          "samples": 30
+        },
+        "temperature_c": {
+          "mean": 59.6,
+          "median": 60.0,
+          "min": 59.0,
+          "max": 61.0,
+          "samples": 30
+        },
+        "graphics_mhz": {
+          "mean": 2812.0,
+          "median": 2805.0,
+          "min": 2805.0,
+          "max": 2820.0,
+          "samples": 30
+        }
+      },
+      "raw_frame_file": "03-B-frames.csv.gz",
+      "raw_frame_file_sha256": "073e975a0d3a0069db5806f23070c5233a99e75259df141c75e8eef77901c016",
+      "private_original_fps_json_sha256": "d9028abfa84eadf1121084244239d4a0f3c7c1d4d82d7c56c1376b372f3994e4",
+      "generated_renderer_decision_cache_sha256": "ddde6593763a94c8985a0915ccf18d5009c1f118e18ffd6e18a1a9e7a1aae548"
+    },
+    {
+      "order": 4,
+      "variant": "A",
+      "stage": "017-native-create-light-cache-abbaab-v22-20261005-04-A",
+      "metrics": {
+        "average_fps": 1747.2588971887706,
+        "one_percent_low_fps": 403.5276463708146,
+        "p50_ms": 0.5285,
+        "p95_ms": 0.7384,
+        "p99_ms": 2.2026,
+        "max_ms": 5.6884,
+        "duration_ms": 30000.1334,
+        "frames": 52418
+      },
+      "repeated_cache_startup_s": 29.258648,
+      "native_counters_at_capture_end": null,
+      "telemetry_global_and_owned_cpu": {
+        "system_cpu_percent": {
+          "mean": 6.413333333333333,
+          "median": 4.55,
+          "min": 1.3,
+          "max": 68.0,
+          "samples": 30
+        },
+        "java_cpu_percent": {
+          "mean": 65.07333333333334,
+          "median": 65.35,
+          "min": 23.5,
+          "max": 113.5,
+          "samples": 30
+        },
+        "java_rss_mib": {
+          "mean": 2476.796875,
+          "median": 2476.908203125,
+          "min": 2475.01953125,
+          "max": 2477.7421875,
+          "samples": 30
+        },
+        "gpu_percent": {
+          "mean": 52.13333333333333,
+          "median": 53.0,
+          "min": 27.0,
+          "max": 57.0,
+          "samples": 30
+        },
+        "memory_percent": {
+          "mean": 35.7,
+          "median": 37.0,
+          "min": 16.0,
+          "max": 40.0,
+          "samples": 30
+        },
+        "memory_mib": {
+          "mean": 2347.4,
+          "median": 2350.0,
+          "min": 2336.0,
+          "max": 2352.0,
+          "samples": 30
+        },
+        "power_w": {
+          "mean": 251.81166666666667,
+          "median": 253.73,
+          "min": 195.15,
+          "max": 266.49,
+          "samples": 30
+        },
+        "temperature_c": {
+          "mean": 56.8,
+          "median": 57.0,
+          "min": 54.0,
+          "max": 58.0,
+          "samples": 30
+        },
+        "graphics_mhz": {
+          "mean": 2820.0,
+          "median": 2820.0,
+          "min": 2820.0,
+          "max": 2820.0,
+          "samples": 30
+        }
+      },
+      "raw_frame_file": "04-A-frames.csv.gz",
+      "raw_frame_file_sha256": "4bd5ec58a5250e7b1642e20d7802b46364fa75329ba3796b3658137cc8985af1",
+      "private_original_fps_json_sha256": "f5cc3dec487e3b402ed6ee39cf9507f6fd05ab415c920cc40a51c35f93ee4db5",
+      "generated_renderer_decision_cache_sha256": "ddde6593763a94c8985a0915ccf18d5009c1f118e18ffd6e18a1a9e7a1aae548"
+    },
+    {
+      "order": 5,
+      "variant": "A",
+      "stage": "017-native-create-light-cache-abbaab-v22-20261005-05-A",
+      "metrics": {
+        "average_fps": 1827.403211637081,
+        "one_percent_low_fps": 417.7778237747697,
+        "p50_ms": 0.5077,
+        "p95_ms": 0.6847,
+        "p99_ms": 2.1776,
+        "max_ms": 8.2943,
+        "duration_ms": 30000.4945,
+        "frames": 54823
+      },
+      "repeated_cache_startup_s": 28.217354,
+      "native_counters_at_capture_end": null,
+      "telemetry_global_and_owned_cpu": {
+        "system_cpu_percent": {
+          "mean": 3.6033333333333335,
+          "median": 3.3499999999999996,
+          "min": 1.7,
+          "max": 8.3,
+          "samples": 30
+        },
+        "java_cpu_percent": {
+          "mean": 47.70333333333333,
+          "median": 48.45,
+          "min": 15.6,
+          "max": 63.8,
+          "samples": 30
+        },
+        "java_rss_mib": {
+          "mean": 2610.285546875,
+          "median": 2610.556640625,
+          "min": 2608.6796875,
+          "max": 2611.33203125,
+          "samples": 30
+        },
+        "gpu_percent": {
+          "mean": 54.666666666666664,
+          "median": 55.0,
+          "min": 43.0,
+          "max": 58.0,
+          "samples": 30
+        },
+        "memory_percent": {
+          "mean": 37.266666666666666,
+          "median": 37.5,
+          "min": 29.0,
+          "max": 40.0,
+          "samples": 30
+        },
+        "memory_mib": {
+          "mean": 2416.133333333333,
+          "median": 2439.5,
+          "min": 2342.0,
+          "max": 2465.0,
+          "samples": 30
+        },
+        "power_w": {
+          "mean": 260.514,
+          "median": 262.615,
+          "min": 224.66,
+          "max": 270.63,
+          "samples": 30
+        },
+        "temperature_c": {
+          "mean": 57.7,
+          "median": 58.0,
+          "min": 57.0,
+          "max": 59.0,
+          "samples": 30
+        },
+        "graphics_mhz": {
+          "mean": 2820.0,
+          "median": 2820.0,
+          "min": 2820.0,
+          "max": 2820.0,
+          "samples": 30
+        }
+      },
+      "raw_frame_file": "05-A-frames.csv.gz",
+      "raw_frame_file_sha256": "91ddc3f8d1dfab6b1e89b75d4072df8471b1182e87dfb6d654d5134cbb9746f9",
+      "private_original_fps_json_sha256": "583c8132a49932d98282c59d99c3e54609e18910365a0c44613ba16a9c94833e",
+      "generated_renderer_decision_cache_sha256": "1219409343d3487b94e268aa903225f5e9f71d5f586293bc58a09a25360b13a6"
+    },
+    {
+      "order": 6,
+      "variant": "B",
+      "stage": "017-native-create-light-cache-abbaab-v22-20261005-06-B",
+      "metrics": {
+        "average_fps": 1994.8890015119393,
+        "one_percent_low_fps": 467.17601070683224,
+        "p50_ms": 0.4705,
+        "p95_ms": 0.5653,
+        "p99_ms": 2.0365,
+        "max_ms": 3.8794,
+        "duration_ms": 30000.1654,
+        "frames": 59847
+      },
+      "repeated_cache_startup_s": 26.068634,
+      "native_counters_at_capture_end": null,
+      "telemetry_global_and_owned_cpu": {
+        "system_cpu_percent": {
+          "mean": 2.6,
+          "median": 2.3,
+          "min": 1.5,
+          "max": 5.5,
+          "samples": 30
+        },
+        "java_cpu_percent": {
+          "mean": 62.36666666666667,
+          "median": 64.6,
+          "min": 40.6,
+          "max": 86.3,
+          "samples": 30
+        },
+        "java_rss_mib": {
+          "mean": 2419.4958333333334,
+          "median": 2419.513671875,
+          "min": 2417.5390625,
+          "max": 2420.859375,
+          "samples": 30
+        },
+        "gpu_percent": {
+          "mean": 58.06666666666667,
+          "median": 58.0,
+          "min": 55.0,
+          "max": 60.0,
+          "samples": 30
+        },
+        "memory_percent": {
+          "mean": 40.266666666666666,
+          "median": 40.0,
+          "min": 39.0,
+          "max": 41.0,
+          "samples": 30
+        },
+        "memory_mib": {
+          "mean": 2353.4666666666667,
+          "median": 2357.0,
+          "min": 2342.0,
+          "max": 2359.0,
+          "samples": 30
+        },
+        "power_w": {
+          "mean": 276.6046666666667,
+          "median": 276.94,
+          "min": 269.68,
+          "max": 281.07,
+          "samples": 30
+        },
+        "temperature_c": {
+          "mean": 59.3,
+          "median": 59.0,
+          "min": 58.0,
+          "max": 60.0,
+          "samples": 30
+        },
+        "graphics_mhz": {
+          "mean": 2818.5,
+          "median": 2820.0,
+          "min": 2805.0,
+          "max": 2820.0,
+          "samples": 30
+        }
+      },
+      "raw_frame_file": "06-B-frames.csv.gz",
+      "raw_frame_file_sha256": "ad32174461190091095f676d7ced0b5291486130e91dc5f4ffc50047c192d2df",
+      "private_original_fps_json_sha256": "94bdc83553484228b3a371c839a519c6c2f74450c73c9c5b93be8137cf068b84",
+      "generated_renderer_decision_cache_sha256": "1219409343d3487b94e268aa903225f5e9f71d5f586293bc58a09a25360b13a6"
+    }
+  ],
+  "medians": {
+    "A": {
+      "average_fps": 1755.4262896501148,
+      "one_percent_low_fps": 403.5276463708146,
+      "p50_ms": 0.5163,
+      "p95_ms": 0.7384,
+      "p99_ms": 2.2026,
+      "max_ms": 5.7073
+    },
+    "B": {
+      "average_fps": 2024.6620436883377,
+      "one_percent_low_fps": 465.5853192372269,
+      "p50_ms": 0.4614,
+      "p95_ms": 0.5653,
+      "p99_ms": 2.0365,
+      "max_ms": 3.9422
+    }
+  },
+  "fps_ranges": {
+    "A": [
+      1747.2588971887706,
+      1827.403211637081
+    ],
+    "B": [
+      1994.8890015119393,
+      2035.176955012922
+    ]
+  },
+  "median_fps_change_percent": 15.337343164200078,
+  "ranges_overlap": false,
+  "all_other_mod_hashes_equal": true,
+  "all_other_config_hashes_and_visual_options_equal": true,
+  "config_exclusion": "Only generated harimt-vulkan-compat.properties: UniversalRendererGate.saveDecision writes a mod-signature/result and timestamp each launch. All six runtime renderers independently observed VULKAN; no gate/trust settings changed. Raw cache-file SHA values retained per trial.",
+  "common_mod_sha256": {
+    "architectury-9.2.14-forge.jar": "218b471d0b8a1f6cda14cfc1beb9eeb0df54304500acc6c5613d9b88ec65d9af",
+    "citadel-2.6.3-1.20.1.jar": "56c7ab87348a5292583aac787b6cf11b5193e77f02af1d17ea75a96f8640b3ce",
+    "cloth-config-11.1.136-forge.jar": "1e895e85cf5b1e1905ef3178ec155c8badfe22a1577b92c09143a5aa1f4ce0f2",
+    "curios-forge-5.14.1+1.20.1-Noxviola-PerfLeakFix-v3.jar": "4c4b668d4ddca09504f1aa80341e9a90e4405f2969178a5fa5e4542cbbff9803",
+    "ferritecore-6.0.1-forge.jar": "9c2c9396a49e796d88497758caa4637d2bcbb433c318e2dd9cebcffbaf0f6c54",
+    "fieldguide-1.20.4+1.20.1-forge.jar": "1613b3ad057d2d0bc1955e7d35fdcaac9583fc780840f5c3c74ccddc232f6825",
+    "geckolib-forge-1.20.1-4.8.4.jar": "c04abba4fd354dd8c0e8a732f1f05f4dca893d2e1d962b2ab128bbd411478747",
+    "Grassier-Grass-1.4.5-Render-Performance-Fix-REPLACEMENT-2.jar": "91006e8220e65572d7e9e1e54b6058526c4adf908faedc750c9f19f13623df8c",
+    "harimt-forge-1.20.1-2.4.11-noxviola.22-dimensions-vulkan-hybrid-all.jar": "874a76069045091858bc2c7e740a27c4a93af43b893ab05658951aef1465b7f5",
+    "modernfix-forge-5.27.83+mc1.20.1.jar": "954ff22f601be8de3978a0d7636a138dc93801c6ac55cfd71ef1cd2895de8e5f",
+    "mvh-grass-distance-compat-1.0.3.jar": "45d0067072c608eccf6ebafc06990a7ca5661c08bd5828118834f1b1a0eb325a",
+    "mvh-noxviola-control-1.0.33.jar": "c35f4e2ce3005fb5529fd32fcc3474c15ad6c0199e6ea3bd2decf76e3aa82066"
+  },
+  "config_manifest_digest_excluding_generated_decision": "f275700aad9ef0a370c163b3486449be8eeb378806069fcdd74f1ae15a701805",
+  "visual_options": {
+    "fov": "0.0",
+    "renderDistance": "16",
+    "simulationDistance": "12",
+    "entityDistanceScaling": "1.0",
+    "maxFps": "260",
+    "enableVsync": "false",
+    "graphicsMode": "1",
+    "mipmapLevels": "4",
+    "particles": "0",
+    "biomeBlendRadius": "2",
+    "pauseOnLostFocus": "false",
+    "resourcePacks": "[]"
+  },
+  "resolution": [
+    1920,
+    1080
+  ],
+  "hardware": "i9-13900K/64GiB/RTX4090/NVIDIA610.88",
+  "minecraft": "1.20.1",
+  "forge": "47.4.26",
+  "java": "Temurin17.0.20.1",
+  "warmup_s": 60,
+  "capture_s": 30,
+  "scene": "Verified original powered motors/shafts/fans plus retained original Grassier Grass, pristine world copies, fixed camera",
+  "original_active_hashes_restored": true,
+  "personal_profile_untouched": true,
+  "limits": [
+    "Forge RenderTick END CPU wall intervals, not GPU timestamp or independently measured presentation FPS.",
+    "Global GPU/system CPU telemetry includes unrelated workloads, which were never stopped. Repository edits/read-only checks overlapped some launches/warmups; no local code builds occurred during this capture series.",
+    "Generated renderer-decision cache hashes differ; all other config bytes and all visual options match.",
+    "Bounded original powered machinery with one retained native mod subset, not complete Noxviola, arbitrary contraptions/blueprints or an active shaderpack.",
+    "Repeated-cache startup only; cold startup/zero hitching/2432-2470 FPS for full pack not established."
+  ]
+}

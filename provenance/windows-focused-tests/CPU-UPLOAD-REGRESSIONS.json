@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "work_items_per_sample": 5120000,
+  "baseline_median_ns": 62708300,
+  "candidate_median_ns": 26888799,
+  "baseline_allocated_bytes": 123360000,
+  "candidate_allocated_bytes": 21120000,
+  "disjoint_upload_regions": 128,
+  "candidate_copy_commands": 1,
+  "candidate_disjoint_barriers": 0,
+  "scope": "Actual production Java; real concurrent queue checks and alternating equivalent-work CPU benchmark; Vulkan command recording uses checked doubles. Native Minecraft proof is separate.",
+  "graphics_upload_ordering": true,
+  "draw_upload_dependencies_per_batch": 2,
+  "disjoint_barrier_metric": "candidate_disjoint_barriers counts only intra-batch write-after-write barriers",
+  "missing_dependency_negative_controls": [
+    "WRITE_AFTER_READ",
+    "upload not visible to next draw"
+  ]
+}

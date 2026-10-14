@@ -1,0 +1,13 @@
+{
+  "accepted": true,
+  "actual_gpu_cases": 98,
+  "compared_pixels": 59936,
+  "mismatched_pixels": 0,
+  "prior85_hashes_equal": true,
+  "original_VAO_method_invocations": 66,
+  "VAO_controls": 58,
+  "private_loader_only": true,
+  "automatic_GAME_execution_proven": false,
+  "fullpack_or_FPS_accepted": false,
+  "original_profiles_restored": true
+}

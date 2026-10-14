@@ -1,0 +1,303 @@
+{
+  "accepted": true,
+  "original_normal_call_sites": 26,
+  "original_capability_sequences": 10,
+  "original_runtime_fields": 24,
+  "original_method_invocations": 74,
+  "outer_original_constructor_executed": true,
+  "private_loader_only": false,
+  "automatic_original_GAME_execution": true,
+  "exact_original_GAME_classes": 3,
+  "full_Physics_or_FPS_accepted": false,
+  "default_constructor_extra_name_observed_and_test_retired": true,
+  "controls": [
+    {
+      "control": "private-original-outer-archive-pin",
+      "passed": true
+    },
+    {
+      "control": "actual-outer-original-GAME-module-net.diebuddies.opengl.VAO",
+      "passed": true
+    },
+    {
+      "control": "fresh-outer-original-Forge-export-net.diebuddies.opengl.VAO",
+      "passed": true
+    },
+    {
+      "control": "all-outer-original-GAME-callback-sites-net.diebuddies.opengl.VAO",
+      "passed": true
+    },
+    {
+      "control": "outer-repeat-rejected-net.diebuddies.opengl.VAO",
+      "passed": true
+    },
+    {
+      "control": "outer-Forge-only-generic-super-signature-net.diebuddies.opengl.VAO",
+      "passed": true
+    },
+    {
+      "control": "outer-inverse-original-body-net.diebuddies.opengl.VAO",
+      "passed": true
+    },
+    {
+      "control": "actual-outer-original-GAME-module-net.diebuddies.opengl.StateTracker",
+      "passed": true
+    },
+    {
+      "control": "fresh-outer-original-Forge-export-net.diebuddies.opengl.StateTracker",
+      "passed": true
+    },
+    {
+      "control": "all-outer-original-GAME-callback-sites-net.diebuddies.opengl.StateTracker",
+      "passed": true
+    },
+    {
+      "control": "outer-repeat-rejected-net.diebuddies.opengl.StateTracker",
+      "passed": true
+    },
+    {
+      "control": "outer-Forge-only-generic-super-signature-net.diebuddies.opengl.StateTracker",
+      "passed": true
+    },
+    {
+      "control": "outer-inverse-original-body-net.diebuddies.opengl.StateTracker",
+      "passed": true
+    },
+    {
+      "control": "actual-original-constructor-native-routing",
+      "passed": true
+    },
+    {
+      "control": "actual-original-VAO-native-program",
+      "passed": true
+    },
+    {
+      "control": "real-native-original-outer-target",
+      "passed": true
+    },
+    {
+      "control": "physics-original-outer-arrays-constructor-finish-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "real-native-original-outer-target",
+      "passed": true
+    },
+    {
+      "control": "physics-original-outer-arrays-no-bind-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "real-native-original-outer-target",
+      "passed": true
+    },
+    {
+      "control": "physics-original-outer-arrays-explicit-range-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "real-native-original-outer-target",
+      "passed": true
+    },
+    {
+      "control": "physics-original-outer-array-update-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "actual-original-header-reuse",
+      "passed": true
+    },
+    {
+      "control": "real-native-original-outer-target",
+      "passed": true
+    },
+    {
+      "control": "physics-original-outer-uint-indexed-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "original-VAO-array-element-state-restored",
+      "passed": true
+    },
+    {
+      "control": "real-native-original-outer-target",
+      "passed": true
+    },
+    {
+      "control": "physics-original-outer-indexed-state-restore-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "real-native-original-outer-target",
+      "passed": true
+    },
+    {
+      "control": "physics-original-outer-ushort-indexed-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "actual-original-VAO-native-program",
+      "passed": true
+    },
+    {
+      "control": "real-native-original-outer-target",
+      "passed": true
+    },
+    {
+      "control": "physics-original-outer-instanced-allocate-update-arrays-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "real-native-original-outer-target",
+      "passed": true
+    },
+    {
+      "control": "physics-original-outer-instanced-uint-indexed-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "real-native-original-outer-target",
+      "passed": true
+    },
+    {
+      "control": "physics-original-outer-instanced-ushort-indexed-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "actual-original-VAO-native-program",
+      "passed": true
+    },
+    {
+      "control": "real-native-original-outer-target",
+      "passed": true
+    },
+    {
+      "control": "physics-original-outer-integer-instance-attributes-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "actual-original-VAO-native-program",
+      "passed": true
+    },
+    {
+      "control": "real-native-original-outer-target",
+      "passed": true
+    },
+    {
+      "control": "physics-original-outer-normalized-byte-instance-colors-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "actual-original-VAO-native-program",
+      "passed": true
+    },
+    {
+      "control": "actual-default-constructor-allocates-name",
+      "passed": true
+    },
+    {
+      "control": "original-default-extra-name-observed",
+      "passed": true
+    },
+    {
+      "control": "real-native-original-outer-target",
+      "passed": true
+    },
+    {
+      "control": "physics-original-outer-default-constructor-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "original-outer-destroyed",
+      "passed": true
+    },
+    {
+      "control": "original-outer-destroyed",
+      "passed": true
+    },
+    {
+      "control": "original-outer-destroyed",
+      "passed": true
+    },
+    {
+      "control": "original-outer-destroyed",
+      "passed": true
+    },
+    {
+      "control": "original-outer-destroyed",
+      "passed": true
+    },
+    {
+      "control": "original-outer-destroyed",
+      "passed": true
+    },
+    {
+      "control": "original-outer-destroyed",
+      "passed": true
+    },
+    {
+      "control": "original-outer-destroyed",
+      "passed": true
+    },
+    {
+      "control": "original-outer-destroyed",
+      "passed": true
+    },
+    {
+      "control": "all-original-outer-names-retired",
+      "passed": true
+    },
+    {
+      "control": "actual-outer-original-GAME-module-net.diebuddies.opengl.VertexFormat",
+      "passed": true
+    },
+    {
+      "control": "fresh-outer-original-Forge-export-net.diebuddies.opengl.VertexFormat",
+      "passed": true
+    },
+    {
+      "control": "all-outer-original-GAME-callback-sites-net.diebuddies.opengl.VertexFormat",
+      "passed": true
+    },
+    {
+      "control": "outer-repeat-rejected-net.diebuddies.opengl.VertexFormat",
+      "passed": true
+    },
+    {
+      "control": "outer-Forge-only-generic-super-signature-net.diebuddies.opengl.VertexFormat",
+      "passed": true
+    },
+    {
+      "control": "outer-inverse-original-body-net.diebuddies.opengl.VertexFormat",
+      "passed": true
+    },
+    {
+      "control": "actual-original-VAO-native-program",
+      "passed": true
+    },
+    {
+      "control": "real-native-original-outer-target",
+      "passed": true
+    },
+    {
+      "control": "physics-original-interleaved-integer-pointer-offset-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "bound-VAO-deletion-restores-zero-array-and-element-state",
+      "passed": true
+    },
+    {
+      "control": "VAO-deletion-keeps-live-index-buffer-object",
+      "passed": true
+    },
+    {
+      "control": "native-original-outer-error-clean",
+      "passed": true
+    },
+    {
+      "control": "original-outer-site-totals",
+      "passed": true
+    }
+  ]
+}

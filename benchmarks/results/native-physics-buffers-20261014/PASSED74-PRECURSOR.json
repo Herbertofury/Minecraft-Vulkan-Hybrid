@@ -1,0 +1,16 @@
+{
+  "version": 41,
+  "GPU_cases": 74,
+  "pixels": 58400,
+  "mismatch": 0,
+  "all_old67_hashes_identical": true,
+  "buffer_original_invocations": 39,
+  "buffer_transported_sites": 47,
+  "buffer_controls": 75,
+  "transfers": {
+    "copies": 5,
+    "retainedReaderReplacements": 5
+  },
+  "fullpack_FPS_accepted": false,
+  "precursor_retained": true
+}

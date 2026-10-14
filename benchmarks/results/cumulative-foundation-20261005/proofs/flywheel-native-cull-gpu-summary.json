@@ -1,0 +1,282 @@
+{
+  "status": "SEVEN_NATIVE_ORIGINAL_CREATE_FLYWHEEL_COMPONENT_CASES_PASS_FULL_BACKEND_PROVIDER_PENDING",
+  "minecraft": "1.20.1",
+  "forge": "47.4.26",
+  "java": "Temurin17.0.20.1",
+  "hardware": "i9-13900K,64GiB,RTX4090,driver610.88",
+  "game_lwjgl": "3.3.1",
+  "external_compiler_sdk": "Official3.3.6,not installed in game",
+  "artifact_files": {
+    "hari": {
+      "file": "harimt-forge-1.20.1-2.4.11-noxviola.15-dimensions-vulkan-hybrid-all.jar",
+      "sha256": "f2353b1a87ae1f218b0b734763ca8db08fa3f5b83f7a33b78cf4523648e1a7a2",
+      "bytes": 31095735
+    },
+    "diagnostic_controller": {
+      "file": "mvh-noxviola-control-1.0.21.jar",
+      "sha256": "ebf1808bc7cd79445ce835ab27fc0bd165718a9b4da6e00ec4a737857c9803c5",
+      "bytes": 66521
+    }
+  },
+  "native_batch_shipped_in_hari": true,
+  "batch_source_sha256": "4b676ae4fe80e72bc40b911aeff7093042a0ab8e08aae7c2958013c143dc82f4",
+  "frame_layout_source_sha256": "15ee308b2de7872f8bc083895deb16beac556a7aa89e9a37a720293f3f1f8975",
+  "original_provenance": {
+    "repository": "https://github.com/Engine-Room/Flywheel",
+    "tag": "mc1.20.1/v1.0.5",
+    "commit": "610b1683f3ed0fef5cd387a126bd2c530a9c2ead",
+    "original_create_sha256": "6fbb910c367dbce8e4fc7e5bf64b6edd4de980906ed00af8e47e4af843c0d9b0",
+    "original_nested_flywheel_sha256": "316ca250f19244956b5f0cd75329309ea65a77b4b8da854389b6a9222e7f427c",
+    "original_create_assets": {
+      "assets/create/models/block/shaft.json": "ac0dde5366052600cb94b3414a4d5283706c0a6dd4c76196b2aa35c3cc75a997",
+      "assets/create/textures/block/axis.png": "0ae58aa6fcc369fee5a49270827bfa572631078f57163b8344f97ea5fcde2441",
+      "assets/create/textures/block/axis_top.png": "d96400565f72e7270eeb9daaab2b1cf2a450e9491bbd488d217ed5f7e49c4bc3"
+    },
+    "vendor_license": "MIT",
+    "original_files": [
+      {
+        "path": "internal/indirect/apply.glsl",
+        "sha256": "2fdd0cffe0ef02acfb6f5c9030d826e1292e62b8a8ad164ecdfe31e6489009fc",
+        "bytes": 790
+      },
+      {
+        "path": "internal/indirect/buffer_bindings.glsl",
+        "sha256": "a4c5f8e6491755258cbd8ad6a0cb6665d7bd33cab984b99ca5e8c913142ef977",
+        "bytes": 442
+      },
+      {
+        "path": "internal/indirect/draw_command.glsl",
+        "sha256": "1c2048de866101bd1ee5f500aa746876ae6dfa4a738ba00d82a5131e6d4bca08",
+        "bytes": 249
+      },
+      {
+        "path": "internal/indirect/model_descriptor.glsl",
+        "sha256": "a540de77d69d9b141a2e8212ec24dab5015aa87baead39be96b75b239892b57d",
+        "bytes": 391
+      },
+      {
+        "path": "instance/transformed.vert",
+        "sha256": "829b0c44e931fbbf004ad10e0bd146d9daaf099bb1232a741939789b5dabc609",
+        "bytes": 399
+      },
+      {
+        "path": "instance/cull/transformed.glsl",
+        "sha256": "4c1e85a2d46e36bcc6e353aac31e3c6c5cdfe6ab1d7678a44c2a8725ddd64407",
+        "bytes": 185
+      },
+      {
+        "path": "util/matrix.glsl",
+        "sha256": "4bf731bb39d0a0d3c5a77ee792c3fbda7b1074e197d4a171cfe9e4ddf3e96876",
+        "bytes": 1541
+      },
+      {
+        "path": "internal/indirect/cull.glsl",
+        "sha256": "d4fe4fb66dd389f2e414cbc787fa58c1d723b1c6bf374a95f680336e7acc3d48",
+        "bytes": 5384
+      },
+      {
+        "path": "internal/uniforms/uniforms.glsl",
+        "sha256": "16e8d42cf1d93a17975bfe98b8514471e5f0bb940e415fda7b74f3924e4ee643",
+        "bytes": 292
+      },
+      {
+        "path": "internal/uniforms/frame.glsl",
+        "sha256": "45e1587a5b76fd26475309cc0987222321a7e6cdecd80487691d0e7c9291d456",
+        "bytes": 2058
+      },
+      {
+        "path": "internal/uniforms/fog.glsl",
+        "sha256": "1e02af2bed2a774cc71f630a345297d71cad82208f8f561e17ae4ed19615c378",
+        "bytes": 112
+      },
+      {
+        "path": "internal/uniforms/options.glsl",
+        "sha256": "97f57c9e351e2a17213b5084f6d0ea9bb301d7977efab4d31ede8399e0665a40",
+        "bytes": 644
+      },
+      {
+        "path": "internal/uniforms/player.glsl",
+        "sha256": "9d450caaceedaec648f037914fd6ea23834ac9f9de30b34185a765fc3835545b",
+        "bytes": 1148
+      },
+      {
+        "path": "internal/uniforms/level.glsl",
+        "sha256": "64b42c7dfc227a104bf3c720232108f52ed0615568593d90d42385461003e5bc",
+        "bytes": 1040
+      },
+      {
+        "path": "internal/indirect/matrices.glsl",
+        "sha256": "17c2475bdae3657d1fe8366ea8967da31fcdefce59d396e2ea0b6c96b2ceff75",
+        "bytes": 265
+      }
+    ],
+    "scope": "Original MIT Flywheel shader components retained byte-for-byte. Native Java batch and shader adaptation original GPL-3.0-only. Create assets stay in the installed original JAR/private fixtures; no upstream executable, original Create JAR or shaderpack is redistributed."
+  },
+  "gpu_report": {
+    "passed": true,
+    "route": "FLYWHEEL_NATIVE_CULL_BATCH",
+    "completed": true,
+    "fps_accepted": false,
+    "error_type": "",
+    "scope": "Actual original Create shaft model/textures and original Flywheel apply/transformed shader,76-byte instances,36-byte GPU-generated indirect commands,explicit indexed reference and complete RGBA comparison. Optional original cull compaction,explicit frustum/depth fixtures and reflected864-byte46-leaf frame UBO. Full depth pyramid/material/light/OIT backend and active shader pack remain separate.",
+    "cases": [
+      {
+        "case": "original_shaft_indirect_instances_3",
+        "matched": true,
+        "compared_pixels": 24576,
+        "mismatched_pixels": 0,
+        "non_background_pixels": 5743,
+        "expected_instances": 3,
+        "gpu_generated_instances": 3,
+        "non_count_command_bytes_preserved": true,
+        "first_instance": 1,
+        "instance_stride": 76,
+        "command_stride": 36,
+        "live_input_changes_affect_pixels": true,
+        "actual_rgba_sha256": "35d162d8d3a3dcb085ece0d4e42e7ce9af591a6f59f9690c287e1681fa751493",
+        "explicit_reference_rgba_sha256": "35d162d8d3a3dcb085ece0d4e42e7ce9af591a6f59f9690c287e1681fa751493",
+        "compute_dispatches": 2,
+        "indexed_draws": 2
+      },
+      {
+        "case": "original_shaft_indirect_instances_1",
+        "matched": true,
+        "compared_pixels": 24576,
+        "mismatched_pixels": 0,
+        "non_background_pixels": 1915,
+        "expected_instances": 1,
+        "gpu_generated_instances": 1,
+        "non_count_command_bytes_preserved": true,
+        "first_instance": 1,
+        "instance_stride": 76,
+        "command_stride": 36,
+        "live_input_changes_affect_pixels": true,
+        "actual_rgba_sha256": "6464c529ce337ed6749cc75841fc1703ffd5ee2034ec38381a47810ac1a1b126",
+        "explicit_reference_rgba_sha256": "6464c529ce337ed6749cc75841fc1703ffd5ee2034ec38381a47810ac1a1b126",
+        "compute_dispatches": 4,
+        "indexed_draws": 4
+      },
+      {
+        "case": "original_shaft_indirect_instances_0",
+        "matched": true,
+        "compared_pixels": 24576,
+        "mismatched_pixels": 0,
+        "non_background_pixels": 0,
+        "expected_instances": 0,
+        "gpu_generated_instances": 0,
+        "non_count_command_bytes_preserved": true,
+        "first_instance": 1,
+        "instance_stride": 76,
+        "command_stride": 36,
+        "live_input_changes_affect_pixels": true,
+        "actual_rgba_sha256": "5a4d136063938b9ded44324d27a2a85971a96cb4f5945842b86616c58515c35c",
+        "explicit_reference_rgba_sha256": "5a4d136063938b9ded44324d27a2a85971a96cb4f5945842b86616c58515c35c",
+        "compute_dispatches": 6,
+        "indexed_draws": 6
+      },
+      {
+        "case": "original_shaft_changed_pose_color_light",
+        "matched": true,
+        "compared_pixels": 24576,
+        "mismatched_pixels": 0,
+        "non_background_pixels": 5549,
+        "expected_instances": 3,
+        "gpu_generated_instances": 3,
+        "non_count_command_bytes_preserved": true,
+        "first_instance": 1,
+        "instance_stride": 76,
+        "command_stride": 36,
+        "live_input_changes_affect_pixels": true,
+        "actual_rgba_sha256": "3ddb6cabf6af45abd408581d81cc93c5f0cb0d366d8caf0acd86793786da6acb",
+        "explicit_reference_rgba_sha256": "3ddb6cabf6af45abd408581d81cc93c5f0cb0d366d8caf0acd86793786da6acb",
+        "compute_dispatches": 8,
+        "indexed_draws": 8
+      },
+      {
+        "case": "original_cull_visible_target_compaction",
+        "matched": true,
+        "compared_pixels": 24576,
+        "mismatched_pixels": 0,
+        "non_background_pixels": 5743,
+        "expected_instances": 3,
+        "gpu_culled_instances": 3,
+        "gpu_generated_draw_instances": 3,
+        "first_instance": 1,
+        "frame_uniform_bytes": 864,
+        "frame_uniform_leaves": 46,
+        "exact_expected_compacted_targets": true,
+        "actual_rgba_sha256": "35d162d8d3a3dcb085ece0d4e42e7ce9af591a6f59f9690c287e1681fa751493",
+        "explicit_reference_rgba_sha256": "35d162d8d3a3dcb085ece0d4e42e7ce9af591a6f59f9690c287e1681fa751493",
+        "compute_dispatches": 11,
+        "indexed_draws": 10
+      },
+      {
+        "case": "original_cull_frustum_reject",
+        "matched": true,
+        "compared_pixels": 24576,
+        "mismatched_pixels": 0,
+        "non_background_pixels": 0,
+        "expected_instances": 0,
+        "gpu_culled_instances": 0,
+        "gpu_generated_draw_instances": 0,
+        "first_instance": 1,
+        "frame_uniform_bytes": 864,
+        "frame_uniform_leaves": 46,
+        "exact_expected_compacted_targets": true,
+        "actual_rgba_sha256": "5a4d136063938b9ded44324d27a2a85971a96cb4f5945842b86616c58515c35c",
+        "explicit_reference_rgba_sha256": "5a4d136063938b9ded44324d27a2a85971a96cb4f5945842b86616c58515c35c",
+        "compute_dispatches": 14,
+        "indexed_draws": 12
+      },
+      {
+        "case": "original_cull_sampled_depth_reject",
+        "matched": true,
+        "compared_pixels": 24576,
+        "mismatched_pixels": 0,
+        "non_background_pixels": 0,
+        "expected_instances": 0,
+        "gpu_culled_instances": 0,
+        "gpu_generated_draw_instances": 0,
+        "first_instance": 1,
+        "frame_uniform_bytes": 864,
+        "frame_uniform_leaves": 46,
+        "exact_expected_compacted_targets": true,
+        "actual_rgba_sha256": "5a4d136063938b9ded44324d27a2a85971a96cb4f5945842b86616c58515c35c",
+        "explicit_reference_rgba_sha256": "5a4d136063938b9ded44324d27a2a85971a96cb4f5945842b86616c58515c35c",
+        "compute_dispatches": 17,
+        "indexed_draws": 14
+      }
+    ],
+    "api_renderer": "VULKAN",
+    "gl_vendor": "not queried in a native Vulkan session",
+    "gl_renderer": "not queried in a native Vulkan session",
+    "gl_version": "not queried in a native Vulkan session"
+  },
+  "normal_client_and_launcher_exit": true,
+  "original_active_mod_hashes_restored": true,
+  "restored_map_sha256": "050233cd59c99209512fa2358c15e9f65670cd9905e4936e4c6186959394a507",
+  "personal_profile_untouched": true,
+  "renderer_gate_and_contract_changed": false,
+  "create_mod_entrypoint_loaded_in_component_test": false,
+  "private_original_assets_redistributed": false,
+  "compile_recipe_exact_pinned_output": true,
+  "format_regression": "Actual LWJGL3.3.1/JDK17:18 float/integer/depth formats,padded row/skip spans,unsupported block and overflow rejection PASS",
+  "rejected_trials": [
+    {
+      "stage": "017-flywheel-native-batch-v14-recovery01",
+      "cases": 0,
+      "failure": "Graphics pipeline used dynamic-rendering configuration while Hari uses traditional render passes; fixed with actual pass handle."
+    },
+    {
+      "stage": "017-flywheel-native-batch-v14-rp",
+      "cases": 0,
+      "failure": "Previously disabled Hari file stayed disabled on Modrinth add; missing Pipeline during controller startup. Fixed by explicit enable and complete pre-launch active hash assertion."
+    },
+    {
+      "stage": "017-flywheel-native-cull-v14",
+      "cases": 0,
+      "failure": "Original image builder returned zero texel size forR32_SFLOAT; actual depth upload rejected. Fixed by explicit uncompressed footprint helper; no cull/depth algorithm removed."
+    }
+  ],
+  "scope": "Original shaft model/textures,original cull/apply/transformed shader components,76-byte transformed instances,28-byte models,36-byte commands,sparse SSBO/UBO/depth descriptors,compute barriers,target compaction,indexed indirect draws and complete192x128RGBA reference comparisons. Uniform-depth/frustum fixtures do not establish full depth pyramid/material/light/OIT/full Java backend,contraption/Ponder/blueprint or active Oculus/Iris/shaderpack parity. Diagnostic FPS excluded; no speedup,fullpack or zero-hitch acceptance."
+}

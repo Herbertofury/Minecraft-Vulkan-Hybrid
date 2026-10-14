@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "state": "native_product_failures_repaired_build_pending",
+  "parent_commit": "82589863b3bed5ca6a784538368b8faf561c49ff",
+  "product_commit": "6594c6cc652db554213c52ae02f7acd8f439644c",
+  "jar_sha256": "58ceda73c9328c78fc3d82eb652475cb4c7ddd91f3078d6d31717eb0ea9d432f",
+  "minecraft": "1.20.1",
+  "forge": "47.4.23",
+  "java": 17,
+  "requested": [
+    "The Aether",
+    "The Midnight",
+    "previous renderer-conflict mods"
+  ],
+  "native_lanes": [
+    "aether",
+    "midnight",
+    "dimensions-c2me",
+    "immediatelyfast",
+    "entityculling",
+    "distanthorizons",
+    "oculus-embeddium",
+    "rubidium",
+    "lazurite",
+    "continuity",
+    "optimized-stack"
+  ],
+  "acceptance": [
+    "real packaged forgeclient",
+    "exact installed mod hashes and complete dependencies",
+    "real glowstone/water Aether portal and Midnight rift item",
+    "all 20 Aether and 10 Midnight spawn-egg mob types with original AI",
+    "49 generated chunks per destination",
+    "home unload and loaded entity/NBT return",
+    "native screenshots and validation/error ledgers",
+    "resource reload and resize",
+    "second JVM saved-world reopen",
+    "fix causal failures without disabled safety/content"
+  ],
+  "not_yet_tested": [
+    "OptiFine I6 official binary verified; native lane pending",
+    "Active Oculus MakeUp Ultra Fast 9.5f shaderpack verified; native lane pending",
+    "Dedicated server dimension mob/chunk/save/restart lane pending"
+  ],
+  "not_applicable_provider_results": [
+    "Exordium",
+    "Canvas",
+    "Iris",
+    "Sodium",
+    "Indium: official Modrinth query publishes no Forge 1.20.1 build"
+  ],
+  "unresolved_provider_lookup": [],
+  "exact_next_action": "Build version 2.4.2, pin its actual packaged artifact hash/run, rerun native dimension and renderer modpack lanes with validation enabled",
+  "drive_archive_upload_block": "Previous five source/log archive uploads remain rejected by automatic review; this task does not retry them",
+  "limitations": [
+    "Not every boss combat phase or arbitrary mod combination; expanded concrete runtime checks",
+    "Linux Mesa software Vulkan/OpenGL; RTX4090 FPS not measured"
+  ],
+  "initial_run": {
+    "run": 37068690325,
+    "commit": "66fce9204cb93d39f5567f65edfae803cb01b157",
+    "state": "failed_fixture_options",
+    "cause": "Copied distance-8 stress workflow changed simulationDistance to 4, below Minecraft option minimum 5; strict error detection stopped native tests before world entry",
+    "fix": "Use valid simulationDistance 5 while preserving render distance 4 and radius-three loaded-chunk assertions",
+    "product_unchanged": true
+  },
+  "repaired_candidate_version": "2.4.2-noxviola.1-vulkan-hybrid",
+  "product_failures": [
+    {
+      "run": 37069105366,
+      "jobs": [
+        111044049472,
+        111044049666
+      ],
+      "cause": "Missing blend/stencil pipeline dynamic-state declarations; VUID-vkCmdDrawIndexed-None-08608",
+      "fix": "Declare the states emitted by Renderer.bindGraphicsPipeline in both pipeline branches"
+    },
+    {
+      "run": 37069105366,
+      "job": 111044049245,
+      "cause": "Midnight rift samplers shared across shader stages received duplicate declarations and bindings",
+      "fix": "Deduplicate descriptor bindings by name and type, preserve per-stage declarations and texture slots, reject conflicting types"
+    }
+  ],
+  "optifabric_scope": "Official author and CurseForge metadata identify Fabric-only; no Forge 1.20.1 build in this matrix"
+}

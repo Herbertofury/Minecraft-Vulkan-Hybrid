@@ -1,0 +1,49 @@
+[
+  {
+    "bytes": 29862197,
+    "sha256": "e1772a9d19aad82d61705366544a68fe3cd7a07f4d3f5cd04f8f36574a34c1e0",
+    "artifact_ids": [
+      11289187333,
+      11289137697,
+      11288553588,
+      11288877206
+    ],
+    "drive_id": "1BI5ZYa0NtTu-9hBKNjVQvWmFW3gPo7B_",
+    "url": "https://drive.google.com/file/d/1BI5ZYa0NtTu-9hBKNjVQvWmFW3gPo7B_/view",
+    "raw_byte_readback_verified": true
+  },
+  {
+    "bytes": 32638848,
+    "sha256": "004803f1b285bd97513615b9cb65416a48bf8f518fa47d9733bd03e660cc7475",
+    "artifact_ids": [
+      11289486929,
+      11288962222,
+      11288493863
+    ],
+    "drive_id": "1JHVQtsUbBvTVdgI_xE-FUM715tCmQY4m",
+    "url": "https://drive.google.com/file/d/1JHVQtsUbBvTVdgI_xE-FUM715tCmQY4m/view",
+    "raw_byte_readback_verified": true
+  },
+  {
+    "bytes": 32641588,
+    "sha256": "4784509405514fa9bfa9fda1fa9ebaf954b487b4ee59732826b18d59cf99c713",
+    "artifact_ids": [
+      11288648418,
+      11289456983,
+      11288773262
+    ],
+    "drive_id": "1YC9KFjCDTz3-vSqp0IoC2ESSalrcDK3k",
+    "url": "https://drive.google.com/file/d/1YC9KFjCDTz3-vSqp0IoC2ESSalrcDK3k/view",
+    "raw_byte_readback_verified": true
+  },
+  {
+    "bytes": 10270325,
+    "sha256": "47346313296d70d2449d97750d7051a9f2644e0e531e1db744ae6ab0565c2c70",
+    "artifact_ids": [
+      11289426919
+    ],
+    "drive_id": "1qf1zLYqun3umbR7cDkgNWUDU_sMIG61r",
+    "url": "https://drive.google.com/file/d/1qf1zLYqun3umbR7cDkgNWUDU_sMIG61r/view",
+    "raw_byte_readback_verified": true
+  }
+]

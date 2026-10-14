@@ -1,0 +1,15 @@
+{
+  "completed": true,
+  "passed": true,
+  "error_type": "",
+  "step": 7,
+  "checks": [
+    "client_resource_reload",
+    "modded_octopus_spawn",
+    "physics_geckolib_octopus_death",
+    "server_teleport_nether",
+    "client_entered_nether",
+    "server_teleport_overworld",
+    "client_returned_overworld"
+  ]
+}

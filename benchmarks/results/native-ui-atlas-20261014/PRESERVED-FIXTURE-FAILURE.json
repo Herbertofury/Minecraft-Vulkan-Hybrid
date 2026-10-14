@@ -1,0 +1,11 @@
+{
+  "trial": "036-original-essential-atlas-trial1-20261014",
+  "all49_previous_pixel_cases_equal": true,
+  "six_new_cases_passed": true,
+  "rejected_case": "original_circle_live_matrix_update",
+  "mismatched_pixels": 74,
+  "cause": "Original rect.vsh passes gl_Vertex.xy as f_Position before its clip matrix; centre is a local vertex coordinate. The fixture translated the clip matrix by3 and incorrectly translated u_CenterPos again. Preserve original centre16, expect raster centre19. Shader/backend unchanged; retain the mismatch/raw pixels.",
+  "production_changed_for_fix": false,
+  "tolerance_changed": false,
+  "cases_removed": false
+}

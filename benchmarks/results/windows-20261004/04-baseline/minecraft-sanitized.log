@@ -1,0 +1,189 @@
+[14:41:12] [main/INFO]: ModLauncher 10.0.9+10.0.9+main.dcd20f30 starting: java version 17.0.20.1 by Eclipse Adoptium; OS Windows 11 arch amd64 version 10.0
+[14:41:12] [main/INFO]: Loading ImmediateWindowProvider fmlearlywindow
+[14:41:12] [main/INFO]: Trying GL version 4.6
+[14:41:12] [main/INFO]: Requested GL version 4.6 got version 4.6
+[14:41:13] [main/INFO]: SpongePowered MIXIN Subsystem Version=0.8.5 Source=union:/C:/Users/Owner/AppData/Roaming/ModrinthApp/meta/libraries/org/spongepowered/mixin/0.8.5/mixin-0.8.5.jar%23152!/ Service=ModLauncher Env=CLIENT
+[14:41:13] [pool-2-thread-1/INFO]: GL info: NVIDIA GeForce RTX 4090/PCIe/SSE2 GL version 4.6.0 NVIDIA 610.88, NVIDIA Corporation
+[14:41:13] [main/INFO]: Found mod file HariMultiThread-2.4.9-FPS-INSTRUMENTED-BASELINE.jar of type MOD with provider {mods folder locator at C:\Users\Owner\AppData\Roaming\ModrinthApp\profiles\baseline-2.4.9 (1)\mods}
+[14:41:13] [main/INFO]: Found mod file mvh-benchmark-control-1.0.0.jar of type MOD with provider {mods folder locator at C:\Users\Owner\AppData\Roaming\ModrinthApp\profiles\baseline-2.4.9 (1)\mods}
+[14:41:13] [main/WARN]: Mod file C:\Users\Owner\AppData\Roaming\ModrinthApp\meta\libraries\net\minecraftforge\fmlcore\1.20.1-47.4.26\fmlcore-1.20.1-47.4.26.jar is missing mods.toml file
+[14:41:13] [main/WARN]: Mod file C:\Users\Owner\AppData\Roaming\ModrinthApp\meta\libraries\net\minecraftforge\javafmllanguage\1.20.1-47.4.26\javafmllanguage-1.20.1-47.4.26.jar is missing mods.toml file
+[14:41:13] [main/WARN]: Mod file C:\Users\Owner\AppData\Roaming\ModrinthApp\meta\libraries\net\minecraftforge\lowcodelanguage\1.20.1-47.4.26\lowcodelanguage-1.20.1-47.4.26.jar is missing mods.toml file
+[14:41:13] [main/WARN]: Mod file C:\Users\Owner\AppData\Roaming\ModrinthApp\meta\libraries\net\minecraftforge\mclanguage\1.20.1-47.4.26\mclanguage-1.20.1-47.4.26.jar is missing mods.toml file
+[14:41:13] [main/INFO]: Found mod file fmlcore-1.20.1-47.4.26.jar of type LIBRARY with provider net.minecraftforge.fml.loading.moddiscovery.MinecraftLocator@1f86099a
+[14:41:13] [main/INFO]: Found mod file javafmllanguage-1.20.1-47.4.26.jar of type LANGPROVIDER with provider net.minecraftforge.fml.loading.moddiscovery.MinecraftLocator@1f86099a
+[14:41:13] [main/INFO]: Found mod file lowcodelanguage-1.20.1-47.4.26.jar of type LANGPROVIDER with provider net.minecraftforge.fml.loading.moddiscovery.MinecraftLocator@1f86099a
+[14:41:13] [main/INFO]: Found mod file mclanguage-1.20.1-47.4.26.jar of type LANGPROVIDER with provider net.minecraftforge.fml.loading.moddiscovery.MinecraftLocator@1f86099a
+[14:41:13] [main/INFO]: Found mod file client-1.20.1-20230612.114412-srg.jar of type MOD with provider net.minecraftforge.fml.loading.moddiscovery.MinecraftLocator@1f86099a
+[14:41:13] [main/INFO]: Found mod file forge-1.20.1-47.4.26-universal.jar of type MOD with provider net.minecraftforge.fml.loading.moddiscovery.MinecraftLocator@1f86099a
+[14:41:13] [main/INFO]: Found 5 dependencies adding them to mods collection
+[14:41:13] [main/INFO]: Found mod file MixinExtras-0.5.4.jar of type GAMELIBRARY with provider net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator@5631962
+[14:41:13] [main/INFO]: Found mod file lwjgl-shaderc-3.3.3.jar of type GAMELIBRARY with provider net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator@5631962
+[14:41:13] [main/INFO]: Found mod file lwjgl-vma-3.3.3.jar of type GAMELIBRARY with provider net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator@5631962
+[14:41:13] [main/INFO]: Found mod file lwjgl-vulkan-3.3.3.jar of type GAMELIBRARY with provider net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator@5631962
+[14:41:13] [main/INFO]: Found mod file mixinextras-forge-0.5.4.jar of type GAMELIBRARY with provider net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator@5631962
+[14:41:14] [main/INFO]: Compatibility level set to JAVA_17
+[14:41:15] [main/WARN]: Error loading class: nonamecrackers2/witherstormmod/client/instancing/RenderBufferer (java.lang.ClassNotFoundException: nonamecrackers2.witherstormmod.client.instancing.RenderBufferer)
+[14:41:15] [main/WARN]: Error loading class: dev/engine_room/flywheel/impl/BackendManagerImpl (java.lang.ClassNotFoundException: dev.engine_room.flywheel.impl.BackendManagerImpl)
+[14:41:15] [main/WARN]: Error loading class: de/johni0702/minecraft/bobby/FakeChunkManager (java.lang.ClassNotFoundException: de.johni0702.minecraft.bobby.FakeChunkManager)
+[14:41:15] [main/WARN]: Error loading class: com/mamiyaotaru/voxelmap/util/OpenGL$Utils (java.lang.ClassNotFoundException: com.mamiyaotaru.voxelmap.util.OpenGL$Utils)
+[14:41:15] [main/INFO]: Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.5.4).
+[14:41:19] [Datafixer Bootstrap/INFO]: 188 Datafixer optimizations took 102 milliseconds
+[14:41:20] [Render thread/WARN]: Assets URL 'union:/C:/Users/Owner/AppData/Roaming/ModrinthApp/meta/libraries/net/minecraft/client/1.20.1-20230612.114412/client-1.20.1-20230612.114412-srg.jar%23162!/assets/.mcassetsroot' uses unexpected schema
+[14:41:20] [Render thread/WARN]: Assets URL 'union:/C:/Users/Owner/AppData/Roaming/ModrinthApp/meta/libraries/net/minecraft/client/1.20.1-20230612.114412/client-1.20.1-20230612.114412-srg.jar%23162!/data/.mcassetsroot' uses unexpected schema
+[14:41:20] [Render thread/INFO]: Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', servicesHost='https://api.minecraftservices.com', name='PROD'
+[14:41:21] [Render thread/INFO]: Backend library: LWJGL version 3.3.1 build 7
+[14:41:21] [Render thread/INFO]: Selecting Platform: WIN32
+[14:41:21] [Render thread/INFO]: GLFW: 3.4.0 Win32 WGL Null EGL OSMesa VisualC DLL
+[14:41:21] [Render thread/INFO]: VulkanMod: Intercepted OpenGL early window. Performing Vulkan handoff...
+[14:41:21] [Render thread/INFO]: VulkanMod: Vulkan handoff complete. Fresh contextless window created.
+[14:41:21] [Render thread/INFO]: VulkanMod: WindowMixin initialization finished.
+[14:41:21] [Render thread/INFO]: VulkanMod: RenderSystemMixin.initRenderer called.
+[14:41:21] [Render thread/INFO]: VulkanMod: initVulkan starting...
+[14:41:21] [Render thread/INFO]: VulkanMod: extracted LWJGL natives for windows x64 to C:\Users\Owner\AppData\Local\Temp\vulkanmod-natives-16319107077481441511
+[14:41:21] [Render thread/INFO]: VulkanMod: portability driver detected (MoltenVK); enabling portability enumeration.
+[14:41:21] [Render thread/INFO]: VulkanMod: Instance created.
+[14:41:21] [Render thread/INFO]: VulkanMod: Surface created.
+[14:41:21] [Render thread/INFO]: Selected Vulkan device: NVIDIA GeForce RTX 4090 (Nvidia) driver 610.88.0.0 Vulkan 1.4.341 indirectDrawSupported=true fastIndirectDraw=true
+[14:41:21] [Render thread/INFO]: VulkanMod: DeviceManager initialized.
+[14:41:21] [Render thread/INFO]: VulkanMod: VMA created.
+[14:41:21] [Render thread/INFO]: VulkanMod: SwapChain created.
+[14:41:21] [Render thread/INFO]: VulkanMod: Renderer initialized.
+[14:41:21] [Render thread/INFO]: Installed emulated GL capabilities: 2376 functions registered, version=3.2.0 VulkanMod Compatibility, GL20=true, GL30=true, GL33=false
+[14:41:21] [modloading-worker-0/INFO]: Initializing Async...
+[14:41:21] [modloading-worker-0/INFO]: Hari CPU budget: entityWorkers=15 meshWorkers=15 externalChunks=false
+[14:41:21] [modloading-worker-0/INFO]: Hari 2.4 selected merged Vulkan renderer: cached: all discovered direct OpenGL calls are translated
+[14:41:21] [modloading-worker-0/INFO]: Forge mod loading, version 47.4.26, for MC 1.20.1 with MCP 20230612.114412
+[14:41:21] [modloading-worker-0/INFO]: MinecraftForge v47.4.26 Initialized
+[14:41:22] [modloading-worker-0/INFO]: Initializing Async Config...
+[14:41:22] [modloading-worker-0/INFO]: Configuration initialized.
+[14:41:22] [modloading-worker-0/INFO]: Async Initialized successfully
+[14:41:22] [Render thread/INFO]: [VM-DBG] create shader 'blit_screen' vulkanPath=minecraft/core/blit_screen/blit_screen
+[14:41:22] [Render thread/INFO]: [VM-DBG] create shader 'position' vulkanPath=minecraft/core/position/position
+[14:41:22] [Render thread/INFO]: [VM-DBG] create shader 'position_color' vulkanPath=minecraft/core/position_color/position_color
+[14:41:22] [Render thread/INFO]: [VM-DBG] create shader 'position_color_tex' vulkanPath=minecraft/core/position_color_tex/position_color_tex
+[14:41:22] [Render thread/INFO]: [VM-DBG] create shader 'position_tex' vulkanPath=minecraft/core/position_tex/position_tex
+[14:41:22] [Render thread/INFO]: [VM-DBG] create shader 'position_tex_color' vulkanPath=minecraft/core/position_tex_color/position_tex_color
+[14:41:22] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_text' vulkanPath=minecraft/core/rendertype_text/rendertype_text
+[14:41:22] [Render thread/INFO]: Reloading ResourceManager: vanilla, mod_resources
+[14:41:22] [Worker-Main-25/INFO]: Found unifont_all_no_pua-15.0.06.hex, loading
+[14:41:22] [Forge Version Check/INFO]: [forge] Starting version check at https://files.minecraftforge.net/net/minecraftforge/forge/promotions_slim.json
+[14:41:23] [Worker-Main-10/INFO]: == VulkanMod ==
+[14:41:23] [Worker-Main-10/INFO]: Fabric Rendering API not present, connected-texture support is off
+[14:41:23] [Forge Version Check/INFO]: [forge] Found status: AHEAD Current: 47.4.26 Target: null
+[14:41:24] [Render thread/WARN]: Missing sound for event: minecraft:item.goat_horn.play
+[14:41:24] [Render thread/WARN]: Missing sound for event: minecraft:entity.goat.screaming.horn_break
+[14:41:24] [Render thread/INFO]: OpenAL initialized on device OpenAL Soft on Speakers (2- Sound Blaster AE-7)
+[14:41:24] [Render thread/INFO]: Sound engine started
+[14:41:24] [Render thread/INFO]: Created: 1024x512x4 minecraft:textures/atlas/blocks.png-atlas
+[14:41:25] [Render thread/INFO]: Created: 256x256x4 minecraft:textures/atlas/signs.png-atlas
+[14:41:25] [Render thread/INFO]: Created: 512x512x4 minecraft:textures/atlas/shield_patterns.png-atlas
+[14:41:25] [Render thread/INFO]: Created: 512x512x4 minecraft:textures/atlas/banner_patterns.png-atlas
+[14:41:25] [Render thread/INFO]: Created: 1024x1024x4 minecraft:textures/atlas/armor_trims.png-atlas
+[14:41:25] [Render thread/INFO]: Created: 256x256x4 minecraft:textures/atlas/chest.png-atlas
+[14:41:25] [Render thread/INFO]: Created: 128x64x4 minecraft:textures/atlas/decorated_pot.png-atlas
+[14:41:25] [Render thread/INFO]: Created: 512x256x4 minecraft:textures/atlas/shulker_boxes.png-atlas
+[14:41:25] [Render thread/INFO]: Created: 512x256x4 minecraft:textures/atlas/beds.png-atlas
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'particle' vulkanPath=minecraft/core/particle/particle
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'position' vulkanPath=minecraft/core/position/position
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'position_color' vulkanPath=minecraft/core/position_color/position_color
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'position_color_tex' vulkanPath=minecraft/core/position_color_tex/position_color_tex
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'position_color_tex_lightmap' vulkanPath=minecraft/core/position_color_tex_lightmap/position_color_tex_lightmap
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'position_tex' vulkanPath=minecraft/core/position_tex/position_tex
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'position_tex_color' vulkanPath=minecraft/core/position_tex_color/position_tex_color
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'position_tex_color_normal' vulkanPath=minecraft/core/position_tex_color_normal/position_tex_color_normal
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_solid' vulkanPath=minecraft/core/rendertype_solid/rendertype_solid
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_cutout_mipped' vulkanPath=minecraft/core/rendertype_cutout_mipped/rendertype_cutout_mipped
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_cutout' vulkanPath=minecraft/core/rendertype_cutout/rendertype_cutout
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_translucent' vulkanPath=minecraft/core/rendertype_translucent/rendertype_translucent
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_translucent_moving_block' vulkanPath=minecraft/core/rendertype_translucent_moving_block/rendertype_translucent_moving_block
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_armor_cutout_no_cull' vulkanPath=minecraft/core/rendertype_armor_cutout_no_cull/rendertype_armor_cutout_no_cull
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_entity_solid' vulkanPath=minecraft/core/rendertype_entity_solid/rendertype_entity_solid
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_entity_cutout' vulkanPath=minecraft/core/rendertype_entity_cutout/rendertype_entity_cutout
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_entity_cutout_no_cull' vulkanPath=minecraft/core/rendertype_entity_cutout_no_cull/rendertype_entity_cutout_no_cull
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_item_entity_translucent_cull' vulkanPath=minecraft/core/rendertype_item_entity_translucent_cull/rendertype_item_entity_translucent_cull
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_entity_translucent_cull' vulkanPath=minecraft/core/rendertype_entity_translucent_cull/rendertype_entity_translucent_cull
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_entity_translucent' vulkanPath=minecraft/core/rendertype_entity_translucent/rendertype_entity_translucent
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_entity_translucent_emissive' vulkanPath=minecraft/core/rendertype_entity_translucent_emissive/rendertype_entity_translucent_emissive
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_entity_smooth_cutout' vulkanPath=minecraft/core/rendertype_entity_smooth_cutout/rendertype_entity_smooth_cutout
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_beacon_beam' vulkanPath=minecraft/core/rendertype_beacon_beam/rendertype_beacon_beam
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_entity_decal' vulkanPath=minecraft/core/rendertype_entity_decal/rendertype_entity_decal
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_entity_no_outline' vulkanPath=minecraft/core/rendertype_entity_no_outline/rendertype_entity_no_outline
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_entity_shadow' vulkanPath=minecraft/core/rendertype_entity_shadow/rendertype_entity_shadow
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_entity_alpha' vulkanPath=minecraft/core/rendertype_entity_alpha/rendertype_entity_alpha
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_eyes' vulkanPath=minecraft/core/rendertype_eyes/rendertype_eyes
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_energy_swirl' vulkanPath=minecraft/core/rendertype_energy_swirl/rendertype_energy_swirl
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_leash' vulkanPath=minecraft/core/rendertype_leash/rendertype_leash
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_water_mask' vulkanPath=minecraft/core/rendertype_water_mask/rendertype_water_mask
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_outline' vulkanPath=minecraft/core/rendertype_outline/rendertype_outline
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_armor_glint' vulkanPath=minecraft/core/rendertype_armor_glint/rendertype_armor_glint
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_armor_entity_glint' vulkanPath=minecraft/core/rendertype_armor_entity_glint/rendertype_armor_entity_glint
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_glint_translucent' vulkanPath=minecraft/core/rendertype_glint_translucent/rendertype_glint_translucent
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_glint' vulkanPath=minecraft/core/rendertype_glint/rendertype_glint
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_glint_direct' vulkanPath=minecraft/core/rendertype_glint_direct/rendertype_glint_direct
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_entity_glint' vulkanPath=minecraft/core/rendertype_entity_glint/rendertype_entity_glint
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_entity_glint_direct' vulkanPath=minecraft/core/rendertype_entity_glint_direct/rendertype_entity_glint_direct
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_text' vulkanPath=minecraft/core/rendertype_text/rendertype_text
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_text_background' vulkanPath=minecraft/core/rendertype_text_background/rendertype_text_background
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_text_intensity' vulkanPath=minecraft/core/rendertype_text_intensity/rendertype_text_intensity
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_text_see_through' vulkanPath=minecraft/core/rendertype_text_see_through/rendertype_text_see_through
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_text_background_see_through' vulkanPath=minecraft/core/rendertype_text_background_see_through/rendertype_text_background_see_through
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_text_intensity_see_through' vulkanPath=minecraft/core/rendertype_text_intensity_see_through/rendertype_text_intensity_see_through
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_lightning' vulkanPath=minecraft/core/rendertype_lightning/rendertype_lightning
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_tripwire' vulkanPath=minecraft/core/rendertype_tripwire/rendertype_tripwire
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_end_portal' vulkanPath=minecraft/core/rendertype_end_portal/rendertype_end_portal
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_lines' vulkanPath=minecraft/core/rendertype_lines/rendertype_lines
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'rendertype_crumbling' vulkanPath=minecraft/core/rendertype_crumbling/rendertype_crumbling
+[14:41:25] [Render thread/INFO]: [VM-DBG] create shader 'forge:rendertype_entity_unlit_translucent' vulkanPath=null
+[14:41:25] [Render thread/INFO]: [VM-DBG] legacy shader 'forge:rendertype_entity_unlit_translucent' fmt=format: 7 elements: Position=3,Position,Float Color=4,Vertex Color,Unsigned Byte UV0=2,UV,Float UV1=2,UV,Short UV2=2,UV,Short Normal=3,Normal,Byte Padding=1,Padding,Byte samplers=[net.vulkanmod.vulkan.shader.descriptor.ImageDescriptor@75c095a5, net.vulkanmod.vulkan.shader.descriptor.ImageDescriptor@689fe2a3, net.vulkanmod.vulkan.shader.descriptor.ImageDescriptor@5257123d] uboUniforms=[ModelViewMat, ProjMat, ColorModulator, FogStart, FogEnd, FogColor]
+[14:41:25] [Render thread/INFO]: Created: 256x256x0 minecraft:textures/atlas/particles.png-atlas
+[14:41:25] [Render thread/INFO]: Created: 256x256x0 minecraft:textures/atlas/paintings.png-atlas
+[14:41:25] [Render thread/INFO]: Created: 128x128x0 minecraft:textures/atlas/mob_effects.png-atlas
+[14:41:25] [Render thread/INFO]: Injecting existing registry data into this CLIENT instance
+[14:41:26] [Render thread/INFO]: Loaded 7 recipes
+[14:41:26] [Render thread/INFO]: Loaded 1271 advancements
+[14:41:27] [Server thread/INFO]: Starting integrated minecraft server version 1.20.1
+[14:41:27] [Server thread/INFO]: Generating keypair
+[14:41:29] [Server thread/INFO]: Preparing start region for dimension minecraft:overworld
+[14:41:31] [Render thread/INFO]: Preparing spawn area: 0%
+[14:41:31] [Render thread/INFO]: Preparing spawn area: 0%
+[14:41:31] [Render thread/INFO]: Preparing spawn area: 0%
+[14:41:31] [Render thread/INFO]: Preparing spawn area: 0%
+[14:41:32] [Render thread/INFO]: Preparing spawn area: 7%
+[14:41:32] [Render thread/INFO]: Preparing spawn area: 54%
+[14:41:32] [Server thread/INFO]: Successfully initialized permission handler forge:default_handler
+[14:41:32] [Server thread/INFO]: Async Setting up thread-pool...
+[14:41:32] [Server thread/INFO]: === HariMultiThread Mod Compatibility ===
+[14:41:32] [Server thread/INFO]: Terrain renderer: vanilla 1.20.1 owner (Hari GPU terrain lane remains inactive)
+[14:41:32] [Server thread/INFO]: Shader pipeline: vanilla 1.20.1 owner (Hari core does not force OIT/ShaderC)
+[14:41:32] [Server thread/INFO]: No conflicting server-threading optimization mods detected - Full async mode enabled
+[14:41:32] [Server thread/INFO]: =========================================
+[14:41:32] [Render thread/INFO]: Time elapsed: 2593 ms
+[14:41:32] [Server thread/INFO]: Initialized Pool with 15 threads (CallerRunsPolicy)
+[14:41:32] [Server thread/INFO]: Isolated compile-checked LWJGL 3.3.1 Vulkan backend activated for natives-windows (amd64) [child-first Vulkan, parent-first core]
+[14:41:32] [Server thread/INFO]: Compile-checked Vulkan collision backend initialized on NVIDIA GeForce RTX 4090 (maxWG=1024, sharedMem=48KB)
+[14:41:32] [Server thread/INFO]: GPU Entity Module ready on NVIDIA GeForce RTX 4090 (maxWG=1024, sharedMem=48KB, isolatedBackend=true)
+[14:41:32] [Server thread/INFO]: Changing view distance to 16, from 10
+[14:41:32] [Server thread/INFO]: Changing simulation distance to 12, from 0
+[14:41:32] [Render thread/WARN]: Unable to parse the boolean system property 'java.net.preferIPv6Addresses':system - using the default value: false
+[14:41:33] [Server thread/INFO]: Vulkan push broad-phase is active: first verified batch produced 2 candidate pairs
+[14:41:33] [Server thread/INFO]: Vulkan push broad-phase sustained: 10 consecutive verified batches completed
+[14:41:33] [Netty Local Client IO #0/INFO]: Connected to a modded server.
+[14:41:34] [Render thread/INFO]: Loaded 2 advancements
+[14:41:35] [Render thread/INFO]: [Hari/FPS] capture started; 5s warmup and 30s full-frame sample
+[14:41:38] [Server thread/WARN]: Async entity tick batch exceeded 200ms timeout (200ms elapsed), still waiting...
+[14:43:05] [Render thread/INFO]: [Hari/FPS] capture complete; frames=68808 averageFPS=2293.5686010458517 onePercentLow=393.7629773190239
+[14:43:08] [Render thread/INFO]: Stopping!
+[14:43:08] [Server thread/INFO]: Herberto lost connection: Disconnected
+[14:43:08] [Server thread/INFO]: Stopping singleplayer server as player logged out
+[14:43:08] [Server thread/INFO]: Waiting for Async tickPool to shutdown...
+[14:43:08] [Server thread/INFO]: Stopping server
+[14:43:08] [Server thread/INFO]: Saving players
+[14:43:08] [Server thread/INFO]: Saving worlds
+[14:43:08] [Server thread/INFO]: Saving chunks for level 'ServerLevel[MVH-Benchmark-20261004]'/minecraft:overworld
+[14:43:09] [Server thread/INFO]: Saving chunks for level 'ServerLevel[MVH-Benchmark-20261004]'/minecraft:the_end
+[14:43:09] [Server thread/INFO]: Saving chunks for level 'ServerLevel[MVH-Benchmark-20261004]'/minecraft:the_nether
+[14:43:09] [Server thread/INFO]: ThreadedAnvilChunkStorage (MVH-Benchmark-20261004): All chunks are saved
+[14:43:09] [Server thread/INFO]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[14:43:09] [Server thread/INFO]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[14:43:09] [Server thread/INFO]: ThreadedAnvilChunkStorage: All dimensions are saved

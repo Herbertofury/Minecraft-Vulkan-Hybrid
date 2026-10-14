@@ -1,0 +1,22 @@
+# Requested Vulkan Essential and Beryl downports
+
+Checked official project metadata, all published versions and hash-verified official1.21.11 archives on2026-10-06. Neither addon supplies a public source URL or a Forge1.20.1 build. Original downloaded archives stay private, unmodified, uninstalled and unexecuted. No original protected source/assets or binaries are published. [Archive/provenance evidence](../../benchmarks/results/casualswing-native-20261006/runtime-native106/DOWNPORT-PROVENANCE.json).
+
+| Addon | Actual inspected requirements | Source/port permission |
+| --- | --- | --- |
+| [Beryl](https://modrinth.com/mod/beryl) | Fabric1.21.11, VulkanMod>=0.6.7;50 classes use Java21 bytecode | Official metadata is All Rights Reserved; no public source link or modification grant found |
+| [Vulkan Essential](https://modrinth.com/mod/vulkanessential) | Fabric1.21.11, Java21;19 classes use Java21 bytecode and mixins declare JAVA_21 | Embedded license allows sharing unmodified official builds and explicitly prohibits modification, patching, repackaging, copying and derivative works |
+
+Their actual mixins depend on newer renderer/command-encoder interfaces. Beryl hooks terrain, fluids, clouds, fog/sky, renderer pipelines and Vulkan images/descriptors. Vulkan Essential hooks textures, screenshot/skin/cosmetic/player UI and Vulkan graphics-pipeline/command-encoder state. Hari uses Forge1.20.1/Java17 and its own older Vulkan renderer interfaces. Editing loader/game/version metadata would neither supply these interfaces nor convert the bytecode and rendering lifecycle.
+
+A direct source downport needs author-provided source and permission covering modification. The user was asked for those source links/permission or the independent implementation route. No author has been contacted, no new agreement accepted, and no permission is inferred from a public download. [Essential's separate core source license](https://github.com/EssentialGG/Essential-Mod/blob/main/LICENSE) permits authenticity audits/unmodified forks rather than modified core forks; the integration can instead preserve that core and implement its open library/API paths externally.
+
+## Reuse available native work
+
+[UniversalCraft](https://github.com/EssentialGG/UniversalCraft/tree/4f823ddcb646168e609998c73281cfc072afba2e) is LGPL-3.0 and already contains a native Vulkan device/transfer branch for Minecraft26.2, plus original portable buffer/pass/fence interfaces. [Elementa's LGPL license](https://github.com/EssentialGG/Elementa/blob/master/LICENSE) provides an available route for its UI shader layer. [Official VulkanMod native renderer source](https://github.com/xCollateral/VulkanMod/tree/087ef24e58e5522dec5ccb44f279768786bfb6da) supplies LGPL graphics-pipeline and Vulkan command-encoder implementations. Exact inspected source/license hashes are retained in the provenance evidence. These sources are references, not compatible installed Forge binaries; their newer Minecraft device classes are absent from1.20.1.
+
+The existing pinned LGPL Iris-Vulkan compiler/cache work already compiles real vertex/fragment/compute shaders with Java17 in the separate official3.3.6 SDK. Hari has accepted bounded actual GPU pipeline handoff and192-byte reflected uniform uploads from it. [Existing implementation and GPU limits](README.md). Retaining these components avoids discarding validated work, while the closed Beryl addon is not relabeled as ported. An equivalent independently implemented shader path has not yet established Beryl's effects or better performance.
+
+The immediate shared dependency is real custom program/layout/draw/transfer/fence support. [Pinned Hari23 production diagnostic](../native-gl-gap/README.md) confirms its generic shader metadata/fence adapters cannot implement this by owner aliasing. Essential's open GPU/UI layers are a suitable first bounded integration target, followed by Physics' instanced/deferred paths and shader-pack terrain/shadow/post-processing. Native pixel correctness, resource reload, async lifetime, original UI/cosmetics/screenshots and matched full-pack performance must be demonstrated before accepting the pack.
+
+Oculus/Indigo/Embeddium/Zink remain excluded under the latest user instruction;21 auxiliary optimizers remain disabled. No full-pack native1500/2400FPS or startup/shader/hitch improvement follows from this source inspection. The strict gate remains unchanged and the327-JAR full candidate remains blocked by532 references/263 APIs in21 archives.

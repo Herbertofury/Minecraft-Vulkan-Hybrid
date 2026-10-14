@@ -1,0 +1,23 @@
+{
+  "version": 58,
+  "GPU_cases": 191,
+  "pixels": 65888,
+  "mismatch": 0,
+  "old164_hashes_equal": true,
+  "original_GAME_state_classes": 4,
+  "native_state_call_sites": 21,
+  "original_method_invocations": 686,
+  "original_state_captures": 56,
+  "original_state_activations": 28,
+  "runtime_controls": 255,
+  "inverse_controls": 20,
+  "production_sha256": "71e8420d500ba385f463b07c8a0a1e262dbd603ff0fb3308758db5c0c26a84fc",
+  "original_managed_GPU_cases": 25,
+  "independent_RGB_alpha_equation_cases": 2,
+  "automatic_managed_state_GAME_accepted": true,
+  "full_typed_provider_or_FPS_accepted": false,
+  "all327_unchanged": true,
+  "full327_remaining_references": 381,
+  "full327_unique_APIs": 171,
+  "full327_archives": 21
+}

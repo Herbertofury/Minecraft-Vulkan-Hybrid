@@ -1,0 +1,43 @@
+{
+  "instrumented_diagnostic": false,
+  "zink_translation_requested": false,
+  "kind": "cumulative",
+  "stage": "minimal-native-v11-capability",
+  "renderer_experiment": "actual renderer recorded in fps.json or native smoke report",
+  "minecraft": "1.20.1",
+  "forge": "47.4.26",
+  "java": "Temurin 17.0.20.1",
+  "maximum_heap_mib": 8192,
+  "resolution": [
+    1920,
+    1080
+  ],
+  "visual_options": {
+    "fov": "0.0",
+    "renderDistance": "16",
+    "simulationDistance": "12",
+    "entityDistanceScaling": "1.0",
+    "maxFps": "260",
+    "enableVsync": "false",
+    "graphicsMode": "1",
+    "mipmapLevels": "4",
+    "particles": "0",
+    "biomeBlendRadius": "2",
+    "pauseOnLostFocus": "false",
+    "resourcePacks": "[]"
+  },
+  "world": "MVH-Benchmark-20261004",
+  "warmup_s": 60,
+  "capture_s": 30,
+  "mods": [
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.11-dimensions-vulkan-hybrid-all.jar",
+      "sha256": "8333a3fc7008b2e126e8a409bf1b9ab8530d2f86df130bd38c2800d7b267c665"
+    },
+    {
+      "name": "mvh-noxviola-control-1.0.11.jar",
+      "sha256": "589ec0b4b996212ea80b7b852dd69733b5eb5adbd13807b6ddd2f6bac8f85d76"
+    }
+  ],
+  "config_manifest_sha256": "f571586c544154ea9125d4278f2463b4dedbcbdb4b7b9f3cb55a8d9556c250ef"
+}

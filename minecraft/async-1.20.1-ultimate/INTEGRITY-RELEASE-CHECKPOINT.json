@@ -1,0 +1,96 @@
+{
+  "schema_version": 4,
+  "checkpoint_kind": "verified-vulkan-hybrid-integrity-release",
+  "updated_utc": "2026-09-30",
+  "branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926",
+  "accepted_product_commit": "8ed1e557ae30502fc6a1196e7a843fe2d64cbe9a",
+  "accepted_qa_commit": "c3ca9efe46901f87ceae57f1ab554b477483f1c1",
+  "qa_commit_product_delta": "none; native harness count and crash-report assertions only",
+  "prior_verified_product_commit": "41445af590e96e4911ab13b65e3f49ffaa7ea887",
+  "prior_jar_sha256": "56cf44d61b83c31cdb7189ac399d9b4c6fc42aa718280de178f6055508318697",
+  "jar_name": "HariMultiThread-Ultimate-1.20.1-2.4.0-vulkan-hybrid-integrity.jar",
+  "jar_bytes": 30693714,
+  "jar_sha256": "ce7003e81ebafe14653719bc6fb67f278dfa624b5c4c9245f536b704186fcdb8",
+  "verification_complete": true,
+  "exact_next_actions": [],
+  "inputs": {
+    "minecraft": "1.20.1",
+    "forge": "47.4.23",
+    "java": "17",
+    "hari_original": "f381611c2d71a85192e2028f9e30c03823a6482b",
+    "vulkan_forge": "0ceac5d47f84c910d2f5f6d007b0ffe266c6f736",
+    "vulkan_original_1201": "fef1d1a4a0f2d3d988fefc23cda164a941a251d9",
+    "vulkan_current_dev_observed": "087ef24e58e5522dec5ccb44f279768786bfb6da"
+  },
+  "accepted_ci": {
+    "compile_repro_product": {
+      "run_id": 36769199186,
+      "job_id": 110070966465,
+      "artifact_id": 11122688056,
+      "artifact_sha256": "284cb471d602f1a18d5a35772870b23e4243f6925ca546279666f17c09923783",
+      "state": "pass"
+    },
+    "compile_repro_qa": {
+      "run_id": 36770319923,
+      "job_id": 110074739448,
+      "jar_sha256": "ce7003e81ebafe14653719bc6fb67f278dfa624b5c4c9245f536b704186fcdb8",
+      "state": "pass"
+    },
+    "packaged_clients": {
+      "run_id": 36769199184,
+      "job_id": 110070966344,
+      "artifact_id": 11123024165,
+      "artifact_sha256": "2be7c974adc5d061579dca4bf2e0dbda7cccfff083f9482f2ff3bb5052699a63",
+      "state": "pass",
+      "lanes": [
+        "Vulkan",
+        "intentional client tick failure",
+        "Vulkan saved-world reopen",
+        "Fabulous preserved through OpenGL",
+        "Embeddium OpenGL"
+      ]
+    },
+    "native_server": {
+      "run_id": 36770320239,
+      "job_id": 110074739414,
+      "artifact_id": 11122729472,
+      "artifact_sha256": "a191d666dbf1771eec0aa37345587fbbe2bc5b1619c5e478d97e8f631ca9f0c5",
+      "state": "pass",
+      "lanes": [
+        "verified GPU collision",
+        "live GPU toggle durable on disk",
+        "JVM restart with all 256 QA entities",
+        "live GPU re-enable and verifier",
+        "intentional async entity tick failure and world save",
+        "post-fault world reopen with all 256 QA entities"
+      ]
+    }
+  },
+  "regressions": {
+    "VBO_ownership_cases": 8,
+    "generated_index_cases": 15,
+    "task_failure_barrier_cases": 8,
+    "graphics_gate_cases": 5,
+    "shader_close_cases": 4,
+    "real_library_atomic_saves": 101
+  },
+  "normal_error_ledger": [
+    "offline PortableMC authentication-service 401; not a mod error",
+    "Embeddium support notice for retained Hari GPU bridge; not hidden"
+  ],
+  "limits": [
+    "Native runtime proof uses Linux Mesa software drivers; no hardware FPS, Windows/macOS runtime, or universal third-party-pack claims.",
+    "Fault-path exceptions are deliberately injected and preserved as verification evidence."
+  ],
+  "no_repeat": [
+    "Never swallow whole client ticks or simulation failures.",
+    "Never redirect emergencySave to an empty method.",
+    "Resolve shader programs from active JSON and imports through ResourceProvider.",
+    "No approximate shader substitution or fabricated zero uniform values.",
+    "Close ShaderInstance native uniforms with pipelines exactly once.",
+    "Persist all command config settings in one complete atomic TOML replacement.",
+    "Client simulationDistance minimum is 5.",
+    "Require packaged forgeclient, fresh lifecycle markers, and full entity counts.",
+    "Keep prior VBO, generated-index, image-sync, refmap, nested-ZIP reproducibility, native packaging, and isolated backend fixes."
+  ]
+}

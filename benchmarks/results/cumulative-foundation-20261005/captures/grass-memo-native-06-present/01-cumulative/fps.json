@@ -1,0 +1,20 @@
+{
+  "status": "complete",
+  "reason": "",
+  "capture_epoch_ms": 1791181565076,
+  "duration_ms": 30000.2118,
+  "frames": 48332,
+  "average_fps": 1611.0552926162964,
+  "one_percent_low_fps": 460.738949119189,
+  "p50_ms": 0.5905,
+  "p95_ms": 0.6813,
+  "p99_ms": 2.0179,
+  "max_ms": 10.4531,
+  "api_renderer": "VULKAN",
+  "gl_vendor": "not queried in a native Vulkan session",
+  "gl_renderer": "not queried in a native Vulkan session",
+  "gl_version": "not queried in a native Vulkan session",
+  "held_item": "minecraft:air",
+  "recorder": "Forge RenderTick END wall intervals; all frames retained; not GPU/presentation timing",
+  "camera": "0.5,110.5,0.5 / yaw -68.7007 / pitch 9.999512"
+}

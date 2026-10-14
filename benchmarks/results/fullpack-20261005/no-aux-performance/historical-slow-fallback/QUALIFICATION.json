@@ -1,0 +1,8 @@
+{
+  "completed": true,
+  "normal_save_exit": true,
+  "runner_rejected_reason": "Unjustified >1000-frame threshold;30.0073297s capture completed at32.0255FPS with961 frames. Preserve as a real slow diagnostic, not a renderer crash.",
+  "fps_comparative_retention": false,
+  "reason": "One capture only, all20 auxiliary optimizers removed together; subsequent user forbids fallback and cancels further OpenGL repeats. No optimizer-specific causal claim.",
+  "no_more_opengl_launches_authorized": true
+}

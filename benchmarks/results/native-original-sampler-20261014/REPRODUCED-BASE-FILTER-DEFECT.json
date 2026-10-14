@@ -1,0 +1,19 @@
+{
+  "actual_failed_trial": "076-native-sampler60-game-trial1-20261014",
+  "case": "original-sampler-4-min",
+  "actual_RGBA": [
+    0,
+    0,
+    255,
+    255
+  ],
+  "cause": "VkSampler maximumLOD zero forces magnification despite positive requested LOD",
+  "source": "https://docs.vulkan.org/refpages/latest/refpages/source/VkSamplerCreateInfo.html",
+  "specified_mapping": "NEAREST mip mode/minLOD0/maxLOD0.25 for GL_NEAREST or GL_LINEAR non-mipmap filters",
+  "visual_settings_changed": false,
+  "all327_restored": true,
+  "fixed_candidate_GPU_accepted": true,
+  "acceptance_receipt": "SUMMARY.json",
+  "baseline_completed_all268": false,
+  "same_controller_and_oracle": true
+}

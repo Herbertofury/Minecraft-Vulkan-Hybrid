@@ -1,0 +1,14 @@
+{
+  "previous_native_trial_disabled": "casualswing-0.1.0-1.20.1-Forge-MVH-Native106-v2.jar.disabled",
+  "new_file": "casualswing-0.1.0-1.20.1-Forge-MVH-Native106-v3.jar",
+  "new_sha256": "70f580131b86ea87682bea609f22ab2409055b14ebe6fe6434819eadfa0c8c7e",
+  "original_casualswing_preserved": true,
+  "all_other326_active_hashes_unchanged": true,
+  "active_jars_without_recorder": 327,
+  "auxiliary_optimizers_readded": false,
+  "gameplay_mods_removed": false,
+  "gate_contract_or_native_policy_changed": false,
+  "minecraft_or_opengl_launched": false,
+  "runtime_acceptance": false,
+  "personal_profile_modified": false
+}

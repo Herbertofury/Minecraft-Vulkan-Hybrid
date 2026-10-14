@@ -1,0 +1,56 @@
+diff --git a/packages/app-lib/src/api/metadata.rs b/packages/app-lib/src/api/metadata.rs
+index befad43..8a8d136 100644
+--- a/packages/app-lib/src/api/metadata.rs
++++ b/packages/app-lib/src/api/metadata.rs
+@@ -37,3 +37,9 @@ pub async fn get_loader_versions(loader: &str) -> crate::Result<Manifest> {
+ 
+     Ok(loaders.manifest)
+ }
++
++pub async fn mvh_refresh_forge_versions() -> crate::Result<Manifest> {
++ let state=State::get().await?;
++ let loaders=CachedEntry::get_loader_manifest("forge-v0",Some(crate::data::CacheBehaviour::Bypass),&state.pool,&state.api_semaphore).await?.ok_or_else(||crate::ErrorKind::NoValueFor("forge loader versions".into()))?;
++ Ok(loaders.manifest)
++}
+diff --git a/packages/app-lib/src/state/mod.rs b/packages/app-lib/src/state/mod.rs
+index f2c6cf6..33d3ee7 100644
+--- a/packages/app-lib/src/state/mod.rs
++++ b/packages/app-lib/src/state/mod.rs
+@@ -296,6 +296,13 @@ impl State {
+     }
+ 
+     /// Get the current launcher state, waiting for initialization.
++    /// Narrow CLI initialization: no recovery, migration loops or directory moves.
++    pub async fn init_mvh_cli(app_identifier: String) -> crate::Result<()> {
++        let _startup = STATE_STARTUP_LOCK.lock().await;
++        LAUNCHER_STATE.get_or_try_init(move || Self::initialize_state(app_identifier)).await?;
++        Ok(())
++    }
++
+     pub async fn get() -> crate::Result<Arc<Self>> {
+         if !LAUNCHER_STATE.initialized() {
+             tracing::error!(
+@@ -335,7 +342,7 @@ impl State {
+             content_store::ContentStore::lock_process(&settings_dir).await?;
+         let pool = db::connect(&app_identifier).await?;
+ 
+-        legacy_converter::migrate_legacy_data(&pool).await?;
++        // MVH CLI: existing exact-version database; no legacy profile migration.
+ 
+         tracing::info!("Fetching app settings");
+         let mut settings = Settings::get(&pool).await?;
+@@ -348,13 +355,7 @@ impl State {
+             FetchSemaphore(Semaphore::new(settings.max_concurrent_downloads));
+ 
+         tracing::info!("Initializing directories");
+-        DirectoryInfo::move_launcher_directory(
+-            &mut settings,
+-            &pool,
+-            &io_semaphore,
+-            &app_identifier,
+-        )
+-        .await?;
++        // MVH CLI: do not move any user directory.
+ 
+         let directories =
+             DirectoryInfo::init(settings.custom_dir, &app_identifier).await?;

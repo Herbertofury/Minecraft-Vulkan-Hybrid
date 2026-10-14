@@ -1,0 +1,385 @@
+{
+  "accepted": true,
+  "genuine_original_typed_pipeline_GAME_executed": true,
+  "original_Mc_shader_supplier_executed": true,
+  "original_builder_constructor_and_build_executed": true,
+  "original_buffer_constructor_draw_close_executed": true,
+  "original_method_invocations": 60,
+  "original_draws": 8,
+  "GPU_cases": 8,
+  "complete_URenderPass_sampler_legacySupplier_delayedLoader_FPS_accepted": false,
+  "controls": [
+    {
+      "control": "genuine-GAME-class-gg.essential.universal.render.URenderPipeline",
+      "passed": true
+    },
+    {
+      "control": "genuine-GAME-class-gg.essential.universal.UGraphics$DrawMode",
+      "passed": true
+    },
+    {
+      "control": "genuine-GAME-class-gg.essential.universal.render.ManagedGlState",
+      "passed": true
+    },
+    {
+      "control": "genuine-GAME-class-gg.essential.universal.shader.BlendState",
+      "passed": true
+    },
+    {
+      "control": "genuine-GAME-class-gg.essential.universal.vertex.UBufferBuilder$Companion$UBuiltBufferImpl",
+      "passed": true
+    },
+    {
+      "control": "genuine-GAME-class-gg.essential.universal.vertex.UBuiltBufferInternal",
+      "passed": true
+    },
+    {
+      "control": "genuine-GAME-class-gg.essential.universal.render.URenderPipeline$ShaderSupplier$Mc",
+      "passed": true
+    },
+    {
+      "control": "actual-native-converted-Minecraft-shader",
+      "passed": true
+    },
+    {
+      "control": "genuine-GAME-class-gg.essential.universal.render.URenderPipeline$BuilderImpl",
+      "passed": true
+    },
+    {
+      "control": "genuine-GAME-class-gg.essential.universal.render.URenderPipeline$DepthTest",
+      "passed": true
+    },
+    {
+      "control": "real-original-pipeline-object",
+      "passed": true
+    },
+    {
+      "control": "original-Mc-supplier-binds-real-shader-0",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-exists-0",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-0-0",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-0-1",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-0-2",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-0-3",
+      "passed": true
+    },
+    {
+      "control": "original-built-buffer-starts-open-0",
+      "passed": true
+    },
+    {
+      "control": "original-draw-notifies-real-buffer-closed-0",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-draw-pixels-original-typed-pipeline-UserTint-0",
+      "passed": true
+    },
+    {
+      "control": "original-Mc-unbind-clears-shader-0",
+      "passed": true
+    },
+    {
+      "control": "original-Mc-supplier-binds-real-shader-1",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-exists-1",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-1-0",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-1-1",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-1-2",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-1-3",
+      "passed": true
+    },
+    {
+      "control": "original-built-buffer-starts-open-1",
+      "passed": true
+    },
+    {
+      "control": "original-draw-notifies-real-buffer-closed-1",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-draw-pixels-original-typed-pipeline-UserTint-1",
+      "passed": true
+    },
+    {
+      "control": "original-Mc-unbind-clears-shader-1",
+      "passed": true
+    },
+    {
+      "control": "original-Mc-supplier-binds-real-shader-2",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-exists-2",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-2-0",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-2-1",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-2-2",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-2-3",
+      "passed": true
+    },
+    {
+      "control": "original-built-buffer-starts-open-2",
+      "passed": true
+    },
+    {
+      "control": "original-draw-notifies-real-buffer-closed-2",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-draw-pixels-original-typed-pipeline-UserTint-2",
+      "passed": true
+    },
+    {
+      "control": "original-Mc-unbind-clears-shader-2",
+      "passed": true
+    },
+    {
+      "control": "original-Mc-supplier-binds-real-shader-3",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-exists-3",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-3-0",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-3-1",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-3-2",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-3-3",
+      "passed": true
+    },
+    {
+      "control": "original-built-buffer-starts-open-3",
+      "passed": true
+    },
+    {
+      "control": "original-draw-notifies-real-buffer-closed-3",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-draw-pixels-original-typed-pipeline-UserTint-3",
+      "passed": true
+    },
+    {
+      "control": "original-Mc-unbind-clears-shader-3",
+      "passed": true
+    },
+    {
+      "control": "original-Mc-supplier-binds-real-shader-4",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-exists-4",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-4-0",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-4-1",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-4-2",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-4-3",
+      "passed": true
+    },
+    {
+      "control": "original-built-buffer-starts-open-4",
+      "passed": true
+    },
+    {
+      "control": "original-draw-notifies-real-buffer-closed-4",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-draw-pixels-original-typed-pipeline-UserTint-4",
+      "passed": true
+    },
+    {
+      "control": "original-Mc-unbind-clears-shader-4",
+      "passed": true
+    },
+    {
+      "control": "original-Mc-supplier-binds-real-shader-5",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-exists-5",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-5-0",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-5-1",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-5-2",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-5-3",
+      "passed": true
+    },
+    {
+      "control": "original-built-buffer-starts-open-5",
+      "passed": true
+    },
+    {
+      "control": "original-draw-notifies-real-buffer-closed-5",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-draw-pixels-original-typed-pipeline-UserTint-5",
+      "passed": true
+    },
+    {
+      "control": "original-Mc-unbind-clears-shader-5",
+      "passed": true
+    },
+    {
+      "control": "original-Mc-supplier-binds-real-shader-6",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-exists-6",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-6-0",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-6-1",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-6-2",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-6-3",
+      "passed": true
+    },
+    {
+      "control": "original-built-buffer-starts-open-6",
+      "passed": true
+    },
+    {
+      "control": "original-draw-notifies-real-buffer-closed-6",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-draw-pixels-original-typed-pipeline-UserTint-6",
+      "passed": true
+    },
+    {
+      "control": "original-Mc-unbind-clears-shader-6",
+      "passed": true
+    },
+    {
+      "control": "original-Mc-supplier-binds-real-shader-7",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-exists-7",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-7-0",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-7-1",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-7-2",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-values-7-3",
+      "passed": true
+    },
+    {
+      "control": "original-built-buffer-starts-open-7",
+      "passed": true
+    },
+    {
+      "control": "original-draw-notifies-real-buffer-closed-7",
+      "passed": true
+    },
+    {
+      "control": "original-typed-uniform-draw-pixels-original-typed-pipeline-UserTint-7",
+      "passed": true
+    },
+    {
+      "control": "original-Mc-unbind-clears-shader-7",
+      "passed": true
+    },
+    {
+      "control": "eight-actual-original-typed-draws",
+      "passed": true
+    },
+    {
+      "control": "native-typed-pipeline-no-GL-errors",
+      "passed": true
+    }
+  ]
+}

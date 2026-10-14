@@ -1,0 +1,52 @@
+{
+  "passed": true,
+  "actual_private_grass_checked": true,
+  "scope": "Production gate, exact class/hash/provider controls and unknown compute fixture. Optional pinned real JAR: absent/direct/nested/classpath shader API, cache changes, same-size/time modified input and nested-copy rejection. No renderer features, raw game bytecode or private assets published. Native visual/performance checks separate.",
+  "cases": [
+    {
+      "case": "unknown-build-with-compute-call",
+      "expected_vulkan": false,
+      "output": "[Hari/Vulkan] renderer=OPENGL_FALLBACK reason=untranslated OpenGL call(s): GL43C#glDispatchCompute(III)V@grass.jar\nREASON=untranslated OpenGL call(s): GL43C#glDispatchCompute(III)V@grass.jar"
+    },
+    {
+      "case": "pinned-grass-no-provider",
+      "expected_vulkan": true,
+      "output": "[Hari/Vulkan] renderer=VULKAN reason=all active discovered direct OpenGL calls are translated; pinned inactive ModernFix class audited\nREASON=all active discovered direct OpenGL calls are translated; pinned inactive ModernFix class audited"
+    },
+    {
+      "case": "classpath-provider-present",
+      "expected_vulkan": false,
+      "output": "[Hari/Vulkan] renderer=OPENGL_FALLBACK reason=untranslated OpenGL call(s): GL#getCapabilities()Lorg/lwjgl/opengl/GLCapabilities;@grass.jar,GL11C#glGetError()I@grass.jar,GL11C#glGetInteger(I)I@grass.jar,GL20C#glAttachShader(II)V@grass.jar,GL20C#glCompileShader(I)V@grass.jar,GL20C#glCreateProgram()I@grass.jar,GL20C#glCreateShader(I)I@grass.jar,GL20C#glDeleteProgram(I)V@grass.jar,GL20C#glDeleteShader(I)V@grass.jar,GL20C#glGetProgramInfoLog(I)Ljava/lang/String;@grass.jar,GL20C#glGetProgrami(II)I@grass.jar,GL20C#glGetShaderInfoLog(I)Ljava/lang/String;@grass.jar,...+15\nREASON=untranslated OpenGL call(s): GL#getCapabilities()Lorg/lwjgl/opengl/GLCapabilities;@grass.jar,GL11C#glGetError()I@grass.jar,GL11C#glGetInteger(I)I@grass.jar,GL20C#glAttachShader(II)V@grass.jar,GL20C#glCompileShader(I)V@grass.jar,GL20C#glCreateProgram()I@grass.jar,GL20C#glCreateShader(I)I@grass.jar,GL20C#glDeleteProgram(I)V@grass.jar,GL20C#glDeleteShader(I)V@grass.jar,GL20C#glGetProgramInfoLog(I)Ljava/lang/String;@grass.jar,GL20C#glGetProgrami(II)I@grass.jar,GL20C#glGetShaderInfoLog(I)Ljava/lang/String;@grass.jar,...+15"
+    },
+    {
+      "case": "direct-provider-present",
+      "expected_vulkan": false,
+      "output": "[Hari/Vulkan] renderer=OPENGL_FALLBACK reason=untranslated OpenGL call(s): GL#getCapabilities()Lorg/lwjgl/opengl/GLCapabilities;@grass.jar,GL11C#glGetError()I@grass.jar,GL11C#glGetInteger(I)I@grass.jar,GL20C#glAttachShader(II)V@grass.jar,GL20C#glCompileShader(I)V@grass.jar,GL20C#glCreateProgram()I@grass.jar,GL20C#glCreateShader(I)I@grass.jar,GL20C#glDeleteProgram(I)V@grass.jar,GL20C#glDeleteShader(I)V@grass.jar,GL20C#glGetProgramInfoLog(I)Ljava/lang/String;@grass.jar,GL20C#glGetProgrami(II)I@grass.jar,GL20C#glGetShaderInfoLog(I)Ljava/lang/String;@grass.jar,...+15\nREASON=untranslated OpenGL call(s): GL#getCapabilities()Lorg/lwjgl/opengl/GLCapabilities;@grass.jar,GL11C#glGetError()I@grass.jar,GL11C#glGetInteger(I)I@grass.jar,GL20C#glAttachShader(II)V@grass.jar,GL20C#glCompileShader(I)V@grass.jar,GL20C#glCreateProgram()I@grass.jar,GL20C#glCreateShader(I)I@grass.jar,GL20C#glDeleteProgram(I)V@grass.jar,GL20C#glDeleteShader(I)V@grass.jar,GL20C#glGetProgramInfoLog(I)Ljava/lang/String;@grass.jar,GL20C#glGetProgrami(II)I@grass.jar,GL20C#glGetShaderInfoLog(I)Ljava/lang/String;@grass.jar,...+15"
+    },
+    {
+      "case": "provider-removed-cache-invalidated",
+      "expected_vulkan": true,
+      "output": "[Hari/Vulkan] renderer=VULKAN reason=all active discovered direct OpenGL calls are translated; pinned inactive ModernFix class audited\nREASON=all active discovered direct OpenGL calls are translated; pinned inactive ModernFix class audited"
+    },
+    {
+      "case": "nested-provider-present",
+      "expected_vulkan": false,
+      "output": "[Hari/Vulkan] renderer=OPENGL_FALLBACK reason=untranslated OpenGL call(s): GL#getCapabilities()Lorg/lwjgl/opengl/GLCapabilities;@grass.jar,GL11C#glGetError()I@grass.jar,GL11C#glGetInteger(I)I@grass.jar,GL20C#glAttachShader(II)V@grass.jar,GL20C#glCompileShader(I)V@grass.jar,GL20C#glCreateProgram()I@grass.jar,GL20C#glCreateShader(I)I@grass.jar,GL20C#glDeleteProgram(I)V@grass.jar,GL20C#glDeleteShader(I)V@grass.jar,GL20C#glGetProgramInfoLog(I)Ljava/lang/String;@grass.jar,GL20C#glGetProgrami(II)I@grass.jar,GL20C#glGetShaderInfoLog(I)Ljava/lang/String;@grass.jar,...+15\nREASON=untranslated OpenGL call(s): GL#getCapabilities()Lorg/lwjgl/opengl/GLCapabilities;@grass.jar,GL11C#glGetError()I@grass.jar,GL11C#glGetInteger(I)I@grass.jar,GL20C#glAttachShader(II)V@grass.jar,GL20C#glCompileShader(I)V@grass.jar,GL20C#glCreateProgram()I@grass.jar,GL20C#glCreateShader(I)I@grass.jar,GL20C#glDeleteProgram(I)V@grass.jar,GL20C#glDeleteShader(I)V@grass.jar,GL20C#glGetProgramInfoLog(I)Ljava/lang/String;@grass.jar,GL20C#glGetProgrami(II)I@grass.jar,GL20C#glGetShaderInfoLog(I)Ljava/lang/String;@grass.jar,...+15"
+    },
+    {
+      "case": "nested-provider-removed",
+      "expected_vulkan": true,
+      "output": "[Hari/Vulkan] renderer=VULKAN reason=all active discovered direct OpenGL calls are translated; pinned inactive ModernFix class audited\nREASON=all active discovered direct OpenGL calls are translated; pinned inactive ModernFix class audited"
+    },
+    {
+      "case": "modified-grass-same-size-time",
+      "expected_vulkan": false,
+      "output": "[Hari/Vulkan] renderer=OPENGL_FALLBACK reason=untranslated OpenGL call(s): GL#getCapabilities()Lorg/lwjgl/opengl/GLCapabilities;@grass.jar,GL11C#glGetError()I@grass.jar,GL11C#glGetInteger(I)I@grass.jar,GL20C#glAttachShader(II)V@grass.jar,GL20C#glCompileShader(I)V@grass.jar,GL20C#glCreateProgram()I@grass.jar,GL20C#glCreateShader(I)I@grass.jar,GL20C#glDeleteProgram(I)V@grass.jar,GL20C#glDeleteShader(I)V@grass.jar,GL20C#glGetProgramInfoLog(I)Ljava/lang/String;@grass.jar,GL20C#glGetProgrami(II)I@grass.jar,GL20C#glGetShaderInfoLog(I)Ljava/lang/String;@grass.jar,...+15\nREASON=untranslated OpenGL call(s): GL#getCapabilities()Lorg/lwjgl/opengl/GLCapabilities;@grass.jar,GL11C#glGetError()I@grass.jar,GL11C#glGetInteger(I)I@grass.jar,GL20C#glAttachShader(II)V@grass.jar,GL20C#glCompileShader(I)V@grass.jar,GL20C#glCreateProgram()I@grass.jar,GL20C#glCreateShader(I)I@grass.jar,GL20C#glDeleteProgram(I)V@grass.jar,GL20C#glDeleteShader(I)V@grass.jar,GL20C#glGetProgramInfoLog(I)Ljava/lang/String;@grass.jar,GL20C#glGetProgrami(II)I@grass.jar,GL20C#glGetShaderInfoLog(I)Ljava/lang/String;@grass.jar,...+15"
+    },
+    {
+      "case": "nested-grass-no-top-level-exemption",
+      "expected_vulkan": false,
+      "output": "[Hari/Vulkan] renderer=OPENGL_FALLBACK reason=untranslated OpenGL call(s): GL#getCapabilities()Lorg/lwjgl/opengl/GLCapabilities;@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,GL11C#glGetError()I@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,GL11C#glGetInteger(I)I@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,GL20C#glAttachShader(II)V@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,GL20C#glCompileShader(I)V@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,GL20C#glCreateProgram()I@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,GL20C#glCreateShader(I)I@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,GL20C#glDeleteProgram(I)V@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,GL20C#glDeleteShader(I)V@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,GL20C#glGetProgramInfoLog(I)Ljava/lang/String;@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,GL20C#glGetProgrami(II)I@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,GL20C#glGetShaderInfoLog(I)Ljava/lang/String;@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,...+15\nREASON=untranslated OpenGL call(s): GL#getCapabilities()Lorg/lwjgl/opengl/GLCapabilities;@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,GL11C#glGetError()I@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,GL11C#glGetInteger(I)I@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,GL20C#glAttachShader(II)V@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,GL20C#glCompileShader(I)V@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,GL20C#glCreateProgram()I@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,GL20C#glCreateShader(I)I@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,GL20C#glDeleteProgram(I)V@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,GL20C#glDeleteShader(I)V@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,GL20C#glGetProgramInfoLog(I)Ljava/lang/String;@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,GL20C#glGetProgrami(II)I@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,GL20C#glGetShaderInfoLog(I)Ljava/lang/String;@shader-provider.jar!META-INF/jarjar/grass.jar!com/leonardoinc22/shortgrass/client/render/GrassComputeAnimator.class,...+15"
+    }
+  ]
+}

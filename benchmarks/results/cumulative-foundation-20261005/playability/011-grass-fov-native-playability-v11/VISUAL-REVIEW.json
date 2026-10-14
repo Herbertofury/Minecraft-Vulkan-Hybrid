@@ -1,0 +1,7 @@
+{
+  "reviewed": true,
+  "native_grass_visible": true,
+  "stationary_fov_70_to_110_degrees": "Both reviewed ground screenshots show original grass and terrain; native visibility capture count advances. Original FOV restored.",
+  "scope": "Seven bounded native checks; no all-style, shader-provider, full-pack or zero-hitch acceptance",
+  "privacy": "Only ground images without chat or account identifiers published"
+}

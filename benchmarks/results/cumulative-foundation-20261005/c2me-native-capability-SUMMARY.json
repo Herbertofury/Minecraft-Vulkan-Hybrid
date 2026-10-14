@@ -1,0 +1,47 @@
+{
+  "scope": "Three native capability captures of the current sparse original-grass subset, not a C2ME causal FPS comparison. Controller 1.0.10, JARs/visual settings and pristine checksum world fixed. Initial-to-repeat config/cache hashes differ; their semantic equivalence is not inferred. The two repeats have identical config hashes except the generated gate signature cache. Concurrent workloads retained.",
+  "initial_to_repeat_changed_config_or_cache_files": [
+    "c2me.toml",
+    "modernfix-mixins.properties",
+    "vulkanmod_pipeline_cache.bin"
+  ],
+  "three_run_semantic_config_equality_accepted": false,
+  "trials": [
+    {
+      "trial": "014-c2meforge/01-cumulative",
+      "average_fps": 2466.5461861114986,
+      "one_percent_low_fps": 583.599528325398,
+      "p95_ms": 0.5153,
+      "p99_ms": 1.0237,
+      "max_ms": 4.8167,
+      "api_renderer": "VULKAN"
+    },
+    {
+      "trial": "014-c2me-native-capability-repeat/01-cumulative",
+      "average_fps": 2585.2680116170777,
+      "one_percent_low_fps": 626.9464830079719,
+      "p95_ms": 0.4668,
+      "p99_ms": 0.8289,
+      "max_ms": 3.3844,
+      "api_renderer": "VULKAN"
+    },
+    {
+      "trial": "014-c2me-native-capability-repeat/02-cumulative",
+      "average_fps": 2613.2692592426292,
+      "one_percent_low_fps": 645.7907662628688,
+      "p95_ms": 0.461,
+      "p99_ms": 0.8101,
+      "max_ms": 3.5201,
+      "api_renderer": "VULKAN"
+    }
+  ],
+  "median": {
+    "average_fps": 2585.2680116170777,
+    "one_percent_low_fps": 626.9464830079719,
+    "p95_ms": 0.4668,
+    "p99_ms": 0.8289,
+    "max_ms": 3.5201
+  },
+  "all_runs_at_least_2432": true,
+  "full_pack_accepted": false
+}

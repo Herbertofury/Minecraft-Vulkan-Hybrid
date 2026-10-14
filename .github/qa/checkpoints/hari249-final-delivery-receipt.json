@@ -1,0 +1,61 @@
+{
+  "status": "release_verified",
+  "verified_at": "2026-10-04T02:12:13.144460+00:00",
+  "version": "2.4.9-noxviola.1-vulkan-hybrid",
+  "jar_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+  "product_commit": "3bd2621048e166cf24c8a782c79edc77b8b5b2ab",
+  "full_client_profiles": 13,
+  "additional_original_c2me98_profiles": 3,
+  "release_folder": "1TZCi84twLpXuRPULJ0rvxTSdfcvt91W-",
+  "jar_drive_id": "1Kpk-RaWGtc8O1Da3J0xeuLP_g9xw4fmg",
+  "source_drive_id": "1-EqZEtEE5MEkvtzplkSliUEl8zPKUTup",
+  "full_proof_index": {
+    "drive_id": "1PASbnvio3werzVKfZR9wDNb_g_ewVssZ",
+    "name": "PROOF-INDEX.json",
+    "bytes": 282029,
+    "sha256": "a0d670a43352d302a01c6f597b054ab80c5ddbacd95fd1108f3594605773d194",
+    "raw_byte_readback_verified": true
+  },
+  "checksums": {
+    "drive_id": "1SX23nxNIkWBexS8VQkBbW8zkYXo11-zx",
+    "name": "SHA256SUMS.txt",
+    "bytes": 398,
+    "sha256": "6431033d55b7443e9c9d310107c0be53433670704ec7cc6a3daadb726d605e12",
+    "raw_byte_readback_verified": true
+  },
+  "wiki": {
+    "head": "2af2bb424b465acde1034ed4176a006a85e00677",
+    "page_sha256": "2a8765fc20996c73178b00022e6fb21b4b02da339db81fdb79b7c2699ce24029",
+    "publisher_run": 37170095652,
+    "publisher_job": 111341120954,
+    "source_main_commit": "9ff2f213daeab4a651f8f0b5ece01dda42ada145",
+    "actual_wiki_git_readback": true,
+    "fresh_clone_publisher_verified": true,
+    "url": "https://github.com/Herbertofury/ProjectDump/wiki/HariMultiThread-Vulkan-Hybrid"
+  },
+  "source_entries": 998,
+  "pinned_recipe_steps": 23,
+  "focused_regression_suites": 23,
+  "all_complete_native_backup_volumes_raw_verified": 8,
+  "standard_native_backup_verified": true,
+  "source_and_install_raw_verified": [
+    {
+      "name": "HariMultiThread-Ultimate-1.20.1-2.4.9-SOURCE.zip",
+      "drive_id": "1-EqZEtEE5MEkvtzplkSliUEl8zPKUTup",
+      "bytes": 2495844,
+      "sha256": "da2d70879738bdca8b7b97074fdd09771449cd38b208f5538249225e864874eb",
+      "raw_byte_readback_verified": true,
+      "source_entries_verified": 998
+    },
+    {
+      "name": "INSTALL.txt",
+      "drive_id": "1k1Ls3lXClvHP1d8YeJTo4t-KPH0VJmGu",
+      "bytes": 4480,
+      "sha256": "b56f90a54d2bed6f6c984f6b54d8c58ba33f0bb4fc6e0f3c7550ad50bca28603",
+      "raw_byte_readback_verified": true
+    }
+  ],
+  "native_index": ".github/qa/checkpoints/hari249-byte-verified-native-profiles.json",
+  "scope": "Linux Mesa software drivers; actual original native portals/AI/chunk/unload/NBT/reload/resize/clean same-world secondJVM; hardwareFPS/all boss combat phases remain unmeasured",
+  "historical_2.4.1_rejected_archives": "Unchanged, not retried or rerouted"
+}

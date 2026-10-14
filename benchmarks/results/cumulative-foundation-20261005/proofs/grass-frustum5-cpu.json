@@ -1,0 +1,9 @@
+{
+  "scope": "Actual bounded production visibility cache against independent JOML projection oracle; not FPS or full-mod acceptance.",
+  "positive": "EXACT_FRUSTUM_CACHE_CONTROLS 60052",
+  "negative_controls": {
+    "matrix_invalidation_removed": "rejected",
+    "camera_invalidation_removed": "rejected",
+    "sixth_bounds_key_removed": "rejected"
+  }
+}

@@ -1,0 +1,1085 @@
+{
+  "accepted": true,
+  "automatic_forge_original_game_methods_executed": true,
+  "exact_transformed_classes": 4,
+  "rewritten_sites": 4,
+  "original_activations": 22,
+  "original_captures": 30,
+  "pixel_cases": 20,
+  "full_essential_features_proven": false,
+  "fps_accepted": false,
+  "controls": [
+    {
+      "control": "game-owner-gg.essential.universal.render.ViewportState",
+      "passed": true
+    },
+    {
+      "control": "fresh-export-gg.essential.universal.render.ViewportState",
+      "passed": true
+    },
+    {
+      "control": "exact-forge-viewport-sites-gg.essential.universal.render.ViewportState",
+      "passed": true
+    },
+    {
+      "control": "game-owner-gg.essential.universal.render.ViewportState$Companion",
+      "passed": true
+    },
+    {
+      "control": "fresh-export-gg.essential.universal.render.ViewportState$Companion",
+      "passed": true
+    },
+    {
+      "control": "exact-forge-viewport-sites-gg.essential.universal.render.ViewportState$Companion",
+      "passed": true
+    },
+    {
+      "control": "game-owner-gg.essential.util.GlViewportState",
+      "passed": true
+    },
+    {
+      "control": "fresh-export-gg.essential.util.GlViewportState",
+      "passed": true
+    },
+    {
+      "control": "exact-forge-viewport-sites-gg.essential.util.GlViewportState",
+      "passed": true
+    },
+    {
+      "control": "game-owner-gg.essential.util.GlViewportState$Companion",
+      "passed": true
+    },
+    {
+      "control": "fresh-export-gg.essential.util.GlViewportState$Companion",
+      "passed": true
+    },
+    {
+      "control": "exact-forge-viewport-sites-gg.essential.util.GlViewportState$Companion",
+      "passed": true
+    },
+    {
+      "control": "owned-native-pass",
+      "passed": true
+    },
+    {
+      "control": "viewport-native-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-0-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-0-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-0-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-0-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-asymmetric-gradient-0",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-asymmetric-gradient-1",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-asymmetric-gradient-2",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-asymmetric-gradient-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-scissor-universal-asymmetric-gradient",
+      "passed": true
+    },
+    {
+      "control": "asymmetric-viewport-pixels-universal-asymmetric-gradient",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-1-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-1-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-1-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-1-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-readback-resumes-gradient-0",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-readback-resumes-gradient-1",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-readback-resumes-gradient-2",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-readback-resumes-gradient-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-scissor-universal-readback-resumes-gradient",
+      "passed": true
+    },
+    {
+      "control": "asymmetric-viewport-pixels-universal-readback-resumes-gradient",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-2-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-2-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-2-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-2-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-async-resumes-gradient-0",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-async-resumes-gradient-1",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-async-resumes-gradient-2",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-async-resumes-gradient-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-scissor-universal-async-resumes-gradient",
+      "passed": true
+    },
+    {
+      "control": "asymmetric-viewport-pixels-universal-async-resumes-gradient",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-3-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-3-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-3-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-3-3",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-4-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-4-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-4-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-4-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-negative-origin-0",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-negative-origin-1",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-negative-origin-2",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-negative-origin-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-scissor-universal-negative-origin",
+      "passed": true
+    },
+    {
+      "control": "asymmetric-viewport-pixels-universal-negative-origin",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-asymmetric-scissor-0",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-asymmetric-scissor-1",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-asymmetric-scissor-2",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-asymmetric-scissor-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-scissor-universal-asymmetric-scissor",
+      "passed": true
+    },
+    {
+      "control": "asymmetric-viewport-pixels-universal-asymmetric-scissor",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-5-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-5-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-5-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-5-3",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-6-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-6-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-6-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-6-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-zero-width-clear-still-applies-0",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-zero-width-clear-still-applies-1",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-zero-width-clear-still-applies-2",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-zero-width-clear-still-applies-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-scissor-universal-zero-width-clear-still-applies",
+      "passed": true
+    },
+    {
+      "control": "asymmetric-viewport-pixels-universal-zero-width-clear-still-applies",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-7-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-7-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-7-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-7-3",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-8-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-8-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-8-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-8-3",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-9-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-9-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-9-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-9-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-zero-height-clear-still-applies-0",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-zero-height-clear-still-applies-1",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-zero-height-clear-still-applies-2",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-zero-height-clear-still-applies-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-scissor-universal-zero-height-clear-still-applies",
+      "passed": true
+    },
+    {
+      "control": "asymmetric-viewport-pixels-universal-zero-height-clear-still-applies",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-10-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-10-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-10-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-10-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-post-zero-gradient-0",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-post-zero-gradient-1",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-post-zero-gradient-2",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-post-zero-gradient-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-scissor-universal-post-zero-gradient",
+      "passed": true
+    },
+    {
+      "control": "asymmetric-viewport-pixels-universal-post-zero-gradient",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-11-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-11-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-11-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-11-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-outside-framebuffer-0",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-outside-framebuffer-1",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-outside-framebuffer-2",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-outside-framebuffer-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-scissor-universal-outside-framebuffer",
+      "passed": true
+    },
+    {
+      "control": "asymmetric-viewport-pixels-universal-outside-framebuffer",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-12-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-12-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-12-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-12-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-actual-device-extent-clamp-0",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-actual-device-extent-clamp-1",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-actual-device-extent-clamp-2",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-universal-actual-device-extent-clamp-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-scissor-universal-actual-device-extent-clamp",
+      "passed": true
+    },
+    {
+      "control": "asymmetric-viewport-pixels-universal-actual-device-extent-clamp",
+      "passed": true
+    },
+    {
+      "control": "negative-width-error-preserves-state",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-13-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-13-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-13-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-13-3",
+      "passed": true
+    },
+    {
+      "control": "negative-height-error-preserves-state",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-14-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-14-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-14-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-ViewportState-14-3",
+      "passed": true
+    },
+    {
+      "control": "query-cursor-limit-sentinels",
+      "passed": true
+    },
+    {
+      "control": "query-offset-values-0",
+      "passed": true
+    },
+    {
+      "control": "query-offset-values-1",
+      "passed": true
+    },
+    {
+      "control": "query-offset-values-2",
+      "passed": true
+    },
+    {
+      "control": "query-offset-values-3",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-15-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-15-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-15-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-15-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-asymmetric-gradient-0",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-asymmetric-gradient-1",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-asymmetric-gradient-2",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-asymmetric-gradient-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-scissor-legacy-asymmetric-gradient",
+      "passed": true
+    },
+    {
+      "control": "asymmetric-viewport-pixels-legacy-asymmetric-gradient",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-16-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-16-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-16-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-16-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-readback-resumes-gradient-0",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-readback-resumes-gradient-1",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-readback-resumes-gradient-2",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-readback-resumes-gradient-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-scissor-legacy-readback-resumes-gradient",
+      "passed": true
+    },
+    {
+      "control": "asymmetric-viewport-pixels-legacy-readback-resumes-gradient",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-17-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-17-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-17-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-17-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-async-resumes-gradient-0",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-async-resumes-gradient-1",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-async-resumes-gradient-2",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-async-resumes-gradient-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-scissor-legacy-async-resumes-gradient",
+      "passed": true
+    },
+    {
+      "control": "asymmetric-viewport-pixels-legacy-async-resumes-gradient",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-18-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-18-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-18-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-18-3",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-19-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-19-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-19-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-19-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-negative-origin-0",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-negative-origin-1",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-negative-origin-2",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-negative-origin-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-scissor-legacy-negative-origin",
+      "passed": true
+    },
+    {
+      "control": "asymmetric-viewport-pixels-legacy-negative-origin",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-asymmetric-scissor-0",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-asymmetric-scissor-1",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-asymmetric-scissor-2",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-asymmetric-scissor-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-scissor-legacy-asymmetric-scissor",
+      "passed": true
+    },
+    {
+      "control": "asymmetric-viewport-pixels-legacy-asymmetric-scissor",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-20-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-20-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-20-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-20-3",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-21-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-21-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-21-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-21-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-zero-width-clear-still-applies-0",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-zero-width-clear-still-applies-1",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-zero-width-clear-still-applies-2",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-zero-width-clear-still-applies-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-scissor-legacy-zero-width-clear-still-applies",
+      "passed": true
+    },
+    {
+      "control": "asymmetric-viewport-pixels-legacy-zero-width-clear-still-applies",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-22-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-22-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-22-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-22-3",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-23-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-23-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-23-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-23-3",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-24-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-24-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-24-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-24-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-zero-height-clear-still-applies-0",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-zero-height-clear-still-applies-1",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-zero-height-clear-still-applies-2",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-zero-height-clear-still-applies-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-scissor-legacy-zero-height-clear-still-applies",
+      "passed": true
+    },
+    {
+      "control": "asymmetric-viewport-pixels-legacy-zero-height-clear-still-applies",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-25-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-25-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-25-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-25-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-post-zero-gradient-0",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-post-zero-gradient-1",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-post-zero-gradient-2",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-post-zero-gradient-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-scissor-legacy-post-zero-gradient",
+      "passed": true
+    },
+    {
+      "control": "asymmetric-viewport-pixels-legacy-post-zero-gradient",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-26-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-26-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-26-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-26-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-outside-framebuffer-0",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-outside-framebuffer-1",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-outside-framebuffer-2",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-outside-framebuffer-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-scissor-legacy-outside-framebuffer",
+      "passed": true
+    },
+    {
+      "control": "asymmetric-viewport-pixels-legacy-outside-framebuffer",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-27-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-27-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-27-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-27-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-actual-device-extent-clamp-0",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-actual-device-extent-clamp-1",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-actual-device-extent-clamp-2",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-viewport-legacy-actual-device-extent-clamp-3",
+      "passed": true
+    },
+    {
+      "control": "readback-logical-scissor-legacy-actual-device-extent-clamp",
+      "passed": true
+    },
+    {
+      "control": "asymmetric-viewport-pixels-legacy-actual-device-extent-clamp",
+      "passed": true
+    },
+    {
+      "control": "negative-width-error-preserves-state",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-28-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-28-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-28-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-28-3",
+      "passed": true
+    },
+    {
+      "control": "negative-height-error-preserves-state",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-29-0",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-29-1",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-29-2",
+      "passed": true
+    },
+    {
+      "control": "original-capture-GlViewportState-29-3",
+      "passed": true
+    },
+    {
+      "control": "query-cursor-limit-sentinels",
+      "passed": true
+    },
+    {
+      "control": "query-offset-values-0",
+      "passed": true
+    },
+    {
+      "control": "query-offset-values-1",
+      "passed": true
+    },
+    {
+      "control": "query-offset-values-2",
+      "passed": true
+    },
+    {
+      "control": "query-offset-values-3",
+      "passed": true
+    }
+  ]
+}

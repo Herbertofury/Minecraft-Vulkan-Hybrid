@@ -1,0 +1,8 @@
+{
+  "scope": "Actual pure early-eligibility condition against independent original queue/async completion/world mutation/visibility/unloaded-region/budget trace; actual mixin and visuals separately tested. No FPS inferred.",
+  "positive": "ORIGINAL_FIRST_BUILD_SCHEDULING_TRACE_CONTROLS 2116",
+  "negative_controls": {
+    "cached_refresh_dropped": "rejected",
+    "visible_first_build_dropped": "rejected"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "purpose": "Isolated Java 17 native shader compiler compatibility/reference test. Not installed into Minecraft, personal profiles, application or OS/driver paths.",
+  "publisher": "Official LWJGL org.lwjgl artifacts from Maven Central, 3.3.6 matching the pinned reference port.",
+  "artifacts": [
+    {
+      "artifact": "lwjgl-3.3.6.jar",
+      "official_maven_central_url": "https://repo.maven.apache.org/maven2/org/lwjgl/lwjgl/3.3.6/lwjgl-3.3.6.jar",
+      "published_sha1_verified": "ce7721d30cfaf47feaed10213e0c43eb55c49d68",
+      "sha256": "b00e2781b74cc829db9d39fb68746b25bb7b94ce61d46293457dbccddabd999c",
+      "bytes": 823245,
+      "license_entries": []
+    },
+    {
+      "artifact": "lwjgl-3.3.6-natives-windows.jar",
+      "official_maven_central_url": "https://repo.maven.apache.org/maven2/org/lwjgl/lwjgl/3.3.6/lwjgl-3.3.6-natives-windows.jar",
+      "published_sha1_verified": "9a29b6a22fc5184604b8cb434ee5d5ecc4bfcbee",
+      "sha256": "a8d8edda34718bf70f68d14de1295b5bfc0f477a9607a3a9705d9e2d88538a8c",
+      "bytes": 168988,
+      "license_entries": []
+    },
+    {
+      "artifact": "lwjgl-shaderc-3.3.6.jar",
+      "official_maven_central_url": "https://repo.maven.apache.org/maven2/org/lwjgl/lwjgl-shaderc/3.3.6/lwjgl-shaderc-3.3.6.jar",
+      "published_sha1_verified": "ab69a0e011f057ed25857c97fa3c87f20ab8f670",
+      "sha256": "7bec76dbeef91cd0c899fa37f9f120217b422f8050235e5b36bba41b7be35f71",
+      "bytes": 32657,
+      "license_entries": []
+    },
+    {
+      "artifact": "lwjgl-shaderc-3.3.6-natives-windows.jar",
+      "official_maven_central_url": "https://repo.maven.apache.org/maven2/org/lwjgl/lwjgl-shaderc/3.3.6/lwjgl-shaderc-3.3.6-natives-windows.jar",
+      "published_sha1_verified": "6c0358e646419b9f5a15c79df5b369eee6ea5a0c",
+      "sha256": "c8c5629eac0bb01ea0a145565d54757a9aa8d7fd5ff0436d9069e61c0bfd2662",
+      "bytes": 1844785,
+      "license_entries": []
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "verified_parent_commit": "195f540644db752a0b31bf282e0ea62b69af2cdf",
+  "verified_parent_tree": "0cb0cd15571f687662951929168d49e6cbd57387",
+  "provider_examined_proposed_tree": "0cf64a81bc43eb9286156742464f15d19ec86aba",
+  "changed_paths": [
+    ".github/workflows/hari-modpack-compatibility.yml",
+    ".github/qa/hari24_modpack_inputs.py",
+    ".github/qa/hari24_modpack_client_qa.py",
+    ".github/qa/hari24_dimension_fixture.py",
+    ".github/qa/hari24-modpack-candidate.json",
+    ".github/qa/hari24-modpack-recovery.json"
+  ],
+  "deleted_paths": [],
+  "all_other_root_entries_byte_identical": true,
+  "minecraft_product_tree_byte_identical": true,
+  "standard_2_4_3_build_native_client_workflows_unchanged": true,
+  "project_constellation_catalogue_unchanged": true,
+  "scope": "Actual GitHub commit/root/subtree responses establish a six-file QA-only update. This receipt is evidence of tree preservation, not an authorization grant.",
+  "receipt_self_excluded": true
+}

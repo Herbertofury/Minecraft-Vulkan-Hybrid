@@ -1,0 +1,17 @@
+[
+  {
+    "name": "HariMultiThread-Ultimate-1.20.1-2.4.9-SOURCE.zip",
+    "drive_id": "1-EqZEtEE5MEkvtzplkSliUEl8zPKUTup",
+    "bytes": 2495844,
+    "sha256": "da2d70879738bdca8b7b97074fdd09771449cd38b208f5538249225e864874eb",
+    "raw_byte_readback_verified": true,
+    "source_entries_verified": 998
+  },
+  {
+    "name": "INSTALL.txt",
+    "drive_id": "1k1Ls3lXClvHP1d8YeJTo4t-KPH0VJmGu",
+    "bytes": 4480,
+    "sha256": "b56f90a54d2bed6f6c984f6b54d8c58ba33f0bb4fc6e0f3c7550ad50bca28603",
+    "raw_byte_readback_verified": true
+  }
+]

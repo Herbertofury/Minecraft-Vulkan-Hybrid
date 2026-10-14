@@ -1,0 +1,14 @@
+{
+  "base_feature_commit": "f25e46614dc4e69b1bf548bb6391214af849a939",
+  "version": 62,
+  "files": {
+    "integration/dimensions/overlay/gradle.properties": "c36a5f20b45b992cb05b4f269209a5751871c81f491a8a6d82ab320412868d57",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/vulkan/shader/parser/GlslConverter.java": "b20d63ef415658798c62584d0bc0c2e5ede122b30baf1f87b9df89f3081eb959",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/vulkan/shader/parser/GlslStatements.java": "67a9d0589fb51009f89aafbcf790006386000ae459873c330fc9b4df53583b92"
+  },
+  "production_sha256": "714106dca1ed653c1cf360863a778ff5850d12960e52e3c722062b69cf8186b3",
+  "fixture_sha256": "c90eea97863fe5d6f340a9b1256b7648dbc57109e4ad47523061c65feac064a6",
+  "same_actual_controller93": true,
+  "private_originals_distributed": false,
+  "full_render_pass_delayed_loader_FPS_accepted": false
+}

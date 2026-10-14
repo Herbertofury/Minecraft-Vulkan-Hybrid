@@ -1,0 +1,10 @@
+{
+  "only_ferrite_toggled": true,
+  "official_file_sha256": "9c2c9396a49e796d88497758caa4637d2bcbb433c318e2dd9cebcffbaf0f6c54",
+  "official_modrinth_sha512_verified": true,
+  "semantic_config_unchanged": true,
+  "visual_options_unchanged": true,
+  "world_identity_unchanged": true,
+  "excluded_derived_cache": "Only harimt-vulkan-compat.properties: generated gate signature/timestamp, not user settings",
+  "semantic_config_manifest_sha256": "f486d062cc3e5123bc73606313831283665f88eedde177aacec56d2e632d468a"
+}

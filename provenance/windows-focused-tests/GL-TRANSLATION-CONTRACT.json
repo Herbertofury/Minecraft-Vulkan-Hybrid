@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "case": "translated clear",
+      "expected_vulkan": true,
+      "passed": true,
+      "method": "GL11C#glClear(I)V"
+    },
+    {
+      "case": "untranslated compute",
+      "expected_vulkan": false,
+      "passed": true,
+      "method": "GL43C#glDispatchCompute(III)V"
+    },
+    {
+      "case": "same name wrong overload",
+      "expected_vulkan": false,
+      "passed": true,
+      "method": "GL11C#glClear(J)V"
+    },
+    {
+      "case": "old compatibility cache invalidated",
+      "passed": true
+    },
+    {
+      "case": "fake error query",
+      "expected_vulkan": false,
+      "passed": true,
+      "method": "GL11C#glGetError()I"
+    },
+    {
+      "case": "unknown owner",
+      "expected_vulkan": false,
+      "passed": true,
+      "method": "GL46C#glClear(I)V"
+    }
+  ],
+  "accepted_overloads": 111,
+  "rejected_overloads": 2248,
+  "scope": "Actual production selector and real JVM method-reference classes; empty/compute/shader placeholders and wrong overloads rejected before Vulkan startup."
+}

@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "controls": 18,
+  "normal_sites": 26,
+  "capability_sequences": 10,
+  "runtime_fields": 24,
+  "stdout": "PHYSICS_VAO_CALLER_REGRESSION_PASS controls=18 originalCalls=26 capabilitySequences=10 runtimeFields=24 inverseBodiesIdentical=true\n"
+}

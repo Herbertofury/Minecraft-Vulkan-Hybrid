@@ -1,0 +1,53 @@
+{
+  "accepted": true,
+  "automatic_forge_application_proven": true,
+  "rewritten_sites": 16,
+  "full_essential_features_proven": false,
+  "classes": [
+    {
+      "class": "gg.essential.universal.render.ScissorState",
+      "class_loader": "cpw.mods.modlauncher.TransformingClassLoader",
+      "module": "mvhpackbench",
+      "rewritten_sites": 3,
+      "untranslated_supported_sites": 0,
+      "fresh_export_sha256": "f59f37993237f26980114ce23ac9ece32476133b5416e576f5a66665fd51ab8e",
+      "class_initialized_or_original_methods_invoked": false
+    },
+    {
+      "class": "gg.essential.universal.render.ScissorState$Companion",
+      "class_loader": "cpw.mods.modlauncher.TransformingClassLoader",
+      "module": "mvhpackbench",
+      "rewritten_sites": 2,
+      "untranslated_supported_sites": 0,
+      "fresh_export_sha256": "7b6583a0bfa35862d7d0a866043fb5e9cca51c6887561d574448ce5ea89907a4",
+      "class_initialized_or_original_methods_invoked": false
+    },
+    {
+      "class": "gg.essential.util.ScissorState",
+      "class_loader": "cpw.mods.modlauncher.TransformingClassLoader",
+      "module": "mvhpackbench",
+      "rewritten_sites": 3,
+      "untranslated_supported_sites": 0,
+      "fresh_export_sha256": "70cd0a628ab7f029e47ef04a32221c2e70b5175e69fc224fadd0e0c9430214fc",
+      "class_initialized_or_original_methods_invoked": false
+    },
+    {
+      "class": "gg.essential.util.ScissorState$Companion",
+      "class_loader": "cpw.mods.modlauncher.TransformingClassLoader",
+      "module": "mvhpackbench",
+      "rewritten_sites": 2,
+      "untranslated_supported_sites": 0,
+      "fresh_export_sha256": "f7a8af48f618955cae932efa3cc560dce42bd527a524321a50146a156beb2e61",
+      "class_initialized_or_original_methods_invoked": false
+    },
+    {
+      "class": "gg.essential.elementa.effects.StencilEffect",
+      "class_loader": "cpw.mods.modlauncher.TransformingClassLoader",
+      "module": "mvhpackbench",
+      "rewritten_sites": 6,
+      "untranslated_supported_sites": 0,
+      "fresh_export_sha256": "8e867dd74e4e7e84ddb5a10e001f01be3d91e2027231388d5a2bec907dde4758",
+      "class_initialized_or_original_methods_invoked": false
+    }
+  ]
+}

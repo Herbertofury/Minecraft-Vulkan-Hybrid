@@ -1,0 +1,42 @@
+[
+  {
+    "kind": "source",
+    "drive_id": "1NFGVZeurxOaIEkbBvLW94gZFT7YSVs5A",
+    "bytes": 2520667,
+    "sha256": "8fcf93eceeda711370d130feda75b102dac07bee64169b5e70144e1e8645511e",
+    "raw_readback_verified": true,
+    "zip_crc_and_every_entry_hash_verified": true
+  },
+  {
+    "kind": "memory",
+    "drive_id": "1W1_EHDpMq52H-FPqAsIso8xjYv68h2PU",
+    "bytes": 11897186,
+    "sha256": "6ceba775ec68ddd76b7081aebbfa303ce41fd768d5b248d6789097df522a2d67",
+    "raw_readback_verified": true,
+    "zip_crc_and_every_entry_hash_verified": true
+  },
+  {
+    "kind": "install",
+    "drive_id": "1GLEMn9xyCo73tmzG6AUIfniEdMyRMczK",
+    "bytes": 5678,
+    "sha256": "62d80d73b314f7a1147d20ba60d883e7135bd8511088bc97f4b228cb67846a1f",
+    "raw_readback_verified": true,
+    "zip_crc_and_every_entry_hash_verified": false
+  },
+  {
+    "kind": "notes",
+    "drive_id": "19Yir2agxh7BBMoARvnjnXCm8hNNQxJ6r",
+    "bytes": 6243,
+    "sha256": "806afe3361781377387cde6ec9217eecaf0a469d1c8fa1638e8523ad8610f6b9",
+    "raw_readback_verified": true,
+    "zip_crc_and_every_entry_hash_verified": false
+  },
+  {
+    "kind": "proof",
+    "drive_id": "1jA9mSOCVw7wceV3HFH5kUHZUDalOIBdg",
+    "bytes": 1169543,
+    "sha256": "3e0807fb9b49eff508f3371b220245472ff41c8d54b7afbb3d4df29819a8f115",
+    "raw_readback_verified": true,
+    "zip_crc_and_every_entry_hash_verified": false
+  }
+]

@@ -1,0 +1,61 @@
+{
+  "status": "SCOPED_NATIVE_GRASS_TARGET_REACHED_COMPLETE_PACK_PENDING",
+  "hari": ".11",
+  "grass_addon": "1.0.3",
+  "controller": "1.0.9",
+  "trials": [
+    {
+      "trial": "01-cumulative",
+      "average_fps": 2529.276452436198,
+      "one_percent_low_fps": 579.5426042079065,
+      "p95_ms": 0.4622,
+      "p99_ms": 0.7582,
+      "max_ms": 3.5663,
+      "api_renderer": "VULKAN"
+    },
+    {
+      "trial": "02-cumulative",
+      "average_fps": 2590.7628496093703,
+      "one_percent_low_fps": 584.2634863107364,
+      "p95_ms": 0.4547,
+      "p99_ms": 0.7292,
+      "max_ms": 3.5395,
+      "api_renderer": "VULKAN"
+    },
+    {
+      "trial": "03-cumulative",
+      "average_fps": 2502.0354829644543,
+      "one_percent_low_fps": 566.3945659909242,
+      "p95_ms": 0.4649,
+      "p99_ms": 0.7918,
+      "max_ms": 2.3844,
+      "api_renderer": "VULKAN"
+    }
+  ],
+  "medians": {
+    "average_fps": 2529.276452436198,
+    "one_percent_low_fps": 579.5426042079065,
+    "p95_ms": 0.4622,
+    "p99_ms": 0.7582,
+    "max_ms": 3.5395
+  },
+  "smoke_checks": [
+    "native_client_resource_reload",
+    "original_native_grass_meshes_and_shader_available",
+    "original_animation_phase_advanced",
+    "native_visibility_updated_after_stationary_fov_change",
+    "client_movement_stamped_original_trail_field",
+    "client_entered_native_nether",
+    "native_overworld_grass_rebuilt_after_roundtrip"
+  ],
+  "full_pack_accepted": false,
+  "shader_provider_accepted": false,
+  "all_grass_styles_accepted": false,
+  "zero_hitch_accepted": false,
+  "limits": [
+    "RenderTick END CPU intervals, not presentation or GPU timestamps",
+    "Pristine checksum scene/settings/camera; still-camera capture",
+    "Other projects remained active; retained whole-adapter contamination",
+    "Three capability repeats are not a same-recorder causal comparison with .10"
+  ]
+}

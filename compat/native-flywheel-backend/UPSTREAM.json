@@ -1,0 +1,13 @@
+{
+  "repository": "Engine-Room/Flywheel",
+  "commit": "610b1683f3ed0fef5cd387a126bd2c530a9c2ead",
+  "license": "MIT for original/adapted namespaces; original notice copied",
+  "scope": "Original CPU light/arena/LUT and uniform writers retained; real native Engine with original generic instance cull/apply/indirect drawing and reload/chunk registration. Original public API/lib/assets exact. Bounded original powered machinery/reload/registered Ponder/config UI accepted in actual Minecraft. Full OIT/depth-pyramid, arbitrary contraptions and active Oculus/Iris remain unfinished.",
+  "reference_manifests": [
+    "provenance/OFFICIAL-ENGINE-SOURCE-MANIFEST.json",
+    "provenance/OFFICIAL-LIFECYCLE-SOURCE-MANIFEST.json",
+    "provenance/OFFICIAL-NATIVE-WIRING-SOURCE-MANIFEST.json",
+    "provenance/OFFICIAL-NATIVE-RENDER-HOOKS-MANIFEST.json"
+  ],
+  "official_archive_sha256": "316ca250f19244956b5f0cd75329309ea65a77b4b8da854389b6a9222e7f427c"
+}

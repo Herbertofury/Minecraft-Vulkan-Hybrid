@@ -1,0 +1,239 @@
+{
+  "accepted": true,
+  "original_method_invocations": 65,
+  "normal_native_transports": 49,
+  "native_capability_routes": 3,
+  "root_image_framebuffer_calls_retained_and_unexecuted": 46,
+  "private_loader_only": true,
+  "full_provider_or_FPS_accepted": false,
+  "controls": [
+    {
+      "control": "exact-installed-Essential-payload",
+      "passed": true
+    },
+    {
+      "control": "actual-typed-buffer-native-program",
+      "passed": true
+    },
+    {
+      "control": "all-selected-original-buffer-sites-gg.essential.universal.render.UGpuDeviceImpl",
+      "passed": true
+    },
+    {
+      "control": "typed-buffer-repeat-rejected-gg.essential.universal.render.UGpuDeviceImpl",
+      "passed": true
+    },
+    {
+      "control": "typed-buffer-inverse-original-body-gg.essential.universal.render.UGpuDeviceImpl",
+      "passed": true
+    },
+    {
+      "control": "all-selected-original-buffer-sites-gg.essential.universal.render.UGpuDeviceImpl$OpenGL31$2",
+      "passed": true
+    },
+    {
+      "control": "typed-buffer-repeat-rejected-gg.essential.universal.render.UGpuDeviceImpl$OpenGL31$2",
+      "passed": true
+    },
+    {
+      "control": "typed-buffer-inverse-original-body-gg.essential.universal.render.UGpuDeviceImpl$OpenGL31$2",
+      "passed": true
+    },
+    {
+      "control": "all-selected-original-buffer-sites-gg.essential.universal.render.UGpuDeviceImpl$OpenGL30$2",
+      "passed": true
+    },
+    {
+      "control": "typed-buffer-repeat-rejected-gg.essential.universal.render.UGpuDeviceImpl$OpenGL30$2",
+      "passed": true
+    },
+    {
+      "control": "typed-buffer-inverse-original-body-gg.essential.universal.render.UGpuDeviceImpl$OpenGL30$2",
+      "passed": true
+    },
+    {
+      "control": "all-selected-original-buffer-sites-gg.essential.universal.render.UGpuDeviceImpl$ARB_map_buffer_range$2",
+      "passed": true
+    },
+    {
+      "control": "typed-buffer-repeat-rejected-gg.essential.universal.render.UGpuDeviceImpl$ARB_map_buffer_range$2",
+      "passed": true
+    },
+    {
+      "control": "typed-buffer-inverse-original-body-gg.essential.universal.render.UGpuDeviceImpl$ARB_map_buffer_range$2",
+      "passed": true
+    },
+    {
+      "control": "all-selected-original-buffer-sites-gg.essential.universal.render.UGpuDeviceImpl$tmpVao$2",
+      "passed": true
+    },
+    {
+      "control": "typed-buffer-repeat-rejected-gg.essential.universal.render.UGpuDeviceImpl$tmpVao$2",
+      "passed": true
+    },
+    {
+      "control": "typed-buffer-inverse-original-body-gg.essential.universal.render.UGpuDeviceImpl$tmpVao$2",
+      "passed": true
+    },
+    {
+      "control": "all-selected-original-buffer-sites-gg.essential.universal.render.UGpuBufferImpl",
+      "passed": true
+    },
+    {
+      "control": "typed-buffer-repeat-rejected-gg.essential.universal.render.UGpuBufferImpl",
+      "passed": true
+    },
+    {
+      "control": "typed-buffer-inverse-original-body-gg.essential.universal.render.UGpuBufferImpl",
+      "passed": true
+    },
+    {
+      "control": "original-byte-upload-cursor-and-size",
+      "passed": true
+    },
+    {
+      "control": "original-vertex-is-real-VkBuffer",
+      "passed": true
+    },
+    {
+      "control": "original-vertex-binding-restored",
+      "passed": true
+    },
+    {
+      "control": "actual-native-buffer-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "essential-original-typed-vertex-upload-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "all-selected-original-buffer-sites-gg.essential.universal.render.UGpuDeviceImpl$mapBuffer$5",
+      "passed": true
+    },
+    {
+      "control": "typed-buffer-repeat-rejected-gg.essential.universal.render.UGpuDeviceImpl$mapBuffer$5",
+      "passed": true
+    },
+    {
+      "control": "typed-buffer-inverse-original-body-gg.essential.universal.render.UGpuDeviceImpl$mapBuffer$5",
+      "passed": true
+    },
+    {
+      "control": "original-mapped-count-and-direct-view",
+      "passed": true
+    },
+    {
+      "control": "original-close-mapped-buffer-refused",
+      "passed": true
+    },
+    {
+      "control": "original-map-close-idempotent",
+      "passed": true
+    },
+    {
+      "control": "actual-range-offset-length-alignment",
+      "passed": true
+    },
+    {
+      "control": "actual-native-buffer-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "essential-original-typed-partial-map-preserves-prefix-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "original-concurrent-map-refused",
+      "passed": true
+    },
+    {
+      "control": "native-concurrent-map-error-class",
+      "passed": true
+    },
+    {
+      "control": "actual-native-buffer-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "essential-original-typed-size-allocation-map-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "actual-native-buffer-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "essential-original-typed-ushort-index-buffer-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "actual-native-buffer-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "essential-original-typed-uint-index-buffer-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "actual-native-buffer-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "typed-write-COW-real-native-handle",
+      "passed": true
+    },
+    {
+      "control": "essential-original-typed-map-preserves-recorded-reader-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "original-uniform-range-and-binding-restored",
+      "passed": true
+    },
+    {
+      "control": "original-copy-range-alignment-and-binding",
+      "passed": true
+    },
+    {
+      "control": "original-missing-write-usage-refused",
+      "passed": true
+    },
+    {
+      "control": "original-no-access-refused",
+      "passed": true
+    },
+    {
+      "control": "original-slice-outside-buffer-refused",
+      "passed": true
+    },
+    {
+      "control": "original-size-over-Int-Max-refused",
+      "passed": true
+    },
+    {
+      "control": "actual-native-buffer-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "original-typed-name-retired",
+      "passed": true
+    },
+    {
+      "control": "essential-original-typed-delete-retains-GPU-reader-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "original-closed-buffer-map-refused",
+      "passed": true
+    },
+    {
+      "control": "exact-selected-native-transport-counts",
+      "passed": true
+    },
+    {
+      "control": "native-typed-buffer-error-clean",
+      "passed": true
+    }
+  ]
+}

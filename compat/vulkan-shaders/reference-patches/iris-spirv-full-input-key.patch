@@ -1,0 +1,40 @@
+--- a/src/main/java/net/irisshaders/iris/vulkan/shader/IrisSPIRVCompiler.java
++++ b/src/main/java/net/irisshaders/iris/vulkan/shader/IrisSPIRVCompiler.java
+@@ -42,8 +42,17 @@
+ public class IrisSPIRVCompiler {
+ 	private static final Logger LOGGER = LogManager.getLogger(IrisSPIRVCompiler.class);
+ 
+-	// Cache compiled SPIR-V by source hash to avoid recompilation
+-	private static final Map<Integer, ByteBuffer> spirvCache = new ConcurrentHashMap<>();
++	// Full input identity prevents hash collisions and preprocessing/name cross-contamination
++	private static final Map<CompileKey, ByteBuffer> spirvCache = new ConcurrentHashMap<>();
++
++	private record CompileKey(String name, String source, ShaderType shaderType, boolean preprocessed) {
++		private CompileKey {
++			java.util.Objects.requireNonNull(name);
++			java.util.Objects.requireNonNull(source);
++			java.util.Objects.requireNonNull(shaderType);
++		}
++	}
++
+ 
+ 	// Shaderc compiler and options (initialized once, thread-safe)
+ 	private static long compiler = 0;
+@@ -109,7 +118,7 @@
+ 	 */
+ 	public static ByteBuffer compile(String name, String source, ShaderType shaderType) {
+ 		// Check cache first
+-		int cacheKey = source.hashCode() ^ shaderType.hashCode();
++		CompileKey cacheKey = new CompileKey(name, source, shaderType, false);
+ 		ByteBuffer cached = spirvCache.get(cacheKey);
+ 		if (cached != null) {
+ 			LOGGER.debug("SPIR-V cache hit for shader: {} ({})", name, shaderType.name());
+@@ -663,7 +672,7 @@
+ 		// use compilePreprocessed() — composites, entities, terrain all call this.
+ 		preprocessedSource = convertShadowComparison(name, preprocessedSource);
+ 
+-		int cacheKey = preprocessedSource.hashCode() ^ shaderType.hashCode();
++		CompileKey cacheKey = new CompileKey(name, preprocessedSource, shaderType, true);
+ 		ByteBuffer cached = spirvCache.get(cacheKey);
+ 		if (cached != null) {
+ 			return cached;

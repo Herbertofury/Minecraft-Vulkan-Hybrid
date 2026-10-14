@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "tests": 5,
+  "original_production_verified_files_source_sha256": "f48965e92815aa1e29a2de29903ad853849c059f51907d86ffe56f0723ced95a",
+  "source_algorithm_modified": false,
+  "controls": [
+    "unchanged bytes avoid re-read",
+    "edit with restored size/mtime is rehashed",
+    "replacement with matching size/mtime is rehashed; removed file rejected",
+    "file changed during verification is not cached",
+    "SHA-512 abc known answer"
+  ],
+  "compiled_libraries": {
+    "sha2": {
+      "name": "libsha2-c83ede34b787de3f.rlib",
+      "sha256": "f79c1f1d71a81e2c8a4fa0a72e7d019a53b2713c116a2e70eb8ff6da6af7caa8"
+    },
+    "parking_lot": {
+      "name": "libparking_lot-c85a5393f03e87a7.rlib",
+      "sha256": "bbe6e7b75c374c5570bd6847c0034624afd6261543b2d1ea95162e4fef04023d"
+    },
+    "windows": {
+      "name": "libwindows-ecbcc89496a2e9dd.rlib",
+      "sha256": "6e440e1aa14912a5bfe9f37dcde7c46a053f35251b0d145db418063c0aa0fdca"
+    },
+    "tokio": {
+      "name": "libtokio-49c69fda81e52fb4.rlib",
+      "sha256": "2e1884aa48b57e8e83d9ebeaa98613015bf9012150c06b189895b147074bd77b"
+    },
+    "tempfile": {
+      "name": "libtempfile-b510100eca694c9e.rlib",
+      "sha256": "f286e26967ef4f0d205a501822be84d374b24f4636a79f8fc79ab7473504c2d5"
+    }
+  },
+  "wholepack_or_fps_claim": false
+}

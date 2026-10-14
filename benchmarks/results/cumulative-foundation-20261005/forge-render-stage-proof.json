@@ -1,0 +1,4 @@
+{
+  "passed": true,
+  "scope": "Actual native renderSectionLayer replacement body, with API type stubs: terrain before exactly one Forge callback, original tick/camera/frustum/pose/projection identity, preserved existing compatibility bridges and cancel preventing vanilla double-dispatch. Real Forge stage/grass GPU rendering separate."
+}

@@ -1,0 +1,24 @@
+{
+  "source_sha256": "6fbb910c367dbce8e4fc7e5bf64b6edd4de980906ed00af8e47e4af843c0d9b0",
+  "nested_original_sha256": "86e6b64372aba6d9c56f2c35725ea26d8febf2c75eed9950566e7f2849443b34",
+  "class_original_sha256": "c801e58dca82473c70ff8e6030f0dc53fb76ba60eedb8e0247b9029cb70aa73f",
+  "helper_jar_sha256": "d4e0bdedd6a57e9027070002724f888643a7776b296f855ec60ad074eb5c9db6",
+  "helper_class_sha256": {
+    "mvhpondercompat/NativeStencilBridge$Original.class": "ca00cdabd7b25b304adddd7c26f711b7633809623259037bd52e1e141d6bbe1e",
+    "mvhpondercompat/NativeStencilBridge.class": "b2678aad01e65d9e4fd4b4e883dcce773540d000a934dfef96aafa4607e6e93f"
+  },
+  "changed_instructions": 4,
+  "changed_constant_pool_method_references": 2,
+  "operation": "Only four literal GL_STENCIL_TEST instruction owners change; nested pack_format 8 becomes 15. Geometry, clear/mask/compare/fail ops, flush, defaults and all other upstream entries are unchanged. Known original OpenGL route remains lazy and selected. Flywheel/complete Create/shader/FPS acceptance remains pending.",
+  "full_create_native_accepted": false,
+  "resource_pack_metadata": {
+    "before_format": 8,
+    "after_format": 15,
+    "before_sha256": "eb661f5ba88ea731935ae83cf4fe1dbc16dc0427ac65150187f0ab75533a9d72",
+    "after_sha256": "283857ff221b0f5924f03206b87777869d8225b41ad1cfbee453dff846ce2c8c",
+    "original_description_preserved": true
+  },
+  "class_patched_sha256": "93cbf04a57bd1cfb0697a3f4412fffb52cfedc4fe9dd503159fc59e8f1923035",
+  "nested_patched_sha256": "a3239fb968d8c059eecd502c05ca2daf826a33f4e66977530e4ab6fc4e92f5c7",
+  "output_sha256": "f8f5be7694a923ce8ae9a420dcfcea412ad20f774c32cb1f1f55756d87510bbb"
+}

@@ -1,0 +1,11 @@
+{
+  "scope": "Actual production context, instance, handle and child-pruning CPU methods; checked API harness and eight concurrent workers. Not GPU/visual/FPS evidence.",
+  "source_sha256": "37f0da47d10dfd12c8ea1f1f5460ff800dcbbcd7be9ba314faa713dfedd5d2a5",
+  "positive": "ACTUAL_NATIVE_INSTANCE_LIFECYCLE_CONTROLS 5019",
+  "negative_controls": {
+    "hidden_live_retired": "rejected",
+    "mutation_lock_removed": "rejected",
+    "retired_instancer_recreation": "rejected",
+    "new_deleted_child_allowed": "rejected"
+  }
+}

@@ -1,0 +1,44 @@
+diff --git a/src/gallium/frontends/wgl/stw_st.c b/src/gallium/frontends/wgl/stw_st.c
+index e95c5fa..48c69b3 100644
+--- a/src/gallium/frontends/wgl/stw_st.c
++++ b/src/gallium/frontends/wgl/stw_st.c
+@@ -41,6 +41,7 @@
+ #ifdef GALLIUM_ZINK
+ #include <vulkan/vulkan.h>
+ #include "kopper_interface.h"
++#include "gallium/drivers/zink/zink_kopper.h"
+ #endif
+ 
+ struct stw_st_framebuffer {
+@@ -135,6 +136,7 @@ static_assert(sizeof(struct kopper_vk_surface_create_storage) >= sizeof(VkWin32S
+ static void
+ stw_st_fill_private_loader_data(struct stw_st_framebuffer *stwfb, struct kopper_loader_info *out)
+ {
++   memset(out, 0, sizeof(*out));
+    VkWin32SurfaceCreateInfoKHR *win32 = (VkWin32SurfaceCreateInfoKHR *)&out->bos;
+    win32->sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
+    win32->pNext = NULL;
+@@ -142,6 +144,8 @@ stw_st_fill_private_loader_data(struct stw_st_framebuffer *stwfb, struct kopper_
+    win32->hinstance = GetModuleHandle(NULL);
+    win32->hwnd = stwfb->fb->hWnd;
+    out->has_alpha = true;
++   out->initial_swap_interval = stwfb->fb->swap_interval == -1 ?
++      stw_dev->swap_interval : stwfb->fb->swap_interval;
+ }
+ #endif
+ /**
+@@ -455,6 +459,14 @@ stw_st_framebuffer_present_locked(HDC hdc,
+    resource = stwfb->textures[statt];
+    bool ret = false;
+    if (resource) {
++#ifdef GALLIUM_ZINK
++      /* The WGL interval can change after the Vulkan swapchain is created. */
++      if (stw_dev->zink && (resource->bind & PIPE_BIND_DISPLAY_TARGET)) {
++         int interval = stwfb->fb->swap_interval == -1 ?
++            stw_dev->swap_interval : stwfb->fb->swap_interval;
++         zink_kopper_set_swap_interval(stw_dev->screen, resource, interval);
++      }
++#endif
+       ret = stw_framebuffer_present_locked(hdc, stwfb->fb, resource);
+    }
+    else {

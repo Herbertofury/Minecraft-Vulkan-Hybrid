@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "old_offthread_future_chain_stall_reproduced": true,
+  "requests": 4400,
+  "loaded_reads_without_handoff": 1100,
+  "owner_loads": 3300,
+  "worker_counts": [
+    1,
+    2,
+    8
+  ],
+  "original_failure_identity": true,
+  "noncreating_and_status_preserved": true,
+  "other_provider_and_non_c2me_paths_retained": true,
+  "scope": "Actual production whole-method mixin and owner boundary; real 1/2/8 threads, checked chunk/provider interfaces. Exact packaged C2ME runtime remains a separate gate."
+}

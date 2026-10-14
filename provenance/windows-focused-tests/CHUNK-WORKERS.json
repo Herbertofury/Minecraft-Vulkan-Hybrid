@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "concurrent_tasks": 4000,
+  "uploads": 200,
+  "coverage": [
+    "forced poll/notify race",
+    "exactly-once task completion",
+    "bounded upload drain",
+    "worker restart and resource cleanup"
+  ],
+  "scope": "Actual production TaskDispatcher; thread scheduling is real, Minecraft/builder resources are checked doubles"
+}

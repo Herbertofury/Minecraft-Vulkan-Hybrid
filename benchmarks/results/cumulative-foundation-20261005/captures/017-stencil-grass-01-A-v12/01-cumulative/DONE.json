@@ -1,0 +1,10 @@
+{
+  "launcher_start_epoch_ms": 1791202154705,
+  "java_start_epoch_ms": 1791202179756,
+  "scene_ready_epoch_ms": 1791202199790,
+  "modernfix_game_to_world_s": 22.887785,
+  "modernfix_menu_to_world_s": 4.162785,
+  "cache_state": "Repeated local launch; OS/filesystem caches retained; not a cold boot",
+  "launcher_to_scene_s": 45.085,
+  "java_to_scene_s": 20.034
+}

@@ -1,0 +1,7 @@
+	private record CompileKey(String name, String source, ShaderType shaderType, boolean preprocessed) {
+		private CompileKey {
+			java.util.Objects.requireNonNull(name);
+			java.util.Objects.requireNonNull(source);
+			java.util.Objects.requireNonNull(shaderType);
+		}
+	}

@@ -1,0 +1,13 @@
+{
+  "base_feature_commit": "1a5df28b5d01612bb9144961d3c951254b32f256",
+  "version": 56,
+  "files": {
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/vulkan/VRenderSystem.java": "080adf9ff5db9cbefca634cf11c83f249c1ae88532e6b2f7f05a0286222fa2ce",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/vulkan/shader/PipelineState.java": "f9501535b8aded9389978f35c9df01ac8332631b329125ab62fdbc70cdd09101",
+    "integration/dimensions/overlay/gradle.properties": "9822afad1ed6734a5de969ab44634b8c1b03681f0635ad4a5c672f128036584d"
+  },
+  "production_sha256": "e5997b9a039bfce89a50f57cfe6f4d90ae4deea75de89e6081aac927921ce4d5",
+  "original1001_preserved": true,
+  "private_originals_distributed": false,
+  "full_GAME_or_FPS_accepted": false
+}

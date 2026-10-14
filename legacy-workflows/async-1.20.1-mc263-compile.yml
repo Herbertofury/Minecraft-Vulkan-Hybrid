@@ -1,0 +1,142 @@
+name: Hari 1.20.1 Minecraft 26.3 Backport Compile
+
+on:
+  push:
+    branches: [async-1.20.1-ultimate-mc263-20260917]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compile-forge:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 70
+    steps:
+      - name: Checkout project harness
+        uses: actions/checkout@v4
+
+      - name: Checkout canonical Hari source
+        uses: actions/checkout@v4
+        with:
+          repository: JustHari01/HariMultiThread
+          ref: f381611c2d71a85192e2028f9e30c03823a6482b
+          path: upstream
+          fetch-depth: 1
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Clean upstream build state
+        shell: bash
+        run: |
+          rm -rf upstream/**/bin upstream/**/build upstream/**/.gradle upstream/buildSrc/.gradle upstream/buildSrc/build || true
+          chmod +x upstream/gradlew
+
+      - name: Apply certified Hari layers plus 26.3 backports
+        shell: bash
+        run: |
+          python3 minecraft/async-1.20.1-ultimate/apply_overlay.py upstream minecraft/async-1.20.1-ultimate/overlay
+          python3 minecraft/async-1.20.1-ultimate/apply_hardening.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_lifecycle.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_platform.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_interop.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_lwjgl_runtime.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_backend_architecture.py upstream minecraft/async-1.20.1-ultimate/backend-overlay
+          python3 minecraft/async-1.20.1-ultimate/apply_spawn_interop.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_world_batch.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_spatial_gpu.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_backports.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_worldgen_cache.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_provider_precedence.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_diagnostics.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mixin_packaging.py upstream
+          git -C upstream diff --check
+
+      - name: Verify 26.3 source invariants
+        shell: bash
+        run: |
+          grep -F 'enableMc263PersistentMobIdle' upstream/common/src/main/java/com/axalotl/async/common/config/AsyncConfig.java
+          grep -F 'enableMc263StructureLocateCache' upstream/common/src/main/java/com/axalotl/async/common/config/AsyncConfig.java
+          grep -F 'enableMc263DensityCacheFill' upstream/common/src/main/java/com/axalotl/async/common/config/AsyncConfig.java
+          grep -F 'harimt$mc263NoActionTimeBeforeDespawn' upstream/common/src/main/java/com/axalotl/async/common/mixin/entity/MobMixin.java
+          grep -F 'world.StructureCheckMixin' upstream/common/src/main/resources/harimt.common.mixins.json
+          grep -F 'world.NoiseChunkCache2DMixin' upstream/common/src/main/resources/harimt.common.mixins.json
+          grep -F 'HARIMT$MC263_MAX_STORAGE_MISSES' upstream/common/src/main/java/com/axalotl/async/common/mixin/world/StructureCheckMixin.java
+          grep -F 'fillAllDirectly' upstream/common/src/main/java/com/axalotl/async/common/mixin/world/NoiseChunkCache2DMixin.java
+          grep -F 'return !AsyncCommon.HARICHUNK' upstream/common/src/main/java/com/axalotl/async/common/mixin/utils/SynchronisePlugin.java
+          grep -F 'public static boolean NOISIUM' upstream/common/src/main/java/com/axalotl/async/common/AsyncCommon.java
+          grep -F 'public static boolean EXTERNAL_TERRAIN_RENDERER' upstream/common/src/main/java/com/axalotl/async/common/AsyncCommon.java
+          grep -F 'public static boolean EXTERNAL_SHADER_PIPELINE' upstream/common/src/main/java/com/axalotl/async/common/AsyncCommon.java
+          grep -F 'MultiDrawIndirect terrain lane delegated' upstream/common/src/main/java/com/axalotl/async/common/AsyncCommon.java
+          grep -F 'OIT/ShaderC client lanes delegated' upstream/common/src/main/java/com/axalotl/async/common/AsyncCommon.java
+          grep -F 'Mc263Command.registerMc263(main)' upstream/common/src/main/java/com/axalotl/async/common/commands/AsyncCommand.java
+          grep -F 'HMT_MC263_IDLE_PASS' upstream/common/src/main/java/com/axalotl/async/common/commands/Mc263Command.java
+
+      - name: Compile and build Forge 1.20.1
+        shell: bash
+        working-directory: upstream
+        run: ./gradlew --no-daemon clean :forge:harimtVulkanBackendJar :forge:build --stacktrace
+
+      - name: Verify packaged backport classes and refmap
+        shell: bash
+        run: |
+          mapfile -t jars < <(find upstream/forge/build/libs -maxdepth 1 -type f -name '*.jar' ! -name '*sources*' ! -name '*dev*' ! -name 'harimt-vulkan-backend*' | sort)
+          test "${#jars[@]}" -ge 1
+          jarfile="${jars[0]}"
+          echo "$jarfile" > RELEASE_JAR_PATH.txt
+          jar tf "$jarfile" | grep -Fx 'com/axalotl/async/common/mixin/world/StructureCheckMixin.class'
+          jar tf "$jarfile" | grep -Fx 'com/axalotl/async/common/mixin/world/NoiseChunkCache2DMixin.class'
+          jar tf "$jarfile" | grep -Fx 'com/axalotl/async/common/mixin/entity/MobMixin.class'
+          jar tf "$jarfile" | grep -Fx 'com/axalotl/async/common/commands/Mc263Command.class'
+          jar tf "$jarfile" | grep -Fx 'harimt.common.mixins.json'
+          jar tf "$jarfile" | grep -Fx 'harimt.refmap.json'
+          unzip -p "$jarfile" harimt.common.mixins.json | grep -F 'world.StructureCheckMixin'
+          unzip -p "$jarfile" harimt.common.mixins.json | grep -F 'world.NoiseChunkCache2DMixin'
+
+      - name: Install real Forge 47.4.23 dedicated server
+        shell: bash
+        run: |
+          mkdir -p qa-server evidence/runtime/mc263
+          curl -fL --retry 3 \
+            'https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.23/forge-1.20.1-47.4.23-installer.jar' \
+            -o forge-1.20.1-47.4.23-installer.jar
+          (
+            cd qa-server
+            java -jar ../forge-1.20.1-47.4.23-installer.jar --installServer \
+              > ../evidence/runtime/mc263/forge-server-install.log 2>&1
+          )
+          test -f qa-server/run.sh
+          chmod +x qa-server/run.sh
+          mkdir -p qa-server/mods
+          cp "$(cat RELEASE_JAR_PATH.txt)" qa-server/mods/HariMultiThread-Ultimate-MC263.jar
+          printf 'eula=true\n' > qa-server/eula.txt
+          cat > qa-server/server.properties <<'SERVER_EOF'
+          online-mode=false
+          level-name=world
+          level-seed=8675309
+          spawn-protection=0
+          view-distance=4
+          simulation-distance=4
+          motd=HariMultiThread Minecraft 26.3 Backport QA
+          SERVER_EOF
+
+      - name: Real Forge 26.3 behavior gate
+        shell: bash
+        run: |
+          python3 minecraft/async-1.20.1-ultimate/runtime_mc263_qa.py \
+            qa-server evidence/runtime/mc263
+
+      - name: Upload 26.3 build and runtime evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hari-1.20.1-mc263-${{ github.sha }}
+          path: |
+            upstream/forge/build/libs/*.jar
+            evidence/runtime/mc263/
+          if-no-files-found: warn

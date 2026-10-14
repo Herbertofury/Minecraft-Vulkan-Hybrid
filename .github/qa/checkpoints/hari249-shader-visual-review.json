@@ -1,0 +1,19 @@
+{
+  "artifact": 11290815998,
+  "candidate_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+  "reviewed_at": "2026-10-04T01:49:19.418430+00:00",
+  "native_window_pixels": true,
+  "screenshots": {
+    "aether-mobs-yaw-0.png": "b22e859c1ef0e742f010ee3d1c9f69c79770444f02f305b3e980368f92add88b",
+    "midnight-mobs-yaw-0.png": "8d6c0801c91ec08ef900776da5c31dd86c14559462db3355d9e2df5ce4e08e35",
+    "midnight-mobs-yaw-90.png": "1471f6b62a6d1cf6de3183442cf25462f7102fa66c582238101216472acccae1",
+    "midnight-mobs-yaw-180.png": "e1a4357c04e8c765c08c3abe04e9cd725252d53ff1c3bd648fc10416d5f216fa",
+    "midnight-mobs-yaw-270.png": "d7bb759f1a140175c74c70918150f5fe30ba7f455ddcd5890e7b3086b71b07bf"
+  },
+  "findings": [
+    "Original enabled MakeUp shader renders terrain and textured Aether entities",
+    "Midnight entities are visible across yaw90/180/270, including original emissive effects and shadows",
+    "The yaw0 view is empty because the live original mobs move; it is not evidence of disappearing models in the full four-view set",
+    "No individual all-boss-combat or all animation-frame certification is inferred from these scene views"
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "passed": true,
+  "renderer": "VULKAN",
+  "members": 7,
+  "ubo_bytes": 192,
+  "source_helper_sha256": "bc1d442a0c5cce8c47ab44a2169f30f0ab15ecd7e2be0d96b21986af2bf771e9",
+  "portable_spirv_sha256": "2e5b1bf1414e5a2bbe4bc8328d4e4c9a33f5bd38c7f8eaa4c1e7490cdc21ea80",
+  "portable_spirv_bytes": 3332,
+  "member_offsets": [
+    0,
+    12,
+    16,
+    64,
+    112,
+    176,
+    184
+  ],
+  "array_stride": 16,
+  "matrix_stride": 16,
+  "gpu_cases": [
+    {
+      "case": "iris_reference_reflected_uniforms_valid",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "actual_rgba_sha256": "56419a079049271b37eea3515c12bbafb46578e6ac4db012c61395ef8b2e5a68",
+      "actual_samples_xy_rgba": [
+        [
+          0,
+          0,
+          0,
+          255,
+          0,
+          255
+        ],
+        [
+          16,
+          16,
+          0,
+          255,
+          0,
+          255
+        ]
+      ]
+    },
+    {
+      "case": "iris_reference_reflected_uniforms_changed_matrix",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "actual_rgba_sha256": "4ab589b8423c13f8f33994356d5b696d9b3b56d968e1939f2088c53b5149e6cf",
+      "actual_samples_xy_rgba": [
+        [
+          0,
+          0,
+          255,
+          0,
+          0,
+          255
+        ],
+        [
+          16,
+          16,
+          255,
+          0,
+          0,
+          255
+        ]
+      ]
+    }
+  ],
+  "normal_client_exit": true,
+  "active_owned_mod_hashes_restored": true,
+  "shader_provider_installed": false,
+  "game_native_library_upgrade": false,
+  "fps_or_startup_gain_accepted": false,
+  "full_mod_or_shader_pack_accepted": false,
+  "scope": "Actual pinned repaired Iris compiler output, reflected SPIR-V set/binding/Block/Offset/MatrixStride/ArrayStride; real Hari .13 dynamic UBO descriptor upload and native draw/readback. All1024 valid pixels green; changing one mat3 element gives all1024 red. Separate CPU mutation controls reject packed/transposed layouts. Primitive resource ABI only, no installed Oculus/Iris shader pack, name mapping, MRT/shadow/terrain/compute or full Flywheel port."
+}

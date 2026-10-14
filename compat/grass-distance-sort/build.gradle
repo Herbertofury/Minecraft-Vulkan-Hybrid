@@ -1,0 +1,9 @@
+plugins { id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'; id 'java' }
+version='1.0.5';group='mvhgrasscompat';base { archivesName='mvh-grass-distance-compat' }
+java.toolchain.languageVersion=JavaLanguageVersion.of(17)
+minecraft { mappings channel:'official',version:'1.20.1' }
+repositories { mavenCentral() }
+dependencies { minecraft 'net.minecraftforge:forge:1.20.1-47.4.23'; annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'; compileOnly 'io.github.llamalad7:mixinextras-common:0.5.4' }
+jar { manifest { attributes(['MixinConfigs':'mvh-grass-compat.mixins.json']) } };jar.finalizedBy('reobfJar')
+tasks.withType(AbstractArchiveTask).configureEach { preserveFileTimestamps=false; reproducibleFileOrder=true }
+tasks.withType(JavaCompile).configureEach { options.encoding='UTF-8' }

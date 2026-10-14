@@ -1,0 +1,119 @@
+{
+  "scope": "Six ABBAAB actual JVM GC.class_histogram live-object totals at 25 seconds after stable-scene warmup; sole FerriteCore toggle, Hari .11, original grass/addon, C2ME and controller fixed. No object contents/heap dump; all diagnostic FPS excluded. Other workloads remained active. Managed heap excludes native memory, working set and VRAM.",
+  "trials": [
+    {
+      "stage": "ferrite-live-heap-01-absent",
+      "ferrite_present": false,
+      "status": "complete",
+      "command": "GC.class_histogram default live objects",
+      "managed_live_objects": 8096177,
+      "managed_live_bytes": 441917976,
+      "managed_live_mib": 421.4458236694336,
+      "diagnostic_duration_ms": 992,
+      "capture_recovery_s": 32.57,
+      "actual_renderer": "VULKAN",
+      "only_marker_owned_client_targeted": true,
+      "object_contents_or_heap_dump_collected": false,
+      "fps_promotion_accepted": false,
+      "scope": "Managed Java live-object histogram, not native memory, VRAM or working set. Intrusive diagnostic run; timing excluded from performance promotion."
+    },
+    {
+      "stage": "ferrite-live-heap-02-present",
+      "ferrite_present": true,
+      "status": "complete",
+      "command": "GC.class_histogram default live objects",
+      "managed_live_objects": 7228898,
+      "managed_live_bytes": 409502904,
+      "managed_live_mib": 390.5324020385742,
+      "diagnostic_duration_ms": 993,
+      "capture_recovery_s": 32.353,
+      "actual_renderer": "VULKAN",
+      "only_marker_owned_client_targeted": true,
+      "object_contents_or_heap_dump_collected": false,
+      "fps_promotion_accepted": false,
+      "scope": "Managed Java live-object histogram, not native memory, VRAM or working set. Intrusive diagnostic run; timing excluded from performance promotion."
+    },
+    {
+      "stage": "ferrite-live-heap-03-present",
+      "ferrite_present": true,
+      "status": "complete",
+      "command": "GC.class_histogram default live objects",
+      "managed_live_objects": 7254949,
+      "managed_live_bytes": 411180952,
+      "managed_live_mib": 392.1327133178711,
+      "diagnostic_duration_ms": 1004,
+      "capture_recovery_s": 32.124,
+      "actual_renderer": "VULKAN",
+      "only_marker_owned_client_targeted": true,
+      "object_contents_or_heap_dump_collected": false,
+      "fps_promotion_accepted": false,
+      "scope": "Managed Java live-object histogram, not native memory, VRAM or working set. Intrusive diagnostic run; timing excluded from performance promotion."
+    },
+    {
+      "stage": "ferrite-live-heap-04-absent",
+      "ferrite_present": false,
+      "status": "complete",
+      "command": "GC.class_histogram default live objects",
+      "managed_live_objects": 8142246,
+      "managed_live_bytes": 444981704,
+      "managed_live_mib": 424.3676223754883,
+      "diagnostic_duration_ms": 1010,
+      "capture_recovery_s": 32.241,
+      "actual_renderer": "VULKAN",
+      "only_marker_owned_client_targeted": true,
+      "object_contents_or_heap_dump_collected": false,
+      "fps_promotion_accepted": false,
+      "scope": "Managed Java live-object histogram, not native memory, VRAM or working set. Intrusive diagnostic run; timing excluded from performance promotion."
+    },
+    {
+      "stage": "ferrite-live-heap-05-absent",
+      "ferrite_present": false,
+      "status": "complete",
+      "command": "GC.class_histogram default live objects",
+      "managed_live_objects": 8240587,
+      "managed_live_bytes": 451819624,
+      "managed_live_mib": 430.8887710571289,
+      "diagnostic_duration_ms": 1012,
+      "capture_recovery_s": 32.936,
+      "actual_renderer": "VULKAN",
+      "only_marker_owned_client_targeted": true,
+      "object_contents_or_heap_dump_collected": false,
+      "fps_promotion_accepted": false,
+      "scope": "Managed Java live-object histogram, not native memory, VRAM or working set. Intrusive diagnostic run; timing excluded from performance promotion."
+    },
+    {
+      "stage": "ferrite-live-heap-06-present",
+      "ferrite_present": true,
+      "status": "complete",
+      "command": "GC.class_histogram default live objects",
+      "managed_live_objects": 7259214,
+      "managed_live_bytes": 411627248,
+      "managed_live_mib": 392.55833435058594,
+      "diagnostic_duration_ms": 1002,
+      "capture_recovery_s": 32.621,
+      "actual_renderer": "VULKAN",
+      "only_marker_owned_client_targeted": true,
+      "object_contents_or_heap_dump_collected": false,
+      "fps_promotion_accepted": false,
+      "scope": "Managed Java live-object histogram, not native memory, VRAM or working set. Intrusive diagnostic run; timing excluded from performance promotion."
+    }
+  ],
+  "summary": {
+    "absent": {
+      "managed_live_objects": 8142246,
+      "managed_live_bytes": 444981704,
+      "managed_live_mib": 424.3676223754883,
+      "diagnostic_duration_ms": 1010
+    },
+    "present": {
+      "managed_live_objects": 7254949,
+      "managed_live_bytes": 411180952,
+      "managed_live_mib": 392.1327133178711,
+      "diagnostic_duration_ms": 1002
+    },
+    "managed_live_heap_change_percent": -7.5959869127563024
+  },
+  "decision": "RETAINED_FOR_MEASURED_LIVE_MANAGED_HEAP_REDUCTION",
+  "full_pack_accepted": false,
+  "fps_improvement_claimed": false
+}

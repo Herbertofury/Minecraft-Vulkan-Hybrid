@@ -1,0 +1,90 @@
+{
+  "state": "2.4.8_causal_repairs_ready_for_native_builds",
+  "previous_product_commit": "ce5257b5d9e4ce4f5e6bc0932256ceb2b41c0b03",
+  "previous_qa_commit": "dad436ecf705adc546224b84979bf47067d32751",
+  "previous_exact_modpack_run": 37133680499,
+  "previous_candidate_sha256": "3fa25ab82e1399dd7e594bd51bfae2511de9c72066def2675ee4fbad6df44fb9",
+  "previous_native_passes": [
+    "dedicated-server",
+    "midnight",
+    "entityculling",
+    "lazurite",
+    "immediatelyfast",
+    "distanthorizons",
+    "oculus-shaders",
+    "oculus-embeddium",
+    "continuity",
+    "optimized-stack"
+  ],
+  "causal_failures": [
+    {
+      "lane": "aether",
+      "job": 111233725173,
+      "artifact": 11277836200,
+      "cause": "Original Swet spawn predicate scans banner blocks across chunks from Hari worker; unavailable required owner chunk aborts tick.",
+      "repair": "All original natural spawn callbacks execute exactly once on world owner, with and without C2ME. Entity async scheduling and batched Vulkan terrain uploads retained."
+    },
+    {
+      "lane": "rubidium",
+      "job": 111233725315,
+      "artifact": 11277891133,
+      "cause": "Original synchronized acquire/invalidate mutate LRU map concurrently with unsynchronized cleanup; native null iterator entry crash.",
+      "repair": "Set cleanup ACC_SYNCHRONIZED, preserving original method bytecode, timestamps, expiration, and original failures."
+    },
+    {
+      "lane": "optifine",
+      "job": 111233725139,
+      "artifact": 11278005743,
+      "cause": "Forge loading overlay captures TextureManager logo ID; OptiFine resource reload releases that ID while overlay still draws it.",
+      "repair": "Overlay owns private original logo texture through final draw; preserves custom/vanilla pixels and blur/clamp; releases exactly once after overlay closes."
+    },
+    {
+      "lane": "dimensions-c2me",
+      "job": 111233725160,
+      "artifact": 11278591133,
+      "cause": "Original Aether closes chat inside portal, so QA actor cannot enable creative flight through chat there.",
+      "repair": "Read-only jump/input transition observations support actual native double-Space; each key edge must be processed and flying must be true before movement. QA change will accompany next exact JAR pin."
+    }
+  ],
+  "focused_reports": {
+    "CLIENT-LIFETIMES-2.4.8.json": {
+      "passed": true,
+      "original_rubidium_sha256": "f281204c19d7ef1eb8ca6181146ac828e87fcfdde7053facaabf71d9ded35c85",
+      "original_cleanup_bytecode_retained": true,
+      "old_cleanup_monitor_negative_control": true,
+      "concurrent_original_cache_calls": 40000,
+      "captured_deleted_logo_negative_control": true,
+      "overlay_survives_texture_manager_reloads": 50,
+      "original_custom_and_vanilla_logo_pixels": true,
+      "original_filtering_and_resource_errors": true,
+      "final_texture_release_exact_once": true,
+      "scope": "Original Rubidium cleanup/acquire/invalidate bytecode and real fastutil with Minecraft section doubles; production logo/mixin Java with resource/GL-lifetime doubles. Native packaged client acceptance remains required."
+    },
+    "MODPACK-RENDER-INTEGRITY-2.4.8.json": {
+      "passed": true,
+      "framebuffer_readback_usage": true,
+      "readback_restart_restores_bias_and_line_width": true,
+      "swapchain_readback_usage_and_surface_capability_check": true,
+      "custom_resolver_original_colors": true,
+      "separate_height_layers": true,
+      "resolver_identity_and_pooled_cache_invalidation": true,
+      "snapshot_lookup_and_original_failures": true,
+      "blend_radii": [
+        0,
+        1,
+        2,
+        7
+      ],
+      "c2me_original_spawns_on_owner": 10000,
+      "ordinary_forge_original_spawns_on_owner": 10000,
+      "original_spawn_failures_surface": true,
+      "old_non_c2me_spawn_negative_control": true,
+      "renderer_sha256": "a7fe0e2daa0cb483d1e64e74355ade97cafe6072757a89ab85cc41880dc4ee90",
+      "scope": "Production state/tint/snapshot Java code with Minecraft/Vulkan API doubles; real Rubidium mixin and native Vulkan validation are separate required gates."
+    }
+  },
+  "version": "2.4.8-noxviola.1-vulkan-hybrid",
+  "acceptance": "pending compile/server/packaged-client and exact expanded native matrix",
+  "delivery": "No candidate promoted or new file uploaded yet",
+  "scope": "Linux Mesa hosted native production clients; no Windows/RTX4090 FPS or every boss combat phase claim"
+}

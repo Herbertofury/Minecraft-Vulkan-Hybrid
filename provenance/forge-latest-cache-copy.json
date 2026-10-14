@@ -1,0 +1,37 @@
+{
+  "copied": [
+    {
+      "path": "net\\minecraftforge\\mclanguage\\1.20.1-47.4.26\\mclanguage-1.20.1-47.4.26.jar",
+      "sha256": "fab2c43bf3c62efe67fc937277cd88a863ab45857424665b7f1b354e9c3d2b44"
+    },
+    {
+      "path": "net\\minecraftforge\\lowcodelanguage\\1.20.1-47.4.26\\lowcodelanguage-1.20.1-47.4.26.jar",
+      "sha256": "35561a208c4d75ac986c66d107182aeccccd5bdca1ce01425c1bcc68c6a40629"
+    },
+    {
+      "path": "net\\minecraftforge\\javafmllanguage\\1.20.1-47.4.26\\javafmllanguage-1.20.1-47.4.26.jar",
+      "sha256": "36e10dc20bf6973aa2310a598b785bc62207f3a5344e7d25b8b60d77ad741c7a"
+    },
+    {
+      "path": "net\\minecraftforge\\forge\\1.20.1-47.4.26\\forge-1.20.1-47.4.26-client.jar",
+      "sha256": "fcf268af27185c20922944615131a60bb31d5dc4dd08db31e5c19f75d8c81c83"
+    },
+    {
+      "path": "net\\minecraftforge\\forge\\1.20.1-47.4.26\\forge-1.20.1-47.4.26-universal.jar",
+      "sha256": "e13323d0fed02812a868e3a0242c80e7d4237a5587fdbd24230942fb9b90da62"
+    },
+    {
+      "path": "net\\minecraftforge\\fmlloader\\1.20.1-47.4.26\\fmlloader-1.20.1-47.4.26.jar",
+      "sha256": "95cd8f35a1fed7f8cdf2de6c3a1ab3be1d10cc70cc0092366879a866528e55a9"
+    },
+    {
+      "path": "net\\minecraftforge\\fmlearlydisplay\\1.20.1-47.4.26\\fmlearlydisplay-1.20.1-47.4.26.jar",
+      "sha256": "96696bf86828157fdabce4fa65dd8caf09e0c10ba5384358142cb7a35105c3b6"
+    },
+    {
+      "path": "net\\minecraftforge\\fmlcore\\1.20.1-47.4.26\\fmlcore-1.20.1-47.4.26.jar",
+      "sha256": "65d0513cce86a4219210c4968b8f0626614e7bec1be29310af10f91d8b143e65"
+    }
+  ],
+  "existing_different_untouched": []
+}

@@ -1,0 +1,60 @@
+{
+  "passed": true,
+  "all_previous56_hashes_exact": true,
+  "new_gpu_cases": [
+    {
+      "case": "original-pixel-worldmap-original-packed-bgra-upload",
+      "size": [
+        8,
+        8
+      ],
+      "raw_sha256": "05c49757d587d04d099817f51e34651513c915526bac7cf6834484be9a84c5ba",
+      "png_sha256": "9a3a2de15f9abe07c365621a49dedd7e66f42ae9d7136d2eed385eea79ea43af"
+    },
+    {
+      "case": "original-pixel-worldmap-direct-upload-and-original-deletion",
+      "size": [
+        8,
+        8
+      ],
+      "raw_sha256": "05c49757d587d04d099817f51e34651513c915526bac7cf6834484be9a84c5ba",
+      "png_sha256": "9a3a2de15f9abe07c365621a49dedd7e66f42ae9d7136d2eed385eea79ea43af"
+    },
+    {
+      "case": "original-pixel-worldmap-ordered-mipmap-upload",
+      "size": [
+        4,
+        4
+      ],
+      "raw_sha256": "3fd1c794ce9195e2adcb25d448d3db0bbc917d74820d5dcc8af866fa2f995130",
+      "png_sha256": "e125a2c87758611244503ba9647985c909b32ea95fca782025784029ffac9c9c"
+    },
+    {
+      "case": "original-pixel-minimap-original-packed-bgra-upload",
+      "size": [
+        8,
+        8
+      ],
+      "raw_sha256": "05c49757d587d04d099817f51e34651513c915526bac7cf6834484be9a84c5ba",
+      "png_sha256": "9a3a2de15f9abe07c365621a49dedd7e66f42ae9d7136d2eed385eea79ea43af"
+    },
+    {
+      "case": "original-pixel-minimap-direct-upload-and-original-deletion",
+      "size": [
+        8,
+        8
+      ],
+      "raw_sha256": "05c49757d587d04d099817f51e34651513c915526bac7cf6834484be9a84c5ba",
+      "png_sha256": "9a3a2de15f9abe07c365621a49dedd7e66f42ae9d7136d2eed385eea79ea43af"
+    },
+    {
+      "case": "original-pixel-minimap-ordered-mipmap-upload",
+      "size": [
+        4,
+        4
+      ],
+      "raw_sha256": "3fd1c794ce9195e2adcb25d448d3db0bbc917d74820d5dcc8af866fa2f995130",
+      "png_sha256": "e125a2c87758611244503ba9647985c909b32ea95fca782025784029ffac9c9c"
+    }
+  ]
+}

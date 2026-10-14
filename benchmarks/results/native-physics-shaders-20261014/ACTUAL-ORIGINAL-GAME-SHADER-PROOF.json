@@ -1,0 +1,1163 @@
+{
+  "accepted": true,
+  "original_shader_method_invocations": 44,
+  "original_call_sites_transported": 52,
+  "original_constructor_skipped_test_shell": true,
+  "private_original_helper_not_full_mod": true,
+  "automatic_GAME_shader_application": true,
+  "fps_accepted": false,
+  "controls": [
+    {
+      "control": "original-Physics-private-archive-pin",
+      "passed": true
+    },
+    {
+      "control": "original-Physics-GAME-loader",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-no-GL32-shader-calls",
+      "passed": true
+    },
+    {
+      "control": "original-Physics-automatic-52-call-sites",
+      "passed": true
+    },
+    {
+      "control": "original-link-actual-native-SPIRV",
+      "passed": true
+    },
+    {
+      "control": "original-active-uniform-reflection",
+      "passed": true
+    },
+    {
+      "control": "original-array-elements-enumerated",
+      "passed": true
+    },
+    {
+      "control": "active-original-uniform-weights[0]",
+      "passed": true
+    },
+    {
+      "control": "original-vector-cursor-weights[0]",
+      "passed": true
+    },
+    {
+      "control": "active-original-uniform-offsets[0]",
+      "passed": true
+    },
+    {
+      "control": "original-vector-cursor-offsets[0]",
+      "passed": true
+    },
+    {
+      "control": "active-original-uniform-palette[0]",
+      "passed": true
+    },
+    {
+      "control": "original-vector-cursor-palette[0]",
+      "passed": true
+    },
+    {
+      "control": "original-vec4-buffer-cursor",
+      "passed": true
+    },
+    {
+      "control": "original-matrix-cursor-rotate2[0]",
+      "passed": true
+    },
+    {
+      "control": "original-matrix-cursor-rotate3",
+      "passed": true
+    },
+    {
+      "control": "original-matrix-cursor-project4",
+      "passed": true
+    },
+    {
+      "control": "original-native-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "physics-original-uniform-arrays-actual-Vulkan-pixels",
+      "passed": true
+    },
+    {
+      "control": "original-matrix-cursor-rotate2[0]",
+      "passed": true
+    },
+    {
+      "control": "original-native-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "physics-original-mat2-transpose-actual-Vulkan-pixels",
+      "passed": true
+    },
+    {
+      "control": "original-matrix-cursor-rotate2[0]",
+      "passed": true
+    },
+    {
+      "control": "original-matrix-cursor-rotate3",
+      "passed": true
+    },
+    {
+      "control": "original-native-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "physics-original-mat3-transpose-actual-Vulkan-pixels",
+      "passed": true
+    },
+    {
+      "control": "active-original-uniform-weights[2]",
+      "passed": true
+    },
+    {
+      "control": "original-vector-cursor-weights[2]",
+      "passed": true
+    },
+    {
+      "control": "original-native-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "physics-original-partial-array-upload-actual-Vulkan-pixels",
+      "passed": true
+    },
+    {
+      "control": "original-native-program-destroyed",
+      "passed": true
+    },
+    {
+      "control": "original-Physics-box-vertex-asset",
+      "passed": true
+    },
+    {
+      "control": "original-native-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "physics-original-box-vertex-ID-native-actual-Vulkan-pixels",
+      "passed": true
+    }
+  ]
+}

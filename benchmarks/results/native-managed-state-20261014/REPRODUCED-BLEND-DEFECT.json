@@ -1,0 +1,20 @@
+{
+  "failed_actual_trial": "071-managed57-game-trial1-20261014",
+  "actual_subtract_rgba": [
+    255,
+    255,
+    255,
+    255
+  ],
+  "expected_subtract_rgba": [
+    0,
+    135,
+    0,
+    119
+  ],
+  "cause": "GraphicsPipeline hardcoded ADD for RGB and alpha despite encoded blend equations",
+  "fix": "Create pipeline from independent encoded RGB/alpha operations",
+  "previous_trial_restored_all327": true,
+  "candidate_GPU_accepted": true,
+  "acceptance_receipt": "SUMMARY.json"
+}

@@ -1,0 +1,10 @@
+{
+  "version": "1.20.4+1.20.1-forge",
+  "official_sha512_verified": true,
+  "sha256": "1613b3ad057d2d0bc1955e7d35fdcaac9583fc780840f5c3c74ccddc232f6825",
+  "native_runs": 3,
+  "original_recipe_error_absent": true,
+  "complete_guide_feature_parity_accepted": false,
+  "original_private_files_preserved": true,
+  "scope": "Latest official version alone; no startup addon installed. Create temporarily disabled and restored after these scoped native tests."
+}

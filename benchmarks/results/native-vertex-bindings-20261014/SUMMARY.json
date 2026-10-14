@@ -1,0 +1,28 @@
+{
+  "source_version": 44,
+  "GPU_cases": 85,
+  "pixels": 59104,
+  "mismatch": 0,
+  "old75_identical": true,
+  "precursor84_identical": true,
+  "original_delegate_invocations": 63,
+  "original_transported_sites": 12,
+  "controls": 45,
+  "device": {
+    "arrays": 0,
+    "attributes": 0,
+    "nativeDivisorEnabled": 1,
+    "bindings": 0,
+    "nativeMaximumDivisor": 4294967295,
+    "bound": 0
+  },
+  "private_loader_only": true,
+  "fullpack_FPS_accepted": false,
+  "production_sha256": "ed730c6e229b64904faf7af57be508035b3ed044bf62869c719fe7913a026436",
+  "helper_to_java_seconds": 3.396,
+  "full327_remaining_references": 406,
+  "full327_unique_APIs": 183,
+  "full327_archives": 21,
+  "fullpack_native_accepted": false,
+  "wholepack_startup_or_hitch_gain_accepted": false
+}
