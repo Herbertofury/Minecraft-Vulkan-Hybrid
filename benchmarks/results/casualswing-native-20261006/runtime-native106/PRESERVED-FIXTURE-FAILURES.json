@@ -1,0 +1,23 @@
+[
+  {
+    "pilot": 1,
+    "scope": "Test fixture, no production archive change",
+    "error": "java.lang.IllegalStateException: Original CasualSwing server task failed",
+    "existing_newer_engine_checks_passed": 14,
+    "full_candidate_restored": true
+  },
+  {
+    "pilot": 2,
+    "scope": "Test fixture, no production archive change",
+    "error": "java.lang.IllegalStateException: Original CasualSwing server task failed: java.lang.IllegalStateException: Original swing did not assemble",
+    "existing_newer_engine_checks_passed": 14,
+    "full_candidate_restored": true
+  },
+  {
+    "pilot": 3,
+    "scope": "Test fixture, no production archive change",
+    "error": "java.lang.IllegalStateException: Original CasualSwing server task failed: java.lang.IllegalStateException: Original swing did not assemble after ticking: top=Block{casualswing:thick_swing_rope}[invisible=false], seat=Block{minecraft:air}, support=Block{minecraft:oak_log}[axis=y], be=euphy.upo.casualswing.content.rope.SwingRopeBlockEntity@6af35b18",
+    "existing_newer_engine_checks_passed": 14,
+    "full_candidate_restored": true
+  }
+]

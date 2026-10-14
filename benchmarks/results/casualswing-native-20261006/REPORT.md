@@ -2,7 +2,7 @@
 
 The isolated full327-JAR candidate now uses a real native Engine port of CasualSwing's official Flywheel1.0.6-beta-266, plus the exact already GPU-tested duplicate Ponder stencil component. Actual installed Hari23 preflight reduces **669 references/360 APIs/22 archives to532/263/21**. The removed set is exactly all137 CasualSwing references; every other reference stays unchanged. No native gate/contract/policy, gameplay mod, auxiliary optimizer or visual setting changes. All21 auxiliary optimizers remain disabled. [Exact decision](SUMMARY.json), [new production preflight](PREFLIGHT-FINAL.json), [historical original checkpoint](../fullpack-20261005/no-aux-performance/PREFLIGHT-final327.json).
 
-This is implementation/static validation, not newer-engine Minecraft or FPS acceptance. The fullpack remains blocked; no game or OpenGL fallback was launched. Physics/Essential/Xaero/Arcana/Lodestone and remaining smaller native rendering paths still need implementation or exact evidenced reachability audits. Full native1500/2400FPS, shader/content parity and zero hitches are unachieved.
+The initial implementation/static checkpoint below is preserved. Subsequent [actual native runtime validation](runtime-native106/REPORT.md) passes19 bounded original-content checks with the newer library actually selected. The fullpack remains blocked; no full-pack or OpenGL fallback was launched. No new FPS/startup gain is accepted. Physics/Essential/Xaero/Arcana/Lodestone and remaining smaller native rendering paths still need implementation or exact evidenced reachability audits. Full native1500/2400FPS, shader/content parity and zero hitches are unachieved.
 
 ## Source, APIs and original features
 
