@@ -56,3 +56,7 @@ Fresh assembly and Java17 `:forge:build` produce `harimt-forge-1.20.1-2.4.11-nox
 ## Native Essential integrated provider-call continuation
 
 Fresh assembly and Java17 `:forge:build` produce `harimt-forge-1.20.1-2.4.11-noxviola.55-dimensions-vulkan-hybrid-all.jar`, SHA256 `cf8eda8fd3d22fb6501d0d6be271593020c8aa6f00b8a8fd3f6eabb4535a4eaa`. [141 actual native GPU cases and original integrated chain](../benchmarks/results/native-essential-provider-20261014/REPORT.md), [exact owned reproduction](../benchmarks/results/native-essential-provider-20261014/REPRODUCE.md). Authenticated isolated Modrinth MC1.20.1/Forge47.4.26/native-required/stack1024 is tested. Original uploads/framebuffer actions work; full typed render-pass/provider/automatic GAME/full327 gameplay remains incomplete. No personal promotion or FPS claim.
+
+## Native Vulkan logic-operation and depth-bias repair
+
+Fresh assembly/Java17 Forge build produces Hari56. [164 actual GPU cases and paired defect reproduction](../benchmarks/results/native-raster-state-20261014/REPORT.md), [reproduction and artifact hash](../benchmarks/results/native-raster-state-20261014/REPRODUCE.md). Full typed provider/GAME/full327 gameplay remains unfinished. No personal promotion or FPS claim.

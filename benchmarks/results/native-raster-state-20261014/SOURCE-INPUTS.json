@@ -1,0 +1,10 @@
+{
+  "base_commit": "1a5df28b5d01612bb9144961d3c951254b32f256",
+  "original_source_hashes": {
+    "net/vulkanmod/vulkan/VRenderSystem.java": "ba79b0110e97a424d86289bf45ed4d1190d466185cdadc86cfc424188b22b1f9",
+    "net/vulkanmod/vulkan/shader/PipelineState.java": "85cee928c0ba5f70ba6d0fdbf5736923747db4c5b6aba5d4a2f5aafeee26a571"
+  },
+  "original_1001_source_files_unchanged": true,
+  "candidate_GPU_accepted": true,
+  "acceptance_receipt": "SUMMARY.json"
+}
