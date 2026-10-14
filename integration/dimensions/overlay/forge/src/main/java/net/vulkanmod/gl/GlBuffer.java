@@ -261,6 +261,8 @@ public class GlBuffer {
         return buffer;
     }
 
+    static GlBuffer nativeBoundBuffer(int target) { return getBoundBuffer(target); }
+
     private static GlBuffer getBoundBuffer(int target) {
         return switch (target) {
             case GL32.GL_ARRAY_BUFFER -> arrayBufferBound;

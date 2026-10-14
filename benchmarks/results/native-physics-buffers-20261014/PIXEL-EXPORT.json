@@ -1,0 +1,79 @@
+{
+  "passed": true,
+  "old67_identical": true,
+  "precursor74_identical": true,
+  "new_gpu_cases": [
+    {
+      "case": "physics-original-native-vertex-buffer",
+      "size": [
+        8,
+        8
+      ],
+      "raw_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907",
+      "png_sha256": "80281776c7753c0b28dc4bdeb4d798ba2ffc6db55245ad9eb246f579f850b05b"
+    },
+    {
+      "case": "physics-original-live-buffer-write-retains-recorded-draw",
+      "size": [
+        8,
+        8
+      ],
+      "raw_sha256": "55bd595323157cb306d674cfb10dcdc6752e29a8aebabbdf0e5312a4228c138b",
+      "png_sha256": "a3074e6b838dfa95a95388c4e9ca2e081707c8771a41d33d0c65ce5a5024707f"
+    },
+    {
+      "case": "physics-original-native-short-index-buffer",
+      "size": [
+        8,
+        8
+      ],
+      "raw_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907",
+      "png_sha256": "80281776c7753c0b28dc4bdeb4d798ba2ffc6db55245ad9eb246f579f850b05b"
+    },
+    {
+      "case": "physics-original-native-int-index-offset-base-vertex",
+      "size": [
+        8,
+        8
+      ],
+      "raw_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907",
+      "png_sha256": "80281776c7753c0b28dc4bdeb4d798ba2ffc6db55245ad9eb246f579f850b05b"
+    },
+    {
+      "case": "physics-original-native-arena-growth-and-offset",
+      "size": [
+        8,
+        8
+      ],
+      "raw_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907",
+      "png_sha256": "80281776c7753c0b28dc4bdeb4d798ba2ffc6db55245ad9eb246f579f850b05b"
+    },
+    {
+      "case": "physics-original-native-arena-defragmentation",
+      "size": [
+        8,
+        8
+      ],
+      "raw_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907",
+      "png_sha256": "80281776c7753c0b28dc4bdeb4d798ba2ffc6db55245ad9eb246f579f850b05b"
+    },
+    {
+      "case": "physics-native-mapped-alias-reallocation-initializer",
+      "size": [
+        8,
+        8
+      ],
+      "raw_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907",
+      "png_sha256": "80281776c7753c0b28dc4bdeb4d798ba2ffc6db55245ad9eb246f579f850b05b"
+    },
+    {
+      "case": "physics-original-deleted-name-retains-recorded-vertex-storage",
+      "size": [
+        8,
+        8
+      ],
+      "raw_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907",
+      "png_sha256": "80281776c7753c0b28dc4bdeb4d798ba2ffc6db55245ad9eb246f579f850b05b"
+    }
+  ]
+}

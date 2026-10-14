@@ -20,19 +20,20 @@ import static org.lwjgl.util.vma.Vma.*;
  * unaccepted. Mapped storage never masquerades as a malloc-owned GlBuffer copy. */
 public final class NativePixelBufferApi {
     public static final int PACK=0x88EB,UNPACK=0x88EC;
-    private static final Map<Integer,Entry> ENTRIES=new HashMap<>();
+    static final Map<Integer,Entry> ENTRIES=new HashMap<>();
     private static final Set<Store> ALLOCATIONS=new HashSet<>();
     private static final Map<VulkanImage,Integer> PENDING_IMAGES=new IdentityHashMap<>();
     private static long gpuUploads,gpuDownloads;
-    private static final class Entry { Store store; boolean mapped; int usage=0x88E4; }
-    private static final class Store {
-        final long allocator,buffer,allocation,pointer; final int size;
+    static final class Entry { Store store; boolean mapped; int usage=0x88E4; }
+    static final class Store {
+        final long allocator,buffer,allocation,pointer; final int size,vkUsage;
         int recordedUses; boolean deleted,destroyed;
-        Store(int size) {
-            this.size=size;allocator=Vulkan.getAllocator();
+        Store(int size) { this(size,VK_BUFFER_USAGE_TRANSFER_SRC_BIT|VK_BUFFER_USAGE_TRANSFER_DST_BIT); }
+        Store(int size,int vkUsage) {
+            this.size=size;this.vkUsage=vkUsage;allocator=Vulkan.getAllocator();
             try(MemoryStack stack=MemoryStack.stackPush()) {
                 var info=VkBufferCreateInfo.calloc(stack).sType$Default().size(size)
-                        .usage(VK_BUFFER_USAGE_TRANSFER_SRC_BIT|VK_BUFFER_USAGE_TRANSFER_DST_BIT)
+                        .usage(vkUsage)
                         .sharingMode(VK_SHARING_MODE_EXCLUSIVE);
                 var ai=VmaAllocationCreateInfo.calloc(stack).requiredFlags(VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT|VK_MEMORY_PROPERTY_HOST_COHERENT_BIT)
                         .preferredFlags(VK_MEMORY_PROPERTY_HOST_CACHED_BIT);

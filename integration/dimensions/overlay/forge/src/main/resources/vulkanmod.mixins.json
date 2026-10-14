@@ -124,7 +124,8 @@
     "compatibility.essential.EssentialSyncCallerMixin",
     "compatibility.essential.EssentialViewportCallerMixin",
     "compatibility.xaero.XaeroPixelCallerMixin",
-    "compatibility.physics.PhysicsShaderCallerMixin"
+    "compatibility.physics.PhysicsShaderCallerMixin",
+    "compatibility.physics.PhysicsBufferCallerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

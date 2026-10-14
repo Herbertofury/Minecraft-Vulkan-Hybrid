@@ -1,0 +1,24 @@
+{
+  "renderer_GPU_oracles_or_tolerance_weakened": false,
+  "failures": [
+    {
+      "controller": 64,
+      "cases_passed": 25,
+      "cause": "Empty Forge mixin added only class generic superclass signature Ljava/lang/Object;. Exact private ASM diff retained. Runtime proof now first requires exactly that added metadata, removes it for canonical comparison, and still asserts inverse original body identity."
+    },
+    {
+      "controller": 65,
+      "cases_passed": 29,
+      "cause": "Fixture wrongly expected fast upload to consume its input. Original bytecode allocates capacity and calls bufferSubData preserving cursor. Corrected exact cursor/capacity assertions and added real original map/unmap checks; renderer unchanged."
+    },
+    {
+      "controller": 66,
+      "cases_passed": 29,
+      "cause": "Private fixture omitted original ArenaBuffer$CopyCommand data holder. Added exact pinned installed original dependency; production jar/renderer and all expectations unchanged."
+    }
+  ],
+  "review_fix": {
+    "version": 42,
+    "cause": "Data initializer can alias old native mapping. Copy input into the replacement native allocation before retiring old storage. Added real GPU reallocation/initializer case. Passed74 precursor retained."
+  }
+}

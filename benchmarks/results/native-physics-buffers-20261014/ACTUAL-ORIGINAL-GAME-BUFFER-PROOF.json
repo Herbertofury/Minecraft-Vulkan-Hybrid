@@ -1,0 +1,327 @@
+{
+  "accepted": true,
+  "automatic_GAME_buffer_application": true,
+  "original_constructor_executed": true,
+  "original_method_invocations": 44,
+  "original_call_sites_transported": 47,
+  "full_Physics_VAO_instancing_descriptors_not_accepted": true,
+  "fps_accepted": false,
+  "transfers": {
+    "copies": 5,
+    "retainedReaderReplacements": 5
+  },
+  "controls": [
+    {
+      "control": "original-buffer-GAME-module-BufferObject",
+      "passed": true
+    },
+    {
+      "control": "fresh-original-buffer-export-BufferObject",
+      "passed": true
+    },
+    {
+      "control": "all-original-buffer-calls-transported-BufferObject",
+      "passed": true
+    },
+    {
+      "control": "Forge-only-generic-super-signature-BufferObject",
+      "passed": true
+    },
+    {
+      "control": "inverse-original-buffer-body-BufferObject",
+      "passed": true
+    },
+    {
+      "control": "original-buffer-GAME-module-ArenaBuffer",
+      "passed": true
+    },
+    {
+      "control": "fresh-original-buffer-export-ArenaBuffer",
+      "passed": true
+    },
+    {
+      "control": "all-original-buffer-calls-transported-ArenaBuffer",
+      "passed": true
+    },
+    {
+      "control": "Forge-only-generic-super-signature-ArenaBuffer",
+      "passed": true
+    },
+    {
+      "control": "inverse-original-buffer-body-ArenaBuffer",
+      "passed": true
+    },
+    {
+      "control": "native-direct-storage-program",
+      "passed": true
+    },
+    {
+      "control": "original-float-upload-real-VkBuffer",
+      "passed": true
+    },
+    {
+      "control": "actual-native-buffer-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "physics-original-native-vertex-buffer-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "actual-native-buffer-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "physics-original-live-buffer-write-retains-recorded-draw-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "recorded-reader-allocation-preserved",
+      "passed": true
+    },
+    {
+      "control": "original-short-source-cursor",
+      "passed": true
+    },
+    {
+      "control": "actual-native-buffer-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "physics-original-native-short-index-buffer-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "original-int-source-cursor",
+      "passed": true
+    },
+    {
+      "control": "actual-native-buffer-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "physics-original-native-int-index-offset-base-vertex-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "original-float-source-cursor",
+      "passed": true
+    },
+    {
+      "control": "actual-read-mapping",
+      "passed": true
+    },
+    {
+      "control": "actual-read-unmap",
+      "passed": true
+    },
+    {
+      "control": "typed-float-storage-values",
+      "passed": true
+    },
+    {
+      "control": "original-short-subdata-cursor",
+      "passed": true
+    },
+    {
+      "control": "actual-read-mapping",
+      "passed": true
+    },
+    {
+      "control": "actual-read-unmap",
+      "passed": true
+    },
+    {
+      "control": "typed-short-storage-values",
+      "passed": true
+    },
+    {
+      "control": "original-int-subdata-cursor",
+      "passed": true
+    },
+    {
+      "control": "actual-read-mapping",
+      "passed": true
+    },
+    {
+      "control": "actual-read-unmap",
+      "passed": true
+    },
+    {
+      "control": "typed-int-storage-values",
+      "passed": true
+    },
+    {
+      "control": "original-byte-source-cursor",
+      "passed": true
+    },
+    {
+      "control": "actual-read-mapping",
+      "passed": true
+    },
+    {
+      "control": "actual-read-unmap",
+      "passed": true
+    },
+    {
+      "control": "typed-byte-storage-values",
+      "passed": true
+    },
+    {
+      "control": "original-fast-method-preserves-source",
+      "passed": true
+    },
+    {
+      "control": "actual-read-mapping",
+      "passed": true
+    },
+    {
+      "control": "actual-read-unmap",
+      "passed": true
+    },
+    {
+      "control": "original-fast-real-native-values",
+      "passed": true
+    },
+    {
+      "control": "original-fast-capacity-allocation",
+      "passed": true
+    },
+    {
+      "control": "original-write-map-real-native-pointer",
+      "passed": true
+    },
+    {
+      "control": "actual-read-mapping",
+      "passed": true
+    },
+    {
+      "control": "actual-read-unmap",
+      "passed": true
+    },
+    {
+      "control": "original-map-writes-visible",
+      "passed": true
+    },
+    {
+      "control": "invalid-usage-does-not-mutate-storage",
+      "passed": true
+    },
+    {
+      "control": "out-of-range-subdata-rejected",
+      "passed": true
+    },
+    {
+      "control": "negative-subdata-rejected",
+      "passed": true
+    },
+    {
+      "control": "original-size-retained",
+      "passed": true
+    },
+    {
+      "control": "double-map-rejected",
+      "passed": true
+    },
+    {
+      "control": "mapped-subdata-rejected",
+      "passed": true
+    },
+    {
+      "control": "unmap-real-storage",
+      "passed": true
+    },
+    {
+      "control": "double-unmap-rejected",
+      "passed": true
+    },
+    {
+      "control": "overlapping-self-copy-rejected",
+      "passed": true
+    },
+    {
+      "control": "copy-range-overflow-rejected",
+      "passed": true
+    },
+    {
+      "control": "actual-read-mapping",
+      "passed": true
+    },
+    {
+      "control": "actual-read-unmap",
+      "passed": true
+    },
+    {
+      "control": "actual-read-mapping",
+      "passed": true
+    },
+    {
+      "control": "actual-read-unmap",
+      "passed": true
+    },
+    {
+      "control": "actual-unaligned-three-byte-GPU-copy",
+      "passed": true
+    },
+    {
+      "control": "foreign-native-name-rejected",
+      "passed": true
+    },
+    {
+      "control": "original-arena-growth-and-segment",
+      "passed": true
+    },
+    {
+      "control": "actual-native-buffer-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "physics-original-native-arena-growth-and-offset-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "original-defragmented-live-segment",
+      "passed": true
+    },
+    {
+      "control": "actual-native-buffer-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "physics-original-native-arena-defragmentation-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "original-arena-actual-GPU-copies",
+      "passed": true
+    },
+    {
+      "control": "aliased-initializer-replaces-and-unmaps-storage",
+      "passed": true
+    },
+    {
+      "control": "actual-native-buffer-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "physics-native-mapped-alias-reallocation-initializer-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "actual-native-buffer-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "original-deleted-name-gone",
+      "passed": true
+    },
+    {
+      "control": "physics-original-deleted-name-retains-recorded-vertex-storage-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "native-buffer-error-clean",
+      "passed": true
+    }
+  ]
+}

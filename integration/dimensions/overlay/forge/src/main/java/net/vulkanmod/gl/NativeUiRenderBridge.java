@@ -89,6 +89,38 @@ public final class NativeUiRenderBridge {
             return true;
         } finally { buffer.release(); }
     }
+    /** Direct known-layout consumption of actual native storage, without a CPU upload copy.
+     * VAO discovery, instancing, SSBO descriptors and complete Physics draws are separate. */
+    public static void drawNativeStorage(VertexFormat format, VertexFormat.Mode mode,
+                                         int vertexName,long vertexOffset,int vertices,
+                                         int indexName,long indexOffset,int indices,int indexType,int baseVertex) {
+        RenderSystem.assertOnRenderThread();NativeUiProgram program=GlProgram.currentNativeProgram();
+        Renderer renderer=Renderer.getInstance();
+        if(program==null || renderer==null || !Renderer.isRecording() || renderer.getBoundRenderPass()==null)
+            throw new IllegalStateException("Direct native storage needs linked program and owned recording pass");
+        if(vertices<0 || indices<0)throw new IllegalArgumentException("Negative native draw count");
+        if(mode!=VertexFormat.Mode.TRIANGLES && mode!=VertexFormat.Mode.TRIANGLE_STRIP && mode!=VertexFormat.Mode.LINES && mode!=VertexFormat.Mode.LINE_STRIP)
+            throw new UnsupportedOperationException("Direct native topology requires an explicit indexed conversion");
+        if(vertices==0 || indexName!=0&&indices==0)return;
+        validateLayout(program,format);installRetirer();
+        int width=indexName==0?0:switch(indexType){case 0x1403->2;case 0x1405->4;default->throw new UnsupportedOperationException("Direct native index type requires device feature wiring");};
+        if(vertexOffset<0 || indexOffset<0 || vertexOffset%4!=0 || width!=0&&indexOffset%width!=0)
+            throw new IllegalArgumentException("Native vertex/index offset alignment");
+        var vertex=NativeBufferObjectApi.drawStorage(vertexName,vertexOffset,(long)vertices*format.getVertexSize(),VK_BUFFER_USAGE_VERTEX_BUFFER_BIT);
+        var index=indexName==0?null:NativeBufferObjectApi.drawStorage(indexName,indexOffset,(long)indices*width,VK_BUFFER_USAGE_INDEX_BUFFER_BIT);
+        List<Integer> units=new ArrayList<>();for(var sampler:program.samplers()){
+            int[] value=GlProgram.getIntUniform(sampler.name());int unit=value==null?0:value[0];
+            if(unit<0 || unit>=VTextureSelector.SIZE || VTextureSelector.getImage(unit)==null)throw new IllegalStateException("Original native texture unbound: "+sampler.name());units.add(unit);
+        }
+        Entry entry=ENTRIES.computeIfAbsent(new Key(program,format,List.copyOf(units)),Entry::new);entry.update(program);
+        VRenderSystem.setPrimitiveTopologyGL(mode.asGLMode);renderer.bindGraphicsPipeline(entry.pipeline);renderer.uploadAndBindUBOs(entry.pipeline);
+        try(org.lwjgl.system.MemoryStack stack=org.lwjgl.system.MemoryStack.stackPush()){
+            var command=Renderer.getCommandBuffer();vkCmdBindVertexBuffers(command,0,stack.longs(vertex.buffer),stack.longs(vertexOffset));
+            if(index!=null){vkCmdBindIndexBuffer(command,index.buffer,indexOffset,width==2?VK_INDEX_TYPE_UINT16:VK_INDEX_TYPE_UINT32);vkCmdDrawIndexed(command,indices,1,0,baseVertex,0);}
+            else vkCmdDraw(command,vertices,1,0,0);
+        }
+        draws++;
+    }
     private static void validateLayout(NativeUiProgram p, VertexFormat format) {
         List<VertexFormatElement> elements = format.getElements();
         for (var attribute : p.attributes()) {
