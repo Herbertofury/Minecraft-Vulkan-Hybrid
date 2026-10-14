@@ -1,0 +1,1320 @@
+{
+  "passed": true,
+  "route": "NATIVE_ORIGINAL_UI",
+  "completed": true,
+  "fps_accepted": false,
+  "error_type": "",
+  "scope": "Original private Essential/Elementa UI shader assets through the actual Minecraft BufferUploader legacy program adapter, real native renderer pipeline/uniform/sampler/draw/readback. Exact original Essential Shader/uniform executable native component through the packaged caller callback in a private loader; both core/ARB caller transports on six real pixel controls and deferred program deletion, plus vanilla restoration. Separate exact raw classes prove automatic Forge GAME transformation using fresh bytecode exports. Full Essential mod/features/fullpack/FPS acceptance remains separate.",
+  "cases": [
+    {
+      "case": "original-ui-circle-0",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "87dff8254fbaa585fd6dedfe05623dc837aa10abb6ec6045d31e7043bf50ee90",
+      "actual_original_essential_executable": true,
+      "mixed_core_arb_transport_compilation_control": true,
+      "draw_while_program_delete_pending": true
+    },
+    {
+      "case": "original-ui-circle-1",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "785ca0ae2d5c8c05b430ff7e2c766eb304f68ca20da9705db684f93080a4ee90",
+      "actual_original_essential_executable": true,
+      "mixed_core_arb_transport_compilation_control": true,
+      "draw_while_program_delete_pending": true
+    },
+    {
+      "case": "original-ui-rounded_rect-0",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "555b2e40fd39a3cec98664d00f17536750d9691c2099236137af4d294f27324a",
+      "actual_original_essential_executable": true,
+      "mixed_core_arb_transport_compilation_control": true,
+      "draw_while_program_delete_pending": true
+    },
+    {
+      "case": "original-ui-rounded_rect-1",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "d99b5c6fd38be9136a916962ea85fb750b15e8a318a14071f78f31d60a228c23",
+      "actual_original_essential_executable": true,
+      "mixed_core_arb_transport_compilation_control": true,
+      "draw_while_program_delete_pending": true
+    },
+    {
+      "case": "original-ui-font-0",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "e35cdbcb91f30ed638a75131242ad692bc2923373898d209c06ed03f5dd77480",
+      "actual_original_essential_executable": true,
+      "mixed_core_arb_transport_compilation_control": true,
+      "draw_while_program_delete_pending": true
+    },
+    {
+      "case": "original-ui-font-1",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "e35cdbcb91f30ed638a75131242ad692bc2923373898d209c06ed03f5dd77480",
+      "actual_original_essential_executable": true,
+      "mixed_core_arb_transport_compilation_control": true,
+      "draw_while_program_delete_pending": true
+    },
+    {
+      "case": "original-ui-vanilla-restored-0",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "4ab589b8423c13f8f33994356d5b696d9b3b56d968e1939f2088c53b5149e6cf",
+      "actual_original_essential_executable": false,
+      "mixed_core_arb_transport_compilation_control": false,
+      "draw_while_program_delete_pending": false
+    },
+    {
+      "case": "original_circle_geometry_and_uniforms",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "maximum_channel_error": 0,
+      "tolerance_channels": 2,
+      "reference_ink_pixels": 484,
+      "actual_rgba_sha256": "76abde8869eebbf0e3a6576679a25d1c15c7c20f77aa2c521c8b2b96962fc681",
+      "actual_samples_xy_rgba": [
+        [
+          8,
+          8,
+          51,
+          204,
+          102,
+          87
+        ],
+        [
+          16,
+          16,
+          51,
+          204,
+          102,
+          255
+        ]
+      ]
+    },
+    {
+      "case": "original_circle_live_radius_update",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "maximum_channel_error": 0,
+      "tolerance_channels": 2,
+      "reference_ink_pixels": 144,
+      "actual_rgba_sha256": "498e023b8ca4e4ca1b51f7408dedd650007f903f690f924aec2e55f1740fcaae",
+      "actual_samples_xy_rgba": [
+        [
+          8,
+          8,
+          0,
+          0,
+          255,
+          255
+        ],
+        [
+          16,
+          16,
+          51,
+          204,
+          102,
+          255
+        ]
+      ]
+    },
+    {
+      "case": "original_circle_live_matrix_update",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "maximum_channel_error": 0,
+      "tolerance_channels": 2,
+      "reference_ink_pixels": 144,
+      "actual_rgba_sha256": "092371e3dd20d110fa8d2c6367e3c0737390f48a09bb4bb16e8fc2c2d50f90ed",
+      "actual_samples_xy_rgba": [
+        [
+          8,
+          8,
+          0,
+          0,
+          255,
+          255
+        ],
+        [
+          16,
+          16,
+          51,
+          204,
+          102,
+          255
+        ]
+      ]
+    },
+    {
+      "case": "original_rounded_rectangle_geometry_and_uniforms",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "maximum_channel_error": 0,
+      "tolerance_channels": 2,
+      "reference_ink_pixels": 480,
+      "actual_rgba_sha256": "192005cac60bd6882d48c516acebab342871e60f14d2034156009fb276c482d0",
+      "actual_samples_xy_rgba": [
+        [
+          8,
+          8,
+          204,
+          51,
+          153,
+          255
+        ],
+        [
+          16,
+          16,
+          204,
+          51,
+          153,
+          255
+        ]
+      ]
+    },
+    {
+      "case": "original_msdf_A_glyph_atlas_and_geometry",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "maximum_channel_error": 1,
+      "tolerance_channels": 2,
+      "reference_ink_pixels": 211,
+      "actual_rgba_sha256": "f2b8389993fbf6b396e143b8642466c31869caa338f0deace750f7268acf8b2b",
+      "actual_samples_xy_rgba": [
+        [
+          8,
+          8,
+          0,
+          0,
+          255,
+          255
+        ],
+        [
+          16,
+          16,
+          0,
+          0,
+          255,
+          255
+        ]
+      ]
+    },
+    {
+      "case": "original_msdf_live_foreground_uniform",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "maximum_channel_error": 1,
+      "tolerance_channels": 2,
+      "reference_ink_pixels": 211,
+      "actual_rgba_sha256": "4c8acf0fa509283bbc3e7fe78d40fb19b442fa7560f462d7d68857eb2e8afc66",
+      "actual_samples_xy_rgba": [
+        [
+          8,
+          8,
+          0,
+          0,
+          255,
+          255
+        ],
+        [
+          16,
+          16,
+          0,
+          0,
+          255,
+          255
+        ]
+      ]
+    },
+    {
+      "case": "original_msdf_live_hinting_uniform",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "maximum_channel_error": 1,
+      "tolerance_channels": 2,
+      "reference_ink_pixels": 211,
+      "actual_rgba_sha256": "b10d2ec6cce03c96995ee33e7d66c5ea8aea704609ac6d3c4181cacd9c60ed1a",
+      "actual_samples_xy_rgba": [
+        [
+          8,
+          8,
+          0,
+          0,
+          255,
+          255
+        ],
+        [
+          16,
+          16,
+          0,
+          0,
+          255,
+          255
+        ]
+      ]
+    },
+    {
+      "case": "original-pixel-worldmap-original-packed-bgra-upload",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "actual_rgba_sha256": "05c49757d587d04d099817f51e34651513c915526bac7cf6834484be9a84c5ba"
+    },
+    {
+      "case": "original-pixel-worldmap-direct-upload-and-original-deletion",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "actual_rgba_sha256": "05c49757d587d04d099817f51e34651513c915526bac7cf6834484be9a84c5ba"
+    },
+    {
+      "case": "original-pixel-worldmap-ordered-mipmap-upload",
+      "matched": true,
+      "compared_pixels": 16,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "actual_rgba_sha256": "3fd1c794ce9195e2adcb25d448d3db0bbc917d74820d5dcc8af866fa2f995130"
+    },
+    {
+      "case": "original-pixel-minimap-original-packed-bgra-upload",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "actual_rgba_sha256": "05c49757d587d04d099817f51e34651513c915526bac7cf6834484be9a84c5ba"
+    },
+    {
+      "case": "original-pixel-minimap-direct-upload-and-original-deletion",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "actual_rgba_sha256": "05c49757d587d04d099817f51e34651513c915526bac7cf6834484be9a84c5ba"
+    },
+    {
+      "case": "original-pixel-minimap-ordered-mipmap-upload",
+      "matched": true,
+      "compared_pixels": 16,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "actual_rgba_sha256": "3fd1c794ce9195e2adcb25d448d3db0bbc917d74820d5dcc8af866fa2f995130"
+    },
+    {
+      "case": "physics-original-uniform-arrays",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907"
+    },
+    {
+      "case": "physics-original-mat2-transpose",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "b3421faf8f01289fda95664b94bf384d63f1718e247177e05cd86185cfa768fa"
+    },
+    {
+      "case": "physics-original-mat3-transpose",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "ac00848a8d2eb29e8e76925431f191c599e698626249171f97cd1d96ef528e17"
+    },
+    {
+      "case": "physics-original-partial-array-upload",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "1ad489825d296f14572f0e287b8f04adc24d9f72d822385b858a9bc56c4ace36"
+    },
+    {
+      "case": "physics-original-box-vertex-ID-native",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907"
+    },
+    {
+      "case": "physics-original-native-vertex-buffer",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907"
+    },
+    {
+      "case": "physics-original-live-buffer-write-retains-recorded-draw",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "55bd595323157cb306d674cfb10dcdc6752e29a8aebabbdf0e5312a4228c138b"
+    },
+    {
+      "case": "physics-original-native-short-index-buffer",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907"
+    },
+    {
+      "case": "physics-original-native-int-index-offset-base-vertex",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907"
+    },
+    {
+      "case": "physics-original-native-arena-growth-and-offset",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907"
+    },
+    {
+      "case": "physics-original-native-arena-defragmentation",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907"
+    },
+    {
+      "case": "physics-native-mapped-alias-reallocation-initializer",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907"
+    },
+    {
+      "case": "physics-original-deleted-name-retains-recorded-vertex-storage",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907"
+    },
+    {
+      "case": "physics-original-core-separate-instance-bindings",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "17790e858513d84a43a683886876fea8e74997d0fb4b66e2d5ce22f425a7a05f"
+    },
+    {
+      "case": "physics-original-ARB-separate-instance-bindings",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "17790e858513d84a43a683886876fea8e74997d0fb4b66e2d5ce22f425a7a05f"
+    },
+    {
+      "case": "physics-original-core-bulk-offsets-strides",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "17790e858513d84a43a683886876fea8e74997d0fb4b66e2d5ce22f425a7a05f"
+    },
+    {
+      "case": "physics-original-ARB-bulk-offsets-strides",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "17790e858513d84a43a683886876fea8e74997d0fb4b66e2d5ce22f425a7a05f"
+    },
+    {
+      "case": "physics-original-real-device-divisor-two",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "17790e858513d84a43a683886876fea8e74997d0fb4b66e2d5ce22f425a7a05f"
+    },
+    {
+      "case": "physics-native-instance-ID-two-distinct-positions",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "17790e858513d84a43a683886876fea8e74997d0fb4b66e2d5ce22f425a7a05f"
+    },
+    {
+      "case": "physics-original-integer-instance-format",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "17790e858513d84a43a683886876fea8e74997d0fb4b66e2d5ce22f425a7a05f"
+    },
+    {
+      "case": "physics-original-ARB-integer-instance-format",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "17790e858513d84a43a683886876fea8e74997d0fb4b66e2d5ce22f425a7a05f"
+    },
+    {
+      "case": "physics-original-normalized-byte-instance-colors",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "da40d706b75c6a43ebb78f932c8dee0edc7b62292996011239db5d9aefa8fefa"
+    },
+    {
+      "case": "physics-native-unbound-VAO-retains-deleted-vertex-object",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "17790e858513d84a43a683886876fea8e74997d0fb4b66e2d5ce22f425a7a05f"
+    },
+    {
+      "case": "physics-original-outer-arrays-constructor-finish",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "25c57272b4dd8942569553c780c41e411a64e71341e4bc9e1dbe6967c459e22e"
+    },
+    {
+      "case": "physics-original-outer-arrays-no-bind",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "25c57272b4dd8942569553c780c41e411a64e71341e4bc9e1dbe6967c459e22e"
+    },
+    {
+      "case": "physics-original-outer-arrays-explicit-range",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "25c57272b4dd8942569553c780c41e411a64e71341e4bc9e1dbe6967c459e22e"
+    },
+    {
+      "case": "physics-original-outer-array-update",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "25c57272b4dd8942569553c780c41e411a64e71341e4bc9e1dbe6967c459e22e"
+    },
+    {
+      "case": "physics-original-outer-uint-indexed",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "25c57272b4dd8942569553c780c41e411a64e71341e4bc9e1dbe6967c459e22e"
+    },
+    {
+      "case": "physics-original-outer-indexed-state-restore",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "25c57272b4dd8942569553c780c41e411a64e71341e4bc9e1dbe6967c459e22e"
+    },
+    {
+      "case": "physics-original-outer-ushort-indexed",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "25c57272b4dd8942569553c780c41e411a64e71341e4bc9e1dbe6967c459e22e"
+    },
+    {
+      "case": "physics-original-outer-instanced-allocate-update-arrays",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "17790e858513d84a43a683886876fea8e74997d0fb4b66e2d5ce22f425a7a05f"
+    },
+    {
+      "case": "physics-original-outer-instanced-uint-indexed",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "17790e858513d84a43a683886876fea8e74997d0fb4b66e2d5ce22f425a7a05f"
+    },
+    {
+      "case": "physics-original-outer-instanced-ushort-indexed",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "17790e858513d84a43a683886876fea8e74997d0fb4b66e2d5ce22f425a7a05f"
+    },
+    {
+      "case": "physics-original-outer-integer-instance-attributes",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "17790e858513d84a43a683886876fea8e74997d0fb4b66e2d5ce22f425a7a05f"
+    },
+    {
+      "case": "physics-original-outer-normalized-byte-instance-colors",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "da40d706b75c6a43ebb78f932c8dee0edc7b62292996011239db5d9aefa8fefa"
+    },
+    {
+      "case": "physics-original-outer-default-constructor",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "25c57272b4dd8942569553c780c41e411a64e71341e4bc9e1dbe6967c459e22e"
+    },
+    {
+      "case": "physics-original-interleaved-integer-pointer-offset",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "9995bbf0228f23be1c0c80aee815e1fed5dfcccbe7540e9b96fba850dc9d5d3c"
+    },
+    {
+      "case": "essential-original-typed-vertex-upload",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907"
+    },
+    {
+      "case": "essential-original-typed-partial-map-preserves-prefix",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "d9d87394e6706c9150a1b3e9e9da5427fb57f903e8be25d203026b499738a081"
+    },
+    {
+      "case": "essential-original-typed-size-allocation-map",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907"
+    },
+    {
+      "case": "essential-original-typed-ushort-index-buffer",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907"
+    },
+    {
+      "case": "essential-original-typed-uint-index-buffer",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907"
+    },
+    {
+      "case": "essential-original-typed-map-preserves-recorded-reader",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907"
+    },
+    {
+      "case": "essential-original-typed-delete-retains-GPU-reader",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907"
+    },
+    {
+      "case": "essential-original-native-RGBA-mip-0",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907"
+    },
+    {
+      "case": "essential-original-native-RGBA-mip-1",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "a90bcf1c8d759793c277abdbdbd15855621be0debcf20c247f718631b9155d63"
+    },
+    {
+      "case": "essential-original-native-RGBA-mip-2",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "d43bcffb4ae3fd87a80d8f5290903c864c487fdc2547cb82d14bf61f0091395a"
+    },
+    {
+      "case": "essential-original-native-RGBA-mip-3",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "3af1951fc5f59054a4f94d20d672b9855b11576aebc62bf9ff1023ba9b7bf079"
+    },
+    {
+      "case": "essential-original-native-view-retains-closed-texture",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "a90bcf1c8d759793c277abdbdbd15855621be0debcf20c247f718631b9155d63"
+    },
+    {
+      "case": "essential-original-native-NPOT-last-mip",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "a90bcf1c8d759793c277abdbdbd15855621be0debcf20c247f718631b9155d63"
+    },
+    {
+      "case": "essential-original-native-D32-depth-sampling",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "c0f328b4f588b323695d000de64e1f9755389640b95451f11031108bd639dc15"
+    },
+    {
+      "case": "essential-original-native-D32-depth-mip",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "14b7f3b23c07b02cf9c12ff440c19da670f12c568889fc6d7d6584f4e52307bc"
+    },
+    {
+      "case": "essential-original-native-HDR-16",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "48e1f0de06518f0855c9f421880760cd039e0d951fa238c4a75561b9c4f8dc7f"
+    },
+    {
+      "case": "essential-original-native-HDR-32",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "48e1f0de06518f0855c9f421880760cd039e0d951fa238c4a75561b9c4f8dc7f"
+    },
+    {
+      "case": "essential-original-framebuffer-whole-color",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907"
+    },
+    {
+      "case": "essential-original-framebuffer-clipped-color",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "6083c53b099bba840c9bbee816dacb6951ffbffd0ea1f00ce014399eb838370f"
+    },
+    {
+      "case": "essential-original-framebuffer-boundary-clipped-color",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "9c2638848a595f5a2c61ca76b858836f26c7b8133790abfb69b79c8eb5ff0c0e"
+    },
+    {
+      "case": "essential-original-framebuffer-zero-area-preserves-image",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "9c2638848a595f5a2c61ca76b858836f26c7b8133790abfb69b79c8eb5ff0c0e"
+    },
+    {
+      "case": "essential-original-framebuffer-HDR-16",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "48e1f0de06518f0855c9f421880760cd039e0d951fa238c4a75561b9c4f8dc7f"
+    },
+    {
+      "case": "essential-original-framebuffer-HDR-32",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "48e1f0de06518f0855c9f421880760cd039e0d951fa238c4a75561b9c4f8dc7f"
+    },
+    {
+      "case": "essential-original-framebuffer-whole-depth",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "c0f328b4f588b323695d000de64e1f9755389640b95451f11031108bd639dc15"
+    },
+    {
+      "case": "essential-original-framebuffer-depth-outside-scissor",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "c0f328b4f588b323695d000de64e1f9755389640b95451f11031108bd639dc15"
+    },
+    {
+      "case": "essential-original-framebuffer-depth-inside-scissor",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "14b7f3b23c07b02cf9c12ff440c19da670f12c568889fc6d7d6584f4e52307bc"
+    },
+    {
+      "case": "essential-original-framebuffer-depth-range-clamp",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "3d6876a0146de8576eb2395a858de1213d1b92c65b779df3a331cfd5a4584546"
+    },
+    {
+      "case": "essential-original-framebuffer-COPY_DST-native-clear",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907"
+    },
+    {
+      "case": "essential-original-framebuffer-mip-chain-base-clear",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907"
+    },
+    {
+      "case": "essential-original-framebuffer-preserves-other-mips",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "0d1b5807a072040df4aab5871837e4296ddafc56a83226a1d098e6e86961c001"
+    },
+    {
+      "case": "original-clip-universal-asymmetric",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "channel_tolerance": 0,
+      "actual_rgba_sha256": "801aea77e36999f656e1b8958d0d927f840a3ed73a957b290557a1b97fa2646d",
+      "logical_scissor_preserved_by_readback": true
+    },
+    {
+      "case": "original-clip-universal-readback-resumes-clip",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "channel_tolerance": 0,
+      "actual_rgba_sha256": "28e058696d9ff95de9637bc1316d8e88b0ef99d0bf698d1ab8f867f72e8d897c",
+      "logical_scissor_preserved_by_readback": true
+    },
+    {
+      "case": "original-clip-universal-disabled-stored-box",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "channel_tolerance": 0,
+      "actual_rgba_sha256": "56419a079049271b37eea3515c12bbafb46578e6ac4db012c61395ef8b2e5a68",
+      "logical_scissor_preserved_by_readback": true
+    },
+    {
+      "case": "original-clip-universal-reenabled-stored-box",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "channel_tolerance": 0,
+      "actual_rgba_sha256": "28e058696d9ff95de9637bc1316d8e88b0ef99d0bf698d1ab8f867f72e8d897c",
+      "logical_scissor_preserved_by_readback": true
+    },
+    {
+      "case": "original-clip-universal-coerced",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "channel_tolerance": 0,
+      "actual_rgba_sha256": "0c0af1e3d8ad4686e9a2f2c0198881978001908edf10f13be7072e108202b7d0",
+      "logical_scissor_preserved_by_readback": true
+    },
+    {
+      "case": "original-clip-universal-negative-origin",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "channel_tolerance": 0,
+      "actual_rgba_sha256": "fa511d3ac73cfb6585633a787fd89ca792470e516032ba10d3170cc7487634d1",
+      "logical_scissor_preserved_by_readback": true
+    },
+    {
+      "case": "original-clip-universal-overflow-outside",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "channel_tolerance": 0,
+      "actual_rgba_sha256": "590d140f13d7c4fac61d0745e2ece4e5afc4ce50af80f4a8470f5fcf00495101",
+      "logical_scissor_preserved_by_readback": true
+    },
+    {
+      "case": "original-clip-universal-zero-extent",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "channel_tolerance": 0,
+      "actual_rgba_sha256": "590d140f13d7c4fac61d0745e2ece4e5afc4ce50af80f4a8470f5fcf00495101",
+      "logical_scissor_preserved_by_readback": true
+    },
+    {
+      "case": "original-clip-legacy-asymmetric",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "channel_tolerance": 0,
+      "actual_rgba_sha256": "801aea77e36999f656e1b8958d0d927f840a3ed73a957b290557a1b97fa2646d",
+      "logical_scissor_preserved_by_readback": true
+    },
+    {
+      "case": "original-clip-legacy-readback-resumes-clip",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "channel_tolerance": 0,
+      "actual_rgba_sha256": "28e058696d9ff95de9637bc1316d8e88b0ef99d0bf698d1ab8f867f72e8d897c",
+      "logical_scissor_preserved_by_readback": true
+    },
+    {
+      "case": "original-clip-legacy-disabled-stored-box",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "channel_tolerance": 0,
+      "actual_rgba_sha256": "56419a079049271b37eea3515c12bbafb46578e6ac4db012c61395ef8b2e5a68",
+      "logical_scissor_preserved_by_readback": true
+    },
+    {
+      "case": "original-clip-legacy-reenabled-stored-box",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "channel_tolerance": 0,
+      "actual_rgba_sha256": "28e058696d9ff95de9637bc1316d8e88b0ef99d0bf698d1ab8f867f72e8d897c",
+      "logical_scissor_preserved_by_readback": true
+    },
+    {
+      "case": "original-clip-legacy-coerced",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "channel_tolerance": 0,
+      "actual_rgba_sha256": "0c0af1e3d8ad4686e9a2f2c0198881978001908edf10f13be7072e108202b7d0",
+      "logical_scissor_preserved_by_readback": true
+    },
+    {
+      "case": "original-clip-legacy-negative-origin",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "channel_tolerance": 0,
+      "actual_rgba_sha256": "fa511d3ac73cfb6585633a787fd89ca792470e516032ba10d3170cc7487634d1",
+      "logical_scissor_preserved_by_readback": true
+    },
+    {
+      "case": "original-clip-legacy-overflow-outside",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "channel_tolerance": 0,
+      "actual_rgba_sha256": "590d140f13d7c4fac61d0745e2ece4e5afc4ce50af80f4a8470f5fcf00495101",
+      "logical_scissor_preserved_by_readback": true
+    },
+    {
+      "case": "original-clip-legacy-zero-extent",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "channel_tolerance": 0,
+      "actual_rgba_sha256": "590d140f13d7c4fac61d0745e2ece4e5afc4ce50af80f4a8470f5fcf00495101",
+      "logical_scissor_preserved_by_readback": true
+    },
+    {
+      "case": "original-clip-original-stencil-child-clip",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "channel_tolerance": 0,
+      "actual_rgba_sha256": "88dfcd2f5244be8541629fb5f2c92011d9cdaa5122cd5668a781127b1443cfc0",
+      "logical_scissor_preserved_by_readback": true
+    },
+    {
+      "case": "original-clip-original-stencil-readback-resumes",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "channel_tolerance": 0,
+      "actual_rgba_sha256": "8280b78c55a2121d186b950df3478465473b2f9c69f731c40de1958b29d0a27b",
+      "logical_scissor_preserved_by_readback": true
+    },
+    {
+      "case": "original-clip-original-stencil-disabled-full",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "channel_tolerance": 0,
+      "actual_rgba_sha256": "56419a079049271b37eea3515c12bbafb46578e6ac4db012c61395ef8b2e5a68",
+      "logical_scissor_preserved_by_readback": true
+    },
+    {
+      "case": "original-sync-async-original-fence-green",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "channel_tolerance": 0,
+      "actual_rgba_sha256": "68cb8a245e3f2ae58fcd0936ce869e418f19c636ab364bbfbd1edf353daa68c6"
+    },
+    {
+      "case": "original-sync-async-continuation-offset-viewport-red",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "channel_tolerance": 0,
+      "actual_rgba_sha256": "8c13a3fd07fcf009674a5d76cfb145966476d5f74f60d5aa4794bb02d3f42fe0"
+    },
+    {
+      "case": "original-sync-second-async-continuation-green",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "channel_tolerance": 0,
+      "actual_rgba_sha256": "68cb8a245e3f2ae58fcd0936ce869e418f19c636ab364bbfbd1edf353daa68c6"
+    },
+    {
+      "case": "original-viewport-universal-asymmetric-gradient",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "82f52572a59b98a216362f1213963b908cfb9668ceb91a32e26722f20d1146ba"
+    },
+    {
+      "case": "original-viewport-universal-readback-resumes-gradient",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "82f52572a59b98a216362f1213963b908cfb9668ceb91a32e26722f20d1146ba"
+    },
+    {
+      "case": "original-viewport-universal-async-resumes-gradient",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "82f52572a59b98a216362f1213963b908cfb9668ceb91a32e26722f20d1146ba"
+    },
+    {
+      "case": "original-viewport-universal-negative-origin",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "a3102f570233104f2c465a6da950e16399451f5e8674837053311ee55163fd7b"
+    },
+    {
+      "case": "original-viewport-universal-asymmetric-scissor",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "0a1c541a0798e6185999179f282e1250ebf8dbae7c681ae402faf8cecfe6ebd8"
+    },
+    {
+      "case": "original-viewport-universal-zero-width-clear-still-applies",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "590d140f13d7c4fac61d0745e2ece4e5afc4ce50af80f4a8470f5fcf00495101"
+    },
+    {
+      "case": "original-viewport-universal-zero-height-clear-still-applies",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "590d140f13d7c4fac61d0745e2ece4e5afc4ce50af80f4a8470f5fcf00495101"
+    },
+    {
+      "case": "original-viewport-universal-post-zero-gradient",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "82f52572a59b98a216362f1213963b908cfb9668ceb91a32e26722f20d1146ba"
+    },
+    {
+      "case": "original-viewport-universal-outside-framebuffer",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "590d140f13d7c4fac61d0745e2ece4e5afc4ce50af80f4a8470f5fcf00495101"
+    },
+    {
+      "case": "original-viewport-universal-actual-device-extent-clamp",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "2133ae1ad4df3c9849cfc83ea982cf137cc58733ec4d35f71665b8ae4441c17b"
+    },
+    {
+      "case": "original-viewport-legacy-asymmetric-gradient",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "82f52572a59b98a216362f1213963b908cfb9668ceb91a32e26722f20d1146ba"
+    },
+    {
+      "case": "original-viewport-legacy-readback-resumes-gradient",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "82f52572a59b98a216362f1213963b908cfb9668ceb91a32e26722f20d1146ba"
+    },
+    {
+      "case": "original-viewport-legacy-async-resumes-gradient",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "82f52572a59b98a216362f1213963b908cfb9668ceb91a32e26722f20d1146ba"
+    },
+    {
+      "case": "original-viewport-legacy-negative-origin",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 1,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "a3102f570233104f2c465a6da950e16399451f5e8674837053311ee55163fd7b"
+    },
+    {
+      "case": "original-viewport-legacy-asymmetric-scissor",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "0a1c541a0798e6185999179f282e1250ebf8dbae7c681ae402faf8cecfe6ebd8"
+    },
+    {
+      "case": "original-viewport-legacy-zero-width-clear-still-applies",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "590d140f13d7c4fac61d0745e2ece4e5afc4ce50af80f4a8470f5fcf00495101"
+    },
+    {
+      "case": "original-viewport-legacy-zero-height-clear-still-applies",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "590d140f13d7c4fac61d0745e2ece4e5afc4ce50af80f4a8470f5fcf00495101"
+    },
+    {
+      "case": "original-viewport-legacy-post-zero-gradient",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "82f52572a59b98a216362f1213963b908cfb9668ceb91a32e26722f20d1146ba"
+    },
+    {
+      "case": "original-viewport-legacy-outside-framebuffer",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "590d140f13d7c4fac61d0745e2ece4e5afc4ce50af80f4a8470f5fcf00495101"
+    },
+    {
+      "case": "original-viewport-legacy-actual-device-extent-clamp",
+      "matched": true,
+      "compared_pixels": 1024,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "2133ae1ad4df3c9849cfc83ea982cf137cc58733ec4d35f71665b8ae4441c17b"
+    }
+  ],
+  "api_renderer": "VULKAN",
+  "gl_vendor": "not queried in a native Vulkan session",
+  "gl_renderer": "not queried in a native Vulkan session",
+  "gl_version": "not queried in a native Vulkan session"
+}

@@ -207,7 +207,7 @@ public class RenderPass {
         if (colorAttachmentInfo != null) {
             VkRenderingAttachmentInfo.Buffer colorAttachment = VkRenderingAttachmentInfo.calloc(1, stack);
             colorAttachment.sType(KHRDynamicRendering.VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR);
-            colorAttachment.imageView(framebuffer.getColorAttachment().getImageView());
+            colorAttachment.imageView(framebuffer.getColorImageView());
             colorAttachment.imageLayout(VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
             colorAttachment.loadOp(colorAttachmentInfo.loadOp);
             colorAttachment.storeOp(colorAttachmentInfo.storeOp);
@@ -219,7 +219,7 @@ public class RenderPass {
         if (depthAttachmentInfo != null) {
             VkRenderingAttachmentInfo depthAttachment = VkRenderingAttachmentInfo.calloc(stack);
             depthAttachment.sType(KHRDynamicRendering.VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR);
-            depthAttachment.imageView(framebuffer.getDepthAttachment().getImageView());
+            depthAttachment.imageView(framebuffer.getDepthImageView());
             depthAttachment.imageLayout(VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
             depthAttachment.loadOp(depthAttachmentInfo.loadOp);
             depthAttachment.storeOp(depthAttachmentInfo.storeOp);
@@ -230,7 +230,7 @@ public class RenderPass {
             if (VulkanImage.hasStencilComponent(depthAttachmentInfo.format)) {
                 VkRenderingAttachmentInfo stencilAttachment = VkRenderingAttachmentInfo.calloc(stack);
                 stencilAttachment.sType(KHRDynamicRendering.VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_INFO_KHR);
-                stencilAttachment.imageView(framebuffer.getDepthAttachment().getImageView());
+                stencilAttachment.imageView(framebuffer.getDepthImageView());
                 stencilAttachment.imageLayout(VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
                 stencilAttachment.loadOp(depthAttachmentInfo.loadOp);
                 stencilAttachment.storeOp(depthAttachmentInfo.storeOp);

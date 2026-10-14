@@ -48,3 +48,7 @@ Fresh assembly and Java17 `:forge:build` produce `harimt-forge-1.20.1-2.4.11-nox
 ## Native Essential image continuation
 
 Fresh assembly and Java17 `:forge:build` produce `harimt-forge-1.20.1-2.4.11-noxviola.53-dimensions-vulkan-hybrid-all.jar`, SHA256 `42c49354f34a54ee9aa39d53c11c4348353c1c5aa0cdbe90e76ebe7b405faf64`. [116 actual native GPU cases and image scope](../benchmarks/results/native-essential-images-20261014/REPORT.md). Isolated authenticated Modrinth MC1.20.1/Forge47.4.26/native-required/stack1024 remains tested. Actual original typed images, requested mips, physical limits and depth/HDR sampling pass; full framebuffer/provider/327-mod gameplay remains incomplete. Earlier artifacts/default samplers are preserved.
+
+## Native Essential framebuffer continuation
+
+Fresh assembly and Java17 `:forge:build` produce `harimt-forge-1.20.1-2.4.11-noxviola.54-dimensions-vulkan-hybrid-all.jar`, SHA256 `16f1cd2050148c38a459b819a291b8954b2a7c5e16317d06d94313999211d3a6`. [129 actual native GPU cases and original clear scope](../benchmarks/results/native-essential-framebuffers-20261014/REPORT.md). Tested authenticated isolated Modrinth MC1.20.1/Forge47.4.26/native-required/stack1024. Original clipped clears and retained mip/state pass;21 root GL sites/full provider/327-mod gameplay remain incomplete. Earlier artifacts/default framebuffer behavior remain preserved.
