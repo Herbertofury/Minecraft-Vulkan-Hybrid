@@ -1,0 +1,66 @@
+{
+  "base_feature_commit": "7a7dab56371bf3725e9d09570d0b019d273ff689",
+  "version": 47,
+  "files": {
+    "integration/dimensions/overlay/gradle.properties": "d925f8be2a66a32bf86a7232fbc768a037155b1087dd5135778c9795d7df5cce",
+    "integration/dimensions/overlay/forge/src/main/resources/vulkanmod.mixins.json": "a4dd79d04ac6b8281ccbfa5dea89a7f188f6a15eb0ae4a56a58dcfeef0fb5729",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/compat/PhysicsVaoCallerAudit.java": "030f24fa8478dadc187430d8ea423000ceeaa1d90e8ea79fde53e071edded88d",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/compat/UniversalRendererGate.java": "ca88d8abca2916ee4b44f7b50c477612a00e6b2b200ef7dea774c173e90abeb2",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/NativePhysicsVaoRuntime.java": "5b6bb7fc2b1ad73fda7886877bdfb860bfb0f5495dd840ebb87876e9b02b3ac2",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/NativeUiRenderBridge.java": "b2adab6911e5bdce7a9e37f9540b6310f918e8ea9fe6d74081fcc8f597881814",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/NativeVertexArrayApi.java": "744b806a85ac3785c610203e6ac30f852a879fd967ef039208793d3a3ca2bb2d",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/PhysicsVaoCallers.java": "ff01c43283e943d2f80559abe0e93d2b782a54319804c4d5fff17ab822deae70",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/mixin/MixinPlugin.java": "11b881ab63d9dc30f089f07d2ae7ea722924cb8983f58fcde4242a1268162f09",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/mixin/compatibility/physics/PhysicsVaoCallerMixin.java": "500ab0e2b6d6cd5486d6d79e1bc39f5833f138e9570b6c023bf85d263ee21747"
+  },
+  "production_sha256": "0f254f08713ca590205de0dbe1d8e2ace3f82237e000736db96c5c09ed92497e",
+  "pins": {
+    "archive": "physics-mod-3.0.20-mc-1.20.1-forge-MVH-ProviderDetection-v1.jar",
+    "archive_sha256": "35826b411cee1116443e0992320d4e5158f7e1b64bca88599eea08b41fe21c59",
+    "classes": [
+      {
+        "name": "net/diebuddies/opengl/VAO",
+        "raw_sha256": "146aaff67d44c59cfdec8f325465026d676818cc0dad3091ea2e6fcdbf3b5ea5",
+        "canonical_sha256": "e228130d1d7d8ce27a3cd94f86fa75564fd485f12342cc907e0824f382b2ce15",
+        "GL_sites": 32,
+        "capability_reads": 10,
+        "runtime_field_reads": 24
+      },
+      {
+        "name": "net/diebuddies/opengl/VertexFormat",
+        "raw_sha256": "149370b2b838ab6bc0f064259c19e9b90419b799c63c91a1d4fadafbdf74cbee",
+        "canonical_sha256": "eb76deae65731f0d9da5c8449960723e084b4f658eac1194ac9f808ea230ed77",
+        "GL_sites": 3,
+        "capability_reads": 0,
+        "runtime_field_reads": 0
+      },
+      {
+        "name": "net/diebuddies/opengl/StateTracker",
+        "raw_sha256": "46ec2088eb51d0d751a3146fb04f483fc1f6ed5d6e1d8cb7cee5f533c3e6fcaf",
+        "canonical_sha256": "9694a5faeb446b7e7ed32c8e3d4432a173a6f8dde9616288a9a20a40b1f77693",
+        "GL_sites": 1,
+        "capability_reads": 0,
+        "runtime_field_reads": 0
+      },
+      {
+        "name": "net/diebuddies/opengl/Data",
+        "raw_sha256": "977cecb63cfd1ccaa502c734e40bddadc2a8aeefad15156a480859cf9e463a04",
+        "canonical_sha256": "9f2771792774672388c938ffc4753297cfe6a9e0516d838091179ef9556e76bf",
+        "GL_sites": 0,
+        "capability_reads": 0,
+        "runtime_field_reads": 0
+      },
+      {
+        "name": "net/diebuddies/opengl/VAOHeader",
+        "raw_sha256": "61a8e77cb68d3f8004ccaf91a0b85d9671e06aca859aae3366bc052df69ce795",
+        "canonical_sha256": "96c2b147cce8948d3d062e952747048f65de7da42715b0a7d0a897ec7280ab12",
+        "GL_sites": 0,
+        "capability_reads": 0,
+        "runtime_field_reads": 0
+      }
+    ],
+    "private_originals_only": true
+  },
+  "private_originals_distributed": false,
+  "fullpack_FPS_accepted": false
+}

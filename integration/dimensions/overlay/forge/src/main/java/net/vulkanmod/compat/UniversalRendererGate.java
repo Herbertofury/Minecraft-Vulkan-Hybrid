@@ -36,7 +36,7 @@ import java.util.zip.ZipInputStream;
 public final class UniversalRendererGate {
     public static final String MODE_PROPERTY = "harimt.vulkan.mode"; // auto | require | force | off
     public static final String CACHE_PROPERTY = "harimt.vulkan.compatCache"; // default true
-    private static final String CACHE_SCHEMA = "2.4.11-vulkan-gate-v20-verified-original-physics-vertex-delegates";
+    private static final String CACHE_SCHEMA = "2.4.11-vulkan-gate-v21-verified-original-physics-outer-vao";
 
     private static final Pattern MOD_ID = Pattern.compile("(?m)^\\s*modId\\s*=\\s*[\\\"']([^\\\"']+)[\\\"']");
     private static final Pattern FABRIC_ID = Pattern.compile("\"id\"\\s*:\\s*\"([^\"]+)\"");
@@ -445,6 +445,7 @@ public final class UniversalRendererGate {
         if (PhysicsShaderCallerAudit.translated(entry, bytes)) return;
         if (PhysicsBufferCallerAudit.translated(entry, bytes)) return;
         if (PhysicsVertexCallerAudit.translated(entry, bytes)) return;
+        if (PhysicsVaoCallerAudit.translated(entry, bytes)) return;
         collectUnsupported(openGlMethodRefs(new ByteArrayInputStream(bytes)), contracts, unsupported, source);
     }
 

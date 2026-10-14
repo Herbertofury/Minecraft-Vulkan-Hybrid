@@ -36,3 +36,7 @@ Fresh assembly/build now produces `harimt-forge-1.20.1-2.4.11-noxviola.42-dimens
 ## Native vertex binding/instance continuation
 
 Fresh assembly/build produces `harimt-forge-1.20.1-2.4.11-noxviola.44-dimensions-vulkan-hybrid-all.jar`, SHA256 `ed730c6e229b64904faf7af57be508035b3ed044bf62869c719fe7913a026436`. [85 actual native GPU cases/limits](../benchmarks/results/native-vertex-bindings-20261014/REPORT.md). Java17, isolated authenticated installed Modrinth MC1.20.1/Forge47.4.26, native-required configuration and stack1024 remain required. Device divisors are queried/optional; no capability spoof. Complete full327 before personal promotion or FPS claims; prior checkpoints remain preserved.
+
+## Original native Physics VAO continuation
+
+Fresh integration assembly and Java17 `:forge:build` now produce `harimt-forge-1.20.1-2.4.11-noxviola.47-dimensions-vulkan-hybrid-all.jar`, SHA256 `0f254f08713ca590205de0dbe1d8e2ace3f82237e000736db96c5c09ed92497e`. [99 actual GPU cases and automatic original GAME VAO proof](../benchmarks/results/native-physics-vao-20261014/REPORT.md). Isolated installed/authenticated Modrinth MC1.20.1/Forge47.4.26, native-required configuration and `-Dorg.lwjgl.system.stackSize=1024` remain the tested launch route. Native constructors/arrays/indexed/instanced draws pass; full327 remains blocked387 references, so full-pack gameplay/FPS and personal promotion are unaccepted. Earlier build artifacts remain preserved.
