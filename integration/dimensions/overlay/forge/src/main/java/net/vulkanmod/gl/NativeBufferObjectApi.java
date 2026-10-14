@@ -34,7 +34,7 @@ public final class NativeBufferObjectApi {
         var next=size==0?null:new NativePixelBufferApi.Store((int)size,USAGES);var old=e.store;
         // Input may point into old mapped storage. Initialize while it is still alive.
         if(next!=null&&input!=null)MemoryUtil.memCopy(MemoryUtil.memAddress(input),next.pointer,input.remaining());
-        e.store=next;e.mapped=false;e.usage=usage;
+        e.store=next;e.mapped=false;e.mapOffset=0;e.mapLength=0;e.mapFlags=0;e.usage=usage;
         GlBuffer name=GlBuffer.nativeBoundBuffer(target);name.size=(int)size;name.version++;if(old!=null)old.delete();return true;
     }
     private static long bytes(Buffer source,int width){return source==null?0:(long)source.remaining()*width;}
@@ -65,11 +65,24 @@ public final class NativeBufferObjectApi {
     public static void glBufferSubData(int target,long offset,IntBuffer source){subData(target,offset,raw(source,4));}
     public static void glBufferSubData(int target,long offset,ShortBuffer source){subData(target,offset,raw(source,2));}
     public static ByteBuffer glMapBuffer(int target,int access){
-        owner();var e=bound(target);if(e==null)return null;if(e.mapped||e.store==null){NativeGlErrors.record(1282);return null;}
-        if(access!=0x88B8&&access!=0x88B9&&access!=0x88BA){NativeGlErrors.record(1280);return null;}
-        if(access!=0x88B8)writable(e);e.mapped=true;return MemoryUtil.memByteBuffer(e.store.pointer,e.store.size).order(ByteOrder.nativeOrder());
+        owner();var e=bound(target);return mapLegacy(e,access,e==null||e.store==null?0:e.store.size);
     }
-    public static boolean glUnmapBuffer(int target){owner();var e=bound(target);if(e==null||!e.mapped){NativeGlErrors.record(1282);return false;}e.mapped=false;GlBuffer.nativeBoundBuffer(target).version++;return true;}
+    public static ByteBuffer glMapBuffer(int target,int access,long length,ByteBuffer previous){owner();return mapLegacy(bound(target),access,length);}
+    private static ByteBuffer mapLegacy(NativePixelBufferApi.Entry e,int access,long length){
+        if(e==null)return null;if(e.mapped||e.store==null){NativeGlErrors.record(1282);return null;}
+        if(access!=0x88B8&&access!=0x88B9&&access!=0x88BA){NativeGlErrors.record(1280);return null;}
+        if(length<0||length>e.store.size){NativeGlErrors.record(1281);return null;}
+        if(access!=0x88B8)writable(e);e.mapped=true;e.mapOffset=0;e.mapLength=e.store.size;e.mapFlags=access==0x88B8?1:access==0x88B9?2:3;return MemoryUtil.memByteBuffer(e.store.pointer,(int)length).order(ByteOrder.nativeOrder());
+    }
+    public static ByteBuffer glMapBufferRange(int target,long offset,long length,int access){return glMapBufferRange(target,offset,length,access,null);}
+    public static ByteBuffer glMapBufferRange(int target,long offset,long length,int access,ByteBuffer previous){
+        owner();var e=bound(target);if(e==null)return null;if(!range(e,offset,length))return null;if(e.store==null||length==0){NativeGlErrors.record(1282);return null;}
+        if((access&~0xff)!=0){NativeGlErrors.record(1281);return null;}if((access&3)==0||((access&1)!=0&&(access&(4|8|32))!=0)||((access&16)!=0&&(access&2)==0)||(access&(64|128))!=0){NativeGlErrors.record(1282);return null;}
+        if((access&~3)!=0)throw new UnsupportedOperationException("Native ranged mapping needs additional invalidation/flush/unsynchronized contracts");
+        if((access&2)!=0)writable(e);e.mapped=true;e.mapOffset=offset;e.mapLength=length;e.mapFlags=access;return MemoryUtil.memByteBuffer(e.store.pointer+offset,(int)length).order(ByteOrder.nativeOrder());
+    }
+    public static boolean glUnmapBuffer(int target){owner();var e=bound(target);if(e==null||!e.mapped){NativeGlErrors.record(1282);return false;}e.mapped=false;e.mapOffset=0;e.mapLength=0;e.mapFlags=0;GlBuffer.nativeBoundBuffer(target).version++;return true;}
+    public static int glGetInteger(int parameter){owner();if(parameter==0x85B5||parameter==0x8895)return NativeVertexArrayApi.glGetInteger(parameter);if(parameter==0x8A28){var b=GlBuffer.nativeBoundBuffer(0x8A11);return b==null?0:b.getId();}if(Set.of(0x8894,0x8F36,0x8F37,0x88ED,0x88EF).contains(parameter))return GlBuffer.getBoundId(parameter);throw new UnsupportedOperationException("Unreviewed native buffer binding query: "+parameter);}
     public static void glCopyBufferSubData(int readTarget,int writeTarget,long readOffset,long writeOffset,long size){
         owner();var src=bound(readTarget);var dst=bound(writeTarget);if(!range(src,readOffset,size)||!range(dst,writeOffset,size))return;
         if(src==dst&&size>0&&readOffset<writeOffset+size&&writeOffset<readOffset+size){NativeGlErrors.record(1281);return;}if(size==0)return;
@@ -85,7 +98,7 @@ public final class NativeBufferObjectApi {
         }
         long fence=queue.submitCommands(command);int result=vkWaitForFences(DeviceManager.vkDevice,fence,true,-1L);if(result!=VK_SUCCESS)throw new IllegalStateException("Native buffer copy fence failed: "+result);copies++;GlBuffer.nativeBoundBuffer(writeTarget).version++;
     }
-    public static int glGetBufferParameteri(int target,int parameter){owner();var e=bound(target);if(e==null)return 0;return switch(parameter){case 0x8764->e.store==null?0:e.store.size;case 0x8765->e.usage;case 0x88BC->e.mapped?1:0;default->{NativeGlErrors.record(1280);yield 0;}};}
+    public static int glGetBufferParameteri(int target,int parameter){owner();var e=bound(target);if(e==null)return 0;return switch(parameter){case 0x8764->e.store==null?0:e.store.size;case 0x8765->e.usage;case 0x88BC->e.mapped?1:0;case 0x911F->e.mapFlags;case 0x9120->Math.toIntExact(e.mapLength);case 0x9121->Math.toIntExact(e.mapOffset);default->{NativeGlErrors.record(1280);yield 0;}};}
     public static long bufferHandle(int name){owner();var e=NativePixelBufferApi.ENTRIES.get(name);return e==null||e.store==null?0:e.store.buffer;}
     public static Map<String,Long> transferSnapshot(){owner();return Map.of("copies",copies,"retainedReaderReplacements",replacements);}
     static NativePixelBufferApi.Store drawStorage(int name,long offset,long bytes,int usage){

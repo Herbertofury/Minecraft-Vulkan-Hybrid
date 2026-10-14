@@ -24,7 +24,7 @@ public final class NativePixelBufferApi {
     private static final Set<Store> ALLOCATIONS=new HashSet<>();
     private static final Map<VulkanImage,Integer> PENDING_IMAGES=new IdentityHashMap<>();
     private static long gpuUploads,gpuDownloads;
-    static final class Entry { Store store; boolean mapped,deleted; int usage=0x88E4,vertexReferences; }
+    static final class Entry { Store store; boolean mapped,deleted; int usage=0x88E4,vertexReferences,mapFlags; long mapOffset,mapLength; }
     static final class Store {
         final long allocator,buffer,allocation,pointer; final int size,vkUsage;
         int recordedUses; boolean deleted,destroyed;
@@ -68,7 +68,7 @@ public final class NativePixelBufferApi {
         owner();Entry entry=bound(target);if(entry==null){error(1282);return;}
         if(size<0||size>Integer.MAX_VALUE){error(1281);return;}
         if(!Set.of(0x88E0,0x88E1,0x88E2,0x88E4,0x88E5,0x88E6,0x88E8,0x88E9,0x88EA).contains(usage)){error(1280);return;}
-        Store replacement=size==0?null:new Store((int)size);Store old=entry.store;entry.store=replacement;entry.mapped=false;entry.usage=usage;
+        Store replacement=size==0?null:new Store((int)size);Store old=entry.store;entry.store=replacement;entry.mapped=false;entry.mapOffset=0;entry.mapLength=0;entry.mapFlags=0;entry.usage=usage;
         var name=boundName(target);name.size=(int)size;name.version++;
         if(old!=null)old.delete();
     }
@@ -77,11 +77,11 @@ public final class NativePixelBufferApi {
         owner();Entry entry=bound(target);if(entry==null||entry.store==null||entry.mapped){error(1282);return null;}
         if(access!=0x88B8&&access!=0x88B9&&access!=0x88BA){error(1280);return null;}
         if(length<0||length>entry.store.size){error(1281);return null;}
-        entry.mapped=true;
+        entry.mapped=true;entry.mapOffset=0;entry.mapLength=entry.store.size;entry.mapFlags=access==0x88B8?1:access==0x88B9?2:3;
         if(previous!=null&&previous.isDirect()&&MemoryUtil.memAddress0(previous)==entry.store.pointer&&previous.capacity()==length)return previous;
         return MemoryUtil.memByteBuffer(entry.store.pointer,(int)length).order(ByteOrder.nativeOrder());
     }
-    public static boolean glUnmapBuffer(int target){owner();Entry entry=bound(target);if(entry==null||!entry.mapped){error(1282);return false;}entry.mapped=false;return true;}
+    public static boolean glUnmapBuffer(int target){owner();Entry entry=bound(target);if(entry==null||!entry.mapped){error(1282);return false;}entry.mapped=false;entry.mapOffset=0;entry.mapLength=0;entry.mapFlags=0;return true;}
     public static void glDeleteBuffers(int name){owner();GlBuffer.glDeleteBuffers(name);}
     static void retireNameIfOwned(int name){Entry entry=ENTRIES.remove(name);if(entry==null)return;entry.mapped=false;entry.deleted=true;NativeVertexArrayApi.nameDeleted(name,entry);if(entry.vertexReferences==0&&entry.store!=null)entry.store.delete();}
     public static void glDeleteBuffers(IntBuffer names){owner();for(int n=names.position();n<names.limit();n++)glDeleteBuffers(names.get(n));}

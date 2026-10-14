@@ -1,0 +1,262 @@
+{
+  "base_feature_commit": "e67faced198fce9643c7af542d2e75c020b93769",
+  "version": 49,
+  "files": {
+    "integration/dimensions/overlay/gradle.properties": "796f0689af9e6ba963d0e88d3b2cfc37294cdf78408d06ffcd26c0e2eecfac65",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/EssentialDeviceBufferCallers.java": "af271fad2756b4bc8bb6e56dec0512ad931489170dc96bcffee4d905f6855be2",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/NativeBufferObjectApi.java": "1a51e90ec4964b463dc92a0c25bdd31248391cfcdcd9ca089fd1bc23bcae0468",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/NativeEssentialBufferRuntime.java": "8db63fcd84b5b0e1dfd8b8e05fdc74e4b5b3d0aef2a51ccf324fcc619663da96",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/NativePixelBufferApi.java": "7eb42af8cb63aa7ef4cee3f2f08e3f3a2200566ee6a7b8c138eb39ede8ed2e42"
+  },
+  "production_sha256": "870aad789ef897c8cd0162ef9d60d5441f624f2dba80430c5eb8f94afdcc6565",
+  "private_originals_distributed": false,
+  "partial_root_buffers_only": true,
+  "full_device_or_FPS_accepted": false,
+  "pins": {
+    "partial_root_buffer_scope_only": true,
+    "full_device_accepted": false,
+    "classes": [
+      {
+        "name": "gg/essential/universal/render/UGpuDeviceImpl",
+        "raw_sha256": "250ccd29c6ed2a610e4cea508c6750f1452b92e20b39824770e67596f16eb52d",
+        "canonical_sha256": "ac1a55d26a3540c026566ebda4e832a554511068e7cf4224912a1bdc5e481de1",
+        "selected_methods": [
+          {
+            "declaration": "public gg.essential.universal.render.UGpuBuffer createBuffer(gg.essential.universal.render.UGpuBuffer$Usage, long);",
+            "GL_calls": [
+              "org/lwjgl/opengl/GL15.glGenBuffers:()I",
+              "org/lwjgl/opengl/GL11.glGetInteger:(I)I",
+              "org/lwjgl/opengl/GL30.glBindVertexArray:(I)V",
+              "org/lwjgl/opengl/GL11.glGetInteger:(I)I",
+              "org/lwjgl/opengl/GL15.glBindBuffer:(II)V",
+              "org/lwjgl/opengl/GL15.glBufferData:(IJI)V",
+              "org/lwjgl/opengl/GL15.glBindBuffer:(II)V",
+              "org/lwjgl/opengl/GL30.glBindVertexArray:(I)V",
+              "org/lwjgl/opengl/GL15.glBindBuffer:(II)V",
+              "org/lwjgl/opengl/GL30.glBindVertexArray:(I)V"
+            ]
+          },
+          {
+            "declaration": "public gg.essential.universal.render.UGpuBuffer createBuffer(gg.essential.universal.render.UGpuBuffer$Usage, java.nio.ByteBuffer);",
+            "GL_calls": [
+              "org/lwjgl/opengl/GL15.glGenBuffers:()I",
+              "org/lwjgl/opengl/GL11.glGetInteger:(I)I",
+              "org/lwjgl/opengl/GL30.glBindVertexArray:(I)V",
+              "org/lwjgl/opengl/GL11.glGetInteger:(I)I",
+              "org/lwjgl/opengl/GL15.glBindBuffer:(II)V",
+              "org/lwjgl/opengl/GL15.glBufferData:(ILjava/nio/ByteBuffer;I)V",
+              "org/lwjgl/opengl/GL15.glBindBuffer:(II)V",
+              "org/lwjgl/opengl/GL30.glBindVertexArray:(I)V",
+              "org/lwjgl/opengl/GL15.glBindBuffer:(II)V",
+              "org/lwjgl/opengl/GL30.glBindVertexArray:(I)V"
+            ]
+          },
+          {
+            "declaration": "public gg.essential.universal.render.UGpuDevice$MappedBuffer mapBuffer(gg.essential.universal.render.UGpuBufferSlice, boolean, boolean);",
+            "GL_calls": [
+              "org/lwjgl/opengl/GL11.glGetInteger:(I)I",
+              "org/lwjgl/opengl/GL30.glBindVertexArray:(I)V",
+              "org/lwjgl/opengl/GL11.glGetInteger:(I)I",
+              "org/lwjgl/opengl/GL15.glBindBuffer:(II)V",
+              "org/lwjgl/opengl/GL30.glMapBufferRange:(IJJILjava/nio/ByteBuffer;)Ljava/nio/ByteBuffer;",
+              "org/lwjgl/opengl/GL15.glMapBuffer:(IIJLjava/nio/ByteBuffer;)Ljava/nio/ByteBuffer;",
+              "org/lwjgl/opengl/GL15.glBindBuffer:(II)V",
+              "org/lwjgl/opengl/GL30.glBindVertexArray:(I)V",
+              "org/lwjgl/opengl/GL15.glBindBuffer:(II)V",
+              "org/lwjgl/opengl/GL30.glBindVertexArray:(I)V"
+            ]
+          },
+          {
+            "declaration": "private final <T> T withBufferBound(gg.essential.universal.render.UGpuBufferImpl, kotlin.jvm.functions.Function1<? super java.lang.Integer, ? extends T>);",
+            "GL_calls": [
+              "org/lwjgl/opengl/GL11.glGetInteger:(I)I",
+              "org/lwjgl/opengl/GL30.glBindVertexArray:(I)V",
+              "org/lwjgl/opengl/GL11.glGetInteger:(I)I",
+              "org/lwjgl/opengl/GL15.glBindBuffer:(II)V",
+              "org/lwjgl/opengl/GL15.glBindBuffer:(II)V",
+              "org/lwjgl/opengl/GL30.glBindVertexArray:(I)V",
+              "org/lwjgl/opengl/GL15.glBindBuffer:(II)V",
+              "org/lwjgl/opengl/GL30.glBindVertexArray:(I)V"
+            ]
+          }
+        ],
+        "selected_GL_sites": 38,
+        "unselected_GL_sites": 46
+      },
+      {
+        "name": "gg/essential/universal/render/UGpuBufferImpl",
+        "raw_sha256": "11ca2eaadd6450e50d8a9c90a80015f1a5e78cd503df1db7872ea49cc8a8a517",
+        "canonical_sha256": "222189b2c3a6802e90412b5b7f015ae8eca96f79b12dd94dc6902a7d18a9790c",
+        "selected_methods": [
+          {
+            "declaration": "public gg.essential.universal.render.UGpuBufferImpl(gg.essential.universal.render.UGpuBuffer$Usage, long, int);",
+            "GL_calls": []
+          },
+          {
+            "declaration": "public final gg.essential.universal.render.UGpuBuffer$Usage getUsage();",
+            "GL_calls": []
+          },
+          {
+            "declaration": "public long getSize();",
+            "GL_calls": []
+          },
+          {
+            "declaration": "public final int getGlId();",
+            "GL_calls": []
+          },
+          {
+            "declaration": "public boolean isClosed();",
+            "GL_calls": []
+          },
+          {
+            "declaration": "public final int getMappedCount();",
+            "GL_calls": []
+          },
+          {
+            "declaration": "public final void setMappedCount(int);",
+            "GL_calls": []
+          },
+          {
+            "declaration": "public void close();",
+            "GL_calls": [
+              "org/lwjgl/opengl/GL15.glDeleteBuffers:(I)V"
+            ]
+          }
+        ],
+        "selected_GL_sites": 1,
+        "unselected_GL_sites": 0
+      },
+      {
+        "name": "gg/essential/universal/render/UGpuDeviceImpl$mapBuffer$5",
+        "raw_sha256": "626a43a5d2f74eeb7efec613c1a5cabb2d4aad07456738accffce466fdc3eef5",
+        "canonical_sha256": "c53ce7ce4b4cf252be3afe5a02a4638d1f33adddb2075439c0e3013cb32eb82e",
+        "selected_methods": [
+          {
+            "declaration": "gg.essential.universal.render.UGpuDeviceImpl$mapBuffer$5(java.nio.ByteBuffer, gg.essential.universal.render.UGpuBufferSlice);",
+            "GL_calls": []
+          },
+          {
+            "declaration": "public java.nio.ByteBuffer getData();",
+            "GL_calls": []
+          },
+          {
+            "declaration": "public final boolean getClosed();",
+            "GL_calls": []
+          },
+          {
+            "declaration": "public final void setClosed(boolean);",
+            "GL_calls": []
+          },
+          {
+            "declaration": "public void close();",
+            "GL_calls": [
+              "org/lwjgl/opengl/GL11.glGetInteger:(I)I",
+              "org/lwjgl/opengl/GL30.glBindVertexArray:(I)V",
+              "org/lwjgl/opengl/GL11.glGetInteger:(I)I",
+              "org/lwjgl/opengl/GL15.glBindBuffer:(II)V",
+              "org/lwjgl/opengl/GL15.glUnmapBuffer:(I)Z",
+              "org/lwjgl/opengl/GL15.glBindBuffer:(II)V",
+              "org/lwjgl/opengl/GL30.glBindVertexArray:(I)V",
+              "org/lwjgl/opengl/GL15.glBindBuffer:(II)V",
+              "org/lwjgl/opengl/GL30.glBindVertexArray:(I)V"
+            ]
+          }
+        ],
+        "selected_GL_sites": 9,
+        "unselected_GL_sites": 0
+      },
+      {
+        "name": "gg/essential/universal/render/UGpuDeviceImpl$OpenGL30$2",
+        "raw_sha256": "4ebf9f1c36de5909e158bbdc6e676ce62170d8b6979204db1968caa336ce7fb5",
+        "canonical_sha256": "923c326104ff63442e55d8cfe6cd613bdb6d4d6b8a4cd56dfe45111c2b3d105c",
+        "selected_methods": [
+          {
+            "declaration": "gg.essential.universal.render.UGpuDeviceImpl$OpenGL30$2();",
+            "GL_calls": []
+          },
+          {
+            "declaration": "public final java.lang.Boolean invoke();",
+            "GL_calls": [
+              "org/lwjgl/opengl/GL.getCapabilities:()Lorg/lwjgl/opengl/GLCapabilities;"
+            ]
+          },
+          {
+            "declaration": "public java.lang.Object invoke();",
+            "GL_calls": []
+          }
+        ],
+        "selected_GL_sites": 1,
+        "unselected_GL_sites": 0
+      },
+      {
+        "name": "gg/essential/universal/render/UGpuDeviceImpl$OpenGL31$2",
+        "raw_sha256": "a7cfb49002d84e656c1b00481cf9fde73eefd552b81421db31dd44d06487bf92",
+        "canonical_sha256": "1ebd0b108ed054b149666d615695539a95b56d7f1568cbc99cadb1f96a346c3a",
+        "selected_methods": [
+          {
+            "declaration": "gg.essential.universal.render.UGpuDeviceImpl$OpenGL31$2();",
+            "GL_calls": []
+          },
+          {
+            "declaration": "public final java.lang.Boolean invoke();",
+            "GL_calls": [
+              "org/lwjgl/opengl/GL.getCapabilities:()Lorg/lwjgl/opengl/GLCapabilities;"
+            ]
+          },
+          {
+            "declaration": "public java.lang.Object invoke();",
+            "GL_calls": []
+          }
+        ],
+        "selected_GL_sites": 1,
+        "unselected_GL_sites": 0
+      },
+      {
+        "name": "gg/essential/universal/render/UGpuDeviceImpl$ARB_map_buffer_range$2",
+        "raw_sha256": "86b5e8e54eed230507e522d939de35c7f5b5947984f352e61d0c2355a5b041a1",
+        "canonical_sha256": "0dd9d72e6feb93c78e4cb7be3cabb2555ed1b2485830cb249ab67702195bcb5c",
+        "selected_methods": [
+          {
+            "declaration": "gg.essential.universal.render.UGpuDeviceImpl$ARB_map_buffer_range$2();",
+            "GL_calls": []
+          },
+          {
+            "declaration": "public final java.lang.Boolean invoke();",
+            "GL_calls": [
+              "org/lwjgl/opengl/GL.getCapabilities:()Lorg/lwjgl/opengl/GLCapabilities;"
+            ]
+          },
+          {
+            "declaration": "public java.lang.Object invoke();",
+            "GL_calls": []
+          }
+        ],
+        "selected_GL_sites": 1,
+        "unselected_GL_sites": 0
+      },
+      {
+        "name": "gg/essential/universal/render/UGpuDeviceImpl$tmpVao$2",
+        "raw_sha256": "84f2a6bdf96f48082f02905808f2adc0a396642460a9941d0ef11cc227424081",
+        "canonical_sha256": "a34c0260b08016c67d551b72f56c1657b3184b1c2cc1bfda01555fa9358a2edb",
+        "selected_methods": [
+          {
+            "declaration": "gg.essential.universal.render.UGpuDeviceImpl$tmpVao$2();",
+            "GL_calls": []
+          },
+          {
+            "declaration": "public final java.lang.Integer invoke();",
+            "GL_calls": [
+              "org/lwjgl/opengl/GL30.glGenVertexArrays:()I"
+            ]
+          },
+          {
+            "declaration": "public java.lang.Object invoke();",
+            "GL_calls": []
+          }
+        ],
+        "selected_GL_sites": 1,
+        "unselected_GL_sites": 0
+      }
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "source_version": 49,
+  "GPU_cases": 106,
+  "pixels": 60448,
+  "mismatch": 0,
+  "old99_identical": true,
+  "original_typed_buffer_invocations": 65,
+  "normal_sites": 49,
+  "native_capability_routes": 3,
+  "unexecuted_root_GL_sites": 46,
+  "controls": 57,
+  "private_loader_only": true,
+  "full_Essential_device_accepted": false,
+  "fullpack_native_or_FPS_accepted": false,
+  "production_sha256": "870aad789ef897c8cd0162ef9d60d5441f624f2dba80430c5eb8f94afdcc6565",
+  "original327_and_profiles_restored": true,
+  "full327_remaining_references": 387,
+  "full327_unique_APIs": 173,
+  "full327_archives": 21,
+  "helper_to_java_seconds": 2.579
+}
