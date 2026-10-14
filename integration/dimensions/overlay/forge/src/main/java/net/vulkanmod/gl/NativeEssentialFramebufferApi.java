@@ -52,6 +52,15 @@ public final class NativeEssentialFramebufferApi {
         target.pass=builder.build();
     }
     private static int edge(long value,int extent){return(int)Math.max(0L,Math.min(value,(long)extent));}
+    public static Object invokeFramebufferAction(Object function) {
+        owner();if(function==null)throw new IllegalArgumentException("Original framebuffer action required");Target target=target(0x8CA9);prepare(target);
+        return Renderer.getInstance().runInFramebuffer(target.pass,target.framebuffer,()->{
+            try {var method=function.getClass().getMethod("invoke");method.setAccessible(true);return method.invoke(function);}
+            catch(java.lang.reflect.InvocationTargetException failure){return NativeEssentialFramebufferApi.<RuntimeException,Object>throwOriginal(failure.getCause());}
+            catch(ReflectiveOperationException failure){throw new IllegalArgumentException("Original framebuffer Function0 unavailable",failure);}
+        });
+    }
+    @SuppressWarnings("unchecked") private static <E extends Throwable,T> T throwOriginal(Throwable failure)throws E{throw(E)failure;}
     public static void glClear(int mask){
         owner();if((mask&~(0x4000|0x100))!=0)throw new UnsupportedOperationException("Additional typed framebuffer clear aspect required");if(mask==0)return;if(!Renderer.isRecording())throw new IllegalStateException("Native framebuffer clear outside owned recording");
         Target target=target(0x8CA9);prepare(target);boolean color=(mask&0x4000)!=0&&target.draw!=0&&target.colorImage!=null,depth=(mask&0x100)!=0&&target.depthImage!=null;if(!color&&!depth)return;

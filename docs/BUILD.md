@@ -52,3 +52,7 @@ Fresh assembly and Java17 `:forge:build` produce `harimt-forge-1.20.1-2.4.11-nox
 ## Native Essential framebuffer continuation
 
 Fresh assembly and Java17 `:forge:build` produce `harimt-forge-1.20.1-2.4.11-noxviola.54-dimensions-vulkan-hybrid-all.jar`, SHA256 `16f1cd2050148c38a459b819a291b8954b2a7c5e16317d06d94313999211d3a6`. [129 actual native GPU cases and original clear scope](../benchmarks/results/native-essential-framebuffers-20261014/REPORT.md). Tested authenticated isolated Modrinth MC1.20.1/Forge47.4.26/native-required/stack1024. Original clipped clears and retained mip/state pass;21 root GL sites/full provider/327-mod gameplay remain incomplete. Earlier artifacts/default framebuffer behavior remain preserved.
+
+## Native Essential integrated provider-call continuation
+
+Fresh assembly and Java17 `:forge:build` produce `harimt-forge-1.20.1-2.4.11-noxviola.55-dimensions-vulkan-hybrid-all.jar`, SHA256 `cf8eda8fd3d22fb6501d0d6be271593020c8aa6f00b8a8fd3f6eabb4535a4eaa`. [141 actual native GPU cases and original integrated chain](../benchmarks/results/native-essential-provider-20261014/REPORT.md), [exact owned reproduction](../benchmarks/results/native-essential-provider-20261014/REPRODUCE.md). Authenticated isolated Modrinth MC1.20.1/Forge47.4.26/native-required/stack1024 is tested. Original uploads/framebuffer actions work; full typed render-pass/provider/automatic GAME/full327 gameplay remains incomplete. No personal promotion or FPS claim.

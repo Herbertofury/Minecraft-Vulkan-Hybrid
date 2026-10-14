@@ -519,6 +519,21 @@ public class Renderer {
         endRenderPass(currentCmdBuffer);
     }
 
+    /** Execute an original framebuffer action with its raster state and actual native target. */
+    @SuppressWarnings("unchecked")
+    public <T> T runInFramebuffer(RenderPass pass, Framebuffer framebuffer, java.util.function.Supplier<T> action) {
+        RasterState raster = new RasterState();
+        Object[] result = new Object[1];
+        runOutsideRenderPass(command -> {
+            try (MemoryStack stack = stackPush()) {
+                framebuffer.beginRenderPass(command, pass, stack);
+                try { raster.restore(); result[0] = action.get(); }
+                finally { endRenderPass(command); }
+            }
+        });
+        return (T) result[0];
+    }
+
     /** Record native compute on the same queue between passes, preserving raster and clipping state. */
     public void runOutsideRenderPass(java.util.function.Consumer<VkCommandBuffer> action) {
         if (!recordingCmds || boundRenderPass == null || boundFramebuffer == null)

@@ -163,6 +163,8 @@ public class GraphicsPipeline extends Pipeline {
             colorBlending.logicOpEnable(PipelineState.LogicOpState.enable(state.logicOp_i));
             colorBlending.logicOp(PipelineState.LogicOpState.decodeFun(state.logicOp_i));
             colorBlending.pAttachments(colorBlendAttachment);
+            if (state.renderPass.getFramebuffer().getColorAttachment() == null)
+                colorBlending.pAttachments(null).attachmentCount(0);
             colorBlending.blendConstants(stack.floats(0.0f, 0.0f, 0.0f, 0.0f));
 
             // ===> DYNAMIC STATES <===
@@ -197,7 +199,8 @@ public class GraphicsPipeline extends Pipeline {
                 //dyn-rendering
                 VkPipelineRenderingCreateInfoKHR renderingInfo = VkPipelineRenderingCreateInfoKHR.calloc(stack);
                 renderingInfo.sType(KHRDynamicRendering.VK_STRUCTURE_TYPE_PIPELINE_RENDERING_CREATE_INFO_KHR);
-                renderingInfo.pColorAttachmentFormats(stack.ints(state.renderPass.getFramebuffer().getFormat()));
+                if (state.renderPass.getFramebuffer().getColorAttachment() != null)
+                    renderingInfo.pColorAttachmentFormats(stack.ints(state.renderPass.getFramebuffer().getFormat()));
                 renderingInfo.depthAttachmentFormat(state.renderPass.getFramebuffer().getDepthFormat());
                 renderingInfo.stencilAttachmentFormat(NativeStencilPipelineState.attachmentFormat(state.renderPass.getFramebuffer().getDepthFormat()));
                 pipelineInfo.pNext(renderingInfo);
