@@ -3,18 +3,19 @@ import net.vulkanmod.gl.NativeGlErrors;
 import net.vulkanmod.vulkan.shader.NativeUiProgram;
 import java.nio.*;
 import java.util.*;
-import org.lwjgl.opengl.GL20;
 
 public final class NativePhysicsUniformRegression {
+    // Specification constants only; this native compiler SDK has no GL binding/context.
+    private static final int GL_VERTEX_SHADER=0x8B31,GL_FRAGMENT_SHADER=0x8B30,GL_COMPILE_STATUS=0x8B81,GL_LINK_STATUS=0x8B82,GL_ACTIVE_UNIFORMS=0x8B86;
     static void require(boolean v,String m){if(!v)throw new AssertionError(m);}
-    static int stage(int kind,String source){int id=GlProgram.createShader(kind);GlProgram.shaderSource(id,source);GlProgram.compileShader(id);require(GlProgram.getShaderi(id,GL20.GL_COMPILE_STATUS)==1,GlProgram.getShaderInfoLog(id));return id;}
+    static int stage(int kind,String source){int id=GlProgram.createShader(kind);GlProgram.shaderSource(id,source);GlProgram.compileShader(id);require(GlProgram.getShaderi(id,GL_COMPILE_STATUS)==1,GlProgram.getShaderInfoLog(id));return id;}
     public static void main(String[] ignored){
         String vertex="attribute vec3 Position; uniform mat2 rotate2[2]; uniform mat3 rotate3; uniform mat4 project4; void main(){vec3 p=rotate3*vec3(Position.xy,1);vec2 q=rotate2[1]*p.xy;gl_Position=project4*vec4(q,0,1);}";
         String fragment="uniform float weights[4];uniform vec2 offsets[2];uniform vec3 palette[2];uniform vec4 tint;uniform int state;uniform float dead;out vec4 resultColor;void main(){resultColor=vec4(weights[3]+offsets[1].x,palette[1].g,tint.b,float(state)/255.0);}";
-        int v=stage(GL20.GL_VERTEX_SHADER,vertex),f=stage(GL20.GL_FRAGMENT_SHADER,fragment),p=GlProgram.createProgram();GlProgram.attachShader(p,v);GlProgram.attachShader(p,f);GlProgram.bindAttribLocation(p,0,"Position");GlProgram.bindFragDataLocation(p,0,"resultColor");GlProgram.linkProgram(p);require(GlProgram.getProgrami(p,GL20.GL_LINK_STATUS)==1,GlProgram.getProgramInfoLog(p));GlProgram.useProgram(p);
+        int v=stage(GL_VERTEX_SHADER,vertex),f=stage(GL_FRAGMENT_SHADER,fragment),p=GlProgram.createProgram();GlProgram.attachShader(p,v);GlProgram.attachShader(p,f);GlProgram.bindAttribLocation(p,0,"Position");GlProgram.bindFragDataLocation(p,0,"resultColor");GlProgram.linkProgram(p);require(GlProgram.getProgrami(p,GL_LINK_STATUS)==1,GlProgram.getProgramInfoLog(p));GlProgram.useProgram(p);
         NativeUiProgram nativeProgram=GlProgram.currentNativeProgram();require(nativeProgram.attributes().equals(List.of(new NativeUiProgram.Attribute("Position","vec3",0))),"bound native attribute");
         require(nativeProgram.uniform("dead")==null && GlProgram.getUniformLocation(p,"dead")==-1,"actual optimized unused uniform excluded");
-        require(GlProgram.getProgrami(p,GL20.GL_ACTIVE_UNIFORMS)==8,"actual active uniform count");
+        require(GlProgram.getProgrami(p,GL_ACTIVE_UNIFORMS)==8,"actual active uniform count");
         Set<String> reflected=new HashSet<>();for(int i=0;i<8;i++){var u=GlProgram.activeUniform(p,i);reflected.add(u.reflectedName());require(GlProgram.uniformType(u)!=0,"real uniform type");}
         require(reflected.contains("rotate2[0]") && reflected.contains("weights[0]"),"original array enumeration spelling");
         int weights=GlProgram.getUniformLocation(p,"weights"),w0=GlProgram.getUniformLocation(p,"weights[0]"),w3=GlProgram.getUniformLocation(p,"weights[3]");require(weights==w0 && w3==weights+3,"contiguous owned array locations");

@@ -17,3 +17,5 @@ Failures were preserved and fixed narrowly: inactive font-uniform expectations, 
 Source wiki routing is overwritten by ProjectDump's hourly `11 * * * *` main/wikis mirror. [PR30](https://github.com/Herbertofury/ProjectDump/pull/30) is precisely reviewed: one wiki file, six inserted lines, original body bytes retained, no code/workflow/permissions change; no GitHub checks are configured. Standing feature/draft-only scope leaves it unmerged. Avoid repeatedly rewriting generated wiki bytes. [Exact-head review](WIKI-PR30-REVIEW.json).
 
 Original source/history/licenses remain preserved. GameSync, AoA/Enderloom, LoveBites, Apex, Accelerator and other active projects are untouched. No main merge, release, personal promotion, account change or OS/driver change.
+
+The first CI run caught a constants-only test import absent from the declared Vulkan compiler SDK. The new regression now uses specification constants and passes locally with the OpenGL JAR removed. Renderer bytes and the67-case GPU oracles remain unchanged. [Preserved CI failure and narrow fix](PRESERVED-CI-FAILURE.json).
