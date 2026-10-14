@@ -68,3 +68,7 @@ Fresh assembly and Java17 Forge build produce Hari58. [191 actual GPU cases, ori
 ## Original typed Mc pipeline GAME diagnostic
 
 Unchanged Hari58 passes [199 actual native GPU cases with genuine typed builder/uniform/draw/buffer lifetime](../benchmarks/results/native-typed-pipeline-20261014/REPORT.md). [Reproduction](../benchmarks/results/native-typed-pipeline-20261014/REPRODUCE.md). Complete typed render-pass/sampler/legacy/delayed-loader/features remain unfinished; no FPS or personal promotion claim.
+
+## Original native sampler GAME continuation
+
+Fresh assembly and Java17 Forge build produce Hari61. [268 actual GPU cases and original sampler transport](../benchmarks/results/native-original-sampler-20261014/REPORT.md), [reproduction and artifact hash](../benchmarks/results/native-original-sampler-20261014/REPRODUCE.md). Complete typed render-pass/delayed-loader/full327 gameplay remains unfinished; no personal promotion or FPS claim.

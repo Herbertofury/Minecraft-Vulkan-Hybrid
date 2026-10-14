@@ -119,6 +119,7 @@
     "optimization.HolderReferenceMixin",
     "voxel.VoxelShapeMixin",
     "compatibility.fml.ImmediateWindowHandlerMixin",
+    "compatibility.essential.EssentialSamplerCallerMixin",
     "compatibility.essential.EssentialManagedStateCallerMixin",
     "compatibility.essential.EssentialShaderCallerMixin",
     "compatibility.essential.EssentialClipCallerMixin",

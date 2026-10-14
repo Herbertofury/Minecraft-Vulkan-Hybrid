@@ -1,0 +1,839 @@
+{
+  "accepted": true,
+  "original_sampler_GAME_methods_executed": true,
+  "original_native_call_sites": 6,
+  "original_method_invocations": 135,
+  "original_configurations": 68,
+  "GPU_cases": 69,
+  "full_render_pass_provider_FPS_accepted": false,
+  "controls": [
+    {
+      "control": "original-sampler-actual-GAME-owner",
+      "passed": true
+    },
+    {
+      "control": "fresh-original-sampler-GAME-export",
+      "passed": true
+    },
+    {
+      "control": "all-six-original-sampler-sites-native",
+      "passed": true
+    },
+    {
+      "control": "linked-real-native-sampler-program",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-0",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-0",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-0",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-0",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-0-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-0-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-1",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-1",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-1",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-1",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-1-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-1-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-2",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-2",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-2",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-2",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-2-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-2-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-3",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-3",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-3",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-3",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-3-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-3-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-4",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-4",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-4",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-4",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-4-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-4-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-5",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-5",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-5",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-5",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-5-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-5-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-6",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-6",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-6",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-6",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-6-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-6-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-7",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-7",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-7",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-7",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-7-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-7-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-8",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-8",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-8",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-8",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-8-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-8-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-9",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-9",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-9",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-9",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-9-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-9-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-10",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-10",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-10",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-10",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-10-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-10-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-11",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-11",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-11",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-11",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-11-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-11-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-12",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-12",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-12",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-12",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-12-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-12-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-13",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-13",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-13",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-13",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-13-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-13-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-14",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-14",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-14",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-14",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-14-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-14-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-15",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-15",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-15",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-15",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-15-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-15-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-16",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-16",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-16",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-16",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-16-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-16-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-17",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-17",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-17",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-17",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-17-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-17-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-18",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-18",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-18",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-18",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-18-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-18-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-19",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-19",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-19",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-19",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-19-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-19-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-20",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-20",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-20",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-20",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-20-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-20-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-21",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-21",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-21",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-21",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-21-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-21-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-22",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-22",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-22",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-22",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-22-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-22-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-23",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-23",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-23",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-23",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-23-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-23-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-24",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-24",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-24",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-24",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-24-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-24-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-25",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-25",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-25",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-25",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-25-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-25-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-26",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-26",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-26",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-26",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-26-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-26-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-27",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-27",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-27",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-27",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-27-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-27-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-28",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-28",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-28",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-28",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-28-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-28-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-29",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-29",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-29",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-29",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-29-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-29-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-30",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-30",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-30",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-30",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-30-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-30-min",
+      "passed": true
+    },
+    {
+      "control": "original-config-restores-binding-31",
+      "passed": true
+    },
+    {
+      "control": "immutable-equal-sampler-handle-reused-31",
+      "passed": true
+    },
+    {
+      "control": "original-independent-parameters-31",
+      "passed": true
+    },
+    {
+      "control": "original-sampler-copy-equality-31",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-31-mag",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-original-sampler-31-min",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-native-sampler-explicit-nearest-mip1",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-native-sampler-maximum-LOD-zero",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-native-sampler-linear-fractional-mip",
+      "passed": true
+    },
+    {
+      "control": "sampler-replacement-new-handle",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-native-sampler-recorded-reader-retains-old-handle",
+      "passed": true
+    },
+    {
+      "control": "same-name-reallocation-new-native-image",
+      "passed": true
+    },
+    {
+      "control": "actual-sampler-pixels-native-sampler-same-name-new-image-generation",
+      "passed": true
+    },
+    {
+      "control": "invalid-mag-filter-keeps-sampler-binding",
+      "passed": true
+    },
+    {
+      "control": "invalid-LOD-keeps-sampler-binding",
+      "passed": true
+    },
+    {
+      "control": "69-sampler-GPU-cases",
+      "passed": true
+    },
+    {
+      "control": "native-sampler-error-queue-clean",
+      "passed": true
+    }
+  ]
+}

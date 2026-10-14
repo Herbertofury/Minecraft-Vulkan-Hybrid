@@ -121,6 +121,7 @@ final class NativeUiGameSmoke {
         NativeRasterStateSmoke.run(cases);
         NativeEssentialManagedStateSmoke.run(cases);
         NativeEssentialTypedPipelineSmoke.run(cases);
+        NativeEssentialSamplerSmoke.run(cases);
         NativeEssentialClipSmoke.run(cases);
         NativeEssentialSyncSmoke.run(cases);
         NativeEssentialViewportSmoke.run(cases);

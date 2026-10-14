@@ -101,13 +101,52 @@ public abstract class SamplerManager {
         }
     }
 
+    /** Immutable sampler identity. Existing flag-based samplers retain their previous semantics. */
+    public record Parameters(int minFilter,int magFilter,int addressU,int addressV,int addressW,
+                             int mipmapMode,float minLod,float maxLod,float lodBias) {
+        public Parameters {
+            if((minFilter!=VK_FILTER_NEAREST&&minFilter!=VK_FILTER_LINEAR)
+                    ||(magFilter!=VK_FILTER_NEAREST&&magFilter!=VK_FILTER_LINEAR)
+                    ||!address(addressU)||!address(addressV)||!address(addressW)
+                    ||(mipmapMode!=VK_SAMPLER_MIPMAP_MODE_NEAREST&&mipmapMode!=VK_SAMPLER_MIPMAP_MODE_LINEAR)
+                    ||!Float.isFinite(minLod)||!Float.isFinite(maxLod)||!Float.isFinite(lodBias)
+                    ||minLod<0||maxLod<minLod)throw new IllegalArgumentException("Invalid native sampler parameters");
+        }
+        private static boolean address(int value){return value==VK_SAMPLER_ADDRESS_MODE_REPEAT||value==VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;}
+    }
+    private static final java.util.Map<Parameters,Long> INDEPENDENT_SAMPLERS=new java.util.HashMap<>();
+    public static long getTextureSampler(Parameters parameters) {
+        com.mojang.blaze3d.systems.RenderSystem.assertOnRenderThread();
+        if(Math.abs(parameters.lodBias())>DeviceManager.deviceProperties.limits().maxSamplerLodBias())
+            throw new IllegalArgumentException("Sampler LOD bias exceeds actual device limit");
+        return INDEPENDENT_SAMPLERS.computeIfAbsent(parameters,SamplerManager::createTextureSampler);
+    }
+    private static long createTextureSampler(Parameters p) {
+        try(MemoryStack stack=stackPush()) {
+            var info=VkSamplerCreateInfo.calloc(stack).sType$Default().minFilter(p.minFilter()).magFilter(p.magFilter())
+                    .addressModeU(p.addressU()).addressModeV(p.addressV()).addressModeW(p.addressW())
+                    .mipmapMode(p.mipmapMode()).minLod(p.minLod()).maxLod(p.maxLod()).mipLodBias(p.lodBias())
+                    .anisotropyEnable(false).compareEnable(false).compareOp(VK_COMPARE_OP_ALWAYS)
+                    .borderColor(VK_BORDER_COLOR_INT_OPAQUE_WHITE).unnormalizedCoordinates(false);
+            var handle=stack.mallocLong(1);int result=vkCreateSampler(getVkDevice(),info,null,handle);
+            if(result!=VK_SUCCESS)throw new IllegalStateException("Native independent sampler creation failed: "+result);
+            return handle.get(0);
+        }
+    }
+
     public static void cleanUp() {
         for (long id : SAMPLERS.values()) {
             vkDestroySampler(DeviceManager.vkDevice, id, null);
         }
+        // Descriptor snapshots may still reference earlier immutable sampler handles during frames.
+        // Retire these with the existing device-shutdown cleanup, never on parameter replacement.
+        for(long id:INDEPENDENT_SAMPLERS.values())vkDestroySampler(DeviceManager.vkDevice,id,null);
+        INDEPENDENT_SAMPLERS.clear();
     }
 
     public static final byte UNBIASED_LOD_BIT = 0b1000000;
+
+
 
     public static final byte LINEAR_FILTERING_BIT = 0b1;
     public static final byte CLAMP_BIT = 0b10;

@@ -259,6 +259,10 @@ public class VulkanImage {
         updateTextureSampler(this.mipLevels - 1, flags);
     }
 
+    public void updateTextureSampler(SamplerManager.Parameters parameters) {
+        this.sampler = SamplerManager.getTextureSampler(parameters);
+    }
+
     public void updateTextureSampler(int maxLod, byte flags) {
         this.sampler = SamplerManager.getTextureSampler((byte) maxLod, flags);
     }

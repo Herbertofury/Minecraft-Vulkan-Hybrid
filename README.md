@@ -4,9 +4,9 @@
 
 The owned native test launcher now starts Java in2.89-3.40s versus57.14s for a clean baseline; optimizing existing SHA2/SHA1 code reduces content sync56.06s to1.92-2.00s without dropping integrity checks. Five cache controls and two actual native menu repeats pass. Full327 native loading/FPS remains incomplete. [Evidence and limits](benchmarks/results/launcher-content-sync-20261014/REPORT.md).
 
-## Original typed pipeline GAME continuation (2026-10-14)
+## Original sampler GAME continuation (2026-10-14)
 
-Unchanged Hari58 passes199 actual Vulkan GPU cases,66,400 pixels/zero mismatch; all191 earlier hashes match. Eight new actual original builder/Mc supplier/float-uniform/draw/buffer-close cases pass through GAME, with60 measured calls. Original managed state and physical blend repairs remain verified. [Evidence and limits](benchmarks/results/native-typed-pipeline-20261014/REPORT.md). Complete URenderPass/sampler/legacy supplier/delayed-loader features remain incomplete; a minified GLSL parser gap is retained. Full327 still381 references/171 APIs/21 archives; gameplay and2,000FPS unmet. Original327/personal data and measured launcher gains/integrity stay preserved.
+Hari61 passes 268 actual Vulkan GPU cases, 70,816 pixels and zero mismatches; all 199 earlier hashes match. The original sampler executes six native sites, 135 measured calls and 68 configurations through GAME. Independent filtering/wrapping/LOD and recorded-handle/image replacement pass; a reproduced maxLod=0 filter defect is repaired using the Khronos mapping. [Evidence and limits](benchmarks/results/native-original-sampler-20261014/REPORT.md). Complete typed render-pass/legacy supplier/delayed-loader/features remain incomplete. Full327 still blocks 379 references/171 APIs/21 archives; native gameplay and 2,000 FPS are unmet. Original327/personal data and measured launcher gains/integrity stay preserved.
 
 Canonical repository for **Minecraft Vulkan Hybrid / HariMultiThread**, Minecraft **1.20.1** and **Java 17**. The immutable accepted 2.4.10 source targets Forge **47.4.23**; the rebuildable 2.4.11 dimension integration targets latest Forge **47.4.26**. Migration is prepared on `migration/projectdump-20261004`; `main` remains unchanged until review.
 

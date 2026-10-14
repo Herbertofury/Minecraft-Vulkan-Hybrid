@@ -45,6 +45,8 @@ public class MixinPlugin implements IMixinConfigPlugin {
         if (!net.vulkanmod.compat.UniversalRendererGate.vulkanRendererEnabled()) {
             return false;
         }
+        if (mixinClassName.equals("net.vulkanmod.mixin.compatibility.essential.EssentialSamplerCallerMixin"))
+            return net.vulkanmod.gl.EssentialSamplerCallers.target(targetClassName);
         if (mixinClassName.equals("net.vulkanmod.mixin.compatibility.essential.EssentialManagedStateCallerMixin"))
             return net.vulkanmod.gl.EssentialManagedStateCallers.target(targetClassName);
         if (mixinClassName.equals("net.vulkanmod.mixin.compatibility.essential.EssentialShaderCallerMixin"))
@@ -138,6 +140,8 @@ public class MixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
+        if (mixinClassName.equals("net.vulkanmod.mixin.compatibility.essential.EssentialSamplerCallerMixin"))
+            net.vulkanmod.gl.EssentialSamplerCallers.apply(targetClass);
         if (mixinClassName.equals("net.vulkanmod.mixin.compatibility.essential.EssentialManagedStateCallerMixin"))
             net.vulkanmod.gl.EssentialManagedStateCallers.apply(targetClass);
         if (mixinClassName.equals("net.vulkanmod.mixin.compatibility.essential.EssentialShaderCallerMixin"))
