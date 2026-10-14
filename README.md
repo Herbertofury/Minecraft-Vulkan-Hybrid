@@ -1,8 +1,8 @@
 # Minecraft Vulkan Hybrid
 
-## Native UI continuation (2026-10-14)
+## Native pixel-buffer continuation (2026-10-14)
 
-Renderer-only Hari36 passes56 actual native GPU cases, including original UI shader/uniform execution with the installed MSDF font atlas. [Proof and limits](benchmarks/results/native-ui-atlas-20261014/REPORT.md). A327-JAR shadow with the new renderer still blocks488 references/237 APIs across21 archives. The installed full candidate keeps its original327 hashes/Hari23; personal Noxviola is untouched. Full-pack2,000FPS/startup/no-hitch acceptance remains unachieved. Shader/fence/clipping/viewport repairs are included; unmeasured FieldGuide/noise/mipmap candidates are excluded. No OpenGL fallback is launched.
+Renderer-only Hari38 passes62 actual native GPU cases/57,632pixels/zero mismatch. Original Xaero map/minimap pixel helpers automatically execute in Forge GAME using real mapped Vulkan buffers;16 original calls and44 method invocations preserve uploads/readbacks, deletion and mipmap ordering. All56 earlier UI/fence/clipping/viewport pixel hashes are unchanged. [Evidence and limits](benchmarks/results/native-pixel-buffers-20261014/REPORT.md). A327-JAR shadow still blocks472 references/235 APIs across21 archives (Physics197, Essential133, Xaero73). Installed327 hashes/Hari23 and personal Noxviola remain unchanged. Full-pack2,000FPS/startup/no-hitch acceptance remains unachieved. No OpenGL fallback or unmeasured performance candidate is retained.
 
 Canonical repository for **Minecraft Vulkan Hybrid / HariMultiThread**, Minecraft **1.20.1** and **Java 17**. The immutable accepted 2.4.10 source targets Forge **47.4.23**; the rebuildable 2.4.11 dimension integration targets latest Forge **47.4.26**. Migration is prepared on `migration/projectdump-20261004`; `main` remains unchanged until review.
 

@@ -53,6 +53,8 @@ public class MixinPlugin implements IMixinConfigPlugin {
             return net.vulkanmod.gl.EssentialSyncCallers.target(targetClassName);
         if (mixinClassName.equals("net.vulkanmod.mixin.compatibility.essential.EssentialViewportCallerMixin"))
             return net.vulkanmod.gl.EssentialViewportCallers.target(targetClassName);
+        if (mixinClassName.equals("net.vulkanmod.mixin.compatibility.xaero.XaeroPixelCallerMixin"))
+            return net.vulkanmod.gl.XaeroPixelCallers.target(targetClassName);
         if (mixinClassName.startsWith(CREATE_MIXIN_PACKAGE)) {
             return CREATE_MAIN_MENU_SCREEN_MIXIN.equals(mixinClassName)
                     && CREATE_MAIN_MENU_SCREEN.equals(targetClassName);
@@ -134,6 +136,8 @@ public class MixinPlugin implements IMixinConfigPlugin {
             net.vulkanmod.gl.EssentialSyncCallers.apply(targetClass);
         if (mixinClassName.equals("net.vulkanmod.mixin.compatibility.essential.EssentialViewportCallerMixin"))
             net.vulkanmod.gl.EssentialViewportCallers.apply(targetClass);
+        if (mixinClassName.equals("net.vulkanmod.mixin.compatibility.xaero.XaeroPixelCallerMixin"))
+            net.vulkanmod.gl.XaeroPixelCallers.apply(targetClass);
     }
 
     @Override

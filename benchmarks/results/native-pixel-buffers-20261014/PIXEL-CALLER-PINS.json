@@ -1,0 +1,10 @@
+{
+  "xaero/map/graphics/PixelBuffers": {
+    "raw": "0c52e8e472181cbd91eab5d7cbff5e8e8251dcf87de55c5a8697f0d5f46181d2",
+    "body": "c0c189ec431da70adba557a2e708868140e072f3ea5ed12bb677699fbeb0e481"
+  },
+  "xaero/common/graphics/PixelBuffers": {
+    "raw": "e3fb1593355182d3a55908078f01cfd650f2e4a46936b3be09ef9be2a660be8e",
+    "body": "7ad5cfb9696b2190f70e401cf5b0f108d4948f00d35c89272d6f01757014f479"
+  }
+}

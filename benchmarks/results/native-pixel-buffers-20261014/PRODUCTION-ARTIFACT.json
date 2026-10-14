@@ -1,0 +1,82 @@
+{
+  "passed": true,
+  "artifact": "C:\\Users\\Owner\\Documents\\Codex\\2026-10-04\\task-4\\hari-native-pixel38-build\\forge\\build\\libs\\harimt-forge-1.20.1-2.4.11-noxviola.38-dimensions-vulkan-hybrid-all.jar",
+  "sha256": "6ed89deeadc70955f43bd70c4165aac461d2d7acadf3d45eee850422522396c3",
+  "bytes": 31222746,
+  "archives": [
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.38-dimensions-vulkan-hybrid-all.jar",
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.38-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/harimt-vulkan-backend-3.3.1.jar",
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.38-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-linux-arm32.jar",
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.38-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-linux-arm64.jar",
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.38-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-linux.jar",
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.38-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-macos-arm64.jar",
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.38-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-macos.jar",
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.38-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-windows-arm64.jar",
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.38-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-windows-x86.jar",
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.38-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-windows.jar",
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.38-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1.jar",
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.38-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-vulkan-3.3.1.jar",
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.38-dimensions-vulkan-hybrid-all.jar!META-INF/jarjar/lwjgl-3.3.3.jar",
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.38-dimensions-vulkan-hybrid-all.jar!META-INF/jarjar/lwjgl-shaderc-3.3.3.jar",
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.38-dimensions-vulkan-hybrid-all.jar!META-INF/jarjar/lwjgl-vma-3.3.3.jar",
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.38-dimensions-vulkan-hybrid-all.jar!META-INF/jarjar/lwjgl-vulkan-3.3.3.jar",
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.38-dimensions-vulkan-hybrid-all.jar!META-INF/jarjar/mixinextras-forge-0.5.4.jar",
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.38-dimensions-vulkan-hybrid-all.jar!META-INF/jarjar/mixinextras-forge-0.5.4.jar!META-INF/jars/MixinExtras-0.5.4.jar",
+      "crc_passed": true
+    }
+  ],
+  "private_originals_not_bundled": true,
+  "pack_format": 15
+}

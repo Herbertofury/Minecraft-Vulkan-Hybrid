@@ -693,6 +693,7 @@ public class Renderer {
     public void cleanUpResources() {
         mvhSyncCommandPoolDestroyed = true;
         net.vulkanmod.gl.GlSync.cleanUpAfterDeviceIdle();
+        net.vulkanmod.gl.NativePixelBufferApi.cleanUpAfterDeviceIdle();
         destroySyncObjects();
 
         drawer.cleanUpResources();
