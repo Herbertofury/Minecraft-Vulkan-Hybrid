@@ -24,7 +24,7 @@ public final class NativePixelBufferApi {
     private static final Set<Store> ALLOCATIONS=new HashSet<>();
     private static final Map<VulkanImage,Integer> PENDING_IMAGES=new IdentityHashMap<>();
     private static long gpuUploads,gpuDownloads;
-    static final class Entry { Store store; boolean mapped; int usage=0x88E4; }
+    static final class Entry { Store store; boolean mapped,deleted; int usage=0x88E4,vertexReferences; }
     static final class Store {
         final long allocator,buffer,allocation,pointer; final int size,vkUsage;
         int recordedUses; boolean deleted,destroyed;
@@ -83,7 +83,7 @@ public final class NativePixelBufferApi {
     }
     public static boolean glUnmapBuffer(int target){owner();Entry entry=bound(target);if(entry==null||!entry.mapped){error(1282);return false;}entry.mapped=false;return true;}
     public static void glDeleteBuffers(int name){owner();GlBuffer.glDeleteBuffers(name);}
-    static void retireNameIfOwned(int name){Entry entry=ENTRIES.remove(name);if(entry==null)return;entry.mapped=false;if(entry.store!=null)entry.store.delete();}
+    static void retireNameIfOwned(int name){Entry entry=ENTRIES.remove(name);if(entry==null)return;entry.mapped=false;entry.deleted=true;NativeVertexArrayApi.nameDeleted(name,entry);if(entry.vertexReferences==0&&entry.store!=null)entry.store.delete();}
     public static void glDeleteBuffers(IntBuffer names){owner();for(int n=names.position();n<names.limit();n++)glDeleteBuffers(names.get(n));}
     /** Nonmutating diagnostic views of actual native allocation/ownership. */
     public static Map<String,Long> snapshot(){owner();long bytes=0;for(Store s:ALLOCATIONS)bytes+=s.size;return Map.of("objects",(long)ENTRIES.size(),"allocations",(long)ALLOCATIONS.size(),"bytes",bytes,"uploads",gpuUploads,"downloads",gpuDownloads);}

@@ -53,6 +53,8 @@ public class MixinPlugin implements IMixinConfigPlugin {
             return net.vulkanmod.gl.EssentialSyncCallers.target(targetClassName);
         if (mixinClassName.equals("net.vulkanmod.mixin.compatibility.essential.EssentialViewportCallerMixin"))
             return net.vulkanmod.gl.EssentialViewportCallers.target(targetClassName);
+        if (mixinClassName.equals("net.vulkanmod.mixin.compatibility.physics.PhysicsVertexCallerMixin"))
+            return net.vulkanmod.gl.PhysicsVertexCallers.target(targetClassName);
         if (mixinClassName.equals("net.vulkanmod.mixin.compatibility.physics.PhysicsBufferCallerMixin"))
             return net.vulkanmod.gl.PhysicsBufferCallers.target(targetClassName);
         if (mixinClassName.equals("net.vulkanmod.mixin.compatibility.physics.PhysicsShaderCallerMixin"))
@@ -140,6 +142,8 @@ public class MixinPlugin implements IMixinConfigPlugin {
             net.vulkanmod.gl.EssentialSyncCallers.apply(targetClass);
         if (mixinClassName.equals("net.vulkanmod.mixin.compatibility.essential.EssentialViewportCallerMixin"))
             net.vulkanmod.gl.EssentialViewportCallers.apply(targetClass);
+        if (mixinClassName.equals("net.vulkanmod.mixin.compatibility.physics.PhysicsVertexCallerMixin"))
+            net.vulkanmod.gl.PhysicsVertexCallers.apply(targetClass);
         if (mixinClassName.equals("net.vulkanmod.mixin.compatibility.physics.PhysicsBufferCallerMixin"))
             net.vulkanmod.gl.PhysicsBufferCallers.apply(targetClass);
         if (mixinClassName.equals("net.vulkanmod.mixin.compatibility.physics.PhysicsShaderCallerMixin")) {

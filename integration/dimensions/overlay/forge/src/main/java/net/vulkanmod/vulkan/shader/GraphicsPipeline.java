@@ -24,6 +24,7 @@ public class GraphicsPipeline extends Pipeline {
     private final Object2LongMap<PipelineState> graphicsPipelines = new Object2LongOpenHashMap<>();
 
     private final VertexFormat vertexFormat;
+    private final NativeVertexLayout nativeVertexLayout;
 
     private long vertShaderModule = 0;
     private long fragShaderModule = 0;
@@ -35,6 +36,7 @@ public class GraphicsPipeline extends Pipeline {
         this.imageDescriptors = builder.imageDescriptors;
         this.pushConstants = builder.pushConstants;
         this.vertexFormat = builder.vertexFormat;
+        this.nativeVertexLayout = builder.nativeVertexLayout;
 
         createDescriptorSetLayout();
         createPipelineLayout();
@@ -83,8 +85,10 @@ public class GraphicsPipeline extends Pipeline {
 
             VkPipelineVertexInputStateCreateInfo vertexInputInfo = VkPipelineVertexInputStateCreateInfo.calloc(stack);
             vertexInputInfo.sType(VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO);
+            if(nativeVertexLayout==null) {
             vertexInputInfo.pVertexBindingDescriptions(getBindingDescription(vertexFormat));
             vertexInputInfo.pVertexAttributeDescriptions(getAttributeDescriptions(vertexFormat));
+            } else nativeVertexLayout.apply(vertexInputInfo,stack);
 
             // ===> ASSEMBLY STAGE <===
 

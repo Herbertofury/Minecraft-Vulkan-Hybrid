@@ -535,6 +535,7 @@ public abstract class Pipeline {
         }
 
         final VertexFormat vertexFormat;
+        NativeVertexLayout nativeVertexLayout;
         final String shaderPath;
         List<UBO> UBOs;
         ManualUBO manualUBO;
@@ -555,6 +556,8 @@ public abstract class Pipeline {
         public Builder(VertexFormat vertexFormat) {
             this(vertexFormat, null);
         }
+
+        public void setNativeVertexLayout(NativeVertexLayout layout) { this.nativeVertexLayout=layout; }
 
         public GraphicsPipeline createGraphicsPipeline() {
             try {

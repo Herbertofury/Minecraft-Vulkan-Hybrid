@@ -24,7 +24,7 @@ public final class NativeBufferObjectApi {
     private static boolean target(int target){if(TARGETS.contains(target))return true;NativeGlErrors.record(1280);return false;}
     private static NativePixelBufferApi.Entry bound(int target){if(!target(target))return null;GlBuffer name=GlBuffer.nativeBoundBuffer(target);var entry=name==null?null:NativePixelBufferApi.ENTRIES.get(name.getId());if(entry==null)NativeGlErrors.record(1282);return entry;}
     public static int glGenBuffers(){owner();return NativePixelBufferApi.glGenBuffers();}
-    public static void glBindBuffer(int target,int name){owner();if(!target(target))return;if(name!=0&&!NativePixelBufferApi.ENTRIES.containsKey(name))throw new UnsupportedOperationException("Unreviewed native buffer name: "+name);GlBuffer.glBindBuffer(target,name);}
+    public static void glBindBuffer(int target,int name){owner();if(!target(target))return;if(name!=0&&!NativePixelBufferApi.ENTRIES.containsKey(name))throw new UnsupportedOperationException("Unreviewed native buffer name: "+name);GlBuffer.glBindBuffer(target,name);if(target==0x8893)NativeVertexArrayApi.elementBound(name);}
     public static void glDeleteBuffers(int name){owner();GlBuffer.glDeleteBuffers(name);}
     public static void glBufferData(int target,long size,int usage){allocate(target,size,usage,null);}
     private static boolean allocate(int target,long size,int usage,ByteBuffer input){
@@ -89,7 +89,10 @@ public final class NativeBufferObjectApi {
     public static long bufferHandle(int name){owner();var e=NativePixelBufferApi.ENTRIES.get(name);return e==null||e.store==null?0:e.store.buffer;}
     public static Map<String,Long> transferSnapshot(){owner();return Map.of("copies",copies,"retainedReaderReplacements",replacements);}
     static NativePixelBufferApi.Store drawStorage(int name,long offset,long bytes,int usage){
-        owner();var e=NativePixelBufferApi.ENTRIES.get(name);if(e==null||e.store==null||e.mapped)throw new IllegalStateException("Native draw storage unavailable or mapped");
+        owner();return drawEntry(NativePixelBufferApi.ENTRIES.get(name),offset,bytes,usage);
+    }
+    static NativePixelBufferApi.Store drawEntry(NativePixelBufferApi.Entry e,long offset,long bytes,int usage){
+        owner();if(e==null||e.store==null||e.mapped)throw new IllegalStateException("Native draw storage unavailable or mapped");
         if(!range(e,offset,bytes))throw new IllegalArgumentException("Native draw storage range");
         if((e.store.vkUsage&usage)==0){var old=e.store;var next=new NativePixelBufferApi.Store(old.size,USAGES);MemoryUtil.memCopy(old.pointer,next.pointer,old.size);e.store=next;old.delete();replacements++;}
         e.store.retain();return e.store;

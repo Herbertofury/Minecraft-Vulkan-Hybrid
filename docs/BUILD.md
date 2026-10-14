@@ -32,3 +32,7 @@ Fresh assembly/build commands above produce `harimt-forge-1.20.1-2.4.11-noxviola
 ## Native Physics buffer renderer continuation
 
 Fresh assembly/build now produces `harimt-forge-1.20.1-2.4.11-noxviola.42-dimensions-vulkan-hybrid-all.jar`, SHA256 `15d2049fc48650deeef36ef7fee0ab39e47b1d76306fcd730843911b33c4223d`. [75 actual native GPU cases and remaining full-pack work](../benchmarks/results/native-physics-buffers-20261014/REPORT.md). Use Java17, the authenticated installed Modrinth runtime/MC1.20.1/Forge47.4.26, native-required configuration and stack1024. Retain the separate optimized helper and complete full327 native compatibility before normal personal-pack promotion or FPS claims. Earlier checkpoints stay preserved.
+
+## Native vertex binding/instance continuation
+
+Fresh assembly/build produces `harimt-forge-1.20.1-2.4.11-noxviola.44-dimensions-vulkan-hybrid-all.jar`, SHA256 `ed730c6e229b64904faf7af57be508035b3ed044bf62869c719fe7913a026436`. [85 actual native GPU cases/limits](../benchmarks/results/native-vertex-bindings-20261014/REPORT.md). Java17, isolated authenticated installed Modrinth MC1.20.1/Forge47.4.26, native-required configuration and stack1024 remain required. Device divisors are queried/optional; no capability spoof. Complete full327 before personal promotion or FPS claims; prior checkpoints remain preserved.

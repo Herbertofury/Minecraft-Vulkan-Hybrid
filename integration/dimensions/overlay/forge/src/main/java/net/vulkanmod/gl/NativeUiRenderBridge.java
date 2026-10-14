@@ -18,7 +18,7 @@ import static org.lwjgl.vulkan.VK10.*;
 
 /** Original native bridge for legacy UI programs using Minecraft's actual buffered draws. */
 public final class NativeUiRenderBridge {
-    private record Key(NativeUiProgram program, VertexFormat format, List<Integer> textureUnits) {}
+    private record Key(NativeUiProgram program, VertexFormat format, List<Integer> textureUnits,NativeVertexLayout layout) { Key(NativeUiProgram p,VertexFormat f,List<Integer> u){this(p,f,u,null);} }
     private static final Map<Key, Entry> ENTRIES = new HashMap<>();
     private static boolean installed;
     private static long draws;
@@ -34,6 +34,7 @@ public final class NativeUiRenderBridge {
             List<ImageDescriptor> samplers = new ArrayList<>();
             for (int i = 0; i < p.samplers().size(); i++) { var s = p.samplers().get(i); samplers.add(new ImageDescriptor(s.binding(), "sampler2D", s.name(), key.textureUnits.get(i))); }
             Pipeline.Builder builder = new Pipeline.Builder(key.format, "mvh-native-legacy-ui");
+            if(key.layout!=null)builder.setNativeVertexLayout(key.layout);
             builder.setUniforms(blocks, samplers);
             builder.setSPIRVs(new SPIRVUtils.SPIRV(0, p.vertexSpirv()), new SPIRVUtils.SPIRV(0, p.fragmentSpirv()));
             pipeline = builder.createGraphicsPipeline();
@@ -120,6 +121,14 @@ public final class NativeUiRenderBridge {
             else vkCmdDraw(command,vertices,1,0,0);
         }
         draws++;
+    }
+    static void drawNativeVertexLayout(NativeVertexLayout layout,Map<Integer,NativePixelBufferApi.Store> stores,Map<Integer,Long> offsets,int mode,int first,int count,int instances){
+        RenderSystem.assertOnRenderThread();var program=GlProgram.currentNativeProgram();var renderer=Renderer.getInstance();
+        if(program==null||renderer==null||!Renderer.isRecording()||renderer.getBoundRenderPass()==null)throw new IllegalStateException("Native custom input needs linked program and actual recording pass");
+        if(mode!=4&&mode!=5&&mode!=1&&mode!=3)throw new UnsupportedOperationException("Native topology conversion remains separate");layout.shader(program);installRetirer();
+        List<Integer> units=new ArrayList<>();for(var sampler:program.samplers()){int[] v=GlProgram.getIntUniform(sampler.name());int unit=v==null?0:v[0];if(unit<0||unit>=VTextureSelector.SIZE||VTextureSelector.getImage(unit)==null)throw new IllegalStateException("Native custom texture missing");units.add(unit);}
+        Entry entry=ENTRIES.computeIfAbsent(new Key(program,null,List.copyOf(units),layout),Entry::new);entry.update(program);VRenderSystem.setPrimitiveTopologyGL(mode);renderer.bindGraphicsPipeline(entry.pipeline);renderer.uploadAndBindUBOs(entry.pipeline);
+        try(org.lwjgl.system.MemoryStack stack=org.lwjgl.system.MemoryStack.stackPush()){var command=Renderer.getCommandBuffer();for(var binding:layout.bindings())vkCmdBindVertexBuffers(command,binding.index(),stack.longs(stores.get(binding.index()).buffer),stack.longs(offsets.get(binding.index())));vkCmdDraw(command,count,instances,first,0);}draws++;
     }
     private static void validateLayout(NativeUiProgram p, VertexFormat format) {
         List<VertexFormatElement> elements = format.getElements();

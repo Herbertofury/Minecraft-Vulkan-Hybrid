@@ -9,7 +9,7 @@ with tempfile.TemporaryDirectory(prefix='mvh-ixeris-platform-') as tmp:
     root=Path(tmp);classes=root/'classes';sources=[]
     def source(name,text):
         f=root/name;f.parent.mkdir(parents=True,exist_ok=True);f.write_text(text,encoding='utf8');sources.append(str(f))
-    for name in ['UniversalRendererGate.java','InactiveModernFixGlAudit.java','InactiveGrassComputeGlAudit.java','InactiveIxerisMacOsGlAudit.java','EssentialShaderCallerAudit.java','PhysicsShaderCallerAudit.java','PhysicsBufferCallerAudit.java','EssentialClipCallerAudit.java','EssentialSyncCallerAudit.java','EssentialViewportCallerAudit.java','XaeroPixelCallerAudit.java']:
+    for name in ['UniversalRendererGate.java','InactiveModernFixGlAudit.java','InactiveGrassComputeGlAudit.java','InactiveIxerisMacOsGlAudit.java','EssentialShaderCallerAudit.java','PhysicsShaderCallerAudit.java','PhysicsBufferCallerAudit.java','PhysicsVertexCallerAudit.java','EssentialClipCallerAudit.java','EssentialSyncCallerAudit.java','EssentialViewportCallerAudit.java','XaeroPixelCallerAudit.java']:
         f=root/name;f.write_bytes((I/'overlay/forge/src/main/java/net/vulkanmod/compat'/name).read_bytes());sources.append(str(f))
     source('FMLPaths.java','package net.minecraftforge.fml.loading;public enum FMLPaths{GAMEDIR;public java.nio.file.Path get(){return java.nio.file.Path.of(System.getProperty("user.dir"));}}')
     source('Platform.java','package org.lwjgl.system;public enum Platform{WINDOWS,MACOSX,LINUX;public static Platform get(){return valueOf(System.getProperty("fixture.platform","WINDOWS"));}}')

@@ -150,7 +150,7 @@ public final class NativeUiProgram {
             fi.append("layout(location=").append(location++).append(") in ").append(d.declaration()).append('\n');
         }
         Map<String, String> vr = Map.of("gl_Vertex", "mvh_Vertex", "gl_Color", "mvh_Color", "gl_FrontColor", "mvh_FrontColor",
-                "gl_MultiTexCoord0", "mvh_TexCoord", "gl_ModelViewProjectionMatrix", "mvh_ModelViewProjection", "gl_VertexID", "gl_VertexIndex", "texture2D", "texture");
+                "gl_MultiTexCoord0", "mvh_TexCoord", "gl_ModelViewProjectionMatrix", "mvh_ModelViewProjection", "gl_VertexID", "gl_VertexIndex", "gl_InstanceID", "gl_InstanceIndex", "texture2D", "texture");
         Map<String, String> fr = Map.of("gl_Color", "mvh_FrontColor", "gl_FragColor", "mvh_FragColor", "texture2D", "texture");
         String vs = common + vi.toString() + vo + rewrite(v.code, vr, true)
                 + "\nvoid main(){" + (color ? "mvh_FrontColor=mvh_Color;" : "")

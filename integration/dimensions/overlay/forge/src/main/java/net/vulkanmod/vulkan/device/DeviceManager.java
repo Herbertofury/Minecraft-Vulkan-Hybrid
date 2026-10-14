@@ -230,6 +230,7 @@ public abstract class DeviceManager {
             if (device.isPortabilitySubset()) {
                 deviceExtensions.add(KHRPortabilitySubset.VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME);
             }
+            NativeVertexDivisors.enable(stack,physicalDevice,deviceVulkan11Features,deviceExtensions);
             createInfo.ppEnabledExtensionNames(asPointerBuffer(deviceExtensions));
 
             createInfo.ppEnabledLayerNames(Vulkan.ENABLE_VALIDATION_LAYERS ? asPointerBuffer(Vulkan.VALIDATION_LAYERS) : null);

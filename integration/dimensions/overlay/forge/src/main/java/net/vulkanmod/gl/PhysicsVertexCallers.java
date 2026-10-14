@@ -1,0 +1,11 @@
+package net.vulkanmod.gl;
+import org.objectweb.asm.*;import org.objectweb.asm.tree.*;import java.lang.reflect.Modifier;import java.util.*;
+/** Four exact original binding delegates; outer VAO/capabilities/full draw provider remain separate. */
+public final class PhysicsVertexCallers {
+ public static final String FACADE="net/vulkanmod/gl/NativeVertexArrayApi";
+ private static final Map<String,String> PINS=Map.of("net/diebuddies/opengl/VAO$GL43VertexAttribBinding","c66e62f1b93a087879411ac08718b74154cc7d0799397d68269a0588925f75d8","net/diebuddies/opengl/VAO$ARBVertexAttribBinding","d9ebc4e1d6e6e6773bf5b766ff738f7ab7ca12b42d6573b412a5fe53d3a91a72","net/diebuddies/opengl/VAO$GL44MultiBind","9822cf5827264d42329470d40ea4b6ee4152e2b4d8e91754a45bc95b95043944","net/diebuddies/opengl/VAO$ARBMultiBind","41ef78c14a42337c1f5c63106c89f248cf7ba3cb148ce2450c51895ee728e4e0");
+ private static final Set<String> OWNERS=Set.of("org/lwjgl/opengl/GL43C","org/lwjgl/opengl/GL44C","org/lwjgl/opengl/ARBVertexAttribBinding","org/lwjgl/opengl/ARBMultiBind");
+ private static final Set<String> ABI=abi();private static Set<String> abi(){Set<String>s=new HashSet<>();for(var m:NativeVertexArrayApi.class.getDeclaredMethods())if(Modifier.isPublic(m.getModifiers())&&Modifier.isStatic(m.getModifiers())&&m.getName().startsWith("gl"))s.add(m.getName()+Type.getMethodDescriptor(m));return Set.copyOf(s);}
+ public static boolean target(String n){return PINS.containsKey(n.replace('.','/'));}
+ public static int apply(ClassNode n){if(!Objects.equals(PINS.get(n.name),ShaderCallerRemapper.canonicalDigest(n)))throw new IllegalStateException("Unreviewed Physics vertex delegate");int count=0;for(var m:n.methods)for(var i:m.instructions)if(i instanceof MethodInsnNode c&&OWNERS.contains(c.owner)){if(c.getOpcode()!=Opcodes.INVOKESTATIC||c.itf||!ABI.contains(c.name+c.desc))throw new IllegalStateException("Unsupported original vertex delegate");c.owner=FACADE;count++;}if(count!=(n.name.contains("MultiBind")?1:5))throw new IllegalStateException("Incomplete vertex delegate transport");return count;}
+}

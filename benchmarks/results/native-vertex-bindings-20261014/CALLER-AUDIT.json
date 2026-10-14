@@ -1,0 +1,6 @@
+{
+  "passed": true,
+  "controls": 20,
+  "sites": 12,
+  "stdout": "PHYSICS_VERTEX_CALLER_REGRESSION_PASS controls=20 originalSites=12 inverseBodiesIdentical=true\n"
+}
