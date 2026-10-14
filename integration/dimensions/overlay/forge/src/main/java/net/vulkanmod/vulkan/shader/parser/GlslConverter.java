@@ -24,8 +24,8 @@ public class GlslConverter {
     }
 
     public void process(String vertShader, String fragShader) {
-        vertShader = GlslComments.strip(vertShader);
-        fragShader = GlslComments.strip(fragShader);
+        vertShader = GlslStatements.separate(GlslComments.strip(vertShader));
+        fragShader = GlslStatements.separate(GlslComments.strip(fragShader));
         this.uniformParser = new UniformParser(this);
         this.inOutParser = new InputOutputParser(this);
         this.inOutParser.setFormat(this.format);
