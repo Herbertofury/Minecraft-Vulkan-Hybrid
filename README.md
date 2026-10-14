@@ -4,9 +4,9 @@
 
 The owned native test launcher now starts Java in2.89-3.40s versus57.14s for a clean baseline; optimizing existing SHA2/SHA1 code reduces content sync56.06s to1.92-2.00s without dropping integrity checks. Five cache controls and two actual native menu repeats pass. Full327 native loading/FPS remains incomplete. [Evidence and limits](benchmarks/results/launcher-content-sync-20261014/REPORT.md).
 
-## Native Essential buffer continuation (2026-10-14)
+## Native Essential image continuation (2026-10-14)
 
-Hari49 passes106 actual Vulkan GPU cases,60,448 pixels and zero mismatches; all99 preceding hashes match. Exact original Essential typed buffer methods execute65 calls with native ranged mappings,16/32-bit indices, retained-reader ownership and original lifetime checks. [Evidence and limits](benchmarks/results/native-essential-buffers-20261014/REPORT.md). This is private-loader buffer validation;46 image/framebuffer sites and full device/GAME integration remain separate. Full327 still blocks387 references/173 APIs/21 archives. Complete native gameplay and2,000FPS remain incomplete. Original327 hashes/Hari23 and personal data stay unchanged; measured launcher improvement and integrity are retained.
+Hari53 passes116 actual Vulkan GPU cases,61,088 pixels and zero mismatches; all106 earlier hashes match. Exact original typed texture/limit/view methods execute43 invocations with actual VkImages, requested mip views, physical limits, depth/HDR sampling and original reference-count lifetime. The scoped zero-bias sampler fixes a demonstrated mip mismatch while earlier sampler behavior is retained. [Evidence and limits](benchmarks/results/native-essential-images-20261014/REPORT.md). This is private-loader image proof, not full framebuffer/render-pass/device or automatic GAME acceptance. Full327 still blocks387 references/173 APIs/21 archives; complete native gameplay and2,000FPS remain incomplete. Original327/personal data and measured launcher gains/integrity remain preserved.
 
 Canonical repository for **Minecraft Vulkan Hybrid / HariMultiThread**, Minecraft **1.20.1** and **Java 17**. The immutable accepted 2.4.10 source targets Forge **47.4.23**; the rebuildable 2.4.11 dimension integration targets latest Forge **47.4.26**. Migration is prepared on `migration/projectdump-20261004`; `main` remains unchanged until review.
 
