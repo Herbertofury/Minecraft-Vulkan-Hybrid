@@ -23,4 +23,11 @@ for src in (I/'overlay').rglob('*'):
  if src.is_file():dst=W/src.relative_to(I/'overlay');dst.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(src,dst)
 for src in (R/'compat/native-flywheel/src').rglob('*.java'):
  dst=W/'forge/src/main/java'/src.relative_to(R/'compat/native-flywheel/src');dst.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(src,dst)
+for src in (R/'compat/vulkan-shaders/uniforms/src').rglob('*.java'):
+ # Use the tested uniform implementation once in the production shader package.
+ assert src.name=='SpirvUniformBlock.java'
+ text=src.read_text(encoding='utf8');assert text.count('package mvhshadercompat;')==1
+ dst=W/'forge/src/main/java/net/vulkanmod/vulkan/shader'/src.name
+ dst.parent.mkdir(parents=True,exist_ok=True)
+ dst.write_text(text.replace('package mvhshadercompat;','package net.vulkanmod.vulkan.shader;'),encoding='utf8')
 print(f'Assembled {len(manifest)} verified Hari files and pinned DimThreads into {W}')

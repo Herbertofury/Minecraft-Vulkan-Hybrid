@@ -1,0 +1,166 @@
+{
+  "accepted": true,
+  "original_jar_sha256": "1219f4cf3dfa874a9a0c0c45b2d48ada1b9a95a10b77ec75f1df60d3f9a27a06",
+  "original_programs": 6,
+  "original_uniform_updates": 20,
+  "rewritten_call_sites": 24,
+  "automatic_forge_application_proven": false,
+  "original_executable_native_component_only": true,
+  "trace": [
+    {
+      "phase": "original_class_define",
+      "class": "gg.essential.elementa.shaders.FloatUniform",
+      "original_sha256": "50acc9988f6c6e886d3a2ae5ed7768042826e9b7236eea8660f50f18419471b5",
+      "rewritten_sites": 2,
+      "transformed_sha256": "71437f5a4a0a0d4efe2d4324c0cdd5ad978fb46e2bdb6ca58cd18922fe7d56ce"
+    },
+    {
+      "phase": "original_class_define",
+      "class": "gg.essential.elementa.shaders.ShaderUniform",
+      "original_sha256": "23087aae70ccd5a45bdb41b73be3cb29b11d9db58d37d93e8b496d8fe903f7ec"
+    },
+    {
+      "phase": "original_class_define",
+      "class": "gg.essential.elementa.shaders.IntUniform",
+      "original_sha256": "23a3cc8f07c538dd525bd7656ccb55c82597c5479acf56ea328c1dd1324e72fa",
+      "rewritten_sites": 2,
+      "transformed_sha256": "1f82a1f57fac6e78522787ab7dfee6a96867c14b21243e2b293eabc503906fcc"
+    },
+    {
+      "phase": "original_class_define",
+      "class": "gg.essential.elementa.shaders.Shader",
+      "original_sha256": "015b7d0967892e0a26809b91954375c00639dcc4725d9557424540278af6701e",
+      "rewritten_sites": 16,
+      "transformed_sha256": "1fd4b00e6e2efb83e22f947fe69c8c132e9540b64840526b96f522f66c4135b0"
+    },
+    {
+      "phase": "original_class_define",
+      "class": "gg.essential.elementa.shaders.Vec2Uniform",
+      "original_sha256": "f94816f3128bc0ff028e29dacd660fb65d399b32ae82ac51809d2d89483336da",
+      "rewritten_sites": 2,
+      "transformed_sha256": "26293afa2fbdb9981fb1dfb3805bfab79f01e2df67bb060d7a3ccb8add8ff13f"
+    },
+    {
+      "phase": "original_class_define",
+      "class": "gg.essential.elementa.shaders.Vec4Uniform",
+      "original_sha256": "313d30f932d18a205e753ad48b4a5e4eddff37296c8f63dda8f5cd0b002510fb",
+      "rewritten_sites": 2,
+      "transformed_sha256": "0b2c56d33ae8912dc3d9e9e235a5f54a97c49f02dcbc6076dac5dfc86afe9a4e"
+    },
+    {
+      "phase": "original_class_define",
+      "class": "kotlin.jvm.internal.Intrinsics",
+      "original_sha256": "e058fcae003bbd8cccf1bdd0c23c7ec7a2a28d4574792416b410257bcd823488"
+    },
+    {
+      "phase": "original_class_define",
+      "class": "kotlin.UninitializedPropertyAccessException",
+      "original_sha256": "14213a512a7481d25d6d6c0e671fcd3e200173f73fe213d71779f3f8cc964a8d"
+    },
+    {
+      "phase": "original_class_define",
+      "class": "kotlin.KotlinNullPointerException",
+      "original_sha256": "ef1fd4bee0f85a76578d23bff520e75e2686c08a09c6bb4c7ed97fbe9251392b"
+    },
+    {
+      "phase": "original_class_define",
+      "class": "gg.essential.universal.UGraphics",
+      "original_sha256": "907bf2f5e868e438cea2710b8aade4ec716901319e6734a83091209c968a75f3"
+    },
+    {
+      "phase": "original_class_define",
+      "class": "gg.essential.universal.render.UGpuDevice",
+      "original_sha256": "8e9879faa998c1c61e07bdb2b0f752e60be0e7ee5ec312345d3d8721b548140b"
+    },
+    {
+      "phase": "original_class_define",
+      "class": "gg.essential.universal.render.UGpuPlatformAdapter",
+      "original_sha256": "2529490309174283375ef85465d901dc5d252ad19c704a2f11bd30cf4de1384f"
+    },
+    {
+      "phase": "original_class_define",
+      "class": "gg.essential.universal.UMatrixStack",
+      "original_sha256": "bd67a0bb730e44a87ed88c6c9ee1f025b028f6f01a83eae00f502c6b9a61ec6d"
+    },
+    {
+      "phase": "original_class_define",
+      "class": "gg.essential.universal.UMatrixStack$Companion",
+      "original_sha256": "bb70ada52eadb58f958a7008de6f4b5b818ae37c8a3234e4737da436dd1b25cc"
+    },
+    {
+      "phase": "original_class_define",
+      "class": "kotlin.Unit",
+      "original_sha256": "896588212a98f36148f2fbe1ea2878d6ba23c6376c6346c765cec5ac0c5716ce"
+    },
+    {
+      "phase": "original_class_define",
+      "class": "gg.essential.universal.UMatrixStack$Entry",
+      "original_sha256": "af48e07e04d4052eeb090b650beb77cbdced626ae2779cbb15ece290328a8739"
+    },
+    {
+      "phase": "original_class_define",
+      "class": "gg.essential.elementa.shaders.Shaders",
+      "original_sha256": "bf1706b973889f07f52b161fe478bc8dc9fa36bdddf769d6dd9506f7a47f95fd"
+    },
+    {
+      "phase": "original_class_define",
+      "class": "kotlin.text.Charsets",
+      "original_sha256": "d4bceaa61faf200004ea44cd7be4ead4cf05773d804a6b9099aa4e21389a9716"
+    },
+    {
+      "phase": "original_class_define",
+      "class": "kotlin.io.TextStreamsKt",
+      "original_sha256": "cd425983e7121a0c8c729f14a2838c395aa3371dd30931dcbc6c2ba72e014c45"
+    },
+    {
+      "phase": "original_class_define",
+      "class": "kotlin.io.ByteStreamsKt",
+      "original_sha256": "b641f9b7c11e4d9b42f2673d6300e30a5651a01ed1cc32ec38c1a3f37fed4e06"
+    },
+    {
+      "phase": "original_class_define",
+      "class": "kotlin.io.CloseableKt",
+      "original_sha256": "a0ad388fd8752137e78c8ea31a5624e44f51242129e26b92b059a2d2f60a6887"
+    },
+    {
+      "phase": "original_program_bound",
+      "kind": "circle",
+      "program": 4
+    },
+    {
+      "phase": "original_class_define",
+      "class": "gg.essential.elementa.utils.Vector2f",
+      "original_sha256": "84898c511f1677a22cc2854a0cdab2ae9e43d946540db3c67e3dc4de6a336a5c"
+    },
+    {
+      "phase": "original_program_bound",
+      "kind": "circle",
+      "program": 10
+    },
+    {
+      "phase": "original_program_bound",
+      "kind": "rounded_rect",
+      "program": 16
+    },
+    {
+      "phase": "original_class_define",
+      "class": "gg.essential.elementa.utils.Vector4f",
+      "original_sha256": "5a76a4d0de2853967ce80349583339c9315fabf6f0bd99cfb87b1dc72ec85795"
+    },
+    {
+      "phase": "original_program_bound",
+      "kind": "rounded_rect",
+      "program": 22
+    },
+    {
+      "phase": "original_program_bound",
+      "kind": "font",
+      "program": 28
+    },
+    {
+      "phase": "original_program_bound",
+      "kind": "font",
+      "program": 34
+    }
+  ]
+}

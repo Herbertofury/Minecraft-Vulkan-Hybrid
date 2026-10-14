@@ -105,6 +105,8 @@ public class Renderer {
     private int viewportLogicalWidth = 0;
     private int viewportLogicalHeight = 0;
     private final float[] mvhNativeViewport = new float[6];
+    private final int[] mvhOpenGlViewport = new int[4];
+    private boolean mvhEmptyViewport;
 
     private static int currentFrame = 0;
     private static int imageIndex;
@@ -375,6 +377,7 @@ public class Renderer {
         if (resumeFramebuffer == null)
             return;
 
+        RasterState raster = new RasterState();
         try (MemoryStack stack = stackPush()) {
             this.endRenderPass(currentCmdBuffer);
 
@@ -420,7 +423,62 @@ public class Renderer {
             resumeFramebuffer.beginRenderPass(currentCmdBuffer, resumeRenderPass, stack);
             this.boundFramebuffer = resumeFramebuffer;
             this.boundRenderPass = resumeRenderPass;
+            raster.restore();
             this.invalidateRenderState();
+        }
+    }
+
+    private boolean mvhSyncCommandPoolDestroyed;
+
+    /** Submit queued work without a host wait and continue in a fresh command buffer.
+     * The final submission's frame fence retires all earlier chunks on this queue.
+     * Preserve the same attachments, raster state, descriptors and upload cursors. */
+    public void flushForSync() {
+        if (!recordingCmds || boundRenderPass == null || boundFramebuffer == null)
+            throw new IllegalStateException("GPU fence flush requires an active owned render pass");
+        RenderPass resume = boundRenderPass.mvhResumePass();
+        Framebuffer framebuffer = boundFramebuffer;
+        RasterState raster = new RasterState();
+        VkCommandBuffer submitted = currentCmdBuffer;
+        try (MemoryStack stack = stackPush()) {
+            VkCommandBufferAllocateInfo allocation = VkCommandBufferAllocateInfo.calloc(stack).sType$Default()
+                    .commandPool(getCommandPool()).level(VK_COMMAND_BUFFER_LEVEL_PRIMARY).commandBufferCount(1);
+            PointerBuffer output = stack.mallocPointer(1);
+            int result = vkAllocateCommandBuffers(device, allocation, output);
+            if (result != VK_SUCCESS) throw new IllegalStateException("Cannot allocate sync continuation: " + VkResult.decode(result));
+            VkCommandBuffer continuation = new VkCommandBuffer(output.get(0), device);
+            boolean queued = false;
+            try {
+                endRenderPass(submitted);
+                result = vkEndCommandBuffer(submitted);
+                if (result != VK_SUCCESS) throw new IllegalStateException("Cannot end sync submission: " + VkResult.decode(result));
+                VkSubmitInfo info = VkSubmitInfo.calloc(stack).sType$Default();
+                prepareSwapChainSubmit(info, stack);
+                info.pCommandBuffers(stack.pointers(submitted));
+                Synchronization.INSTANCE.waitFences();
+                result = vkQueueSubmit(DeviceManager.getGraphicsQueue().queue(), info, VK_NULL_HANDLE);
+                if (result != VK_SUCCESS) throw new IllegalStateException("Cannot submit GPU fence work: " + VkResult.decode(result));
+                queued = true;
+                swapChainAcquirePending = false;
+                currentCmdBuffer = continuation;
+                commandBuffers.set(currentFrame, continuation);
+                MemoryManager.getInstance().addFrameOp(() -> {
+                    // Vulkan.cleanUp destroys this pool before processing remaining frame operations.
+                    if (!mvhSyncCommandPoolDestroyed) vkFreeCommandBuffers(device, getCommandPool(), submitted);
+                });
+                VkCommandBufferBeginInfo begin = VkCommandBufferBeginInfo.calloc(stack).sType$Default()
+                        .flags(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
+                result = vkBeginCommandBuffer(continuation, begin);
+                if (result != VK_SUCCESS) throw new IllegalStateException("Cannot begin sync continuation: " + VkResult.decode(result));
+                resetDynamicState(continuation);
+                framebuffer.beginRenderPass(continuation, resume, stack);
+                boundFramebuffer = framebuffer;
+                boundRenderPass = resume;
+                raster.restore();
+                invalidateRenderState();
+            } finally {
+                if (!queued) vkFreeCommandBuffers(device, getCommandPool(), continuation);
+            }
         }
     }
 
@@ -467,10 +525,7 @@ public class Renderer {
             throw new IllegalStateException("Native compute requires an active owned render pass");
         RenderPass pass = boundRenderPass.mvhResumePass();
         Framebuffer framebuffer = boundFramebuffer;
-        float[] viewport = mvhNativeViewport.clone();
-        int logicalWidth = viewportLogicalWidth, logicalHeight = viewportLogicalHeight;
-        int[] scissor = SCISSOR_BOX.clone();
-        boolean clipped = scissorEnabled;
+        RasterState raster = new RasterState();
         endRenderPass();
         try { action.accept(currentCmdBuffer); }
         finally {
@@ -485,19 +540,7 @@ public class Renderer {
                         0, attachments, null, null);
             }
             beginRendering(pass, framebuffer);
-            viewportLogicalWidth = logicalWidth;
-            viewportLogicalHeight = logicalHeight;
-            try (MemoryStack stack = stackPush()) {
-                VkViewport.Buffer state = VkViewport.malloc(1, stack);
-                state.x(viewport[0]).y(viewport[1]).width(viewport[2]).height(viewport[3])
-                        .minDepth(viewport[4]).maxDepth(viewport[5]);
-                vkCmdSetViewport(currentCmdBuffer, 0, state);
-                System.arraycopy(viewport, 0, mvhNativeViewport, 0, 6);
-            }
-            if (clipped) setScissor(scissor[0], scissor[1], scissor[2], scissor[3]);
-            else resetScissor();
-            scissorEnabled = clipped;
-            System.arraycopy(scissor, 0, SCISSOR_BOX, 0, 4);
+            raster.restore();
             invalidateRenderState();
         }
     }
@@ -648,6 +691,8 @@ public class Renderer {
     }
 
     public void cleanUpResources() {
+        mvhSyncCommandPoolDestroyed = true;
+        net.vulkanmod.gl.GlSync.cleanUpAfterDeviceIdle();
         destroySyncObjects();
 
         drawer.cleanUpResources();
@@ -932,58 +977,124 @@ public class Renderer {
         }
     }
 
+    /** Set a GL viewport using the actual framebuffer and device limits, without
+     * the engine's scaled/top-left viewport convention. Zero/offscreen viewport
+     * drawing uses a valid dummy Vulkan viewport plus an empty dynamic scissor;
+     * clear operations still use their explicit attachment rectangles. */
+    public static void setOpenGlViewport(int x, int y, int width, int height) {
+        var limits = net.vulkanmod.vulkan.device.DeviceManager.deviceProperties.limits();
+        width = Math.min(width, limits.maxViewportDimensions(0));
+        height = Math.min(height, limits.maxViewportDimensions(1));
+        int lower = (int)Math.ceil(limits.viewportBoundsRange(0));
+        int upper = (int)Math.floor(limits.viewportBoundsRange(1));
+        x = Math.max(lower, Math.min(upper, x));
+        y = Math.max(lower, Math.min(upper, y));
+        Framebuffer framebuffer = INSTANCE.boundFramebuffer;
+        long top = (long)framebuffer.getHeight() - y;
+        boolean empty = width == 0 || height == 0 || x >= framebuffer.getWidth()
+                || y >= framebuffer.getHeight() || (long)x + width <= 0 || (long)y + height <= 0;
+        if (!empty && (x < lower || (long)x + width > upper || top < lower || top > upper
+                || top - height < lower || top - height > upper))
+            throw new IllegalArgumentException("Intersecting GL viewport exceeds native device bounds");
+        try (MemoryStack stack = stackPush()) {
+            VkViewport.Buffer viewport = VkViewport.malloc(1, stack);
+            viewport.x(empty ? 0 : x).y(empty ? 1 : top).width(empty ? 1 : width)
+                    .height(empty ? -1 : -height).minDepth(mvhDepthMin()).maxDepth(mvhDepthMax());
+            INSTANCE.mvhOpenGlViewport[0] = x; INSTANCE.mvhOpenGlViewport[1] = y;
+            INSTANCE.mvhOpenGlViewport[2] = width; INSTANCE.mvhOpenGlViewport[3] = height;
+            INSTANCE.mvhEmptyViewport = empty;
+            INSTANCE.mvhNativeViewport[0] = viewport.x(); INSTANCE.mvhNativeViewport[1] = viewport.y();
+            INSTANCE.mvhNativeViewport[2] = viewport.width(); INSTANCE.mvhNativeViewport[3] = viewport.height();
+            vkCmdSetViewport(INSTANCE.currentCmdBuffer, 0, viewport);
+            applyScissor();
+        }
+    }
+    private static float mvhDepthMin() { return INSTANCE.mvhNativeViewport[4]; }
+    private static float mvhDepthMax() { return INSTANCE.mvhNativeViewport[5]; }
+    public static int getOpenGlViewport(int component) {
+        if (component < 0 || component >= 4) throw new IndexOutOfBoundsException(component);
+        return INSTANCE.mvhOpenGlViewport[component];
+    }
     private void captureMvhViewport(VkViewport.Buffer viewport) {
         mvhNativeViewport[0] = viewport.x(); mvhNativeViewport[1] = viewport.y();
         mvhNativeViewport[2] = viewport.width(); mvhNativeViewport[3] = viewport.height();
         mvhNativeViewport[4] = viewport.minDepth(); mvhNativeViewport[5] = viewport.maxDepth();
+        int framebufferHeight = boundFramebuffer != null ? boundFramebuffer.getHeight() : getSwapChain().getHeight();
+        mvhOpenGlViewport[0] = Math.round(viewport.x());
+        mvhOpenGlViewport[1] = Math.round(framebufferHeight - Math.max(viewport.y(), viewport.y() + viewport.height()));
+        mvhOpenGlViewport[2] = Math.round(viewport.width()); mvhOpenGlViewport[3] = Math.round(Math.abs(viewport.height()));
+        mvhEmptyViewport = false;
+        applyScissor();
     }
 
     private static final int[] SCISSOR_BOX = new int[4];
 
     public static void setScissor(int x, int y, int width, int height) {
+        if (width < 0 || height < 0) throw new IllegalArgumentException("Scissor extent must be nonnegative");
+        SCISSOR_BOX[0] = x; SCISSOR_BOX[1] = y;
+        SCISSOR_BOX[2] = width; SCISSOR_BOX[3] = height;
+        // GL scissor stores the box independently of whether the test is enabled.
+        applyScissor();
+    }
 
-        SCISSOR_BOX[0] = x;
-        SCISSOR_BOX[1] = y;
-        SCISSOR_BOX[2] = width;
-        SCISSOR_BOX[3] = height;
+    private static int scissorEdge(long coordinate, int extent) {
+        return (int)Math.max(0L, Math.min((long)extent, coordinate));
+    }
 
-        if (INSTANCE == null || !INSTANCE.recordingCmds || INSTANCE.boundFramebuffer == null)
-            return;
-
+    private static void applyScissor() {
+        if (INSTANCE == null || !INSTANCE.recordingCmds || INSTANCE.boundFramebuffer == null) return;
         try (MemoryStack stack = stackPush()) {
+            if (INSTANCE.mvhEmptyViewport) {
+                VkRect2D.Buffer empty = VkRect2D.calloc(1, stack);
+                vkCmdSetScissor(INSTANCE.currentCmdBuffer, 0, empty);
+                return;
+            }
+            if (!scissorEnabled) {
+                vkCmdSetScissor(INSTANCE.currentCmdBuffer, 0, INSTANCE.boundFramebuffer.scissor(stack));
+                return;
+            }
             int framebufferWidth = INSTANCE.boundFramebuffer.getWidth();
             int framebufferHeight = INSTANCE.boundFramebuffer.getHeight();
-
-            int left = Math.max(0, x);
-            int bottom = Math.max(0, y);
-            int right = Math.min(framebufferWidth, x + Math.max(0, width));
-            int top = Math.min(framebufferHeight, y + Math.max(0, height));
-            int scissorWidth = Math.max(0, right - left);
-            int scissorHeight = Math.max(0, top - bottom);
-
+            int left = scissorEdge(SCISSOR_BOX[0], framebufferWidth);
+            int bottom = scissorEdge(SCISSOR_BOX[1], framebufferHeight);
+            int right = scissorEdge((long)SCISSOR_BOX[0] + SCISSOR_BOX[2], framebufferWidth);
+            int top = scissorEdge((long)SCISSOR_BOX[1] + SCISSOR_BOX[3], framebufferHeight);
             VkRect2D.Buffer scissor = VkRect2D.malloc(1, stack);
             scissor.offset().set(left, framebufferHeight - top);
-            scissor.extent().set(scissorWidth, scissorHeight);
-
+            scissor.extent().set(Math.max(0, right - left), Math.max(0, top - bottom));
             vkCmdSetScissor(INSTANCE.currentCmdBuffer, 0, scissor);
         }
     }
 
-    public static void resetScissor() {
-        if (INSTANCE == null || !INSTANCE.recordingCmds || INSTANCE.boundFramebuffer == null)
-            return;
-
-        try (MemoryStack stack = stackPush()) {
-            VkRect2D.Buffer scissor = INSTANCE.boundFramebuffer.scissor(stack);
-            vkCmdSetScissor(INSTANCE.currentCmdBuffer, 0, scissor);
-            scissorEnabled = false;
-        }
-    }
+    public static void resetScissor() { setScissorEnabled(false); }
 
     public static void setScissorEnabled(boolean enabled) {
         scissorEnabled = enabled;
-        if (!enabled) {
-            resetScissor();
+        applyScissor();
+    }
+
+    /** Exact dynamic raster state saved before pass interruption changes defaults. */
+    private final class RasterState {
+        final float[] viewport = mvhNativeViewport.clone();
+        final int[] glViewport = mvhOpenGlViewport.clone();
+        final boolean emptyViewport = mvhEmptyViewport;
+        final int logicalWidth = viewportLogicalWidth, logicalHeight = viewportLogicalHeight;
+        final int[] scissor = SCISSOR_BOX.clone();
+        final boolean clipped = scissorEnabled;
+        void restore() {
+            viewportLogicalWidth = logicalWidth; viewportLogicalHeight = logicalHeight;
+            try (MemoryStack stack = stackPush()) {
+                VkViewport.Buffer state = VkViewport.malloc(1, stack);
+                state.x(viewport[0]).y(viewport[1]).width(viewport[2]).height(viewport[3])
+                        .minDepth(viewport[4]).maxDepth(viewport[5]);
+                vkCmdSetViewport(INSTANCE.currentCmdBuffer, 0, state);
+                System.arraycopy(viewport, 0, mvhNativeViewport, 0, 6);
+                System.arraycopy(glViewport, 0, mvhOpenGlViewport, 0, 4);
+                mvhEmptyViewport = emptyViewport;
+            }
+            scissorEnabled = clipped;
+            System.arraycopy(scissor, 0, SCISSOR_BOX, 0, 4);
+            applyScissor();
         }
     }
 

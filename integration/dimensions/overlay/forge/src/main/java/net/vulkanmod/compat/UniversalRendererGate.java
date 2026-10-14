@@ -36,7 +36,7 @@ import java.util.zip.ZipInputStream;
 public final class UniversalRendererGate {
     public static final String MODE_PROPERTY = "harimt.vulkan.mode"; // auto | require | force | off
     public static final String CACHE_PROPERTY = "harimt.vulkan.compatCache"; // default true
-    private static final String CACHE_SCHEMA = "2.4.11-vulkan-gate-v12-audited-inactive-platform";
+    private static final String CACHE_SCHEMA = "2.4.11-vulkan-gate-v16-pinned-shader-clipping-fence-and-viewport-callers";
 
     private static final Pattern MOD_ID = Pattern.compile("(?m)^\\s*modId\\s*=\\s*[\\\"']([^\\\"']+)[\\\"']");
     private static final Pattern FABRIC_ID = Pattern.compile("\"id\"\\s*:\\s*\"([^\"]+)\"");
@@ -199,7 +199,7 @@ public final class UniversalRendererGate {
                     if (entry.getName().endsWith(".class")) {
                         if (inactiveAudit.excludes(jar, entry.getName()) || grassAudit.excludes(jar, entry.getName()) || ixerisAudit.excludes(jar, entry.getName())) continue;
                         try (InputStream input = zip.getInputStream(entry)) {
-                            collectUnsupported(openGlMethodRefs(input), contracts, unsupported, jar.getFileName().toString());
+                            collectClassUnsupported(input, entry.getName(), contracts, unsupported, jar.getFileName().toString());
                         }
                     } else if (entry.getName().endsWith(".jar")) {
                         try (InputStream input = zip.getInputStream(entry)) {
@@ -433,6 +433,17 @@ public final class UniversalRendererGate {
         return false;
     }
 
+    private static void collectClassUnsupported(InputStream input, String entry,
+                                                Map<String, Set<String>> contracts, Set<String> unsupported,
+                                                String source) throws IOException {
+        byte[] bytes=input.readAllBytes();
+        if (EssentialShaderCallerAudit.translated(entry, bytes)) return;
+        if (EssentialClipCallerAudit.translated(entry, bytes)) return;
+        if (EssentialSyncCallerAudit.translated(entry, bytes)) return;
+        if (EssentialViewportCallerAudit.translated(entry, bytes)) return;
+        collectUnsupported(openGlMethodRefs(new ByteArrayInputStream(bytes)), contracts, unsupported, source);
+    }
+
     private static void collectUnsupported(List<MethodRef> refs, Map<String, Set<String>> contracts,
                                            Set<String> unsupported, String source) {
         for (MethodRef ref : refs) {
@@ -454,7 +465,7 @@ public final class UniversalRendererGate {
             while ((entry = zin.getNextEntry()) != null) {
                 if (entry.isDirectory()) continue;
                 if (entry.getName().endsWith(".class")) {
-                    collectUnsupported(openGlMethodRefs(zin), contracts, unsupported, source + "!" + entry.getName());
+                    collectClassUnsupported(zin, entry.getName(), contracts, unsupported, source + "!" + entry.getName());
                 } else if (entry.getName().endsWith(".jar")) {
                     byte[] nested = zin.readAllBytes();
                     scanNestedJar(new ByteArrayInputStream(nested), source + "!" + entry.getName(),

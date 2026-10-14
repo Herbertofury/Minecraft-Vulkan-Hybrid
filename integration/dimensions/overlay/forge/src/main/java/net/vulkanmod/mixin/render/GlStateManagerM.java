@@ -225,7 +225,7 @@ public class GlStateManagerM {
     }
 
     @Overwrite(remap = false)
-    public static void _glUseProgram(int i) {}
+    public static void _glUseProgram(int i) { if (i >= 0) net.vulkanmod.gl.GlProgram.useProgram(i); }
 
     @Overwrite(remap = false)
     public static void _disableDepthTest() {

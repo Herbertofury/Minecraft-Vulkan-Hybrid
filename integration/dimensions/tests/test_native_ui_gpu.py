@@ -1,0 +1,22 @@
+"""Exact native UI compiler/pipeline, original inputs, real hardware pixel/lifecycle proof."""
+from pathlib import Path
+import argparse,hashlib,json,os,subprocess,tempfile
+from native_ui_sources import relocated_uniform_source
+R=Path(__file__).resolve().parents[3];S=R/'integration/dimensions/overlay/forge/src/main/java'
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def main():
+    ap=argparse.ArgumentParser();ap.add_argument('--classpath',required=True);ap.add_argument('--inputs',type=Path,required=True);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--production-jar',type=Path);a=ap.parse_args();assert not a.output.exists()
+    manifest=json.loads((a.inputs/'INPUTS.json').read_text());assert len(manifest['shaders'])==5
+    for row in manifest['shaders']:assert sha(Path(row['local']))==row['sha256']
+    a.output.mkdir(parents=True)
+    with tempfile.TemporaryDirectory(prefix='mvh-native-ui-gpu-') as t:
+        q=Path(t);files=[Path(__file__).with_name('NativeUiGpuRegression.java')];cp=a.classpath
+        if a.production_jar:cp=str(a.production_jar)+os.pathsep+cp
+        else:files += [S/'net/vulkanmod/vulkan/shader/NativeUiProgram.java',S/'net/vulkanmod/vulkan/shader/NativeUiPipeline.java',S/'net/vulkanmod/vulkan/shader/SPIRVUtils.java',R/'source/forge/src/main/java/net/vulkanmod/vulkan/util/VkResult.java',relocated_uniform_source(q)]
+        f=q/'net/vulkanmod/compat/observer/CompatProfiler.java';f.parent.mkdir(parents=True);f.write_text('package net.vulkanmod.compat.observer;public final class CompatProfiler{public static boolean ENABLED=false;public static int shaderCompileCount;public static long spirvCompileTimeNanos;}');files.append(f)
+        build=subprocess.run(['javac','--release','17','-encoding','UTF-8','-cp',cp,'-d',str(q/'classes'),*map(str,files)],capture_output=True,text=True);(a.output/'compile.log').write_text(build.stdout+build.stderr);assert build.returncode==0,build.stderr
+        run=subprocess.run(['java','-ea','-Dorg.lwjgl.system.stackSize=1024','-cp',str(q/'classes')+os.pathsep+cp,'NativeUiGpuRegression',str(a.inputs),str(a.output/'pixels')],capture_output=True,text=True,timeout=90)
+        (a.output/'run.log').write_text(run.stdout+run.stderr);assert run.returncode==0,(run.stdout,run.stderr)
+    report={'passed':True,'original_input_hashes':{row['path']:row['sha256'] for row in manifest['shaders']},'production_jar_sha256':sha(a.production_jar) if a.production_jar else None,'stdout':run.stdout,'pixels':{p.name:sha(p) for p in (a.output/'pixels').glob('*.png')},'scope':'Exact production compiler/pipeline and original unmodified Essential/Elementa shader assets, actual discrete GPU render pass/buffers/uniforms/sampled texture/fences/readback. Analytic original shader pixel expectations tolerance 1, live radius and MSDF texture controls, compiler/pipeline reload and recorded ownership rejection. Optional profiler fixture only. Standalone Vulkan process: no Minecraft, original Essential executable/UI or generic GL draw acceptance, full pack or FPS gain.'}
+    (a.output/'REPORT.json').write_text(json.dumps(report,indent=2)+'\n');print(run.stdout)
+if __name__=='__main__':main()

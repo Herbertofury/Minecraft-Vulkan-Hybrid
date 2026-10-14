@@ -1,5 +1,9 @@
 # Minecraft Vulkan Hybrid
 
+## Native UI continuation (2026-10-14)
+
+Renderer-only Hari36 passes56 actual native GPU cases, including original UI shader/uniform execution with the installed MSDF font atlas. [Proof and limits](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/blob/migration/projectdump-20261004/benchmarks/results/native-ui-atlas-20261014/REPORT.md). A327-JAR shadow with the new renderer still blocks488 references/237 APIs across21 archives. The installed full candidate keeps its original327 hashes/Hari23; personal Noxviola is untouched. Full-pack2,000FPS/startup/no-hitch acceptance remains unachieved. Shader/fence/clipping/viewport repairs are included; unmeasured FieldGuide/noise/mipmap candidates are excluded. No OpenGL fallback is launched.
+
 Canonical [repository](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid), [migration feature branch](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/tree/migration/projectdump-20261004) and [draft PR1](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/pull/1). Main remains unchanged. Migration preserves1001 source files,402 relevant commits across43 filtered branches, build recipes, assets/shaders, licenses and provenance. Desktop: `C:\Users\Owner\Desktop\Minecraft Vulkan Hybrid`. The [original release page](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/wiki/HariMultiThread-Vulkan-Hybrid) remains preserved.
 
 Minecraft1.20.1/Java17; original accepted source Forge47.4.23, actual isolated development Forge47.4.26 through the logged-in official Modrinth backend. [Build/launch](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/blob/migration/projectdump-20261004/docs/BUILD.md), [single Hari + DimThreads23](https://github.com/Herbertofury/Minecraft-Vulkan-Hybrid/blob/migration/projectdump-20261004/integration/dimensions/README.md).

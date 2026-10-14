@@ -15,6 +15,7 @@ public class NativeRequiredProbe{
   System.out.println("NATIVE_ACCEPTED="+accepted);
   Method contracts=gate.getDeclaredMethod("loadContracts");contracts.setAccessible(true);Map<?,?> contract=(Map<?,?>)contracts.invoke(null);if(contract.isEmpty())throw new AssertionError("Contract missing");
   Method refs=gate.getDeclaredMethod("openGlMethodRefs",InputStream.class);refs.setAccessible(true);
+  Method scanClass=gate.getDeclaredMethod("collectClassUnsupported",InputStream.class,String.class,Map.class,Set.class,String.class);scanClass.setAccessible(true);
   Method collect=gate.getDeclaredMethod("collectUnsupported",List.class,Map.class,Set.class,String.class);collect.setAccessible(true);
   Method nested=gate.getDeclaredMethod("scanNestedJar",InputStream.class,String.class,Map.class,Set.class,int.class);nested.setAccessible(true);
   List<Path> jars;try(var files=Files.list(Path.of("mods"))){jars=files.filter(f->f.toString().endsWith(".jar")).sorted().toList();}
@@ -30,7 +31,7 @@ public class NativeRequiredProbe{
     for(Object audit:audits){Method excludes=audit.getClass().getDeclaredMethod("excludes",Path.class,String.class);excludes.setAccessible(true);inactive|=(boolean)excludes.invoke(audit,path,entry.getName());}
     if(inactive)continue;try(InputStream input=zip.getInputStream(entry)){
      String label=path.getFileName()+"!"+entry.getName();
-     if(entry.getName().endsWith(".class"))collect.invoke(null,refs.invoke(null,input),contract,unsupported,label);
+     if(entry.getName().endsWith(".class"))scanClass.invoke(null,input,entry.getName(),contract,unsupported,label);
      else if(entry.getName().endsWith(".jar"))nested.invoke(null,input,label,contract,unsupported,0);
     }
    }

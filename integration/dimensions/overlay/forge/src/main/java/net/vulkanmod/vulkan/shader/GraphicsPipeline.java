@@ -211,7 +211,13 @@ public class GraphicsPipeline extends Pipeline {
 
     private void createShaderModules(SPIRVUtils.SPIRV vertSpirv, SPIRVUtils.SPIRV fragSpirv) {
         this.vertShaderModule = createShaderModule(vertSpirv.bytecode());
-        this.fragShaderModule = createShaderModule(fragSpirv.bytecode());
+        try {
+            this.fragShaderModule = createShaderModule(fragSpirv.bytecode());
+        } catch (RuntimeException | Error failure) {
+            vkDestroyShaderModule(Vulkan.getVkDevice(), this.vertShaderModule, null);
+            this.vertShaderModule = 0;
+            throw failure;
+        }
     }
 
     private static VkVertexInputBindingDescription.Buffer getBindingDescription(VertexFormat vertexFormat) {

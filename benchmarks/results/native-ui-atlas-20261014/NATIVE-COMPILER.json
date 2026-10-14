@@ -1,0 +1,49 @@
+{
+  "passed": true,
+  "exact_original_inputs": {
+    "repository": "EssentialGG/Elementa",
+    "commit": "54bef9fc59648c44529ddd49d82d3216f2f437d6",
+    "license": "LGPL-3.0",
+    "shaders": [
+      {
+        "path": "shaders/circle.fsh",
+        "local": "C:\\Users\\Owner\\Documents\\Codex\\2026-10-04\\task-4\\inventory\\native-ui-atlas-20261014\\public-inputs\\000-circle.fsh",
+        "url": "https://raw.githubusercontent.com/EssentialGG/Elementa/54bef9fc59648c44529ddd49d82d3216f2f437d6/src/main/resources/shaders/circle.fsh",
+        "sha256": "259cff0e9e440212db1714c3e28ca39e2d632d9c328a7f4e3275f81a2739f9b7",
+        "bytes": 295
+      },
+      {
+        "path": "shaders/font.fsh",
+        "local": "C:\\Users\\Owner\\Documents\\Codex\\2026-10-04\\task-4\\inventory\\native-ui-atlas-20261014\\public-inputs\\001-font.fsh",
+        "url": "https://raw.githubusercontent.com/EssentialGG/Elementa/54bef9fc59648c44529ddd49d82d3216f2f437d6/src/main/resources/shaders/font.fsh",
+        "sha256": "47efc60d7827351f0627c8191cffc5fba9d0c419c336a62702a380ff64c99ade",
+        "bytes": 2608
+      },
+      {
+        "path": "shaders/font.vsh",
+        "local": "C:\\Users\\Owner\\Documents\\Codex\\2026-10-04\\task-4\\inventory\\native-ui-atlas-20261014\\public-inputs\\002-font.vsh",
+        "url": "https://raw.githubusercontent.com/EssentialGG/Elementa/54bef9fc59648c44529ddd49d82d3216f2f437d6/src/main/resources/shaders/font.vsh",
+        "sha256": "24fb624551cb215701d44750a9a9bc224df429f3fa1832644af2948d1d453952",
+        "bytes": 142
+      },
+      {
+        "path": "shaders/rect.vsh",
+        "local": "C:\\Users\\Owner\\Documents\\Codex\\2026-10-04\\task-4\\inventory\\native-ui-atlas-20261014\\public-inputs\\003-rect.vsh",
+        "url": "https://raw.githubusercontent.com/EssentialGG/Elementa/54bef9fc59648c44529ddd49d82d3216f2f437d6/src/main/resources/shaders/rect.vsh",
+        "sha256": "716c2484e10c915b45f45c3bdf34e7209b490d9d1fbd28885262eb44e49fe01d",
+        "bytes": 178
+      },
+      {
+        "path": "shaders/rounded_rect.fsh",
+        "local": "C:\\Users\\Owner\\Documents\\Codex\\2026-10-04\\task-4\\inventory\\native-ui-atlas-20261014\\public-inputs\\004-rounded_rect.fsh",
+        "url": "https://raw.githubusercontent.com/EssentialGG/Elementa/54bef9fc59648c44529ddd49d82d3216f2f437d6/src/main/resources/shaders/rounded_rect.fsh",
+        "sha256": "62998adcadedb6287ffbaa94d139c8786388bd5c57b64b288a2fadf243cc5d62",
+        "bytes": 398
+      }
+    ]
+  },
+  "production_jar_sha256": "6a5e02c961a8509c50439b1c88dd532335fe100415d396d68b4f27cb2e54fc6d",
+  "native_compiler": "Actual production shaderc with exact frontend/reflected layout, optional profiler fixture only",
+  "stdout": "ORIGINAL_UI_COMPILE=circle uniformBytes=80 names=[u_Radius, u_CenterPos, mvh_ModelViewProjection] attributes=[Attribute[name=mvh_Vertex, type=vec4, location=0], Attribute[name=mvh_Color, type=vec4, location=1]] samplers=[]\nORIGINAL_UI_COMPILE=rounded_rect uniformBytes=96 names=[u_Radius, u_InnerRect, mvh_ModelViewProjection] attributes=[Attribute[name=mvh_Vertex, type=vec4, location=0], Attribute[name=mvh_Color, type=vec4, location=1]] samplers=[]\nORIGINAL_UI_COMPILE=font uniformBytes=112 names=[fgColor, doffset, hint_amount, subpixel_amount, sdf_texel, mvh_ModelViewProjection] attributes=[Attribute[name=mvh_Vertex, type=vec4, location=0], Attribute[name=mvh_TexCoord, type=vec4, location=1]] samplers=[Sampler[name=msdf, binding=1]]\nNATIVE_UI_COMPILER_PASS originals=3 negativeControls=6\n",
+  "scope": "Three original Essential/Elementa UI pairs compile to real Vulkan SPIR-V, sampler and uniform ABI, caller bytecode ownership, deterministic reload and six invalid-program controls. No Essential executable classes, Minecraft, GL context, pixels or FPS acceptance. The36 artifact retains byte-identical compiler/classes; see VERSION-METADATA-DIFFERENCE.json."
+}
