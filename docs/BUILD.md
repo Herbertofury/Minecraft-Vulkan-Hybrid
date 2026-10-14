@@ -64,3 +64,7 @@ Fresh assembly/Java17 Forge build produces Hari56. [164 actual GPU cases and pai
 ## Native original managed-state GAME continuation
 
 Fresh assembly and Java17 Forge build produce Hari58. [191 actual GPU cases, original GAME state and native blend repair](../benchmarks/results/native-managed-state-20261014/REPORT.md), [reproduction and artifact hash](../benchmarks/results/native-managed-state-20261014/REPRODUCE.md). Full typed provider/delayed-loader/features/full327 gameplay remain incomplete. No personal promotion or FPS claim.
+
+## Original typed Mc pipeline GAME diagnostic
+
+Unchanged Hari58 passes [199 actual native GPU cases with genuine typed builder/uniform/draw/buffer lifetime](../benchmarks/results/native-typed-pipeline-20261014/REPORT.md). [Reproduction](../benchmarks/results/native-typed-pipeline-20261014/REPRODUCE.md). Complete typed render-pass/sampler/legacy/delayed-loader/features remain unfinished; no FPS or personal promotion claim.

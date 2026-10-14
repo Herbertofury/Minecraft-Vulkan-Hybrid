@@ -1,0 +1,9 @@
+{
+  "actual_trial": "073-typed-pipeline59-game-trial1-20261014",
+  "accepted": false,
+  "error": "Uniform UserTint;out missing",
+  "trigger": "Valid single-line GLSL has uniform and output declarations on one line",
+  "renderer_bug_repaired": false,
+  "next_diagnostic": "Use conventional line-separated declarations; retain minified parser gap for separate repair",
+  "all327_and_owned_inputs_restored": true
+}

@@ -120,6 +120,7 @@ final class NativeUiGameSmoke {
         try{NativeEssentialTransferSmoke.run(cases);}catch(Throwable failure){JsonObject diagnostic=new JsonObject();JsonArray chain=new JsonArray();for(Throwable cause=failure;cause!=null;cause=cause.getCause()){JsonObject item=new JsonObject();item.addProperty("type",cause.getClass().getName());String message=cause.getMessage();if(message!=null&&message.matches("[a-zA-Z0-9_.$/]+"))item.addProperty("missing_class",message);JsonArray stack=new JsonArray();for(var frame:cause.getStackTrace()){JsonObject row=new JsonObject();row.addProperty("class",frame.getClassName());row.addProperty("method",frame.getMethodName());row.addProperty("line",frame.getLineNumber());stack.add(row);}item.add("stack",stack);chain.add(item);}diagnostic.add("causes",chain);Files.writeString(Minecraft.getInstance().gameDirectory.toPath().resolve("mvh-essential-transfer-error.json"),new GsonBuilder().setPrettyPrinting().create().toJson(diagnostic));throw failure;}
         NativeRasterStateSmoke.run(cases);
         NativeEssentialManagedStateSmoke.run(cases);
+        NativeEssentialTypedPipelineSmoke.run(cases);
         NativeEssentialClipSmoke.run(cases);
         NativeEssentialSyncSmoke.run(cases);
         NativeEssentialViewportSmoke.run(cases);
