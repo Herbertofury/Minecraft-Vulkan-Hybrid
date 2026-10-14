@@ -98,7 +98,9 @@ public final class NativeUiRenderBridge {
                 case "mvh_Vertex" -> e.getUsage() == VertexFormatElement.Usage.POSITION && e.getType() == VertexFormatElement.Type.FLOAT && e.getCount() == 3;
                 case "mvh_Color" -> e.getUsage() == VertexFormatElement.Usage.COLOR && e.getType() == VertexFormatElement.Type.UBYTE && e.getCount() == 4;
                 case "mvh_TexCoord" -> e.getUsage() == VertexFormatElement.Usage.UV && e.getType() == VertexFormatElement.Type.FLOAT && e.getCount() == 2;
-                default -> false;
+                default -> (attribute.type().equals("float") || attribute.type().equals("vec2") || attribute.type().equals("vec3") || attribute.type().equals("vec4"))
+                        && (e.getType()==VertexFormatElement.Type.FLOAT && e.getCount()==(attribute.type().equals("float")?1:attribute.type().charAt(3)-'0')
+                        || attribute.type().equals("vec4") && e.getUsage()==VertexFormatElement.Usage.COLOR && e.getType()==VertexFormatElement.Type.UBYTE && e.getCount()==4);
             };
             if (!matches) throw new IllegalArgumentException("Native UI vertex layout mismatch: " + attribute.name());
         }

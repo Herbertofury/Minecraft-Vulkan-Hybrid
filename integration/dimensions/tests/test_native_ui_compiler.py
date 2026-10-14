@@ -19,7 +19,7 @@ def main():
         cp=a.classpath
         if a.production_jar:cp=str(a.production_jar)+os.pathsep+cp
         else:
-            files += [S/'net/vulkanmod/vulkan/shader/NativeUiProgram.java',S/'net/vulkanmod/vulkan/shader/SPIRVUtils.java',relocated_uniform_source(q)]
+            files += [S/'net/vulkanmod/vulkan/shader/NativeUiProgram.java',S/'net/vulkanmod/vulkan/shader/NativeUniformUse.java',S/'net/vulkanmod/vulkan/shader/SPIRVUtils.java',relocated_uniform_source(q)]
         # Only the optional profiler is replaced; the compiler and frontend are exact.
         f=q/'net/vulkanmod/compat/observer/CompatProfiler.java';f.parent.mkdir(parents=True);f.write_text('package net.vulkanmod.compat.observer;public final class CompatProfiler{public static boolean ENABLED=false;public static int shaderCompileCount;public static long spirvCompileTimeNanos;}');files.append(f)
         build=subprocess.run(['javac','--release','17','-encoding','UTF-8','-cp',cp,'-d',str(q/'classes'),*map(str,files)],capture_output=True,text=True)

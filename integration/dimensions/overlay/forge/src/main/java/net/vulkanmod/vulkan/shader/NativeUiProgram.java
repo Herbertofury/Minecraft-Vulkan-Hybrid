@@ -23,16 +23,27 @@ public final class NativeUiProgram {
     private record Stage(String code, List<Decl> declarations, Set<String> identifiers) {}
     public record Sampler(String name, int binding) {}
     public record Attribute(String name, String type, int location) {}
+    public record Uniform(String name, String type, int size, boolean array, int ordinal) {
+        public String reflectedName() { return name + (array ? "[0]" : ""); }
+        public int rows() { return type.startsWith("mat") ? type.charAt(3)-'0' : type.endsWith("2") ? 2 : type.endsWith("3") ? 3 : type.endsWith("4") ? 4 : 1; }
+        public int columns() { return type.startsWith("mat") ? rows() : 1; }
+        public boolean floating() { return !type.equals("int") && !type.startsWith("ivec") && !type.equals("sampler2D"); }
+    }
 
     private final byte[] vertex, fragment;
     private final List<String> uniformNames;
+    private final List<String> storageNames;
+    private final List<Uniform> activeUniforms;
+    private final Map<String,Uniform> uniformByName;
     private final SpirvUniformBlock uniforms;
     private final List<Sampler> samplers;
     private final List<Attribute> attributes;
 
     private NativeUiProgram(byte[] vertex, byte[] fragment, List<String> names,
-                            SpirvUniformBlock uniforms, List<Sampler> samplers, List<Attribute> attributes) {
-        this.vertex = vertex; this.fragment = fragment; this.uniformNames = List.copyOf(names);
+                            SpirvUniformBlock uniforms, List<Sampler> samplers, List<Attribute> attributes, List<Uniform> activeUniforms) {
+        this.vertex = vertex; this.fragment = fragment; this.storageNames = List.copyOf(names);
+        this.activeUniforms=List.copyOf(activeUniforms);
+        Map<String,Uniform> lookup=new HashMap<>();for(Uniform u:activeUniforms)lookup.put(u.name(),u);this.uniformByName=Map.copyOf(lookup); this.uniformNames=activeUniforms.stream().filter(u->u.ordinal()>=0).map(Uniform::name).toList();
         this.uniforms = uniforms; this.samplers = List.copyOf(samplers); this.attributes = List.copyOf(attributes);
     }
 
@@ -40,6 +51,9 @@ public final class NativeUiProgram {
     public ByteBuffer vertexSpirv() { return copy(vertex); }
     public ByteBuffer fragmentSpirv() { return copy(fragment); }
     public List<String> uniformNames() { return uniformNames; }
+    public List<Uniform> uniforms() { return activeUniforms; }
+    public Uniform uniform(String name) { return uniformByName.get(name); }
+    public int storageComponents(String name) { return uniforms.fields().get(ordinal(name)).components(); }
     public List<Sampler> samplers() { return samplers; }
     public List<Attribute> attributes() { return attributes; }
     public int uniformBytes() { return uniforms == null ? 0 : uniforms.bytes(); }
@@ -47,7 +61,7 @@ public final class NativeUiProgram {
     public void writeFloats(ByteBuffer target, String name, float... values) { uniforms.writeFloats(target, ordinal(name), values); }
     public void writeInts(ByteBuffer target, String name, int... values) { uniforms.writeInts(target, ordinal(name), values); }
     private int ordinal(String name) {
-        int at = uniformNames.indexOf(name);
+        int at = storageNames.indexOf(name);
         if (at < 0) throw bad("Unknown linked uniform: " + name);
         return at;
     }
@@ -70,8 +84,12 @@ public final class NativeUiProgram {
     }
 
     public static NativeUiProgram compile(String name, String vertexSource, String fragmentSource) {
+        return compile(name, vertexSource, fragmentSource, Map.of(), Map.of());
+    }
+    public static NativeUiProgram compile(String name, String vertexSource, String fragmentSource,
+                                          Map<String,Integer> attributeBindings, Map<String,Integer> outputBindings) {
         Objects.requireNonNull(name); Stage v = parse(vertexSource), f = parse(fragmentSource);
-        LinkedHashMap<String, Decl> u = new LinkedHashMap<>(), inputs = new LinkedHashMap<>(), outputs = new LinkedHashMap<>();
+        LinkedHashMap<String, Decl> u = new LinkedHashMap<>(), inputs = new LinkedHashMap<>(), outputs = new LinkedHashMap<>(), fragmentOutputs = new LinkedHashMap<>();
         for (Decl d : v.declarations) {
             switch (d.storage) {
                 case "uniform" -> merge(u, d);
@@ -87,7 +105,8 @@ public final class NativeUiProgram {
                     Decl from = outputs.get(d.name);
                     if (from == null || !from.sameType(d)) throw bad("Unmatched fragment input: " + d.name);
                 }
-                default -> throw bad("Explicit fragment outputs require another frontend");
+                case "out" -> merge(fragmentOutputs, d);
+                default -> throw bad("Unsupported fragment declaration");
             }
         }
         if (v.identifiers.contains("gl_ModelViewProjectionMatrix"))
@@ -111,11 +130,18 @@ public final class NativeUiProgram {
             common.append("layout(set=0,binding=").append(binding).append(") uniform ").append(d.declaration()).append('\n');
         }
         StringBuilder vi = new StringBuilder(), vo = new StringBuilder(), fi = new StringBuilder();
+        Set<Integer> inputLocations = new HashSet<>();
+        for (String n : inputs.keySet()) if (attributeBindings.containsKey(n)) {
+            int index=attributeBindings.get(n); if(index<0 || index>65535 || !inputLocations.add(index)) throw bad("Invalid/colliding bound attribute location");
+        }
         int location = 0;
         for (Decl d : inputs.values()) {
             if (d.count != 0 || d.type.startsWith("mat")) throw bad("Array/matrix vertex inputs require another frontend");
-            attributes.add(new Attribute(d.name, d.type, location));
-            vi.append("layout(location=").append(location++).append(") in ").append(d.declaration()).append('\n');
+            while(inputLocations.contains(location))location++;
+            int assigned=attributeBindings.getOrDefault(d.name,location);
+            if(!attributeBindings.containsKey(d.name)) { inputLocations.add(assigned); location++; }
+            attributes.add(new Attribute(d.name,d.type,assigned));
+            vi.append("layout(location=").append(assigned).append(") in ").append(d.declaration()).append('\n');
         }
         location = 0;
         for (Decl d : outputs.values()) {
@@ -124,12 +150,22 @@ public final class NativeUiProgram {
             fi.append("layout(location=").append(location++).append(") in ").append(d.declaration()).append('\n');
         }
         Map<String, String> vr = Map.of("gl_Vertex", "mvh_Vertex", "gl_Color", "mvh_Color", "gl_FrontColor", "mvh_FrontColor",
-                "gl_MultiTexCoord0", "mvh_TexCoord", "gl_ModelViewProjectionMatrix", "mvh_ModelViewProjection", "texture2D", "texture");
+                "gl_MultiTexCoord0", "mvh_TexCoord", "gl_ModelViewProjectionMatrix", "mvh_ModelViewProjection", "gl_VertexID", "gl_VertexIndex", "texture2D", "texture");
         Map<String, String> fr = Map.of("gl_Color", "mvh_FrontColor", "gl_FragColor", "mvh_FragColor", "texture2D", "texture");
         String vs = common + vi.toString() + vo + rewrite(v.code, vr, true)
                 + "\nvoid main(){" + (color ? "mvh_FrontColor=mvh_Color;" : "")
                 + "mvh_legacy_main();gl_Position.z=(gl_Position.z+gl_Position.w)*0.5;}\n";
-        String fs = common + fi.toString() + "layout(location=0) out vec4 mvh_FragColor;\n" + rewrite(f.code, fr, false);
+        StringBuilder fragmentInterface=new StringBuilder(); Set<Integer> colorLocations=new HashSet<>();
+        if (f.identifiers.contains("gl_FragColor")) {
+            if(!fragmentOutputs.isEmpty())throw bad("Legacy and explicit fragment output combination");
+            fragmentInterface.append("layout(location=0) out vec4 mvh_FragColor;\n");
+        } else for(Decl d:fragmentOutputs.values()) {
+            if(d.count!=0 || d.type.startsWith("mat") || d.type.equals("sampler2D"))throw bad("Unsupported fragment output shape");
+            int assigned=outputBindings.getOrDefault(d.name,colorLocations.size());
+            if(assigned<0 || assigned>65535 || !colorLocations.add(assigned))throw bad("Invalid/colliding fragment output binding");
+            fragmentInterface.append("layout(location=").append(assigned).append(") out ").append(d.declaration()).append('\n');
+        }
+        String fs = common + fi.toString() + fragmentInterface + rewrite(f.code, fr, false);
         // The two owners are closed even if the second compilation/reflection fails.
         try (SPIRVUtils.SPIRV vert = SPIRVUtils.compileShader(name + ".vsh", vs, SPIRVUtils.ShaderKind.VERTEX_SHADER);
              SPIRVUtils.SPIRV frag = SPIRVUtils.compileShader(name + ".fsh", fs, SPIRVUtils.ShaderKind.FRAGMENT_SHADER)) {
@@ -138,13 +174,23 @@ public final class NativeUiProgram {
             if (!ordinary.isEmpty()) {
                 // Performance optimization may remove an entirely unused stage block.
                 SpirvUniformBlock a = reflectIfPresent(vb), b = reflectIfPresent(fb);
-                if (a == null && b == null) throw bad("No active uniform block in either compiled stage");
+
                 if (a != null && b != null && (!a.fields().equals(b.fields()) || a.bytes() != b.bytes()))
                     throw bad("Compiled stage uniform ABI mismatch");
                 block = a != null ? a : b;
-                if (block.fields().size() != ordinary.size()) throw bad("Compiled uniform member count mismatch");
+                if (block!=null && block.fields().size() != ordinary.size()) throw bad("Compiled uniform member count mismatch");
             }
-            return new NativeUiProgram(vb, fb, ordinary.stream().map(Decl::name).toList(), block, samplers, attributes);
+            NativeUniformUse.Uses vu=NativeUniformUse.inspect(copy(vb)),fu=NativeUniformUse.inspect(copy(fb));
+            Map<Integer,Integer> active=new HashMap<>(vu.members());fu.members().forEach((i,n)->active.merge(i,n,Math::max));
+            List<Uniform> reflected=new ArrayList<>();
+            for(int i=0;i<ordinary.size();i++) if(active.containsKey(i)) {
+                Decl d=ordinary.get(i);int declared=d.count==0?1:d.count;
+                reflected.add(new Uniform(d.name,d.type,Math.min(declared,active.get(i)),d.count!=0,i));
+            }
+            Set<Integer> usedSamplers=new HashSet<>(vu.samplerBindings());usedSamplers.addAll(fu.samplerBindings());
+            samplers=samplers.stream().filter(a->usedSamplers.contains(a.binding())).toList();
+            for(Sampler sampler:samplers)reflected.add(new Uniform(sampler.name,"sampler2D",1,false,-1));
+            return new NativeUiProgram(vb, fb, ordinary.stream().map(Decl::name).toList(), block, samplers, attributes, reflected);
         }
     }
 

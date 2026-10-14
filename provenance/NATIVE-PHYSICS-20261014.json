@@ -1,0 +1,30 @@
+{
+  "base_feature_commit": "0890858fc6b0dacc8ec315d80446b22b76d83102",
+  "source_version": 40,
+  "production_sha256": "8ddf2547a7837545b4f37b4d6902497bb0276d46b1cce22a7f04d2c5269e8a0a",
+  "files": {
+    "integration/dimensions/overlay/gradle.properties": "3876f5cdd31269411a1bd4e920f0b0e13c797d1af76ce0ab1af558ec256c6be0",
+    "integration/dimensions/overlay/forge/src/main/resources/vulkanmod.mixins.json": "d7a2bdea533b0cf234413fea580635546d540e68a6a1c41235e623e118fc24be",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/compat/PhysicsShaderCallerAudit.java": "894b2390061fe1ae0dd403634f5a457966575c041240de0e76fe3aba26b96bdf",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/compat/UniversalRendererGate.java": "ab93f15df31366002892f32c1a490a96595c9f8b7d7e5237a14bf64d24df26aa",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/GlProgram.java": "d2e6b0e361b876ba09c351741bb3e0a1ccba304c64168069730618ea42fe3c9d",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/NativeShaderApi.java": "ce520186eab8230891e87868b1d2b1dcdc9ecb51c769506de0b736b8ae2e9489",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/NativeUiRenderBridge.java": "ea6f17dafe93945a4173a6cce6426db7a4b67ae338f342716b8a1e78901a30f0",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/PhysicsShaderCallers.java": "899d59953e0ae9bcc12ecb5a5d48b5b3da741b304fda3b6216cb1ace7afca353",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/ShaderCallerRemapper.java": "ba1f7f066c434c1a755721c7e481f78da24196baaef01cbc06c05a5ca95a3718",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/mixin/MixinPlugin.java": "27b34abe663242bb1c286965469c69df9669a89e5d33f0a2be3f86c1e324e617",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/vulkan/shader/NativeUiProgram.java": "b3212f32b0316402865a2aa8acd975b8e5a1fae5be5c1a9faa2c6c1cbea422f9",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/vulkan/shader/NativeUniformUse.java": "e0713d5352f785d86c1f32f2fe3e832ae948c720d8b10f5eddfb579afc6d151b",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/mixin/compatibility/physics/PhysicsShaderCallerMixin.java": "fd7acf78a80e5cdff878be7e20a2833794d06edcf21c6d9110c939434b081cef"
+  },
+  "original_caller_pin": {
+    "name": "net/diebuddies/opengl/Shader",
+    "raw_sha256": "be8a6b1ae560c63c312f63e9a90f6df02ab8d27ad0728913ea8bc0a2e405b037",
+    "canonical_sha256": "422f75bc40bc66c918b2678af84fae82e2922e9ffbd21659a19e6fb4d6b409ed",
+    "direct_sites": 52,
+    "private_original_unchanged": true
+  },
+  "private_originals_or_binaries_distributed": false,
+  "original_source_files_unchanged": true,
+  "fullpack_fps_accepted": false
+}

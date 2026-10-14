@@ -87,6 +87,7 @@ jobs:
           mvh_hari_reference=$(find "$GITHUB_WORKSPACE/../hari-integrated-ci/forge/build/libs" -maxdepth 1 -name '*-all.jar' -print -quit)
           test -f "$mvh_hari_reference"
           python integration/dimensions/tests/test_native_ui_compiler.py --classpath "$(cat compat/vulkan-shaders/native-test-sdk/build/native-ui-classpath.txt):$mvh_fastutil" --inputs qa-out/elementa-original-inputs --output qa-out/elementa-native-compiler --production-jar "$mvh_hari_reference"
+          python integration/dimensions/tests/test_native_physics_uniforms.py --classpath "$(cat compat/vulkan-shaders/native-test-sdk/build/native-ui-classpath.txt):$mvh_fastutil" --output qa-out/physics-native-uniforms --production-jar "$mvh_hari_reference"
       - name: Verify real native shader compilation and bytecode cache isolation
         run: python compat/vulkan-shaders/tests/test_native_compiler.py --download-reference --lwjgl-classpath "$(cat compat/vulkan-shaders/native-test-sdk/build/reference-classpath.txt)" --legacy-lwjgl-classpath "$(cat compat/vulkan-shaders/native-test-sdk/build/legacy-classpath.txt)" --report qa-out/iris-native-compiler.json
       - name: Verify reflected native uniform offsets and padded matrix/array writes

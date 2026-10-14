@@ -125,7 +125,7 @@ public final class GlProgram {
                 else throw new IllegalArgumentException("Duplicate/unsupported shader stage");
             }
             if (vertex == null || fragment == null) throw new IllegalArgumentException("A compiled vertex and fragment pair is required");
-            NativeUiProgram next = NativeUiProgram.compile("gl-program-" + program, vertex.compiledSource, fragment.compiledSource);
+            NativeUiProgram next = NativeUiProgram.compile("gl-program-" + program, vertex.compiledSource, fragment.compiledSource, programObj.attributeLocations, programObj.fragmentLocations);
             if (programObj.nativeProgram != null) nativeRetirer.accept(programObj.nativeProgram);
             invalidateLocations(programObj); programObj.nativeProgram = next;
             programObj.linked = true;
@@ -140,7 +140,8 @@ public final class GlProgram {
             case GL20.GL_VALIDATE_STATUS -> value.validated ? GL20.GL_TRUE : GL20.GL_FALSE;
             case GL20.GL_ATTACHED_SHADERS -> value.attachedShaders.size();
             case GL20.GL_INFO_LOG_LENGTH -> value.log.isEmpty() ? 0 : value.log.length() + 1;
-            case GL20.GL_ACTIVE_UNIFORMS -> value.nativeProgram == null ? 0 : value.nativeProgram.uniformNames().size() + value.nativeProgram.samplers().size();
+            case GL20.GL_ACTIVE_UNIFORMS -> value.nativeProgram == null ? 0 : value.nativeProgram.uniforms().size();
+            case GL20.GL_ACTIVE_UNIFORM_MAX_LENGTH -> value.nativeProgram == null ? 0 : value.nativeProgram.uniforms().stream().mapToInt(u->u.reflectedName().length()+1).max().orElse(0);
             case GL20.GL_ACTIVE_ATTRIBUTES -> value.nativeProgram == null ? 0 : value.nativeProgram.attributes().size();
             case GL20.GL_DELETE_STATUS -> value.deleted ? GL20.GL_TRUE : GL20.GL_FALSE;
             case GL_ACTIVE_UNIFORM_BLOCKS -> value.nativeProgram == null || value.nativeProgram.uniformBytes() == 0 ? 0 : 1;
@@ -203,91 +204,104 @@ public final class GlProgram {
         return programObj.nativeProgram.attributes().stream().filter(a -> a.name().equals(name.toString())).mapToInt(NativeUiProgram.Attribute::location).findFirst().orElse(-1);
     }
 
-    public static int getUniformLocation(int program, CharSequence name) {
-        Program programObj = PROGRAMS.get(program);
-        if (programObj == null || name == null) {
-            return -1;
-        }
-
-        if (programObj.nativeProgram == null || (!programObj.nativeProgram.uniformNames().contains(name.toString())
-                && programObj.nativeProgram.samplers().stream().noneMatch(a -> a.name().equals(name.toString())))) return -1;
-        return programObj.uniformLocations.computeIfAbsent(name.toString(), uniformName -> {
-            int location = nextUniformLocation++;
-            UNIFORM_NAMES_BY_LOCATION.put(location, new Location(program, uniformName));
-            return location;
-        });
+    public static void bindFragDataLocation(int program,int color,CharSequence name) {
+        Program p=PROGRAMS.get(program);
+        if(p==null) { NativeGlErrors.record(SHADERS.containsKey(program)?1282:1281); return; }
+        if(color<0) { NativeGlErrors.record(1281); return; }
+        if(name==null || name.toString().startsWith("gl_")) { NativeGlErrors.record(1282); return; }
+        p.fragmentLocations.put(name.toString(),color);
     }
-
-    public static void uniform1i(int location, int value) {
-        UniformValue uniformValue = getOrCreateUniform(location, 1, 1);
-        if (uniformValue != null) {
-            uniformValue.floats[0] = value;
-            uniformValue.ints[0] = value;
-        }
+    public static NativeUiProgram.Uniform activeUniform(int program,int index) {
+        Program p=PROGRAMS.get(program);
+        if(p==null) { NativeGlErrors.record(SHADERS.containsKey(program)?1282:1281); return null; }
+        if(p.nativeProgram==null || index<0 || index>=p.nativeProgram.uniforms().size()) { NativeGlErrors.record(1281); return null; }
+        return p.nativeProgram.uniforms().get(index);
     }
-
-    public static void uniform1f(int location, float value) {
-        UniformValue uniformValue = getOrCreateUniform(location, 1, 0);
-        if (uniformValue != null) {
-            uniformValue.floats[0] = value;
-        }
+    public static int uniformType(NativeUiProgram.Uniform u) {
+        return switch(u.type()) {
+            case "float" -> 0x1406; case "int" -> 0x1404;
+            case "vec2" -> 0x8B50; case "vec3" -> 0x8B51; case "vec4" -> 0x8B52;
+            case "ivec2" -> 0x8B53; case "ivec3" -> 0x8B54; case "ivec4" -> 0x8B55;
+            case "mat2" -> 0x8B5A; case "mat3" -> 0x8B5B; case "mat4" -> 0x8B5C;
+            case "sampler2D" -> 0x8B5E; default -> throw new IllegalArgumentException("Unimplemented native uniform type");
+        };
     }
-
-    public static void uniform2f(int location, float x, float y) {
-        UniformValue uniformValue = getOrCreateUniform(location, 2, 0);
-        if (uniformValue != null) {
-            uniformValue.floats[0] = x;
-            uniformValue.floats[1] = y;
+    public static int getUniformLocation(int program,CharSequence name) {
+        Program p=PROGRAMS.get(program);
+        if(p==null) { NativeGlErrors.record(SHADERS.containsKey(program)?1282:1281); return -1; }
+        if(!p.linked || p.nativeProgram==null) { NativeGlErrors.record(1282); return -1; }
+        if(name==null)return -1;
+        String base=name.toString();int element=0;boolean subscript=false;int bracket=base.indexOf('[');
+        if(bracket>=0) {
+            if(!base.endsWith("]"))return -1;
+            String index=base.substring(bracket+1,base.length()-1);
+            if(index.isEmpty() || !index.chars().allMatch(Character::isDigit))return -1;
+            try { element=Integer.parseInt(index); } catch(NumberFormatException invalid) { return -1; }
+            base=base.substring(0,bracket);subscript=true;
         }
+        NativeUiProgram.Uniform u=p.nativeProgram.uniform(base);
+        if(u==null || subscript && !u.array() || element>=u.size())return -1;
+        Integer first=p.uniformLocations.get(base);
+        if(first==null) {
+            first=nextUniformLocation;nextUniformLocation=Math.addExact(nextUniformLocation,u.size());p.uniformLocations.put(base,first);p.locationRanges.put(first,u);
+        }
+        int location=Math.addExact(first,element);
+        UNIFORM_NAMES_BY_LOCATION.put(location,new Location(program,base,element,u));p.locationIds.add(location);
+        return location;
     }
-
-    public static void uniform3f(int location, float x, float y, float z) {
-        UniformValue uniformValue = getOrCreateUniform(location, 3, 0);
-        if (uniformValue != null) {
-            uniformValue.floats[0] = x;
-            uniformValue.floats[1] = y;
-            uniformValue.floats[2] = z;
+    private static Location writeLocation(int location,int rows,int columns,boolean floating,int count) {
+        if(currentProgramId==0) { NativeGlErrors.record(1282); return null; }
+        if(location==-1)return null;
+        Location l=UNIFORM_NAMES_BY_LOCATION.get(location);
+        if(l==null) {
+            Program p=PROGRAMS.get(currentProgramId);var range=p.locationRanges.floorEntry(location);
+            if(range!=null && location-range.getKey()<range.getValue().size()) {
+                var u=range.getValue();l=new Location(currentProgramId,u.name(),location-range.getKey(),u);UNIFORM_NAMES_BY_LOCATION.put(location,l);p.locationIds.add(location);
+            }
         }
+        if(l==null || l.program!=currentProgramId || l.uniform.rows()!=rows || l.uniform.columns()!=columns || l.uniform.floating()!=floating || !l.uniform.array() && count>1) {
+            NativeGlErrors.record(1282);return null;
+        }
+        return l;
     }
-
-    public static void uniform3i(int location, int x, int y, int z) {
-        UniformValue uniformValue = getOrCreateUniform(location, 3, 3);
-        if (uniformValue != null) {
-            uniformValue.floats[0] = x;
-            uniformValue.floats[1] = y;
-            uniformValue.floats[2] = z;
-            uniformValue.ints[0] = x;
-            uniformValue.ints[1] = y;
-            uniformValue.ints[2] = z;
+    private static UniformValue uniformStorage(Location l) {
+        Program p=PROGRAMS.get(currentProgramId);UniformValue value=p.uniformValues.get(l.name);
+        if(value==null) {
+            int components=l.uniform.ordinal()<0?1:p.nativeProgram.storageComponents(l.name);
+            value=new UniformValue(new float[components],l.uniform.floating()?null:new int[components]);p.uniformValues.put(l.name,value);
         }
+        return value;
     }
-
-    public static void uniform4f(int location, float x, float y, float z, float w) {
-        UniformValue uniformValue = getOrCreateUniform(location, 4, 0);
-        if (uniformValue != null) {
-            uniformValue.floats[0] = x;
-            uniformValue.floats[1] = y;
-            uniformValue.floats[2] = z;
-            uniformValue.floats[3] = w;
-        }
+    private static void scalar(int location,int rows,float x,float y,float z,float w) {
+        Location l=writeLocation(location,rows,1,true,1);if(l==null)return;
+        float[] a=uniformStorage(l).floats;int at=l.element*rows;a[at]=x;if(rows>1)a[at+1]=y;if(rows>2)a[at+2]=z;if(rows>3)a[at+3]=w;
     }
-
-    public static void uniformMatrix4fv(int location, boolean transpose, FloatBuffer value) {
-        if (value == null) {
-            return;
-        }
-
-        UniformValue uniformValue = getOrCreateUniform(location, 16, 0);
-        if (uniformValue == null) {
-            return;
-        }
-
-        float[] matrix = uniformValue.floats;
-        FloatBuffer src = value.duplicate();
-        if (src.remaining() < 16) throw new IllegalArgumentException("A complete matrix is required");
-        int start = src.position();
-        for (int i = 0; i < matrix.length; i++) matrix[i] = src.get(start + (transpose ? (i % 4) * 4 + i / 4 : i));
+    public static void uniform1f(int location,float value) { scalar(location,1,value,0,0,0); }
+    public static void uniform2f(int location,float x,float y) { scalar(location,2,x,y,0,0); }
+    public static void uniform3f(int location,float x,float y,float z) { scalar(location,3,x,y,z,0); }
+    public static void uniform4f(int location,float x,float y,float z,float w) { scalar(location,4,x,y,z,w); }
+    public static void uniform1i(int location,int value) {
+        Location l=writeLocation(location,1,1,false,1);if(l==null)return;UniformValue u=uniformStorage(l);u.ints[l.element]=value;u.floats[l.element]=value;
     }
+    public static void uniform3i(int location,int x,int y,int z) {
+        Location l=writeLocation(location,3,1,false,1);if(l==null)return;UniformValue u=uniformStorage(l);int at=l.element*3;u.ints[at]=x;u.ints[at+1]=y;u.ints[at+2]=z;u.floats[at]=x;u.floats[at+1]=y;u.floats[at+2]=z;
+    }
+    public static void uniformFloats(int location,int rows,FloatBuffer data) {
+        java.util.Objects.requireNonNull(data);int count=data.remaining()/rows;Location l=writeLocation(location,rows,1,true,count);if(l==null || count==0)return;
+        float[] out=uniformStorage(l).floats;int used=Math.min(count,l.uniform.size()-l.element)*rows,start=data.position(),at=l.element*rows;
+        for(int i=0;i<used;i++)out[at+i]=data.get(start+i);
+    }
+    public static void uniformFloats(int location,int rows,float[] data) {
+        java.util.Objects.requireNonNull(data);int count=data.length/rows;Location l=writeLocation(location,rows,1,true,count);if(l==null || count==0)return;
+        int used=Math.min(count,l.uniform.size()-l.element)*rows;System.arraycopy(data,0,uniformStorage(l).floats,l.element*rows,used);
+    }
+    public static void uniformMatrix(int location,int size,boolean transpose,FloatBuffer data) {
+        java.util.Objects.requireNonNull(data);int components=size*size,count=data.remaining()/components;Location l=writeLocation(location,size,size,true,count);if(l==null || count==0)return;
+        float[] out=uniformStorage(l).floats;int used=Math.min(count,l.uniform.size()-l.element),start=data.position(),at=l.element*components;
+        for(int a=0;a<used;a++)for(int c=0;c<size;c++)for(int r=0;r<size;r++)
+            out[at+a*components+c*size+r]=data.get(start+a*components+(transpose?r*size+c:c*size+r));
+    }
+    public static void uniformMatrix4fv(int location,boolean transpose,FloatBuffer data) { uniformMatrix(location,4,transpose,data); }
 
     public static float[] getFloatUniform(String name) {
         Program programObj = PROGRAMS.get(currentProgramId);
@@ -307,28 +321,6 @@ public final class GlProgram {
 
         UniformValue value = programObj.uniformValues.get(name);
         return value != null ? value.ints : null;
-    }
-
-    private static UniformValue getOrCreateUniform(int location, int floatCount, int intCount) {
-        Location uniform = UNIFORM_NAMES_BY_LOCATION.get(location);
-        Program programObj = PROGRAMS.get(currentProgramId);
-        if (uniform == null || uniform.program != currentProgramId || programObj == null) {
-            return null;
-        }
-
-        String name = uniform.name;
-        UniformValue value = programObj.uniformValues.get(name);
-        if (value == null || !hasShape(value, floatCount, intCount)) {
-            value = new UniformValue(new float[floatCount], intCount > 0 ? new int[intCount] : null);
-            programObj.uniformValues.put(name, value);
-        }
-
-        return value;
-    }
-
-    private static boolean hasShape(UniformValue value, int floatCount, int intCount) {
-        return value.floats.length == floatCount
-                && (intCount == 0 ? value.ints == null : value.ints != null && value.ints.length == intCount);
     }
 
     public static NativeUiProgram currentNativeProgram() {
@@ -357,10 +349,12 @@ public final class GlProgram {
         if (value != null && value.deleted && PROGRAMS.values().stream().noneMatch(q -> q.attachedShaders.containsKey(shader))) SHADERS.remove(shader);
     }
     private static void invalidateLocations(Program p) {
-        for (int location : p.uniformLocations.values()) UNIFORM_NAMES_BY_LOCATION.remove(location);
+        for (int location : p.locationIds) UNIFORM_NAMES_BY_LOCATION.remove(location);
+        p.locationIds.clear();
+        p.locationRanges.clear();
         p.uniformLocations.clear(); p.uniformValues.clear();
     }
-    private record Location(int program, String name) {}
+    private record Location(int program, String name, int element, NativeUiProgram.Uniform uniform) {}
 
     private static final class Shader {
         final int type;
@@ -378,6 +372,9 @@ public final class GlProgram {
         final Int2ReferenceOpenHashMap<Shader> attachedShaders = new Int2ReferenceOpenHashMap<>();
         final Map<String, Integer> attributeLocations = new HashMap<>();
         final Map<String, Integer> uniformLocations = new HashMap<>();
+        final Map<String, Integer> fragmentLocations = new HashMap<>();
+        final java.util.Set<Integer> locationIds = new java.util.HashSet<>();
+        final java.util.TreeMap<Integer,NativeUiProgram.Uniform> locationRanges = new java.util.TreeMap<>();
         final Map<String, UniformValue> uniformValues = new HashMap<>();
         boolean linked, validated, deleted;
         String log = "";

@@ -13,7 +13,7 @@ with tempfile.TemporaryDirectory(prefix='mvh-shader-interop-') as t:
     else:
         assert a.reference_jar,'Reference jar only resolves unused VRenderSystem and draw-validation types in source mode'
         cp=str(a.reference_jar)+os.pathsep+cp
-        files += [S/p for p in ['net/vulkanmod/gl/GlProgram.java','net/vulkanmod/gl/GlShaderStrings.java','net/vulkanmod/vulkan/shader/NativeUiProgram.java','net/vulkanmod/vulkan/shader/SPIRVUtils.java','net/vulkanmod/mixin/compatibility/gl/GL20M.java','net/vulkanmod/mixin/compatibility/gl/ARBShaderObjectsM.java']]
+        files += [S/p for p in ['net/vulkanmod/gl/GlProgram.java','net/vulkanmod/gl/NativeGlErrors.java','net/vulkanmod/gl/GlShaderStrings.java','net/vulkanmod/vulkan/shader/NativeUiProgram.java','net/vulkanmod/vulkan/shader/NativeUniformUse.java','net/vulkanmod/vulkan/shader/SPIRVUtils.java','net/vulkanmod/mixin/compatibility/gl/GL20M.java','net/vulkanmod/mixin/compatibility/gl/ARBShaderObjectsM.java']]
         files += [R/'source/forge/src/main/java/net/vulkanmod/gl/GlShaderSource.java',relocated_uniform_source(q)]
     f=q/'net/vulkanmod/compat/observer/CompatProfiler.java';f.parent.mkdir(parents=True);f.write_text('package net.vulkanmod.compat.observer;public final class CompatProfiler{public static boolean ENABLED=false;public static int shaderCompileCount;public static long spirvCompileTimeNanos;}');files.append(f)
     build=subprocess.run(['javac','--release','17','-proc:none','-encoding','UTF-8','-cp',cp,'-d',str(q/'classes'),*map(str,files)],capture_output=True,text=True);(a.output/'compile.log').write_text(build.stdout+build.stderr);assert build.returncode==0,build.stderr

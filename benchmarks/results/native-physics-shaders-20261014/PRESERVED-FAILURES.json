@@ -1,0 +1,23 @@
+{
+  "renderer_or_oracle_weakened": false,
+  "failures": [
+    {
+      "runs": [
+        41,
+        42
+      ],
+      "cause": "Original font subpixel_amount is inactive after actual SPIR-V optimization. Private and public test adapters now accept only this known name at -1 after checking actual reflection; original code is unchanged and its -1 uniform update executes normally. Cursor, mixed API and all active-name assertions stay intact."
+    },
+    {
+      "runs": [
+        43,
+        44
+      ],
+      "cause": "The new test fixture ended its native pass before the established readback flush, so it observed an unsubmitted image. Corrected only fixture ordering; kept renderer, synchronization, expected pixels and tolerance unchanged. Transparent failure bytes remain private."
+    },
+    {
+      "run": "47 trial1",
+      "cause": "Launch aborted before Java because a preceding owned proof marker was retained. Exact marker was recoverably archived, owned cleanup fixed, all profiles restored; trial2 passed."
+    }
+  ]
+}

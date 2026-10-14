@@ -9,7 +9,7 @@ import java.util.*;
  * Bootstrap LWJGL classes stay untouched, including Forge's early OpenGL display. */
 public final class ShaderCallerRemapper {
     public static final String FACADE="net/vulkanmod/gl/NativeShaderApi";
-    private static final Set<String> OWNERS=Set.of("org/lwjgl/opengl/GL20", "org/lwjgl/opengl/GL20C", "org/lwjgl/opengl/ARBShaderObjects");
+    private static final Set<String> OWNERS=Set.of("org/lwjgl/opengl/GL20", "org/lwjgl/opengl/GL20C", "org/lwjgl/opengl/GL32C", "org/lwjgl/opengl/ARBShaderObjects");
     private static final Set<String> ABI=buildAbi();
     private ShaderCallerRemapper() {}
     private static Set<String> buildAbi() {

@@ -51,6 +51,60 @@ public final class NativeShaderApi {
     public static void glUniform4f(int location, float x, float y, float z, float w) { if (!nativeRenderer()) { GL20C.glUniform4f(location, x, y, z, w); return; } GlProgram.uniform4f(location, x, y, z, w); }
     public static void glUniform3i(int location, int x, int y, int z) { if (!nativeRenderer()) { GL20C.glUniform3i(location, x, y, z); return; } GlProgram.uniform3i(location, x, y, z); }
     public static void glUniformMatrix4fv(int location, boolean transpose, FloatBuffer value) { if (!nativeRenderer()) { GL20C.glUniformMatrix4fv(location, transpose, value); return; } GlProgram.uniformMatrix4fv(location, transpose, value); }
+    public static void glBindFragDataLocation(int program,int color,CharSequence name) {
+        if(!nativeRenderer()) { org.lwjgl.opengl.GL30C.glBindFragDataLocation(program,color,name); return; }
+        GlProgram.bindFragDataLocation(program,color,name);
+    }
+    public static String glGetActiveUniform(int program,int index,IntBuffer size,IntBuffer type) {
+        if(!nativeRenderer())return GL20C.glGetActiveUniform(program,index,size,type);
+        if(size==null || type==null || !size.hasRemaining() || !type.hasRemaining())throw new IllegalArgumentException("Uniform size/type output requires one remaining integer");
+        var uniform=GlProgram.activeUniform(program,index);if(uniform==null)return "";
+        size.put(size.position(),uniform.size());type.put(type.position(),GlProgram.uniformType(uniform));return uniform.reflectedName();
+    }
+    public static String glGetActiveUniformName(int program,int index) {
+        if(!nativeRenderer())return org.lwjgl.opengl.GL31C.glGetActiveUniformName(program,index);
+        var uniform=GlProgram.activeUniform(program,index);return uniform==null?"":uniform.reflectedName();
+    }
+    public static void glUniform1fv(int location,FloatBuffer values) {
+        if(!nativeRenderer()) { GL20C.glUniform1fv(location,values); return; }
+        GlProgram.uniformFloats(location,1,values);
+    }
+    public static void glUniform1fv(int location,float[] values) {
+        if(!nativeRenderer()) { GL20C.glUniform1fv(location,values); return; }
+        GlProgram.uniformFloats(location,1,values);
+    }
+    public static void glUniform2fv(int location,FloatBuffer values) {
+        if(!nativeRenderer()) { GL20C.glUniform2fv(location,values); return; }
+        GlProgram.uniformFloats(location,2,values);
+    }
+    public static void glUniform2fv(int location,float[] values) {
+        if(!nativeRenderer()) { GL20C.glUniform2fv(location,values); return; }
+        GlProgram.uniformFloats(location,2,values);
+    }
+    public static void glUniform3fv(int location,FloatBuffer values) {
+        if(!nativeRenderer()) { GL20C.glUniform3fv(location,values); return; }
+        GlProgram.uniformFloats(location,3,values);
+    }
+    public static void glUniform3fv(int location,float[] values) {
+        if(!nativeRenderer()) { GL20C.glUniform3fv(location,values); return; }
+        GlProgram.uniformFloats(location,3,values);
+    }
+    public static void glUniform4fv(int location,FloatBuffer values) {
+        if(!nativeRenderer()) { GL20C.glUniform4fv(location,values); return; }
+        GlProgram.uniformFloats(location,4,values);
+    }
+    public static void glUniform4fv(int location,float[] values) {
+        if(!nativeRenderer()) { GL20C.glUniform4fv(location,values); return; }
+        GlProgram.uniformFloats(location,4,values);
+    }
+    public static void glUniformMatrix2fv(int location,boolean transpose,FloatBuffer values) {
+        if(!nativeRenderer()) { GL20C.glUniformMatrix2fv(location,transpose,values); return; }
+        GlProgram.uniformMatrix(location,2,transpose,values);
+    }
+    public static void glUniformMatrix3fv(int location,boolean transpose,FloatBuffer values) {
+        if(!nativeRenderer()) { GL20C.glUniformMatrix3fv(location,transpose,values); return; }
+        GlProgram.uniformMatrix(location,3,transpose,values);
+    }
     public static int glCreateShaderObjectARB(int type) { if (!nativeRenderer()) return ARBShaderObjects.glCreateShaderObjectARB(type); return GlProgram.createShader(type); }
     public static int glCreateProgramObjectARB() { if (!nativeRenderer()) return ARBShaderObjects.glCreateProgramObjectARB(); return GlProgram.createProgram(); }
     public static void glShaderSourceARB(int shader, CharSequence source) { if (!nativeRenderer()) { ARBShaderObjects.glShaderSourceARB(shader, source); return; } GlProgram.shaderSource(shader, source); }
