@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "controls": 36,
+  "normal_sites": 49,
+  "capability_routes": 3,
+  "retained_root_GL_sites": 46,
+  "stdout": "ESSENTIAL_TYPED_BUFFER_CALLER_REGRESSION_PASS controls=36 normalSites=49 capabilities=3 rootOtherGLRetained=46 inverseBodiesIdentical=true fullDeviceAccepted=false\n",
+  "full_device_accepted": false
+}

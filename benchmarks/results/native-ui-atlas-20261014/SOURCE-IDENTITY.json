@@ -1,0 +1,8 @@
+{
+  "source_files": 1001,
+  "all_original_source_hashes_equal": true,
+  "renderer_branch": "c38191c1219a1a5de9fab0d22932b852855d9e7f",
+  "renderer_only_reuse": true,
+  "excluded_unmeasured_optimizer": true,
+  "excluded_noise34_performance_hold": true
+}

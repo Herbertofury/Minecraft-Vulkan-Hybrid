@@ -1,0 +1,20 @@
+{
+  "classes": [
+    {
+      "name": "gg/essential/universal/render/UGpuDeviceImpl",
+      "raw_sha256": "250ccd29c6ed2a610e4cea508c6750f1452b92e20b39824770e67596f16eb52d",
+      "canonical_sha256": "ac1a55d26a3540c026566ebda4e832a554511068e7cf4224912a1bdc5e481de1"
+    },
+    {
+      "name": "gg/essential/universal/render/UGpuTextureImpl",
+      "raw_sha256": "344565462dec41a2522dafd984047c033d06e00e8663c59bd7c85cdae32539dd",
+      "canonical_sha256": "7655b4d3b0031a58847c5309e48087f40bad073e979efbb7520c5bdbac461e4b"
+    },
+    {
+      "name": "gg/essential/universal/render/UGpuDeviceImpl$info$1$limits$1",
+      "raw_sha256": "e0c8d3b8e5ebebe66862cd6eb3c520fc45a73e9a5d2eb265aa18c089f44a39c7",
+      "canonical_sha256": "61eb54b661554dbc62e0aab470104210e6e60beb91ae882461adf8a5c2d465ef"
+    }
+  ],
+  "full_device_accepted": false
+}

@@ -1,0 +1,21 @@
+{
+  "version": 54,
+  "GPU_cases": 129,
+  "pixels": 61920,
+  "mismatch": 0,
+  "old116_hashes_equal": true,
+  "original_framebuffer_invocations": 40,
+  "selected_framebuffer_sites": 27,
+  "original_scissor_sites": 5,
+  "controls": 33,
+  "inverse_refusal_controls": 18,
+  "private_loader_only": true,
+  "root_unexecuted_GL_sites": 21,
+  "full_Essential_provider_or_FPS_accepted": false,
+  "all_327_candidate_hashes_unchanged": true,
+  "full327_remaining_references": 387,
+  "full327_unique_APIs": 173,
+  "full327_archives": 21,
+  "production_sha256": "16f1cd2050148c38a459b819a291b8954b2a7c5e16317d06d94313999211d3a6",
+  "helper_to_java_seconds": 3.786
+}

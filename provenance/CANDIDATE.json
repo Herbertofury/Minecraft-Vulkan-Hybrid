@@ -1,0 +1,14 @@
+{
+  "version": "2.4.10-noxviola.1-vulkan-hybrid",
+  "product_commit": "edc2d2a04b2dd7b48b71eb26ad7bb32aca2f8ad2",
+  "reproducible": true,
+  "jar_sha256": "8b593bac1ac77670849ed992c808d327dd6d9f188ddfdea341ac88f16edf8c9f",
+  "native_status": "accepted: 13 broad + 3 C2ME 9.8 profiles and dedicated server",
+  "fps_status": "accepted: measured target gain, independent stock frames, adaptive/fixed native memory investigation",
+  "compile_run": 37171853240,
+  "memory_diagnostic_run": 37194598352,
+  "compatibility_run": 37191427463,
+  "c2me98_run": 37191427447,
+  "hardware_gpu_fps_measured": false,
+  "all_original_alerts_retained": true
+}

@@ -1,0 +1,39 @@
+{
+  "base_feature_commit": "b5cbc3eab9a2948712718fbff6e88a15ee3f66e8",
+  "source_version": 42,
+  "production_sha256": "15d2049fc48650deeef36ef7fee0ab39e47b1d76306fcd730843911b33c4223d",
+  "files": {
+    "integration/dimensions/overlay/gradle.properties": "acdb3660438291feabc1ce74d55bb9bd01a1bc7f10ffb908c09b7b37db0879bb",
+    "integration/dimensions/overlay/forge/src/main/resources/vulkanmod.mixins.json": "b637514ca13a380e7e50bc87b7965ad4b1cfe90251757f37a3894e48ae597b8e",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/compat/PhysicsBufferCallerAudit.java": "0483ef04c01d655348da89688e9d5f25e0cc207b7e042da6ffa608b7dd0ce102",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/compat/UniversalRendererGate.java": "cd188a140f717375d87e807b6445153a663b12be1687611fa3ab5b2e48fcca45",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/GlBuffer.java": "6df97148d37a50457bb3d2ccb04c8c036b51d571a68c34022a315fc2be14b2bb",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/NativeBufferObjectApi.java": "92f759f7ea02db71cdbbc38ad8b1bb63e9be450b67873744a4a2aa87175304cf",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/NativePixelBufferApi.java": "73dfa6d7a6bd303d9714dcd1e18dcdf355d13134d92abf39b4c5af013652b682",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/NativeUiRenderBridge.java": "4be8d5e7b6ad3250a794489b97fddd1b04ff5d5e42f68dbf9c4a3a246b726e83",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/PhysicsBufferCallers.java": "63f5190865cb8c8e9db73a238a67e4eb24995568e727c88182e6627de319cf7d",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/mixin/MixinPlugin.java": "0a9a38ef29c57cae24fc0cb6d34e4bf3691dc481bce561d6d358c5324d18617a",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/mixin/compatibility/physics/PhysicsBufferCallerMixin.java": "5ba1dc75f00d29dfdecba6ee791b005f71a7a311bac45101277055eeaa5629b9"
+  },
+  "caller_pins": {
+    "archive_sha256": "35826b411cee1116443e0992320d4e5158f7e1b64bca88599eea08b41fe21c59",
+    "classes": [
+      {
+        "class": "net/diebuddies/opengl/BufferObject",
+        "raw_sha256": "2232a0ff00515584a97cd8393dcbd2d8c5ebf41e3084355174d56daa1931c331",
+        "canonical_sha256": "c672d1b0518a9e34375a21193650c16550e448b6dd6947d57e32ded57810d347",
+        "direct_sites": 28
+      },
+      {
+        "class": "net/diebuddies/opengl/ArenaBuffer",
+        "raw_sha256": "c16bd327077ab70871280d565752c765aab4d2d6c62792caf7b62876531fb57f",
+        "canonical_sha256": "bbe08138ccb44ca7b61cbdb02b6ca0a8191b47636eee0b01537d3d9b39ef067a",
+        "direct_sites": 19
+      }
+    ],
+    "original_bytes_distributed": false
+  },
+  "original_source_1001_unchanged": true,
+  "private_originals_distributed": false,
+  "fullpack_fps_accepted": false
+}

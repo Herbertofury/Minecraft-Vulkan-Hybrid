@@ -1,0 +1,76 @@
+{
+  "comparison": "Only Citadel toggled; eight-JAR cumulative foundation otherwise held constant; ABBAAB native Vulkan",
+  "trials": [
+    {
+      "stage": "citadel-cost-01-absent",
+      "citadel_present": false,
+      "average_fps": 2559.4584934624777,
+      "one_percent_low_fps": 556.9198561145344,
+      "p95_ms": 0.4332,
+      "p99_ms": 0.8188,
+      "max_ms": 3.7094
+    },
+    {
+      "stage": "citadel-cost-02-present",
+      "citadel_present": true,
+      "average_fps": 2093.408345015696,
+      "one_percent_low_fps": 417.45692013823475,
+      "p95_ms": 0.6969,
+      "p99_ms": 1.7904,
+      "max_ms": 4.8747
+    },
+    {
+      "stage": "citadel-cost-03-present-retry2",
+      "citadel_present": true,
+      "average_fps": 2490.0372842267348,
+      "one_percent_low_fps": 529.0692427151837,
+      "p95_ms": 0.492,
+      "p99_ms": 0.9773,
+      "max_ms": 10.193
+    },
+    {
+      "stage": "citadel-cost-04-absent",
+      "citadel_present": false,
+      "average_fps": 2196.640607186952,
+      "one_percent_low_fps": 416.637399838694,
+      "p95_ms": 0.7106,
+      "p99_ms": 1.7639,
+      "max_ms": 9.3768
+    },
+    {
+      "stage": "citadel-cost-05-absent",
+      "citadel_present": false,
+      "average_fps": 2319.6072222880834,
+      "one_percent_low_fps": 473.9869686272387,
+      "p95_ms": 0.5792,
+      "p99_ms": 1.2893,
+      "max_ms": 4.7488
+    },
+    {
+      "stage": "citadel-cost-06-present",
+      "citadel_present": true,
+      "average_fps": 2492.183991871476,
+      "one_percent_low_fps": 534.6877230695017,
+      "p95_ms": 0.5077,
+      "p99_ms": 0.9927,
+      "max_ms": 3.8671
+    }
+  ],
+  "summary": {
+    "absent": {
+      "average_fps": 2319.6072222880834,
+      "one_percent_low_fps": 473.9869686272387,
+      "p95_ms": 0.5792,
+      "p99_ms": 1.2893,
+      "max_ms": 4.7488
+    },
+    "present": {
+      "average_fps": 2490.0372842267348,
+      "one_percent_low_fps": 529.0692427151837,
+      "p95_ms": 0.5077,
+      "p99_ms": 0.9927,
+      "max_ms": 4.8747
+    },
+    "fps_change_percent": 7.347367274125727
+  }
+}

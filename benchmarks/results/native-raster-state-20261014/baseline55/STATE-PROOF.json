@@ -1,0 +1,216 @@
+{
+  "baseline_defect_reproduction": true,
+  "candidate_accepted": false,
+  "logic_failures": 14,
+  "polygon_failures": 4,
+  "FPS_accepted": false,
+  "cases": [
+    {
+      "case": "native-logic-operation-0",
+      "matched": false,
+      "compared_pixels": 64,
+      "mismatched_pixels": 64,
+      "max_channel_difference": 68,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "2a64f70a08f2adb0645178ef9a6fed7bc3298e315664b2074566d8bd02c0557c"
+    },
+    {
+      "case": "native-logic-operation-1",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "2a64f70a08f2adb0645178ef9a6fed7bc3298e315664b2074566d8bd02c0557c"
+    },
+    {
+      "case": "native-logic-operation-2",
+      "matched": false,
+      "compared_pixels": 64,
+      "mismatched_pixels": 64,
+      "max_channel_difference": 195,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "2a64f70a08f2adb0645178ef9a6fed7bc3298e315664b2074566d8bd02c0557c"
+    },
+    {
+      "case": "native-logic-operation-3",
+      "matched": false,
+      "compared_pixels": 64,
+      "mismatched_pixels": 64,
+      "max_channel_difference": 195,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "2a64f70a08f2adb0645178ef9a6fed7bc3298e315664b2074566d8bd02c0557c"
+    },
+    {
+      "case": "native-logic-operation-4",
+      "matched": false,
+      "compared_pixels": 64,
+      "mismatched_pixels": 64,
+      "max_channel_difference": 240,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "2a64f70a08f2adb0645178ef9a6fed7bc3298e315664b2074566d8bd02c0557c"
+    },
+    {
+      "case": "native-logic-operation-5",
+      "matched": false,
+      "compared_pixels": 64,
+      "mismatched_pixels": 64,
+      "max_channel_difference": 240,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "2a64f70a08f2adb0645178ef9a6fed7bc3298e315664b2074566d8bd02c0557c"
+    },
+    {
+      "case": "native-logic-operation-6",
+      "matched": false,
+      "compared_pixels": 64,
+      "mismatched_pixels": 64,
+      "max_channel_difference": 255,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "2a64f70a08f2adb0645178ef9a6fed7bc3298e315664b2074566d8bd02c0557c"
+    },
+    {
+      "case": "native-logic-operation-7",
+      "matched": false,
+      "compared_pixels": 64,
+      "mismatched_pixels": 64,
+      "max_channel_difference": 255,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "2a64f70a08f2adb0645178ef9a6fed7bc3298e315664b2074566d8bd02c0557c"
+    },
+    {
+      "case": "native-logic-operation-8",
+      "matched": false,
+      "compared_pixels": 64,
+      "mismatched_pixels": 64,
+      "max_channel_difference": 34,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "2a64f70a08f2adb0645178ef9a6fed7bc3298e315664b2074566d8bd02c0557c"
+    },
+    {
+      "case": "native-logic-operation-9",
+      "matched": false,
+      "compared_pixels": 64,
+      "mismatched_pixels": 64,
+      "max_channel_difference": 34,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "2a64f70a08f2adb0645178ef9a6fed7bc3298e315664b2074566d8bd02c0557c"
+    },
+    {
+      "case": "native-logic-operation-10",
+      "matched": false,
+      "compared_pixels": 64,
+      "mismatched_pixels": 64,
+      "max_channel_difference": 195,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "2a64f70a08f2adb0645178ef9a6fed7bc3298e315664b2074566d8bd02c0557c"
+    },
+    {
+      "case": "native-logic-operation-11",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "ad08628ac90dbe2ad62ff1339a4b6366023684751f7de9728251a42379aa7b47"
+    },
+    {
+      "case": "native-logic-operation-12",
+      "matched": false,
+      "compared_pixels": 64,
+      "mismatched_pixels": 64,
+      "max_channel_difference": 240,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "2a64f70a08f2adb0645178ef9a6fed7bc3298e315664b2074566d8bd02c0557c"
+    },
+    {
+      "case": "native-logic-operation-13",
+      "matched": false,
+      "compared_pixels": 64,
+      "mismatched_pixels": 64,
+      "max_channel_difference": 240,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "2a64f70a08f2adb0645178ef9a6fed7bc3298e315664b2074566d8bd02c0557c"
+    },
+    {
+      "case": "native-logic-operation-14",
+      "matched": false,
+      "compared_pixels": 64,
+      "mismatched_pixels": 64,
+      "max_channel_difference": 255,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "2a64f70a08f2adb0645178ef9a6fed7bc3298e315664b2074566d8bd02c0557c"
+    },
+    {
+      "case": "native-logic-operation-15",
+      "matched": false,
+      "compared_pixels": 64,
+      "mismatched_pixels": 64,
+      "max_channel_difference": 255,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "2a64f70a08f2adb0645178ef9a6fed7bc3298e315664b2074566d8bd02c0557c"
+    },
+    {
+      "case": "native-polygon-constant-units-negative",
+      "matched": false,
+      "compared_pixels": 64,
+      "mismatched_pixels": 64,
+      "max_channel_difference": 204,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "5341e6b2646979a70e57653007a1f310169421ec9bdd9f1a5648f75ade005af1"
+    },
+    {
+      "case": "native-polygon-factor-only-flat-no-shift",
+      "matched": false,
+      "compared_pixels": 64,
+      "mismatched_pixels": 64,
+      "max_channel_difference": 204,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "9d1a4ecdd557c9bd8bd664d6cb9cc8f85e78eed7dba4956e2fa6032191db24ea"
+    },
+    {
+      "case": "native-polygon-slope-factor-positive",
+      "matched": false,
+      "compared_pixels": 64,
+      "mismatched_pixels": 64,
+      "max_channel_difference": 204,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "9d1a4ecdd557c9bd8bd664d6cb9cc8f85e78eed7dba4956e2fa6032191db24ea"
+    },
+    {
+      "case": "native-polygon-live-update-initial-negative",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "9d1a4ecdd557c9bd8bd664d6cb9cc8f85e78eed7dba4956e2fa6032191db24ea"
+    },
+    {
+      "case": "native-polygon-live-update-positive-while-enabled",
+      "matched": false,
+      "compared_pixels": 64,
+      "mismatched_pixels": 64,
+      "max_channel_difference": 204,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "9d1a4ecdd557c9bd8bd664d6cb9cc8f85e78eed7dba4956e2fa6032191db24ea"
+    },
+    {
+      "case": "native-polygon-disable-removes-offset",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "5341e6b2646979a70e57653007a1f310169421ec9bdd9f1a5648f75ade005af1"
+    },
+    {
+      "case": "native-polygon-reenable-retains-latest-values",
+      "matched": true,
+      "compared_pixels": 64,
+      "mismatched_pixels": 0,
+      "max_channel_difference": 0,
+      "channel_tolerance": 1,
+      "actual_rgba_sha256": "5341e6b2646979a70e57653007a1f310169421ec9bdd9f1a5648f75ade005af1"
+    }
+  ]
+}

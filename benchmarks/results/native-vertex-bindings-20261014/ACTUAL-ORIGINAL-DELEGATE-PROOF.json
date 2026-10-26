@@ -1,0 +1,198 @@
+{
+  "accepted": true,
+  "original_call_sites_transported": 12,
+  "original_delegate_invocations": 63,
+  "outer_original_constructor_skipped": true,
+  "original_delegates_private_loader_only": true,
+  "full_VAO_or_Physics_or_FPS_accepted": false,
+  "actual_device_and_vertex_state": {
+    "arrays": 0,
+    "attributes": 0,
+    "nativeDivisorEnabled": 1,
+    "bindings": 0,
+    "nativeMaximumDivisor": 4294967295,
+    "bound": 0
+  },
+  "controls": [
+    {
+      "control": "private-original-vertex-archive-pin",
+      "passed": true
+    },
+    {
+      "control": "original-production-vertex-callback-sites",
+      "passed": true
+    },
+    {
+      "control": "original-vertex-repeat-rejected",
+      "passed": true
+    },
+    {
+      "control": "original-vertex-inverse-body",
+      "passed": true
+    },
+    {
+      "control": "original-production-vertex-callback-sites",
+      "passed": true
+    },
+    {
+      "control": "original-vertex-repeat-rejected",
+      "passed": true
+    },
+    {
+      "control": "original-vertex-inverse-body",
+      "passed": true
+    },
+    {
+      "control": "original-production-vertex-callback-sites",
+      "passed": true
+    },
+    {
+      "control": "original-vertex-repeat-rejected",
+      "passed": true
+    },
+    {
+      "control": "original-vertex-inverse-body",
+      "passed": true
+    },
+    {
+      "control": "original-production-vertex-callback-sites",
+      "passed": true
+    },
+    {
+      "control": "original-vertex-repeat-rejected",
+      "passed": true
+    },
+    {
+      "control": "original-vertex-inverse-body",
+      "passed": true
+    },
+    {
+      "control": "real-device-instance-divisor-enabled",
+      "passed": true
+    },
+    {
+      "control": "actual-native-instance-program",
+      "passed": true
+    },
+    {
+      "control": "real-native-vertex-target",
+      "passed": true
+    },
+    {
+      "control": "physics-original-core-separate-instance-bindings-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "real-native-vertex-target",
+      "passed": true
+    },
+    {
+      "control": "physics-original-ARB-separate-instance-bindings-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "original-core-bulk-cursors",
+      "passed": true
+    },
+    {
+      "control": "real-native-vertex-target",
+      "passed": true
+    },
+    {
+      "control": "physics-original-core-bulk-offsets-strides-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "original-ARB-bulk-cursors",
+      "passed": true
+    },
+    {
+      "control": "real-native-vertex-target",
+      "passed": true
+    },
+    {
+      "control": "physics-original-ARB-bulk-offsets-strides-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "real-native-vertex-target",
+      "passed": true
+    },
+    {
+      "control": "physics-original-real-device-divisor-two-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "actual-native-instance-program",
+      "passed": true
+    },
+    {
+      "control": "real-native-vertex-target",
+      "passed": true
+    },
+    {
+      "control": "physics-native-instance-ID-two-distinct-positions-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "actual-native-instance-program",
+      "passed": true
+    },
+    {
+      "control": "real-native-vertex-target",
+      "passed": true
+    },
+    {
+      "control": "physics-original-integer-instance-format-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "actual-native-instance-program",
+      "passed": true
+    },
+    {
+      "control": "real-native-vertex-target",
+      "passed": true
+    },
+    {
+      "control": "physics-original-ARB-integer-instance-format-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "actual-native-instance-program",
+      "passed": true
+    },
+    {
+      "control": "real-native-vertex-target",
+      "passed": true
+    },
+    {
+      "control": "physics-original-normalized-byte-instance-colors-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "actual-native-instance-program",
+      "passed": true
+    },
+    {
+      "control": "deleted-name-not-live",
+      "passed": true
+    },
+    {
+      "control": "real-native-vertex-target",
+      "passed": true
+    },
+    {
+      "control": "physics-native-unbound-VAO-retains-deleted-vertex-object-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "bulk-null-resets-bound-storage",
+      "passed": true
+    },
+    {
+      "control": "native-vertex-error-clean",
+      "passed": true
+    }
+  ]
+}

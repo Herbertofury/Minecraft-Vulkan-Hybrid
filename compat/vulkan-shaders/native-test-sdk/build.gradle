@@ -1,0 +1,29 @@
+plugins { id 'base' }
+repositories { mavenCentral() }
+configurations { referenceCompiler; legacyCompiler; nativeUiCompiler }
+def nativePlatform=System.getProperty('os.name').toLowerCase().contains('windows')?'windows':'linux'
+dependencies {
+    referenceCompiler 'org.lwjgl:lwjgl:3.3.6'
+    referenceCompiler 'org.lwjgl:lwjgl-vulkan:3.3.6'
+    referenceCompiler 'org.lwjgl:lwjgl-shaderc:3.3.6'
+    referenceCompiler "org.lwjgl:lwjgl:3.3.6:natives-${nativePlatform}"
+    referenceCompiler "org.lwjgl:lwjgl-shaderc:3.3.6:natives-${nativePlatform}"
+    legacyCompiler 'org.lwjgl:lwjgl:3.3.1'
+    legacyCompiler 'org.lwjgl:lwjgl-vulkan:3.3.1'
+    legacyCompiler 'org.lwjgl:lwjgl-shaderc:3.3.3'
+    // Exact production callback ABI, isolated from the newer reference compiler.
+    nativeUiCompiler 'org.lwjgl:lwjgl:3.3.3'
+    nativeUiCompiler 'org.lwjgl:lwjgl-vulkan:3.3.3'
+    nativeUiCompiler 'org.lwjgl:lwjgl-shaderc:3.3.3'
+    nativeUiCompiler "org.lwjgl:lwjgl:3.3.3:natives-${nativePlatform}"
+    nativeUiCompiler "org.lwjgl:lwjgl-shaderc:3.3.3:natives-${nativePlatform}"
+}
+tasks.register('writeTestClasspaths') {
+    outputs.files(layout.buildDirectory.file('reference-classpath.txt'),layout.buildDirectory.file('legacy-classpath.txt'),layout.buildDirectory.file('native-ui-classpath.txt'))
+    doLast {
+        layout.buildDirectory.get().asFile.mkdirs()
+        layout.buildDirectory.file('reference-classpath.txt').get().asFile.text=configurations.referenceCompiler.asPath
+        layout.buildDirectory.file('legacy-classpath.txt').get().asFile.text=configurations.legacyCompiler.asPath
+        layout.buildDirectory.file('native-ui-classpath.txt').get().asFile.text=configurations.nativeUiCompiler.asPath
+    }
+}

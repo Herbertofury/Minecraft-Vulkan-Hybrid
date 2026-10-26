@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "reference_jar_sha256": "eed3d1325f2acc2fd4e69bb495e5ccb91d962126ac5330f0582ebc2a3daf47fb",
+  "reference_class_sha256": "bb6dfc979142295b499a5dc01b9fcb515648cab59103f1f3449ea5282393dae0",
+  "comparisons": 168,
+  "scope": "Actual original memory API and replacement on native buffers; no game renderer installed; shader parity remains separate"
+}

@@ -1,0 +1,236 @@
+name: Hari 1.20.1 Ultimate 2.4 Vulkan Hybrid Native QA
+
+"on":
+  push:
+    branches: [async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926]
+    paths:
+      - 'minecraft/async-1.20.1-ultimate/**'
+      - '.github/workflows/async-1.20.1-ultimate-2.4.0-vulkan-hybrid-native.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: hari-2.4-vulkan-hybrid-native-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  native-vulkan-hybrid:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - name: Checkout ProjectDump integration
+        uses: actions/checkout@v4
+
+      - name: Checkout canonical HariMultiThread
+        uses: actions/checkout@v4
+        with:
+          repository: JustHari01/HariMultiThread
+          ref: f381611c2d71a85192e2028f9e30c03823a6482b
+          path: upstream
+          fetch-depth: 1
+
+      - name: Checkout pinned Forge Vulkan renderer
+        uses: actions/checkout@v4
+        with:
+          repository: kzktor/Forgified-VulkanMod
+          ref: 0ceac5d47f84c910d2f5f6d007b0ffe266c6f736
+          path: vulkan-forge
+          fetch-depth: 1
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Install native QA tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            patch curl zip unzip glslang-tools mesa-vulkan-drivers vulkan-tools \
+            xvfb openbox xdotool x11-utils imagemagick libgl1-mesa-dri libflite1
+          chmod +x upstream/gradlew
+          mkdir -p qa-native-libs
+          flite_lib="$(ldconfig -p | awk '/libflite\.so\.1/{print $NF; exit}')"
+          test -n "$flite_lib"
+          ln -sf "$flite_lib" qa-native-libs/libflite.so
+          echo "LD_LIBRARY_PATH=$PWD/qa-native-libs${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" >> "$GITHUB_ENV"
+          { vulkaninfo --summary || true; } 2>&1 | tee vulkaninfo-summary.txt
+
+      - name: Reconstruct accepted Hari 2.3 persistent-scene base
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/apply_overlay.py upstream minecraft/async-1.20.1-ultimate/overlay
+          python3 minecraft/async-1.20.1-ultimate/apply_hardening.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_lifecycle.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_platform.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_interop.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_lwjgl_runtime.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_backend_architecture.py upstream minecraft/async-1.20.1-ultimate/backend-overlay
+          python3 minecraft/async-1.20.1-ultimate/apply_spawn_interop.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_world_batch.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_spatial_gpu.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_backports.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_worldgen_cache.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_region_read.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_provider_precedence.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_diagnostics.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_region_diagnostics.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_release_identity.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mixin_packaging.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_gpu_terrain.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_persistent_gpu_scene.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_persistent_mixin_namespace_fix.py upstream
+          grep -F 'version=2.3.0-noxviola.1' upstream/gradle.properties
+
+      - name: Merge Vulkan renderer and build exact 2.4 candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/apply_vulkan_hybrid.py upstream vulkan-forge
+          python3 minecraft/async-1.20.1-ultimate/apply_vulkan_performance.py upstream
+          git -C upstream diff --check
+          javac -d /tmp/hari24-gate-preflight upstream/forge/src/main/java/net/vulkanmod/compat/UniversalRendererGate.java
+          shader=upstream/common/src/main/resources/assets/async/shaders/collision_broadphase.comp
+          canonical="${shader}.spv"
+          rebuilt="${shader}.ci-rebuilt.spv"
+          test -s "$shader"
+          test -s "$canonical"
+          test "$(xxd -p -l 4 "$canonical")" = '03022307'
+          glslangValidator -V "$shader" -o "$rebuilt"
+          test "$(xxd -p -l 4 "$rebuilt")" = '03022307'
+          cmp "$canonical" "$rebuilt"
+          rm -f "$rebuilt"
+          (cd upstream && ./gradlew --no-daemon :forge:build --stacktrace)
+          mkdir -p qa-out evidence/runtime/server evidence/runtime/client-vulkan evidence/runtime/client-opengl
+          jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*2.4.9-noxviola.1-vulkan-hybrid-all.jar' | sort | head -n 1)"
+          test -s "$jarfile"
+          unzip -t "$jarfile" | grep -F 'No errors detected'
+          cp "$jarfile" qa-out/HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar
+          jar tf "$jarfile" | grep -Fx 'assets/async/shaders/collision_broadphase.comp.spv'
+          unzip -p "$jarfile" assets/async/shaders/collision_broadphase.comp.spv | xxd -p -l 4 | grep -Fx '03022307'
+          jar tf "$jarfile" | grep -Fx 'harimt.refmap.json'
+          unzip -p "$jarfile" harimt.refmap.json > qa-out/HARIMT-REFMAP.json
+          test -s qa-out/HARIMT-REFMAP.json
+          grep -F '"reloadResources": "Lnet/minecraft/server/MinecraftServer;m_129861_' qa-out/HARIMT-REFMAP.json
+          sha256sum qa-out/HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar | tee qa-out/JAR-SHA256.txt
+
+      - name: Install real Forge 47.4.23 server fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 'https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.23/forge-1.20.1-47.4.23-installer.jar' -o forge-installer.jar
+          rm -rf forge-template qa-server
+          mkdir forge-template
+          (cd forge-template && java -jar ../forge-installer.jar --installServer > ../evidence/runtime/server/forge-server-install.log 2>&1)
+          cp -a forge-template qa-server
+          chmod +x qa-server/run.sh
+          mkdir -p qa-server/mods
+          cp qa-out/HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar qa-server/mods/HariMultiThread-Ultimate.jar
+          printf 'eula=true\n' > qa-server/eula.txt
+          cat > qa-server/server.properties <<'EOF'
+          online-mode=false
+          level-name=world
+          level-seed=8675309
+          spawn-protection=0
+          view-distance=4
+          simulation-distance=4
+          motd=Hari 2.4 Vulkan Hybrid Native QA
+          EOF
+
+      - name: Dedicated-server no-client-init regression gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/runtime_server_qa.py qa-server evidence/runtime/server
+          if grep -R -F 'Hari 2.4 selected merged Vulkan renderer:' evidence/runtime/server/*.log; then
+            echo '::error::Dedicated server initialized the client Vulkan renderer'
+            exit 1
+          fi
+          if grep -R -F '[Hari/Vulkan] renderer=' evidence/runtime/server/*.log; then
+            echo '::error::Dedicated server evaluated the client renderer gate'
+            exit 1
+          fi
+          if grep -R -E 'MixinApplyError|InvalidMixinException|InjectionError|NoClassDefFoundError' evidence/runtime/server/*.log; then
+            echo '::error::Dedicated server log contains a classloading/mixin failure'
+            exit 1
+          fi
+          grep -F 'Live GPU Verification PASS' evidence/runtime/server/packaged-server-gpu-and-fallback.log
+          grep -F 'HMT_QA_RESTART_ENTITIES_PRESENT' evidence/runtime/server/packaged-server-restart.log
+
+      - name: Prove real async entity tick failures surface and the saved world reopens
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/runtime_entity_failure_qa.py \
+            qa-server evidence/runtime/entity-failure
+
+      - name: Prove C2ME Forge ownership, chunk NBT persistence and native collision coexistence
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 'https://edge.forgecdn.net/files/8929/972/c2meforge-0.2.0-forge.9.6-all.jar' -o c2meforge-0.2.0-forge.9.6-all.jar
+          echo '97401e625906dc7dbe7719c4915d5aa88830e64e5aa6f90831ee45a61373f8d3  c2meforge-0.2.0-forge.9.6-all.jar' | sha256sum -c -
+          cp -a forge-template qa-server-c2me
+          chmod +x qa-server-c2me/run.sh
+          mkdir -p qa-server-c2me/mods
+          cp qa-out/HariMultiThread-Ultimate-1.20.1-2.4.9-vulkan-hybrid.jar qa-server-c2me/mods/HariMultiThread-Ultimate.jar
+          cp c2meforge-0.2.0-forge.9.6-all.jar qa-server-c2me/mods/
+          mkdir -p qa-server-c2me/config
+          test ! -e qa-server-c2me/config/c2me.toml
+          printf 'version = 3\n[fixes]\nenforceSafeWorldRandomAccess = true\n' > qa-server-c2me/config/c2me.toml
+          cp qa-server/server.properties qa-server-c2me/server.properties
+          printf 'eula=true\n' > qa-server-c2me/eula.txt
+          python3 minecraft/async-1.20.1-ultimate/runtime_server_qa.py qa-server-c2me evidence/runtime/server-c2me
+          grep -F 'Detected: HariChunk/C2ME - Threading synchronized' evidence/runtime/server-c2me/packaged-server-gpu-and-fallback.log
+          grep -F 'externalChunks=true' evidence/runtime/server-c2me/packaged-server-gpu-and-fallback.log
+          grep -F 'HMT_QA_BLOCK_NBT_RESTART' evidence/runtime/server-c2me/packaged-server-restart.log
+          python3 minecraft/async-1.20.1-ultimate/runtime_entity_failure_qa.py qa-server-c2me evidence/runtime/entity-failure-c2me
+          if grep -R -E 'renderer=VULKAN|renderer=OPENGL_FALLBACK|MixinApplyError|InvalidMixinException|InjectionError|NoClassDefFoundError' evidence/runtime/server-c2me/*.log; then
+            echo '::error::C2ME dedicated server initialized client renderer or failed classloading'
+            exit 1
+          fi
+          sha256sum c2meforge-0.2.0-forge.9.6-all.jar > qa-out/C2ME-SHA256.txt
+
+      - name: Package native acceptance evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp vulkaninfo-summary.txt qa-out/
+          cp -a evidence qa-out/
+          cat > qa-out/NATIVE-ACCEPTANCE.txt <<EOF
+          HariMultiThread Ultimate 2.4 Vulkan Hybrid native acceptance
+          source_commit=${GITHUB_SHA}
+          hari_upstream=f381611c2d71a85192e2028f9e30c03823a6482b
+          vulkan_forge=0ceac5d47f84c910d2f5f6d007b0ffe266c6f736
+          dedicated_server=PASS
+          client_runtime_authority=packaged-production-client
+          client_runtime_workflow=async-1.20.1-ultimate-2.4.0-vulkan-hybrid-production-client.yml
+          EOF
+          (cd qa-out && find . -type f ! -name SHA256SUMS.txt -print0 | sort -z | xargs -0 sha256sum > SHA256SUMS.txt)
+
+      - name: Upload native Vulkan hybrid evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-Ultimate-1.20.1-2.4.0-VULKAN-HYBRID-SERVER
+          path: qa-out/
+          if-no-files-found: error
+
+      - name: Upload native failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HariMultiThread-2.4.0-vulkan-hybrid-native-failure
+          path: |
+            vulkaninfo-summary.txt
+            evidence/
+            upstream/forge/run/logs/
+            upstream/forge/build/reports/
+          if-no-files-found: warn

@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "variants": [
+    {
+      "variant": "production",
+      "behavior_passed": true,
+      "expected": true
+    },
+    {
+      "variant": "capability_guard_removed",
+      "behavior_passed": false,
+      "expected": false
+    },
+    {
+      "variant": "owner_guard_removed",
+      "behavior_passed": false,
+      "expected": false
+    },
+    {
+      "variant": "native_path_initializes_gl",
+      "behavior_passed": false,
+      "expected": false
+    },
+    {
+      "variant": "selector_stuck_on_native",
+      "behavior_passed": false,
+      "expected": false
+    }
+  ],
+  "scope": "Production bridge against renderer/owner/fault fixtures; known original GL linkage is lazy, exact stencil capability, original error identity. Actual GPU and Ponder default-method tests remain separate."
+}

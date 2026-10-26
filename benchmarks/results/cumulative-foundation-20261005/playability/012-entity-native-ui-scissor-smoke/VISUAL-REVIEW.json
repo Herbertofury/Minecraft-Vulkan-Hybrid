@@ -1,0 +1,11 @@
+{
+  "reviewed": true,
+  "real_entityculling_settings_ui": true,
+  "native_scissor_calls": {
+    "enable": 6144,
+    "disable": 6144,
+    "boxes": 18432
+  },
+  "scope": "Reviewed settings text, checkboxes, tooltip and panel scroll bounds. Nine bounded native checks; no all-UI interaction, dense-occlusion performance or complete-pack acceptance",
+  "privacy": "Reviewed UI screenshot contains no chat/account identifiers"
+}

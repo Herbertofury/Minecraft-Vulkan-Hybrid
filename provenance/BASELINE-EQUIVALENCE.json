@@ -1,0 +1,16 @@
+{
+  "accepted_floor_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+  "baseline_sha256": "4b0c07eabbf3265bf6592d4aeb607ac1a62f91c83a0f74a846c9532a2f8192ec",
+  "candidate_sha256": "8b593bac1ac77670849ed992c808d327dd6d9f188ddfdea341ac88f16edf8c9f",
+  "accepted_class_files_checked": 703,
+  "changed_existing_baseline_classes": [],
+  "added_baseline_classes": [
+    "com/axalotl/async/forge/client/HariFpsCapture.class",
+    "com/axalotl/async/forge/client/HariTextureUploadProof.class",
+    "net/vulkanmod/vulkan/texture/TextureUploadSpan.class"
+  ],
+  "same_fps_capture_class_in_both": true,
+  "compile_run": 37171853240,
+  "reproducible_candidate": true,
+  "removed_duplicate_jar_sha256": "8b593bac1ac77670849ed992c808d327dd6d9f188ddfdea341ac88f16edf8c9f"
+}

@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "project": "HariMultiThread Ultimate 2.4 Vulkan Hybrid",
+  "target": {
+    "minecraft": "1.20.1",
+    "forge": "47.4.23",
+    "java": "17",
+    "branch": "async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926"
+  },
+  "incidents": [
+    {
+      "id": "hari24-missing-collision-spirv",
+      "status": "verified-recovered",
+      "fingerprint": "Vulkan backend initialization failed; vanilla fallback active: java.io.IOException: Missing packaged SPIR-V shader: /assets/async/shaders/collision_broadphase.comp.spv",
+      "environment": "Forge 1.20.1 / 47.4.23; Hari 2.4 merged artifact",
+      "root_cause": "The 2.4 reconstruction retained collision_broadphase.comp but no longer guaranteed the production .spv generated/packaged by the accepted 2.3 lane.",
+      "failed_routes": [
+        "Treating compile success as packaging proof",
+        "Allowing the runtime vanilla fallback to hide the missing GPU resource"
+      ],
+      "recovery": [
+        "Keep the certified collision_broadphase.comp.spv in the canonical overlay.",
+        "Make Gradle processResources fail if the SPIR-V is missing, shorter than four bytes, or has the wrong 0x07230203 little-endian magic.",
+        "Make compile/package QA assert the exact resource exists in the final all.jar and validate its bytes."
+      ],
+      "verification": {
+        "source_commit": "7f08dc92286c004c6d62f77b8b3164b39b1ff520",
+        "compile_job_id": 108529963831,
+        "compile_result": "success",
+        "later_compile_job_id": 108682042292,
+        "later_compile_result": "success"
+      },
+      "regression_protection": [
+        "Canonical overlay SPIR-V resource",
+        "Gradle processResources SPIR-V guard",
+        "Final all.jar resource/magic checks"
+      ],
+      "invalidation_conditions": [
+        "collision_broadphase.comp changes",
+        "shader ABI/bindings change",
+        "resource path changes",
+        "SPIR-V compiler target changes"
+      ]
+    },
+    {
+      "id": "hari24-lwjgl-vulkan-parent-child-version-capture",
+      "status": "verified-recovered",
+      "fingerprint": "Vulkan backend unavailable; vanilla collision fallback active: NoClassDefFoundError: org/lwjgl/system/FunctionProvider",
+      "environment": "Dedicated Forge 47.4.23 server; isolated collision backend LWJGL 3.3.1 plus merged renderer lwjgl-vulkan 3.3.3 Jar-in-Jar",
+      "root_cause": "VkRuntime used an ordinary parent-first URLClassLoader. The parent Forge layer exposed the merged renderer's lwjgl-vulkan 3.3.3, so backend org.lwjgl.vulkan classes were captured from the parent while their LWJGL core dependency was only available through the child runtime on dedicated server.",
+      "failed_routes": [
+        "Ordinary parent-first URLClassLoader for every LWJGL namespace",
+        "Treating the renderer and collision Vulkan bindings as one classloader ownership domain"
+      ],
+      "recovery": [
+        "Use a dedicated BackendClassLoader.",
+        "Load only org.lwjgl.vulkan.* child-first so the collision backend gets its coherent isolated 3.3.1 Vulkan binding.",
+        "Keep LWJGL core parent-first with normal URLClassLoader fallback, allowing clients to reuse launcher core while dedicated servers can use embedded 3.3.1 core/native JARs."
+      ],
+      "verification": {
+        "source_commit": "668e36a83be066790ef8332e3b4c6e2daff28f95",
+        "native_job_id": 108540486734,
+        "dedicated_server_step": 10,
+        "dedicated_server_result": "success",
+        "observed_markers": [
+          "Isolated compile-checked LWJGL 3.3.1 Vulkan backend activated for natives-linux (amd64) [child-first Vulkan, parent-first core]",
+          "Compile-checked Vulkan collision backend initialized on llvmpipe",
+          "Vulkan push broad-phase is active:",
+          "Vulkan push broad-phase sustained: 10 consecutive verified batches completed"
+        ]
+      },
+      "regression_protection": [
+        "VkRuntime BackendClassLoader child-first prefix org.lwjgl.vulkan.",
+        "Dedicated-server GPU collision runtime gate",
+        "Disabled-GPU vanilla replay fallback gate",
+        "Server restart/persistence runtime gate"
+      ],
+      "invalidation_conditions": [
+        "collision backend LWJGL version changes",
+        "merged renderer LWJGL ownership changes",
+        "Forge/ModLauncher classloader topology changes",
+        "backend package moves out of org.lwjgl.vulkan.* dependency surface"
+      ]
+    }
+  ]
+}

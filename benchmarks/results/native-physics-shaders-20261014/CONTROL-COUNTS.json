@@ -1,0 +1,33 @@
+{
+  "all_passed": true,
+  "counts": {
+    "original-Physics-private-archive-pin": 1,
+    "original-Physics-GAME-loader": 1,
+    "original-GAME-no-GL32-shader-calls": 255,
+    "original-Physics-automatic-52-call-sites": 1,
+    "original-link-actual-native-SPIRV": 1,
+    "original-active-uniform-reflection": 1,
+    "original-array-elements-enumerated": 1,
+    "active-original-uniform-weights[0]": 1,
+    "original-vector-cursor-weights[0]": 1,
+    "active-original-uniform-offsets[0]": 1,
+    "original-vector-cursor-offsets[0]": 1,
+    "active-original-uniform-palette[0]": 1,
+    "original-vector-cursor-palette[0]": 1,
+    "original-vec4-buffer-cursor": 1,
+    "original-matrix-cursor-rotate2[0]": 3,
+    "original-matrix-cursor-rotate3": 2,
+    "original-matrix-cursor-project4": 1,
+    "original-native-offscreen-pass": 5,
+    "physics-original-uniform-arrays-actual-Vulkan-pixels": 1,
+    "physics-original-mat2-transpose-actual-Vulkan-pixels": 1,
+    "physics-original-mat3-transpose-actual-Vulkan-pixels": 1,
+    "active-original-uniform-weights[2]": 1,
+    "original-vector-cursor-weights[2]": 1,
+    "physics-original-partial-array-upload-actual-Vulkan-pixels": 1,
+    "original-native-program-destroyed": 1,
+    "original-Physics-box-vertex-asset": 1,
+    "physics-original-box-vertex-ID-native-actual-Vulkan-pixels": 1
+  },
+  "total": 288
+}

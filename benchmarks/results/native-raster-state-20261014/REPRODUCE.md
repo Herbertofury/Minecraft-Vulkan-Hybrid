@@ -1,0 +1,7 @@
+# Reproduce the paired state diagnostic
+
+Fresh assembly: `python integration/dimensions/assemble.py <new-directory>`. Build with Java17: `source/gradlew.bat -p <new-directory> :forge:build --offline --no-daemon --max-workers=2`. Hari56 artifact SHA256 is e5997b9a039bfce89a50f57cfe6f4d90ae4deea75de89e6081aac927921ce4d5.
+
+Public NativeRasterStateSmoke and NativeUiGameSmoke contain the executed GPU test and sequence. The remaining original-provider tests require locally owned pinned Essential/Kotlin payloads identified in the earlier provider evidence; private originals/controllers are not shipped. Controller86 SHA256 is7e35c88a09eab0ace41438ed3ebf8e2b255bd83b9032648af38d9d046c7a7599. Both runs use the same original world copy, settings and controller; only Hari55/Hari56 differs. The explicit `mvh.raster.baseline` mode records the old failure instead of counting failed cases as accepted.
+
+On this authorized computer the marker-confined runners `run-raster86-baseline.py --trial 2` and `run-raster86-candidate.py --trial 2` reproduce the pair from the task workspace through installed authenticated isolated Modrinth. They enforce ownership/inactivity, native-required, pinned hashes, restoration and raw readbacks. Trial1 is measured; trial2 is an instruction, not an extra measured run. Use the JSON results and raw pixels to compare exact hashes. This correctness workload does not establish full-pack gameplay or FPS.

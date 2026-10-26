@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "production_sha256": "8ddf2547a7837545b4f37b4d6902497bb0276d46b1cce22a7f04d2c5269e8a0a",
+  "stdout": "NATIVE_PHYSICS_UNIFORM_REGRESSION_PASS actualSPIRV=true activeReflection=true arrays=true matrices=true transpose=true types=true callerCursors=true relinkOwnership=true\n",
+  "scope": "Exact native shader compiler/reflected ABI, active-variable exclusion, typed scalar/vector/matrix arrays, arithmetic array locations, cursor preservation, wrong type/count and relink ownership. No Minecraft, GL context, GPU pixels, fullpack or performance claim.",
+  "sdk_opengl_binding_absent": true,
+  "renderer_artifact_unchanged": true
+}

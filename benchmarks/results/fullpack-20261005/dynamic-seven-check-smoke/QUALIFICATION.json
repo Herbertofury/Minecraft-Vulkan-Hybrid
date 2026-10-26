@@ -1,0 +1,6 @@
+{
+  "accepted_for_fps_comparison": false,
+  "reason": "Explicit resource reload and dimension/death actions plus one diagnostic JVM thread snapshot; diagnostic capture only",
+  "smoke_passed": true,
+  "scope": "Seven original full-pack checks. Generic selected-error scan reports pre-existing model-missing exception; independent resource review required; not all model or shader parity."
+}

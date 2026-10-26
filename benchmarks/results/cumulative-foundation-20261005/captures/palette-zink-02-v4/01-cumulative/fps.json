@@ -1,0 +1,20 @@
+{
+  "status": "complete",
+  "reason": "",
+  "capture_epoch_ms": 1791173373072,
+  "duration_ms": 30000.3606,
+  "frames": 57106,
+  "average_fps": 1903.5104531376644,
+  "one_percent_low_fps": 524.1907621825321,
+  "p50_ms": 0.4824,
+  "p95_ms": 0.6951,
+  "p99_ms": 1.6102,
+  "max_ms": 4.8917,
+  "api_renderer": "OPENGL_FALLBACK",
+  "gl_vendor": "Mesa",
+  "gl_renderer": "zink Vulkan 1.4(NVIDIA GeForce RTX 4090 (NVIDIA_PROPRIETARY))",
+  "gl_version": "4.6 (Core Profile) Mesa 26.2.4 (git-96cb431210)",
+  "held_item": "minecraft:air",
+  "recorder": "Forge RenderTick END wall intervals; all frames retained; not GPU/presentation timing",
+  "camera": "0.5,110.5,0.5 / yaw -68.7007 / pitch 9.999512"
+}

@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "old_invalid_source_race_reproduced": true,
+  "ordered_reload_cycles": 1100,
+  "live_stops": 1100,
+  "source_releases": 1100,
+  "same_thread_clear": true,
+  "original_failure_identity": true,
+  "submission_failure_identity": true,
+  "source_sha256": "0805aba8140c15f0072cedaad8c7172ee464c4fece34aaf02804e4a3773c6aae",
+  "scope": "Actual production mixin; real ordered executor and deterministic invalid-source negative control. Packaged OpenAL reload validation is separate."
+}

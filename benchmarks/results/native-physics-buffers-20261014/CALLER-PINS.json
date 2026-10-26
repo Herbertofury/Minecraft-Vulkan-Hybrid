@@ -1,0 +1,18 @@
+{
+  "archive_sha256": "35826b411cee1116443e0992320d4e5158f7e1b64bca88599eea08b41fe21c59",
+  "classes": [
+    {
+      "class": "net/diebuddies/opengl/BufferObject",
+      "raw_sha256": "2232a0ff00515584a97cd8393dcbd2d8c5ebf41e3084355174d56daa1931c331",
+      "canonical_sha256": "c672d1b0518a9e34375a21193650c16550e448b6dd6947d57e32ded57810d347",
+      "direct_sites": 28
+    },
+    {
+      "class": "net/diebuddies/opengl/ArenaBuffer",
+      "raw_sha256": "c16bd327077ab70871280d565752c765aab4d2d6c62792caf7b62876531fb57f",
+      "canonical_sha256": "bbe08138ccb44ca7b61cbdb02b6ca0a8191b47636eee0b01537d3d9b39ef067a",
+      "direct_sites": 19
+    }
+  ],
+  "original_bytes_distributed": false
+}

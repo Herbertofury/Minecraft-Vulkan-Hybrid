@@ -1,0 +1,25 @@
+{
+  "base_feature_commit": "8df974b6b593c4bfccf1bfcdabf7163dc2c5a60b",
+  "version": 61,
+  "files": {
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/compat/UniversalRendererGate.java": "8ee825914910a5d047a7d0ec54d3cf79cab900c2960af979890353a5bfcf596f",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/mixin/MixinPlugin.java": "8aea1aaacff63f28381be8d8dadb6d5fb0344af9bd368dce265af679aa846111",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/vulkan/texture/SamplerManager.java": "b4c1f6804754ca0bbe51140e8a7c59ac34d73690c18f2ba35ec1aad248de0da5",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/vulkan/texture/VulkanImage.java": "bcc1fd4e7d48c0c6667b5352688018010e5b1356564dfbf8dd222b3c686453b2",
+    "integration/dimensions/overlay/forge/src/main/resources/vulkanmod.mixins.json": "dae90aeccc34f21bb87af944c5e60790af0336578f1b423fba4f129fc4c32e4d",
+    "integration/dimensions/overlay/gradle.properties": "3ec3f9bee0c69259e83fbdd2ccce57f2f505b664c32bbfb2fd791dfdc3a8a396",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/compat/EssentialSamplerCallerAudit.java": "32484e4165242a8e6af931257ca01db8a4613638f6e483488d4335cdb5e79a0a",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/EssentialSamplerCallers.java": "61ad040ce690b07945ee6176f50bcd6549125e3d3d51440154a2de74c096fab7",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/NativeEssentialSamplerApi.java": "3b46c96c8b1b3bc171da6a685ac3677ce9f180ea921631dbae61a3d939cd6b3f",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/mixin/compatibility/essential/EssentialSamplerCallerMixin.java": "af3094b90c4da8777f7e199969bf82cd389471309079a4b5ddfd0c840ca08043"
+  },
+  "production_sha256": "1edfd9e73622863285f2792305ab9706330dd1843a3fedacb0b65aefc4295ed6",
+  "pin": {
+    "class": "gg/essential/universal/render/UGpuSamplerImpl",
+    "raw_sha256": "8225cfaf26b2c9d78c49f2f921e03474fe3c6032375f09f92e50e0b6fddbb3ab",
+    "canonical_sha256": "29ca7fbb681407137f7b30a7c293c4d0846fdcc063bbebef7ca934e82bd9432a"
+  },
+  "private_originals_distributed": false,
+  "original_sampler_GAME_proven": true,
+  "full_render_pass_delayed_loader_FPS_accepted": false
+}

@@ -1,0 +1,189 @@
+{
+  "accepted": true,
+  "automatic_forge_game_original_methods_executed": true,
+  "full_essential_features_proven": false,
+  "fps_accepted": false,
+  "native_branches": 4,
+  "original_opengl_fallback_calls_retained": 7,
+  "pixel_cases": 3,
+  "deleted_events_retired": 4,
+  "live_event_reserved_for_device_idle_teardown": 1,
+  "controls": [
+    {
+      "control": "original-game-loader-gg.essential.universal.render.UGpuFenceImplKt",
+      "passed": true
+    },
+    {
+      "control": "fresh-automatic-export-gg.essential.universal.render.UGpuFenceImplKt",
+      "passed": true
+    },
+    {
+      "control": "exact-native-branches-and-retained-fallback-gg.essential.universal.render.UGpuFenceImplKt",
+      "passed": true
+    },
+    {
+      "control": "original-game-loader-gg.essential.universal.render.UGpuFenceImpl",
+      "passed": true
+    },
+    {
+      "control": "fresh-automatic-export-gg.essential.universal.render.UGpuFenceImpl",
+      "passed": true
+    },
+    {
+      "control": "exact-native-branches-and-retained-fallback-gg.essential.universal.render.UGpuFenceImpl",
+      "passed": true
+    },
+    {
+      "control": "automatic-production-fence-branches",
+      "passed": true
+    },
+    {
+      "control": "owned-pilot-fence-baseline",
+      "passed": true
+    },
+    {
+      "control": "invalid-condition-rejected",
+      "passed": true
+    },
+    {
+      "control": "invalid-create-flags-rejected",
+      "passed": true
+    },
+    {
+      "control": "invalid-wait-handle-rejected",
+      "passed": true
+    },
+    {
+      "control": "delete-zero-no-error",
+      "passed": true
+    },
+    {
+      "control": "native-sync-pass",
+      "passed": true
+    },
+    {
+      "control": "original-fence-nonnull-nonzero",
+      "passed": true
+    },
+    {
+      "control": "original-wait-failed-error-transport",
+      "passed": true
+    },
+    {
+      "control": "unsubmitted-event-reset",
+      "passed": true
+    },
+    {
+      "control": "original-zero-poll-pending",
+      "passed": true
+    },
+    {
+      "control": "original-finite-wait-pending",
+      "passed": true
+    },
+    {
+      "control": "finite-timeout-not-shortened",
+      "passed": true
+    },
+    {
+      "control": "invalid-existing-wait-flags",
+      "passed": true
+    },
+    {
+      "control": "gpu-wait-recorded-without-error",
+      "passed": true
+    },
+    {
+      "control": "name-invalid-immediately-resource-retained",
+      "passed": true
+    },
+    {
+      "control": "original-close-idempotent",
+      "passed": true
+    },
+    {
+      "control": "original-fence-nonnull-nonzero",
+      "passed": true
+    },
+    {
+      "control": "second-event-pending",
+      "passed": true
+    },
+    {
+      "control": "flush-zero-poll-status",
+      "passed": true
+    },
+    {
+      "control": "submitted-work-real-completion",
+      "passed": true
+    },
+    {
+      "control": "original-await-signaled",
+      "passed": true
+    },
+    {
+      "control": "logical-clip-preserved-async-original-fence-green",
+      "passed": true
+    },
+    {
+      "control": "native-sync-pixels-async-original-fence-green",
+      "passed": true
+    },
+    {
+      "control": "logical-clip-preserved-async-continuation-offset-viewport-red",
+      "passed": true
+    },
+    {
+      "control": "native-sync-pixels-async-continuation-offset-viewport-red",
+      "passed": true
+    },
+    {
+      "control": "original-fence-nonnull-nonzero",
+      "passed": true
+    },
+    {
+      "control": "third-original-event-pending",
+      "passed": true
+    },
+    {
+      "control": "flush-finite-completion",
+      "passed": true
+    },
+    {
+      "control": "logical-clip-preserved-second-async-continuation-green",
+      "passed": true
+    },
+    {
+      "control": "native-sync-pixels-second-async-continuation-green",
+      "passed": true
+    },
+    {
+      "control": "actual-host-waiter-retained",
+      "passed": true
+    },
+    {
+      "control": "deleted-inflight-host-waiter-completes",
+      "passed": true
+    },
+    {
+      "control": "deleted-fences-kept-until-frame-fence",
+      "passed": true
+    },
+    {
+      "control": "original-fence-nonnull-nonzero",
+      "passed": true
+    },
+    {
+      "control": "live-event-kept-for-owned-teardown",
+      "passed": true
+    },
+    {
+      "control": "deleted-events-retired-only-after-frame-completion",
+      "passed": true
+    },
+    {
+      "control": "normal-frame-submitted-original-fence",
+      "passed": true
+    }
+  ]
+}

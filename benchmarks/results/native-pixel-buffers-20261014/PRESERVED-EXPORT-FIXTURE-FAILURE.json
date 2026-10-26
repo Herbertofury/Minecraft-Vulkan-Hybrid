@@ -1,0 +1,7 @@
+{
+  "trial": 1,
+  "original_prefix_cases_passed": 14,
+  "cause": "Fresh automatic Xaero export check failed because the existing diagnostic filter only exported gg.essential. Expanded the owned diagnostic filter, preserved/restored its previous exports, renderer/oracle/tolerance unchanged. No case removed.",
+  "renderer_changed": false,
+  "full_candidate_restored": true
+}

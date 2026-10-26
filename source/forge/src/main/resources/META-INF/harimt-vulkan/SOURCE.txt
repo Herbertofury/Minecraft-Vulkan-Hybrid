@@ -1,0 +1,6 @@
+Merged renderer source:
+  xCollateral/VulkanMod (upstream Vulkan renderer)
+  kzktor/Forgified-VulkanMod Forge 1.20.1 integration
+Pinned integration source commit: 0ceac5d47f84c910d2f5f6d007b0ffe266c6f736
+Hari integration branch: async-1.20.1-ultimate-2.4.0-vulkan-hybrid-20260926
+Changes: merged into one logical Hari mod; fail-closed runtime renderer gate; Hari OpenGL fallback retained; Vulkan compute backend retained.

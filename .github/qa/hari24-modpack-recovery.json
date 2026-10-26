@@ -1,0 +1,176 @@
+{
+  "state": "2.4.8_remaining_native_failures_under_diagnosis",
+  "product_commit": "4052cef9dfb64b755691d02e37988947d2b48547",
+  "qa_commit": "a38c9168b92d3936ae9fc37f244873a018959a0c",
+  "candidate_sha256": "16ece8513104c9d08014effd734dd9ade73e2f8d42399b988139659940459e7d",
+  "candidate_bytes": 30746014,
+  "version": "2.4.8-noxviola.1-vulkan-hybrid",
+  "compile_run": 37135775317,
+  "compile_artifact": 11278067893,
+  "native_server_run": 37135775382,
+  "production_client_run": 37135775318,
+  "modpack_run": 37136374739,
+  "passed_current_runs": {
+    "compile": 37135775317,
+    "native_server": 37135775382,
+    "production_client": 37135775318
+  },
+  "expanded_client_lanes": [
+    "aether",
+    "midnight",
+    "dimensions-c2me",
+    "immediatelyfast",
+    "entityculling",
+    "distanthorizons",
+    "oculus-embeddium",
+    "oculus-shaders",
+    "optifine",
+    "rubidium",
+    "lazurite",
+    "continuity",
+    "optimized-stack"
+  ],
+  "inherited_causal_repairs": [
+    "Acquire wait consumed by first actual submission; per-image present semaphores",
+    "Offscreen framebuffer and main swapchain image transfer-source usage with WSI capability validation",
+    "Depth bias and line width restored after synchronous readback restart",
+    "Independent tint layers, resolver identity and exact coordinate-dependent RGB blending",
+    "Rubidium custom colors use original immutable biome snapshot instead of rejecting mod resolvers",
+    "C2ME natural spawns run once on world owner, preserving original failures; all original Forge natural spawn callbacks now run on world owner",
+    "Graphics-queue terrain uploads: one draw/previous-transfer-to-upload dependency and one upload-to-vertex/index/indirect-read dependency per batch; 128 regions still one copy",
+    "Rubidium original cache cleanup shares acquire/invalidate monitor; complete original method retained",
+    "Forge OpenGL loading overlay owns its original logo texture through final draw and releases it once"
+  ],
+  "previous_native_causal_confirmation": {
+    "version": "2.4.7",
+    "run": 37133680499,
+    "completed_lanes": [
+      "dedicated-server",
+      "midnight",
+      "entityculling",
+      "lazurite",
+      "immediatelyfast",
+      "distanthorizons",
+      "oculus-shaders",
+      "oculus-embeddium",
+      "continuity",
+      "optimized-stack"
+    ],
+    "state": "Previous binary causal evidence only; 2.4.8 must pass independently"
+  },
+  "qa_input_repairs": [
+    "Opt-in render-thread read-only dimension, screen, pause, focus and position observations",
+    "Wait actual loaded client dimension and verify native walking before portal predicates",
+    "Require actual ChatScreen during command entry instead of typing into gameplay or inventory",
+    "Original Lazurite warning preserved; native menu and sole exact QA world selection",
+    "Actual creative flight prevents original Aether void return when leaving the tiny arrival platform; horizontal movement verified; ChatScreen subtype recognizes OptiFine",
+    "Aether portal arrival creative flight uses observed native jump/input edges; no chat inside portal"
+  ],
+  "source_verification": {
+    "files": 996,
+    "recipe_steps": 23,
+    "legitimate_builder_package_files": 44,
+    "fresh_recipe_matches": true,
+    "receipt": ".github/qa/hari24-source-recipe-2.4.8.json"
+  },
+  "delivery": {
+    "state": "pending_current_native_matrix",
+    "new_files_uploaded": false,
+    "old_five_archive_uploads": "Do not retry the rejected 2.4.1 payloads without specific approval"
+  },
+  "next_action": "Trace original LIGHT ticket release; inspect focused original C2ME9.8 full native acceptance. Remove inherited duplicate entity exception suppression in next product lineage and rerun full exact-binary gates before release.",
+  "scope": "Linux Mesa software production clients; not Windows/RTX4090 FPS or every boss combat phase",
+  "modpack_result": {
+    "client_passes": [
+      "aether",
+      "midnight",
+      "dimensions-c2me",
+      "immediatelyfast",
+      "entityculling",
+      "oculus-embeddium",
+      "oculus-shaders",
+      "lazurite",
+      "continuity",
+      "optimized-stack",
+      "rubidium",
+      "distanthorizons"
+    ],
+    "dedicated_dimensions_server": "pass",
+    "failures": {
+      "optifine": "Reproduced normal save/close timeout in full and minimized native runs; failure snapshot retains 529 LIGHT tickets while native light queue/save futures empty. Actual release path under inspection."
+    },
+    "distanthorizons_intermittency": "Full original 9.6 run37143672843 job111263142554 passes both original mob/NBT unload-reload and clean JVM reopen; prior shutdown and persistence failure still recorded, repeat on original 9.8 update required."
+  },
+  "failure_diagnostics": {
+    "shutdown_run": 37142127607,
+    "shutdown_qa_commit": "9d2264b825428f3ebadd66db234e0ae53798e8f0",
+    "rubidium_run": 37142371662,
+    "rubidium_qa_commit": "709ab7f39234d4fd9bfb2227671da2b43854ebec",
+    "binary_changed": false,
+    "shutdown_acceptance_timeout_changed": false,
+    "failure_thread_capture": "Before destroying stalled tested process",
+    "rubidium_diagnostics": "Verbose Mixin and targeted transformed bytecode export; optional decompiler explicitly disabled"
+  },
+  "updated_utc": "2026-10-03",
+  "resolved_native_diagnostics": {
+    "rubidium": {
+      "run": 37143349013,
+      "job": 111262162652,
+      "qa_commit": "e9e92a06f7b0ea8fd29aeefff7537e84f7c3d250",
+      "artifact": 11281502338,
+      "artifact_sha256": "e2ad4b722ffd1bed6e2041247cad5248769d3bc03204402a09d75ee81fa19ab6",
+      "actual_loaded_monitors": {
+        "cleanup": true,
+        "acquire": true,
+        "invalidate": true
+      },
+      "both_jvms_complete": true
+    },
+    "distanthorizons": {
+      "run": 37143672843,
+      "job": 111263142554,
+      "qa_commit": "8b51fcb9c9dc547eea3dbf7738b1b577bef8dff0",
+      "artifact": 11281697663,
+      "artifact_sha256": "632e128a736edbf9137241957d9df59229791a8fca4aa63f131f1b91ea5de4ff",
+      "both_jvms_complete": true
+    },
+    "minimized_control": {
+      "run": 37144362491,
+      "job": 111265160497,
+      "conclusion": "success",
+      "full_acceptance": false
+    },
+    "optifine_minimized": {
+      "run": 37144362491,
+      "job": 111265160525,
+      "conclusion": "failure",
+      "artifact": 11281642663,
+      "artifact_sha256": "3136b7ff9241ac9177602ce72805eae946753ff63eeded135eb4903c5dd74116",
+      "failure_light_tickets": 529,
+      "remaining_chunk_holders": 9025,
+      "queued_light_tasks": 0,
+      "save_futures": 0,
+      "c2me_managed_chunk_tickets": 0
+    }
+  },
+  "provider_update": {
+    "version": "0.2.0-forge.9.8",
+    "file": {
+      "filename": "c2meforge-0.2.0-forge.9.8-all.jar",
+      "size": 1356938,
+      "url": "https://edge.forgecdn.net/files/9040/801/c2meforge-0.2.0-forge.9.8-all.jar",
+      "hashes": {
+        "sha256": "903e7f66b6ee5e18f5fc736e6ace8b1d4f17c809f6db2c722efe1e54e66b4f54"
+      }
+    },
+    "inspection_run": 37145255026,
+    "native_run": 37145402840,
+    "state": "pending_focused_full_native_acceptance",
+    "baseline_preserved": true
+  },
+  "local_runner": {
+    "state": "exec-server transport disconnected",
+    "work_continues": "GitHub native CI and connectors",
+    "lost_source": false
+  }
+}

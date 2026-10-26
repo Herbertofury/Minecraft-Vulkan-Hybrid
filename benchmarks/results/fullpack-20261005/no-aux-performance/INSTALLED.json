@@ -1,0 +1,35 @@
+{
+  "hari": {
+    "file": "harimt-forge-1.20.1-2.4.11-noxviola.23-dimensions-vulkan-hybrid-all.jar",
+    "sha256": "551d6047f3d7638a964050ca7f00c6e4eeb56a2c432b43f452f9ded68229e3a9",
+    "bytes": 31110088,
+    "previous_file_disabled": "harimt-forge-1.20.1-2.4.11-noxviola.22-dimensions-vulkan-hybrid-all.jar.disabled",
+    "previous_sha256": "874a76069045091858bc2c7e740a27c4a93af43b893ab05658951aef1465b7f5"
+  },
+  "create": {
+    "file": "create-1.20.1-6.0.8-mvh-native-engine-17-pilot13.jar",
+    "sha256": "cc2ddeefa78e5eb999f2643277b4b639851b260d24171ff7fe886d15dba88b77",
+    "bytes": 18866593,
+    "previous_file_disabled": "create-1.20.1-6.0.8.jar.disabled",
+    "previous_sha256": "6fbb910c367dbce8e4fc7e5bf64b6edd4de980906ed00af8e47e4af843c0d9b0"
+  },
+  "create_scope": "Previously validated14 bounded original content checks; native-only copy, not a new full-pack/arbitrary-content acceptance. Small15 performance prototype not installed.",
+  "controller_disabled_recoverably": {
+    "file": "mvh-noxviola-control-1.0.38.jar.disabled",
+    "sha256": "4cb81802912fb80a3db0b61ca4db23d1b85352bf367b4d6e17ca1974a22ca826"
+  },
+  "hari_class_parity": {
+    "class_count": 753,
+    "changed_gate_and_nested_record_classes": [
+      "net/vulkanmod/compat/UniversalRendererGate$Decision.class",
+      "net/vulkanmod/compat/UniversalRendererGate$MethodRef.class",
+      "net/vulkanmod/compat/UniversalRendererGate.class"
+    ],
+    "all_other_native_and_gameplay_classes_byte_equal": true,
+    "scope": "Exact22/23 packaged class comparison; gate nested records retain behavior with changed source-line metadata; no new native gameplay/FPS acceptance"
+  },
+  "native_required_policy": "# User requires native Vulkan; .23 gate blocks instead of selecting OpenGL.\nrequireNative=true\n",
+  "active_jars_without_recorder": 328,
+  "minecraft_launched": false,
+  "personal_profile_modified": false
+}

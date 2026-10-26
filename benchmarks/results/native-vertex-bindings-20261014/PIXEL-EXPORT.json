@@ -1,0 +1,96 @@
+{
+  "old75_exact": true,
+  "precursor84_exact": true,
+  "new_gpu_cases": [
+    {
+      "case": "physics-original-core-separate-instance-bindings",
+      "raw_sha256": "17790e858513d84a43a683886876fea8e74997d0fb4b66e2d5ce22f425a7a05f",
+      "png_sha256": "8a82196d3a271314e467562cad22893389452129cdd766816e5a614f1fdb2aa5",
+      "size": [
+        8,
+        8
+      ]
+    },
+    {
+      "case": "physics-original-ARB-separate-instance-bindings",
+      "raw_sha256": "17790e858513d84a43a683886876fea8e74997d0fb4b66e2d5ce22f425a7a05f",
+      "png_sha256": "8a82196d3a271314e467562cad22893389452129cdd766816e5a614f1fdb2aa5",
+      "size": [
+        8,
+        8
+      ]
+    },
+    {
+      "case": "physics-original-core-bulk-offsets-strides",
+      "raw_sha256": "17790e858513d84a43a683886876fea8e74997d0fb4b66e2d5ce22f425a7a05f",
+      "png_sha256": "8a82196d3a271314e467562cad22893389452129cdd766816e5a614f1fdb2aa5",
+      "size": [
+        8,
+        8
+      ]
+    },
+    {
+      "case": "physics-original-ARB-bulk-offsets-strides",
+      "raw_sha256": "17790e858513d84a43a683886876fea8e74997d0fb4b66e2d5ce22f425a7a05f",
+      "png_sha256": "8a82196d3a271314e467562cad22893389452129cdd766816e5a614f1fdb2aa5",
+      "size": [
+        8,
+        8
+      ]
+    },
+    {
+      "case": "physics-original-real-device-divisor-two",
+      "raw_sha256": "17790e858513d84a43a683886876fea8e74997d0fb4b66e2d5ce22f425a7a05f",
+      "png_sha256": "8a82196d3a271314e467562cad22893389452129cdd766816e5a614f1fdb2aa5",
+      "size": [
+        8,
+        8
+      ]
+    },
+    {
+      "case": "physics-native-instance-ID-two-distinct-positions",
+      "raw_sha256": "17790e858513d84a43a683886876fea8e74997d0fb4b66e2d5ce22f425a7a05f",
+      "png_sha256": "8a82196d3a271314e467562cad22893389452129cdd766816e5a614f1fdb2aa5",
+      "size": [
+        8,
+        8
+      ]
+    },
+    {
+      "case": "physics-original-integer-instance-format",
+      "raw_sha256": "17790e858513d84a43a683886876fea8e74997d0fb4b66e2d5ce22f425a7a05f",
+      "png_sha256": "8a82196d3a271314e467562cad22893389452129cdd766816e5a614f1fdb2aa5",
+      "size": [
+        8,
+        8
+      ]
+    },
+    {
+      "case": "physics-original-ARB-integer-instance-format",
+      "raw_sha256": "17790e858513d84a43a683886876fea8e74997d0fb4b66e2d5ce22f425a7a05f",
+      "png_sha256": "8a82196d3a271314e467562cad22893389452129cdd766816e5a614f1fdb2aa5",
+      "size": [
+        8,
+        8
+      ]
+    },
+    {
+      "case": "physics-original-normalized-byte-instance-colors",
+      "raw_sha256": "da40d706b75c6a43ebb78f932c8dee0edc7b62292996011239db5d9aefa8fefa",
+      "png_sha256": "28b399e096e9ae619a762359122d0ebf92abd405b4bb19782d77a16f53aa82f0",
+      "size": [
+        8,
+        8
+      ]
+    },
+    {
+      "case": "physics-native-unbound-VAO-retains-deleted-vertex-object",
+      "raw_sha256": "17790e858513d84a43a683886876fea8e74997d0fb4b66e2d5ce22f425a7a05f",
+      "png_sha256": "8a82196d3a271314e467562cad22893389452129cdd766816e5a614f1fdb2aa5",
+      "size": [
+        8,
+        8
+      ]
+    }
+  ]
+}

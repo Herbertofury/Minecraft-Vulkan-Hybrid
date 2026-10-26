@@ -1,0 +1,143 @@
+{
+  "accepted": true,
+  "original_method_invocations": 40,
+  "selected_framebuffer_sites": 27,
+  "original_scissor_sites": 5,
+  "root_remaining_GL_sites": 21,
+  "private_loader_only": true,
+  "full_renderpass_provider_or_FPS_accepted": false,
+  "controls": [
+    {
+      "control": "exact-original-framebuffer-archive",
+      "passed": true
+    },
+    {
+      "control": "selected-original-framebuffer-path-gg.essential.universal.render.UGpuDeviceImpl",
+      "passed": true
+    },
+    {
+      "control": "selected-original-framebuffer-path-gg.essential.universal.render.UGpuDeviceImpl$colorWriteFrameBuffer$2",
+      "passed": true
+    },
+    {
+      "control": "selected-original-framebuffer-path-gg.essential.universal.render.UGpuDeviceImpl$depthWriteFrameBuffer$2",
+      "passed": true
+    },
+    {
+      "control": "original-native-scissor-body-gg.essential.universal.render.ScissorState",
+      "passed": true
+    },
+    {
+      "control": "original-native-scissor-body-gg.essential.universal.render.ScissorState$Companion",
+      "passed": true
+    },
+    {
+      "control": "original-full-clear-restores-draw-read",
+      "passed": true
+    },
+    {
+      "control": "original-full-clear-restores-scissor",
+      "passed": true
+    },
+    {
+      "control": "original-clear-resumes-native-framebuffer",
+      "passed": true
+    },
+    {
+      "control": "native-clear-preserves-viewport-0",
+      "passed": true
+    },
+    {
+      "control": "native-clear-preserves-viewport-1",
+      "passed": true
+    },
+    {
+      "control": "native-clear-preserves-viewport-2",
+      "passed": true
+    },
+    {
+      "control": "native-clear-preserves-viewport-3",
+      "passed": true
+    },
+    {
+      "control": "original-color-FBO-finally-detaches-image",
+      "passed": true
+    },
+    {
+      "control": "essential-original-framebuffer-whole-color-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "essential-original-framebuffer-clipped-color-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "essential-original-framebuffer-boundary-clipped-color-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "zero-area-records-no-native-clear",
+      "passed": true
+    },
+    {
+      "control": "essential-original-framebuffer-zero-area-preserves-image-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "original-depth-only-FBO-disables-color-read-write",
+      "passed": true
+    },
+    {
+      "control": "original-depth-FBO-bindings-restored",
+      "passed": true
+    },
+    {
+      "control": "original-depth-retained-attachment-observed",
+      "passed": true
+    },
+    {
+      "control": "GL-depth-clear-range-clamped",
+      "passed": true
+    },
+    {
+      "control": "COPY_DST-allocation-includes-native-clear-attachment",
+      "passed": true
+    },
+    {
+      "control": "essential-original-framebuffer-mip-chain-base-clear-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "native-base-clear-retains-entire-original-mip-chain",
+      "passed": true
+    },
+    {
+      "control": "original-missing-COPY_DST-clear-refused",
+      "passed": true
+    },
+    {
+      "control": "rejected-original-usage-records-no-clear",
+      "passed": true
+    },
+    {
+      "control": "nonzero-mip-FBO-attachment-explicitly-refused",
+      "passed": true
+    },
+    {
+      "control": "unknown-attachment-explicitly-refused",
+      "passed": true
+    },
+    {
+      "control": "exact-original-framebuffer-and-scissor-transports",
+      "passed": true
+    },
+    {
+      "control": "all-test-framebuffers-retired",
+      "passed": true
+    },
+    {
+      "control": "native-framebuffer-error-clean",
+      "passed": true
+    }
+  ]
+}

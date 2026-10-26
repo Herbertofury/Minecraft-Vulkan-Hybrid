@@ -1,0 +1,45 @@
+modLoader = "javafml"
+loaderVersion = "${forge_loader_version_range}"
+license = "${license}"
+
+[[mods]]
+modId = "${mod_id}"
+version = "${version}"
+displayName = "${mod_name}"
+displayURL = "https://discord.gg/atKQ3KrAK3"
+logoFile="async/icon.png"
+authors = "${mod_authors}"
+description = '''${description}'''
+
+[[mixins]]
+config = "harimt.common.mixins.json"
+
+[[mixins]]
+config = "harimt.forge.mixins.json"
+
+[[mixins]]
+config = "harimt.gpu.mixins.json"
+
+[[mixins]]
+config = "vulkanmod.mixins.json"
+
+[[dependencies."${mod_id}"]]
+modId = "forge"
+mandatory = true
+versionRange = "${forge_loader_version_range}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "minecraft"
+mandatory = true
+versionRange = "${minecraft_version_range}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
+modId = "harium"
+mandatory = false
+versionRange = "[1.0.0,)"
+ordering = "AFTER"
+side = "BOTH"

@@ -1,0 +1,53 @@
+{
+  "accepted": true,
+  "automatic_forge_application_proven": true,
+  "rewritten_calls": 24,
+  "scope": "Exact private raw original 5 caller classes automatically transformed by the production Forge plugin in GAME, loaded without initialization; full Essential mod/features/pack remain separate. Exact original executable native pixels use a separate controlled loader.",
+  "classes": [
+    {
+      "class": "gg.essential.elementa.shaders.Shader",
+      "class_loader": "cpw.mods.modlauncher.TransformingClassLoader",
+      "module": "mvhpackbench",
+      "rewritten_calls": 16,
+      "untranslated_supported_calls": 0,
+      "fresh_export_sha256": "8f1d304cb8b5f044b352c5c5a725fa34e18054004b3ab51b662e38de3b3d94a4",
+      "class_initialized_or_original_methods_invoked": false
+    },
+    {
+      "class": "gg.essential.elementa.shaders.FloatUniform",
+      "class_loader": "cpw.mods.modlauncher.TransformingClassLoader",
+      "module": "mvhpackbench",
+      "rewritten_calls": 2,
+      "untranslated_supported_calls": 0,
+      "fresh_export_sha256": "ec0806633f6e9f33b5d5862e0f0ffcbd3b33a3f8ab6b3b7d105517d741d30095",
+      "class_initialized_or_original_methods_invoked": false
+    },
+    {
+      "class": "gg.essential.elementa.shaders.IntUniform",
+      "class_loader": "cpw.mods.modlauncher.TransformingClassLoader",
+      "module": "mvhpackbench",
+      "rewritten_calls": 2,
+      "untranslated_supported_calls": 0,
+      "fresh_export_sha256": "0b3eed41cb0f9c385c84baeda5ece1c26844c8daac9887ada7647883bf4bce63",
+      "class_initialized_or_original_methods_invoked": false
+    },
+    {
+      "class": "gg.essential.elementa.shaders.Vec2Uniform",
+      "class_loader": "cpw.mods.modlauncher.TransformingClassLoader",
+      "module": "mvhpackbench",
+      "rewritten_calls": 2,
+      "untranslated_supported_calls": 0,
+      "fresh_export_sha256": "4bd3c6e294f40cc18307c37acde8dd371044ec26d589d5fc7f1e7c28eb3f7364",
+      "class_initialized_or_original_methods_invoked": false
+    },
+    {
+      "class": "gg.essential.elementa.shaders.Vec4Uniform",
+      "class_loader": "cpw.mods.modlauncher.TransformingClassLoader",
+      "module": "mvhpackbench",
+      "rewritten_calls": 2,
+      "untranslated_supported_calls": 0,
+      "fresh_export_sha256": "d893b1e5738c1bf6c7fe07305c9b5359e515cf11f3fe64700ab2f5266763c0d2",
+      "class_initialized_or_original_methods_invoked": false
+    }
+  ]
+}

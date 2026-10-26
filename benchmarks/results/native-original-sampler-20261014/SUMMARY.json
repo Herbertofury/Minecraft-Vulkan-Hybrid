@@ -1,0 +1,20 @@
+{
+  "renderer_version": 61,
+  "production_sha256": "1edfd9e73622863285f2792305ab9706330dd1843a3fedacb0b65aefc4295ed6",
+  "GPU_cases": 268,
+  "pixels": 70816,
+  "mismatch": 0,
+  "old199_hashes_equal": true,
+  "original_sampler_GAME_accepted": true,
+  "original_sampler_sites": 6,
+  "original_method_invocations": 135,
+  "original_configurations": 68,
+  "runtime_controls": 207,
+  "inverse_controls": 5,
+  "sampler_GPU_cases": 69,
+  "all327_unchanged": true,
+  "full_render_pass_provider_or_FPS_accepted": false,
+  "full327_remaining_references": 379,
+  "full327_unique_APIs": 171,
+  "full327_archives": 21
+}

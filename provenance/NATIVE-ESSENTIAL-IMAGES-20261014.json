@@ -1,0 +1,35 @@
+{
+  "base_feature_commit": "e650babd9fbbd56b5484aa9bd0656c2e95a1e11a",
+  "version": 53,
+  "files": {
+    "integration/dimensions/overlay/gradle.properties": "e87584794aa8a49901dc656e953c66bd8583495043fb0ef52897d2114e55da04",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/EssentialDeviceImageCallers.java": "2cbcee948fc3851e0e5c1c305943522338bbcacd746d91b201451c43a795dca5",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/NativeEssentialImageApi.java": "f1ca4bbe22c7c4418f0989d001e59d059988a0bf1ece01126de340c501ddbb61",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/vulkan/texture/SamplerManager.java": "cfe98eefcd9bde0e1610dfa55e00d61b956da3ab88ca57c469f7b6c9e70f687b",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/vulkan/texture/UncompressedTexelSize.java": "c477786d5a0ee31e3d96f1bfbe7a4e1e04d500c15166222b879444a560f37772"
+  },
+  "production_sha256": "42c49354f34a54ee9aa39d53c11c4348353c1c5aa0cdbe90e76ebe7b405faf64",
+  "private_originals_distributed": false,
+  "partial_images_only": true,
+  "full_provider_or_FPS_accepted": false,
+  "pins": {
+    "classes": [
+      {
+        "name": "gg/essential/universal/render/UGpuDeviceImpl",
+        "raw_sha256": "250ccd29c6ed2a610e4cea508c6750f1452b92e20b39824770e67596f16eb52d",
+        "canonical_sha256": "ac1a55d26a3540c026566ebda4e832a554511068e7cf4224912a1bdc5e481de1"
+      },
+      {
+        "name": "gg/essential/universal/render/UGpuTextureImpl",
+        "raw_sha256": "344565462dec41a2522dafd984047c033d06e00e8663c59bd7c85cdae32539dd",
+        "canonical_sha256": "7655b4d3b0031a58847c5309e48087f40bad073e979efbb7520c5bdbac461e4b"
+      },
+      {
+        "name": "gg/essential/universal/render/UGpuDeviceImpl$info$1$limits$1",
+        "raw_sha256": "e0c8d3b8e5ebebe66862cd6eb3c520fc45a73e9a5d2eb265aa18c089f44a39c7",
+        "canonical_sha256": "61eb54b661554dbc62e0aab470104210e6e60beb91ae882461adf8a5c2d465ef"
+      }
+    ],
+    "full_device_accepted": false
+  }
+}

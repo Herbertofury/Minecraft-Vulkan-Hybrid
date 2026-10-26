@@ -1,0 +1,199 @@
+{
+  "retrieved_utc": "2026-10-06T01:40:11.469605+00:00",
+  "official_project_metadata_sha256": {
+    "beryl": "c1ed76d91ed10353675964add9f706c22fe3d427e5c60d70a817b18cdbf2be36",
+    "vulkanessential": "11c6eda6db80618d70538bb672f7bca667a8b127dbea5af8adb70135f9011c23"
+  },
+  "official_project_source_urls": {
+    "beryl": null,
+    "vulkanessential": null
+  },
+  "official_project_license": {
+    "beryl": {
+      "id": "LicenseRef-All-Rights-Reserved",
+      "name": "",
+      "url": null
+    },
+    "vulkanessential": {
+      "id": "LicenseRef-All-Rights-Reserved",
+      "name": "",
+      "url": null
+    }
+  },
+  "archives": [
+    {
+      "project": "beryl",
+      "version_id": "UJ7cWso7",
+      "version": "0.2.1-alpha",
+      "published": "2026-06-14T22:53:14.281303Z",
+      "official_download_url": "https://cdn.modrinth.com/data/rYeGeBaO/versions/UJ7cWso7/beryl_1.21.11-0.2.1-alpha.jar",
+      "sha256": "7d035c7f5ca121405ccf99835ea039c5f234ce0df292fb7b5a2379d0b401b39a",
+      "official_sha512_verified": true,
+      "fabric_metadata": {
+        "schemaVersion": 1,
+        "id": "beryl",
+        "version": "0.2.1-alpha",
+        "name": "Beryl",
+        "description": "Introducing an efficient shader pipeline for Vulkan!",
+        "authors": [
+          "Collateral"
+        ],
+        "contact": {
+          "homepage": "https://modrinth.com/mod/beryl"
+        },
+        "icon": "assets/beryl/beryl_icon.png",
+        "environment": "client",
+        "entrypoints": {
+          "client": [
+            "net.beryl.BerylMod"
+          ]
+        },
+        "mixins": [
+          "beryl.mixins.json"
+        ],
+        "accessWidener": "beryl.accesswidener",
+        "depends": {
+          "fabricloader": ">=0.14.14",
+          "minecraft": "1.21.11",
+          "vulkanmod": ">=0.6.7"
+        },
+        "jars": [
+          {
+            "file": "META-INF/jars/fabric-key-binding-api-v1-1.1.7+4fc5413f3e.jar"
+          }
+        ]
+      },
+      "class_major_counts": {
+        "65": 50
+      },
+      "license_entries": [],
+      "archive_installed_or_executed": false
+    },
+    {
+      "project": "vulkanessential",
+      "version_id": "clFzpR7a",
+      "version": "0.9.6+mc1.21.11",
+      "published": "2026-07-30T18:58:13.207870Z",
+      "official_download_url": "https://cdn.modrinth.com/data/zwgqflwh/versions/clFzpR7a/vulkanessentials-0.9.31%2Bmc1.21.11.jar",
+      "sha256": "826225838686dc45eb657de18e2e0ef2b60a86b06e49ca1c8f00111ea5b52822",
+      "official_sha512_verified": true,
+      "fabric_metadata": {
+        "schemaVersion": 1,
+        "id": "vulkanessentials",
+        "version": "0.9.31+mc1.21.11",
+        "name": "Vulkan Essentials",
+        "description": "Unofficial compatibility layer that prevents known Essential UI crashes and fixes its rendering under VulkanMod on Minecraft 1.21.11.",
+        "icon": "assets/vulkanessentials/icon.png",
+        "authors": [
+          "V1ke"
+        ],
+        "contact": {},
+        "license": "All Rights Reserved (unmodified redistribution permitted - see LICENSE)",
+        "environment": "client",
+        "entrypoints": {
+          "preLaunch": [
+            "dev.v1ke.vulkanessentials.VulkanEssentialsPreLaunch"
+          ],
+          "client": [
+            "dev.v1ke.vulkanessentials.VulkanEssentialsClient"
+          ]
+        },
+        "mixins": [
+          "vulkanessentials.mixins.json"
+        ],
+        "depends": {
+          "fabricloader": ">=0.16.0",
+          "minecraft": "1.21.11",
+          "java": ">=21"
+        }
+      },
+      "class_major_counts": {
+        "65": 19
+      },
+      "license_entries": [
+        "LICENSE_vulkanessentials"
+      ],
+      "archive_installed_or_executed": false
+    }
+  ],
+  "vulkanessential_embedded_license_sha256": "1534404651f35b541f1ef2c55f832b86faa124ec47b73e3b037e3941a5ad4a94",
+  "license_findings": "Vulkan Essential explicitly forbids modification/patching/repackaging/derivatives; only unmodified official redistribution permitted. Beryl metadata ARR/no public source. No direct port permission inferred.",
+  "reusable_lgpl_references": [
+    {
+      "repository": "EssentialGG/UniversalCraft",
+      "commit": "4f823ddcb646168e609998c73281cfc072afba2e",
+      "inspected": [
+        {
+          "path": "LICENSE",
+          "url": "https://raw.githubusercontent.com/EssentialGG/UniversalCraft/4f823ddcb646168e609998c73281cfc072afba2e/LICENSE",
+          "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118",
+          "bytes": 7652
+        },
+        {
+          "path": "src/main/kotlin/gg/essential/universal/render/UGpuDevice.kt",
+          "url": "https://raw.githubusercontent.com/EssentialGG/UniversalCraft/4f823ddcb646168e609998c73281cfc072afba2e/src/main/kotlin/gg/essential/universal/render/UGpuDevice.kt",
+          "sha256": "1bda34aaeccf325e1121bac699c2370561ea3c23d6cc3ef9df4566ce6de88b65",
+          "bytes": 1689
+        },
+        {
+          "path": "src/main/kotlin/gg/essential/universal/render/UGpuDeviceImpl.kt",
+          "url": "https://raw.githubusercontent.com/EssentialGG/UniversalCraft/4f823ddcb646168e609998c73281cfc072afba2e/src/main/kotlin/gg/essential/universal/render/UGpuDeviceImpl.kt",
+          "sha256": "0bd553fe73902e840ef79527655974f6c67a0d498a745153c2b6dab46b3f910b",
+          "bytes": 32457
+        },
+        {
+          "path": "src/main/kotlin/gg/essential/universal/render/UGpuFenceImpl.kt",
+          "url": "https://raw.githubusercontent.com/EssentialGG/UniversalCraft/4f823ddcb646168e609998c73281cfc072afba2e/src/main/kotlin/gg/essential/universal/render/UGpuFenceImpl.kt",
+          "sha256": "06839c8a9888b012b7389b1884fe1f36ae646ae7954e2c4dc0aafb4b532a0c05",
+          "bytes": 2278
+        },
+        {
+          "path": "src/main/kotlin/gg/essential/universal/render/URenderPassImpl.kt",
+          "url": "https://raw.githubusercontent.com/EssentialGG/UniversalCraft/4f823ddcb646168e609998c73281cfc072afba2e/src/main/kotlin/gg/essential/universal/render/URenderPassImpl.kt",
+          "sha256": "2604c9c31f10e590198ca1b6aa39bb1cd1fcb516e9055dcafde6a0702b7bff2e",
+          "bytes": 33825
+        },
+        {
+          "path": "versions/26.2-fabric/src/main/kotlin/gg/essential/universal/render/UGpuFenceImpl.kt",
+          "url": "https://raw.githubusercontent.com/EssentialGG/UniversalCraft/4f823ddcb646168e609998c73281cfc072afba2e/versions/26.2-fabric/src/main/kotlin/gg/essential/universal/render/UGpuFenceImpl.kt",
+          "sha256": "a96a91e5e6c4790b1df4b66f0b8da4fc8747dd8b1c13ca0b307081437f00106e",
+          "bytes": 358
+        }
+      ]
+    },
+    {
+      "repository": "xCollateral/VulkanMod",
+      "commit": "087ef24e58e5522dec5ccb44f279768786bfb6da",
+      "inspected": [
+        {
+          "path": "LICENSE",
+          "url": "https://raw.githubusercontent.com/xCollateral/VulkanMod/087ef24e58e5522dec5ccb44f279768786bfb6da/LICENSE",
+          "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118",
+          "bytes": 7652
+        },
+        {
+          "path": "src/main/java/net/vulkanmod/render/engine/VkCommandEncoder.java",
+          "url": "https://raw.githubusercontent.com/xCollateral/VulkanMod/087ef24e58e5522dec5ccb44f279768786bfb6da/src/main/java/net/vulkanmod/render/engine/VkCommandEncoder.java",
+          "sha256": "b4f4078e14ac532ecdd10fd0c6b41476683d89aa147ceeeb4053a0aa0b315612",
+          "bytes": 45837
+        },
+        {
+          "path": "src/main/java/net/vulkanmod/vulkan/shader/GraphicsPipeline.java",
+          "url": "https://raw.githubusercontent.com/xCollateral/VulkanMod/087ef24e58e5522dec5ccb44f279768786bfb6da/src/main/java/net/vulkanmod/vulkan/shader/GraphicsPipeline.java",
+          "sha256": "12636f81ef1e2ed56fab9eacdffdde31e395d16566a29d1627f1bffe48ced7e7",
+          "bytes": 19125
+        },
+        {
+          "path": "src/main/java/net/vulkanmod/vulkan/shader/Pipeline.java",
+          "url": "https://raw.githubusercontent.com/xCollateral/VulkanMod/087ef24e58e5522dec5ccb44f279768786bfb6da/src/main/java/net/vulkanmod/vulkan/shader/Pipeline.java",
+          "sha256": "77418d3a13931ed795951ff042bde2a7d0c61aa5e9a07bd033b1be9728c3ed2f",
+          "bytes": 14772
+        }
+      ]
+    }
+  ],
+  "new_legal_agreement_accepted": false,
+  "third_party_addon_build_or_initializer_executed": false,
+  "protected_addon_modified_installed_or_redistributed": false,
+  "shader_or_fps_acceptance": false
+}

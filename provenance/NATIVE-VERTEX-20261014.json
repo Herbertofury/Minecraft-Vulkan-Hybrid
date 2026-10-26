@@ -1,0 +1,55 @@
+{
+  "base_feature_commit": "ff3933e8b126468387df9f403a14d9050ae346a4",
+  "version": 44,
+  "files": {
+    "integration/dimensions/overlay/gradle.properties": "56913489c73c335b25ecf36e41d873b47f1db9b166c9a437dcf86a6dbeb8f7e9",
+    "integration/dimensions/overlay/forge/src/main/resources/vulkanmod.mixins.json": "8548eab5f918f447d8920faa9f5d476246f4bd114ed6ba46a049e9041d4c2944",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/compat/PhysicsVertexCallerAudit.java": "c75da554035349b269d3df90a5384f06cb367f6582a756c57a5faee80c11da27",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/compat/UniversalRendererGate.java": "460ea09a4803fc5ed689e762c458eb93b038121cf217e75f43f7487c715c6879",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/NativeBufferObjectApi.java": "8b7fe0b83e3067c6638f98c5d85666a941505bc49592678d052ddcb09d169008",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/NativePixelBufferApi.java": "e5ada9883b619bc8759f41c8f499ec020cbd8ee462d8fe79f5011274b964886a",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/NativeUiRenderBridge.java": "61c5237a6f9bbf3cbeaaa8f609c2d1f5906d393267185801de486946426cabaf",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/NativeVertexArrayApi.java": "7e7d0416d841156a616c3f1e6a32fad7aaf76eb5f41d53015fec61aa870d85fa",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/PhysicsVertexCallers.java": "e8625774596c9b8048db63b27931d885b30aa65b6cee34d4e3e9e87709627f3a",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/mixin/MixinPlugin.java": "592fd934628a02b2d34e54930eeb83a1ec634d9dad7d2bda36fb91e603c7e860",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/vulkan/device/DeviceManager.java": "11669ea92761b75c00fd22d79b321c0b3f37d9644e59bde08803abf14aadef46",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/vulkan/device/NativeVertexDivisors.java": "d4a9f12ad035e87e9394b59aba7b1cecf35830d57babf85ba6ec0bccc2a33963",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/vulkan/shader/GraphicsPipeline.java": "b3823af03d3bacd0103f39f1373655d11f1baa8e8a7308609e92e177bf0c8165",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/vulkan/shader/NativeUiProgram.java": "c2634530f8835feba7f87c7bb37961ce019f9839e96d76ec026fab84c4fdff9e",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/vulkan/shader/NativeVertexLayout.java": "25992acc825dd096f566733f6d1674a8df4fe6a1719cc7ccea8c65d942a5fb08",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/vulkan/shader/Pipeline.java": "bbf37203ce5485fd6a3f403c475a422cb03d42cc23ea533fb851b2e0c3e44494",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/mixin/compatibility/physics/PhysicsVertexCallerMixin.java": "608bfa6c541267eb9efaa67a4fd451e2ee47f2cad91da4d3af1f31d9c4b87e47"
+  },
+  "production_sha256": "ed730c6e229b64904faf7af57be508035b3ed044bf62869c719fe7913a026436",
+  "pins": {
+    "classes": [
+      {
+        "name": "net/diebuddies/opengl/VAO$GL43VertexAttribBinding",
+        "raw_sha256": "29e0b931a04d53b5e8e1d13f8084a2cc034a62dac195888b02b410b131819b53",
+        "canonical_sha256": "c66e62f1b93a087879411ac08718b74154cc7d0799397d68269a0588925f75d8",
+        "sites": 5
+      },
+      {
+        "name": "net/diebuddies/opengl/VAO$ARBVertexAttribBinding",
+        "raw_sha256": "517a04c2fa00dddd1b5b4a262ad3ab08a6e5b65f243ccfd966a0b28a9a677ec1",
+        "canonical_sha256": "d9ebc4e1d6e6e6773bf5b766ff738f7ab7ca12b42d6573b412a5fe53d3a91a72",
+        "sites": 5
+      },
+      {
+        "name": "net/diebuddies/opengl/VAO$GL44MultiBind",
+        "raw_sha256": "fc7e90877888f34d3ebddf2966bb01a41d9e5bb2d6d2a6e063d98dcfb4d270b0",
+        "canonical_sha256": "9822cf5827264d42329470d40ea4b6ee4152e2b4d8e91754a45bc95b95043944",
+        "sites": 1
+      },
+      {
+        "name": "net/diebuddies/opengl/VAO$ARBMultiBind",
+        "raw_sha256": "8b314eaecfc522cc08a1c10a40bf689236a9aa6b9efb41ad9fe213c3ca52f635",
+        "canonical_sha256": "41ef78c14a42337c1f5c63106c89f248cf7ba3cb148ce2450c51895ee728e4e0",
+        "sites": 1
+      }
+    ],
+    "private_originals_distributed": false
+  },
+  "private_originals_distributed": false,
+  "fullpack_FPS_accepted": false
+}

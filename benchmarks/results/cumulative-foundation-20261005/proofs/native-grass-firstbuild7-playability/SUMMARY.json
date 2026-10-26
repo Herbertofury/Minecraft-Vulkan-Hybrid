@@ -1,0 +1,113 @@
+{
+  "scope": "Seven actual original grass checks with original native Create retained. Original bounds method invoked through one resolved private method handle; original density/range/styles/assets/animation/queues/budget unchanged. Bounded screenshots reviewed; no complete style/shaderpack or FPS acceptance from this diagnostic.",
+  "result": {
+    "completed": true,
+    "passed": true,
+    "api_renderer": "VULKAN",
+    "step": 7,
+    "error_type": "",
+    "peak_original_meshes": 1253,
+    "peak_original_active_trail_cells": 28,
+    "scope": "Resource reload, original animation/trail/FOV/dimension state; pinned Entity settings UI when installed. Screenshots require visual review; no FPS or all-style/shader-provider parity acceptance",
+    "checks": [
+      "native_client_resource_reload",
+      "original_native_grass_meshes_and_shader_available",
+      "original_animation_phase_advanced",
+      "native_visibility_updated_after_stationary_fov_change",
+      "client_movement_stamped_original_trail_field",
+      "client_entered_native_nether",
+      "native_overworld_grass_rebuilt_after_roundtrip"
+    ],
+    "pure_frustum_cache_counters": {
+      "CACHE_HITS": 57479608,
+      "CACHE_MISSES": 13900814,
+      "STATE_CAPTURES": 46486,
+      "STATE_CHANGES": 10453
+    },
+    "cache_snapshots": [
+      {
+        "scope": "before_reload",
+        "DIRTY_SECTIONS": 0,
+        "LIGHT_DIRTY_SECTIONS": 0,
+        "RELOD_PENDING": 0,
+        "IN_FLIGHT": 2,
+        "TO_BUILD": 2217,
+        "TO_REFRESH": 0,
+        "TO_RELOD": 0,
+        "camera_x": 0.5,
+        "camera_y": 112.11999988555908,
+        "camera_z": 0.5,
+        "native_graph_needs_update": true,
+        "native_terrain_tasks_idle": false
+      },
+      {
+        "scope": "grass_ground_scene",
+        "DIRTY_SECTIONS": 0,
+        "LIGHT_DIRTY_SECTIONS": 0,
+        "RELOD_PENDING": 0,
+        "IN_FLIGHT": 0,
+        "TO_BUILD": 1600,
+        "TO_REFRESH": 0,
+        "TO_RELOD": 0,
+        "camera_x": 0.5,
+        "camera_y": 64.61999988555908,
+        "camera_z": 40.5,
+        "native_graph_needs_update": false,
+        "native_terrain_tasks_idle": true
+      },
+      {
+        "scope": "finish",
+        "DIRTY_SECTIONS": 0,
+        "LIGHT_DIRTY_SECTIONS": 0,
+        "RELOD_PENDING": 0,
+        "IN_FLIGHT": 0,
+        "TO_BUILD": 1793,
+        "TO_REFRESH": 0,
+        "TO_RELOD": 0,
+        "camera_x": 0.5,
+        "camera_y": 57.61999988555908,
+        "camera_z": 0.5,
+        "native_graph_needs_update": false,
+        "native_terrain_tasks_idle": true
+      }
+    ],
+    "fov_evidence": {
+      "original_degrees": 70,
+      "test_degrees": 110,
+      "captures_before": 1464,
+      "captures_after": 1702
+    },
+    "ui_evidence": {}
+  },
+  "all_original_owned_active_hashes_restored": true,
+  "private_candidate_sha256": "259604f6156c344256c2d121753b60678f87b9b763c7357c20106d8ef2f66b33",
+  "cpu_first_build_trace": {
+    "scope": "Actual pure early-eligibility condition against independent original queue/async completion/world mutation/visibility/unloaded-region/budget trace; actual mixin and visuals separately tested. No FPS inferred.",
+    "positive": "ORIGINAL_FIRST_BUILD_SCHEDULING_TRACE_CONTROLS 2116",
+    "negative_controls": {
+      "cached_refresh_dropped": "rejected",
+      "visible_first_build_dropped": "rejected"
+    }
+  },
+  "pure_visibility_cpu": {
+    "scope": "Actual bounded production visibility cache against independent JOML projection oracle; not FPS or full-mod acceptance.",
+    "positive": "EXACT_FRUSTUM_CACHE_CONTROLS 60052",
+    "negative_controls": {
+      "matrix_invalidation_removed": "rejected",
+      "camera_invalidation_removed": "rejected",
+      "sixth_bounds_key_removed": "rejected"
+    }
+  },
+  "images": [
+    {
+      "file": "2026-10-05_15.55.44.png",
+      "sha256": "87697bbe13bb83904b4187cc0d4e20bdac068f245e6f51f40e041a6686816572",
+      "review": "Dense original near-bank grass and far terrain retained; alternate FOV view remains correct. Bounded visual review, not all styles."
+    },
+    {
+      "file": "2026-10-05_15.55.48.png",
+      "sha256": "f17a3c80379a985cfb34e6c31a4578144bee5bc538bb9b7d21599cf352c83499",
+      "review": "Dense original near-bank grass and far terrain retained; alternate FOV view remains correct. Bounded visual review, not all styles."
+    }
+  ]
+}

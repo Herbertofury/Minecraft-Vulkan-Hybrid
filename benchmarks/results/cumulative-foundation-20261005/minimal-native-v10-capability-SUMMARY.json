@@ -1,0 +1,43 @@
+{
+  "scope": "Minimal integrated Hari .10 plus identical recorder only; vanilla checksum scene/settings/camera. Three capability repeats, not a matched causal speedup comparison or unmodded Minecraft. Original concurrent workloads remain active.",
+  "mods": {
+    "harimt-forge-1.20.1-2.4.11-noxviola.10-dimensions-vulkan-hybrid-all.jar": "9abd89393e1ffba7b705d78f61c718417309f9b102ced4432f674da8cc09cd7a",
+    "mvh-noxviola-control-1.0.8.jar": "684aae8069102d056f2e6d23784716bdd771ec0d3b5e17601855a95d499b2f15"
+  },
+  "trials": [
+    {
+      "trial": "01-cumulative",
+      "average_fps": 4293.837311132222,
+      "one_percent_low_fps": 902.8525728601676,
+      "p95_ms": 0.2954,
+      "p99_ms": 0.4571,
+      "max_ms": 3.3194
+    },
+    {
+      "trial": "02-cumulative",
+      "average_fps": 4456.730926698734,
+      "one_percent_low_fps": 977.581099046645,
+      "p95_ms": 0.2829,
+      "p99_ms": 0.4292,
+      "max_ms": 2.1783
+    },
+    {
+      "trial": "03-cumulative",
+      "average_fps": 4451.338059400807,
+      "one_percent_low_fps": 965.6970807757898,
+      "p95_ms": 0.2848,
+      "p99_ms": 0.4348,
+      "max_ms": 7.4189
+    }
+  ],
+  "summary": {
+    "average_fps": 4451.338059400807,
+    "one_percent_low_fps": 965.6970807757898,
+    "p95_ms": 0.2848,
+    "p99_ms": 0.4348,
+    "max_ms": 3.3194
+  },
+  "target_average_fps_reached": true,
+  "full_pack_accepted": false,
+  "zero_hitch_accepted": false
+}

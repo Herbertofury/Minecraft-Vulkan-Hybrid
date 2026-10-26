@@ -1,0 +1,25 @@
+{
+  "scope": "Original failed runs/logs/worlds preserved locally under the named Desktop benchmark directories. None substitutes for a completed comparative run. No game error/warning bypass.",
+  "trials": [
+    {
+      "run": "fullpack-hari22-unlimited-smoke-20261005",
+      "outcome": "Forge pre-loading dependency failure: EnhancedCelestials2Shader mandatory Embeddium; exact owned unloaded client normally closed; repaired metadata only; no FPS"
+    },
+    {
+      "run": "fullpack-hari22-unlimited-smoke-20261005-r2",
+      "outcome": "12 constructor failures from GeckoBetterFPS absent Sodium VertexBufferWriter; performance provider recoverably disabled; original GeckoLib retained; no FPS"
+    },
+    {
+      "run": "fullpack-hari22-unlimited-smoke-20261005-r3",
+      "outcome": "World joined183.55696s then original Physics Mod misidentified Iris/Oculus as Sodium; original octopus death crashed; exact-provider repair preserves standard consumers; no FPS"
+    },
+    {
+      "run": "fullpack-hari22-repaired-smoke-20261005-r4",
+      "outcome": "All7 smoke checks PASS, game-to-world153.51219s; explicit actions/JFR; FPS capture interrupted by screen and rejected"
+    },
+    {
+      "run": "fullpack-hari22-repaired-clean-20261005-01",
+      "outcome": "World joined155.27159s, Essential pause menu recurring with pauseOnLostFocus true; no FPS capture; normal WM_CLOSE only exact owned PID26032; isolated focus false option fixes subsequent clean trial"
+    }
+  ]
+}

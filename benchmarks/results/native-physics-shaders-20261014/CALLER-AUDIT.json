@@ -1,0 +1,6 @@
+{
+  "passed": true,
+  "controls": 5,
+  "sites": 52,
+  "stdout": "PHYSICS_SHADER_CALLER_REGRESSION_PASS controls=5 originalSites=52 inverseBodyIdentical=true\n"
+}

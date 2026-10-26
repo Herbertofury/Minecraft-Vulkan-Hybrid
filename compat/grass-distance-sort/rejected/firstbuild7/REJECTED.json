@@ -1,0 +1,44 @@
+{
+  "verdict": "REJECTED_MEDIAN_AND_LOW_REGRESSION",
+  "medians": {
+    "A": {
+      "average_fps": 1802.9437572613476,
+      "one_percent_low_fps": 394.7464962315294,
+      "p50_ms": 0.5072,
+      "p95_ms": 0.7849,
+      "p99_ms": 2.1669,
+      "max_ms": 5.4228
+    },
+    "B": {
+      "average_fps": 1631.959415326995,
+      "one_percent_low_fps": 371.4313782802697,
+      "p50_ms": 0.5497,
+      "p95_ms": 0.8717,
+      "p99_ms": 2.334,
+      "max_ms": 5.1003
+    }
+  },
+  "change_percent": -9.483620398346538,
+  "candidate_jar_sha256": "259604f6156c344256c2d121753b60678f87b9b763c7357c20106d8ef2f66b33",
+  "restored_addon5_jar_sha256": "d7d623db11aac1f96acae7a532e037645ff72e54651c02960c78b06efaf52bb0",
+  "original_grass_jar_untouched": true,
+  "source_files": {
+    "src/main/resources/mvh-grass-compat.mixins.json": "2cdb648bef398d5d3d6c6d619531c7fb9e5cff821cd9175011460d1924f756c0",
+    "src/main/resources/pack.mcmeta": "bf3fbef894c5599ba21f2f2c5734f8b0d3bcb587786e2b1fb600007f7ec79c1b",
+    "src/main/resources/META-INF/mods.toml": "469b64f8a0095efcb3a62042ccf994c48d3f68e9c4907549be5c31a116e3d9cb",
+    "src/main/java/mvhgrasscompat/DistanceSort.java": "cf8ea7ee042dda6a2467982c19df024cda38aa4a038bfa4a1f8dd8173d43dd90",
+    "src/main/java/mvhgrasscompat/ExactFrustumCache.java": "220166a2580041ec4c712ea6fd85cc6a40eca6bcdb49b9be0bb338522f9a204d",
+    "src/main/java/mvhgrasscompat/FirstBuildEligibility.java": "3992a6295658d2928ad9dd2f584190794c5466fc6f739bfd9b901d12717f909c",
+    "src/main/java/mvhgrasscompat/FrustumReader.java": "6ee5f47ef392d8ad7c8dd090b719a7d0631784bea2835047fc02278242dab8e1",
+    "src/main/java/mvhgrasscompat/GrassCompat.java": "53f7fa60dfec2dd310283bc2d5c753801e9d85af9ad5224af2c0fbe15d9d653b",
+    "src/main/java/mvhgrasscompat/GrassOriginalBounds.java": "9c40459da4ffdb6dd18cfa717ad6ed93dc31f98633e3e53df83c8b1f831d8637",
+    "src/main/java/mvhgrasscompat/GrassVisibilityReuse.java": "70866a6315471049c1456ef57de42ce09ca8a98f462cb0eb4a785704b636e990",
+    "src/main/java/mvhgrasscompat/InvalidationRetention.java": "b8ae6a59aa7e98f97fdc89f0bb1e25bfbd84d6fa347a7a9e61efdb730e3aa23c",
+    "src/main/java/mvhgrasscompat/MemoizedDistanceSort.java": "a89fcd8dcd474791bf31daa63a940ca3e6087121db4b4c0345d9450071a018bb",
+    "src/main/java/mvhgrasscompat/mixin/GrassDistanceMixin.java": "b835fbf6dda622879b0101c4286ac6bd91e76a1bf955dbf20f23886f352eadf3",
+    "src/main/java/mvhgrasscompat/mixin/GrassFirstBuildMixin.java": "083b5246b12384cca0a5eee1387f04292afc4407e073ce2f0a02afbc1bbd786f",
+    "src/main/java/mvhgrasscompat/mixin/GrassFrustumMixin.java": "07bf1f4ac86f2bad2ff3849f5a87b03d234bff484e31283ff08de34969d0a425",
+    "src/main/java/mvhgrasscompat/mixin/GrassInvalidationMixin.java": "c848006840ed00e0f6f5d2d8bf807e790e6ba304ea3fa18eafc80843bf5035e7"
+  },
+  "evidence": "../../../benchmarks/results/cumulative-foundation-20261005/proofs/native-create-grass-firstbuild7-abbaab/SUMMARY.json"
+}

@@ -1,0 +1,24 @@
+{
+  "pr": "https://github.com/Herbertofury/ProjectDump/pull/30",
+  "title": "Point Hari Vulkan hybrid wiki to canonical Minecraft project",
+  "head": "10d6680cce9168bdfab34b758448e796b0d8a07b",
+  "merge_base": "e8ae300677fbc03e0a10b95d6cb5226b06a21ec1",
+  "files_changed": [
+    "wikis/HariMultiThread-Vulkan-Hybrid.md"
+  ],
+  "numstat": "6\t0\twikis/HariMultiThread-Vulkan-Hybrid.md",
+  "original_body_bytes_identical": true,
+  "original_body_sha256": "451c083d6fa2a09f979ab7f42dcd49b537c0a8d87820d99035d0280bb2eceed6",
+  "canonical_repo_pr_and_wiki_links_present": true,
+  "diff_whitespace_check_passed": true,
+  "mergeable": "MERGEABLE",
+  "merge_state": "CLEAN",
+  "github_status_checks": [],
+  "publisher": "Sync GitHub Wiki / .github/workflows/sync-github-wiki.yml",
+  "schedule": "11 * * * *",
+  "root_cause": "The hourly publisher mirrors versioned main/wikis exactly; direct edits to the .wiki.git page are overwritten. PR30 changes only the versioned source page so the existing publisher can retain canonical routing.",
+  "runtime_code_workflow_permissions_unrelated_pages_changed": false,
+  "safety_review_passed": true,
+  "merge_performed": false,
+  "scope_decision": "Standing request limits publication to feature branches/draft PRs and says no merge unless separately authorized. Review and local byte/URL/scope tests pass; do not infer merge authorization from general continuation. Keep draft and do not repeatedly fight generated wiki bytes."
+}

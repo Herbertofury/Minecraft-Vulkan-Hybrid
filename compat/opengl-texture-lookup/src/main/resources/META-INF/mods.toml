@@ -1,0 +1,20 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="GPL-3.0-only"
+[[mods]]
+modId="mvhglcompat"
+version="1.0.0"
+displayName="MVH OpenGL Texture Compatibility"
+description="Preserves render-thread texture lookup ownership and avoids self-queued future waits in GeckoLib 4.8.4."
+[[dependencies.mvhglcompat]]
+modId="forge"
+mandatory=true
+versionRange="[47.4.23,)"
+ordering="NONE"
+side="CLIENT"
+[[dependencies.mvhglcompat]]
+modId="geckolib"
+mandatory=false
+versionRange="[4.8.4,4.8.5)"
+ordering="AFTER"
+side="CLIENT"

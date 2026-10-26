@@ -1,0 +1,18 @@
+{
+  "owned_profile_mod_set_restored": true,
+  "mods_sha256": {
+    "architectury-9.2.14-forge.jar": "218b471d0b8a1f6cda14cfc1beb9eeb0df54304500acc6c5613d9b88ec65d9af",
+    "citadel-2.6.3-1.20.1.jar": "56c7ab87348a5292583aac787b6cf11b5193e77f02af1d17ea75a96f8640b3ce",
+    "cloth-config-11.1.136-forge.jar": "1e895e85cf5b1e1905ef3178ec155c8badfe22a1577b92c09143a5aa1f4ce0f2",
+    "create-1.20.1-6.0.8.jar": "6fbb910c367dbce8e4fc7e5bf64b6edd4de980906ed00af8e47e4af843c0d9b0",
+    "curios-forge-5.14.1+1.20.1-Noxviola-PerfLeakFix-v3.jar": "4c4b668d4ddca09504f1aa80341e9a90e4405f2969178a5fa5e4542cbbff9803",
+    "ferritecore-6.0.1-forge.jar": "9c2c9396a49e796d88497758caa4637d2bcbb433c318e2dd9cebcffbaf0f6c54",
+    "fieldguide-1.20.4+1.20.1-forge.jar": "1613b3ad057d2d0bc1955e7d35fdcaac9583fc780840f5c3c74ccddc232f6825",
+    "geckolib-forge-1.20.1-4.8.4.jar": "c04abba4fd354dd8c0e8a732f1f05f4dca893d2e1d962b2ab128bbd411478747",
+    "Grassier-Grass-1.4.5-Render-Performance-Fix-REPLACEMENT-2.jar": "91006e8220e65572d7e9e1e54b6058526c4adf908faedc750c9f19f13623df8c",
+    "harimt-forge-1.20.1-2.4.11-noxviola.13-dimensions-vulkan-hybrid-all.jar": "7505cdb450600b3d60a0d6d09926453bdc9f8bb2d13f1c5e9870d2885bfe499f",
+    "modernfix-forge-5.27.83+mc1.20.1.jar": "954ff22f601be8de3978a0d7636a138dc93801c6ac55cfd71ef1cd2895de8e5f",
+    "mvh-grass-distance-compat-1.0.3.jar": "45d0067072c608eccf6ebafc06990a7ca5661c08bd5828118834f1b1a0eb325a",
+    "mvh-noxviola-control-1.0.16.jar": "804883b4df09714d4d950e71bc0b5fa8c2b7dd09d0f8a8036dea06a49a8a5b63"
+  }
+}

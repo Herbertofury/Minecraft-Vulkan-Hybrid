@@ -1,0 +1,27 @@
+{
+  "artifact": "<workspace>\\hari-native-sampler61-build\\forge\\build\\libs\\harimt-forge-1.20.1-2.4.11-noxviola.61-dimensions-vulkan-hybrid-all.jar",
+  "sha256": "1edfd9e73622863285f2792305ab9706330dd1843a3fedacb0b65aefc4295ed6",
+  "recursive_archives": [
+    "harimt-forge-1.20.1-2.4.11-noxviola.61-dimensions-vulkan-hybrid-all.jar",
+    "harimt-forge-1.20.1-2.4.11-noxviola.61-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/harimt-vulkan-backend-3.3.1.jar",
+    "harimt-forge-1.20.1-2.4.11-noxviola.61-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-linux-arm32.jar",
+    "harimt-forge-1.20.1-2.4.11-noxviola.61-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-linux-arm64.jar",
+    "harimt-forge-1.20.1-2.4.11-noxviola.61-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-linux.jar",
+    "harimt-forge-1.20.1-2.4.11-noxviola.61-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-macos-arm64.jar",
+    "harimt-forge-1.20.1-2.4.11-noxviola.61-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-macos.jar",
+    "harimt-forge-1.20.1-2.4.11-noxviola.61-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-windows-arm64.jar",
+    "harimt-forge-1.20.1-2.4.11-noxviola.61-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-windows-x86.jar",
+    "harimt-forge-1.20.1-2.4.11-noxviola.61-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-windows.jar",
+    "harimt-forge-1.20.1-2.4.11-noxviola.61-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1.jar",
+    "harimt-forge-1.20.1-2.4.11-noxviola.61-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-vulkan-3.3.1.jar",
+    "harimt-forge-1.20.1-2.4.11-noxviola.61-dimensions-vulkan-hybrid-all.jar!META-INF/jarjar/lwjgl-3.3.3.jar",
+    "harimt-forge-1.20.1-2.4.11-noxviola.61-dimensions-vulkan-hybrid-all.jar!META-INF/jarjar/lwjgl-shaderc-3.3.3.jar",
+    "harimt-forge-1.20.1-2.4.11-noxviola.61-dimensions-vulkan-hybrid-all.jar!META-INF/jarjar/lwjgl-vma-3.3.3.jar",
+    "harimt-forge-1.20.1-2.4.11-noxviola.61-dimensions-vulkan-hybrid-all.jar!META-INF/jarjar/lwjgl-vulkan-3.3.3.jar",
+    "harimt-forge-1.20.1-2.4.11-noxviola.61-dimensions-vulkan-hybrid-all.jar!META-INF/jarjar/mixinextras-forge-0.5.4.jar",
+    "harimt-forge-1.20.1-2.4.11-noxviola.61-dimensions-vulkan-hybrid-all.jar!META-INF/jarjar/mixinextras-forge-0.5.4.jar!META-INF/jars/MixinExtras-0.5.4.jar"
+  ],
+  "pack_format": 15,
+  "private_originals_absent": true,
+  "passed": true
+}

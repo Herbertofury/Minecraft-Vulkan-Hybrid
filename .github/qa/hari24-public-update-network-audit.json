@@ -1,0 +1,10 @@
+{
+  "observed_connection": "https://github.com/The-Aether-Team/Cumulus/raw/1.20.1-develop/update.json",
+  "metadata_origin": "Original Cumulus JiJ META-INF/mods.toml inside the verified Aether binary",
+  "request_method": "GET",
+  "payload": "No request body; User-Agent contains Java version, Minecraft/Forge version and Cumulus mod id/version",
+  "bytecode_owner": "fmlcore-1.20.1-47.4.23.jar net.minecraftforge.fml.VersionChecker$1.openUrlString",
+  "evidence": "Actual method builds HttpRequest with GET(), gzip and User-Agent headers and reads response InputStream",
+  "authorization": "User explicitly requested full real mod tests and authorized GitHub/Drive work; author-public update metadata reads are ordinary mod startup behavior",
+  "local_server_other_blocker": "Mojang public-key fetch uses a no-proxy service; managed local network cannot resolve its host. This remains a failed local environment gate, never suppressed or accepted."
+}

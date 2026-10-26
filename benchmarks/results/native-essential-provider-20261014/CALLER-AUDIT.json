@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "controls": 7,
+  "selected_upload_sites": 14,
+  "selected_framebuffer_sites": 8,
+  "scoped_actions": 1,
+  "remaining_root_GL_sites": 0,
+  "stdout": "ESSENTIAL_TRANSFER_CALLER_PASS controls=7 uploads14 drawFramebuffer8 action1 originalRootInverseIdentical=true fullProviderAccepted=false\n",
+  "full_provider_accepted": false
+}

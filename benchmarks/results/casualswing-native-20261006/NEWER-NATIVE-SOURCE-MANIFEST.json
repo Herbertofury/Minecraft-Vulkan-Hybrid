@@ -1,0 +1,30 @@
+{
+  "stable_native_source_commit": "e873da9c5b2baafd5a28ebcb67d26dd5646bbc7b",
+  "official_newer_sources_sha256": "9f45eeb4ba8608eec6ab13994a06a755eedb2753cf4fd078de5f371ed38bb6ca",
+  "newer_frontend_changes": "Only native engine debug type/counters. Original visualization/lifecycle flow retained.",
+  "unmeasured_small15_optimization_included": false,
+  "sources": {
+    "src/main/java/mvhflywheelbackend/NativeDepthSizing.java": "ce1a58b1cbba0262075655faca20d1de4ba62cb04f46663039d85cdaa817cffc",
+    "src/main/java/mvhflywheelbackend/NativeEngine.java": "37f0da47d10dfd12c8ea1f1f5460ff800dcbbcd7be9ba314faa713dfedd5d2a5",
+    "src/main/java/mvhflywheelbackend/NativeShaderSources.java": "2e25f87d3979ebc1695764130e343145be66324f5798cdfd896ef6051282f3a5",
+    "src/main/java/mvhflywheelbackend/NativeWorldRenderer.java": "0ac4a23a3718eb676d9f3156fb01e99f58c28e619fee1eee1c274d0ae46727cb",
+    "src/main/java/dev/engine_room/flywheel/backend/Backends.java": "2e427a48e6a89dc8a0eba2e664856873c5fcb733ae0ad7fffead68fda1f42878",
+    "src/main/java/dev/engine_room/flywheel/backend/InternalVertex.java": "cd500f6a2f42a929eb70de1961a6147a42beb04f0349a693c6f1a8e8d23abab8",
+    "src/main/java/dev/engine_room/flywheel/impl/FlwDebugInfo.java": "37d8b7481f204bcb9c5f2a4f5450a0011efe247f7db66ddb0e4dbc8cc746fd87",
+    "src/main/java/dev/engine_room/flywheel/impl/visualization/VisualizationManagerImpl.java": "e2057fb6361f2a656e5a35d4b2273f99c7a516ff05ad54c3722e9e0066e9b62b",
+    "src/main/java/dev/engine_room/flywheel/backend/compile/FlwPrograms.java": "2e0e1288c7d18343ce68961e9e9b574cd07124bca6ea944b52fa67d343371a89",
+    "src/main/java/dev/engine_room/flywheel/backend/compile/FlwProgramsReloader.java": "3931a955313842d415cbe698e57ee66d077138796674245bac9821b3d9958977",
+    "src/main/java/dev/engine_room/flywheel/backend/compile/LightSmoothness.java": "ba58774915ac8db32b24c13713fe39cbb139d8bace7b40d798e6a2dbff44fa4e",
+    "src/main/java/dev/engine_room/flywheel/backend/compile/PipelineCompiler.java": "03633ee62e5cdb3c26589cfeee493011272e54a26aa394350b5d447b5418feea",
+    "src/main/java/dev/engine_room/flywheel/backend/engine/LightStorage.java": "0d70df3ec017c299c0d0248e85767e12f92e61bf0c1eea114f3781fba3a8a3e9",
+    "src/main/java/dev/engine_room/flywheel/backend/mixin/GlStateManagerMixin.java": "a394737a94a07e9f81416711f4f14dcac238691dc3ee87d879987aacfe0834be",
+    "src/main/java/dev/engine_room/flywheel/backend/mixin/NativeBuildTaskMixin.java": "e8f0574fe4fa8a0c41d6cb314481f75d83cb5cf9c7fced796987f7af7b00dbd2",
+    "src/main/java/dev/engine_room/flywheel/backend/mixin/NativeWorldReloadMixin.java": "732411590be96739082e8282bff610306fd3ac7a9f5b6f4fbc42f34855ea32a7",
+    "src/main/java/dev/engine_room/flywheel/backend/mixin/RenderSystemMixin.java": "e55d17b9d134b28aed5df1934207d44cf47e9af88f0e5f311ab266b86cce2e70",
+    "src/main/java/dev/engine_room/flywheel/backend/engine/uniform/FrameUniforms.java": "52c7f3b7e1ae591e51bc9a5778362cdf8134f26c0c786c212f768226281a49a6",
+    "src/main/java/dev/engine_room/flywheel/backend/engine/uniform/UniformBuffer.java": "dbac0a61f70064f2aaff18da063ca6f710c16bf6cecfd5d5b175b5267de7f277",
+    "src/main/java/dev/engine_room/flywheel/backend/engine/uniform/Uniforms.java": "d6d174f5975f7d10270e029d3488bc73af8f443928c2e877fc4fa19aa6c581c5",
+    "rejected/descriptor-batch13/NativeEngine.java": "6f2b9c2529d36b87a0bd393b7852008a512d59d0c2c6fc5e18606d2f231c04fe",
+    "rejected/descriptor-batch13/NativeWorldRenderer.java": "9005c0ae6a6d301c211d08f70dfb05091b3433face49e5dd987b184895b959a0"
+  }
+}

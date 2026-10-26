@@ -1,0 +1,6 @@
+{
+  "passed": true,
+  "controls": 10,
+  "sites": 47,
+  "stdout": "PHYSICS_BUFFER_CALLER_REGRESSION_PASS controls=10 originalSites=47 inverseBodiesIdentical=true\n"
+}

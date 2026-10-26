@@ -1,0 +1,41 @@
+{
+  "run_id": 35273540019,
+  "artifact_id": 10519780970,
+  "artifact_digest": "sha256:de0bf85445d32770b0cbed3759ce0ce1e2c052181b424047b907e9c66a2f032a",
+  "head_sha": "6c485f24ec60cd022177baf3b7f65bec688b0b4b",
+  "design": "ABBA, same built JAR, Forge 47.4.23, Java 17, seed 8675309, identical fresh chunk coordinates, 7 x 64-chunk samples per run",
+  "baseline_samples": 14,
+  "candidate_samples": 14,
+  "baseline_median_ms": 3679.635061,
+  "candidate_median_ms": 3694.9099395,
+  "median_gain_percent": -0.41511938675376936,
+  "baseline_mean_ms": 3732.045654857143,
+  "candidate_mean_ms": 3700.0724582142857,
+  "mean_gain_percent": 0.856720404833339,
+  "promotion_threshold": {
+    "minimum_median_gain_percent": 1.0,
+    "minimum_mean_gain_percent": 0.0
+  },
+  "promotion_result": "DEFAULT_OFF",
+  "terrain_hash_gate": {
+    "status": "INCONCLUSIVE_CROSS_JVM_HASH",
+    "reason": "The benchmark used Block.getId(BlockState) in its post-timing hash. The hash differed between baseline A1 and baseline A2 themselves at identical seed/coordinates, so that cross-JVM numeric-ID hash cannot be used as semantic-parity proof. No claim of terrain parity is made from this gate.",
+    "safety_action": "The Cache2D fill optimization is retained as an experimental option but defaults OFF in 2.2.0. The normal release profile therefore preserves the previously validated 1.20.1 world-generation path."
+  },
+  "baseline_a": {
+    "mean_ms": 3723.105939857143,
+    "median_ms": 3686.573265
+  },
+  "candidate_a": {
+    "mean_ms": 3670.8142594285714,
+    "median_ms": 3687.804765
+  },
+  "candidate_b": {
+    "mean_ms": 3729.330657,
+    "median_ms": 3702.015114
+  },
+  "baseline_b": {
+    "mean_ms": 3740.985369857143,
+    "median_ms": 3672.696857
+  }
+}

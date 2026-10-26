@@ -1,0 +1,13 @@
+{
+  "main_source_commit": "5ebcd88f73d9d263945734003b1b6ba94a3f0065",
+  "published_wiki_commit": "7e56accf8fba99740fc26db79df250aeb08572ff",
+  "page_sha256": "2d06fa2273e5f77251e90a5fefa000acc5098e9ad69089f86b37b9837d6e6805",
+  "source_equals_actual_published_bytes": true,
+  "publisher_run": 37195143467,
+  "publisher_job": 111415340565,
+  "status": "candidate progress published; resource gate still closed",
+  "other_project_paths_unchanged": true,
+  "drive_progress04_id": "1Ck4x0qAhQv-mufTJU2UBlMxHxdPRsovF",
+  "drive_progress04_sha256": "5157e313f6fea1efd7051cf617ef17b9624a8d60e076b17a982419db0d0af959",
+  "drive_progress04_raw_readback_verified": true
+}

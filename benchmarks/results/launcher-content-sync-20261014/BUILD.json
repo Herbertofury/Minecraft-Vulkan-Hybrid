@@ -1,0 +1,17 @@
+{
+  "build_exit_code": 0,
+  "artifact": "C:\\Users\\Owner\\Documents\\Codex\\2026-10-04\\task-4\\inventory\\launcher-awaits-20261014\\mvh-launch-await-probe.exe",
+  "sha256": "a561eb79a09b543206659cde4b1115a5a02a2ca93354f9b1ffd38aa556855855",
+  "compiled_source": {
+    "packages/app-lib/src/api/instance/run.rs": "441c7856848e521ee38353eb310a9abf7482ca68095a91326384fc6d02b311a2",
+    "packages/app-lib/src/launcher/mod.rs": "19db0e34cab8f3ad1dfd31f03fbd0c94987c79073d3a4db5742245696aa52644",
+    "packages/app-lib/src/bin/mvh_pack_cli.rs": "8efae77344f7099b3532ac33e2dab171a9a71c518b96fcf6dabd2c9cce5670f3"
+  },
+  "fixed_labels_only": true,
+  "diagnostic_only": true,
+  "active_launcher_replaced": false,
+  "source_restored": true,
+  "debug_cli_restored": true,
+  "active_launcher_unchanged": true,
+  "utc": "2026-10-14T07:18:49.169529+00:00"
+}

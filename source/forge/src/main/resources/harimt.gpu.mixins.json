@@ -1,0 +1,19 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "com.axalotl.async.forge.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "harimt.refmap.json",
+  "plugin": "com.axalotl.async.forge.mixin.HariForgeMixinPlugin",
+  "mixins": [],
+  "client": [
+    "client.MixinWindow",
+    "client.embeddium.MixinDefaultChunkRenderer",
+    "client.embeddium.MixinSectionRenderDataStorage",
+    "client.embeddium.ShaderChunkRendererAccessor"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

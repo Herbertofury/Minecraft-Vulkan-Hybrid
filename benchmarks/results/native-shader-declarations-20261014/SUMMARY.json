@@ -1,0 +1,18 @@
+{
+  "renderer_version": 62,
+  "production_sha256": "714106dca1ed653c1cf360863a778ff5850d12960e52e3c722062b69cf8186b3",
+  "GPU_cases": 268,
+  "pixels": 70816,
+  "mismatch": 0,
+  "all268_previous_hashes_equal": true,
+  "actual_original_single_line_shader_accepted": true,
+  "same_controller_and_oracles_baseline_candidate": true,
+  "original_typed_draws": 8,
+  "original_typed_method_invocations": 60,
+  "boundary_regression_controls": 10,
+  "all327_unchanged": true,
+  "full_render_pass_delayed_loader_FPS_accepted": false,
+  "full327_remaining_references": 379,
+  "full327_unique_APIs": 171,
+  "full327_archives": 21
+}

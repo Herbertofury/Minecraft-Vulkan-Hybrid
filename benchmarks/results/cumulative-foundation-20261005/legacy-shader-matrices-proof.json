@@ -1,0 +1,5 @@
+{
+  "passed": true,
+  "joml_sha256": "cac9f22f83a7aa33eebda73c16ff5261e3cb4911b6bafcf4c79ea486099d0c9a",
+  "scope": "Actual production shader-matrix helper with real JOML and modeled ShaderInstance uniforms: apply order, Vulkan clip depth for 1000 points, original caller and mod-owned uniform preservation, optional uniforms and scratch ownership. GPU visual checks remain separate."
+}

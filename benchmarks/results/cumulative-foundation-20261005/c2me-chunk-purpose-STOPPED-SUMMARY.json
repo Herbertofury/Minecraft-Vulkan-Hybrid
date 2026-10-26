@@ -1,0 +1,17 @@
+{
+  "scope": "Stopped intended six-run study: one absent and one present paired native chunk diagnostic, plus two fresh absent repeatability diagnostics and one earlier C2ME-present probe. No FPS acceptance. C2ME remains disabled in the owned continuation because primary benefit and terrain parity are unestablished. Original files and all diagnostics retained.",
+  "decision": "REJECTED_UNPROVEN_CHUNK_PURPOSE_AND_UNACCEPTED_PARITY",
+  "complete_six_run_causal_speedup_or_regression_accepted": false,
+  "initial_absent_generation_wall_s": 2.7258886,
+  "initial_present_generation_wall_s": 54.378421,
+  "earlier_present_probe_wall_s": 46.7359132,
+  "absent_repeat_generation_wall_s": [
+    2.453423,
+    2.5356317
+  ],
+  "absent_terrain_digests_repeatable": false,
+  "initial_absent_present_digests_equal": false,
+  "registry_id_mapping_equality_verified": false,
+  "full_pack_accepted": false,
+  "next_work": "Resolve C2ME scheduling/terrain parity before any future performance retention. Baseline native capability restored separately."
+}

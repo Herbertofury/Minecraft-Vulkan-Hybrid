@@ -1,0 +1,148 @@
+{
+  "repository": "https://github.com/SrRapero720/dimthreads",
+  "branch": "1.20.1",
+  "commit": "542b900e6a1f634d4bf339c38d90189de538e6d9",
+  "license": "LGPL-3.0",
+  "files": [
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "23a3ba0d933e193b6cd31009afd4feeb513b3c526be6d4d5ce4690b6352bbdb5"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "f831e7eed577481687a9bc0b48024e5e40b6f655fcde073ede964b50be5d55d9"
+    },
+    {
+      "path": "README.md",
+      "sha256": "b562e9cb1f0a31dc14335dd5cf3e0f2844401263e1676228efc5a5f28dca420a"
+    },
+    {
+      "path": "src/main/resources/dimthread.mixin.json",
+      "sha256": "de89b2edd9af1a2c5f06b5ca8c035ea6d43546206c25492d9b94bbe092443764"
+    },
+    {
+      "path": "src/main/resources/icon.png",
+      "sha256": "fe5a1785cda75ff4485bac2ccb000d295b583e34c62c158d8274653a4cd02c2b"
+    },
+    {
+      "path": "src/main/resources/pack.mcmeta",
+      "sha256": "06823a499d233bc950c7cf65c8bcb1d90057e7125869fced84db64393db940f7"
+    },
+    {
+      "path": "src/main/resources/META-INF/accesstransformer.cfg",
+      "sha256": "66c66c41b9d36dfd70bd2039ec8b2832b3535d7295cb97940328947f5b39b00d"
+    },
+    {
+      "path": "src/main/resources/META-INF/mods.toml",
+      "sha256": "ff5f1030889a9a6b2174d35546042e4ae875206f68d2d1b780ca3a3f98e59a4f"
+    },
+    {
+      "path": "src/main/resources/assets/dimthread/lang/en_us.json",
+      "sha256": "72a7ef9f8f13f9214f7d4caa1781ba40de7097390491d45ae982bef04fc103cf"
+    },
+    {
+      "path": "src/main/resources/assets/dimthread/lang/es_es.json",
+      "sha256": "cc46680161d094ced685e80bdedf0624123e35b8503bd1bfd095658add11d0a5"
+    },
+    {
+      "path": "src/main/resources/assets/dimthread/lang/es_mx.json",
+      "sha256": "a58ede862b7a6c71c79d0eab05dec909bcd30120a7681ef6c7d9947ab18f0fa6"
+    },
+    {
+      "path": "src/main/resources/assets/dimthread/lang/ru_ru.json",
+      "sha256": "09f0f81af99037b477f0be75234ecaa128d8ed7ab165bc04fb82947044e60c1b"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/DimConfig.java",
+      "sha256": "bb90dabc690cc9cf824a1bcf3064cb9ba65dcf8dc8e7b1b4cf411533b2bf6232"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/DimThread.java",
+      "sha256": "7ef8e8ea057a99b0d7fab06b0ca1213f5b6e2122333e2949f1eb28b435862e03"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/gamerule/BoolRule.java",
+      "sha256": "6482aea16505378c9ab2dee9444ff3e780160823e35174bfb038fbb03e699764"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/gamerule/GameRule.java",
+      "sha256": "8d5c85a66d2b196adec61ef329e0360a6f4e2e72a78adf010b56af698ec5a2ae"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/gamerule/IntRule.java",
+      "sha256": "c64cdf0f7576c444dced299ee973513e124a6bf4a702fd0a3c61c2d4677cb068"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/gamerule/RestrictedIntegerValue.java",
+      "sha256": "ba10c97b9ddcc65b39dc07957d56a84988926ff0a38a7f3f98841cdc7c88fd22"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/init/ModGameRules.java",
+      "sha256": "cba0e974aad4c09aab7bfb068c639ed37c1d82a8fac682f3f69f017270358d2e"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/mixin/MixinPlugin.java",
+      "sha256": "9b66b8a1603f2f90f598f748c81ec2b732b1743c6f8712b4961f722b52dd7269"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/thread/IMutableMainThread.java",
+      "sha256": "a8d0789bbfae68154c43ce91ac800c2011060dce8eb67c8a999c93eb2cbcc61a"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/thread/ThreadPool.java",
+      "sha256": "18fa778839c972ae7e4e8ff26efce069736b9189dc4122ccf08d85b41316a624"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/util/CrashInfo.java",
+      "sha256": "af0d8b951d8e1c34d1524d864cf97ede3414d7b10168921a8d55d69094feaed4"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/util/ServerManager.java",
+      "sha256": "ef963103ec147d33b6396105f45d9a7c2400a30a68ecbd327f1d8aa6777574ea"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/mixin/impl/EntityMixin.java",
+      "sha256": "7d5f4926371ff778c480f94fb423d63668f28043dd10f2da5ee5c19fd3e8150d"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/mixin/impl/ILevelMixin.java",
+      "sha256": "39062fd472cf86950b9ccb786b66184818ac728b8cd6d68c9a33cb101b412f67"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/mixin/impl/IntegerValueAccessor.java",
+      "sha256": "e7d00b4ba2dde52ef6eadb0d804e2d5627cec4a5a0727ed375128b18c87a6120"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/mixin/impl/LevelMixin.java",
+      "sha256": "462af77ccf8431e6855aef2f2fa63a508403c22b5f3b1dbb3a8be438df0350e4"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/mixin/impl/MinecraftServerMixin.java",
+      "sha256": "c223241e91e4187a896135ecaf9c4675839c5788861a173cde78fc5ec26b84c9"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/mixin/impl/RedstoneWireBlockMixin.java",
+      "sha256": "9f6c5287e81d3460e048d91816bee2ab48c224426323868873aa7ab9c6425359"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/mixin/impl/ServerChunkCacheMixin.java",
+      "sha256": "e8794a3b7022b8fb7c948dd961edaa9927246722f22b37425e33f99b2f9bba98"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/mixin/tools/Synchronized.java",
+      "sha256": "55a33477bf71648f4a9e11b3c6d9074b80aaca63befa65eff72139d39bd62860"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/mixin/tools/ThreadLocal.java",
+      "sha256": "28112c7c59bd6c294d874ae8e8966351c658b82456178ee3b9f2739d28026990"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/mixin/tools/Volatile.java",
+      "sha256": "361c9c20871d541f0cf5c941b695199305db10c6221db62e550205aff08dcb85"
+    },
+    {
+      "path": "src/main/java/me/srrapero720/dimthread/mixin/impl/mi_405388/ChunkEventListenerMixin.java",
+      "sha256": "2e45a7bfb4496f4e4f5bbbed0857bf28dbe8705f6153165400e7b67a7264d5d6"
+    }
+  ]
+}

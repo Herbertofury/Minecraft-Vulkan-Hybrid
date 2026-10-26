@@ -1,0 +1,4 @@
+{
+  "passed": true,
+  "scope": "Actual comment lexer: trailing and multiline declaration comments, quoted/escaped imports, arithmetic and exact source positions; unterminated block rejection. Actual shader compiler and rendering checked separately."
+}

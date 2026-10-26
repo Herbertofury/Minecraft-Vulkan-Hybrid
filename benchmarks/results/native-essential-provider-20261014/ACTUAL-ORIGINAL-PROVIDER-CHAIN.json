@@ -1,0 +1,120 @@
+{
+  "accepted": true,
+  "original_method_invocations": 65,
+  "selected_upload_calls": 14,
+  "selected_draw_framebuffer_calls": 8,
+  "original_scoped_actions": 1,
+  "integrated_original_create_map_copy_draw_chain": true,
+  "private_loader_only": true,
+  "automatic_GAME_typed_renderpass_full_provider_FPS_accepted": false,
+  "controls": [
+    {
+      "control": "exact-original-integrated-provider-archive",
+      "passed": true
+    },
+    {
+      "control": "actual-native-provider-action-program",
+      "passed": true
+    },
+    {
+      "control": "complete-selected-original-root-native-call-chain",
+      "passed": true
+    },
+    {
+      "control": "actual-native-typed-direct-upload",
+      "passed": true
+    },
+    {
+      "control": "original-upload-finishes-unbound-unpack",
+      "passed": true
+    },
+    {
+      "control": "original-upload-resets-pixel-store-3314",
+      "passed": true
+    },
+    {
+      "control": "original-upload-resets-pixel-store-32878",
+      "passed": true
+    },
+    {
+      "control": "original-upload-resets-pixel-store-3315",
+      "passed": true
+    },
+    {
+      "control": "original-upload-resets-pixel-store-3316",
+      "passed": true
+    },
+    {
+      "control": "original-upload-restores-default-alignment",
+      "passed": true
+    },
+    {
+      "control": "unaligned-native-source-repacked-without-GL",
+      "passed": true
+    },
+    {
+      "control": "integrated-original-map-preserves-recorded-upload",
+      "passed": true
+    },
+    {
+      "control": "original-close-retires-source-name",
+      "passed": true
+    },
+    {
+      "control": "original-empty-copy-records-no-upload",
+      "passed": true
+    },
+    {
+      "control": "original-action-is-bound-to-real-native-color-target",
+      "passed": true
+    },
+    {
+      "control": "original-framebuffer-action-return-identity",
+      "passed": true
+    },
+    {
+      "control": "original-action-restores-read-draw-bindings",
+      "passed": true
+    },
+    {
+      "control": "native-rejects-original-incomplete-last-texel-range",
+      "passed": true
+    },
+    {
+      "control": "failed-upload-restores-unpack-and-pixel-store",
+      "passed": true
+    },
+    {
+      "control": "mapped-original-upload-source-refused",
+      "passed": true
+    },
+    {
+      "control": "original-closed-upload-source-refused",
+      "passed": true
+    },
+    {
+      "control": "invalid-upload-inputs-record-no-GPU-copy",
+      "passed": true
+    },
+    {
+      "control": "original-action-failure-identity",
+      "passed": true
+    },
+    {
+      "control": "failed-original-action-restores-read-draw",
+      "passed": true
+    },
+    {
+      "control": "selected-original-integrated-transfer-counts",
+      "passed": true
+    },
+    {
+      "control": "all-original-provider-buffers-closed",
+      "passed": true
+    },
+    {
+      "control": "native-provider-chain-error-clean",
+      "passed": true
+    }
+  ]
+}

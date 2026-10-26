@@ -1,0 +1,71 @@
+{
+  "instrumented_diagnostic": false,
+  "zink_translation_requested": false,
+  "kind": "cumulative",
+  "stage": "009-immediatelyfast",
+  "renderer_experiment": "actual renderer recorded in fps.json",
+  "minecraft": "1.20.1",
+  "forge": "47.4.26",
+  "java": "Temurin 17.0.20.1",
+  "maximum_heap_mib": 8192,
+  "resolution": [
+    1920,
+    1080
+  ],
+  "visual_options": {
+    "fov": "0.0",
+    "renderDistance": "16",
+    "simulationDistance": "12",
+    "entityDistanceScaling": "1.0",
+    "maxFps": "260",
+    "enableVsync": "false",
+    "graphicsMode": "1",
+    "mipmapLevels": "4",
+    "particles": "0",
+    "biomeBlendRadius": "2",
+    "pauseOnLostFocus": "false",
+    "resourcePacks": "[]"
+  },
+  "world": "MVH-Benchmark-20261004",
+  "warmup_s": 60,
+  "capture_s": 30,
+  "mods": [
+    {
+      "name": "architectury-9.2.14-forge.jar",
+      "sha256": "218b471d0b8a1f6cda14cfc1beb9eeb0df54304500acc6c5613d9b88ec65d9af"
+    },
+    {
+      "name": "citadel-2.6.3-1.20.1.jar",
+      "sha256": "56c7ab87348a5292583aac787b6cf11b5193e77f02af1d17ea75a96f8640b3ce"
+    },
+    {
+      "name": "cloth-config-11.1.136-forge.jar",
+      "sha256": "1e895e85cf5b1e1905ef3178ec155c8badfe22a1577b92c09143a5aa1f4ce0f2"
+    },
+    {
+      "name": "curios-forge-5.14.1+1.20.1-Noxviola-PerfLeakFix-v3.jar",
+      "sha256": "4c4b668d4ddca09504f1aa80341e9a90e4405f2969178a5fa5e4542cbbff9803"
+    },
+    {
+      "name": "geckolib-forge-1.20.1-4.8.4.jar",
+      "sha256": "c04abba4fd354dd8c0e8a732f1f05f4dca893d2e1d962b2ab128bbd411478747"
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.3-dimensions-vulkan-hybrid-all.jar",
+      "sha256": "203d5345ffd3dac9fdd2b717fa7d6d5674962456bfe937661a08d8a15898d4ec"
+    },
+    {
+      "name": "ImmediatelyFast-Forge-1.5.5+1.20.4.jar",
+      "sha256": "82db19cc65b5c11a444498fb4b8cbcb0393c043e794cb5bf368631a0af765035"
+    },
+    {
+      "name": "modernfix-forge-5.27.83+mc1.20.1.jar",
+      "sha256": "954ff22f601be8de3978a0d7636a138dc93801c6ac55cfd71ef1cd2895de8e5f"
+    },
+    {
+      "name": "mvh-noxviola-control-1.0.5.jar",
+      "sha256": "a0fcbfe44f103279df0f1b60c3bec00798ceda580ecd7e13913ef6f0b1a3fa71"
+    }
+  ],
+  "config_manifest_sha256": "a9bd4032d3a5233f635ec4cc3223cf2f3850e1df4988646d9b01da6488e3e0ab"
+}

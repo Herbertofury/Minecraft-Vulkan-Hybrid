@@ -1,0 +1,31 @@
+{
+  "class_sha256": "2baaa6e62d83341c932ee870f15b5ff7636c045072da446a575429e3cd0c5092",
+  "rwlock_field_present": false,
+  "audited_monitor_methods": [
+    "public synchronized int m_7248_(int, T);",
+    "public synchronized T m_63091_(int, int, int, T);",
+    "public synchronized T m_63127_(int, int, int, T);",
+    "public synchronized void m_156470_(int, int, int, T);",
+    "public synchronized T m_63087_(int, int, int);",
+    "public synchronized void m_63118_(net.minecraft.network.FriendlyByteBuf);",
+    "public synchronized void m_63135_(net.minecraft.network.FriendlyByteBuf);",
+    "public synchronized net.minecraft.world.level.chunk.PalettedContainerRO$PackedData<T> m_188064_(net.minecraft.core.IdMap<T>, net.minecraft.world.level.chunk.PalettedContainer$Strategy);",
+    "public synchronized net.minecraft.world.level.chunk.PalettedContainer<T> m_199931_();",
+    "private synchronized java.lang.Object wrapMethod$zdo000$harimt$get(int, int, int, com.llamalad7.mixinextras.injector.wrapoperation.Operation);",
+    "private synchronized java.lang.Object wrapMethod$zdo000$harimt$getAndSet(int, int, int, java.lang.Object, com.llamalad7.mixinextras.injector.wrapoperation.Operation);",
+    "private synchronized java.lang.Object wrapMethod$zdo000$harimt$getAndSetUnchecked(int, int, int, java.lang.Object, com.llamalad7.mixinextras.injector.wrapoperation.Operation);",
+    "private synchronized void wrapMethod$zdo000$harimt$set(int, int, int, java.lang.Object, com.llamalad7.mixinextras.injector.wrapoperation.Operation);",
+    "private synchronized void wrapMethod$zdo000$harimt$read(net.minecraft.network.FriendlyByteBuf, com.llamalad7.mixinextras.injector.wrapoperation.Operation);",
+    "private synchronized void wrapMethod$zdo000$harimt$write(net.minecraft.network.FriendlyByteBuf, com.llamalad7.mixinextras.injector.wrapoperation.Operation);",
+    "private synchronized net.minecraft.world.level.chunk.PalettedContainerRO$PackedData wrapMethod$zdo000$harimt$pack(net.minecraft.core.IdMap, net.minecraft.world.level.chunk.PalettedContainer$Strategy, com.llamalad7.mixinextras.injector.wrapoperation.Operation);",
+    "private synchronized void wrapMethod$zdo000$harimt$getAll(java.util.function.Consumer, com.llamalad7.mixinextras.injector.wrapoperation.Operation);",
+    "private synchronized void wrapMethod$zdo000$harimt$count(net.minecraft.world.level.chunk.PalettedContainer$CountConsumer, com.llamalad7.mixinextras.injector.wrapoperation.Operation);",
+    "private synchronized net.minecraft.world.level.chunk.PalettedContainer wrapMethod$zdo000$harimt$copy(com.llamalad7.mixinextras.injector.wrapoperation.Operation);",
+    "private synchronized boolean wrapMethod$zdo000$harimt$maybeHas(java.util.function.Predicate, com.llamalad7.mixinextras.injector.wrapoperation.Operation);",
+    "public synchronized net.minecraft.world.level.chunk.Palette mfix$getPalette();",
+    "public synchronized void sodium$unpack(java.lang.Object[]);",
+    "public synchronized void sodium$unpack(java.lang.Object[], int, int, int, int, int, int);",
+    "public synchronized net.minecraft.world.level.chunk.PalettedContainerRO sodium$copy();"
+  ],
+  "scope": "Actual transformed owned Minecraft Forge 47.4.26 class, integrated .4, ModernFix 83 and Embeddium 0.3.31; source bytecode stays private"
+}

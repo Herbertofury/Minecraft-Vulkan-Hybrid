@@ -1,0 +1,6 @@
+{"fixed_phase": "cumulative_state_init", "arrival_epoch_ms": 1791958522411, "since_spawn_seconds": 1.0076037000399083, "polling_period_seconds": 1, "raw_text_or_identifiers_exported": false}
+{"fixed_phase": "cumulative_owner_validation", "arrival_epoch_ms": 1791958522411, "since_spawn_seconds": 1.0078473000321537, "polling_period_seconds": 1, "raw_text_or_identifiers_exported": false}
+{"fixed_phase": "cumulative_configuration", "arrival_epoch_ms": 1791958522411, "since_spawn_seconds": 1.0079978000139818, "polling_period_seconds": 1, "raw_text_or_identifiers_exported": false}
+{"fixed_phase": "cumulative_sync_isolation", "arrival_epoch_ms": 1791958522412, "since_spawn_seconds": 1.0083601000369526, "polling_period_seconds": 1, "raw_text_or_identifiers_exported": false}
+{"fixed_phase": "cumulative_launch", "arrival_epoch_ms": 1791958522412, "since_spawn_seconds": 1.0084895000327379, "polling_period_seconds": 1, "raw_text_or_identifiers_exported": false}
+{"fixed_phase": "process_created", "arrival_epoch_ms": 1791958579452, "since_spawn_seconds": 58.04863800003659, "polling_period_seconds": 1, "raw_text_or_identifiers_exported": false}

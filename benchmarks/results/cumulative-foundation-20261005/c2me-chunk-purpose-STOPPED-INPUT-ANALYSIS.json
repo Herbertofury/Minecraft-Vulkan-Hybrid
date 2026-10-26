@@ -1,0 +1,15 @@
+{
+  "same_explicit_config_values": true,
+  "only_mod_toggle": "C2ME",
+  "changed_config_files": [
+    "harimt-vulkan-compat.properties",
+    "modernfix-mixins.properties"
+  ],
+  "modernfix_difference": "Only three generated comment lines describing effective automatic compatibility defaults; all explicit boolean properties are identical. Automatic ModList compatibility behavior is part of the C2ME variant.",
+  "generated_gate_cache_excluded": true,
+  "block_biome_digest_parity_accepted": false,
+  "all_144_ordered_digests_equal": false,
+  "worldgen_digest_limit": "Registry ID mapping and within-vanilla repeatability are not yet verified. Different digests alone are not declared a C2ME terrain corruption.",
+  "six_run_series_completed": false,
+  "fps_accepted": false
+}

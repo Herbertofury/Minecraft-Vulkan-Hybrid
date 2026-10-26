@@ -1,0 +1,13 @@
+{
+  "baseline": "078-native-parser61-baseline-game-trial1-20261014",
+  "candidate": "079-native-parser62-game-trial1-20261014",
+  "error_name": "UserTint;out",
+  "same_controller_sha256": "9885a144876fc448059623ade8dd54d51d818f5f430c6f0cb7da5cfcbbc6cb16",
+  "same_valid_single_line_fixture_sha256": "c90eea97863fe5d6f340a9b1256b7648dbc57109e4ad47523061c65feac064a6",
+  "baseline_completed_all268": false,
+  "candidate_all268_pass": true,
+  "all268_previous_pixel_hashes_equal": true,
+  "settings_and_oracles_unchanged": true,
+  "baseline_and_candidate_restored": true,
+  "fullpack_FPS_accepted": false
+}

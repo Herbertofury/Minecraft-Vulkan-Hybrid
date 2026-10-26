@@ -1,0 +1,52 @@
+{
+  "utc": "2026-10-14T07:40:05.952183+00:00",
+  "source_repository": "https://github.com/modrinth/code",
+  "source_head": "23ab5cdc331e40712f12b9026979359aec1e404d",
+  "native_renderer_version": 38,
+  "hari_sha256": "6ed89deeadc70955f43bd70c4165aac461d2d7acadf3d45eee850422522396c3",
+  "native_active_jars": 11,
+  "retained_mod_directory_files": 134,
+  "retained_mod_directory_bytes": 1510968120,
+  "java_spawn_before_seconds": [
+    57.64236938476562,
+    57.13622412109375
+  ],
+  "java_spawn_after_seconds": [
+    3.395280029296875,
+    2.8888525390625
+  ],
+  "clean_baseline_java_spawn_seconds": 57.13622412109375,
+  "after_median_seconds": 3.1420662841796876,
+  "clean_baseline_minus_after_median_seconds": 53.994157836914056,
+  "content_sync_before_seconds": [
+    56.2010933,
+    56.0558046
+  ],
+  "content_sync_after_seconds": [
+    1.9995385,
+    1.9190619
+  ],
+  "first_unloaded_menu_before_seconds": [
+    84.47612939996179,
+    80.65494480001507
+  ],
+  "first_unloaded_menu_after_seconds": [
+    27.229448699974455,
+    26.703422200051136
+  ],
+  "benchmark_helper_gain_accepted": true,
+  "wholepack_mod_loading_gain_accepted": false,
+  "wholepack_fps_gain_accepted": false,
+  "compiler_overlap_baseline2": true,
+  "baseline3_and_after_no_task_compiler": true,
+  "concurrent_gpu_work_not_stopped": true,
+  "source_algorithm_integrity_checks_and_settings_unchanged": true,
+  "hash_cache_controls": 5,
+  "full327_hashes_unchanged": true,
+  "owned_profiles_restored_and_inactive": true,
+  "other_projects_untouched": true,
+  "installed_modrinth_app_binary_changed": false,
+  "old_desktop_cli_changed": false,
+  "optimized_cli_sha256": "b5f0aa201a51f9d459671a0546edcf15a7ca6d23e1eaa92ef0ebe1f050428ecc",
+  "scope": "Warm filesystem, fresh official-backend helper processes, owned11-JAR native unloaded menus only. All134 retained mod files remain available. Optimize existing SHA2/SHA1 package compilation, preserve cache identity/change-time/digest checks, locks and error handling. Not full327 launch, world entry, FPS or fullpack mod-loading evidence."
+}

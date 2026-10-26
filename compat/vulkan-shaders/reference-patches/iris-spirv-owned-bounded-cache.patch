@@ -1,0 +1,29 @@
+--- a/src/main/java/net/irisshaders/iris/vulkan/shader/IrisSPIRVCompiler.java
++++ b/src/main/java/net/irisshaders/iris/vulkan/shader/IrisSPIRVCompiler.java
+@@ -43,7 +43,7 @@
+ 	private static final Logger LOGGER = LogManager.getLogger(IrisSPIRVCompiler.class);
+ 
+ 	// Full input identity prevents hash collisions and preprocessing/name cross-contamination
+-	private static final Map<CompileKey, ByteBuffer> spirvCache = new ConcurrentHashMap<>();
++	private static final NativeSpirvCache<CompileKey> spirvCache = new NativeSpirvCache<>();
+ 
+ 	private record CompileKey(String name, String source, ShaderType shaderType, boolean preprocessed) {
+ 		private CompileKey {
+@@ -203,7 +203,7 @@
+ 			spirv.put(resultBytes);
+ 			spirv.flip();
+ 
+-			spirvCache.put(cacheKey, spirv);
++			spirvCache.put(cacheKey, spirv, (long) cacheKey.source().length() + cacheKey.name().length());
+ 			LOGGER.debug("Successfully compiled SPIR-V for shader: {} ({} bytes)", name, spirv.remaining());
+ 			return spirv;
+ 		} finally {
+@@ -740,7 +740,7 @@
+ 			spirv.put(resultBytes);
+ 			spirv.flip();
+ 
+-			spirvCache.put(cacheKey, spirv);
++			spirvCache.put(cacheKey, spirv, (long) cacheKey.source().length() + cacheKey.name().length());
+ 			LOGGER.debug("Successfully compiled pre-processed SPIR-V for shader: {} ({} bytes)", name, spirv.remaining());
+ 			return spirv;
+ 		} finally {

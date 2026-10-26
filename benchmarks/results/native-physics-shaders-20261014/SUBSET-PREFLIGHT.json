@@ -1,0 +1,15 @@
+{
+  "native_accepted": true,
+  "hari": "harimt-forge-1.20.1-2.4.11-noxviola.40-dimensions-vulkan-hybrid-all.jar",
+  "hari_sha256": "8ddf2547a7837545b4f37b4d6902497bb0276d46b1cce22a7f04d2c5269e8a0a",
+  "decision": [
+    "[Hari/Vulkan] renderer=VULKAN reason=all active discovered direct OpenGL calls are translated; pinned inactive classes audited",
+    "NATIVE_ACCEPTED=true"
+  ],
+  "active_jars": 11,
+  "unsupported_calls": [],
+  "unique_apis": [],
+  "minecraft_launched": false,
+  "opengl_fallback_launched": false,
+  "scope": "Exact installed production gate and read-only byte inspection with pinned inactive-class audits. Third-party classes never loaded; no gameplay/runtime/FPS/visual claim from a passing static audit."
+}

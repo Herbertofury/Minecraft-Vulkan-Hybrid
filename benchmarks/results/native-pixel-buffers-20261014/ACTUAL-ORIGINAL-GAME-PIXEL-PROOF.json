@@ -1,0 +1,163 @@
+{
+  "accepted": true,
+  "original_executable_component_only": true,
+  "automatic_game_class_application": true,
+  "original_callback_rewrites": 16,
+  "original_method_invocations": 44,
+  "live_device_idle_cleanup_allocation": 1,
+  "fps_accepted": false,
+  "controls": [
+    {
+      "control": "original-GAME-pixel-loader-xaero.map.graphics.PixelBuffers",
+      "passed": true
+    },
+    {
+      "control": "fresh-pixel-GAME-export-xaero.map.graphics.PixelBuffers",
+      "passed": true
+    },
+    {
+      "control": "original-pixel-GAME-eight-call-sites-xaero.map.graphics.PixelBuffers",
+      "passed": true
+    },
+    {
+      "control": "worldmap-actual-vk-upload-buffer",
+      "passed": true
+    },
+    {
+      "control": "worldmap-mapped-native-size-and-alignment",
+      "passed": true
+    },
+    {
+      "control": "worldmap-original-unmap",
+      "passed": true
+    },
+    {
+      "control": "worldmap-original-packed-bgra-upload-actual-gpu-pixels",
+      "passed": true
+    },
+    {
+      "control": "worldmap-actual-vk-readback-buffer",
+      "passed": true
+    },
+    {
+      "control": "worldmap-original-bgra-readback",
+      "passed": true
+    },
+    {
+      "control": "worldmap-readback-unmap",
+      "passed": true
+    },
+    {
+      "control": "worldmap-old-mapped-view-reused",
+      "passed": true
+    },
+    {
+      "control": "worldmap-direct-vk-buffer-to-image",
+      "passed": true
+    },
+    {
+      "control": "worldmap-recorded-upload-storage-retained",
+      "passed": true
+    },
+    {
+      "control": "worldmap-direct-upload-and-original-deletion-actual-gpu-pixels",
+      "passed": true
+    },
+    {
+      "control": "worldmap-direct-native-image-to-buffer",
+      "passed": true
+    },
+    {
+      "control": "worldmap-double-map-refused",
+      "passed": true
+    },
+    {
+      "control": "worldmap-ordered-mipmap-pixels",
+      "passed": true
+    },
+    {
+      "control": "worldmap-out-of-range-readback-refused",
+      "passed": true
+    },
+    {
+      "control": "worldmap-original-delete-buffer-cursor-preserved",
+      "passed": true
+    },
+    {
+      "control": "original-GAME-pixel-loader-xaero.common.graphics.PixelBuffers",
+      "passed": true
+    },
+    {
+      "control": "fresh-pixel-GAME-export-xaero.common.graphics.PixelBuffers",
+      "passed": true
+    },
+    {
+      "control": "original-pixel-GAME-eight-call-sites-xaero.common.graphics.PixelBuffers",
+      "passed": true
+    },
+    {
+      "control": "minimap-actual-vk-upload-buffer",
+      "passed": true
+    },
+    {
+      "control": "minimap-mapped-native-size-and-alignment",
+      "passed": true
+    },
+    {
+      "control": "minimap-original-unmap",
+      "passed": true
+    },
+    {
+      "control": "minimap-original-packed-bgra-upload-actual-gpu-pixels",
+      "passed": true
+    },
+    {
+      "control": "minimap-actual-vk-readback-buffer",
+      "passed": true
+    },
+    {
+      "control": "minimap-original-bgra-readback",
+      "passed": true
+    },
+    {
+      "control": "minimap-readback-unmap",
+      "passed": true
+    },
+    {
+      "control": "minimap-old-mapped-view-reused",
+      "passed": true
+    },
+    {
+      "control": "minimap-direct-vk-buffer-to-image",
+      "passed": true
+    },
+    {
+      "control": "minimap-recorded-upload-storage-retained",
+      "passed": true
+    },
+    {
+      "control": "minimap-direct-upload-and-original-deletion-actual-gpu-pixels",
+      "passed": true
+    },
+    {
+      "control": "minimap-direct-native-image-to-buffer",
+      "passed": true
+    },
+    {
+      "control": "minimap-double-map-refused",
+      "passed": true
+    },
+    {
+      "control": "minimap-ordered-mipmap-pixels",
+      "passed": true
+    },
+    {
+      "control": "minimap-out-of-range-readback-refused",
+      "passed": true
+    },
+    {
+      "control": "minimap-original-delete-buffer-cursor-preserved",
+      "passed": true
+    }
+  ]
+}

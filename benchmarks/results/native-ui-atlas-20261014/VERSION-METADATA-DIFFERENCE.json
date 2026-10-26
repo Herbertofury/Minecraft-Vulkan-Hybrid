@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "different_entries": [
+    "META-INF/MANIFEST.MF",
+    "META-INF/mods.toml"
+  ],
+  "all_native_classes_byte_identical": true,
+  "source35_runtime_artifact_sha256": "6a5e02c961a8509c50439b1c88dd532335fe100415d396d68b4f27cb2e54fc6d",
+  "source36_sha256": "78c463cd0cf16fa0362df8400e71f6334cf41df4265a5f52fd2d09450890daa7"
+}

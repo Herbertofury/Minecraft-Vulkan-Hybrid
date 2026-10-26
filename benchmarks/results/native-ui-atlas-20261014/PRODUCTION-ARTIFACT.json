@@ -1,0 +1,105 @@
+{
+  "passed": true,
+  "artifact": "C:\\Users\\Owner\\Documents\\Codex\\2026-10-04\\task-4\\hari-native-ui35-build\\forge\\build\\libs\\harimt-forge-1.20.1-2.4.11-noxviola.36-dimensions-vulkan-hybrid-all.jar",
+  "bytes": 31206632,
+  "sha256": "78c463cd0cf16fa0362df8400e71f6334cf41df4265a5f52fd2d09450890daa7",
+  "archives": [
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.36-dimensions-vulkan-hybrid-all.jar",
+      "entries": 1366,
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.36-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/harimt-vulkan-backend-3.3.1.jar",
+      "entries": 8,
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.36-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-linux-arm32.jar",
+      "entries": 13,
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.36-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-linux-arm64.jar",
+      "entries": 13,
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.36-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-linux.jar",
+      "entries": 13,
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.36-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-macos-arm64.jar",
+      "entries": 13,
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.36-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-macos.jar",
+      "entries": 13,
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.36-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-windows-arm64.jar",
+      "entries": 13,
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.36-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-windows-x86.jar",
+      "entries": 13,
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.36-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1-natives-windows.jar",
+      "entries": 13,
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.36-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-3.3.1.jar",
+      "entries": 341,
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.36-dimensions-vulkan-hybrid-all.jar!META-INF/harimt-libs/lwjgl-vulkan-3.3.1.jar",
+      "entries": 2217,
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.36-dimensions-vulkan-hybrid-all.jar!META-INF/jarjar/lwjgl-3.3.3.jar",
+      "entries": 401,
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.36-dimensions-vulkan-hybrid-all.jar!META-INF/jarjar/lwjgl-shaderc-3.3.3.jar",
+      "entries": 63,
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.36-dimensions-vulkan-hybrid-all.jar!META-INF/jarjar/lwjgl-vma-3.3.3.jar",
+      "entries": 98,
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.36-dimensions-vulkan-hybrid-all.jar!META-INF/jarjar/lwjgl-vulkan-3.3.3.jar",
+      "entries": 2774,
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.36-dimensions-vulkan-hybrid-all.jar!META-INF/jarjar/mixinextras-forge-0.5.4.jar",
+      "entries": 13,
+      "crc_passed": true
+    },
+    {
+      "name": "harimt-forge-1.20.1-2.4.11-noxviola.36-dimensions-vulkan-hybrid-all.jar!META-INF/jarjar/mixinextras-forge-0.5.4.jar!META-INF/jars/MixinExtras-0.5.4.jar",
+      "entries": 508,
+      "crc_passed": true
+    }
+  ],
+  "minecraft_pack_format": 15,
+  "caller_transport_owned_once": true,
+  "original_private_assets_not_bundled": true,
+  "fieldguide_compile_only_not_bundled": true,
+  "test_or_proof_classes_not_bundled": true,
+  "mixin_config_and_existing_plugin_registered": true,
+  "scope": "Production build/package integrity only. Actual Forge caller transformation, original executable native pixels, fullpack compatibility, startup and FPS are separate gates."
+}

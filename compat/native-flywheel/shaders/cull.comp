@@ -1,0 +1,453 @@
+#version 450
+layout(set=0,binding=1,std430) readonly buffer InstanceBuffer {uint words[];};
+struct FlwInstance {vec4 color;ivec2 overlay;vec2 light;mat4 pose;};
+FlwInstance _flw_unpackInstance(uint instanceIndex){
+    uint o=instanceIndex*19u;
+    uint c=words[o]; uint ov=words[o+1u]; uint li=words[o+2u];
+    FlwInstance i;
+    i.color=vec4(c&255u,(c>>8u)&255u,(c>>16u)&255u,(c>>24u)&255u)/255.0;
+    i.overlay=ivec2(int(ov<<16u)>>16,int(ov)>>16);
+    i.light=vec2(li&65535u,li>>16u);
+    i.pose=mat4(uintBitsToFloat(uvec4(words[o+3u],words[o+4u],words[o+5u],words[o+6u])),
+                uintBitsToFloat(uvec4(words[o+7u],words[o+8u],words[o+9u],words[o+10u])),
+                uintBitsToFloat(uvec4(words[o+11u],words[o+12u],words[o+13u],words[o+14u])),
+                uintBitsToFloat(uvec4(words[o+15u],words[o+16u],words[o+17u],words[o+18u])));
+return i;
+}
+mat3 rotation(vec3 axis, float angle) {
+    float s = sin(angle);
+    float c = cos(angle);
+    float oc = 1. - c;
+
+    vec3 sa = axis * s;
+
+    return mat3(
+    oc * axis.xxz * axis.xyx + vec3(c, sa.z, -sa.y),
+    oc * axis.xyy * axis.yyz + vec3(-sa.z, c, sa.x),
+    oc * axis.zyz * axis.xzz + vec3(sa.y, -sa.x, c)
+    );
+}
+
+mat3 rotationDegrees(vec3 axis, float angle) {
+    return rotation(axis, radians(angle));
+}
+
+/*
+ * Create a rotation matrix that rotates the vector `from` to `to`.
+ * https://iquilezles.org/articles/noacos/
+ */
+mat3 rotationAlign(in vec3 from, in vec3 to) {
+    vec3 v = cross(from, to);
+    float c = dot(from, to);
+    float k = 1. / (1. + c);
+
+    return mat3(
+    k * v * v.xxx + vec3(c, -v.z, v.y),
+    k * v * v.yyy + vec3(v.z, c, -v.x),
+    k * v * v.zzz + vec3(-v.y, v.x, c)
+    );
+}
+
+mat3 modelToNormal(mat4 mat) {
+    // Discard the edges. This won't be accurate for scaled or skewed matrices,
+    // but we don't have to work with those often.
+    mat3 m;
+    m[0] = mat[0].xyz;
+    m[1] = mat[1].xyz;
+    m[2] = mat[2].xyz;
+    return m;
+}
+
+void transformBoundingSphere(in mat4 mat, inout vec3 center, inout float radius) {
+    center = (mat * vec4(center, 1.)).xyz;
+
+    vec3 c0 = mat[0].xyz;
+    vec3 c1 = mat[1].xyz;
+    vec3 c2 = mat[2].xyz;
+
+    // Comute the squared maximum to avoid 2 unnecessary sqrts.
+    // I don't think this makes it any faster but why not /shrug
+    float scaleSqr = max(dot(c0, c0), max(dot(c1, c1), dot(c2, c2)));
+    float scale = sqrt(scaleSqr);
+    radius *= scale;
+}
+
+
+void flw_transformBoundingSphere(in FlwInstance i, inout vec3 center, inout float radius) {
+    transformBoundingSphere(i.pose, center, radius);
+}
+
+// Per culling group
+#define _FLW_PAGE_FRAME_DESCRIPTOR_BUFFER_BINDING 0// cull
+#define _FLW_INSTANCE_BUFFER_BINDING 1// cull, draw
+#define _FLW_DRAW_INSTANCE_INDEX_BUFFER_BINDING 2// cull, draw
+#define _FLW_MODEL_BUFFER_BINDING 3// cull, apply
+#define _FLW_DRAW_BUFFER_BINDING 4// apply, draw
+
+// Global to the engine
+#define _FLW_LIGHT_LUT_BUFFER_BINDING 5
+#define _FLW_LIGHT_SECTIONS_BUFFER_BINDING 6
+
+#define _FLW_MATRIX_BUFFER_BINDING 7
+
+struct BoundingSphere {
+    float x;
+    float y;
+    float z;
+    float radius;
+};
+
+struct ModelDescriptor {
+    uint instanceCount;
+    uint baseInstance;
+    uint matrixIndex;
+    BoundingSphere boundingSphere;
+};
+
+void _flw_unpackBoundingSphere(in BoundingSphere sphere, out vec3 center, out float radius) {
+    center = vec3(sphere.x, sphere.y, sphere.z);
+    radius = sphere.radius;
+}
+
+// uniforms.glsl - Includes common uniforms.
+
+struct FrustumPlanes {
+    vec4 xyX; // <nx.x, px.x, ny.x, py.x>
+    vec4 xyY; // <nx.y, px.y, ny.y, py.y>
+    vec4 xyZ; // <nx.z, px.z, ny.z, py.z>
+    vec4 xyW; // <nx.w, px.w, ny.w, py.w>
+    vec2 zX; // <nz.x, pz.x>
+    vec2 zY; // <nz.y, pz.y>
+    vec2 zZ; // <nz.z, pz.z>
+    vec2 zW; // <nz.w, pz.w>
+};
+
+struct _FlwCullData {
+    float znear;
+    float zfar;
+    float P00;
+    float P11;
+    float pyramidWidth;
+    float pyramidHeight;
+    int pyramidLevels;
+    uint useMin;
+};
+
+layout(std140,set=1,binding=0) uniform _FlwFrameUniforms {
+    FrustumPlanes flw_frustumPlanes;
+
+    _FlwCullData _flw_cullData;
+
+    mat4 flw_view;
+    mat4 flw_viewInverse;
+    mat4 flw_viewPrev;
+    mat4 flw_projection;
+    mat4 flw_projectionInverse;
+    mat4 flw_projectionPrev;
+    mat4 flw_viewProjection;
+    mat4 flw_viewProjectionInverse;
+    mat4 flw_viewProjectionPrev;
+
+    ivec4 _flw_renderOrigin;
+
+    vec4 _flw_cameraPos;
+    vec4 _flw_cameraPosPrev;
+    vec4 _flw_cameraLook;
+    vec4 _flw_cameraLookPrev;
+    vec2 flw_cameraRot;
+    vec2 flw_cameraRotPrev;
+
+    vec2 flw_viewportSize;
+    float flw_aspectRatio;
+    float flw_defaultLineWidth;
+    float flw_viewDistance;
+
+    uint flw_ticks;
+    float flw_partialTick;
+    float flw_renderTicks;
+    float flw_renderSeconds;
+    float flw_systemSeconds;
+    uint flw_systemMillis;
+
+    /** 0 means no fluid. Use FLW_CAMERA_IN_FLUID_* defines to detect fluid type. */
+    uint flw_cameraInFluid;
+    /** 0 means no block. Use FLW_CAMERA_IN_BLOCK_* defines to detect block type. */
+    uint flw_cameraInBlock;
+
+    uint _flw_debugMode;
+
+    float _flw_oitNoise;
+};
+
+#define flw_renderOrigin (_flw_renderOrigin.xyz)
+#define flw_cameraPos (_flw_cameraPos.xyz)
+#define flw_cameraLook (_flw_cameraLook.xyz)
+#define flw_cameraPosPrev (_flw_cameraPosPrev.xyz)
+#define flw_cameraLookPrev (_flw_cameraLookPrev.xyz)
+
+#define FLW_CAMERA_IN_FLUID_WATER 1
+#define FLW_CAMERA_IN_FLUID_LAVA 2
+#define FLW_CAMERA_IN_FLUID_UNKNOWN 0xFFFFFFFFu
+
+#define FLW_CAMERA_IN_BLOCK_POWDER_SNOW 1
+#define FLW_CAMERA_IN_BLOCK_UNKNOWN 0xFFFFFFFFu
+
+layout(std140,set=1,binding=1) uniform _FlwFogUniforms {
+    vec4 flw_fogColor;
+    vec2 flw_fogRange;
+    int flw_fogShape;
+};
+
+// options.glsl - Houses uniforms for many of the game's settings, focusing on video and accessibility settings.
+
+layout(std140,set=1,binding=2) uniform _FlwOptionsUniforms {
+    float flw_brightnessOption;
+    uint flw_fovOption;
+    float flw_distortionOption;
+    float flw_glintSpeedOption;
+    float flw_glintStrengthOption;
+    uint flw_biomeBlendOption;
+    uint flw_smoothLightingOption;
+    uint flw_viewBobbingOption;
+
+    uint flw_highContrastOption;
+    float flw_textBackgroundOpacityOption;
+    uint flw_textBackgroundForChatOnlyOption;
+    float flw_darknessPulsingOption;
+    float flw_damageTiltOption;
+    uint hideLightningFlashesOption;
+};
+
+// player.glsl - Holds uniforms for player state.
+
+layout (std140) uniform _FlwPlayerUniforms {
+    vec4 _flw_eyePos;
+
+    /** Alpha is 1 if any team color is present, 0 otherwise. */
+    vec4 flw_teamColor;
+
+    /** The brightness at the player's eye position. */
+    vec2 flw_eyeBrightness;
+
+    /** Brightness of the brightest light that the player is holding, 0-1. */
+    float flw_heldLight;
+    /** 0 means no fluid. Use FLW_PLAYER_EYE_IN_FLUID_* defines to detect fluid type. */
+    uint flw_playerEyeInFluid;
+    /** 0 means no block. Use FLW_PLAYER_EYE_IN_BLOCK_* defines to detect block type. */
+    uint flw_playerEyeInBlock;
+
+    uint flw_playerCrouching;
+    uint flw_playerSleeping;
+    uint flw_playerSwimming;
+    uint flw_playerFallFlying;
+
+    uint flw_shiftKeyDown;
+
+    /** 0 = survival, 1 = creative, 2 = adventure, 3 = spectator. */
+    uint flw_gameMode;
+};
+
+#define flw_eyePos _flw_eyePos.xyz
+
+#define FLW_PLAYER_EYE_IN_FLUID_WATER 1
+#define FLW_PLAYER_EYE_IN_FLUID_LAVA 2
+#define FLW_PLAYER_EYE_IN_FLUID_UNKNOWN 0xFFFFFFFFu
+
+#define FLW_PLAYER_EYE_IN_BLOCK_POWDER_SNOW 1
+#define FLW_PLAYER_EYE_IN_BLOCK_UNKNOWN 0xFFFFFFFFu
+
+layout(std140,set=1,binding=4) uniform _FlwLevelUniforms {
+    vec4 flw_skyColor;
+    vec4 flw_cloudColor;
+
+    vec4 _flw_light0Direction;
+    vec4 _flw_light1Direction;
+
+    /** The current day number of the level. */
+    uint flw_levelDay;
+    /** The current fraction of the current day that has elapsed. */
+    float flw_timeOfDay;
+
+    uint flw_levelHasSkyLight;
+
+    float flw_sunAngle;
+
+    float flw_moonBrightness;
+    /** There are normally only 8 moon phases. */
+    uint flw_moonPhase;
+
+    uint flw_isRaining;
+    float flw_rainLevel;
+    uint flw_isThundering;
+    float flw_thunderLevel;
+
+    float flw_skyDarken;
+
+    uint flw_constantAmbientLight;
+
+    /** Use FLW_DIMENSION_* ids to determine the dimension. May eventually be implemented for custom dimensions. */
+    uint flw_dimension;
+};
+
+#define flw_light0Direction (_flw_light0Direction.xyz)
+#define flw_light1Direction (_flw_light1Direction.xyz)
+
+#define FLW_DIMENSION_OVERWORLD 0
+#define FLW_DIMENSION_NETHER 1
+#define FLW_DIMENSION_END 2
+#define FLW_DIMENSION_UNKNOWN 0xFFFFFFFFu
+
+
+
+struct Matrices {
+    mat4 pose;
+    vec4 normalA;
+    vec4 normalB;
+    vec4 normalC;
+};
+
+void _flw_unpackMatrices(in Matrices mats, out mat4 pose, out mat3 normal) {
+    pose = mats.pose;
+    normal = mat3(mats.normalA.xyz, mats.normalB.xyz, mats.normalC.xyz);
+}
+
+
+layout(local_size_x = 32) in;
+
+layout(std430, binding = _FLW_DRAW_INSTANCE_INDEX_BUFFER_BINDING) restrict writeonly buffer TargetBuffer {
+    uint _flw_instanceIndices[];
+};
+
+// High 6 bits for the number of instances in the page.
+const uint _FLW_PAGE_COUNT_OFFSET = 26u;
+// Bottom 26 bits for the model index.
+const uint _FLW_MODEL_INDEX_MASK = 0x3FFFFFF;
+
+layout(std430, binding = _FLW_PAGE_FRAME_DESCRIPTOR_BUFFER_BINDING) restrict readonly buffer PageFrameDescriptorBuffer {
+    uint _flw_pageFrameDescriptors[];
+};
+
+layout(std430, binding = _FLW_MODEL_BUFFER_BINDING) restrict buffer ModelBuffer {
+    ModelDescriptor _flw_models[];
+};
+
+layout(std430, binding = _FLW_MATRIX_BUFFER_BINDING) restrict readonly buffer MatrixBuffer {
+    Matrices _flw_matrices[];
+};
+
+layout(set=2,binding=0) uniform sampler2D _flw_depthPyramid;
+
+// Disgustingly vectorized sphere frustum intersection taking advantage of ahead of time packing.
+// Only uses 6 fmas and some boolean ops.
+// See also:
+// flywheel:uniform/flywheel.glsl
+// dev.engine_room.flywheel.lib.math.MatrixMath.writePackedFrustumPlanes
+// org.joml.FrustumIntersection.testSphere
+bool _flw_testSphere(vec3 center, float radius) {
+    bvec4 xyInside = greaterThanEqual(fma(flw_frustumPlanes.xyX, center.xxxx, fma(flw_frustumPlanes.xyY, center.yyyy, fma(flw_frustumPlanes.xyZ, center.zzzz, flw_frustumPlanes.xyW))), -radius.xxxx);
+    bvec2 zInside = greaterThanEqual(fma(flw_frustumPlanes.zX, center.xx, fma(flw_frustumPlanes.zY, center.yy, fma(flw_frustumPlanes.zZ, center.zz, flw_frustumPlanes.zW))), -radius.xx);
+
+    return all(xyInside) && all(zInside);
+}
+
+bool projectSphere(vec3 c, float r, float znear, float P00, float P11, out vec4 aabb) {
+    // Closest point on the sphere is between the camera and the near plane, don't even attempt to cull.
+    if (c.z + r > -znear) {
+        return false;
+    }
+
+    vec3 cr = c * r;
+    float czr2 = c.z * c.z - r * r;
+
+    float vx = sqrt(c.x * c.x + czr2);
+    float minx = (vx * c.x - cr.z) / (vx * c.z + cr.x);
+    float maxx = (vx * c.x + cr.z) / (vx * c.z - cr.x);
+
+    float vy = sqrt(c.y * c.y + czr2);
+    float miny = (vy * c.y - cr.z) / (vy * c.z + cr.y);
+    float maxy = (vy * c.y + cr.z) / (vy * c.z - cr.y);
+
+    aabb = vec4(minx * P00, miny * P11, maxx * P00, maxy * P11);
+    aabb = aabb.xwzy * vec4(-0.5f, -0.5f, -0.5f, -0.5f) + vec4(0.5f); // clip space -> uv space
+
+    return true;
+}
+
+bool _flw_isVisible(uint instanceIndex, uint modelIndex) {
+    uint matrixIndex = _flw_models[modelIndex].matrixIndex;
+    BoundingSphere sphere = _flw_models[modelIndex].boundingSphere;
+
+    vec3 center;
+    float radius;
+    _flw_unpackBoundingSphere(sphere, center, radius);
+
+    FlwInstance instance = _flw_unpackInstance(instanceIndex);
+
+    flw_transformBoundingSphere(instance, center, radius);
+
+    if (matrixIndex > 0) {
+        transformBoundingSphere(_flw_matrices[matrixIndex].pose, center, radius);
+    }
+
+    bool isVisible = _flw_testSphere(center, radius);
+
+    if (isVisible) {
+        transformBoundingSphere(flw_view, center, radius);
+
+        vec4 aabb;
+        if (projectSphere(center, radius, _flw_cullData.znear, _flw_cullData.P00, _flw_cullData.P11, aabb))
+        {
+            float width = (aabb.z - aabb.x) * _flw_cullData.pyramidWidth;
+            float height = (aabb.w - aabb.y) * _flw_cullData.pyramidHeight;
+
+            int level = clamp(int(ceil(log2(max(width, height)))), 0, _flw_cullData.pyramidLevels);
+
+            ivec2 levelSize = textureSize(_flw_depthPyramid, level);
+
+            ivec4 levelSizePair = ivec4(levelSize, levelSize);
+
+            ivec4 bounds = ivec4(aabb * vec4(levelSizePair));
+
+            // Clamp to the texture bounds.
+            // Since we're not going through a sampler out of bounds texel fetches will return 0.
+            bounds = clamp(bounds, ivec4(0), levelSizePair - ivec4(1));
+
+            float depth01 = texelFetch(_flw_depthPyramid, bounds.xw, level).r;
+            float depth11 = texelFetch(_flw_depthPyramid, bounds.zw, level).r;
+            float depth10 = texelFetch(_flw_depthPyramid, bounds.zy, level).r;
+            float depth00 = texelFetch(_flw_depthPyramid, bounds.xy, level).r;
+
+            float depth = max(max(depth00, depth01), max(depth10, depth11));
+
+            float depthSphere = 1. + _flw_cullData.znear / (center.z + radius);
+
+            isVisible = isVisible && depthSphere <= depth;
+        }
+    }
+
+    return isVisible;
+}
+
+void main() {
+    uint pageIndex = gl_WorkGroupID.x << 1u;
+
+    if (pageIndex >= _flw_pageFrameDescriptors.length()) {
+        return;
+    }
+
+    uint modelIndex = _flw_pageFrameDescriptors[pageIndex];
+
+    uint pageValidity = _flw_pageFrameDescriptors[pageIndex + 1];
+
+    if (((1u << gl_LocalInvocationID.x) & pageValidity) == 0) {
+        return;
+    }
+
+    uint instanceIndex = gl_GlobalInvocationID.x;
+
+    if (_flw_isVisible(instanceIndex, modelIndex)) {
+        uint localIndex = atomicAdd(_flw_models[modelIndex].instanceCount, 1);
+        uint targetIndex = _flw_models[modelIndex].baseInstance + localIndex;
+        _flw_instanceIndices[targetIndex] = instanceIndex;
+    }
+}

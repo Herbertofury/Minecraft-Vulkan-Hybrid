@@ -1,0 +1,44 @@
+{
+  "base_feature_commit": "1857b32dad91f12174e7e1121acf89ebb6b88f36",
+  "version": 58,
+  "files": {
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/NativeEssentialStateApi.java": "b0129da6e188db235abfed293a6e285f6475db96db674f2741a453aafa95376a",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/EssentialManagedStateCallers.java": "e17bd3bf8f8e1dc21964e8e43ad81a40ac628ac1cb668d7243e4cf104a139eb3",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/compat/EssentialManagedStateCallerAudit.java": "87681c6549d9c44004bd90b780f98af52e10fa7c7b0702fe1c889a0e0ba67d2c",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/compat/UniversalRendererGate.java": "61c794cf6ef3b0eb420809c4771f05b0f90fcf18556684cea3caf8c0dd531a31",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/mixin/MixinPlugin.java": "0a34762645f8fd9ce80791662266bdd03e7754fe3103eb92d39378e8d5af31e6",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/mixin/compatibility/essential/EssentialManagedStateCallerMixin.java": "807b308528bb0d3b9629cf1d04870de86b906e55de845dc18f162f803af2c009",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/vulkan/shader/GraphicsPipeline.java": "ce808e26bffc56513daaf7d6b4262dd5cb924fa8bd59688d45556fe2484cfa4f",
+    "integration/dimensions/overlay/forge/src/main/resources/vulkanmod.mixins.json": "50b8cbf6b4b22253a200ca55d4d6cc8ca5b9a130073fb586f7dcd63f975cc4a6",
+    "integration/dimensions/overlay/gradle.properties": "b520f3e3cb490e173d4760a37b7ef18b8756cb2b8bb3d2860e029738e7bbbda5"
+  },
+  "production_sha256": "71e8420d500ba385f463b07c8a0a1e262dbd603ff0fb3308758db5c0c26a84fc",
+  "pins": {
+    "classes": [
+      {
+        "class": "gg/essential/universal/render/ManagedGlState",
+        "raw_sha256": "a7133abec441cf1752e84a44677af47a571437ed952d116662b646268fbafbbb",
+        "canonical_sha256": "44da2704e1ecb5d19dff8e48c2eae41c1ff2744d86d914ea2592860dd97496ca"
+      },
+      {
+        "class": "gg/essential/universal/render/ManagedGlState$Companion",
+        "raw_sha256": "1eac59bccdb17d7e31406d1e8503dc6e16eb27d30e94813bdb9ec72ff03a4bbf",
+        "canonical_sha256": "aed33c85dbe2dec11acf74deee0c10afae40a3b2fb61b1248b8a6ba1a612fca3"
+      },
+      {
+        "class": "gg/essential/universal/shader/BlendState",
+        "raw_sha256": "a11ec564705e82ff56312e3674d1ef80bfa3e31e881cb7f1ff6fd88f014be64b",
+        "canonical_sha256": "a7dd3b380cd6dc1836043d7f419da8494459ca9dff2e5c5243eb3803475f4955"
+      },
+      {
+        "class": "gg/essential/universal/shader/BlendState$Companion",
+        "raw_sha256": "49373ed28948a81225a11fbc3123dea8c76df6e67145e223e3cda25e8d81b9ab",
+        "canonical_sha256": "eacdaa998cacf6726b8a5121e54199c8d0677a4aef257bd50121e3fb147942b3"
+      }
+    ],
+    "private_originals_distributed": false
+  },
+  "private_originals_distributed": false,
+  "automatic_original_managed_state_GAME_proven": true,
+  "full_typed_provider_delayed_loader_FPS_accepted": false
+}

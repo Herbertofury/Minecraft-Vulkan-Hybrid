@@ -1,0 +1,18 @@
+{
+  "version": 53,
+  "GPU_cases": 116,
+  "pixels": 61088,
+  "mismatch": 0,
+  "old106_hashes_equal": true,
+  "original_image_invocations": 43,
+  "selected_image_sites": 7,
+  "mip_contexts": 1,
+  "controls": 53,
+  "private_loader_only": true,
+  "full_Essential_provider_or_FPS_accepted": false,
+  "full327_remaining_references": 387,
+  "full327_unique_APIs": 173,
+  "full327_archives": 21,
+  "production_sha256": "42c49354f34a54ee9aa39d53c11c4348353c1c5aa0cdbe90e76ebe7b405faf64",
+  "helper_to_java_seconds": 3.378
+}

@@ -1,0 +1,52 @@
+{
+  "passed": true,
+  "old62_hashes_identical": true,
+  "preceding40_66_hashes_identical": true,
+  "new_gpu_cases": [
+    {
+      "case": "physics-original-uniform-arrays",
+      "size": [
+        8,
+        8
+      ],
+      "raw_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907",
+      "png_sha256": "80281776c7753c0b28dc4bdeb4d798ba2ffc6db55245ad9eb246f579f850b05b"
+    },
+    {
+      "case": "physics-original-mat2-transpose",
+      "size": [
+        8,
+        8
+      ],
+      "raw_sha256": "b3421faf8f01289fda95664b94bf384d63f1718e247177e05cd86185cfa768fa",
+      "png_sha256": "381330e7483f3f395555cd5e61c5eb6ec592570f7831a2629083f91578664448"
+    },
+    {
+      "case": "physics-original-mat3-transpose",
+      "size": [
+        8,
+        8
+      ],
+      "raw_sha256": "ac00848a8d2eb29e8e76925431f191c599e698626249171f97cd1d96ef528e17",
+      "png_sha256": "dd48e1b37061f0298d33b15a8e8934903e0a34fc797ef29a7e89bddb46021518"
+    },
+    {
+      "case": "physics-original-partial-array-upload",
+      "size": [
+        8,
+        8
+      ],
+      "raw_sha256": "1ad489825d296f14572f0e287b8f04adc24d9f72d822385b858a9bc56c4ace36",
+      "png_sha256": "8f88168a884fbfd615d13816b98e87da4217cf1dd8e56e6b423db51197f8499c"
+    },
+    {
+      "case": "physics-original-box-vertex-ID-native",
+      "size": [
+        8,
+        8
+      ],
+      "raw_sha256": "3ac51c1ede913a4983281e88f9140209060f25fcdd0d00cebaf73cfd787d9907",
+      "png_sha256": "80281776c7753c0b28dc4bdeb4d798ba2ffc6db55245ad9eb246f579f850b05b"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "create_sha256": "6fbb910c367dbce8e4fc7e5bf64b6edd4de980906ed00af8e47e4af843c0d9b0",
+  "flywheel_sha256": "316ca250f19244956b5f0cd75329309ea65a77b4b8da854389b6a9222e7f427c",
+  "flywheel_upstream_commit": "610b1683f3ed0fef5cd387a126bd2c530a9c2ead",
+  "original_glsl": {
+    "internal/indirect/apply.glsl": "2fdd0cffe0ef02acfb6f5c9030d826e1292e62b8a8ad164ecdfe31e6489009fc",
+    "internal/indirect/buffer_bindings.glsl": "a4c5f8e6491755258cbd8ad6a0cb6665d7bd33cab984b99ca5e8c913142ef977",
+    "internal/indirect/draw_command.glsl": "1c2048de866101bd1ee5f500aa746876ae6dfa4a738ba00d82a5131e6d4bca08",
+    "internal/indirect/model_descriptor.glsl": "a540de77d69d9b141a2e8212ec24dab5015aa87baead39be96b75b239892b57d",
+    "instance/transformed.vert": "829b0c44e931fbbf004ad10e0bd146d9daaf099bb1232a741939789b5dabc609",
+    "instance/cull/transformed.glsl": "4c1e85a2d46e36bcc6e353aac31e3c6c5cdfe6ab1d7678a44c2a8725ddd64407",
+    "util/matrix.glsl": "4bf731bb39d0a0d3c5a77ee792c3fbda7b1074e197d4a171cfe9e4ddf3e96876",
+    "internal/indirect/cull.glsl": "d4fe4fb66dd389f2e414cbc787fa58c1d723b1c6bf374a95f680336e7acc3d48",
+    "internal/uniforms/uniforms.glsl": "16e8d42cf1d93a17975bfe98b8514471e5f0bb940e415fda7b74f3924e4ee643",
+    "internal/uniforms/frame.glsl": "45e1587a5b76fd26475309cc0987222321a7e6cdecd80487691d0e7c9291d456",
+    "internal/uniforms/fog.glsl": "1e02af2bed2a774cc71f630a345297d71cad82208f8f561e17ae4ed19615c378",
+    "internal/uniforms/options.glsl": "97f57c9e351e2a17213b5084f6d0ea9bb301d7977efab4d31ede8399e0665a40",
+    "internal/uniforms/player.glsl": "9d450caaceedaec648f037914fd6ea23834ac9f9de30b34185a765fc3835545b",
+    "internal/uniforms/level.glsl": "64b42c7dfc227a104bf3c720232108f52ed0615568593d90d42385461003e5bc",
+    "internal/indirect/matrices.glsl": "17c2475bdae3657d1fe8366ea8967da31fcdefce59d396e2ea0b6c96b2ceff75"
+  },
+  "original_create_assets": {
+    "assets/create/models/block/shaft.json": "ac0dde5366052600cb94b3414a4d5283706c0a6dd4c76196b2aa35c3cc75a997",
+    "assets/create/textures/block/axis.png": "0ae58aa6fcc369fee5a49270827bfa572631078f57163b8344f97ea5fcde2441",
+    "assets/create/textures/block/axis_top.png": "d96400565f72e7270eeb9daaab2b1cf2a450e9491bbd488d217ed5f7e49c4bc3"
+  },
+  "outputs": {
+    "apply.comp": "533332a8a1af12c06fe45e769d203faa0b33fab34a4b8f592d6938278831b839",
+    "apply.comp.spv": "a05dff0202ecfbae45dca110cb479f540fa7dac63afe233998fd96e127536983",
+    "axis.png": "0ae58aa6fcc369fee5a49270827bfa572631078f57163b8344f97ea5fcde2441",
+    "axis_top.png": "d96400565f72e7270eeb9daaab2b1cf2a450e9491bbd488d217ed5f7e49c4bc3",
+    "cull.comp": "81f67495815cd9a90abc9b4a526a1765062edf33601efc45d638fc43a9dc456f",
+    "cull.comp.spv": "ffe4ce00280ca224e2d395b11e6302ca92408a2981a6808a66040e332b7d3d28",
+    "FRAME-ABI.json": "5d790d0ff62e5e05b6432ababc9fe6b842cb5b2cfd79e058143c3186bfcbff82",
+    "shaft.frag": "50d7d10576743784f8e0bdfade5f9ea82eecabfba44fb14d65203e3c158a9886",
+    "shaft.frag.spv": "f94c99692c7ad626299b7b3ed8b908f3c26d2fb5ff11e84323cc3b28a385ffed",
+    "shaft.indices": "15e4544087ac886e83ea2c6f84406b56b09370208d305b0ed3c2a2cae4bdf76b",
+    "shaft.json": "ac0dde5366052600cb94b3414a4d5283706c0a6dd4c76196b2aa35c3cc75a997",
+    "shaft.vertices": "a47fc7173cfe574d2c1af9b9e2710df4211a84ca7809d9ef00743b5ceb7cf937",
+    "transformed.vert": "656b08715490dceacaadbd60a448625e5103b52a6bb655277d12c5848aa21cd7",
+    "transformed.vert.spv": "6bbbad746fd1276da6248a9babf6a4c45b4cdae86a09bce6d9c598d07651a690"
+  },
+  "scope": "Original Flywheel cull+apply+transformed shaders and original opaque Create shaft mesh/textures. Explicit frustum and sampled depth fixtures; complete depth pyramid generation/material/light/OIT/backend/provider remains separate."
+}

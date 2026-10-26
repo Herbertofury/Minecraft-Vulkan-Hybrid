@@ -1,0 +1,5 @@
+{
+  "reviewed": true,
+  "native_grass_visible": true,
+  "scope": "Six original native grass smoke checks pass; graph-needs-update false at settled ground/return checkpoints; FOV/all-style/shader/full-pack acceptance separate; no smoke FPS accepted"
+}

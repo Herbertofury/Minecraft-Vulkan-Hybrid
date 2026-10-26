@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "scope": "Snapshot lifecycle model; actual mixin binding and visual/game parity still require runtime evidence; no FPS inference",
+  "results": [
+    {
+      "variant": "production",
+      "semantic_regression_passed": true,
+      "expected_pass": true
+    },
+    {
+      "variant": "in_flight_lost",
+      "semantic_regression_passed": false,
+      "expected_pass": false
+    },
+    {
+      "variant": "cached_lost",
+      "semantic_regression_passed": false,
+      "expected_pass": false
+    }
+  ]
+}

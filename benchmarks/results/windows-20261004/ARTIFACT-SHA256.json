@@ -1,0 +1,380 @@
+[
+  {
+    "trial": "01-baseline",
+    "file": "2026-10-04_14.36.04.png",
+    "bytes": 2751740,
+    "sha256": "b594fd56f636b4b6ffee7df377f30446a235f3720d21189cc7c437ad00b87272",
+    "published": false
+  },
+  {
+    "trial": "01-baseline",
+    "file": "2026-10-04_14.36.54.png",
+    "bytes": 2749985,
+    "sha256": "653375bff90390372f347a2886f93a87844c211a7059d73047fa03bce27eb8de",
+    "published": false
+  },
+  {
+    "trial": "01-baseline",
+    "file": "fps.json",
+    "bytes": 868725,
+    "sha256": "d4d9c90d00ea6ff40bcdeff8c8547721b4625c419ee1adb00d7b588dffa51028",
+    "published": true
+  },
+  {
+    "trial": "01-baseline",
+    "file": "gpu.csv",
+    "bytes": 9292,
+    "sha256": "bf899616db69245f076fd2e4be7512f86539e8caecac930941ef7656bc5801f0",
+    "published": true
+  },
+  {
+    "trial": "01-baseline",
+    "file": "inputs.json",
+    "bytes": 593,
+    "sha256": "ffd8634fef76d4bf58c1b9068c130a6b41d27e6c0a69cd0640d46f2f27e9e3b0",
+    "published": true
+  },
+  {
+    "trial": "01-baseline",
+    "file": "launcher.log",
+    "bytes": 62,
+    "sha256": "339145eac79bc05ac8de0bba78e1eb0334b5cf0feb85c6134010829d28113cfd",
+    "published": false
+  },
+  {
+    "trial": "01-baseline",
+    "file": "minecraft-sanitized.log",
+    "bytes": 23816,
+    "sha256": "8148b5263f4e6451e35c5daa740767dd2b3ed286e851066d41cb259e66109c15",
+    "published": true
+  },
+  {
+    "trial": "01-baseline",
+    "file": "options.txt",
+    "bytes": 314,
+    "sha256": "e9dbae95c71fedb5edab10ceb250a8eba817025fb8e2dfb4df90038745027bad",
+    "published": true
+  },
+  {
+    "trial": "01-baseline",
+    "file": "previous-fps.json",
+    "bytes": 749871,
+    "sha256": "203d2f25a9c320203919ba66f1ed0b1e78daf72ca9ad155acab68eab7ede099f",
+    "published": false
+  },
+  {
+    "trial": "02-candidate",
+    "file": "2026-10-04_14.38.08.png",
+    "bytes": 2754531,
+    "sha256": "215ddc783f69bcf323b2441d70eb6acfa963d8f22da5a5dc01fc7cc2a2698194",
+    "published": false
+  },
+  {
+    "trial": "02-candidate",
+    "file": "2026-10-04_14.38.58.png",
+    "bytes": 2750051,
+    "sha256": "fd3afec2a28fe7f91ee74ddf882e4461d9c7242813b59322eda2a5f0d601c12d",
+    "published": false
+  },
+  {
+    "trial": "02-candidate",
+    "file": "fps.json",
+    "bytes": 882129,
+    "sha256": "22293054c4e49fea74647e21d94b47d34131a8839e1d7f4b46071d7630d272fe",
+    "published": true
+  },
+  {
+    "trial": "02-candidate",
+    "file": "gpu.csv",
+    "bytes": 8667,
+    "sha256": "63f5a1fb4b05b179d40bb65e171905544ccff874cbe9a19772cd2095b0248199",
+    "published": true
+  },
+  {
+    "trial": "02-candidate",
+    "file": "inputs.json",
+    "bytes": 599,
+    "sha256": "7d8a563290598149d7e77b8c50fa7b8aaf6b016498bafa1bba0ed2127a7aff9d",
+    "published": true
+  },
+  {
+    "trial": "02-candidate",
+    "file": "launcher.log",
+    "bytes": 62,
+    "sha256": "eb999502836730b53a8ff839278cfde3a95bd84a14094c3a37e48fbb601cd5ba",
+    "published": false
+  },
+  {
+    "trial": "02-candidate",
+    "file": "minecraft-sanitized.log",
+    "bytes": 24144,
+    "sha256": "52b0fcec6d2eaeb87083eb0603bc30ae2506706ddf960451550edf99c2f8c250",
+    "published": true
+  },
+  {
+    "trial": "02-candidate",
+    "file": "options.txt",
+    "bytes": 314,
+    "sha256": "e9dbae95c71fedb5edab10ceb250a8eba817025fb8e2dfb4df90038745027bad",
+    "published": true
+  },
+  {
+    "trial": "02-candidate",
+    "file": "previous-fps.json",
+    "bytes": 585,
+    "sha256": "fa453bcd982bb095791f1a6d0759b57a6e4e5b123cdba6d79119bac2d203a072",
+    "published": false
+  },
+  {
+    "trial": "03-candidate",
+    "file": "2026-10-04_14.40.11.png",
+    "bytes": 2751383,
+    "sha256": "f950f903412bb49c4841170da7cec218d79e572f06c5f36917c19632201070fa",
+    "published": false
+  },
+  {
+    "trial": "03-candidate",
+    "file": "2026-10-04_14.41.01.png",
+    "bytes": 2745163,
+    "sha256": "90861e4a45d5a7f16210867f8007e52a538dc3231a8d1255f78811b7f5ec7ce1",
+    "published": false
+  },
+  {
+    "trial": "03-candidate",
+    "file": "fps.json",
+    "bytes": 850660,
+    "sha256": "54bd626bfe13a70f1fc7f9ceec1543d7f937bc4ddd49ba4b8c4f1f504b1dcb5a",
+    "published": true
+  },
+  {
+    "trial": "03-candidate",
+    "file": "gpu.csv",
+    "bytes": 8598,
+    "sha256": "4eeb3f7f42e05d57830ac4159c987cf3e3f8ca6d75de737d32fbe584d706162a",
+    "published": true
+  },
+  {
+    "trial": "03-candidate",
+    "file": "inputs.json",
+    "bytes": 599,
+    "sha256": "7d8a563290598149d7e77b8c50fa7b8aaf6b016498bafa1bba0ed2127a7aff9d",
+    "published": true
+  },
+  {
+    "trial": "03-candidate",
+    "file": "launcher.log",
+    "bytes": 62,
+    "sha256": "c85a85274c378364420d11eb9d983cdebe218202a2bf2e0fc992d1680922e0e8",
+    "published": false
+  },
+  {
+    "trial": "03-candidate",
+    "file": "minecraft-sanitized.log",
+    "bytes": 23858,
+    "sha256": "a7ef0197941eb0a4b05d474f8312002d6217c57c42df11c2c5656dc1eebea1ef",
+    "published": true
+  },
+  {
+    "trial": "03-candidate",
+    "file": "options.txt",
+    "bytes": 314,
+    "sha256": "e9dbae95c71fedb5edab10ceb250a8eba817025fb8e2dfb4df90038745027bad",
+    "published": true
+  },
+  {
+    "trial": "03-candidate",
+    "file": "previous-fps.json",
+    "bytes": 882129,
+    "sha256": "22293054c4e49fea74647e21d94b47d34131a8839e1d7f4b46071d7630d272fe",
+    "published": false
+  },
+  {
+    "trial": "04-baseline",
+    "file": "2026-10-04_14.42.15.png",
+    "bytes": 2752054,
+    "sha256": "a25786a5fe48ccce2cd88dd7cb4cdc98971310ef076bfaf2452f031e347aadf2",
+    "published": false
+  },
+  {
+    "trial": "04-baseline",
+    "file": "2026-10-04_14.43.05.png",
+    "bytes": 2730677,
+    "sha256": "2106b007ecc14ef30ee47e4fdc2f81b2d92746034b549f67482cb033b4dc853f",
+    "published": false
+  },
+  {
+    "trial": "04-baseline",
+    "file": "fps.json",
+    "bytes": 819205,
+    "sha256": "f504541805955e59ecc9d507b3a4914a4fe030a6bfb43a6f1ef109b84cafa96b",
+    "published": true
+  },
+  {
+    "trial": "04-baseline",
+    "file": "gpu.csv",
+    "bytes": 8653,
+    "sha256": "c2e3b6c2817c83cb74a135032d5d1cfe3e1c1d04782a07dd905999f2cc4a0490",
+    "published": true
+  },
+  {
+    "trial": "04-baseline",
+    "file": "inputs.json",
+    "bytes": 593,
+    "sha256": "ffd8634fef76d4bf58c1b9068c130a6b41d27e6c0a69cd0640d46f2f27e9e3b0",
+    "published": true
+  },
+  {
+    "trial": "04-baseline",
+    "file": "launcher.log",
+    "bytes": 62,
+    "sha256": "2ee92391cc7dcf484242a7e273c2a922056f211256a7907000fa23b7aef71891",
+    "published": false
+  },
+  {
+    "trial": "04-baseline",
+    "file": "minecraft-sanitized.log",
+    "bytes": 23822,
+    "sha256": "a816ea8d013f7912a5b3d7db5689ab24190f99a1ac6209fbc94daf9cd3164bc4",
+    "published": true
+  },
+  {
+    "trial": "04-baseline",
+    "file": "options.txt",
+    "bytes": 314,
+    "sha256": "e9dbae95c71fedb5edab10ceb250a8eba817025fb8e2dfb4df90038745027bad",
+    "published": true
+  },
+  {
+    "trial": "04-baseline",
+    "file": "previous-fps.json",
+    "bytes": 868725,
+    "sha256": "d4d9c90d00ea6ff40bcdeff8c8547721b4625c419ee1adb00d7b588dffa51028",
+    "published": false
+  },
+  {
+    "trial": "05-baseline",
+    "file": "2026-10-04_14.44.20.png",
+    "bytes": 2753703,
+    "sha256": "c9f4fe48d4f686ff8f74b37e2dcb5c6f0bee9ea26dab3ff16b36d9512bf114e9",
+    "published": false
+  },
+  {
+    "trial": "05-baseline",
+    "file": "2026-10-04_14.45.10.png",
+    "bytes": 2749618,
+    "sha256": "b275c2a43e5b44dcfa3794e87b3546d705943ea295e5039948bc478fe132d788",
+    "published": false
+  },
+  {
+    "trial": "05-baseline",
+    "file": "fps.json",
+    "bytes": 924717,
+    "sha256": "27a1632aa23417101cc892d70798be6f95e33cc79a93139bedec7ee53921d4e9",
+    "published": true
+  },
+  {
+    "trial": "05-baseline",
+    "file": "gpu.csv",
+    "bytes": 8738,
+    "sha256": "51126f37ea825bad4ffbfb03a4512bd3bcc9bc415f00b4ef27c73c0adb0ff03f",
+    "published": true
+  },
+  {
+    "trial": "05-baseline",
+    "file": "inputs.json",
+    "bytes": 593,
+    "sha256": "ffd8634fef76d4bf58c1b9068c130a6b41d27e6c0a69cd0640d46f2f27e9e3b0",
+    "published": true
+  },
+  {
+    "trial": "05-baseline",
+    "file": "launcher.log",
+    "bytes": 62,
+    "sha256": "1ed723239357e76f6166e47a945e3e258d4768ac98e51d461b2ddd0d60450d98",
+    "published": false
+  },
+  {
+    "trial": "05-baseline",
+    "file": "minecraft-sanitized.log",
+    "bytes": 23763,
+    "sha256": "14aa4c20fbd18f970b25295327c07918e73e337072fc7cf6f7a0d47991c3fdf7",
+    "published": true
+  },
+  {
+    "trial": "05-baseline",
+    "file": "options.txt",
+    "bytes": 314,
+    "sha256": "e9dbae95c71fedb5edab10ceb250a8eba817025fb8e2dfb4df90038745027bad",
+    "published": true
+  },
+  {
+    "trial": "05-baseline",
+    "file": "previous-fps.json",
+    "bytes": 819205,
+    "sha256": "f504541805955e59ecc9d507b3a4914a4fe030a6bfb43a6f1ef109b84cafa96b",
+    "published": false
+  },
+  {
+    "trial": "06-candidate",
+    "file": "2026-10-04_14.46.23.png",
+    "bytes": 2753187,
+    "sha256": "a622e9190cf9430ef111103b24c3d923eb22fa1e91500f96198774f874b91fe7",
+    "published": false
+  },
+  {
+    "trial": "06-candidate",
+    "file": "2026-10-04_14.47.12.png",
+    "bytes": 2742844,
+    "sha256": "aeaf84d70a6e83168110eb8f53b4d837e2e60cca54d332c5306087dcaedaf04a",
+    "published": false
+  },
+  {
+    "trial": "06-candidate",
+    "file": "fps.json",
+    "bytes": 914016,
+    "sha256": "2dbc55593ee68815dcdfb3a91dc2227bc2c53aa6bffd4b1931ad21478a82db31",
+    "published": true
+  },
+  {
+    "trial": "06-candidate",
+    "file": "gpu.csv",
+    "bytes": 8588,
+    "sha256": "d847b1eccee87f10d52ae78bac94e941c759503839829590d713e5f84a78bb1c",
+    "published": true
+  },
+  {
+    "trial": "06-candidate",
+    "file": "inputs.json",
+    "bytes": 599,
+    "sha256": "7d8a563290598149d7e77b8c50fa7b8aaf6b016498bafa1bba0ed2127a7aff9d",
+    "published": true
+  },
+  {
+    "trial": "06-candidate",
+    "file": "launcher.log",
+    "bytes": 62,
+    "sha256": "af1d5ef6dc8fa664afefa3dac65a42dbbdacb585fa7dd0412ee15415398ce717",
+    "published": false
+  },
+  {
+    "trial": "06-candidate",
+    "file": "minecraft-sanitized.log",
+    "bytes": 24035,
+    "sha256": "28a86a4856b3c402e1250d151ed055942fa59a64f5421d74a0aba061afc24acf",
+    "published": true
+  },
+  {
+    "trial": "06-candidate",
+    "file": "options.txt",
+    "bytes": 314,
+    "sha256": "e9dbae95c71fedb5edab10ceb250a8eba817025fb8e2dfb4df90038745027bad",
+    "published": true
+  },
+  {
+    "trial": "06-candidate",
+    "file": "previous-fps.json",
+    "bytes": 850660,
+    "sha256": "54bd626bfe13a70f1fc7f9ceec1543d7f937bc4ddd49ba4b8c4f1f504b1dcb5a",
+    "published": false
+  }
+]

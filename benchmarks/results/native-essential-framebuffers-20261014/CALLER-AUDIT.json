@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "controls": 18,
+  "selected_framebuffer_sites": 27,
+  "remaining_root_GL_sites": 21,
+  "stdout": "ESSENTIAL_FRAMEBUFFER_CALLER_PASS controls=18 nativeSites=27 inverseBodiesIdentical=true unimplementedRoot21Retained=true fullProviderAccepted=false\n",
+  "full_provider_accepted": false
+}

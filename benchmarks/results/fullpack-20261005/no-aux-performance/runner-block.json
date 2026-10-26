@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "runner_exit": 1,
+  "native_preflight_blocked": true,
+  "world_hashes_unchanged": true,
+  "options_bytes_unchanged": true,
+  "no_launcher_or_minecraft_process_created": true,
+  "opengl_fallback_launched": false,
+  "reason": "Current untranslated gameplay calls reject native preflight; exact owned runner aborts before world/config replacement or launching game, preventing an error-screen loop."
+}

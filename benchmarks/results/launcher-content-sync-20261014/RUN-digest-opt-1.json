@@ -1,0 +1,189 @@
+{
+  "fullpack": false,
+  "fps_accepted": false,
+  "startup_gain_accepted": false,
+  "world_loaded": false,
+  "native_required": true,
+  "probe_labels_only": true,
+  "variant": "digest-opt",
+  "trial": 1,
+  "cli_sha256": "b5f0aa201a51f9d459671a0546edcf15a7ca6d23e1eaa92ef0ebe1f050428ecc",
+  "gpu_before": "38 %, 4134 MiB, 63.56 W",
+  "java_spawn_after_seconds": 3.395280029296875,
+  "first_unloaded_menu_after_seconds": 27.229448699974455,
+  "first_unloaded_menu_heartbeat": {
+    "epoch_ms": 1791963176881,
+    "screen_class": "net.minecraft.client.gui.screens.AccessibilityOnboardingScreen",
+    "client_level_present": false,
+    "client_player_present": false
+  },
+  "native_backend_lines": [
+    "[Hari/Vulkan] renderer=VULKAN reason=cached: all active discovered direct OpenGL calls are translated; pinned inactive classes audited",
+    "[01:32:47] [Render thread] [VulkanMod/INFO]: Selected Vulkan device: NVIDIA GeForce RTX 4090 (Nvidia) driver 610.88.0.0 Vulkan 1.4.341 indirectDrawSupported=true fastIndirectDraw=true"
+  ],
+  "normal_exit": true,
+  "phase_timings": [
+    {
+      "fixed_phase": "run_quarantine",
+      "elapsed_ns": 101800,
+      "arrival_since_spawn_seconds": 0.8501543999882415
+    },
+    {
+      "fixed_phase": "migration_priority_lock",
+      "elapsed_ns": 3900,
+      "arrival_since_spawn_seconds": 0.8501982999732718
+    },
+    {
+      "fixed_phase": "legacy_content_migration",
+      "elapsed_ns": 111867200,
+      "arrival_since_spawn_seconds": 0.8502062999759801
+    },
+    {
+      "fixed_phase": "shared_availability",
+      "elapsed_ns": 530200,
+      "arrival_since_spawn_seconds": 0.8502124999649823
+    },
+    {
+      "fixed_phase": "default_account_lookup",
+      "elapsed_ns": 216300,
+      "arrival_since_spawn_seconds": 0.8502173000015318
+    },
+    {
+      "fixed_phase": "launch_context_and_preferences",
+      "elapsed_ns": 1251900,
+      "arrival_since_spawn_seconds": 0.8502220999798737
+    },
+    {
+      "fixed_phase": "prelaunch_hooks",
+      "elapsed_ns": 15500,
+      "arrival_since_spawn_seconds": 0.8502268999582157
+    },
+    {
+      "fixed_phase": "server_analytics",
+      "elapsed_ns": 30700,
+      "arrival_since_spawn_seconds": 0.850231199990958
+    },
+    {
+      "fixed_phase": "pending_skin_flush",
+      "elapsed_ns": 54900,
+      "arrival_since_spawn_seconds": 0.8502352999639697
+    },
+    {
+      "fixed_phase": "runtime_cache_read_lock",
+      "elapsed_ns": 7100,
+      "arrival_since_spawn_seconds": 0.8502390999929048
+    },
+    {
+      "fixed_phase": "instance_path",
+      "elapsed_ns": 203400,
+      "arrival_since_spawn_seconds": 0.8502431999659166
+    },
+    {
+      "fixed_phase": "minecraft_manifest",
+      "elapsed_ns": 10564300,
+      "arrival_since_spawn_seconds": 0.8502475999994203
+    },
+    {
+      "fixed_phase": "loader_manifest",
+      "elapsed_ns": 15367200,
+      "arrival_since_spawn_seconds": 0.8502520999754779
+    },
+    {
+      "fixed_phase": "installed_version_metadata",
+      "elapsed_ns": 1842600,
+      "arrival_since_spawn_seconds": 0.8502560999477282
+    },
+    {
+      "fixed_phase": "logging_metadata_repair",
+      "elapsed_ns": 0,
+      "arrival_since_spawn_seconds": 0.8502603999804705
+    },
+    {
+      "fixed_phase": "logging_configuration",
+      "elapsed_ns": 154300,
+      "arrival_since_spawn_seconds": 0.8502645999542437
+    },
+    {
+      "fixed_phase": "java_resolution",
+      "elapsed_ns": 116097700,
+      "arrival_since_spawn_seconds": 1.1084225999657065
+    },
+    {
+      "fixed_phase": "java_probe",
+      "elapsed_ns": 102924500,
+      "arrival_since_spawn_seconds": 1.1084545999765396
+    },
+    {
+      "fixed_phase": "existing_process_checks",
+      "elapsed_ns": 427400,
+      "arrival_since_spawn_seconds": 1.1084624999784864
+    },
+    {
+      "fixed_phase": "runtime_file_validation",
+      "elapsed_ns": 7906800,
+      "arrival_since_spawn_seconds": 1.1084686999674886
+    },
+    {
+      "fixed_phase": "command_and_arguments",
+      "elapsed_ns": 337824700,
+      "arrival_since_spawn_seconds": 1.6179626999655738
+    },
+    {
+      "fixed_phase": "game_options_sync",
+      "elapsed_ns": 462400,
+      "arrival_since_spawn_seconds": 1.6179969999939203
+    },
+    {
+      "fixed_phase": "launcher_options_overrides",
+      "elapsed_ns": 6753400,
+      "arrival_since_spawn_seconds": 1.6180055000004359
+    },
+    {
+      "fixed_phase": "content_sync",
+      "elapsed_ns": 1999538500,
+      "arrival_since_spawn_seconds": 3.3973041999852285
+    },
+    {
+      "fixed_phase": "instance_content_lock",
+      "elapsed_ns": 11000,
+      "arrival_since_spawn_seconds": 3.397349899983965
+    },
+    {
+      "fixed_phase": "content_files_lock",
+      "elapsed_ns": 900,
+      "arrival_since_spawn_seconds": 3.397364699980244
+    },
+    {
+      "fixed_phase": "content_store_lease",
+      "elapsed_ns": 2000,
+      "arrival_since_spawn_seconds": 3.397376299952157
+    },
+    {
+      "fixed_phase": "content_recovery",
+      "elapsed_ns": 118500,
+      "arrival_since_spawn_seconds": 3.397386299970094
+    },
+    {
+      "fixed_phase": "process_recheck_and_last_played",
+      "elapsed_ns": 2715100,
+      "arrival_since_spawn_seconds": 3.3973958999849856
+    },
+    {
+      "fixed_phase": "discord_presence",
+      "elapsed_ns": 371000,
+      "arrival_since_spawn_seconds": 3.3974061999469995
+    },
+    {
+      "fixed_phase": "friends_presence",
+      "elapsed_ns": 29300,
+      "arrival_since_spawn_seconds": 3.3974151999573223
+    }
+  ],
+  "sum_phase_seconds": 2.7173945,
+  "utc": "2026-10-14T07:32:57.828346+00:00",
+  "gpu_after": "26 %, 4133 MiB, 115.55 W",
+  "profile_restored": true,
+  "full327_hashes_unchanged": true,
+  "owned_profile_inactive": true,
+  "other_projects_untouched": true
+}

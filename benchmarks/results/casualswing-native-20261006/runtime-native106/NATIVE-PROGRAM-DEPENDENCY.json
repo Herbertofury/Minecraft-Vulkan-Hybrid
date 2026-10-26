@@ -1,0 +1,22 @@
+{
+  "hari_sha256": "551d6047f3d7638a964050ca7f00c6e4eeb56a2c432b43f452f9ded68229e3a9",
+  "fastutil_sha256": "9578bf2a1700cf20d21746a2ee89e57ba1abbd37fa9feda68ff5e9a28473a7f9",
+  "class_sha256": {
+    "GlProgram": "6d6b39c2766e2ba84b39d48c256a3a66a4ac9c34fce0c0cd9f37e2dc5619fbf6",
+    "GlSync": "0d17d8e04e0cc320f325d2074ca24b7f73cae475f0f0e56e695d00011511d42f",
+    "GlVertexArray": "be0d4355c5ce52c922d01c641600a048da66bf6d8d681824004f365764f2ca93"
+  },
+  "actual_production_adapter_observations": {
+    "status_before_compile": 1,
+    "invalid_glsl_compile_status": 1,
+    "invalid_glsl_log_length": 0,
+    "empty_program_link_status": 1,
+    "unsubmitted_fence_wait_result": 37146,
+    "unsubmitted_fence_status": 37145
+  },
+  "custom_shader_or_fence_native_accepted": false,
+  "minecraft_or_opengl_launched": false,
+  "third_party_mod_classes_loaded": false,
+  "native_gate_changed": false,
+  "scope": "Pinned actual Hari23 metadata adapters accept invalid GLSL/empty links and signal handles without submitting work. This CPU diagnostic establishes a missing real custom-program/synchronization dependency, not graphics compatibility. No aliases/contracts are whitelisted from these results. Vanilla native pipelines and the bounded Flywheel engine use separate real Vulkan paths."
+}

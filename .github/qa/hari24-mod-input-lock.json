@@ -1,0 +1,1328 @@
+{
+  "schema": 1,
+  "minecraft": "1.20.1",
+  "loader": "forge",
+  "requested": [
+    "aether",
+    "the-midnight",
+    "immediatelyfast",
+    "entityculling",
+    "distanthorizons",
+    "oculus",
+    "embeddium",
+    "lazurite",
+    "rubidium",
+    "exordium",
+    "canvas",
+    "iris",
+    "sodium",
+    "optifabric",
+    "indium",
+    "continuity",
+    "modernfix",
+    "ferrite-core",
+    "servercore"
+  ],
+  "records": {
+    "YhmgMVyu": {
+      "project": {
+        "id": "YhmgMVyu",
+        "slug": "aether",
+        "title": "The Aether",
+        "source_url": "https://github.com/The-Aether-Team/The-Aether",
+        "issues_url": "https://github.com/The-Aether-Team/The-Aether/issues",
+        "license": {
+          "id": "LicenseRef-Custom",
+          "name": "",
+          "url": "https://github.com/The-Aether-Team/The-Aether#scroll-license-information"
+        },
+        "client_side": "required",
+        "server_side": "required"
+      },
+      "state": "resolved",
+      "version": {
+        "game_versions": [
+          "1.20.1"
+        ],
+        "loaders": [
+          "forge",
+          "neoforge"
+        ],
+        "environment": "client_and_server",
+        "id": "2411kUqF",
+        "project_id": "YhmgMVyu",
+        "author_id": "bzThaeMr",
+        "featured": false,
+        "name": "The Aether - 1.20.1-1.5.2-neoforge",
+        "version_number": "1.20.1-1.5.2-neoforge",
+        "changelog_url": null,
+        "date_published": "2025-01-28T21:41:07.772898Z",
+        "downloads": 4694527,
+        "version_type": "release",
+        "status": "listed",
+        "requested_status": null,
+        "files": [
+          {
+            "id": "ok5hOknp",
+            "hashes": {
+              "sha1": "e2fdd161f35ca1b6db774906e88e266d7f12eab6",
+              "sha512": "60b23e439b244645eafda5f3ddd620ac37e94bd75441d2deea9c328e1e154362f48b08aff1959849a7428ae7664422723fdbdb12aaeddfd56409ba4b54a7eaaf"
+            },
+            "url": "https://cdn.modrinth.com/data/YhmgMVyu/versions/2411kUqF/aether-1.20.1-1.5.2-neoforge.jar",
+            "filename": "aether-1.20.1-1.5.2-neoforge.jar",
+            "primary": true,
+            "size": 39746073,
+            "file_type": null
+          }
+        ],
+        "dependencies": [
+          {
+            "version_id": "9hjtlBBI",
+            "project_id": "vvuO3ImH",
+            "file_name": null,
+            "dependency_type": "embedded"
+          },
+          {
+            "version_id": "pFS5mTSJ",
+            "project_id": "sq1f0DCq",
+            "file_name": null,
+            "dependency_type": "embedded"
+          }
+        ]
+      },
+      "verified_file": {
+        "filename": "aether-1.20.1-1.5.2-neoforge.jar",
+        "bytes": 39746073,
+        "sha256": "b6b586eb6fdc9ce4b3645cab43642ba87817c5deadef4d87ab884e4fe20ef282"
+      }
+    },
+    "f12ixI8d": {
+      "project": {
+        "id": "f12ixI8d",
+        "slug": "the-midnight",
+        "title": "The Midnight",
+        "source_url": null,
+        "issues_url": "https://gitlab.com/cryptic-mushroom/minecraft/the-midnight/-/issues",
+        "license": {
+          "id": "LicenseRef-All-Rights-Reserved",
+          "name": "",
+          "url": null
+        },
+        "client_side": "required",
+        "server_side": "required"
+      },
+      "state": "resolved",
+      "version": {
+        "game_versions": [
+          "1.20.1"
+        ],
+        "loaders": [
+          "forge",
+          "neoforge"
+        ],
+        "environment": "client_and_server",
+        "id": "mPTFUoKg",
+        "project_id": "f12ixI8d",
+        "author_id": "weqJbYme",
+        "featured": false,
+        "name": "The Midnight 0.6.7",
+        "version_number": "0.6.7",
+        "changelog_url": null,
+        "date_published": "2025-05-27T23:15:32.529303Z",
+        "downloads": 38623,
+        "version_type": "release",
+        "status": "listed",
+        "requested_status": null,
+        "files": [
+          {
+            "id": "1Y3OS1Ie",
+            "hashes": {
+              "sha512": "f48d4450a949ccc6fd4058419122cb1394360ace255acb58d13df9bb5a4e4a82b1307ae3441fcd21d66a1ada2bfe370a422853726998572c7525db7647ab83d0",
+              "sha1": "27c798d714133bd4a13bc306ea66e26dc6749f12"
+            },
+            "url": "https://cdn.modrinth.com/data/f12ixI8d/versions/mPTFUoKg/midnight-1.20.1-0.6.7.jar",
+            "filename": "midnight-1.20.1-0.6.7.jar",
+            "primary": true,
+            "size": 27285160,
+            "file_type": null
+          }
+        ],
+        "dependencies": [
+          {
+            "version_id": null,
+            "project_id": "PuyPazRT",
+            "file_name": null,
+            "dependency_type": "required"
+          },
+          {
+            "version_id": null,
+            "project_id": "JE0fgMUp",
+            "file_name": null,
+            "dependency_type": "required"
+          }
+        ]
+      },
+      "verified_file": {
+        "filename": "midnight-1.20.1-0.6.7.jar",
+        "bytes": 27285160,
+        "sha256": "252ad68dac3dbc8b1f7885edccb563becb26ce2fe4abf4f2713a3869b9bff820"
+      }
+    },
+    "5ZwdcRci": {
+      "project": {
+        "id": "5ZwdcRci",
+        "slug": "immediatelyfast",
+        "title": "ImmediatelyFast",
+        "source_url": "https://github.com/RaphiMC/ImmediatelyFast",
+        "issues_url": "https://github.com/RaphiMC/ImmediatelyFast/issues",
+        "license": {
+          "id": "LGPL-3.0-or-later",
+          "name": "GNU Lesser General Public License v3.0 or later",
+          "url": null
+        },
+        "client_side": "required",
+        "server_side": "unsupported"
+      },
+      "state": "resolved",
+      "version": {
+        "game_versions": [
+          "1.20",
+          "1.20.1",
+          "1.20.2",
+          "1.20.3",
+          "1.20.4"
+        ],
+        "loaders": [
+          "forge"
+        ],
+        "environment": "client_only",
+        "id": "rvsLEEZU",
+        "project_id": "5ZwdcRci",
+        "author_id": "XEedK03N",
+        "featured": false,
+        "name": "ImmediatelyFast 1.5.5",
+        "version_number": "1.5.5+1.20.4-forge",
+        "changelog_url": null,
+        "date_published": "2026-06-30T21:36:34.225717Z",
+        "downloads": 1920549,
+        "version_type": "release",
+        "status": "listed",
+        "requested_status": null,
+        "files": [
+          {
+            "id": "JSBoPf73",
+            "hashes": {
+              "sha512": "8fab0605880f6b3875dc6d9d7bc8d69612a3e61a0bfc5adeac3240248715042f04885a09bc4d29383ab809cfc536dff84c6150af56ebd8f08128a1c42909c323",
+              "sha1": "9eacd407b7dea636d375dc47335d92f616484ea2"
+            },
+            "url": "https://cdn.modrinth.com/data/5ZwdcRci/versions/rvsLEEZU/ImmediatelyFast-Forge-1.5.5%2B1.20.4.jar",
+            "filename": "ImmediatelyFast-Forge-1.5.5+1.20.4.jar",
+            "primary": true,
+            "size": 532063,
+            "file_type": null
+          }
+        ],
+        "dependencies": []
+      },
+      "verified_file": {
+        "filename": "ImmediatelyFast-Forge-1.5.5+1.20.4.jar",
+        "bytes": 532063,
+        "sha256": "82db19cc65b5c11a444498fb4b8cbcb0393c043e794cb5bf368631a0af765035"
+      }
+    },
+    "NNAgCjsB": {
+      "project": {
+        "id": "NNAgCjsB",
+        "slug": "entityculling",
+        "title": "Entity Culling",
+        "source_url": "https://github.com/tr7zw/EntityCulling",
+        "issues_url": "https://github.com/tr7zw/EntityCulling/issues",
+        "license": {
+          "id": "LicenseRef-tr7zw-Protective-License",
+          "name": "",
+          "url": "https://github.com/tr7zw/EntityCulling/blob/1.18/LICENSE-EntityCulling"
+        },
+        "client_side": "required",
+        "server_side": "unsupported"
+      },
+      "state": "resolved",
+      "version": {
+        "game_versions": [
+          "1.20.1"
+        ],
+        "loaders": [
+          "forge"
+        ],
+        "environment": "client_only",
+        "id": "HPDH6g5B",
+        "project_id": "NNAgCjsB",
+        "author_id": "Qnt13hO8",
+        "featured": false,
+        "name": "1.11.2-1.20.1 - Forge",
+        "version_number": "1.11.2",
+        "changelog_url": null,
+        "date_published": "2026-09-21T19:46:39.163952Z",
+        "downloads": 222059,
+        "version_type": "release",
+        "status": "listed",
+        "requested_status": null,
+        "files": [
+          {
+            "id": "tHIpgrGO",
+            "hashes": {
+              "sha1": "856ef2e3c5bbde87fa5f06515c42fbca8af24a74",
+              "sha512": "4c5e6f02a426218ecaf1625d9bf5db1306858c810402ba9269271e0df064e8975c0fdfa3b09bf44152593d216c7f0c1b079cde40e05fa998e8cb5d0cf50ae66b"
+            },
+            "url": "https://cdn.modrinth.com/data/NNAgCjsB/versions/HPDH6g5B/entityculling-forge-1.11.2-mc1.20.1.jar",
+            "filename": "entityculling-forge-1.11.2-mc1.20.1.jar",
+            "primary": true,
+            "size": 1515048,
+            "file_type": null
+          }
+        ],
+        "dependencies": []
+      },
+      "verified_file": {
+        "filename": "entityculling-forge-1.11.2-mc1.20.1.jar",
+        "bytes": 1515048,
+        "sha256": "5d5dc228dc18422fd8a81cff63e654abb07ca4507b317db114b220aa3fc67d3b"
+      }
+    },
+    "uCdwusMi": {
+      "project": {
+        "id": "uCdwusMi",
+        "slug": "distanthorizons",
+        "title": "Distant Horizons",
+        "source_url": "https://gitlab.com/distant-horizons-team/distant-horizons",
+        "issues_url": "https://gitlab.com/distant-horizons-team/distant-horizons/-/issues",
+        "license": {
+          "id": "LGPL-3.0-only",
+          "name": "GNU Lesser General Public License v3.0 only",
+          "url": null
+        },
+        "client_side": "optional",
+        "server_side": "optional"
+      },
+      "state": "resolved",
+      "version": {
+        "game_versions": [
+          "1.20.1"
+        ],
+        "loaders": [
+          "fabric",
+          "forge"
+        ],
+        "environment": "client_or_server_prefers_both",
+        "id": "6UnEfsRQ",
+        "project_id": "uCdwusMi",
+        "author_id": "ksmgF6Gt",
+        "featured": false,
+        "name": "3.3.3 - 1.20.1 forge/fabric",
+        "version_number": "3.3.3-1.20.1",
+        "changelog_url": null,
+        "date_published": "2026-09-29T00:04:02.102920Z",
+        "downloads": 28549,
+        "version_type": "release",
+        "status": "listed",
+        "requested_status": null,
+        "files": [
+          {
+            "id": "2KcpJQND",
+            "hashes": {
+              "sha512": "2ac0a2fd34fe17bb3a3764bb53838f00595998a7e0b4bd70c5068aa9244626c6b0e622af548f97a1614dbb0b7c3df29b6d313edfc890d572dc361591c2a176c0",
+              "sha1": "5447c4716571bfdba817c85278a9ce0d411573ec"
+            },
+            "url": "https://cdn.modrinth.com/data/uCdwusMi/versions/6UnEfsRQ/DistantHorizons-3.3.3-1.20.1-fabric-forge.jar",
+            "filename": "DistantHorizons-3.3.3-1.20.1-fabric-forge.jar",
+            "primary": true,
+            "size": 27700542,
+            "file_type": null
+          }
+        ],
+        "dependencies": []
+      },
+      "verified_file": {
+        "filename": "DistantHorizons-3.3.3-1.20.1-fabric-forge.jar",
+        "bytes": 27700542,
+        "sha256": "a537a71171d935540b56b7598d0de2c106f6f5026336c713d89a1d9ea0ea14e3"
+      }
+    },
+    "GchcoXML": {
+      "project": {
+        "id": "GchcoXML",
+        "slug": "oculus",
+        "title": "Oculus",
+        "source_url": "https://github.com/Asek3/Oculus",
+        "issues_url": "https://github.com/Asek3/Oculus/issues",
+        "license": {
+          "id": "LGPL-3.0-only",
+          "name": "GNU Lesser General Public License v3.0 only",
+          "url": null
+        },
+        "client_side": "required",
+        "server_side": "unsupported"
+      },
+      "state": "resolved",
+      "version": {
+        "game_versions": [
+          "1.20.1"
+        ],
+        "loaders": [
+          "forge",
+          "neoforge"
+        ],
+        "environment": "client_only",
+        "id": "iQ1SwGc3",
+        "project_id": "GchcoXML",
+        "author_id": "OGBzw79h",
+        "featured": false,
+        "name": "Oculus mc1.20.1-1.8.0",
+        "version_number": "1.20.1-1.8.0",
+        "changelog_url": null,
+        "date_published": "2024-12-24T23:33:42.216148Z",
+        "downloads": 24761263,
+        "version_type": "release",
+        "status": "listed",
+        "requested_status": null,
+        "files": [
+          {
+            "id": "7aacZyV2",
+            "hashes": {
+              "sha512": "1bb4ac77400d6684347988ed298a692c2cb15cf7923693607eb8739b171a20fef7412259e9e157111d9ce21779badab386029956f7d2283a9e611722a373e9d5",
+              "sha1": "984f774e71790deaec674c7587bd24e0711871b2"
+            },
+            "url": "https://cdn.modrinth.com/data/GchcoXML/versions/iQ1SwGc3/oculus-mc1.20.1-1.8.0.jar",
+            "filename": "oculus-mc1.20.1-1.8.0.jar",
+            "primary": true,
+            "size": 2851119,
+            "file_type": null
+          }
+        ],
+        "dependencies": [
+          {
+            "version_id": null,
+            "project_id": "sk9rgfiA",
+            "file_name": null,
+            "dependency_type": "required"
+          }
+        ]
+      },
+      "verified_file": {
+        "filename": "oculus-mc1.20.1-1.8.0.jar",
+        "bytes": 2851119,
+        "sha256": "0945df0cba0f62b3901dd80c3268e5311b770ece78c78037a45db12ac0425fef"
+      }
+    },
+    "sk9rgfiA": {
+      "project": {
+        "id": "sk9rgfiA",
+        "slug": "embeddium",
+        "title": "Embeddium",
+        "source_url": "https://github.com/FiniteReality/embeddium",
+        "issues_url": "https://github.com/FiniteReality/embeddium/issues",
+        "license": {
+          "id": "LGPL-3.0-only",
+          "name": "GNU Lesser General Public License v3.0 only",
+          "url": null
+        },
+        "client_side": "required",
+        "server_side": "unsupported"
+      },
+      "state": "resolved",
+      "version": {
+        "game_versions": [
+          "1.20.1"
+        ],
+        "loaders": [
+          "forge",
+          "neoforge"
+        ],
+        "environment": "client_only",
+        "id": "UTbfe5d1",
+        "project_id": "sk9rgfiA",
+        "author_id": "6bGskxLV",
+        "featured": false,
+        "name": "[1.20.1] Embeddium 0.3.31",
+        "version_number": "0.3.31+mc1.20.1",
+        "changelog_url": null,
+        "date_published": "2024-08-31T23:11:49.184634Z",
+        "downloads": 26574348,
+        "version_type": "release",
+        "status": "listed",
+        "requested_status": null,
+        "files": [
+          {
+            "id": "ap13BApr",
+            "hashes": {
+              "sha1": "bb2fa8f3e493af16af9160d049f96c614a1faf2f",
+              "sha512": "ffbf2da4685260a4d5c14c621708bd20722563f084f042d3dfb0a7b87f048e39299648c854a93939129da0d23a15a91ec628560d601e76074b08e275f6e132e9"
+            },
+            "url": "https://cdn.modrinth.com/data/sk9rgfiA/versions/UTbfe5d1/embeddium-0.3.31%2Bmc1.20.1.jar",
+            "filename": "embeddium-0.3.31+mc1.20.1.jar",
+            "primary": true,
+            "size": 1320675,
+            "file_type": null
+          }
+        ],
+        "dependencies": [
+          {
+            "version_id": null,
+            "project_id": "S1tndFDa",
+            "file_name": null,
+            "dependency_type": "incompatible"
+          },
+          {
+            "version_id": null,
+            "project_id": "4ZqxOvjD",
+            "file_name": null,
+            "dependency_type": "incompatible"
+          }
+        ]
+      },
+      "verified_file": {
+        "filename": "embeddium-0.3.31+mc1.20.1.jar",
+        "bytes": 1320675,
+        "sha256": "eed3d1325f2acc2fd4e69bb495e5ccb91d962126ac5330f0582ebc2a3daf47fb"
+      }
+    },
+    "TkC4Gtkt": {
+      "project": {
+        "id": "TkC4Gtkt",
+        "slug": "lazurite",
+        "title": "Lazurite",
+        "source_url": "https://github.com/Su5eD/Lazurite",
+        "issues_url": "https://github.com/Su5eD/Lazurite/issues",
+        "license": {
+          "id": "Apache-2.0",
+          "name": "Apache License 2.0",
+          "url": "https://github.com/Su5eD/Lazurite/blob/1.20.x/main/LICENSE"
+        },
+        "client_side": "required",
+        "server_side": "unsupported"
+      },
+      "state": "resolved",
+      "version": {
+        "game_versions": [
+          "1.20.1"
+        ],
+        "loaders": [
+          "forge"
+        ],
+        "environment": "client_only",
+        "id": "3Ro7216v",
+        "project_id": "TkC4Gtkt",
+        "author_id": "5qUpS9rY",
+        "featured": false,
+        "name": "Lazurite 1.0.4 for Minecraft 1.20.x/Embeddium 0.3.9",
+        "version_number": "1.0.4+mc1.20.1",
+        "changelog_url": null,
+        "date_published": "2024-03-26T15:50:40.966194Z",
+        "downloads": 214259,
+        "version_type": "release",
+        "status": "listed",
+        "requested_status": null,
+        "files": [
+          {
+            "id": "Oe4nituh",
+            "hashes": {
+              "sha512": "502f2c1b9421163d26257e0285c49b1017f018ed6a230b442a0b2f969cb17c77e0f6bc661cc2d4292111a57bd77ade0296fc7c731e5d824c7036662194811663",
+              "sha1": "f5479dace7d25f1046b6a273ed1fa0ffd2e7a461"
+            },
+            "url": "https://cdn.modrinth.com/data/TkC4Gtkt/versions/3Ro7216v/lazurite-1.0.4%2Bmc1.20.1.jar",
+            "filename": "lazurite-1.0.4+mc1.20.1.jar",
+            "primary": true,
+            "size": 131418,
+            "file_type": null
+          }
+        ],
+        "dependencies": [
+          {
+            "version_id": null,
+            "project_id": "Aqlf1Shp",
+            "file_name": null,
+            "dependency_type": "required"
+          },
+          {
+            "version_id": "ZDL24WiX",
+            "project_id": "sk9rgfiA",
+            "file_name": null,
+            "dependency_type": "required"
+          },
+          {
+            "version_id": null,
+            "project_id": "Orvt0mRa",
+            "file_name": null,
+            "dependency_type": "incompatible"
+          }
+        ]
+      },
+      "verified_file": {
+        "filename": "lazurite-1.0.4+mc1.20.1.jar",
+        "bytes": 131418,
+        "sha256": "399e6f803ee8bd7380dce664c502416c58581fd388bfbbaafb2a601dff2763b6"
+      }
+    },
+    "4ZqxOvjD": {
+      "project": {
+        "id": "4ZqxOvjD",
+        "slug": "rubidium",
+        "title": "Rubidium",
+        "source_url": "https://github.com/Asek3/Rubidium",
+        "issues_url": "https://github.com/Asek3/Rubidium/issues",
+        "license": {
+          "id": "LGPL-3.0-only",
+          "name": "GNU Lesser General Public License v3.0 only",
+          "url": null
+        },
+        "client_side": "required",
+        "server_side": "unsupported"
+      },
+      "state": "resolved",
+      "version": {
+        "game_versions": [
+          "1.20.1"
+        ],
+        "loaders": [
+          "forge",
+          "neoforge"
+        ],
+        "environment": "client_only",
+        "id": "VKligEsm",
+        "project_id": "4ZqxOvjD",
+        "author_id": "OGBzw79h",
+        "featured": false,
+        "name": "Rubidium mc1.20.1-0.7.1",
+        "version_number": "0.7.1",
+        "changelog_url": null,
+        "date_published": "2023-09-24T21:04:21.308036Z",
+        "downloads": 1438333,
+        "version_type": "release",
+        "status": "listed",
+        "requested_status": null,
+        "files": [
+          {
+            "id": "zpfpipQn",
+            "hashes": {
+              "sha1": "9c532360e08cca8c8dd2d94827c24fc7eaac8b4b",
+              "sha512": "01d73f91e98c5981eb81c7d0a57ab944988108af04781778e1b48a8e4bf35d68091364f65c94f38a903aff09921312118715493f412de916971663f39cf81bce"
+            },
+            "url": "https://cdn.modrinth.com/data/4ZqxOvjD/versions/VKligEsm/rubidium-mc1.20.1-0.7.1.jar",
+            "filename": "rubidium-mc1.20.1-0.7.1.jar",
+            "primary": true,
+            "size": 704856,
+            "file_type": null
+          }
+        ],
+        "dependencies": []
+      },
+      "verified_file": {
+        "filename": "rubidium-mc1.20.1-0.7.1.jar",
+        "bytes": 704856,
+        "sha256": "f281204c19d7ef1eb8ca6181146ac828e87fcfdde7053facaabf71d9ded35c85"
+      }
+    },
+    "DynYZEae": {
+      "project": {
+        "id": "DynYZEae",
+        "slug": "exordium",
+        "title": "Exordium",
+        "source_url": "https://github.com/tr7zw/Exordium",
+        "issues_url": "https://github.com/tr7zw/Exordium/issues",
+        "license": {
+          "id": "GPL-3.0-only",
+          "name": "GNU General Public License v3.0 only",
+          "url": "https://github.com/tr7zw/Exordium/blob/main/LICENSE"
+        },
+        "client_side": "required",
+        "server_side": "unsupported"
+      },
+      "state": "no_published_forge_1.20.1_version",
+      "versions": []
+    },
+    "VOYxIjFI": {
+      "project": {
+        "id": "VOYxIjFI",
+        "slug": "canvas",
+        "title": "Canvas Renderer",
+        "source_url": "https://github.com/vram-guild/canvas",
+        "issues_url": "https://github.com/vram-guild/canvas/issues",
+        "license": {
+          "id": "LGPL-3.0-only",
+          "name": "GNU Lesser General Public License v3.0 only",
+          "url": null
+        },
+        "client_side": "required",
+        "server_side": "unsupported"
+      },
+      "state": "no_published_forge_1.20.1_version",
+      "versions": []
+    },
+    "YL57xq9U": {
+      "project": {
+        "id": "YL57xq9U",
+        "slug": "iris",
+        "title": "Iris Shaders",
+        "source_url": "https://github.com/IrisShaders/Iris",
+        "issues_url": "https://github.com/IrisShaders/Iris/issues",
+        "license": {
+          "id": "LGPL-3.0-only",
+          "name": "GNU Lesser General Public License v3.0 only",
+          "url": null
+        },
+        "client_side": "required",
+        "server_side": "unsupported"
+      },
+      "state": "no_published_forge_1.20.1_version",
+      "versions": []
+    },
+    "AANobbMI": {
+      "project": {
+        "id": "AANobbMI",
+        "slug": "sodium",
+        "title": "Sodium",
+        "source_url": "https://github.com/CaffeineMC/sodium",
+        "issues_url": "https://github.com/CaffeineMC/sodium/issues",
+        "license": {
+          "id": "LicenseRef-Polyform-Shield-1.0.0",
+          "name": "",
+          "url": "https://github.com/CaffeineMC/sodium/blob/dev/LICENSE.md"
+        },
+        "client_side": "required",
+        "server_side": "unsupported"
+      },
+      "state": "no_published_forge_1.20.1_version",
+      "versions": []
+    },
+    "optifabric": {
+      "project": {
+        "id": "optifabric",
+        "slug": "optifabric"
+      },
+      "state": "unresolved_provider_lookup",
+      "error": "<HTTPError 404: 'Not Found'>"
+    },
+    "Orvt0mRa": {
+      "project": {
+        "id": "Orvt0mRa",
+        "slug": "indium",
+        "title": "Indium",
+        "source_url": "https://github.com/comp500/Indium",
+        "issues_url": "https://github.com/comp500/Indium/issues",
+        "license": {
+          "id": "Apache-2.0",
+          "name": "Apache License 2.0",
+          "url": null
+        },
+        "client_side": "required",
+        "server_side": "unsupported"
+      },
+      "state": "no_published_forge_1.20.1_version",
+      "versions": []
+    },
+    "1IjD5062": {
+      "project": {
+        "id": "1IjD5062",
+        "slug": "continuity",
+        "title": "Continuity",
+        "source_url": "https://github.com/PepperCode1/Continuity",
+        "issues_url": "https://github.com/PepperCode1/Continuity/issues",
+        "license": {
+          "id": "LGPL-3.0-only",
+          "name": "GNU Lesser General Public License v3.0 only",
+          "url": null
+        },
+        "client_side": "required",
+        "server_side": "unsupported"
+      },
+      "state": "resolved",
+      "version": {
+        "game_versions": [
+          "1.20.1"
+        ],
+        "loaders": [
+          "forge"
+        ],
+        "environment": "client_only",
+        "id": "9KbAcWSO",
+        "project_id": "1IjD5062",
+        "author_id": "CdcF3lqY",
+        "featured": false,
+        "name": "3.0.0+1.20.1.forge",
+        "version_number": "3.0.0+1.20.1.forge",
+        "changelog_url": null,
+        "date_published": "2024-12-10T23:50:05.314027Z",
+        "downloads": 5408580,
+        "version_type": "release",
+        "status": "listed",
+        "requested_status": null,
+        "files": [
+          {
+            "id": "hnR4jpvx",
+            "hashes": {
+              "sha512": "eef634cde3307893e6f0c4c1d2e9a6e3eb706ee1b9ee86403d18c65762f7158e774665e503486477788b0ca320f543d03d5667a94f82ae2cd99f15a32e953b3a",
+              "sha1": "816c1bb15c3686f67143dabced87bd4811cc43d2"
+            },
+            "url": "https://cdn.modrinth.com/data/1IjD5062/versions/9KbAcWSO/continuity-3.0.0%2B1.20.1.forge.jar",
+            "filename": "continuity-3.0.0+1.20.1.forge.jar",
+            "primary": true,
+            "size": 1016666,
+            "file_type": null
+          },
+          {
+            "id": "NoToQaod",
+            "hashes": {
+              "sha512": "8a21030625a5a65e7c36f89cfea607636caf6477d8282b51ee4cfddc2c676235242c25d33b2460b20f7ec51ee513b11f95f03b53efd0f2f8168984ae0918e05d",
+              "sha1": "84dc54075b39c9102882262602226c7a35c74641"
+            },
+            "url": "https://cdn.modrinth.com/data/1IjD5062/versions/9KbAcWSO/continuity-3.0.0%2B1.20.1.forge-sources.jar",
+            "filename": "continuity-3.0.0+1.20.1.forge-sources.jar",
+            "primary": false,
+            "size": 996887,
+            "file_type": null
+          }
+        ],
+        "dependencies": [
+          {
+            "version_id": null,
+            "project_id": "Aqlf1Shp",
+            "file_name": null,
+            "dependency_type": "required"
+          },
+          {
+            "version_id": null,
+            "project_id": "u58R1TMW",
+            "file_name": null,
+            "dependency_type": "required"
+          }
+        ]
+      },
+      "verified_file": {
+        "filename": "continuity-3.0.0+1.20.1.forge.jar",
+        "bytes": 1016666,
+        "sha256": "855ee87de79b0e161713a2689f3f2d07259e9490af194b8cfb6a4400c6ea1c76"
+      }
+    },
+    "nmDcB62a": {
+      "project": {
+        "id": "nmDcB62a",
+        "slug": "modernfix",
+        "title": "ModernFix",
+        "source_url": "https://github.com/embeddedt/ModernFix",
+        "issues_url": "https://github.com/embeddedt/ModernFix/issues",
+        "license": {
+          "id": "LGPL-3.0-only",
+          "name": "GNU Lesser General Public License v3.0 only",
+          "url": null
+        },
+        "client_side": "optional",
+        "server_side": "optional"
+      },
+      "state": "resolved",
+      "version": {
+        "game_versions": [
+          "1.20.1"
+        ],
+        "loaders": [
+          "forge"
+        ],
+        "environment": "client_or_server_prefers_both",
+        "id": "hHwYTQwa",
+        "project_id": "nmDcB62a",
+        "author_id": "6bGskxLV",
+        "featured": false,
+        "name": "modernfix-forge-5.27.85+mc1.20.1.jar",
+        "version_number": "5.27.85+mc1.20.1",
+        "changelog_url": null,
+        "date_published": "2026-10-02T00:10:49.903192Z",
+        "downloads": 12041,
+        "version_type": "release",
+        "status": "listed",
+        "requested_status": null,
+        "files": [
+          {
+            "id": "L46zhDpp",
+            "hashes": {
+              "sha512": "b4e1ff4cb01c38f6f4a0093fabe56b36d9fcdebccda708379deca0dea33af3e250dc8fddbb98bb6fb0b30ee6fec40ae1679ab91e2bdfcf6971fe16504ce03ad2",
+              "sha1": "ba76615cdaff6de931c2e33c71f0b05deb1dad41"
+            },
+            "url": "https://cdn.modrinth.com/data/nmDcB62a/versions/hHwYTQwa/modernfix-forge-5.27.85%2Bmc1.20.1.jar",
+            "filename": "modernfix-forge-5.27.85+mc1.20.1.jar",
+            "primary": true,
+            "size": 1003271,
+            "file_type": null
+          }
+        ],
+        "dependencies": []
+      },
+      "verified_file": {
+        "filename": "modernfix-forge-5.27.85+mc1.20.1.jar",
+        "bytes": 1003271,
+        "sha256": "12b76f627e34ddf9211766ad7a1d5f2bb3de8d0807935d2d20f357b907f481b8"
+      }
+    },
+    "uXXizFIs": {
+      "project": {
+        "id": "uXXizFIs",
+        "slug": "ferrite-core",
+        "title": "FerriteCore",
+        "source_url": "https://github.com/malte0811/FerriteCore",
+        "issues_url": "https://github.com/malte0811/FerriteCore/issues",
+        "license": {
+          "id": "MIT",
+          "name": "MIT License",
+          "url": null
+        },
+        "client_side": "optional",
+        "server_side": "optional"
+      },
+      "state": "resolved",
+      "version": {
+        "game_versions": [
+          "1.20",
+          "1.20.1"
+        ],
+        "loaders": [
+          "forge",
+          "neoforge"
+        ],
+        "environment": "client_or_server",
+        "id": "DG5Fn9Sz",
+        "project_id": "uXXizFIs",
+        "author_id": "cXzLZ8YY",
+        "featured": false,
+        "name": "6.0.1 (Forge)",
+        "version_number": "6.0.1",
+        "changelog_url": null,
+        "date_published": "2023-10-22T13:40:26.306516Z",
+        "downloads": 24344883,
+        "version_type": "release",
+        "status": "listed",
+        "requested_status": null,
+        "files": [
+          {
+            "id": "5DAl5AST",
+            "hashes": {
+              "sha1": "417fb6ce8f52abf40bd9d0390371790f9576f8ba",
+              "sha512": "a1960a7c03dc32d4ccaccaf28afdd9b078758bbd62d15a91d4039a83fa9397a098e89b69591f6bd5190254d9ee97e502504154b9aec764adb8c65f000b75ba2c"
+            },
+            "url": "https://cdn.modrinth.com/data/uXXizFIs/versions/DG5Fn9Sz/ferritecore-6.0.1-forge.jar",
+            "filename": "ferritecore-6.0.1-forge.jar",
+            "primary": true,
+            "size": 123034,
+            "file_type": null
+          }
+        ],
+        "dependencies": []
+      },
+      "verified_file": {
+        "filename": "ferritecore-6.0.1-forge.jar",
+        "bytes": 123034,
+        "sha256": "9c2c9396a49e796d88497758caa4637d2bcbb433c318e2dd9cebcffbaf0f6c54"
+      }
+    },
+    "4WWQxlQP": {
+      "project": {
+        "id": "4WWQxlQP",
+        "slug": "servercore",
+        "title": "ServerCore",
+        "source_url": "https://github.com/Wesley1808/ServerCore",
+        "issues_url": "https://github.com/Wesley1808/ServerCore/issues",
+        "license": {
+          "id": "MIT",
+          "name": "MIT License",
+          "url": null
+        },
+        "client_side": "unsupported",
+        "server_side": "required"
+      },
+      "state": "resolved",
+      "version": {
+        "game_versions": [
+          "1.20.1"
+        ],
+        "loaders": [
+          "forge"
+        ],
+        "environment": "server_only",
+        "id": "rx1c7m6q",
+        "project_id": "4WWQxlQP",
+        "author_id": "M6QxQqoY",
+        "featured": false,
+        "name": "ServerCore Forge 1.5.2+1.20.1",
+        "version_number": "1.5.2+1.20.1",
+        "changelog_url": null,
+        "date_published": "2024-11-22T21:48:03.604148Z",
+        "downloads": 7963474,
+        "version_type": "release",
+        "status": "listed",
+        "requested_status": null,
+        "files": [
+          {
+            "id": "LB4FFb9D",
+            "hashes": {
+              "sha1": "75c6418edc76da55ec89f417e8c43c9d1873fceb",
+              "sha512": "650f54dcf6d44e26cbc180ca5779857574692f02ff2a55146ed085db1665dde7fb578c75d655e3de064ed56599bc6d38dd547f5f123381c0a54867b98f805b0c"
+            },
+            "url": "https://cdn.modrinth.com/data/4WWQxlQP/versions/rx1c7m6q/servercore-forge-1.5.2%2B1.20.1.jar",
+            "filename": "servercore-forge-1.5.2+1.20.1.jar",
+            "primary": true,
+            "size": 1508496,
+            "file_type": null
+          }
+        ],
+        "dependencies": []
+      },
+      "verified_file": {
+        "filename": "servercore-forge-1.5.2+1.20.1.jar",
+        "bytes": 1508496,
+        "sha256": "d9ad4f456b6c36bac17a71cd12935fdccae69ca1e1fcd33857210758cb58e586"
+      }
+    },
+    "PuyPazRT": {
+      "project": {
+        "id": "PuyPazRT",
+        "slug": "smartbrainlib",
+        "title": "SmartBrainLib",
+        "source_url": "https://github.com/Tslat/SmartBrainLib",
+        "issues_url": "https://github.com/Tslat/SmartBrainLib/issues",
+        "license": {
+          "id": "MPL-2.0",
+          "name": "Mozilla Public License 2.0",
+          "url": null
+        },
+        "client_side": "unsupported",
+        "server_side": "required"
+      },
+      "state": "resolved",
+      "version": {
+        "game_versions": [
+          "1.20.1"
+        ],
+        "loaders": [
+          "forge"
+        ],
+        "environment": "server_only",
+        "id": "YkeJNm33",
+        "project_id": "PuyPazRT",
+        "author_id": "GIhCykJ9",
+        "featured": false,
+        "name": "1.15",
+        "version_number": "1.15",
+        "changelog_url": null,
+        "date_published": "2024-08-23T04:22:55.344970Z",
+        "downloads": 1564253,
+        "version_type": "release",
+        "status": "listed",
+        "requested_status": null,
+        "files": [
+          {
+            "id": "sod9PHi5",
+            "hashes": {
+              "sha512": "51754d743b86bf89da5c15a1c2b733f4b3713bf2aa7e6bd4d920cd36bc7923f2de316903fbe0d675a37f848929508c0e418dec1ecf7e87342f547fe32e75f8f4",
+              "sha1": "366e0f0c7ca746fee327392d3569b31aefd34b5a"
+            },
+            "url": "https://cdn.modrinth.com/data/PuyPazRT/versions/YkeJNm33/SmartBrainLib-forge-1.20.1-1.15.jar",
+            "filename": "SmartBrainLib-forge-1.20.1-1.15.jar",
+            "primary": true,
+            "size": 362339,
+            "file_type": null
+          }
+        ],
+        "dependencies": []
+      },
+      "verified_file": {
+        "filename": "SmartBrainLib-forge-1.20.1-1.15.jar",
+        "bytes": 362339,
+        "sha256": "dc1f5497e1a175397fa10ea84170d8311c71b592976128700fb008139dde55d4"
+      }
+    },
+    "JE0fgMUp": {
+      "project": {
+        "id": "JE0fgMUp",
+        "slug": "lucent",
+        "title": "Lucent",
+        "source_url": "https://gitlab.com/modding-legacy/lucent",
+        "issues_url": "https://gitlab.com/modding-legacy/lucent/-/issues",
+        "license": {
+          "id": "LicenseRef-Lucent-API-License",
+          "name": "",
+          "url": "https://gitlab.com/modding-legacy/lucent/-/blob/1.19.x/LICENSE.md"
+        },
+        "client_side": "required",
+        "server_side": "unsupported"
+      },
+      "state": "resolved",
+      "version": {
+        "game_versions": [
+          "1.20.1"
+        ],
+        "loaders": [
+          "forge",
+          "neoforge"
+        ],
+        "environment": "client_only",
+        "id": "YHpxVMDQ",
+        "project_id": "JE0fgMUp",
+        "author_id": "QlRPeSYG",
+        "featured": false,
+        "name": "Lucent v1.5.5",
+        "version_number": "1.5.5",
+        "changelog_url": null,
+        "date_published": "2023-12-12T08:22:09.499786Z",
+        "downloads": 607125,
+        "version_type": "release",
+        "status": "listed",
+        "requested_status": null,
+        "files": [
+          {
+            "id": "E1PPff0Q",
+            "hashes": {
+              "sha1": "d72dc411c4e35869044840e4b551e8734788bc51",
+              "sha512": "03ecca88448b9a042d9fb744f5e5e153a97b1995f471efd3e6a5aac5b23c24de1559b8dfa6fa0e1bf7a51c5098a3601a445bf0adfd5a29dd28c3e253f42b06ac"
+            },
+            "url": "https://cdn.modrinth.com/data/JE0fgMUp/versions/YHpxVMDQ/lucent-1.20.1-1.5.5.jar",
+            "filename": "lucent-1.20.1-1.5.5.jar",
+            "primary": true,
+            "size": 225245,
+            "file_type": null
+          }
+        ],
+        "dependencies": []
+      },
+      "verified_file": {
+        "filename": "lucent-1.20.1-1.5.5.jar",
+        "bytes": 225245,
+        "sha256": "dc5fd7883dabcdaf3bf5ba02d8f20f2974df20edc6ce7a05e788d998fd3ef152"
+      }
+    },
+    "Aqlf1Shp": {
+      "project": {
+        "id": "Aqlf1Shp",
+        "slug": "forgified-fabric-api",
+        "title": "Forgified Fabric API",
+        "source_url": "https://github.com/Sinytra/ForgifiedFabricAPI",
+        "issues_url": "https://github.com/Sinytra/ForgifiedFabricAPI/issues",
+        "license": {
+          "id": "Apache-2.0",
+          "name": "Apache License 2.0",
+          "url": "https://github.com/Sinytra/ForgifiedFabricAPI/blob/1.20.1/LICENSE"
+        },
+        "client_side": "required",
+        "server_side": "required"
+      },
+      "state": "resolved",
+      "version": {
+        "game_versions": [
+          "1.20.1"
+        ],
+        "loaders": [
+          "forge"
+        ],
+        "environment": "client_and_server",
+        "id": "g0MxcWXy",
+        "project_id": "Aqlf1Shp",
+        "author_id": "5qUpS9rY",
+        "featured": false,
+        "name": "[1.20.1] Forgified Fabric API 0.92.6+1.11.15+1.20.1",
+        "version_number": "0.92.6+1.11.15+1.20.1",
+        "changelog_url": null,
+        "date_published": "2026-08-13T17:28:27.555030Z",
+        "downloads": 579703,
+        "version_type": "release",
+        "status": "listed",
+        "requested_status": null,
+        "files": [
+          {
+            "id": "WhUb4T8O",
+            "hashes": {
+              "sha1": "a37689ff8da8a32f82304ea4a1011873bb4c7eca",
+              "sha512": "da1e59fa754edb24d8a3b6023ef648d6431a8297a9e873d18bfe866aca9384f491af1b438c2c4b75dbf9bd4b9a11daf717a8d1469e9efaed145e5c53f9cbcf37"
+            },
+            "url": "https://cdn.modrinth.com/data/Aqlf1Shp/versions/g0MxcWXy/fabric-api-0.92.6%2B1.11.15%2B1.20.1.jar",
+            "filename": "fabric-api-0.92.6+1.11.15+1.20.1.jar",
+            "primary": true,
+            "size": 3065833,
+            "file_type": null
+          }
+        ],
+        "dependencies": []
+      },
+      "verified_file": {
+        "filename": "fabric-api-0.92.6+1.11.15+1.20.1.jar",
+        "bytes": 3065833,
+        "sha256": "3dd3f93c31122d928297220601f521e6a8a20356bafc7819bf4ddce4c2bb085d"
+      }
+    },
+    "u58R1TMW": {
+      "project": {
+        "id": "u58R1TMW",
+        "slug": "connector",
+        "title": "Sinytra Connector",
+        "source_url": "https://github.com/Sinytra/Connector",
+        "issues_url": "https://github.com/Sinytra/Connector/issues",
+        "license": {
+          "id": "MIT",
+          "name": "MIT License",
+          "url": "https://github.com/Sinytra/Connector/blob/master/LICENSE"
+        },
+        "client_side": "optional",
+        "server_side": "optional"
+      },
+      "state": "resolved",
+      "version": {
+        "game_versions": [
+          "1.20.1"
+        ],
+        "loaders": [
+          "forge"
+        ],
+        "environment": "client_or_server",
+        "id": "1MQDrKN7",
+        "project_id": "u58R1TMW",
+        "author_id": "5qUpS9rY",
+        "featured": false,
+        "name": "Connector 1.0.0-beta.49+1.20.1",
+        "version_number": "1.0.0-beta.49+1.20.1",
+        "changelog_url": null,
+        "date_published": "2026-07-04T09:17:44.956408Z",
+        "downloads": 1032243,
+        "version_type": "beta",
+        "status": "listed",
+        "requested_status": null,
+        "files": [
+          {
+            "id": "tWLfKW8B",
+            "hashes": {
+              "sha1": "2b167110353c0622939a674b80ae35b1ed6b5625",
+              "sha512": "c6f029b95bbb868a37eb3fe1dc71d696e7016584b10cadec36357b03c710f0f715d57c0bba5c467c0679bc32e6e5d8e366cf4edbb7d7b3edcf47f7794191e626"
+            },
+            "url": "https://cdn.modrinth.com/data/u58R1TMW/versions/1MQDrKN7/Connector-1.0.0-beta.49%2B1.20.1.jar",
+            "filename": "Connector-1.0.0-beta.49+1.20.1.jar",
+            "primary": true,
+            "size": 5046109,
+            "file_type": null
+          }
+        ],
+        "dependencies": [
+          {
+            "version_id": null,
+            "project_id": "Aqlf1Shp",
+            "file_name": null,
+            "dependency_type": "required"
+          },
+          {
+            "version_id": null,
+            "project_id": "FYpiwiBR",
+            "file_name": null,
+            "dependency_type": "optional"
+          }
+        ]
+      },
+      "verified_file": {
+        "filename": "Connector-1.0.0-beta.49+1.20.1.jar",
+        "bytes": 5046109,
+        "sha256": "e39acd37e162eb48cdfc6ae64776c13507a5ec3d4dd76ae4f39b5b79ca24d431"
+      }
+    }
+  },
+  "extra_inputs": {
+    "optifine": {
+      "filename": "OptiFine_1.20.1_HD_U_I6.jar",
+      "size": 7145205,
+      "hashes": {
+        "sha256": "0b67cb670aedf2e55a982f3d52b6d53e46791a0c984aa1d2ee58100fc9bfc650"
+      },
+      "official_page": "https://optifine.net/adloadx?f=OptiFine_1.20.1_HD_U_I6.jar",
+      "official_file": "OptiFine_1.20.1_HD_U_I6.jar",
+      "acquisition": "Fresh public download link from the official mirror page; no redistribution of OptiFine"
+    },
+    "makeup-ultra-fast": {
+      "game_versions": [
+        "1.12.2",
+        "1.13",
+        "1.13.1",
+        "1.13.2",
+        "1.14",
+        "1.14.1",
+        "1.14.2",
+        "1.14.3",
+        "1.14.4",
+        "1.15",
+        "1.15.1",
+        "1.15.2",
+        "1.16",
+        "1.16.1",
+        "1.16.2",
+        "1.16.3",
+        "1.16.4",
+        "1.16.5",
+        "1.17",
+        "1.17.1",
+        "1.18",
+        "1.18.1",
+        "1.18.2",
+        "1.19",
+        "1.19.1",
+        "1.19.2",
+        "1.19.3",
+        "1.19.4",
+        "1.20",
+        "1.20.1",
+        "1.20.2",
+        "1.20.3",
+        "1.20.4",
+        "1.20.5",
+        "1.20.6",
+        "1.21",
+        "1.21.1",
+        "1.21.2",
+        "1.21.3",
+        "1.21.4",
+        "1.21.5",
+        "1.21.6",
+        "1.21.7",
+        "1.21.8",
+        "1.21.9",
+        "1.21.10",
+        "1.21.11",
+        "26.1",
+        "26.1.1",
+        "26.1.2",
+        "26.2",
+        "26.3"
+      ],
+      "loaders": [
+        "iris",
+        "optifine"
+      ],
+      "environment": "unknown",
+      "id": "IUFkxmHz",
+      "project_id": "izsIPI7a",
+      "author_id": "VoROpsYm",
+      "featured": false,
+      "name": "MakeUp - Ultra Fast 9.5f",
+      "version_number": "9.5f",
+      "changelog_url": null,
+      "date_published": "2026-09-27T01:53:18.227784Z",
+      "downloads": 103284,
+      "version_type": "release",
+      "status": "listed",
+      "requested_status": null,
+      "files": [
+        {
+          "id": "TgHyPT2T",
+          "hashes": {
+            "sha1": "b3873dcc6b39093a6c13c2ec9c5d5eee90c06827",
+            "sha512": "86d7d21eea4eaa257a43896d639d8f8ea1709f721ea70092504d273c7c9b47a16ede605be99548dbebf8ead8749c1effe44e6f1724ecba884d67ef185fff51e4"
+          },
+          "url": "https://cdn.modrinth.com/data/izsIPI7a/versions/IUFkxmHz/MakeUp-UltraFast-9.5f.zip",
+          "filename": "MakeUp-UltraFast-9.5f.zip",
+          "primary": true,
+          "size": 403666,
+          "file_type": null
+        }
+      ],
+      "dependencies": []
+    }
+  }
+}

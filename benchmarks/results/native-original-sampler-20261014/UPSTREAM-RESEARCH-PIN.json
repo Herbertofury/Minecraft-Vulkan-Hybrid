@@ -1,0 +1,15 @@
+{
+  "repository": "xCollateral/VulkanMod",
+  "inspected_dev_commit": "087ef24e58e5522dec5ccb44f279768786bfb6da",
+  "files": {
+    "Renderer.java": {
+      "url": "https://raw.githubusercontent.com/xCollateral/VulkanMod/087ef24e58e5522dec5ccb44f279768786bfb6da/src/main/java/net/vulkanmod/vulkan/Renderer.java",
+      "sha256": "91ac5944fcdc2223cdb38d97a394bcb371f8338d6477676e0c65ad90ddb7be89"
+    },
+    "Synchronization.java": {
+      "url": "https://raw.githubusercontent.com/xCollateral/VulkanMod/087ef24e58e5522dec5ccb44f279768786bfb6da/src/main/java/net/vulkanmod/vulkan/Synchronization.java",
+      "sha256": "77ea7f3d52417df496e76689e9817998718bce52bff284644d0c7accb5d0a80c"
+    }
+  },
+  "fork_base": "8df974b6b593c4bfccf1bfcdabf7163dc2c5a60b"
+}

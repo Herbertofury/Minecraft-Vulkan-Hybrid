@@ -1,0 +1,14 @@
+{
+  "renderer_version": 58,
+  "production_sha256": "71e8420d500ba385f463b07c8a0a1e262dbd603ff0fb3308758db5c0c26a84fc",
+  "GPU_cases": 199,
+  "pixels": 66400,
+  "mismatch": 0,
+  "old191_hashes_equal": true,
+  "original_typed_pipeline_Mc_GAME_proven": true,
+  "original_method_invocations": 60,
+  "original_draws": 8,
+  "typed_runtime_controls": 93,
+  "full_URenderPass_sampler_legacySupplier_delayedLoader_FPS_accepted": false,
+  "all327_unchanged": true
+}

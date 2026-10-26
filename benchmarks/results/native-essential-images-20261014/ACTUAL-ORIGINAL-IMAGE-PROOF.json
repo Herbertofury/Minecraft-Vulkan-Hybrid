@@ -1,0 +1,222 @@
+{
+  "accepted": true,
+  "original_method_invocations": 43,
+  "image_call_sites": 7,
+  "real_mip_context_transports": 1,
+  "private_loader_only": true,
+  "full_framebuffer_render_pass_or_FPS_accepted": false,
+  "controls": [
+    {
+      "control": "exact-original-typed-image-archive",
+      "passed": true
+    },
+    {
+      "control": "exact-original-image-selected-sites-gg.essential.universal.render.UGpuDeviceImpl",
+      "passed": true
+    },
+    {
+      "control": "unimplemented-root-framebuffer-sites-retained-gg.essential.universal.render.UGpuDeviceImpl",
+      "passed": true
+    },
+    {
+      "control": "exact-original-image-selected-sites-gg.essential.universal.render.UGpuDeviceImpl$info$1$limits$1",
+      "passed": true
+    },
+    {
+      "control": "unimplemented-root-framebuffer-sites-retained-gg.essential.universal.render.UGpuDeviceImpl$info$1$limits$1",
+      "passed": true
+    },
+    {
+      "control": "original-physical-native-format-limit",
+      "passed": true
+    },
+    {
+      "control": "original-format-limit-cache",
+      "passed": true
+    },
+    {
+      "control": "exact-original-image-selected-sites-gg.essential.universal.render.UGpuTextureImpl",
+      "passed": true
+    },
+    {
+      "control": "unimplemented-root-framebuffer-sites-retained-gg.essential.universal.render.UGpuTextureImpl",
+      "passed": true
+    },
+    {
+      "control": "actual-image-and-mip-view-allocation",
+      "passed": true
+    },
+    {
+      "control": "original-texture-binding-restored",
+      "passed": true
+    },
+    {
+      "control": "real-native-image-sampling-program",
+      "passed": true
+    },
+    {
+      "control": "actual-native-image-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "essential-original-native-RGBA-mip-0-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "real-native-image-sampling-program",
+      "passed": true
+    },
+    {
+      "control": "actual-native-image-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "essential-original-native-RGBA-mip-1-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "real-native-image-sampling-program",
+      "passed": true
+    },
+    {
+      "control": "actual-native-image-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "essential-original-native-RGBA-mip-2-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "real-native-image-sampling-program",
+      "passed": true
+    },
+    {
+      "control": "actual-native-image-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "essential-original-native-RGBA-mip-3-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "original-view-range-and-live-native-image",
+      "passed": true
+    },
+    {
+      "control": "original-view-past-mips-refused",
+      "passed": true
+    },
+    {
+      "control": "original-texture-close-keeps-view-owned-image",
+      "passed": true
+    },
+    {
+      "control": "real-native-image-sampling-program",
+      "passed": true
+    },
+    {
+      "control": "actual-native-image-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "essential-original-native-view-retains-closed-texture-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "original-final-view-releases-native-image",
+      "passed": true
+    },
+    {
+      "control": "original-NPOT-mip-extents-retained",
+      "passed": true
+    },
+    {
+      "control": "real-native-image-sampling-program",
+      "passed": true
+    },
+    {
+      "control": "actual-native-image-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "essential-original-native-NPOT-last-mip-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "exact-native-D32-format",
+      "passed": true
+    },
+    {
+      "control": "real-native-image-sampling-program",
+      "passed": true
+    },
+    {
+      "control": "actual-native-image-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "essential-original-native-D32-depth-sampling-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "real-native-image-sampling-program",
+      "passed": true
+    },
+    {
+      "control": "actual-native-image-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "essential-original-native-D32-depth-mip-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "real-native-image-sampling-program",
+      "passed": true
+    },
+    {
+      "control": "actual-native-image-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "essential-original-native-HDR-16-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "real-native-image-sampling-program",
+      "passed": true
+    },
+    {
+      "control": "actual-native-image-offscreen-pass",
+      "passed": true
+    },
+    {
+      "control": "essential-original-native-HDR-32-actual-GPU-pixels",
+      "passed": true
+    },
+    {
+      "control": "original-zero-size-refused",
+      "passed": true
+    },
+    {
+      "control": "original-too-many-mips-refused",
+      "passed": true
+    },
+    {
+      "control": "original-missing-usage-refused",
+      "passed": true
+    },
+    {
+      "control": "original-image-transport-totals",
+      "passed": true
+    },
+    {
+      "control": "all-original-typed-images-released",
+      "passed": true
+    },
+    {
+      "control": "native-image-error-clean",
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "verification": "uploaded then downloaded and SHA-256 verified; ZIP CRC and every root manifest entry checked",
+  "jar": {
+    "drive_file_id": "1zi_YwVnHL00VAF-kN4Wtj9oboxblJdcG",
+    "url": "https://drive.google.com/file/d/1zi_YwVnHL00VAF-kN4Wtj9oboxblJdcG/view",
+    "bytes": 30693714,
+    "sha256": "ce7003e81ebafe14653719bc6fb67f278dfa624b5c4c9245f536b704186fcdb8"
+  },
+  "bundle": {
+    "drive_file_id": "10lob_1zvY28_MdSFj1SBUJXWyWwD6sFE",
+    "url": "https://drive.google.com/file/d/10lob_1zvY28_MdSFj1SBUJXWyWwD6sFE/view",
+    "bytes": 47152936,
+    "sha256": "efa80702c580a5166ef4136e0d57ae492cba946d389e33b0037e83438d026f44",
+    "files": 1154,
+    "verified_manifest_entries": 1153
+  },
+  "product_commit": "8ed1e557ae30502fc6a1196e7a843fe2d64cbe9a",
+  "qa_commit": "c3ca9efe46901f87ceae57f1ab554b477483f1c1",
+  "folder_id": "1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B",
+  "prior_verified_release_retained": true
+}

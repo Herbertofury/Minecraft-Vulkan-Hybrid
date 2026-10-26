@@ -1,0 +1,12 @@
+{
+  "original": "Enhanced-Celestials-2-Shaders-Forge-1.20.1-1.0.0.4.jar",
+  "source_sha256": "2ce9f56c66a97f645ff249260a750f37a74c0e4ae0b2db9cbca73bdff4f0f0e2",
+  "output": "Enhanced-Celestials-2-Shaders-Forge-1.20.1-1.0.0.4-MVH-OptionalRenderer-v1.jar",
+  "output_sha256": "1da6252aebf8edd276af09078a22304e5be87df0329cc2b688a160662fddd8ed",
+  "changed_entries": [
+    "META-INF/mods.toml"
+  ],
+  "all_code_assets_and_licenses_equal": true,
+  "reason": "Already memory-copy-repaired Oculus works without Embeddium; shader add-on contains no direct Embeddium class references; actual shaderpack parity still pending",
+  "runtime_accepted": false
+}

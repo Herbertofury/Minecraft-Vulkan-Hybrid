@@ -1,0 +1,152 @@
+{
+  "schema": 1,
+  "accepted": false,
+  "failures": [
+    "stock_vulkan_confirmation: peak_resident_bytes"
+  ],
+  "candidate_sha256": "8b593bac1ac77670849ed992c808d327dd6d9f188ddfdea341ac88f16edf8c9f",
+  "baseline_sha256": "4b0c07eabbf3265bf6592d4aeb607ac1a62f91c83a0f74a846c9532a2f8192ec",
+  "cases": {
+    "vulkan_animation_8x": {
+      "raw_trials_verified": 6,
+      "medians": {
+        "baseline": {
+          "fps": 17.276008919283715,
+          "one_percent_low_fps": 10.834994772936676,
+          "frame_p95_ms": 77.489386,
+          "frame_p99_ms": 87.441819
+        },
+        "candidate": {
+          "fps": 20.423496007239663,
+          "one_percent_low_fps": 13.49462426990902,
+          "frame_p95_ms": 59.212657,
+          "frame_p99_ms": 68.198792
+        }
+      },
+      "candidate_change_percent": {
+        "fps": 18.218832270008157,
+        "one_percent_low_fps": 24.54666156014662,
+        "frame_p95_ms": -23.58610636042463,
+        "frame_p99_ms": -22.006663653691827
+      },
+      "material_regressions": [],
+      "resources": {
+        "baseline": {
+          "peak_resident_bytes": 3697213440,
+          "process_cpu_ns_per_frame": 152973484.84848484,
+          "heap_used_bytes_at_capture_end": 1085200152,
+          "gc_ms_per_second": 2.9292654814970462
+        },
+        "candidate": {
+          "peak_resident_bytes": 3257720832,
+          "process_cpu_ns_per_frame": 136655791.1908646,
+          "heap_used_bytes_at_capture_end": 890163224,
+          "gc_ms_per_second": 1.364668203607744
+        }
+      },
+      "resource_change_percent": {
+        "peak_resident_bytes": -11.887131082158998,
+        "process_cpu_ns_per_frame": -10.667007863344669,
+        "heap_used_bytes_at_capture_end": -17.9724383230643,
+        "gc_ms_per_second": -53.412614451377436
+      },
+      "raw_report_sha256": "bca7a22e8a5bb4614e8d54f4bec1f5444d8c7f2d7064c97acbcfa85c5ea89101"
+    },
+    "stock_vulkan_confirmation": {
+      "raw_trials_verified": 12,
+      "medians": {
+        "baseline": {
+          "fps": 25.70434719665205,
+          "one_percent_low_fps": 17.64265725687224,
+          "frame_p95_ms": 46.556107499999996,
+          "frame_p99_ms": 52.5237765
+        },
+        "candidate": {
+          "fps": 25.4495940056167,
+          "one_percent_low_fps": 17.90927618078541,
+          "frame_p95_ms": 46.311328,
+          "frame_p99_ms": 51.9637925
+        }
+      },
+      "candidate_change_percent": {
+        "fps": -0.9910899082025026,
+        "one_percent_low_fps": 1.5112174998996641,
+        "frame_p95_ms": -0.5257731222482298,
+        "frame_p99_ms": -1.0661533448570681
+      },
+      "material_regressions": [],
+      "resources": {
+        "baseline": {
+          "peak_resident_bytes": 2905366528.0,
+          "process_cpu_ns_per_frame": 113698186.52849741,
+          "heap_used_bytes_at_capture_end": 1153504936.0,
+          "gc_ms_per_second": 1.3323476780545191
+        },
+        "candidate": {
+          "peak_resident_bytes": 3272445952.0,
+          "process_cpu_ns_per_frame": 113426781.31892721,
+          "heap_used_bytes_at_capture_end": 1062021672.0,
+          "gc_ms_per_second": 1.4489331644893921
+        }
+      },
+      "resource_change_percent": {
+        "peak_resident_bytes": 12.63453063365092,
+        "process_cpu_ns_per_frame": -0.23870671807256771,
+        "heap_used_bytes_at_capture_end": -7.930894887822138,
+        "gc_ms_per_second": 8.750380126387869
+      },
+      "raw_report_sha256": "a0e300e39fe52d1ed8af0e4fb31ca241160079836e1969741fd658cc9f50a42c"
+    },
+    "stock_opengl_confirmation": {
+      "raw_trials_verified": 12,
+      "medians": {
+        "baseline": {
+          "fps": 17.972898565705812,
+          "one_percent_low_fps": 12.375528499159357,
+          "frame_p95_ms": 62.4926235,
+          "frame_p99_ms": 71.518103
+        },
+        "candidate": {
+          "fps": 18.04178809182936,
+          "one_percent_low_fps": 13.114774170065179,
+          "frame_p95_ms": 60.860676,
+          "frame_p99_ms": 69.575463
+        }
+      },
+      "candidate_change_percent": {
+        "fps": 0.38329669458545546,
+        "one_percent_low_fps": 5.973447283128452,
+        "frame_p95_ms": -2.6114242107310504,
+        "frame_p99_ms": -2.7162912864173716
+      },
+      "material_regressions": [],
+      "resources": {
+        "baseline": {
+          "peak_resident_bytes": 3205535744.0,
+          "process_cpu_ns_per_frame": 170430461.39441335,
+          "heap_used_bytes_at_capture_end": 1002327732.0,
+          "gc_ms_per_second": 0.6659487793953339
+        },
+        "candidate": {
+          "peak_resident_bytes": 2692061184.0,
+          "process_cpu_ns_per_frame": 169428044.2804428,
+          "heap_used_bytes_at_capture_end": 736139432.0,
+          "gc_ms_per_second": 0.9662948620489367
+        }
+      },
+      "resource_change_percent": {
+        "peak_resident_bytes": -16.0183695022307,
+        "process_cpu_ns_per_frame": -0.5881678109470934,
+        "heap_used_bytes_at_capture_end": -26.557012392429748,
+        "gc_ms_per_second": 45.100477986656884
+      },
+      "raw_report_sha256": "d706a7a5eeb8cbad941076c7d344e69372f2fbd9b4dd53f0847a60307188cdcc"
+    }
+  },
+  "frame_metric_threshold_percent": 5,
+  "resource_metric_threshold_percent": 5,
+  "initial_stock_flags_retained": true,
+  "gl_animation_control_gain_not_attributed_to_vulkan": true,
+  "heap_end_snapshots_and_short_gc_timers_reported_as_observations": true,
+  "scope": "Same-host Linux Mesa software rendering, fixed world/camera/settings; hardware GPU FPS unmeasured"
+}

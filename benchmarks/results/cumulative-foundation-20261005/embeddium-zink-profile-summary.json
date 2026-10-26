@@ -1,0 +1,70 @@
+{
+  "capture_begin_epoch_ms": 1791172119288,
+  "capture_end_epoch_ms": 1791172149288,
+  "event_counts": {
+    "jdk.NativeMethodSample": 1451,
+    "jdk.ExecutionSample": 482,
+    "jdk.ThreadCPULoad": 43
+  },
+  "sampled_threads": [
+    [
+      "FileSystemWatchService",
+      508
+    ],
+    [
+      "main",
+      435
+    ],
+    [
+      "Netty Server IO #0",
+      254
+    ],
+    [
+      "Netty Server IO #1",
+      254
+    ],
+    [
+      "Theseus RPC Read",
+      254
+    ],
+    [
+      "dimthread_server_unassigned",
+      171
+    ],
+    [
+      "Async-Tick-Pool-Thread-6",
+      8
+    ],
+    [
+      "Server thread",
+      8
+    ],
+    [
+      "Async-Tick-Pool-Thread-10",
+      4
+    ],
+    [
+      "Async-Tick-Pool-Thread-0",
+      4
+    ],
+    [
+      "Async-Tick-Pool-Thread-11",
+      4
+    ],
+    [
+      "Async-Tick-Pool-Thread-14",
+      4
+    ]
+  ],
+  "render_top": [],
+  "render_inclusive": [],
+  "render_native": [],
+  "owned_gpu_valid_capture_samples": {
+    "0-3d": {
+      "n": 30,
+      "median": 66.14743393637443,
+      "min": 62.46778691926694,
+      "max": 69.60447972149765
+    }
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "utc": "2026-10-14T07:26:04.101295+00:00",
+  "profile_restored": true,
+  "full327_hashes_unchanged": true,
+  "owned_profile_inactive": true,
+  "world_loaded": false,
+  "native_required": true,
+  "native_backend_lines": [
+    "[Hari/Vulkan] renderer=VULKAN reason=cached: all active discovered direct OpenGL calls are translated; pinned inactive classes audited",
+    "[01:21:04] [Render thread] [VulkanMod/INFO]: Selected Vulkan device: NVIDIA GeForce RTX 4090 (Nvidia) driver 610.88.0.0 Vulkan 1.4.341 indirectDrawSupported=true fastIndirectDraw=true"
+  ],
+  "phase_timings": [
+    {
+      "fixed_phase": "run_quarantine",
+      "elapsed_ns": 140000
+    },
+    {
+      "fixed_phase": "migration_priority_lock",
+      "elapsed_ns": 3200
+    },
+    {
+      "fixed_phase": "legacy_content_migration",
+      "elapsed_ns": 149568200
+    },
+    {
+      "fixed_phase": "shared_availability",
+      "elapsed_ns": 493200
+    },
+    {
+      "fixed_phase": "default_account_lookup",
+      "elapsed_ns": 332200
+    },
+    {
+      "fixed_phase": "launch_context_and_preferences",
+      "elapsed_ns": 1183300
+    },
+    {
+      "fixed_phase": "prelaunch_hooks",
+      "elapsed_ns": 5200
+    },
+    {
+      "fixed_phase": "server_analytics",
+      "elapsed_ns": 18900
+    },
+    {
+      "fixed_phase": "pending_skin_flush",
+      "elapsed_ns": 16000
+    },
+    {
+      "fixed_phase": "runtime_cache_read_lock",
+      "elapsed_ns": 4500
+    },
+    {
+      "fixed_phase": "instance_path",
+      "elapsed_ns": 177700
+    },
+    {
+      "fixed_phase": "minecraft_manifest",
+      "elapsed_ns": 11916100
+    },
+    {
+      "fixed_phase": "loader_manifest",
+      "elapsed_ns": 25083100
+    },
+    {
+      "fixed_phase": "installed_version_metadata",
+      "elapsed_ns": 9062000
+    },
+    {
+      "fixed_phase": "logging_metadata_repair",
+      "elapsed_ns": 200
+    },
+    {
+      "fixed_phase": "logging_configuration",
+      "elapsed_ns": 538900
+    },
+    {
+      "fixed_phase": "java_resolution",
+      "elapsed_ns": 95428700
+    },
+    {
+      "fixed_phase": "java_probe",
+      "elapsed_ns": 108581000
+    },
+    {
+      "fixed_phase": "existing_process_checks",
+      "elapsed_ns": 569800
+    },
+    {
+      "fixed_phase": "runtime_file_validation",
+      "elapsed_ns": 35440600
+    },
+    {
+      "fixed_phase": "command_and_arguments",
+      "elapsed_ns": 372763900
+    },
+    {
+      "fixed_phase": "game_options_sync",
+      "elapsed_ns": 744100
+    },
+    {
+      "fixed_phase": "launcher_options_overrides",
+      "elapsed_ns": 26011800
+    },
+    {
+      "fixed_phase": "content_sync",
+      "elapsed_ns": 58863814800
+    },
+    {
+      "fixed_phase": "instance_content_lock",
+      "elapsed_ns": 11500
+    },
+    {
+      "fixed_phase": "content_files_lock",
+      "elapsed_ns": 1000
+    },
+    {
+      "fixed_phase": "content_store_lease",
+      "elapsed_ns": 2000
+    },
+    {
+      "fixed_phase": "content_recovery",
+      "elapsed_ns": 147200
+    },
+    {
+      "fixed_phase": "process_recheck_and_last_played",
+      "elapsed_ns": 2706400
+    },
+    {
+      "fixed_phase": "discord_presence",
+      "elapsed_ns": 344100
+    },
+    {
+      "fixed_phase": "friends_presence",
+      "elapsed_ns": 32600
+    }
+  ],
+  "sum_phase_seconds": 59.7051422,
+  "content_sync_seconds": 58.8638148,
+  "normal_child_exit": true,
+  "automation_title_timeout_preserved": true,
+  "manual_scoped_onboarding_continue_and_close": true,
+  "first_run_onboarding_contaminates_title_time": true,
+  "title_screen_startup_gain_accepted": false,
+  "fps_accepted": false,
+  "wholepack_accepted": false,
+  "active_launcher_source_debug_binary_unchanged": true,
+  "other_projects_untouched": true,
+  "screenshot": "owned-menu.png"
+}

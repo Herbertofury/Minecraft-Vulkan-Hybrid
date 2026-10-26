@@ -1,0 +1,18 @@
+{
+  "GPU_cases": 84,
+  "pixels": 59040,
+  "mismatch": 0,
+  "old75_hashes_identical": true,
+  "delegate_invocations": 55,
+  "rewritten_sites": 12,
+  "controls": 38,
+  "device": {
+    "attributes": 0,
+    "nativeDivisorEnabled": 1,
+    "bindings": 0,
+    "nativeMaximumDivisor": 4294967295,
+    "bound": 0,
+    "arrays": 0
+  },
+  "fullpack_FPS_accepted": false
+}

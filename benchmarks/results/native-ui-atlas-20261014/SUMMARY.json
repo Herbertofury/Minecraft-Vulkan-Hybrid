@@ -1,0 +1,32 @@
+{
+  "utc": "2026-10-14T04:46:51.248633+00:00",
+  "production_version": "2.4.11-noxviola.36-dimensions-vulkan-hybrid",
+  "production_sha256": "78c463cd0cf16fa0362df8400e71f6334cf41df4265a5f52fd2d09450890daa7",
+  "private_controller_version": "1.0.54",
+  "native_gpu_cases": 56,
+  "compared_pixels": 57344,
+  "mismatched_pixels": 0,
+  "previous49_actual_rgba_hashes_identical": true,
+  "repeat56_actual_rgba_hashes_identical": true,
+  "original_extra_programs": 3,
+  "original_extra_uniform_updates": 15,
+  "original_extra_caller_rewrites": 24,
+  "real_font_atlas": [
+    836,
+    836
+  ],
+  "scope": "Actual native Minecraft1.20.1/Forge47.4.26/Java17 on RTX4090/610.88, owned11-JAR correctness slice. Original Shader/uniform executable through production callback in a private loader; actual GAME clipping/fence/viewport methods and fresh Forge shader-call-site exports. Original shader assets and installed JetBrainsMono MSDF atlas, source-derived widget inputs and original glyph UV/order on diagnostic quads. Full Essential features/modpack/FPS remain separate.",
+  "all_full327_active_hashes_unchanged": true,
+  "full327_shadow_new_renderer_refs": 488,
+  "full327_shadow_unique_apis": 237,
+  "full327_shadow_archives": 21,
+  "full327_native_accepted": false,
+  "fullpack_fps_measured": null,
+  "fullpack2000_or1500_achieved": false,
+  "startup_or_no_hitch_gain_accepted": false,
+  "opengl_fallback_launched": false,
+  "optimizer_added": false,
+  "fieldguide_index_noise_mipmap_candidates_incorporated": false,
+  "all_other_projects_preserved": true,
+  "new_renderer_original1001_source_hashes_unchanged": true
+}

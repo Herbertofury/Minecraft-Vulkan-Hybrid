@@ -1,0 +1,436 @@
+Downloading https://services.gradle.org/distributions/gradle-8.11.1-bin.zip
+.............10%.............20%.............30%.............40%.............50%.............60%.............70%.............80%.............90%.............100%
+
+Welcome to Gradle 8.11.1!
+
+Here are the highlights of this release:
+ - Parallel load and store for Configuration Cache
+ - Java compilation errors at the end of the build output
+ - Consolidated report for warnings and deprecations
+
+For more details see https://docs.gradle.org/8.11.1/release-notes.html
+
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.11.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :buildSrc:extractPluginRequests
+> Task :buildSrc:generatePluginAdapters
+> Task :buildSrc:compileJava
+> Task :buildSrc:compileGroovy NO-SOURCE
+> Task :buildSrc:compileGroovyPlugins
+> Task :buildSrc:pluginDescriptors
+> Task :buildSrc:processResources
+> Task :buildSrc:classes
+> Task :buildSrc:jar
+
+> Configure project :fabric
+Fabric Loom: 1.9.2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Using of the official minecraft mappings is at your own risk!
+Please make sure to read and understand the following license:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# (c) 2020 Microsoft Corporation. These mappings are provided "as-is" and you bear the risk of using them. You may copy and use the mappings for development purposes, but you may not redistribute the mappings complete and unmodified. Microsoft makes no warranties, express or implied, with respect to the mappings provided here.  Use and modification of this document or the source code (in any form) of Minecraft: Java Edition is governed by the Minecraft End User License Agreement available at https://account.mojang.com/documents/minecraft_eula.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:remapping 54 mods from modImplementation (java-api)
+:remapping sources
+
+> Configure project :forge
+MixinGradle is skipping eclipse integration, extension not found
+Java: 17.0.20.1, JVM: 17.0.20.1+1 (Eclipse Adoptium), Arch: amd64
+
+> Task :forge:downloadMcpConfig
+> Task :forge:extractSrg
+> Task :forge:createMcpToSrg
+> Task :forge:processHarimtVulkanBackendResources NO-SOURCE
+> Task :forge:processTestResources NO-SOURCE
+
+> Task :common:compileJava
+Setting up MCP environment
+Initializing steps
+Executing steps
+ > Running 'downloadManifest'
+ > Running 'downloadJson'
+ > Running 'downloadClient'
+ > Running 'downloadServer'
+ > Running 'extractServer'
+ > Running 'downloadClientMappings'
+ > Running 'mergeMappings'
+ > Running 'stripClient'
+ > Running 'stripServer'
+ > Running 'merge'
+ > Running 'listLibraries'
+ > Running 'rename'
+Stopping at requested step: C:\Users\Owner\Documents\Codex\2026-10-04\task-4\gradle-cache\caches\forge_gradle\mcp_repo\de\oceanlabs\mcp\mcp_config\1.20.1-20230612.114412\joined\rename\output.jar
+[13:37:53] [main/INFO]: Writing debug log file accesstransform.log
+[13:37:53] [main/INFO]: Access Transformer processor running version 8.2.14
+[13:37:53] [main/INFO]: Command line arguments [--inJar, C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\build\fg_cache\net\minecraftforge\forge\1.20.1-47.4.23\forge-1.20.1-47.4.23-injected.jar, --outJar, C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\build\fg_cache\net\minecraftforge\forge\1.20.1-47.4.23_mapped_official_1.20.1\forge-1.20.1-47.4.23_mapped_official_1.20.1.jar, --logFile, accesstransform.log, --atFile, C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\src\main\resources\META-INF\accesstransformer.cfg, --atFile, C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\build\_atJar_4\parent_at.cfg]
+[13:37:53] [main/INFO]: Reading from C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\build\fg_cache\net\minecraftforge\forge\1.20.1-47.4.23\forge-1.20.1-47.4.23-injected.jar
+[13:37:53] [main/INFO]: Writing to C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\build\fg_cache\net\minecraftforge\forge\1.20.1-47.4.23_mapped_official_1.20.1\forge-1.20.1-47.4.23_mapped_official_1.20.1.jar
+[13:37:53] [main/INFO]: Transformer file C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\src\main\resources\META-INF\accesstransformer.cfg
+[13:37:53] [main/INFO]: Transformer file C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\build\_atJar_4\parent_at.cfg
+[13:37:53] [main/WARN]: Found existing output jar C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\build\fg_cache\net\minecraftforge\forge\1.20.1-47.4.23_mapped_official_1.20.1\forge-1.20.1-47.4.23_mapped_official_1.20.1.jar, overwriting
+[13:37:56] [main/INFO]: JAR transformation complete C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\build\fg_cache\net\minecraftforge\forge\1.20.1-47.4.23_mapped_official_1.20.1\forge-1.20.1-47.4.23_mapped_official_1.20.1.jar
+Creating SRG -> MCP TSRG
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+> Task :common:processResources
+> Task :common:classes
+> Task :common:jar
+
+> Task :forge:compileJava
+Note: SpongePowered MIXIN Annotation Processor Version=0.8.5 (MixinGradle Version=0.7.38)
+Note: Supported obfuscation types: ObfuscationServiceMCP supports [notch] ObfuscationServiceFG3 supports [searge]
+Note: Loading searge mappings from C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\build\createMcpToSrg\output.tsrg
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\texture\MSpriteContentsTicker.java:13: warning: Mixin target net.minecraft.client.renderer.texture.SpriteContents$Ticker is public and should be specified in value
+@Mixin(targets = "net.minecraft.client.renderer.texture.SpriteContents$Ticker")
+^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\src\main\java\com\axalotl\async\common\mixin\utils\FastUtilsMixin.java:43: warning: Mixin target it.unimi.dsi.fastutil.longs.LongLinkedOpenHashSet is public and should be specified in value
+@Mixin(value={Int2ObjectOpenHashMap.class, Int2ObjectLinkedOpenHashMap.class, LongLinkedOpenHashSet.class, ObjectOpenCustomHashSet.class, Long2LongOpenHashMap.class, Long2ObjectLinkedOpenHashMap.class, ReferenceOpenHashSet.class, Reference2ReferenceArrayMap.class, Object2LongOpenHashMap.class, Reference2ReferenceOpenHashMap.class, IntArrayList.class, Reference2IntOpenHashMap.class, ReferenceArrayList.class, Object2ReferenceOpenCustomHashMap.class, Reference2ByteOpenHashMap.class, Reference2LongOpenHashMap.class}, targets={"it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$FastEntryIterator", "it.unimi.dsi.fastutil.longs.LongLinkedOpenHashSet", "it.unimi.dsi.fastutil.objects.ObjectOpenCustomHashSet", "it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceArrayList", "it.unimi.dsi.fastutil.objects.Object2ReferenceOpenCustomHashMap", "it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap", "it.unimi.dsi.fastutil.ints.IntArrayList", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet", "it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap", "it.unimi.dsi.fastutil.objects.Reference2ReferenceArrayMap", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeyIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapEntrySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$EntryIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.objects.Reference2ByteOpenHashMap"}, priority=50000)
+^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\src\main\java\com\axalotl\async\common\mixin\utils\FastUtilsMixin.java:43: warning: Mixin target it.unimi.dsi.fastutil.objects.ObjectOpenCustomHashSet is public and should be specified in value
+@Mixin(value={Int2ObjectOpenHashMap.class, Int2ObjectLinkedOpenHashMap.class, LongLinkedOpenHashSet.class, ObjectOpenCustomHashSet.class, Long2LongOpenHashMap.class, Long2ObjectLinkedOpenHashMap.class, ReferenceOpenHashSet.class, Reference2ReferenceArrayMap.class, Object2LongOpenHashMap.class, Reference2ReferenceOpenHashMap.class, IntArrayList.class, Reference2IntOpenHashMap.class, ReferenceArrayList.class, Object2ReferenceOpenCustomHashMap.class, Reference2ByteOpenHashMap.class, Reference2LongOpenHashMap.class}, targets={"it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$FastEntryIterator", "it.unimi.dsi.fastutil.longs.LongLinkedOpenHashSet", "it.unimi.dsi.fastutil.objects.ObjectOpenCustomHashSet", "it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceArrayList", "it.unimi.dsi.fastutil.objects.Object2ReferenceOpenCustomHashMap", "it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap", "it.unimi.dsi.fastutil.ints.IntArrayList", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet", "it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap", "it.unimi.dsi.fastutil.objects.Reference2ReferenceArrayMap", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeyIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapEntrySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$EntryIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.objects.Reference2ByteOpenHashMap"}, priority=50000)
+^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\src\main\java\com\axalotl\async\common\mixin\utils\FastUtilsMixin.java:43: warning: Mixin target it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap is public and should be specified in value
+@Mixin(value={Int2ObjectOpenHashMap.class, Int2ObjectLinkedOpenHashMap.class, LongLinkedOpenHashSet.class, ObjectOpenCustomHashSet.class, Long2LongOpenHashMap.class, Long2ObjectLinkedOpenHashMap.class, ReferenceOpenHashSet.class, Reference2ReferenceArrayMap.class, Object2LongOpenHashMap.class, Reference2ReferenceOpenHashMap.class, IntArrayList.class, Reference2IntOpenHashMap.class, ReferenceArrayList.class, Object2ReferenceOpenCustomHashMap.class, Reference2ByteOpenHashMap.class, Reference2LongOpenHashMap.class}, targets={"it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$FastEntryIterator", "it.unimi.dsi.fastutil.longs.LongLinkedOpenHashSet", "it.unimi.dsi.fastutil.objects.ObjectOpenCustomHashSet", "it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceArrayList", "it.unimi.dsi.fastutil.objects.Object2ReferenceOpenCustomHashMap", "it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap", "it.unimi.dsi.fastutil.ints.IntArrayList", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet", "it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap", "it.unimi.dsi.fastutil.objects.Reference2ReferenceArrayMap", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeyIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapEntrySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$EntryIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.objects.Reference2ByteOpenHashMap"}, priority=50000)
+^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\src\main\java\com\axalotl\async\common\mixin\utils\FastUtilsMixin.java:43: warning: Mixin target it.unimi.dsi.fastutil.objects.ReferenceArrayList is public and should be specified in value
+@Mixin(value={Int2ObjectOpenHashMap.class, Int2ObjectLinkedOpenHashMap.class, LongLinkedOpenHashSet.class, ObjectOpenCustomHashSet.class, Long2LongOpenHashMap.class, Long2ObjectLinkedOpenHashMap.class, ReferenceOpenHashSet.class, Reference2ReferenceArrayMap.class, Object2LongOpenHashMap.class, Reference2ReferenceOpenHashMap.class, IntArrayList.class, Reference2IntOpenHashMap.class, ReferenceArrayList.class, Object2ReferenceOpenCustomHashMap.class, Reference2ByteOpenHashMap.class, Reference2LongOpenHashMap.class}, targets={"it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$FastEntryIterator", "it.unimi.dsi.fastutil.longs.LongLinkedOpenHashSet", "it.unimi.dsi.fastutil.objects.ObjectOpenCustomHashSet", "it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceArrayList", "it.unimi.dsi.fastutil.objects.Object2ReferenceOpenCustomHashMap", "it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap", "it.unimi.dsi.fastutil.ints.IntArrayList", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet", "it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap", "it.unimi.dsi.fastutil.objects.Reference2ReferenceArrayMap", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeyIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapEntrySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$EntryIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.objects.Reference2ByteOpenHashMap"}, priority=50000)
+^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\src\main\java\com\axalotl\async\common\mixin\utils\FastUtilsMixin.java:43: warning: Mixin target it.unimi.dsi.fastutil.objects.Object2ReferenceOpenCustomHashMap is public and should be specified in value
+@Mixin(value={Int2ObjectOpenHashMap.class, Int2ObjectLinkedOpenHashMap.class, LongLinkedOpenHashSet.class, ObjectOpenCustomHashSet.class, Long2LongOpenHashMap.class, Long2ObjectLinkedOpenHashMap.class, ReferenceOpenHashSet.class, Reference2ReferenceArrayMap.class, Object2LongOpenHashMap.class, Reference2ReferenceOpenHashMap.class, IntArrayList.class, Reference2IntOpenHashMap.class, ReferenceArrayList.class, Object2ReferenceOpenCustomHashMap.class, Reference2ByteOpenHashMap.class, Reference2LongOpenHashMap.class}, targets={"it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$FastEntryIterator", "it.unimi.dsi.fastutil.longs.LongLinkedOpenHashSet", "it.unimi.dsi.fastutil.objects.ObjectOpenCustomHashSet", "it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceArrayList", "it.unimi.dsi.fastutil.objects.Object2ReferenceOpenCustomHashMap", "it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap", "it.unimi.dsi.fastutil.ints.IntArrayList", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet", "it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap", "it.unimi.dsi.fastutil.objects.Reference2ReferenceArrayMap", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeyIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapEntrySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$EntryIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.objects.Reference2ByteOpenHashMap"}, priority=50000)
+^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\src\main\java\com\axalotl\async\common\mixin\utils\FastUtilsMixin.java:43: warning: Mixin target it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap is public and should be specified in value
+@Mixin(value={Int2ObjectOpenHashMap.class, Int2ObjectLinkedOpenHashMap.class, LongLinkedOpenHashSet.class, ObjectOpenCustomHashSet.class, Long2LongOpenHashMap.class, Long2ObjectLinkedOpenHashMap.class, ReferenceOpenHashSet.class, Reference2ReferenceArrayMap.class, Object2LongOpenHashMap.class, Reference2ReferenceOpenHashMap.class, IntArrayList.class, Reference2IntOpenHashMap.class, ReferenceArrayList.class, Object2ReferenceOpenCustomHashMap.class, Reference2ByteOpenHashMap.class, Reference2LongOpenHashMap.class}, targets={"it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$FastEntryIterator", "it.unimi.dsi.fastutil.longs.LongLinkedOpenHashSet", "it.unimi.dsi.fastutil.objects.ObjectOpenCustomHashSet", "it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceArrayList", "it.unimi.dsi.fastutil.objects.Object2ReferenceOpenCustomHashMap", "it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap", "it.unimi.dsi.fastutil.ints.IntArrayList", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet", "it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap", "it.unimi.dsi.fastutil.objects.Reference2ReferenceArrayMap", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeyIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapEntrySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$EntryIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.objects.Reference2ByteOpenHashMap"}, priority=50000)
+^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\src\main\java\com\axalotl\async\common\mixin\utils\FastUtilsMixin.java:43: warning: Mixin target it.unimi.dsi.fastutil.ints.IntArrayList is public and should be specified in value
+@Mixin(value={Int2ObjectOpenHashMap.class, Int2ObjectLinkedOpenHashMap.class, LongLinkedOpenHashSet.class, ObjectOpenCustomHashSet.class, Long2LongOpenHashMap.class, Long2ObjectLinkedOpenHashMap.class, ReferenceOpenHashSet.class, Reference2ReferenceArrayMap.class, Object2LongOpenHashMap.class, Reference2ReferenceOpenHashMap.class, IntArrayList.class, Reference2IntOpenHashMap.class, ReferenceArrayList.class, Object2ReferenceOpenCustomHashMap.class, Reference2ByteOpenHashMap.class, Reference2LongOpenHashMap.class}, targets={"it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$FastEntryIterator", "it.unimi.dsi.fastutil.longs.LongLinkedOpenHashSet", "it.unimi.dsi.fastutil.objects.ObjectOpenCustomHashSet", "it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceArrayList", "it.unimi.dsi.fastutil.objects.Object2ReferenceOpenCustomHashMap", "it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap", "it.unimi.dsi.fastutil.ints.IntArrayList", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet", "it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap", "it.unimi.dsi.fastutil.objects.Reference2ReferenceArrayMap", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeyIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapEntrySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$EntryIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.objects.Reference2ByteOpenHashMap"}, priority=50000)
+^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\src\main\java\com\axalotl\async\common\mixin\utils\FastUtilsMixin.java:43: warning: Mixin target it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap is public and should be specified in value
+@Mixin(value={Int2ObjectOpenHashMap.class, Int2ObjectLinkedOpenHashMap.class, LongLinkedOpenHashSet.class, ObjectOpenCustomHashSet.class, Long2LongOpenHashMap.class, Long2ObjectLinkedOpenHashMap.class, ReferenceOpenHashSet.class, Reference2ReferenceArrayMap.class, Object2LongOpenHashMap.class, Reference2ReferenceOpenHashMap.class, IntArrayList.class, Reference2IntOpenHashMap.class, ReferenceArrayList.class, Object2ReferenceOpenCustomHashMap.class, Reference2ByteOpenHashMap.class, Reference2LongOpenHashMap.class}, targets={"it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$FastEntryIterator", "it.unimi.dsi.fastutil.longs.LongLinkedOpenHashSet", "it.unimi.dsi.fastutil.objects.ObjectOpenCustomHashSet", "it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceArrayList", "it.unimi.dsi.fastutil.objects.Object2ReferenceOpenCustomHashMap", "it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap", "it.unimi.dsi.fastutil.ints.IntArrayList", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet", "it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap", "it.unimi.dsi.fastutil.objects.Reference2ReferenceArrayMap", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeyIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapEntrySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$EntryIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.objects.Reference2ByteOpenHashMap"}, priority=50000)
+^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\src\main\java\com\axalotl\async\common\mixin\utils\FastUtilsMixin.java:43: warning: Mixin target it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap is public and should be specified in value
+@Mixin(value={Int2ObjectOpenHashMap.class, Int2ObjectLinkedOpenHashMap.class, LongLinkedOpenHashSet.class, ObjectOpenCustomHashSet.class, Long2LongOpenHashMap.class, Long2ObjectLinkedOpenHashMap.class, ReferenceOpenHashSet.class, Reference2ReferenceArrayMap.class, Object2LongOpenHashMap.class, Reference2ReferenceOpenHashMap.class, IntArrayList.class, Reference2IntOpenHashMap.class, ReferenceArrayList.class, Object2ReferenceOpenCustomHashMap.class, Reference2ByteOpenHashMap.class, Reference2LongOpenHashMap.class}, targets={"it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$FastEntryIterator", "it.unimi.dsi.fastutil.longs.LongLinkedOpenHashSet", "it.unimi.dsi.fastutil.objects.ObjectOpenCustomHashSet", "it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceArrayList", "it.unimi.dsi.fastutil.objects.Object2ReferenceOpenCustomHashMap", "it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap", "it.unimi.dsi.fastutil.ints.IntArrayList", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet", "it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap", "it.unimi.dsi.fastutil.objects.Reference2ReferenceArrayMap", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeyIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapEntrySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$EntryIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.objects.Reference2ByteOpenHashMap"}, priority=50000)
+^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\src\main\java\com\axalotl\async\common\mixin\utils\FastUtilsMixin.java:43: warning: Mixin target it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap is public and should be specified in value
+@Mixin(value={Int2ObjectOpenHashMap.class, Int2ObjectLinkedOpenHashMap.class, LongLinkedOpenHashSet.class, ObjectOpenCustomHashSet.class, Long2LongOpenHashMap.class, Long2ObjectLinkedOpenHashMap.class, ReferenceOpenHashSet.class, Reference2ReferenceArrayMap.class, Object2LongOpenHashMap.class, Reference2ReferenceOpenHashMap.class, IntArrayList.class, Reference2IntOpenHashMap.class, ReferenceArrayList.class, Object2ReferenceOpenCustomHashMap.class, Reference2ByteOpenHashMap.class, Reference2LongOpenHashMap.class}, targets={"it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$FastEntryIterator", "it.unimi.dsi.fastutil.longs.LongLinkedOpenHashSet", "it.unimi.dsi.fastutil.objects.ObjectOpenCustomHashSet", "it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceArrayList", "it.unimi.dsi.fastutil.objects.Object2ReferenceOpenCustomHashMap", "it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap", "it.unimi.dsi.fastutil.ints.IntArrayList", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet", "it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap", "it.unimi.dsi.fastutil.objects.Reference2ReferenceArrayMap", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeyIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapEntrySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$EntryIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.objects.Reference2ByteOpenHashMap"}, priority=50000)
+^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\src\main\java\com\axalotl\async\common\mixin\utils\FastUtilsMixin.java:43: warning: Mixin target it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet is public and should be specified in value
+@Mixin(value={Int2ObjectOpenHashMap.class, Int2ObjectLinkedOpenHashMap.class, LongLinkedOpenHashSet.class, ObjectOpenCustomHashSet.class, Long2LongOpenHashMap.class, Long2ObjectLinkedOpenHashMap.class, ReferenceOpenHashSet.class, Reference2ReferenceArrayMap.class, Object2LongOpenHashMap.class, Reference2ReferenceOpenHashMap.class, IntArrayList.class, Reference2IntOpenHashMap.class, ReferenceArrayList.class, Object2ReferenceOpenCustomHashMap.class, Reference2ByteOpenHashMap.class, Reference2LongOpenHashMap.class}, targets={"it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$FastEntryIterator", "it.unimi.dsi.fastutil.longs.LongLinkedOpenHashSet", "it.unimi.dsi.fastutil.objects.ObjectOpenCustomHashSet", "it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceArrayList", "it.unimi.dsi.fastutil.objects.Object2ReferenceOpenCustomHashMap", "it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap", "it.unimi.dsi.fastutil.ints.IntArrayList", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet", "it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap", "it.unimi.dsi.fastutil.objects.Reference2ReferenceArrayMap", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeyIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapEntrySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$EntryIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.objects.Reference2ByteOpenHashMap"}, priority=50000)
+^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\src\main\java\com\axalotl\async\common\mixin\utils\FastUtilsMixin.java:43: warning: Mixin target it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap is public and should be specified in value
+@Mixin(value={Int2ObjectOpenHashMap.class, Int2ObjectLinkedOpenHashMap.class, LongLinkedOpenHashSet.class, ObjectOpenCustomHashSet.class, Long2LongOpenHashMap.class, Long2ObjectLinkedOpenHashMap.class, ReferenceOpenHashSet.class, Reference2ReferenceArrayMap.class, Object2LongOpenHashMap.class, Reference2ReferenceOpenHashMap.class, IntArrayList.class, Reference2IntOpenHashMap.class, ReferenceArrayList.class, Object2ReferenceOpenCustomHashMap.class, Reference2ByteOpenHashMap.class, Reference2LongOpenHashMap.class}, targets={"it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$FastEntryIterator", "it.unimi.dsi.fastutil.longs.LongLinkedOpenHashSet", "it.unimi.dsi.fastutil.objects.ObjectOpenCustomHashSet", "it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceArrayList", "it.unimi.dsi.fastutil.objects.Object2ReferenceOpenCustomHashMap", "it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap", "it.unimi.dsi.fastutil.ints.IntArrayList", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet", "it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap", "it.unimi.dsi.fastutil.objects.Reference2ReferenceArrayMap", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeyIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapEntrySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$EntryIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.objects.Reference2ByteOpenHashMap"}, priority=50000)
+^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\src\main\java\com\axalotl\async\common\mixin\utils\FastUtilsMixin.java:43: warning: Mixin target it.unimi.dsi.fastutil.objects.Reference2ReferenceArrayMap is public and should be specified in value
+@Mixin(value={Int2ObjectOpenHashMap.class, Int2ObjectLinkedOpenHashMap.class, LongLinkedOpenHashSet.class, ObjectOpenCustomHashSet.class, Long2LongOpenHashMap.class, Long2ObjectLinkedOpenHashMap.class, ReferenceOpenHashSet.class, Reference2ReferenceArrayMap.class, Object2LongOpenHashMap.class, Reference2ReferenceOpenHashMap.class, IntArrayList.class, Reference2IntOpenHashMap.class, ReferenceArrayList.class, Object2ReferenceOpenCustomHashMap.class, Reference2ByteOpenHashMap.class, Reference2LongOpenHashMap.class}, targets={"it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$FastEntryIterator", "it.unimi.dsi.fastutil.longs.LongLinkedOpenHashSet", "it.unimi.dsi.fastutil.objects.ObjectOpenCustomHashSet", "it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceArrayList", "it.unimi.dsi.fastutil.objects.Object2ReferenceOpenCustomHashMap", "it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap", "it.unimi.dsi.fastutil.ints.IntArrayList", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet", "it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap", "it.unimi.dsi.fastutil.objects.Reference2ReferenceArrayMap", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeyIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapEntrySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$EntryIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.objects.Reference2ByteOpenHashMap"}, priority=50000)
+^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\common\src\main\java\com\axalotl\async\common\mixin\utils\FastUtilsMixin.java:43: warning: Mixin target it.unimi.dsi.fastutil.objects.Reference2ByteOpenHashMap is public and should be specified in value
+@Mixin(value={Int2ObjectOpenHashMap.class, Int2ObjectLinkedOpenHashMap.class, LongLinkedOpenHashSet.class, ObjectOpenCustomHashSet.class, Long2LongOpenHashMap.class, Long2ObjectLinkedOpenHashMap.class, ReferenceOpenHashSet.class, Reference2ReferenceArrayMap.class, Object2LongOpenHashMap.class, Reference2ReferenceOpenHashMap.class, IntArrayList.class, Reference2IntOpenHashMap.class, ReferenceArrayList.class, Object2ReferenceOpenCustomHashMap.class, Reference2ByteOpenHashMap.class, Reference2LongOpenHashMap.class}, targets={"it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$FastEntryIterator", "it.unimi.dsi.fastutil.longs.LongLinkedOpenHashSet", "it.unimi.dsi.fastutil.objects.ObjectOpenCustomHashSet", "it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceArrayList", "it.unimi.dsi.fastutil.objects.Object2ReferenceOpenCustomHashMap", "it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap", "it.unimi.dsi.fastutil.ints.IntArrayList", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap", "it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet", "it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap", "it.unimi.dsi.fastutil.objects.Reference2ReferenceArrayMap", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$ValueIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$KeyIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapEntrySet", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$EntryIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap$MapIterator", "it.unimi.dsi.fastutil.objects.Reference2ByteOpenHashMap"}, priority=50000)
+^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\screen\ScreenM.java:56: warning: Unable to determine descriptor for @Inject target method
+    @Inject(method = "renderBlurredBackground", at = @At("HEAD"), cancellable = true, require = 0)
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\screen\ScreenM.java:75: warning: Unable to determine descriptor for @Inject target method
+    @Inject(method = "renderBlurredBackground", at = @At("RETURN"), require = 0)
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\bobby\FakeChunkManagerM.java:49: Note: @Redirect target 'load' in @Pseudo mixin will not be obfuscated
+    @Redirect(
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\wayland\InputConstantsM.java:16: warning: Unable to locate method mapping for @At(INVOKE.<target>) 'Lorg/lwjgl/glfw/GLFW;glfwSetCursorPos(JDD)V'
+    @Redirect(method = "grabOrReleaseMouse", at = @At(value = "INVOKE", target = "Lorg/lwjgl/glfw/GLFW;glfwSetCursorPos(JDD)V"))
+    ^
+Note: Writing refmap to C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\build\tmp\compileJava\compileJava-refmap.json
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\chunk\DirectionMixin.java:12: warning: Cannot find target for @Shadow field in net.minecraft.core.Direction
+    @Shadow(remap = false) @Final private static Direction[] f_122348_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\chunk\DirectionMixin.java:14: warning: Cannot find target for @Shadow field in net.minecraft.core.Direction
+    @Shadow(remap = false) @Final private int f_122340_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\chunk\FrustumMixin.java:16: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.culling.Frustum
+    @Shadow(remap = false) private double f_112996_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\chunk\FrustumMixin.java:17: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.culling.Frustum
+    @Shadow(remap = false) private double f_112997_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\chunk\FrustumMixin.java:18: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.culling.Frustum
+    @Shadow(remap = false) private double f_112998_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\chunk\LevelRendererMixin.java:37: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.LevelRenderer
+    @Shadow(remap = false)
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\chunk\LevelRendererMixin.java:41: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.LevelRenderer
+    @Shadow(remap = false)
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\chunk\LevelRendererMixin.java:44: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.LevelRenderer
+    @Shadow(remap = false)
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\chunk\LevelRendererMixin.java:47: warning: Cannot find target for @Shadow method in net.minecraft.client.renderer.LevelRenderer
+    @Shadow(remap = false)
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\chunk\LevelRendererMixin.java:50: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.LevelRenderer
+    @Shadow(remap = false)
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\chunk\LevelRendererMixin.java:52: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.LevelRenderer
+    @Shadow(remap = false)
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\chunk\LevelRendererMixin.java:55: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.LevelRenderer
+    @Shadow(remap = false)
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\chunk\LevelRendererMixin.java:58: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.LevelRenderer
+    @Shadow(remap = false)
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\chunk\LevelRendererMixin.java:60: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.LevelRenderer
+    @Shadow(remap = false)
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\chunk\LevelRendererMixin.java:64: warning: Cannot find target for @Shadow method in net.minecraft.client.renderer.LevelRenderer
+    @Shadow(remap = false)
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\chunk\LevelRendererMixin.java:67: warning: Cannot find target for @Shadow method in net.minecraft.client.renderer.LevelRenderer
+    @Shadow(remap = false)
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\chunk\LevelRendererMixin.java:70: warning: Cannot find target for @Shadow method in net.minecraft.client.renderer.LevelRenderer
+    @Shadow(remap = false)
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\EffectInstanceM.java:51: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.EffectInstance
+    @Shadow(remap = false) @Final private Map<String, com.mojang.blaze3d.shaders.Uniform> f_108930_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\EffectInstanceM.java:52: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.EffectInstance
+    @Shadow(remap = false) @Final private List<com.mojang.blaze3d.shaders.Uniform> f_108928_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\EffectInstanceM.java:54: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.EffectInstance
+    @Shadow(remap = false) private boolean f_108933_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\EffectInstanceM.java:55: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.EffectInstance
+    @Shadow(remap = false) private static EffectInstance f_108923_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\EffectInstanceM.java:56: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.EffectInstance
+    @Shadow(remap = false) @Final private BlendMode f_108934_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\EffectInstanceM.java:57: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.EffectInstance
+    @Shadow(remap = false) private static int f_108924_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\EffectInstanceM.java:58: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.EffectInstance
+    @Shadow(remap = false) @Final private int f_108931_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\EffectInstanceM.java:59: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.EffectInstance
+    @Shadow(remap = false) @Final private List<Integer> f_108927_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\EffectInstanceM.java:60: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.EffectInstance
+    @Shadow(remap = false) @Final private List<String> f_108926_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\EffectInstanceM.java:61: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.EffectInstance
+    @Shadow(remap = false) @Final private Map<String, IntSupplier> f_108925_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\EffectInstanceM.java:63: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.EffectInstance
+    @Shadow(remap = false) @Final private String f_108932_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\PostChainM.java:18: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.PostChain
+    @Shadow(remap = false) @Final private List<PostPass> f_110009_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\PostChainM.java:20: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.PostChain
+    @Shadow(remap = false) private float f_110016_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\PostChainM.java:21: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.PostChain
+    @Shadow(remap = false) private float f_110015_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\PostPassM.java:28: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.PostPass
+    @Shadow(remap = false) @Final public RenderTarget f_110052_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\PostPassM.java:30: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.PostPass
+    @Shadow(remap = false) @Final public RenderTarget f_110053_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\PostPassM.java:32: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.PostPass
+    @Shadow(remap = false) @Final private EffectInstance f_110054_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\PostPassM.java:34: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.PostPass
+    @Shadow(remap = false) @Final private List<IntSupplier> f_110055_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\PostPassM.java:36: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.PostPass
+    @Shadow(remap = false) @Final private List<String> f_110056_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\PostPassM.java:38: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.PostPass
+    @Shadow(remap = false) @Final private List<Integer> f_110057_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\PostPassM.java:40: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.PostPass
+    @Shadow(remap = false) @Final private List<Integer> f_110058_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\compatibility\PostPassM.java:42: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.PostPass
+    @Shadow(remap = false) private Matrix4f f_110059_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\debug\DebugScreenOverlayM.java:27: warning: Cannot find target for @Shadow field in net.minecraft.client.gui.components.DebugScreenOverlay
+    @Shadow(remap = false)
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\debug\DebugScreenOverlayM.java:31: warning: Cannot find target for @Shadow method in net.minecraft.client.gui.components.DebugScreenOverlay
+    @Shadow(remap = false)
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\debug\DebugScreenOverlayM.java:36: warning: Cannot find target for @Shadow field in net.minecraft.client.gui.components.DebugScreenOverlay
+    @Shadow(remap = false)
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\debug\DebugScreenOverlayM.java:40: warning: Cannot find target for @Shadow method in net.minecraft.client.gui.components.DebugScreenOverlay
+    @Shadow(remap = false)
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\debug\DebugScreenOverlayM.java:43: warning: Cannot find target for @Shadow method in net.minecraft.client.gui.components.DebugScreenOverlay
+    @Shadow(remap = false)
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\matrix\Matrix4fM.java:11: warning: Unable to locate obfuscation mapping for @Shadow method
+    @Shadow public abstract Matrix4f perspective(float fovy, float aspect, float zNear, float zFar, boolean zZeroToOne);
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\matrix\Matrix4fM.java:12: warning: Unable to locate obfuscation mapping for @Shadow method
+    @Shadow public abstract Matrix4f ortho(float left, float right, float bottom, float top, float zNear, float zFar, boolean zZeroToOne);
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\profiling\GuiMixin.java:19: warning: Cannot find target for @Shadow field in net.minecraft.client.gui.Gui
+    @Shadow @Final private DebugScreenOverlay debugOverlay;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\profiling\GuiMixin.java:19: warning: Unable to locate obfuscation mapping for @Shadow field
+    @Shadow @Final private DebugScreenOverlay debugOverlay;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\block\BakedQuadM.java:25: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.block.model.BakedQuad
+    @Shadow(remap = false) @Final protected int[] f_111292_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\block\BakedQuadM.java:26: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.block.model.BakedQuad
+    @Shadow(remap = false) @Final protected Direction f_111294_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\block\BakedQuadM.java:27: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.block.model.BakedQuad
+    @Shadow(remap = false) @Final protected int f_111293_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\GameRendererMixin.java:93: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.GameRenderer
+    @Shadow(remap = false) public ShaderInstance f_172635_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\GameRendererMixin.java:95: warning: Cannot find target for @Shadow method in net.minecraft.client.renderer.GameRenderer
+    @Shadow(remap = false)
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\LevelRendererMixin.java:22: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.LevelRenderer
+    @Shadow(remap = false) private @Nullable PostChain f_109412_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\LevelRendererMixin.java:24: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.LevelRenderer
+    @Shadow(remap = false) @Final private Minecraft f_109461_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\LevelRendererMixin.java:26: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.LevelRenderer
+    @Shadow(remap = false) @Nullable private RenderTarget f_109411_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\LevelRendererMixin.java:28: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.LevelRenderer
+    @Shadow(remap = false) @Final private static Logger f_109453_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\MinecraftMixin.java:34: warning: Cannot find target for @Shadow field in net.minecraft.client.Minecraft
+    @Shadow(remap = false) private boolean f_91079_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\MinecraftMixin.java:35: warning: Cannot find target for @Shadow field in net.minecraft.client.Minecraft
+    @Shadow(remap = false) @Final private Options f_91066_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\model\ModelPartM.java:30: warning: Cannot find target for @Shadow field in net.minecraft.client.model.geom.ModelPart
+    @Shadow(remap = false) @Final private List<ModelPart.Cube> f_104212_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\particle\ParticleEngineMixin.java:25: warning: Cannot find target for @Shadow field in net.minecraft.client.particle.ParticleEngine
+    @Shadow(remap = false) @Final private Map<ParticleRenderType, Queue<Particle>> f_107289_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\particle\SingleQuadParticleM.java:26: warning: Cannot find target for @Shadow field in net.minecraft.client.particle.SingleQuadParticle
+    @Shadow(remap = false) protected float f_107663_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\particle\SingleQuadParticleM.java:28: warning: Cannot find target for @Shadow method in net.minecraft.client.particle.SingleQuadParticle
+    @Shadow(remap = false) protected abstract float m_5970_();
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\particle\SingleQuadParticleM.java:29: warning: Cannot find target for @Shadow method in net.minecraft.client.particle.SingleQuadParticle
+    @Shadow(remap = false) protected abstract float m_5952_();
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\particle\SingleQuadParticleM.java:30: warning: Cannot find target for @Shadow method in net.minecraft.client.particle.SingleQuadParticle
+    @Shadow(remap = false) protected abstract float m_5951_();
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\particle\SingleQuadParticleM.java:31: warning: Cannot find target for @Shadow method in net.minecraft.client.particle.SingleQuadParticle
+    @Shadow(remap = false) protected abstract float m_5950_();
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\particle\SingleQuadParticleM.java:33: warning: Cannot find target for @Shadow method in net.minecraft.client.particle.SingleQuadParticle
+    @Shadow(remap = false) public abstract float m_5902_(float f);
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\ShaderInstanceM.java:42: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.ShaderInstance
+    @Shadow(remap = false) @Final private Map<String, com.mojang.blaze3d.shaders.Uniform> f_173333_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\ShaderInstanceM.java:43: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.ShaderInstance
+    @Shadow(remap = false) @Final private String f_173300_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\ShaderInstanceM.java:45: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.ShaderInstance
+    @Shadow(remap = false) @Final @Nullable public com.mojang.blaze3d.shaders.Uniform f_173308_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\ShaderInstanceM.java:46: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.ShaderInstance
+    @Shadow(remap = false) @Final @Nullable public com.mojang.blaze3d.shaders.Uniform f_173309_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\ShaderInstanceM.java:47: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.ShaderInstance
+    @Shadow(remap = false) @Final @Nullable public com.mojang.blaze3d.shaders.Uniform f_200956_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\ShaderInstanceM.java:48: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.ShaderInstance
+    @Shadow(remap = false) @Final @Nullable public com.mojang.blaze3d.shaders.Uniform f_173312_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\ShaderInstanceM.java:49: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.ShaderInstance
+    @Shadow(remap = false) @Final @Nullable public com.mojang.blaze3d.shaders.Uniform f_173318_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\ShaderInstanceM.java:51: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.ShaderInstance
+    @Shadow(remap = false) @Final @Nullable public com.mojang.blaze3d.shaders.Uniform f_267422_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\ShaderInstanceM.java:52: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.ShaderInstance
+    @Shadow(remap = false) @Final @Nullable public com.mojang.blaze3d.shaders.Uniform f_173315_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\ShaderInstanceM.java:53: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.ShaderInstance
+    @Shadow(remap = false) @Final @Nullable public com.mojang.blaze3d.shaders.Uniform f_173316_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\ShaderInstanceM.java:54: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.ShaderInstance
+    @Shadow(remap = false) @Final @Nullable public com.mojang.blaze3d.shaders.Uniform f_173317_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\ShaderInstanceM.java:55: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.ShaderInstance
+    @Shadow(remap = false) @Final @Nullable public com.mojang.blaze3d.shaders.Uniform f_202432_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\ShaderInstanceM.java:56: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.ShaderInstance
+    @Shadow(remap = false) @Final @Nullable public com.mojang.blaze3d.shaders.Uniform f_173310_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\ShaderInstanceM.java:57: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.ShaderInstance
+    @Shadow(remap = false) @Final @Nullable public com.mojang.blaze3d.shaders.Uniform f_173319_;
+    ^
+C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\src\main\java\net\vulkanmod\mixin\render\ShaderInstanceM.java:58: warning: Cannot find target for @Shadow field in net.minecraft.client.renderer.ShaderInstance
+    @Shadow(remap = false) @Final @Nullable public com.mojang.blaze3d.shaders.Uniform f_173311_;
+    ^
+Note: Writing refmap to C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\build\tmp\compileJava\compileJava-refmap.json
+Note: Writing searge composite mappings to C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\build\tmp\compileJava\compileJava-mappings.tsrg
+Note: Writing refmap to C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\build\tmp\compileJava\compileJava-refmap.json
+Note: Writing refmap to C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\build\tmp\compileJava\compileJava-refmap.json
+Note: Writing searge composite mappings to C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\build\tmp\compileJava\compileJava-mappings.tsrg
+Note: Writing refmap to C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\build\tmp\compileJava\compileJava-refmap.json
+Note: Writing refmap to C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\build\tmp\compileJava\compileJava-refmap.json
+Note: Writing searge composite mappings to C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\build\tmp\compileJava\compileJava-mappings.tsrg
+Note: Writing refmap to C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\build\tmp\compileJava\compileJava-refmap.json
+Note: Writing refmap to C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\build\tmp\compileJava\compileJava-refmap.json
+Note: Writing searge composite mappings to C:\Users\Owner\Documents\Codex\2026-10-04\task-4\complete-source\source\forge\build\tmp\compileJava\compileJava-mappings.tsrg
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some input files additionally use or override a deprecated API that is marked for removal.
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+100 warnings
+
+> Task :forge:normalizeHariMixinRefmap
+> Task :forge:addMixinsToJar
+> Task :forge:addMixinsToHarimtVulkanBackendJar
+> Task :forge:compileHarimtVulkanBackendJava
+> Task :forge:harimtVulkanBackendClasses
+> Task :forge:harimtVulkanBackendJar
+> Task :forge:processResources
+> Task :forge:classes
+> Task :forge:jar
+> Task :forge:configureReobfTaskForReobfJar
+> Task :forge:reobfJar
+> Task :forge:configureReobfTaskForReobfJarJar
+> Task :forge:addMixinsToJarJar
+> Task :forge:jarJar
+> Task :forge:reobfJarJar
+> Task :forge:assemble
+> Task :forge:compileTestJava NO-SOURCE
+> Task :forge:testClasses UP-TO-DATE
+> Task :forge:test NO-SOURCE
+> Task :forge:check UP-TO-DATE
+> Task :forge:build
+[Incubating] Problems report is available at: file:///C:/Users/Owner/Documents/Codex/2026-10-04/task-4/complete-source/source/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.11.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 4m 1s
+27 actionable tasks: 27 executed

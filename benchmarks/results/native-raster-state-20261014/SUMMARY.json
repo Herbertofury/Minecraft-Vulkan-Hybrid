@@ -1,0 +1,15 @@
+{
+  "version": 56,
+  "GPU_cases": 164,
+  "pixels": 64160,
+  "mismatch": 0,
+  "old141_hashes_equal": true,
+  "baseline_logic_failures": 14,
+  "baseline_polygon_failures": 4,
+  "candidate_logic_failures": 0,
+  "candidate_polygon_failures": 0,
+  "paired_controller_sha256": "7e35c88a09eab0ace41438ed3ebf8e2b255bd83b9032648af38d9d046c7a7599",
+  "production_sha256": "e5997b9a039bfce89a50f57cfe6f4d90ae4deea75de89e6081aac927921ce4d5",
+  "full_typed_provider_GAME_or_FPS_accepted": false,
+  "all327_unchanged": true
+}

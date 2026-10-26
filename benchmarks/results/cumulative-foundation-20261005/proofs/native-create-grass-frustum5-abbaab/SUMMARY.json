@@ -1,0 +1,704 @@
+{
+  "order": [
+    "A",
+    "B",
+    "B",
+    "A",
+    "A",
+    "B"
+  ],
+  "variants": {
+    "A": {
+      "path": "mvh-grass-distance-compat-1.0.3.jar",
+      "sha256": "45d0067072c608eccf6ebafc06990a7ca5661c08bd5828118834f1b1a0eb325a"
+    },
+    "B": {
+      "path": "mvh-grass-distance-compat-1.0.5.jar",
+      "sha256": "d7d623db11aac1f96acae7a532e037645ff72e54651c02960c78b06efaf52bb0"
+    }
+  },
+  "hari": {
+    "name": "harimt-forge-1.20.1-2.4.11-noxviola.22-dimensions-vulkan-hybrid-all.jar",
+    "sha256": "874a76069045091858bc2c7e740a27c4a93af43b893ab05658951aef1465b7f5"
+  },
+  "controller": {
+    "name": "mvh-noxviola-control-1.0.36.jar",
+    "sha256": "c13f1fa3351c211278718f85d8d1777819264c7293c895e32096afd8ff739336"
+  },
+  "trials": [
+    {
+      "order": 1,
+      "variant": "A",
+      "stage": "017-native-create-grass-frustum5-matched-v22-20261005-01-A",
+      "metrics": {
+        "average_fps": 1877.3893113968552,
+        "one_percent_low_fps": 443.63998426493913,
+        "p50_ms": 0.4973,
+        "p95_ms": 0.6305,
+        "p99_ms": 2.1062,
+        "max_ms": 3.9779,
+        "duration_ms": 30000.1708,
+        "frames": 56322
+      },
+      "repeated_cache_startup_s": 31.404667,
+      "native_counters_at_capture_end": {
+        "WORLD_FRAMES": 158630,
+        "MODEL_DRAWS": 475839,
+        "GPU_CULL_DISPATCHES": 475839,
+        "GPU_APPLY_DISPATCHES": 475839,
+        "GPU_LAST_VISIBLE": 16,
+        "GPU_LAST_SUBMITTED": 16,
+        "LIGHT_UPLOADS": 2,
+        "LIGHT_UPLOAD_BYTES": 840208,
+        "LIGHT_CACHE_HITS": 158628
+      },
+      "telemetry_global_and_owned_cpu": {
+        "system_cpu_percent": {
+          "mean": 2.5233333333333334,
+          "median": 2.3,
+          "min": 1.4,
+          "max": 5.0,
+          "samples": 30
+        },
+        "java_cpu_percent": {
+          "mean": 45.18333333333334,
+          "median": 46.599999999999994,
+          "min": 14.1,
+          "max": 80.9,
+          "samples": 30
+        },
+        "java_rss_mib": {
+          "mean": 2984.858333333333,
+          "median": 2986.369140625,
+          "min": 2978.03125,
+          "max": 2988.12890625,
+          "samples": 30
+        },
+        "gpu_percent": {
+          "mean": 58.93333333333333,
+          "median": 59.0,
+          "min": 55.0,
+          "max": 61.0,
+          "samples": 30
+        },
+        "memory_percent": {
+          "mean": 38.86666666666667,
+          "median": 39.0,
+          "min": 34.0,
+          "max": 40.0,
+          "samples": 30
+        },
+        "memory_mib": {
+          "mean": 2451.866666666667,
+          "median": 2447.5,
+          "min": 2416.0,
+          "max": 2500.0,
+          "samples": 30
+        },
+        "power_w": {
+          "mean": 265.5,
+          "median": 265.87,
+          "min": 254.82,
+          "max": 269.84,
+          "samples": 30
+        },
+        "temperature_c": {
+          "mean": 56.86666666666667,
+          "median": 57.0,
+          "min": 56.0,
+          "max": 58.0,
+          "samples": 30
+        },
+        "graphics_mhz": {
+          "mean": 2820.0,
+          "median": 2820.0,
+          "min": 2820.0,
+          "max": 2820.0,
+          "samples": 30
+        }
+      },
+      "raw_frame_file": "01-A-frames.csv.gz",
+      "raw_frame_file_sha256": "3e7dff6bb6d99ac4e7f4b38740eac04b4641bc59e350e8ce13f0fa1f5d2fbc25",
+      "private_original_fps_json_sha256": "a358d0258252b1869e22a814f2c1466ff03f4c1fe566d1b305ff3bf647ac8701",
+      "generated_renderer_decision_cache_sha256": "063fa532d6ae5de0c6d4969abecb8c796fa143a5095bcd35757b089bd8b79a85"
+    },
+    {
+      "order": 2,
+      "variant": "B",
+      "stage": "017-native-create-grass-frustum5-matched-v22-20261005-02-B",
+      "metrics": {
+        "average_fps": 1879.1870586651391,
+        "one_percent_low_fps": 439.51542956321043,
+        "p50_ms": 0.4904,
+        "p95_ms": 0.6615,
+        "p99_ms": 2.0979,
+        "max_ms": 3.9323,
+        "duration_ms": 30000.2066,
+        "frames": 56376
+      },
+      "repeated_cache_startup_s": 26.672651,
+      "native_counters_at_capture_end": {
+        "WORLD_FRAMES": 171909,
+        "MODEL_DRAWS": 515667,
+        "GPU_CULL_DISPATCHES": 515667,
+        "GPU_APPLY_DISPATCHES": 515667,
+        "GPU_LAST_VISIBLE": 16,
+        "GPU_LAST_SUBMITTED": 16,
+        "LIGHT_UPLOADS": 2,
+        "LIGHT_UPLOAD_BYTES": 840208,
+        "LIGHT_CACHE_HITS": 171907,
+        "GRASS_FRUSTUM_CACHE_HITS": 306489209,
+        "GRASS_FRUSTUM_CACHE_MISSES": 32258,
+        "GRASS_FRUSTUM_STATE_CAPTURES": 171909,
+        "GRASS_FRUSTUM_STATE_CHANGES": 50
+      },
+      "telemetry_global_and_owned_cpu": {
+        "system_cpu_percent": {
+          "mean": 1.8133333333333332,
+          "median": 1.7,
+          "min": 0.8,
+          "max": 4.7,
+          "samples": 30
+        },
+        "java_cpu_percent": {
+          "mean": 34.17333333333333,
+          "median": 31.25,
+          "min": 9.4,
+          "max": 72.1,
+          "samples": 30
+        },
+        "java_rss_mib": {
+          "mean": 3330.2716145833333,
+          "median": 3334.009765625,
+          "min": 3320.9921875,
+          "max": 3335.13671875,
+          "samples": 30
+        },
+        "gpu_percent": {
+          "mean": 59.36666666666667,
+          "median": 60.0,
+          "min": 55.0,
+          "max": 63.0,
+          "samples": 30
+        },
+        "memory_percent": {
+          "mean": 39.0,
+          "median": 39.0,
+          "min": 35.0,
+          "max": 41.0,
+          "samples": 30
+        },
+        "memory_mib": {
+          "mean": 2538.133333333333,
+          "median": 2495.0,
+          "min": 2428.0,
+          "max": 2761.0,
+          "samples": 30
+        },
+        "power_w": {
+          "mean": 268.71233333333333,
+          "median": 270.56,
+          "min": 257.11,
+          "max": 275.33,
+          "samples": 30
+        },
+        "temperature_c": {
+          "mean": 58.96666666666667,
+          "median": 59.0,
+          "min": 58.0,
+          "max": 60.0,
+          "samples": 30
+        },
+        "graphics_mhz": {
+          "mean": 2819.5,
+          "median": 2820.0,
+          "min": 2805.0,
+          "max": 2820.0,
+          "samples": 30
+        }
+      },
+      "raw_frame_file": "02-B-frames.csv.gz",
+      "raw_frame_file_sha256": "1b8a67fdf703d5f80a32cdabd0bea75a3d234bcd68eaf53a0581a04e471c7231",
+      "private_original_fps_json_sha256": "48323ccfae0eafa34d13c00406431eff2bd83fc88e6cfd0c5532525f8c45125e",
+      "generated_renderer_decision_cache_sha256": "2eeef5bf170cf685957965d17c3d23bf6677c3c4fa8aca48d7e10c0ddae2284c"
+    },
+    {
+      "order": 3,
+      "variant": "B",
+      "stage": "017-native-create-grass-frustum5-matched-v22-20261005-03-B",
+      "metrics": {
+        "average_fps": 1926.6058342460167,
+        "one_percent_low_fps": 434.8345180066252,
+        "p50_ms": 0.4764,
+        "p95_ms": 0.6461,
+        "p99_ms": 2.1166,
+        "max_ms": 4.0579,
+        "duration_ms": 30000.4282,
+        "frames": 57799
+      },
+      "repeated_cache_startup_s": 27.010313,
+      "native_counters_at_capture_end": {
+        "WORLD_FRAMES": 181239,
+        "MODEL_DRAWS": 543681,
+        "GPU_CULL_DISPATCHES": 543681,
+        "GPU_APPLY_DISPATCHES": 543681,
+        "GPU_LAST_VISIBLE": 16,
+        "GPU_LAST_SUBMITTED": 16,
+        "LIGHT_UPLOADS": 2,
+        "LIGHT_UPLOAD_BYTES": 840208,
+        "LIGHT_CACHE_HITS": 181237,
+        "GRASS_FRUSTUM_CACHE_HITS": 322978988,
+        "GRASS_FRUSTUM_CACHE_MISSES": 25076,
+        "GRASS_FRUSTUM_STATE_CAPTURES": 181239,
+        "GRASS_FRUSTUM_STATE_CHANGES": 41
+      },
+      "telemetry_global_and_owned_cpu": {
+        "system_cpu_percent": {
+          "mean": 2.1433333333333335,
+          "median": 2.0,
+          "min": 1.2,
+          "max": 3.6,
+          "samples": 30
+        },
+        "java_cpu_percent": {
+          "mean": 38.54666666666667,
+          "median": 40.45,
+          "min": 4.6,
+          "max": 62.7,
+          "samples": 30
+        },
+        "java_rss_mib": {
+          "mean": 2762.9197916666667,
+          "median": 2762.978515625,
+          "min": 2761.078125,
+          "max": 2764.25,
+          "samples": 30
+        },
+        "gpu_percent": {
+          "mean": 59.36666666666667,
+          "median": 60.0,
+          "min": 57.0,
+          "max": 62.0,
+          "samples": 30
+        },
+        "memory_percent": {
+          "mean": 39.7,
+          "median": 40.0,
+          "min": 36.0,
+          "max": 42.0,
+          "samples": 30
+        },
+        "memory_mib": {
+          "mean": 2630.2,
+          "median": 2624.5,
+          "min": 2603.0,
+          "max": 2690.0,
+          "samples": 30
+        },
+        "power_w": {
+          "mean": 272.90066666666667,
+          "median": 274.46500000000003,
+          "min": 250.69,
+          "max": 279.67,
+          "samples": 30
+        },
+        "temperature_c": {
+          "mean": 60.1,
+          "median": 60.0,
+          "min": 59.0,
+          "max": 61.0,
+          "samples": 30
+        },
+        "graphics_mhz": {
+          "mean": 2809.5,
+          "median": 2805.0,
+          "min": 2805.0,
+          "max": 2820.0,
+          "samples": 30
+        }
+      },
+      "raw_frame_file": "03-B-frames.csv.gz",
+      "raw_frame_file_sha256": "cc33617ef1bf44250d75f3f9e2e1cc37bbe72e11fbee6a7abbc99bd9967ab0de",
+      "private_original_fps_json_sha256": "a0531adb0de9ef96d2b0ebe0ecf4e6627b176a9cbb573619ed95c1511d94076a",
+      "generated_renderer_decision_cache_sha256": "4fc13d23b6dba54b3779d135993c76385c2d1803ae8b0160fa3f3452add0e8a5"
+    },
+    {
+      "order": 4,
+      "variant": "A",
+      "stage": "017-native-create-grass-frustum5-matched-v22-20261005-04-A",
+      "metrics": {
+        "average_fps": 1726.6221908647938,
+        "one_percent_low_fps": 392.8712525258853,
+        "p50_ms": 0.5314,
+        "p95_ms": 0.7353,
+        "p99_ms": 2.2078,
+        "max_ms": 5.7518,
+        "duration_ms": 30000.1936,
+        "frames": 51799
+      },
+      "repeated_cache_startup_s": 26.788023,
+      "native_counters_at_capture_end": {
+        "WORLD_FRAMES": 151346,
+        "MODEL_DRAWS": 453987,
+        "GPU_CULL_DISPATCHES": 453987,
+        "GPU_APPLY_DISPATCHES": 453987,
+        "GPU_LAST_VISIBLE": 16,
+        "GPU_LAST_SUBMITTED": 16,
+        "LIGHT_UPLOADS": 2,
+        "LIGHT_UPLOAD_BYTES": 840208,
+        "LIGHT_CACHE_HITS": 151344
+      },
+      "telemetry_global_and_owned_cpu": {
+        "system_cpu_percent": {
+          "mean": 3.18,
+          "median": 3.1500000000000004,
+          "min": 1.2,
+          "max": 5.9,
+          "samples": 30
+        },
+        "java_cpu_percent": {
+          "mean": 30.19,
+          "median": 33.35,
+          "min": 3.1,
+          "max": 59.4,
+          "samples": 30
+        },
+        "java_rss_mib": {
+          "mean": 2613.291536458333,
+          "median": 2613.44921875,
+          "min": 2612.265625,
+          "max": 2614.30859375,
+          "samples": 30
+        },
+        "gpu_percent": {
+          "mean": 54.13333333333333,
+          "median": 54.0,
+          "min": 48.0,
+          "max": 60.0,
+          "samples": 30
+        },
+        "memory_percent": {
+          "mean": 36.13333333333333,
+          "median": 36.0,
+          "min": 31.0,
+          "max": 41.0,
+          "samples": 30
+        },
+        "memory_mib": {
+          "mean": 2463.366666666667,
+          "median": 2461.5,
+          "min": 2445.0,
+          "max": 2481.0,
+          "samples": 30
+        },
+        "power_w": {
+          "mean": 253.18533333333335,
+          "median": 251.725,
+          "min": 241.72,
+          "max": 270.98,
+          "samples": 30
+        },
+        "temperature_c": {
+          "mean": 58.6,
+          "median": 59.0,
+          "min": 58.0,
+          "max": 59.0,
+          "samples": 30
+        },
+        "graphics_mhz": {
+          "mean": 2820.0,
+          "median": 2820.0,
+          "min": 2820.0,
+          "max": 2820.0,
+          "samples": 30
+        }
+      },
+      "raw_frame_file": "04-A-frames.csv.gz",
+      "raw_frame_file_sha256": "e86c799b47941f419ebc19c31964d3b003077d172fdcf0f43d9de92900a5457e",
+      "private_original_fps_json_sha256": "e8018dde2221285d16dda65a254199e1440a94a0f8d30cc26ef17a24f5b24320",
+      "generated_renderer_decision_cache_sha256": "4fc13d23b6dba54b3779d135993c76385c2d1803ae8b0160fa3f3452add0e8a5"
+    },
+    {
+      "order": 5,
+      "variant": "A",
+      "stage": "017-native-create-grass-frustum5-matched-v22-20261005-05-A",
+      "metrics": {
+        "average_fps": 1631.865018253541,
+        "one_percent_low_fps": 360.04888729095813,
+        "p50_ms": 0.5522,
+        "p95_ms": 0.8673,
+        "p99_ms": 2.3309,
+        "max_ms": 5.0071,
+        "duration_ms": 30000.6431,
+        "frames": 48957
+      },
+      "repeated_cache_startup_s": 29.639755,
+      "native_counters_at_capture_end": {
+        "WORLD_FRAMES": 154267,
+        "MODEL_DRAWS": 462729,
+        "GPU_CULL_DISPATCHES": 462729,
+        "GPU_APPLY_DISPATCHES": 462729,
+        "GPU_LAST_VISIBLE": 16,
+        "GPU_LAST_SUBMITTED": 16,
+        "LIGHT_UPLOADS": 2,
+        "LIGHT_UPLOAD_BYTES": 840208,
+        "LIGHT_CACHE_HITS": 154265
+      },
+      "telemetry_global_and_owned_cpu": {
+        "system_cpu_percent": {
+          "mean": 6.523333333333333,
+          "median": 3.95,
+          "min": 2.2,
+          "max": 20.3,
+          "samples": 30
+        },
+        "java_cpu_percent": {
+          "mean": 42.836666666666666,
+          "median": 44.65,
+          "min": 15.4,
+          "max": 64.4,
+          "samples": 30
+        },
+        "java_rss_mib": {
+          "mean": 2609.0290364583334,
+          "median": 2608.9765625,
+          "min": 2607.6484375,
+          "max": 2610.16015625,
+          "samples": 30
+        },
+        "gpu_percent": {
+          "mean": 51.86666666666667,
+          "median": 52.0,
+          "min": 41.0,
+          "max": 61.0,
+          "samples": 30
+        },
+        "memory_percent": {
+          "mean": 32.8,
+          "median": 33.5,
+          "min": 25.0,
+          "max": 39.0,
+          "samples": 30
+        },
+        "memory_mib": {
+          "mean": 2521.3333333333335,
+          "median": 2527.5,
+          "min": 2460.0,
+          "max": 2597.0,
+          "samples": 30
+        },
+        "power_w": {
+          "mean": 243.883,
+          "median": 244.7,
+          "min": 216.09,
+          "max": 265.92,
+          "samples": 30
+        },
+        "temperature_c": {
+          "mean": 57.9,
+          "median": 58.0,
+          "min": 56.0,
+          "max": 59.0,
+          "samples": 30
+        },
+        "graphics_mhz": {
+          "mean": 2820.0,
+          "median": 2820.0,
+          "min": 2820.0,
+          "max": 2820.0,
+          "samples": 30
+        }
+      },
+      "raw_frame_file": "05-A-frames.csv.gz",
+      "raw_frame_file_sha256": "924ee4e6a526df6eae6f3ba364ab57b6ae0d392dbb2031eb3fb6ed030e274248",
+      "private_original_fps_json_sha256": "512ab21d5926330104a7aa1b1c33324200d45c8a79cc7d7978bb88e4fb571ac2",
+      "generated_renderer_decision_cache_sha256": "377ec07ff8374ae0d5450ead3d282912c13a8c41a4dba8340e0871691fcc12f0"
+    },
+    {
+      "order": 6,
+      "variant": "B",
+      "stage": "017-native-create-grass-frustum5-matched-v22-20261005-06-B",
+      "metrics": {
+        "average_fps": 1945.309775631955,
+        "one_percent_low_fps": 460.4193489969996,
+        "p50_ms": 0.4835,
+        "p95_ms": 0.5856,
+        "p99_ms": 2.0559,
+        "max_ms": 4.1335,
+        "duration_ms": 30000.3633,
+        "frames": 58360
+      },
+      "repeated_cache_startup_s": 26.658083,
+      "native_counters_at_capture_end": {
+        "WORLD_FRAMES": 177054,
+        "MODEL_DRAWS": 531120,
+        "GPU_CULL_DISPATCHES": 531120,
+        "GPU_APPLY_DISPATCHES": 531120,
+        "GPU_LAST_VISIBLE": 16,
+        "GPU_LAST_SUBMITTED": 16,
+        "LIGHT_UPLOADS": 2,
+        "LIGHT_UPLOAD_BYTES": 840208,
+        "LIGHT_CACHE_HITS": 177052,
+        "GRASS_FRUSTUM_CACHE_HITS": 60467182,
+        "GRASS_FRUSTUM_CACHE_MISSES": 928579,
+        "GRASS_FRUSTUM_STATE_CAPTURES": 177054,
+        "GRASS_FRUSTUM_STATE_CHANGES": 1168
+      },
+      "telemetry_global_and_owned_cpu": {
+        "system_cpu_percent": {
+          "mean": 2.31,
+          "median": 2.3,
+          "min": 1.4,
+          "max": 3.4,
+          "samples": 30
+        },
+        "java_cpu_percent": {
+          "mean": 55.76,
+          "median": 54.099999999999994,
+          "min": 32.9,
+          "max": 90.0,
+          "samples": 30
+        },
+        "java_rss_mib": {
+          "mean": 2646.4734375,
+          "median": 2646.4296875,
+          "min": 2644.984375,
+          "max": 2648.03515625,
+          "samples": 30
+        },
+        "gpu_percent": {
+          "mean": 59.766666666666666,
+          "median": 60.0,
+          "min": 57.0,
+          "max": 63.0,
+          "samples": 30
+        },
+        "memory_percent": {
+          "mean": 39.86666666666667,
+          "median": 40.0,
+          "min": 38.0,
+          "max": 41.0,
+          "samples": 30
+        },
+        "memory_mib": {
+          "mean": 2443.7,
+          "median": 2439.0,
+          "min": 2425.0,
+          "max": 2486.0,
+          "samples": 30
+        },
+        "power_w": {
+          "mean": 273.94733333333335,
+          "median": 274.45500000000004,
+          "min": 265.92,
+          "max": 276.87,
+          "samples": 30
+        },
+        "temperature_c": {
+          "mean": 60.266666666666666,
+          "median": 60.0,
+          "min": 59.0,
+          "max": 61.0,
+          "samples": 30
+        },
+        "graphics_mhz": {
+          "mean": 2816.0,
+          "median": 2820.0,
+          "min": 2805.0,
+          "max": 2820.0,
+          "samples": 30
+        }
+      },
+      "raw_frame_file": "06-B-frames.csv.gz",
+      "raw_frame_file_sha256": "809272da6599243c72d94e7f98fffe9101948c70ca1debca1b0eb46bb37f8454",
+      "private_original_fps_json_sha256": "2d5d1bf29ccccd3bf70865c03003c6bbd7a98f8f6f4ba81927a349a2f57319c3",
+      "generated_renderer_decision_cache_sha256": "377ec07ff8374ae0d5450ead3d282912c13a8c41a4dba8340e0871691fcc12f0"
+    }
+  ],
+  "medians": {
+    "A": {
+      "average_fps": 1726.6221908647938,
+      "one_percent_low_fps": 392.8712525258853,
+      "p50_ms": 0.5314,
+      "p95_ms": 0.7353,
+      "p99_ms": 2.2078,
+      "max_ms": 5.0071
+    },
+    "B": {
+      "average_fps": 1926.6058342460167,
+      "one_percent_low_fps": 439.51542956321043,
+      "p50_ms": 0.4835,
+      "p95_ms": 0.6461,
+      "p99_ms": 2.0979,
+      "max_ms": 4.0579
+    }
+  },
+  "fps_ranges": {
+    "A": [
+      1631.865018253541,
+      1877.3893113968552
+    ],
+    "B": [
+      1879.1870586651391,
+      1945.309775631955
+    ]
+  },
+  "median_fps_change_percent": 11.582362629143518,
+  "ranges_overlap": false,
+  "all_other_mod_hashes_equal": true,
+  "all_other_config_hashes_and_visual_options_equal": true,
+  "config_exclusion": "Only generated harimt-vulkan-compat.properties: UniversalRendererGate.saveDecision writes a mod-signature/result and timestamp each launch. All six runtime renderers independently observed VULKAN; no gate/trust settings changed. Raw cache-file SHA values retained per trial.",
+  "common_mod_sha256": {
+    "architectury-9.2.14-forge.jar": "218b471d0b8a1f6cda14cfc1beb9eeb0df54304500acc6c5613d9b88ec65d9af",
+    "citadel-2.6.3-1.20.1.jar": "56c7ab87348a5292583aac787b6cf11b5193e77f02af1d17ea75a96f8640b3ce",
+    "cloth-config-11.1.136-forge.jar": "1e895e85cf5b1e1905ef3178ec155c8badfe22a1577b92c09143a5aa1f4ce0f2",
+    "create-1.20.1-6.0.8-mvh-native-engine-light-cache-candidate12.jar": "8ae6640e4cdfe101ec4e4a4141e62f5d615fd270209158849f9bcc5a477efa3c",
+    "curios-forge-5.14.1+1.20.1-Noxviola-PerfLeakFix-v3.jar": "4c4b668d4ddca09504f1aa80341e9a90e4405f2969178a5fa5e4542cbbff9803",
+    "ferritecore-6.0.1-forge.jar": "9c2c9396a49e796d88497758caa4637d2bcbb433c318e2dd9cebcffbaf0f6c54",
+    "fieldguide-1.20.4+1.20.1-forge.jar": "1613b3ad057d2d0bc1955e7d35fdcaac9583fc780840f5c3c74ccddc232f6825",
+    "geckolib-forge-1.20.1-4.8.4.jar": "c04abba4fd354dd8c0e8a732f1f05f4dca893d2e1d962b2ab128bbd411478747",
+    "Grassier-Grass-1.4.5-Render-Performance-Fix-REPLACEMENT-2.jar": "91006e8220e65572d7e9e1e54b6058526c4adf908faedc750c9f19f13623df8c",
+    "harimt-forge-1.20.1-2.4.11-noxviola.22-dimensions-vulkan-hybrid-all.jar": "874a76069045091858bc2c7e740a27c4a93af43b893ab05658951aef1465b7f5",
+    "modernfix-forge-5.27.83+mc1.20.1.jar": "954ff22f601be8de3978a0d7636a138dc93801c6ac55cfd71ef1cd2895de8e5f",
+    "mvh-noxviola-control-1.0.36.jar": "c13f1fa3351c211278718f85d8d1777819264c7293c895e32096afd8ff739336"
+  },
+  "config_manifest_digest_excluding_generated_decision": "f275700aad9ef0a370c163b3486449be8eeb378806069fcdd74f1ae15a701805",
+  "visual_options": {
+    "fov": "0.0",
+    "renderDistance": "16",
+    "simulationDistance": "12",
+    "entityDistanceScaling": "1.0",
+    "maxFps": "260",
+    "enableVsync": "false",
+    "graphicsMode": "1",
+    "mipmapLevels": "4",
+    "particles": "0",
+    "biomeBlendRadius": "2",
+    "pauseOnLostFocus": "false",
+    "resourcePacks": "[]"
+  },
+  "resolution": [
+    1920,
+    1080
+  ],
+  "hardware": "i9-13900K/64GiB/RTX4090/NVIDIA610.88",
+  "minecraft": "1.20.1",
+  "forge": "47.4.26",
+  "java": "Temurin17.0.20.1",
+  "warmup_s": 60,
+  "capture_s": 30,
+  "scene": "Verified original powered motors/shafts/fans plus retained original Grassier Grass, pristine world copies, fixed camera",
+  "original_active_hashes_restored": true,
+  "personal_profile_untouched": true,
+  "limits": [
+    "Forge RenderTick END CPU wall intervals, not GPU timestamp or independently measured presentation FPS.",
+    "Global GPU/system CPU telemetry includes unrelated workloads, which were never stopped. Repository edits/read-only checks overlapped some launches/warmups; no local code builds occurred during this capture series.",
+    "Generated renderer-decision cache hashes differ; all other config bytes and all visual options match.",
+    "Bounded original powered machinery with one retained native mod subset, not complete Noxviola, arbitrary contraptions/blueprints or an active shaderpack.",
+    "Repeated-cache startup only; cold startup/zero hitching/2432-2470 FPS for full pack not established.",
+    "The first adjacent control/candidate pair is almost equal; later controls are lower. The reported median gain does not guarantee equal gain in every load condition or scene.",
+    "Reuse is disabled for subclassed/unknown frustums, unavailable state or loaded Oculus/Iris; complete shader provider work remains separate."
+  ],
+  "verdict": "RETAINED_SCOPED_MEDIAN_GAIN_WITH_RECORDED_CONTAMINATION_AND_LIMITS",
+  "mechanism": "Original pure first-build/lighting visibility results reused only with bit-identical16-float projection matrix and all three raw camera doubles; bounded16384-slot primitive cache, all six raw AABB doubles in key. Original queues/budgets/density/range/geometry/materials unchanged."
+}

@@ -1,0 +1,44 @@
+{
+  "base_feature_commit": "05c141a34fcd801d8bd54c922064d63853b663e6",
+  "actual_source_version": 38,
+  "files": {
+    "integration/dimensions/overlay/gradle.properties": "04e0d173fed82df04dbea638aef78d569aed18a6b97645558ecc294efb450c36",
+    "integration/dimensions/overlay/forge/src/main/resources/vulkanmod.mixins.json": "94efb0f72d7242ce428230c8e753fe1ad4925eb0ab70d29cd0b171a24ebeb00a",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/compat/UniversalRendererGate.java": "8b6e28852e7a810342bb7dcc2b1f0ad22a81ea7b720ac0a72ef16252ad0e6566",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/compat/XaeroPixelCallerAudit.java": "31644faaadb2591b376ea697f698de78d129152f0d13b617ca120f5cf0e256ab",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/GlBuffer.java": "59473a870f39c024c02e4b2de7033393751c46690919be357bd7b3e0d691d2db",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/GlTexture.java": "0d5e1e92e95df95149a6dcb99b99a2d3e36841030c406f8b60e51c387a2464d3",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/NativePixelBufferApi.java": "b1034c07363d1084c2331fe5997cae31064aa221ddf8286fd9eebd1a5d33c6b8",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/XaeroPixelCallers.java": "5912455785298872b65492742b5db5658339f47bc82f1190beb9640208b4a10a",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/mixin/MixinPlugin.java": "6ff6556511fa82414f0aa395d86458656c4b95c9554c14bce6ac9fee52bfc11a",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/vulkan/Renderer.java": "b1e0381298c5c7edb3c64900f0d1ef21c02cec28b7328765e70bba5e3d45ce16",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/mixin/compatibility/xaero/XaeroPixelCallerMixin.java": "6325aec83c87122d385c99938a613eef6953e4078aeb51674d322a9c491ab56a"
+  },
+  "original_two_raw_body_pins": {
+    "xaero/map/graphics/PixelBuffers": {
+      "raw": "0c52e8e472181cbd91eab5d7cbff5e8e8251dcf87de55c5a8697f0d5f46181d2",
+      "body": "c0c189ec431da70adba557a2e708868140e072f3ea5ed12bb677699fbeb0e481"
+    },
+    "xaero/common/graphics/PixelBuffers": {
+      "raw": "e3fb1593355182d3a55908078f01cfd650f2e4a46936b3be09ef9be2a660be8e",
+      "body": "7ad5cfb9696b2190f70e401cf5b0f108d4948f00d35c89272d6f01757014f479"
+    }
+  },
+  "private_raw_classes_or_mod_binaries_distributed": false,
+  "native_rendering_and_marker_checks_preserved": true,
+  "scope": "Independent mapped Vulkan pixel storage/transfer implementation and exact original runtime transports. No source modification/repackaging of protected Xaero archives; original fixtures stay private. No fullpack performance claim.",
+  "before_normalized_eof_hashes": {
+    "integration/dimensions/overlay/gradle.properties": "04e0d173fed82df04dbea638aef78d569aed18a6b97645558ecc294efb450c36",
+    "integration/dimensions/overlay/forge/src/main/resources/vulkanmod.mixins.json": "94efb0f72d7242ce428230c8e753fe1ad4925eb0ab70d29cd0b171a24ebeb00a",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/compat/UniversalRendererGate.java": "8b6e28852e7a810342bb7dcc2b1f0ad22a81ea7b720ac0a72ef16252ad0e6566",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/compat/XaeroPixelCallerAudit.java": "31644faaadb2591b376ea697f698de78d129152f0d13b617ca120f5cf0e256ab",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/GlBuffer.java": "0e1b369d3cadd2fde9315cdc5a0eae487be0c97f604b00926a0ac16c5de93935",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/GlTexture.java": "8a7954a9116b2ea9b795d3d5822917755ff7c2bf4465e235877a1d087db1726c",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/NativePixelBufferApi.java": "b1034c07363d1084c2331fe5997cae31064aa221ddf8286fd9eebd1a5d33c6b8",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/gl/XaeroPixelCallers.java": "5912455785298872b65492742b5db5658339f47bc82f1190beb9640208b4a10a",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/mixin/MixinPlugin.java": "6ff6556511fa82414f0aa395d86458656c4b95c9554c14bce6ac9fee52bfc11a",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/vulkan/Renderer.java": "b1e0381298c5c7edb3c64900f0d1ef21c02cec28b7328765e70bba5e3d45ce16",
+    "integration/dimensions/overlay/forge/src/main/java/net/vulkanmod/mixin/compatibility/xaero/XaeroPixelCallerMixin.java": "6325aec83c87122d385c99938a613eef6953e4078aeb51674d322a9c491ab56a"
+  },
+  "normalization": "Removed inherited empty EOF lines in copied GlBuffer/GlTexture source; source tokens and actual tested bytecode behavior unchanged. Both original pre-normalization and current published file hashes retained."
+}

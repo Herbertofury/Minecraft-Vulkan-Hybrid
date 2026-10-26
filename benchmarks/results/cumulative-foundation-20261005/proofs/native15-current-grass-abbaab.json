@@ -1,0 +1,990 @@
+{
+  "status": "CURRENT_MATCHED_NATIVE_GRASS_CAPABILITY_RETAINED_FULLPACK_AND_CAUSAL_SPEEDUP_NOT_ACCEPTED",
+  "order": "ABBAAB",
+  "sole_changed_mod": "Hari13 vs15; same controller16 and all other mod hashes",
+  "settings_identical": true,
+  "common_mod_hashes_identical": true,
+  "groups": {
+    "13": {
+      "fps_runs": [
+        2508.9174769748565,
+        2554.0056308855596,
+        2485.8763841743694
+      ],
+      "median_fps": 2508.9174769748565,
+      "median_one_percent_low_fps": 583.9998952302657,
+      "median_p99_ms": 0.8092,
+      "median_repeated_game_to_world_s": 25.990936
+    },
+    "15": {
+      "fps_runs": [
+        2601.4210806400033,
+        2604.9614567437034,
+        2612.1077695052836
+      ],
+      "median_fps": 2604.9614567437034,
+      "median_one_percent_low_fps": 600.6378340173513,
+      "median_p99_ms": 0.7139,
+      "median_repeated_game_to_world_s": 23.505508
+    }
+  },
+  "observed_median_difference_percent": 3.828104377695696,
+  "matched_runs": [
+    {
+      "stage": "017-native15-current-01-A-v13",
+      "fps": {
+        "status": "complete",
+        "reason": "",
+        "capture_epoch_ms": 1791215277829,
+        "duration_ms": 30000.1896,
+        "frames": 75268,
+        "average_fps": 2508.9174769748565,
+        "one_percent_low_fps": 589.0443846117198,
+        "p50_ms": 0.3681,
+        "p95_ms": 0.5026,
+        "p99_ms": 0.8029,
+        "max_ms": 4.0561,
+        "api_renderer": "VULKAN",
+        "gl_vendor": "not queried in a native Vulkan session",
+        "gl_renderer": "not queried in a native Vulkan session",
+        "gl_version": "not queried in a native Vulkan session",
+        "held_item": "minecraft:air",
+        "recorder": "Forge RenderTick END wall intervals; all frames retained; not GPU/presentation timing",
+        "camera": "0.5,110.5,0.5 / yaw -68.7007 / pitch 9.999512"
+      },
+      "raw_fps_with_all_frame_intervals_sha256": "6260ae863e3d9a4d81890b739b593b56605a6ebffc4643352a575e95de25931e",
+      "startup": {
+        "launcher_start_epoch_ms": 1791215167465,
+        "java_start_epoch_ms": 1791215195079,
+        "scene_ready_epoch_ms": 1791215217829,
+        "modernfix_game_to_world_s": 25.990936,
+        "modernfix_menu_to_world_s": 4.764937,
+        "cache_state": "Repeated local launch; OS/filesystem caches retained; not a cold boot",
+        "launcher_to_scene_s": 50.364,
+        "java_to_scene_s": 22.75
+      },
+      "capture_telemetry": {
+        "gpu.csv": {
+          "capture_samples": 30,
+          "means": {
+            "gpu_percent": 73.93333333333334,
+            "memory_percent": 53.333333333333336,
+            "memory_mib": 1944.6,
+            "power_w": 353.75266666666664,
+            "temperature_c": 65.0,
+            "graphics_mhz": 2805.0
+          }
+        },
+        "cpu.csv": {
+          "capture_samples": 30,
+          "means": {
+            "system_cpu_percent": 1.4733333333333334,
+            "java_cpu_percent": 13.176666666666666,
+            "java_rss_mib": 2468.161328125
+          }
+        }
+      },
+      "playability": {
+        "critical_error_occurrences": 0,
+        "accepted": true,
+        "scope": "Automated scene capture and normal save/exit; extended play tests separate"
+      },
+      "mods": [
+        {
+          "name": "architectury-9.2.14-forge.jar",
+          "sha256": "218b471d0b8a1f6cda14cfc1beb9eeb0df54304500acc6c5613d9b88ec65d9af"
+        },
+        {
+          "name": "citadel-2.6.3-1.20.1.jar",
+          "sha256": "56c7ab87348a5292583aac787b6cf11b5193e77f02af1d17ea75a96f8640b3ce"
+        },
+        {
+          "name": "cloth-config-11.1.136-forge.jar",
+          "sha256": "1e895e85cf5b1e1905ef3178ec155c8badfe22a1577b92c09143a5aa1f4ce0f2"
+        },
+        {
+          "name": "curios-forge-5.14.1+1.20.1-Noxviola-PerfLeakFix-v3.jar",
+          "sha256": "4c4b668d4ddca09504f1aa80341e9a90e4405f2969178a5fa5e4542cbbff9803"
+        },
+        {
+          "name": "ferritecore-6.0.1-forge.jar",
+          "sha256": "9c2c9396a49e796d88497758caa4637d2bcbb433c318e2dd9cebcffbaf0f6c54"
+        },
+        {
+          "name": "fieldguide-1.20.4+1.20.1-forge.jar",
+          "sha256": "1613b3ad057d2d0bc1955e7d35fdcaac9583fc780840f5c3c74ccddc232f6825"
+        },
+        {
+          "name": "geckolib-forge-1.20.1-4.8.4.jar",
+          "sha256": "c04abba4fd354dd8c0e8a732f1f05f4dca893d2e1d962b2ab128bbd411478747"
+        },
+        {
+          "name": "Grassier-Grass-1.4.5-Render-Performance-Fix-REPLACEMENT-2.jar",
+          "sha256": "91006e8220e65572d7e9e1e54b6058526c4adf908faedc750c9f19f13623df8c"
+        },
+        {
+          "name": "harimt-forge-1.20.1-2.4.11-noxviola.13-dimensions-vulkan-hybrid-all.jar",
+          "sha256": "7505cdb450600b3d60a0d6d09926453bdc9f8bb2d13f1c5e9870d2885bfe499f"
+        },
+        {
+          "name": "modernfix-forge-5.27.83+mc1.20.1.jar",
+          "sha256": "954ff22f601be8de3978a0d7636a138dc93801c6ac55cfd71ef1cd2895de8e5f"
+        },
+        {
+          "name": "mvh-grass-distance-compat-1.0.3.jar",
+          "sha256": "45d0067072c608eccf6ebafc06990a7ca5661c08bd5828118834f1b1a0eb325a"
+        },
+        {
+          "name": "mvh-noxviola-control-1.0.16.jar",
+          "sha256": "804883b4df09714d4d950e71bc0b5fa8c2b7dd09d0f8a8036dea06a49a8a5b63"
+        }
+      ],
+      "settings": {
+        "minecraft": "1.20.1",
+        "forge": "47.4.26",
+        "java": "Temurin 17.0.20.1",
+        "maximum_heap_mib": 8192,
+        "jvm": [
+          "-Dorg.lwjgl.system.stackSize=1024"
+        ],
+        "resolution": [
+          1920,
+          1080
+        ],
+        "visual_options": {
+          "fov": "0.0",
+          "renderDistance": "16",
+          "simulationDistance": "12",
+          "entityDistanceScaling": "1.0",
+          "maxFps": "260",
+          "enableVsync": "false",
+          "graphicsMode": "1",
+          "mipmapLevels": "4",
+          "particles": "0",
+          "biomeBlendRadius": "2",
+          "pauseOnLostFocus": "false",
+          "resourcePacks": "[]"
+        },
+        "world": "MVH-Benchmark-20261004",
+        "warmup_s": 60,
+        "capture_s": 30
+      }
+    },
+    {
+      "stage": "017-native15-current-02-B-v15",
+      "fps": {
+        "status": "complete",
+        "reason": "",
+        "capture_epoch_ms": 1791215462301,
+        "duration_ms": 30000.1413,
+        "frames": 78043,
+        "average_fps": 2601.4210806400033,
+        "one_percent_low_fps": 598.1432438954736,
+        "p50_ms": 0.3566,
+        "p95_ms": 0.4742,
+        "p99_ms": 0.7139,
+        "max_ms": 3.2388,
+        "api_renderer": "VULKAN",
+        "gl_vendor": "not queried in a native Vulkan session",
+        "gl_renderer": "not queried in a native Vulkan session",
+        "gl_version": "not queried in a native Vulkan session",
+        "held_item": "minecraft:air",
+        "recorder": "Forge RenderTick END wall intervals; all frames retained; not GPU/presentation timing",
+        "camera": "0.5,110.5,0.5 / yaw -68.7007 / pitch 9.999512"
+      },
+      "raw_fps_with_all_frame_intervals_sha256": "8156f016e7a9caec0145230fde14906d55a82a42eff087191335d2af6a225c28",
+      "startup": {
+        "launcher_start_epoch_ms": 1791215353454,
+        "java_start_epoch_ms": 1791215381732,
+        "scene_ready_epoch_ms": 1791215402301,
+        "modernfix_game_to_world_s": 23.505508,
+        "modernfix_menu_to_world_s": 4.3075075,
+        "cache_state": "Repeated local launch; OS/filesystem caches retained; not a cold boot",
+        "launcher_to_scene_s": 48.847,
+        "java_to_scene_s": 20.569
+      },
+      "capture_telemetry": {
+        "gpu.csv": {
+          "capture_samples": 30,
+          "means": {
+            "gpu_percent": 73.3,
+            "memory_percent": 55.1,
+            "memory_mib": 1886.1666666666667,
+            "power_w": 361.96866666666665,
+            "temperature_c": 65.8,
+            "graphics_mhz": 2805.0
+          }
+        },
+        "cpu.csv": {
+          "capture_samples": 30,
+          "means": {
+            "system_cpu_percent": 2.0733333333333333,
+            "java_cpu_percent": 26.263333333333332,
+            "java_rss_mib": 3412.477473958333
+          }
+        }
+      },
+      "playability": {
+        "critical_error_occurrences": 0,
+        "accepted": true,
+        "scope": "Automated scene capture and normal save/exit; extended play tests separate"
+      },
+      "mods": [
+        {
+          "name": "architectury-9.2.14-forge.jar",
+          "sha256": "218b471d0b8a1f6cda14cfc1beb9eeb0df54304500acc6c5613d9b88ec65d9af"
+        },
+        {
+          "name": "citadel-2.6.3-1.20.1.jar",
+          "sha256": "56c7ab87348a5292583aac787b6cf11b5193e77f02af1d17ea75a96f8640b3ce"
+        },
+        {
+          "name": "cloth-config-11.1.136-forge.jar",
+          "sha256": "1e895e85cf5b1e1905ef3178ec155c8badfe22a1577b92c09143a5aa1f4ce0f2"
+        },
+        {
+          "name": "curios-forge-5.14.1+1.20.1-Noxviola-PerfLeakFix-v3.jar",
+          "sha256": "4c4b668d4ddca09504f1aa80341e9a90e4405f2969178a5fa5e4542cbbff9803"
+        },
+        {
+          "name": "ferritecore-6.0.1-forge.jar",
+          "sha256": "9c2c9396a49e796d88497758caa4637d2bcbb433c318e2dd9cebcffbaf0f6c54"
+        },
+        {
+          "name": "fieldguide-1.20.4+1.20.1-forge.jar",
+          "sha256": "1613b3ad057d2d0bc1955e7d35fdcaac9583fc780840f5c3c74ccddc232f6825"
+        },
+        {
+          "name": "geckolib-forge-1.20.1-4.8.4.jar",
+          "sha256": "c04abba4fd354dd8c0e8a732f1f05f4dca893d2e1d962b2ab128bbd411478747"
+        },
+        {
+          "name": "Grassier-Grass-1.4.5-Render-Performance-Fix-REPLACEMENT-2.jar",
+          "sha256": "91006e8220e65572d7e9e1e54b6058526c4adf908faedc750c9f19f13623df8c"
+        },
+        {
+          "name": "harimt-forge-1.20.1-2.4.11-noxviola.15-dimensions-vulkan-hybrid-all.jar",
+          "sha256": "f2353b1a87ae1f218b0b734763ca8db08fa3f5b83f7a33b78cf4523648e1a7a2"
+        },
+        {
+          "name": "modernfix-forge-5.27.83+mc1.20.1.jar",
+          "sha256": "954ff22f601be8de3978a0d7636a138dc93801c6ac55cfd71ef1cd2895de8e5f"
+        },
+        {
+          "name": "mvh-grass-distance-compat-1.0.3.jar",
+          "sha256": "45d0067072c608eccf6ebafc06990a7ca5661c08bd5828118834f1b1a0eb325a"
+        },
+        {
+          "name": "mvh-noxviola-control-1.0.16.jar",
+          "sha256": "804883b4df09714d4d950e71bc0b5fa8c2b7dd09d0f8a8036dea06a49a8a5b63"
+        }
+      ],
+      "settings": {
+        "minecraft": "1.20.1",
+        "forge": "47.4.26",
+        "java": "Temurin 17.0.20.1",
+        "maximum_heap_mib": 8192,
+        "jvm": [
+          "-Dorg.lwjgl.system.stackSize=1024"
+        ],
+        "resolution": [
+          1920,
+          1080
+        ],
+        "visual_options": {
+          "fov": "0.0",
+          "renderDistance": "16",
+          "simulationDistance": "12",
+          "entityDistanceScaling": "1.0",
+          "maxFps": "260",
+          "enableVsync": "false",
+          "graphicsMode": "1",
+          "mipmapLevels": "4",
+          "particles": "0",
+          "biomeBlendRadius": "2",
+          "pauseOnLostFocus": "false",
+          "resourcePacks": "[]"
+        },
+        "world": "MVH-Benchmark-20261004",
+        "warmup_s": 60,
+        "capture_s": 30
+      }
+    },
+    {
+      "stage": "017-native15-current-03-B-v15",
+      "fps": {
+        "status": "complete",
+        "reason": "",
+        "capture_epoch_ms": 1791215642122,
+        "duration_ms": 30000.06,
+        "frames": 78149,
+        "average_fps": 2604.9614567437034,
+        "one_percent_low_fps": 606.5147282639515,
+        "p50_ms": 0.3571,
+        "p95_ms": 0.47,
+        "p99_ms": 0.7378,
+        "max_ms": 3.4051,
+        "api_renderer": "VULKAN",
+        "gl_vendor": "not queried in a native Vulkan session",
+        "gl_renderer": "not queried in a native Vulkan session",
+        "gl_version": "not queried in a native Vulkan session",
+        "held_item": "minecraft:air",
+        "recorder": "Forge RenderTick END wall intervals; all frames retained; not GPU/presentation timing",
+        "camera": "0.5,110.5,0.5 / yaw -68.7007 / pitch 9.999512"
+      },
+      "raw_fps_with_all_frame_intervals_sha256": "47364ed40e83545d15ac7b682825cf5d5f778f7d88d6095eb6c31e52421672fb",
+      "startup": {
+        "launcher_start_epoch_ms": 1791215533859,
+        "java_start_epoch_ms": 1791215562039,
+        "scene_ready_epoch_ms": 1791215582122,
+        "modernfix_game_to_world_s": 22.9749,
+        "modernfix_menu_to_world_s": 4.267899,
+        "cache_state": "Repeated local launch; OS/filesystem caches retained; not a cold boot",
+        "launcher_to_scene_s": 48.263,
+        "java_to_scene_s": 20.083
+      },
+      "capture_telemetry": {
+        "gpu.csv": {
+          "capture_samples": 30,
+          "means": {
+            "gpu_percent": 69.66666666666667,
+            "memory_percent": 54.63333333333333,
+            "memory_mib": 1855.0333333333333,
+            "power_w": 363.36,
+            "temperature_c": 67.06666666666666,
+            "graphics_mhz": 2805.0
+          }
+        },
+        "cpu.csv": {
+          "capture_samples": 30,
+          "means": {
+            "system_cpu_percent": 3.8133333333333335,
+            "java_cpu_percent": 43.163333333333334,
+            "java_rss_mib": 2418.686328125
+          }
+        }
+      },
+      "playability": {
+        "critical_error_occurrences": 0,
+        "accepted": true,
+        "scope": "Automated scene capture and normal save/exit; extended play tests separate"
+      },
+      "mods": [
+        {
+          "name": "architectury-9.2.14-forge.jar",
+          "sha256": "218b471d0b8a1f6cda14cfc1beb9eeb0df54304500acc6c5613d9b88ec65d9af"
+        },
+        {
+          "name": "citadel-2.6.3-1.20.1.jar",
+          "sha256": "56c7ab87348a5292583aac787b6cf11b5193e77f02af1d17ea75a96f8640b3ce"
+        },
+        {
+          "name": "cloth-config-11.1.136-forge.jar",
+          "sha256": "1e895e85cf5b1e1905ef3178ec155c8badfe22a1577b92c09143a5aa1f4ce0f2"
+        },
+        {
+          "name": "curios-forge-5.14.1+1.20.1-Noxviola-PerfLeakFix-v3.jar",
+          "sha256": "4c4b668d4ddca09504f1aa80341e9a90e4405f2969178a5fa5e4542cbbff9803"
+        },
+        {
+          "name": "ferritecore-6.0.1-forge.jar",
+          "sha256": "9c2c9396a49e796d88497758caa4637d2bcbb433c318e2dd9cebcffbaf0f6c54"
+        },
+        {
+          "name": "fieldguide-1.20.4+1.20.1-forge.jar",
+          "sha256": "1613b3ad057d2d0bc1955e7d35fdcaac9583fc780840f5c3c74ccddc232f6825"
+        },
+        {
+          "name": "geckolib-forge-1.20.1-4.8.4.jar",
+          "sha256": "c04abba4fd354dd8c0e8a732f1f05f4dca893d2e1d962b2ab128bbd411478747"
+        },
+        {
+          "name": "Grassier-Grass-1.4.5-Render-Performance-Fix-REPLACEMENT-2.jar",
+          "sha256": "91006e8220e65572d7e9e1e54b6058526c4adf908faedc750c9f19f13623df8c"
+        },
+        {
+          "name": "harimt-forge-1.20.1-2.4.11-noxviola.15-dimensions-vulkan-hybrid-all.jar",
+          "sha256": "f2353b1a87ae1f218b0b734763ca8db08fa3f5b83f7a33b78cf4523648e1a7a2"
+        },
+        {
+          "name": "modernfix-forge-5.27.83+mc1.20.1.jar",
+          "sha256": "954ff22f601be8de3978a0d7636a138dc93801c6ac55cfd71ef1cd2895de8e5f"
+        },
+        {
+          "name": "mvh-grass-distance-compat-1.0.3.jar",
+          "sha256": "45d0067072c608eccf6ebafc06990a7ca5661c08bd5828118834f1b1a0eb325a"
+        },
+        {
+          "name": "mvh-noxviola-control-1.0.16.jar",
+          "sha256": "804883b4df09714d4d950e71bc0b5fa8c2b7dd09d0f8a8036dea06a49a8a5b63"
+        }
+      ],
+      "settings": {
+        "minecraft": "1.20.1",
+        "forge": "47.4.26",
+        "java": "Temurin 17.0.20.1",
+        "maximum_heap_mib": 8192,
+        "jvm": [
+          "-Dorg.lwjgl.system.stackSize=1024"
+        ],
+        "resolution": [
+          1920,
+          1080
+        ],
+        "visual_options": {
+          "fov": "0.0",
+          "renderDistance": "16",
+          "simulationDistance": "12",
+          "entityDistanceScaling": "1.0",
+          "maxFps": "260",
+          "enableVsync": "false",
+          "graphicsMode": "1",
+          "mipmapLevels": "4",
+          "particles": "0",
+          "biomeBlendRadius": "2",
+          "pauseOnLostFocus": "false",
+          "resourcePacks": "[]"
+        },
+        "world": "MVH-Benchmark-20261004",
+        "warmup_s": 60,
+        "capture_s": 30
+      }
+    },
+    {
+      "stage": "017-native15-current-04-A-v13",
+      "fps": {
+        "status": "complete",
+        "reason": "",
+        "capture_epoch_ms": 1791215829613,
+        "duration_ms": 30000.3254,
+        "frames": 76621,
+        "average_fps": 2554.0056308855596,
+        "one_percent_low_fps": 583.9998952302657,
+        "p50_ms": 0.3665,
+        "p95_ms": 0.4629,
+        "p99_ms": 0.8301,
+        "max_ms": 4.8606,
+        "api_renderer": "VULKAN",
+        "gl_vendor": "not queried in a native Vulkan session",
+        "gl_renderer": "not queried in a native Vulkan session",
+        "gl_version": "not queried in a native Vulkan session",
+        "held_item": "minecraft:air",
+        "recorder": "Forge RenderTick END wall intervals; all frames retained; not GPU/presentation timing",
+        "camera": "0.5,110.5,0.5 / yaw -68.7007 / pitch 9.999512"
+      },
+      "raw_fps_with_all_frame_intervals_sha256": "6e1f61787a10e609e0373d648f06989142332abf155849616d418d587dede6d3",
+      "startup": {
+        "launcher_start_epoch_ms": 1791215716434,
+        "java_start_epoch_ms": 1791215745919,
+        "scene_ready_epoch_ms": 1791215769613,
+        "modernfix_game_to_world_s": 26.900808,
+        "modernfix_menu_to_world_s": 4.8218074,
+        "cache_state": "Repeated local launch; OS/filesystem caches retained; not a cold boot",
+        "launcher_to_scene_s": 53.179,
+        "java_to_scene_s": 23.694
+      },
+      "capture_telemetry": {
+        "gpu.csv": {
+          "capture_samples": 30,
+          "means": {
+            "gpu_percent": 72.63333333333334,
+            "memory_percent": 54.733333333333334,
+            "memory_mib": 1858.7333333333333,
+            "power_w": 358.43266666666665,
+            "temperature_c": 66.16666666666667,
+            "graphics_mhz": 2805.0
+          }
+        },
+        "cpu.csv": {
+          "capture_samples": 30,
+          "means": {
+            "system_cpu_percent": 1.92,
+            "java_cpu_percent": 29.580000000000002,
+            "java_rss_mib": 2352.4786458333333
+          }
+        }
+      },
+      "playability": {
+        "critical_error_occurrences": 0,
+        "accepted": true,
+        "scope": "Automated scene capture and normal save/exit; extended play tests separate"
+      },
+      "mods": [
+        {
+          "name": "architectury-9.2.14-forge.jar",
+          "sha256": "218b471d0b8a1f6cda14cfc1beb9eeb0df54304500acc6c5613d9b88ec65d9af"
+        },
+        {
+          "name": "citadel-2.6.3-1.20.1.jar",
+          "sha256": "56c7ab87348a5292583aac787b6cf11b5193e77f02af1d17ea75a96f8640b3ce"
+        },
+        {
+          "name": "cloth-config-11.1.136-forge.jar",
+          "sha256": "1e895e85cf5b1e1905ef3178ec155c8badfe22a1577b92c09143a5aa1f4ce0f2"
+        },
+        {
+          "name": "curios-forge-5.14.1+1.20.1-Noxviola-PerfLeakFix-v3.jar",
+          "sha256": "4c4b668d4ddca09504f1aa80341e9a90e4405f2969178a5fa5e4542cbbff9803"
+        },
+        {
+          "name": "ferritecore-6.0.1-forge.jar",
+          "sha256": "9c2c9396a49e796d88497758caa4637d2bcbb433c318e2dd9cebcffbaf0f6c54"
+        },
+        {
+          "name": "fieldguide-1.20.4+1.20.1-forge.jar",
+          "sha256": "1613b3ad057d2d0bc1955e7d35fdcaac9583fc780840f5c3c74ccddc232f6825"
+        },
+        {
+          "name": "geckolib-forge-1.20.1-4.8.4.jar",
+          "sha256": "c04abba4fd354dd8c0e8a732f1f05f4dca893d2e1d962b2ab128bbd411478747"
+        },
+        {
+          "name": "Grassier-Grass-1.4.5-Render-Performance-Fix-REPLACEMENT-2.jar",
+          "sha256": "91006e8220e65572d7e9e1e54b6058526c4adf908faedc750c9f19f13623df8c"
+        },
+        {
+          "name": "harimt-forge-1.20.1-2.4.11-noxviola.13-dimensions-vulkan-hybrid-all.jar",
+          "sha256": "7505cdb450600b3d60a0d6d09926453bdc9f8bb2d13f1c5e9870d2885bfe499f"
+        },
+        {
+          "name": "modernfix-forge-5.27.83+mc1.20.1.jar",
+          "sha256": "954ff22f601be8de3978a0d7636a138dc93801c6ac55cfd71ef1cd2895de8e5f"
+        },
+        {
+          "name": "mvh-grass-distance-compat-1.0.3.jar",
+          "sha256": "45d0067072c608eccf6ebafc06990a7ca5661c08bd5828118834f1b1a0eb325a"
+        },
+        {
+          "name": "mvh-noxviola-control-1.0.16.jar",
+          "sha256": "804883b4df09714d4d950e71bc0b5fa8c2b7dd09d0f8a8036dea06a49a8a5b63"
+        }
+      ],
+      "settings": {
+        "minecraft": "1.20.1",
+        "forge": "47.4.26",
+        "java": "Temurin 17.0.20.1",
+        "maximum_heap_mib": 8192,
+        "jvm": [
+          "-Dorg.lwjgl.system.stackSize=1024"
+        ],
+        "resolution": [
+          1920,
+          1080
+        ],
+        "visual_options": {
+          "fov": "0.0",
+          "renderDistance": "16",
+          "simulationDistance": "12",
+          "entityDistanceScaling": "1.0",
+          "maxFps": "260",
+          "enableVsync": "false",
+          "graphicsMode": "1",
+          "mipmapLevels": "4",
+          "particles": "0",
+          "biomeBlendRadius": "2",
+          "pauseOnLostFocus": "false",
+          "resourcePacks": "[]"
+        },
+        "world": "MVH-Benchmark-20261004",
+        "warmup_s": 60,
+        "capture_s": 30
+      }
+    },
+    {
+      "stage": "017-native15-current-05-A-v13",
+      "fps": {
+        "status": "complete",
+        "reason": "",
+        "capture_epoch_ms": 1791216009933,
+        "duration_ms": 30000.285,
+        "frames": 74577,
+        "average_fps": 2485.8763841743694,
+        "one_percent_low_fps": 562.2364545823787,
+        "p50_ms": 0.367899,
+        "p95_ms": 0.5321,
+        "p99_ms": 0.8092,
+        "max_ms": 3.916101,
+        "api_renderer": "VULKAN",
+        "gl_vendor": "not queried in a native Vulkan session",
+        "gl_renderer": "not queried in a native Vulkan session",
+        "gl_version": "not queried in a native Vulkan session",
+        "held_item": "minecraft:air",
+        "recorder": "Forge RenderTick END wall intervals; all frames retained; not GPU/presentation timing",
+        "camera": "0.5,110.5,0.5 / yaw -68.7007 / pitch 9.999512"
+      },
+      "raw_fps_with_all_frame_intervals_sha256": "09a3746e9033d5f63f2dd045a9b16d69ea69d9693503dc1fc3914263442a747d",
+      "startup": {
+        "launcher_start_epoch_ms": 1791215901832,
+        "java_start_epoch_ms": 1791215930067,
+        "scene_ready_epoch_ms": 1791215949933,
+        "modernfix_game_to_world_s": 22.632996,
+        "modernfix_menu_to_world_s": 4.1449957,
+        "cache_state": "Repeated local launch; OS/filesystem caches retained; not a cold boot",
+        "launcher_to_scene_s": 48.101,
+        "java_to_scene_s": 19.866
+      },
+      "capture_telemetry": {
+        "gpu.csv": {
+          "capture_samples": 30,
+          "means": {
+            "gpu_percent": 70.9,
+            "memory_percent": 53.4,
+            "memory_mib": 1856.1666666666667,
+            "power_w": 350.61066666666665,
+            "temperature_c": 65.33333333333333,
+            "graphics_mhz": 2805.0
+          }
+        },
+        "cpu.csv": {
+          "capture_samples": 30,
+          "means": {
+            "system_cpu_percent": 3.6533333333333333,
+            "java_cpu_percent": 11.15,
+            "java_rss_mib": 2451.2076822916665
+          }
+        }
+      },
+      "playability": {
+        "critical_error_occurrences": 0,
+        "accepted": true,
+        "scope": "Automated scene capture and normal save/exit; extended play tests separate"
+      },
+      "mods": [
+        {
+          "name": "architectury-9.2.14-forge.jar",
+          "sha256": "218b471d0b8a1f6cda14cfc1beb9eeb0df54304500acc6c5613d9b88ec65d9af"
+        },
+        {
+          "name": "citadel-2.6.3-1.20.1.jar",
+          "sha256": "56c7ab87348a5292583aac787b6cf11b5193e77f02af1d17ea75a96f8640b3ce"
+        },
+        {
+          "name": "cloth-config-11.1.136-forge.jar",
+          "sha256": "1e895e85cf5b1e1905ef3178ec155c8badfe22a1577b92c09143a5aa1f4ce0f2"
+        },
+        {
+          "name": "curios-forge-5.14.1+1.20.1-Noxviola-PerfLeakFix-v3.jar",
+          "sha256": "4c4b668d4ddca09504f1aa80341e9a90e4405f2969178a5fa5e4542cbbff9803"
+        },
+        {
+          "name": "ferritecore-6.0.1-forge.jar",
+          "sha256": "9c2c9396a49e796d88497758caa4637d2bcbb433c318e2dd9cebcffbaf0f6c54"
+        },
+        {
+          "name": "fieldguide-1.20.4+1.20.1-forge.jar",
+          "sha256": "1613b3ad057d2d0bc1955e7d35fdcaac9583fc780840f5c3c74ccddc232f6825"
+        },
+        {
+          "name": "geckolib-forge-1.20.1-4.8.4.jar",
+          "sha256": "c04abba4fd354dd8c0e8a732f1f05f4dca893d2e1d962b2ab128bbd411478747"
+        },
+        {
+          "name": "Grassier-Grass-1.4.5-Render-Performance-Fix-REPLACEMENT-2.jar",
+          "sha256": "91006e8220e65572d7e9e1e54b6058526c4adf908faedc750c9f19f13623df8c"
+        },
+        {
+          "name": "harimt-forge-1.20.1-2.4.11-noxviola.13-dimensions-vulkan-hybrid-all.jar",
+          "sha256": "7505cdb450600b3d60a0d6d09926453bdc9f8bb2d13f1c5e9870d2885bfe499f"
+        },
+        {
+          "name": "modernfix-forge-5.27.83+mc1.20.1.jar",
+          "sha256": "954ff22f601be8de3978a0d7636a138dc93801c6ac55cfd71ef1cd2895de8e5f"
+        },
+        {
+          "name": "mvh-grass-distance-compat-1.0.3.jar",
+          "sha256": "45d0067072c608eccf6ebafc06990a7ca5661c08bd5828118834f1b1a0eb325a"
+        },
+        {
+          "name": "mvh-noxviola-control-1.0.16.jar",
+          "sha256": "804883b4df09714d4d950e71bc0b5fa8c2b7dd09d0f8a8036dea06a49a8a5b63"
+        }
+      ],
+      "settings": {
+        "minecraft": "1.20.1",
+        "forge": "47.4.26",
+        "java": "Temurin 17.0.20.1",
+        "maximum_heap_mib": 8192,
+        "jvm": [
+          "-Dorg.lwjgl.system.stackSize=1024"
+        ],
+        "resolution": [
+          1920,
+          1080
+        ],
+        "visual_options": {
+          "fov": "0.0",
+          "renderDistance": "16",
+          "simulationDistance": "12",
+          "entityDistanceScaling": "1.0",
+          "maxFps": "260",
+          "enableVsync": "false",
+          "graphicsMode": "1",
+          "mipmapLevels": "4",
+          "particles": "0",
+          "biomeBlendRadius": "2",
+          "pauseOnLostFocus": "false",
+          "resourcePacks": "[]"
+        },
+        "world": "MVH-Benchmark-20261004",
+        "warmup_s": 60,
+        "capture_s": 30
+      }
+    },
+    {
+      "stage": "017-native15-current-06-B-v15",
+      "fps": {
+        "status": "complete",
+        "reason": "",
+        "capture_epoch_ms": 1791216195956,
+        "duration_ms": 30000.2936,
+        "frames": 78364,
+        "average_fps": 2612.1077695052836,
+        "one_percent_low_fps": 600.6378340173513,
+        "p50_ms": 0.361401,
+        "p95_ms": 0.4323,
+        "p99_ms": 0.6663,
+        "max_ms": 3.4164,
+        "api_renderer": "VULKAN",
+        "gl_vendor": "not queried in a native Vulkan session",
+        "gl_renderer": "not queried in a native Vulkan session",
+        "gl_version": "not queried in a native Vulkan session",
+        "held_item": "minecraft:air",
+        "recorder": "Forge RenderTick END wall intervals; all frames retained; not GPU/presentation timing",
+        "camera": "0.5,110.5,0.5 / yaw -68.7007 / pitch 9.999512"
+      },
+      "raw_fps_with_all_frame_intervals_sha256": "c860334754960239e2f4566ac14e65b9ac05e1769a68b6d81a63ba2107d6c160",
+      "startup": {
+        "launcher_start_epoch_ms": 1791216085796,
+        "java_start_epoch_ms": 1791216114288,
+        "scene_ready_epoch_ms": 1791216135956,
+        "modernfix_game_to_world_s": 24.612726,
+        "modernfix_menu_to_world_s": 4.2417264,
+        "cache_state": "Repeated local launch; OS/filesystem caches retained; not a cold boot",
+        "launcher_to_scene_s": 50.16,
+        "java_to_scene_s": 21.668
+      },
+      "capture_telemetry": {
+        "gpu.csv": {
+          "capture_samples": 30,
+          "means": {
+            "gpu_percent": 72.56666666666666,
+            "memory_percent": 55.13333333333333,
+            "memory_mib": 1791.3333333333333,
+            "power_w": 364.81733333333335,
+            "temperature_c": 66.8,
+            "graphics_mhz": 2805.0
+          }
+        },
+        "cpu.csv": {
+          "capture_samples": 30,
+          "means": {
+            "system_cpu_percent": 1.4333333333333333,
+            "java_cpu_percent": 30.17,
+            "java_rss_mib": 2247.096484375
+          }
+        }
+      },
+      "playability": {
+        "critical_error_occurrences": 0,
+        "accepted": true,
+        "scope": "Automated scene capture and normal save/exit; extended play tests separate"
+      },
+      "mods": [
+        {
+          "name": "architectury-9.2.14-forge.jar",
+          "sha256": "218b471d0b8a1f6cda14cfc1beb9eeb0df54304500acc6c5613d9b88ec65d9af"
+        },
+        {
+          "name": "citadel-2.6.3-1.20.1.jar",
+          "sha256": "56c7ab87348a5292583aac787b6cf11b5193e77f02af1d17ea75a96f8640b3ce"
+        },
+        {
+          "name": "cloth-config-11.1.136-forge.jar",
+          "sha256": "1e895e85cf5b1e1905ef3178ec155c8badfe22a1577b92c09143a5aa1f4ce0f2"
+        },
+        {
+          "name": "curios-forge-5.14.1+1.20.1-Noxviola-PerfLeakFix-v3.jar",
+          "sha256": "4c4b668d4ddca09504f1aa80341e9a90e4405f2969178a5fa5e4542cbbff9803"
+        },
+        {
+          "name": "ferritecore-6.0.1-forge.jar",
+          "sha256": "9c2c9396a49e796d88497758caa4637d2bcbb433c318e2dd9cebcffbaf0f6c54"
+        },
+        {
+          "name": "fieldguide-1.20.4+1.20.1-forge.jar",
+          "sha256": "1613b3ad057d2d0bc1955e7d35fdcaac9583fc780840f5c3c74ccddc232f6825"
+        },
+        {
+          "name": "geckolib-forge-1.20.1-4.8.4.jar",
+          "sha256": "c04abba4fd354dd8c0e8a732f1f05f4dca893d2e1d962b2ab128bbd411478747"
+        },
+        {
+          "name": "Grassier-Grass-1.4.5-Render-Performance-Fix-REPLACEMENT-2.jar",
+          "sha256": "91006e8220e65572d7e9e1e54b6058526c4adf908faedc750c9f19f13623df8c"
+        },
+        {
+          "name": "harimt-forge-1.20.1-2.4.11-noxviola.15-dimensions-vulkan-hybrid-all.jar",
+          "sha256": "f2353b1a87ae1f218b0b734763ca8db08fa3f5b83f7a33b78cf4523648e1a7a2"
+        },
+        {
+          "name": "modernfix-forge-5.27.83+mc1.20.1.jar",
+          "sha256": "954ff22f601be8de3978a0d7636a138dc93801c6ac55cfd71ef1cd2895de8e5f"
+        },
+        {
+          "name": "mvh-grass-distance-compat-1.0.3.jar",
+          "sha256": "45d0067072c608eccf6ebafc06990a7ca5661c08bd5828118834f1b1a0eb325a"
+        },
+        {
+          "name": "mvh-noxviola-control-1.0.16.jar",
+          "sha256": "804883b4df09714d4d950e71bc0b5fa8c2b7dd09d0f8a8036dea06a49a8a5b63"
+        }
+      ],
+      "settings": {
+        "minecraft": "1.20.1",
+        "forge": "47.4.26",
+        "java": "Temurin 17.0.20.1",
+        "maximum_heap_mib": 8192,
+        "jvm": [
+          "-Dorg.lwjgl.system.stackSize=1024"
+        ],
+        "resolution": [
+          1920,
+          1080
+        ],
+        "visual_options": {
+          "fov": "0.0",
+          "renderDistance": "16",
+          "simulationDistance": "12",
+          "entityDistanceScaling": "1.0",
+          "maxFps": "260",
+          "enableVsync": "false",
+          "graphicsMode": "1",
+          "mipmapLevels": "4",
+          "particles": "0",
+          "biomeBlendRadius": "2",
+          "pauseOnLostFocus": "false",
+          "resourcePacks": "[]"
+        },
+        "world": "MVH-Benchmark-20261004",
+        "warmup_s": 60,
+        "capture_s": 30
+      }
+    }
+  ],
+  "preceding_native15_controller21_capability_runs": [
+    {
+      "run": 1,
+      "fps": {
+        "status": "complete",
+        "reason": "",
+        "capture_epoch_ms": 1791214581081,
+        "duration_ms": 30000.2689,
+        "frames": 72741,
+        "average_fps": 2424.6782668005244,
+        "one_percent_low_fps": 570.1262312729584,
+        "p50_ms": 0.387,
+        "p95_ms": 0.4995,
+        "p99_ms": 0.8555,
+        "max_ms": 3.9697,
+        "api_renderer": "VULKAN",
+        "gl_vendor": "not queried in a native Vulkan session",
+        "gl_renderer": "not queried in a native Vulkan session",
+        "gl_version": "not queried in a native Vulkan session",
+        "held_item": "minecraft:air",
+        "recorder": "Forge RenderTick END wall intervals; all frames retained; not GPU/presentation timing",
+        "camera": "0.5,110.5,0.5 / yaw -68.7007 / pitch 9.999512"
+      },
+      "startup": {
+        "launcher_start_epoch_ms": 1791214472763,
+        "java_start_epoch_ms": 1791214501177,
+        "scene_ready_epoch_ms": 1791214521081,
+        "modernfix_game_to_world_s": 22.871712,
+        "modernfix_menu_to_world_s": 4.2847123,
+        "cache_state": "Repeated local launch; OS/filesystem caches retained; not a cold boot",
+        "launcher_to_scene_s": 48.318,
+        "java_to_scene_s": 19.904
+      },
+      "raw_fps_sha256": "695f22ec46524e19765d64233b34ef257ef86ef244b56397003c3ec6ab88d8de"
+    },
+    {
+      "run": 2,
+      "fps": {
+        "status": "complete",
+        "reason": "",
+        "capture_epoch_ms": 1791214724481,
+        "duration_ms": 30000.0732,
+        "frames": 57834,
+        "average_fps": 1927.7952961794483,
+        "one_percent_low_fps": 384.16453866715614,
+        "p50_ms": 0.4369,
+        "p95_ms": 0.8217,
+        "p99_ms": 2.0189,
+        "max_ms": 14.3931,
+        "api_renderer": "VULKAN",
+        "gl_vendor": "not queried in a native Vulkan session",
+        "gl_renderer": "not queried in a native Vulkan session",
+        "gl_version": "not queried in a native Vulkan session",
+        "held_item": "minecraft:air",
+        "recorder": "Forge RenderTick END wall intervals; all frames retained; not GPU/presentation timing",
+        "camera": "0.5,110.5,0.5 / yaw -68.7007 / pitch 9.999512"
+      },
+      "startup": {
+        "launcher_start_epoch_ms": 1791214616142,
+        "java_start_epoch_ms": 1791214644519,
+        "scene_ready_epoch_ms": 1791214664481,
+        "modernfix_game_to_world_s": 22.73289,
+        "modernfix_menu_to_world_s": 4.126888,
+        "cache_state": "Repeated local launch; OS/filesystem caches retained; not a cold boot",
+        "launcher_to_scene_s": 48.339,
+        "java_to_scene_s": 19.962
+      },
+      "raw_fps_sha256": "4163e99a57723432c9fa6b87510d46cfb86759b238f74b9670a29b78e96d8c1a"
+    },
+    {
+      "run": 3,
+      "fps": {
+        "status": "complete",
+        "reason": "",
+        "capture_epoch_ms": 1791214871388,
+        "duration_ms": 30000.7668,
+        "frames": 66075,
+        "average_fps": 2202.443705538871,
+        "one_percent_low_fps": 437.91959703446946,
+        "p50_ms": 0.3763,
+        "p95_ms": 0.7789,
+        "p99_ms": 1.5202,
+        "max_ms": 8.1811,
+        "api_renderer": "VULKAN",
+        "gl_vendor": "not queried in a native Vulkan session",
+        "gl_renderer": "not queried in a native Vulkan session",
+        "gl_version": "not queried in a native Vulkan session",
+        "held_item": "minecraft:air",
+        "recorder": "Forge RenderTick END wall intervals; all frames retained; not GPU/presentation timing",
+        "camera": "0.5,110.5,0.5 / yaw -68.7007 / pitch 9.999512"
+      },
+      "startup": {
+        "launcher_start_epoch_ms": 1791214759548,
+        "java_start_epoch_ms": 1791214788009,
+        "scene_ready_epoch_ms": 1791214811388,
+        "modernfix_game_to_world_s": 27.074608,
+        "modernfix_menu_to_world_s": 5.3886065,
+        "cache_state": "Repeated local launch; OS/filesystem caches retained; not a cold boot",
+        "launcher_to_scene_s": 51.84,
+        "java_to_scene_s": 23.379
+      },
+      "raw_fps_sha256": "a6c32b482b4257e58140bcb7ad4ecd27e699e3d66b1ee667fc523bde8be81cfc"
+    }
+  ],
+  "preceding_series_missed_target": true,
+  "original_active_mod_hashes_restored": true,
+  "restored_map_sha256": "050233cd59c99209512fa2358c15e9f65670cd9905e4936e4c6186959394a507",
+  "limits": [
+    "CPU RenderTick END intervals; no GPU/presentation timestamps.",
+    "Same original-grass foundation scene/settings, not full Create or full Noxviola.",
+    "Concurrent workloads retained and global CPU/GPU telemetry captured; no background process stopped.",
+    "Native Flywheel component is not selected by this grass scene; no speedup attributed to that component.",
+    "The preceding three-run series missed the target and remains retained. Current six runs resolve apparent regression under the same current controller/settings, not all future workload variance.",
+    "Repeated cached startup, not cold-boot or causal startup improvement.",
+    "One-percent lows and observed maxima do not establish zero hitching."
+  ]
+}

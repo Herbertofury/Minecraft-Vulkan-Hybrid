@@ -1,0 +1,23 @@
+{
+  "version": 55,
+  "GPU_cases": 141,
+  "pixels": 62688,
+  "mismatch": 0,
+  "old129_hashes_equal": true,
+  "original_provider_invocations": 65,
+  "selected_upload_sites": 14,
+  "selected_framebuffer_draw_sites": 8,
+  "scoped_original_actions": 1,
+  "controls": 27,
+  "inverse_refusal_controls": 7,
+  "integrated_original_create_map_copy_draw_chain": true,
+  "private_loader_only": true,
+  "root_direct_GL_sites_remaining": 0,
+  "full_Essential_provider_GAME_or_FPS_accepted": false,
+  "all327_candidate_hashes_unchanged": true,
+  "full327_remaining_references": 387,
+  "full327_unique_APIs": 173,
+  "full327_archives": 21,
+  "production_sha256": "cf8eda8fd3d22fb6501d0d6be271593020c8aa6f00b8a8fd3f6eabb4535a4eaa",
+  "helper_to_java_seconds": 2.701
+}

@@ -1,0 +1,10 @@
+{
+  "accepted": true,
+  "gpu_cases": 62,
+  "pixels": 57632,
+  "original_rewrites": 16,
+  "original_method_invocations": 44,
+  "controls": 36,
+  "automatic_game_class_acceptance": false,
+  "fullpack_fps_accepted": false
+}

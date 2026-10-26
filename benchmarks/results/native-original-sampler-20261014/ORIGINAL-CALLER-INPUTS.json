@@ -1,0 +1,13 @@
+{
+  "source_sha256": "1219f4cf3dfa874a9a0c0c45b2d48ada1b9a95a10b77ec75f1df60d3f9a27a06",
+  "classes": {
+    "gg/essential/universal/render/UGpuSampler$AddressMode.class": "f3cec09f0e9443f6c96c3cb887f606f7c4df5c53a0a1d32153f16ea559412ecc",
+    "gg/essential/universal/render/UGpuSampler$Companion.class": "2a68fab17ccf44562e6a9e9207dd1b4b962b2c23e04b0f4a710a80b40e69d927",
+    "gg/essential/universal/render/UGpuSampler$FilterMode.class": "48e0a9677eed7f2f4d42d5eac4a9e2280ceaabee9079a6b4d66f9d4778af33c8",
+    "gg/essential/universal/render/UGpuSampler.class": "1a0b95a0537ea95ca544dffa8ff2eb8fbeefded4c51364f3655036f50069019c",
+    "gg/essential/universal/render/UGpuSamplerImpl$WhenMappings.class": "74e5281665f55c229b9061f8b53ec8f96fde42789a330dca326943e9eba1cdf9",
+    "gg/essential/universal/render/UGpuSamplerImpl.class": "8225cfaf26b2c9d78c49f2f921e03474fe3c6032375f09f92e50e0b6fddbb3ab",
+    "gg/essential/universal/render/UGpuSamplerImplKt.class": "1b80f952f83ec526caa2a1777fa59e178083675a18e23cbacc984cf7cddde29d"
+  },
+  "private_only": true
+}

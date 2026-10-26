@@ -1,0 +1,75 @@
+{
+  "scope": "Only marker-owned Java process; valid status 0/1 within instrumented capture; engine percentages are never added. Diagnostic excluded from matched FPS promotion.",
+  "engines": {
+    "0-3d": {
+      "samples": 30,
+      "median_percent": 83.51538376476145,
+      "max_percent": 85.3606124136595
+    },
+    "1-legacyoverlay": {
+      "samples": 30,
+      "median_percent": 0.0,
+      "max_percent": 0.0
+    },
+    "10-copy": {
+      "samples": 30,
+      "median_percent": 0.0,
+      "max_percent": 0.0
+    },
+    "11-copy": {
+      "samples": 30,
+      "median_percent": 0.0,
+      "max_percent": 0.0
+    },
+    "12-copy": {
+      "samples": 30,
+      "median_percent": 0.0,
+      "max_percent": 0.0
+    },
+    "13-copy": {
+      "samples": 30,
+      "median_percent": 0.0,
+      "max_percent": 0.0
+    },
+    "2-videodecode": {
+      "samples": 30,
+      "median_percent": 0.0,
+      "max_percent": 0.0
+    },
+    "3-copy": {
+      "samples": 30,
+      "median_percent": 0.0,
+      "max_percent": 0.0
+    },
+    "4-copy": {
+      "samples": 30,
+      "median_percent": 0.0,
+      "max_percent": 0.03391187327159802
+    },
+    "5-security": {
+      "samples": 30,
+      "median_percent": 0.0,
+      "max_percent": 0.0
+    },
+    "6-videoencode": {
+      "samples": 30,
+      "median_percent": 0.0,
+      "max_percent": 0.0
+    },
+    "7-videoencode": {
+      "samples": 30,
+      "median_percent": 0.0,
+      "max_percent": 0.0
+    },
+    "8-ofa_0": {
+      "samples": 30,
+      "median_percent": 0.0,
+      "max_percent": 0.0
+    },
+    "9-vr": {
+      "samples": 30,
+      "median_percent": 0.0,
+      "max_percent": 0.0
+    }
+  }
+}

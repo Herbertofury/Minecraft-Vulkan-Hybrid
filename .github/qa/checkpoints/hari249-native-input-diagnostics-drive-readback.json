@@ -1,0 +1,13 @@
+{
+  "drive_id": "1WzuJG42R_VAwW7-yI3aCUw9hwYnZL5qc",
+  "name": "HariMultiThread-2.4.9-Native-Input-Diagnostics-Checkpoint.zip",
+  "bytes": 3493575,
+  "sha256": "561fd12f40b03e6d9a863eecb0f8a78873bf72c48413c4fa8fe01a9dfdb38174",
+  "raw_byte_readback_verified": true,
+  "artifact_ids": [
+    11290096152,
+    11289817801,
+    11290192039
+  ],
+  "status": "FAILED diagnostics retained, no accepted profile"
+}

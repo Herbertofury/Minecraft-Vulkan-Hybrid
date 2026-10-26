@@ -1,0 +1,23 @@
+[
+  {
+    "kind": "progress02",
+    "id": "1UzMpmRi3UWhiLkdWBCYhUTEURLpCC_Hn",
+    "bytes": 22627,
+    "sha256": "99929451be554dc200d6bd7b07e613b87eba770d01a93e07bd434d2d5be37d7a",
+    "raw_readback_verified": true
+  },
+  {
+    "kind": "candidate-source",
+    "id": "1Fh4VrhccNWoyDq4049bd82BDgtfd280o",
+    "bytes": 2514348,
+    "sha256": "e8790cb023946a1265fb29e1d33212beb23408d599cab32b56a2dcd9af4fab21",
+    "raw_readback_verified": true
+  },
+  {
+    "kind": "candidate-compile",
+    "id": "1CAkw3Erjkf9fgVbODrtZFaVTdFuo-yBx",
+    "bytes": 30657706,
+    "sha256": "96ec63f668af7539bf43463d19885a12298db1c93af2cca3736f2399f7c63c0b",
+    "raw_readback_verified": true
+  }
+]

@@ -1,0 +1,11 @@
+{
+  "file": "mvh-fieldguide-query-compat-1.1.1.jar",
+  "sha256": "3192031e674b942955308dadff6ebafdca268d4486d08d3d019ef58464392562",
+  "disabled_recoverably": true,
+  "reason": "Optional pure query/index cache, not a required correctness fix. Latest remove-all-auxiliary-optimizers instruction applies. Original Field Guide remains.",
+  "total_auxiliary_optimizers_disabled": 21,
+  "active_jars_without_recorder": 327,
+  "native_required": true,
+  "minecraft_launched": false,
+  "personal_profile_modified": false
+}

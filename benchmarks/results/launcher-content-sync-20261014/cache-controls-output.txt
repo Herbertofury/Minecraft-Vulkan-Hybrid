@@ -1,0 +1,9 @@
+
+running 5 tests
+test sha512_known_answer ... ok
+test state::content_store::adapters::verified_files::tests::edits_with_restored_size_and_write_time_are_rehashed ... ok
+test state::content_store::adapters::verified_files::tests::files_changed_during_verification_are_not_cached ... ok
+test state::content_store::adapters::verified_files::tests::replacement_with_matching_size_and_write_time_is_rehashed ... ok
+test state::content_store::adapters::verified_files::tests::unchanged_files_are_not_read_again ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s

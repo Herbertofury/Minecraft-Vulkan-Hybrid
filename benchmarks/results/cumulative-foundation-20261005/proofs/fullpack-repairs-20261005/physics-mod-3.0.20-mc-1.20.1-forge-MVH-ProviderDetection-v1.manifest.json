@@ -1,0 +1,15 @@
+{
+  "positive": "32 actual provider truth controls PASS",
+  "negative_original_iris_implies_sodium": "rejected",
+  "source_sha256": "d5a08637bd3a3c77486fc42908f2aaada730e86e443f86483e1b52023872ec3b",
+  "output_sha256": "35826b411cee1116443e0992320d4e5158f7e1b64bca88599eea08b41fe21c59",
+  "changed_entries": [
+    "net/diebuddies/physics/StarterClient.class",
+    "pack.mcmeta"
+  ],
+  "all_other_code_assets_licenses_equal": true,
+  "original_pack_format": 7,
+  "pack_format": 15,
+  "runtime_acceptance": false,
+  "scope": "Actual patched decision bytecode, original decision negative control; runtime and performance separate"
+}

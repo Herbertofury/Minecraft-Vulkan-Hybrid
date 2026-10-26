@@ -1,0 +1,184 @@
+name: Hari 1.20.1 Minecraft 26.3 Chunkgen A-B
+
+on:
+  push:
+    branches: [async-1.20.1-ultimate-mc263-20260917]
+    paths:
+      - '.github/workflows/async-1.20.1-mc263-perf.yml'
+      - 'minecraft/async-1.20.1-ultimate/apply_mc263_perf_instrumentation.py'
+      - 'minecraft/async-1.20.1-ultimate/runtime_mc263_chunkgen_benchmark.py'
+      - 'minecraft/async-1.20.1-ultimate/compare_mc263_chunkgen.py'
+
+permissions:
+  contents: read
+
+jobs:
+  chunkgen-ab:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - name: Checkout performance harness
+        uses: actions/checkout@v4
+
+      - name: Checkout canonical Hari source
+        uses: actions/checkout@v4
+        with:
+          repository: JustHari01/HariMultiThread
+          ref: f381611c2d71a85192e2028f9e30c03823a6482b
+          path: upstream
+          fetch-depth: 1
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Clean upstream build state
+        shell: bash
+        run: |
+          rm -rf upstream/**/bin upstream/**/build upstream/**/.gradle upstream/buildSrc/.gradle upstream/buildSrc/build || true
+          chmod +x upstream/gradlew
+
+      - name: Apply certified release plus 26.3 candidate and benchmark instrumentation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 minecraft/async-1.20.1-ultimate/apply_overlay.py upstream minecraft/async-1.20.1-ultimate/overlay
+          python3 minecraft/async-1.20.1-ultimate/apply_hardening.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_lifecycle.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_platform.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_interop.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_lwjgl_runtime.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_backend_architecture.py upstream minecraft/async-1.20.1-ultimate/backend-overlay
+          python3 minecraft/async-1.20.1-ultimate/apply_spawn_interop.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_world_batch.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_spatial_gpu.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_backports.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_worldgen_cache.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_provider_precedence.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_diagnostics.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mc263_perf_instrumentation.py upstream
+          python3 minecraft/async-1.20.1-ultimate/apply_mixin_packaging.py upstream
+          git -C upstream diff --check
+          grep -F 'HMT_MC263_CHUNK_SAMPLE' upstream/common/src/main/java/com/axalotl/async/common/commands/Mc263Command.java
+
+      - name: Build one identical Forge JAR for both config states
+        shell: bash
+        working-directory: upstream
+        run: ./gradlew --no-daemon clean :forge:harimtVulkanBackendJar :forge:build --stacktrace
+
+      - name: Select benchmark JAR
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p perf-jars evidence/chunkgen
+          jarfile="$(find upstream/forge/build/libs -maxdepth 1 -type f -name '*.jar' ! -name '*sources*' ! -name '*dev*' ! -name 'harimt-vulkan-backend*' | sort | head -n1)"
+          test -s "$jarfile"
+          cp "$jarfile" perf-jars/HariMultiThread-Ultimate-MC263-chunkgen-benchmark.jar
+          sha256sum perf-jars/HariMultiThread-Ultimate-MC263-chunkgen-benchmark.jar | tee evidence/chunkgen/jar-sha256.txt
+
+      - name: Install one clean Forge 47.4.23 server template
+        shell: bash
+        run: |
+          curl -fL --retry 3 \
+            'https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.23/forge-1.20.1-47.4.23-installer.jar' \
+            -o forge-1.20.1-47.4.23-installer.jar
+          mkdir forge-template
+          (
+            cd forge-template
+            java -jar ../forge-1.20.1-47.4.23-installer.jar --installServer \
+              > ../evidence/chunkgen/forge-server-install.log 2>&1
+          )
+          test -f forge-template/run.sh
+          chmod +x forge-template/run.sh
+
+      - name: Prepare four same-seed ABBA servers
+        shell: bash
+        run: |
+          set -euo pipefail
+          for variant in baseline-a candidate-a candidate-b baseline-b; do
+            cp -a forge-template "qa-${variant}"
+            mkdir -p "qa-${variant}/mods" "qa-${variant}/config"
+            cp perf-jars/HariMultiThread-Ultimate-MC263-chunkgen-benchmark.jar \
+              "qa-${variant}/mods/HariMultiThread-Ultimate.jar"
+            printf 'eula=true\n' > "qa-${variant}/eula.txt"
+            cat > "qa-${variant}/server.properties" <<'EOF'
+          online-mode=false
+          level-name=world
+          level-seed=8675309
+          spawn-protection=0
+          view-distance=4
+          simulation-distance=4
+          sync-chunk-writes=true
+          motd=HariMultiThread Minecraft 26.3 Chunkgen A-B
+          EOF
+          done
+
+          for variant in baseline-a baseline-b; do
+            cat > "qa-${variant}/config/harimt.toml" <<'EOF'
+          ["Async Config"]
+          enableGpuCollision = false
+          enableMc263DensityCacheFill = false
+          EOF
+          done
+          for variant in candidate-a candidate-b; do
+            cat > "qa-${variant}/config/harimt.toml" <<'EOF'
+          ["Async Config"]
+          enableGpuCollision = false
+          enableMc263DensityCacheFill = true
+          EOF
+          done
+
+      - name: A1 - Cache2D fill OFF
+        shell: bash
+        env:
+          JDK_JAVA_OPTIONS: -Xms3G -Xmx3G -XX:+AlwaysPreTouch
+        run: |
+          python3 minecraft/async-1.20.1-ultimate/runtime_mc263_chunkgen_benchmark.py \
+            qa-baseline-a evidence/chunkgen/baseline-a --label baseline-a
+
+      - name: B1 - Cache2D fill ON
+        shell: bash
+        env:
+          JDK_JAVA_OPTIONS: -Xms3G -Xmx3G -XX:+AlwaysPreTouch
+        run: |
+          python3 minecraft/async-1.20.1-ultimate/runtime_mc263_chunkgen_benchmark.py \
+            qa-candidate-a evidence/chunkgen/candidate-a --label candidate-a
+
+      - name: B2 - Cache2D fill ON
+        shell: bash
+        env:
+          JDK_JAVA_OPTIONS: -Xms3G -Xmx3G -XX:+AlwaysPreTouch
+        run: |
+          python3 minecraft/async-1.20.1-ultimate/runtime_mc263_chunkgen_benchmark.py \
+            qa-candidate-b evidence/chunkgen/candidate-b --label candidate-b
+
+      - name: A2 - Cache2D fill OFF
+        shell: bash
+        env:
+          JDK_JAVA_OPTIONS: -Xms3G -Xmx3G -XX:+AlwaysPreTouch
+        run: |
+          python3 minecraft/async-1.20.1-ultimate/runtime_mc263_chunkgen_benchmark.py \
+            qa-baseline-b evidence/chunkgen/baseline-b --label baseline-b
+
+      - name: Enforce terrain parity and classify default state
+        shell: bash
+        run: |
+          python3 minecraft/async-1.20.1-ultimate/compare_mc263_chunkgen.py \
+            evidence/chunkgen/baseline-a/benchmark.json \
+            evidence/chunkgen/candidate-a/benchmark.json \
+            evidence/chunkgen/baseline-b/benchmark.json \
+            evidence/chunkgen/candidate-b/benchmark.json \
+            evidence/chunkgen/AB-COMPARISON.json | tee evidence/chunkgen/AB-COMPARISON.txt
+
+      - name: Upload chunk-generation A-B evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hari-1.20.1-mc263-chunkgen-ab-${{ github.sha }}
+          path: |
+            evidence/chunkgen/
+            perf-jars/
+          if-no-files-found: warn

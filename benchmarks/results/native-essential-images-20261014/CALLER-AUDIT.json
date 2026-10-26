@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "controls": 16,
+  "selected_image_sites": 7,
+  "mip_contexts": 1,
+  "stdout": "ESSENTIAL_IMAGE_CALLER_REGRESSION_PASS controls=16 selectedSites=7 realMipContexts=1 inverseBodiesIdentical=true fullProviderAccepted=false\n",
+  "full_provider_accepted": false
+}

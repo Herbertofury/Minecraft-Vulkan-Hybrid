@@ -1,0 +1,29 @@
+{
+  "classes": [
+    {
+      "name": "net/diebuddies/opengl/VAO$GL43VertexAttribBinding",
+      "raw_sha256": "29e0b931a04d53b5e8e1d13f8084a2cc034a62dac195888b02b410b131819b53",
+      "canonical_sha256": "c66e62f1b93a087879411ac08718b74154cc7d0799397d68269a0588925f75d8",
+      "sites": 5
+    },
+    {
+      "name": "net/diebuddies/opengl/VAO$ARBVertexAttribBinding",
+      "raw_sha256": "517a04c2fa00dddd1b5b4a262ad3ab08a6e5b65f243ccfd966a0b28a9a677ec1",
+      "canonical_sha256": "d9ebc4e1d6e6e6773bf5b766ff738f7ab7ca12b42d6573b412a5fe53d3a91a72",
+      "sites": 5
+    },
+    {
+      "name": "net/diebuddies/opengl/VAO$GL44MultiBind",
+      "raw_sha256": "fc7e90877888f34d3ebddf2966bb01a41d9e5bb2d6d2a6e063d98dcfb4d270b0",
+      "canonical_sha256": "9822cf5827264d42329470d40ea4b6ee4152e2b4d8e91754a45bc95b95043944",
+      "sites": 1
+    },
+    {
+      "name": "net/diebuddies/opengl/VAO$ARBMultiBind",
+      "raw_sha256": "8b314eaecfc522cc08a1c10a40bf689236a9aa6b9efb41ad9fe213c3ca52f635",
+      "canonical_sha256": "41ef78c14a42337c1f5c63106c89f248cf7ba3cb148ce2450c51895ee728e4e0",
+      "sites": 1
+    }
+  ],
+  "private_originals_distributed": false
+}

@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "product_commit": "6594c6cc652db554213c52ae02f7acd8f439644c",
+  "diagnostic_files": 1168,
+  "scanned_text_files": 900,
+  "compressed_logs_scanned": 3,
+  "images": 268,
+  "unclassified_findings": [],
+  "false_positive_classifications": {
+    "setup-java GITHUB_TOKEN variable reference": 58,
+    "Java module version in stack trace": 6039
+  },
+  "scope": "Text pattern scan, compressed log scan and provenance review. Screenshots originate from generated offline CI fixtures; no independent image secret scanner claim.",
+  "source": "29 immutable GitHub Actions artifact sets plus original complete job logs; no user worlds or launcher accounts",
+  "destination": "Existing Hari project Drive folder 1vq6hWD_QqVdxMlgYrupWbhVdlNDa8K-B; historical upload still requires specific approval after automatic rejection"
+}

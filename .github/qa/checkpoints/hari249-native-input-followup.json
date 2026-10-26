@@ -1,0 +1,91 @@
+{
+  "status": "Native flight input followup active, no candidate mutation",
+  "jar_sha256": "c1082c8282ff40221c0ea982ce329ec6ab9a26c80790d643d1277b412b8fb396",
+  "preserved_failures": [
+    {
+      "run": 37164668802,
+      "jobs": [
+        111325036709,
+        111325036485,
+        111325036571,
+        111325036637
+      ]
+    },
+    {
+      "run": 37164668733,
+      "jobs": [
+        111325036097,
+        111325036108
+      ]
+    }
+  ],
+  "observed_cause": "Original double-Space rising edges19-28client ticks apart in DH; original seven-tick toggle window expires. Actual key/input/state preserved.",
+  "repair": "Real mouse looks upward for native input, poll actual key states at10ms; every full1280x720 scene, view, shader, sample and original flight gate preserved. No flying-state or timer mutation.",
+  "native_followup_runs": {
+    "renderer_profiles": 37165293505,
+    "c2me98_DH": 37165293473
+  },
+  "complete_standard_native_drive_proof": {
+    "drive_id": "12bKY88XNmJMLZgBC51caNr_XFbIvfjER",
+    "bytes": 20190572,
+    "sha256": "be1b50b8bd7d60bfd2837e454f0954fde26368775f1b64344ba3a4dfd59b6572",
+    "raw_byte_readback_verified": true,
+    "dedicated_evidence_files": 20,
+    "packaged_evidence_files": 111
+  },
+  "full_native_accepted_so_far": {
+    "run": 37164668802,
+    "aether": 111325036664,
+    "oculus-embeddium": 111325036652,
+    "optimized-stack": 111325036828,
+    "dedicated": 111325036397
+  },
+  "preserved_mouse_failure": {
+    "runs": [
+      37165293505,
+      37165293473,
+      37165384601
+    ],
+    "reason": "xdotool mousemove_relative --sync waits for cursor displacement, but Minecraft original grabbed cursor recenters continuously. Native motion must be queued and observed through actual player state, without cursor-displacement waiting.",
+    "fixed": "Remove --sync for native grabbed mouse movement; original normal window activation/resize synchronization and all gameplay assertions retained."
+  },
+  "full_native_complete_passes": {
+    "run": 37164668802,
+    "lanes": [
+      "aether",
+      "immediatelyfast",
+      "entityculling",
+      "oculus-embeddium",
+      "optifine",
+      "rubidium",
+      "lazurite",
+      "continuity",
+      "optimized-stack"
+    ],
+    "dedicated": true
+  },
+  "original_c2me98_optifine": {
+    "run": 37164668733,
+    "job": 111325035935,
+    "result": "PASS; LIGHT shutdown fix proven in both original provider versions"
+  },
+  "queued_mouse_native_followup": {
+    "head": "51f09bb673a1c86f844580e4811b78ef4e6651be",
+    "runs": [
+      37165635433,
+      37165635449,
+      37165635441
+    ],
+    "failures": [
+      111327879115,
+      111327879214,
+      111327880585,
+      111327880730
+    ],
+    "native_view_artifact": 11288853750,
+    "artifact_sha256": "ff4b74b26c832666f4c0a4a6b07e865a6a069e9542a68f8aac2f96f86e8cc0af",
+    "observation": "Actual native input-view screenshot retains original forest-facing camera despite four synthetic mouse motions; flight edge gaps still exceed original window."
+  },
+  "next_input_route": "Only disposable X11 fixture selects rawMouseInput:false, preserves all other options, uses normal same-position camera command initially and actual mouse/Space input with original flying-state assertion. Preserve live DH9.6/9.8 full tests, rerun only failed3+9.8dimension profiles.",
+  "all9_and_original98_optifine_full_proof": "All ten profiles verified after actual artifact materialization: exact candidate, unchanged original mods, 300frames/120warmup/1280x720, all persistent mob types and NBT, original portals, cleanclose, same launch/world and distinct JVM PIDs. Full evidence raw-byte-verified in4Drive archives; receipt at hari249-complete-native-drive-readback.json."
+}
