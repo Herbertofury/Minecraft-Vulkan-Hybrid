@@ -19,6 +19,24 @@ The inspected README is only a project title. This page therefore defines a **re
 - [ ] Reject a faster result that silently disables shaders, lowers visual quality or breaks protected mods.
 - [ ] Prefer upstream reuse or a bounded patch over an unproven rewrite. No universal Vulkan speedup is claimed.
 
+
+## Potential foundation choices and reuse boundaries
+
+The first decision is whether a hybrid renderer is justified at all. The repository's minimal inspected README is insufficient evidence for a working baseline or a rewrite recommendation.
+
+| Potential foundation | Specific reuse to investigate | Improvement hypothesis | Mandatory disqualifiers / evidence |
+|---|---|---|---|
+| VulkanMod | Inspect supported backend, resource lifecycle and Minecraft integration boundaries | A bounded upstream patch or adapter may achieve the goal with less divergence than a new renderer | Pin game/loader/driver versions; reject if required rendering hooks or mod content are lost. Require real scene comparisons. |
+| Sodium | Study chunk scheduling, rendering contracts and performance methodology | Preserve a strong existing renderer as control and identify the actual bottleneck first | Do not combine incompatible renderer replacements blindly. Compare equivalent geometry, camera routes and visual settings. |
+| Iris | Inspect shader-pack compatibility contracts as a separate reference | Preserve the user's shader experience while evaluating any backend change | Compatibility is not established by API similarity. Test actual permitted packs, effects, failures and resource reloads. |
+| Existing Minecraft test/evidence tools | Investigate a versioned receipt interface for captured runs | Avoid another disconnected benchmark harness | A possible Vault TestGrid integration must preserve rendered-client identity; server-only success is not renderer proof. No shared implementation is recommended before comparison. |
+
+**Licensing gate:** no code copy, port or distribution until exact pinned source and dependency licenses, notices and compatibility are inspected. Link to upstream rather than assuming public source is unrestricted. Shader packs and game assets retain their own distribution restrictions.
+
+**Decision sequence:** recover baseline → locate bottleneck → assess reuse and license → isolate prototype → compare visual correctness and resource behavior → retain failures → accept a narrowly proven improvement or reject it. Vulkan, Rust or a new framework alone does not establish faster rendering.
+
+**Current evidence:** source-linked candidate roles only. No hybrid build, renderer integration, performance win or supported-mod matrix was produced in this pass.
+
 ## Review and evidence rules
 
 Review date: **2026-11-12**. This is a comparison agenda, not a benchmark result or proof of superiority. Official-source capability descriptions and our proposed experiments are separate. Pin actual versions and licenses before reuse; record publication date separately from the date checked. Retain failed comparisons and rejected candidates.
